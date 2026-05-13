@@ -25,3 +25,19 @@ Category: 🔵 Code
 Category: 🟡 Physics + Code
 
 - Windows WSL2 is validated as the stable local development and smoke-test platform for GRChombo BinaryBH work.
+
+Category: 🔵 Code
+
+- Archived the old PDF research/setup notes and created living Markdown planning files.
+
+Category: 🟡 Physics + Code
+
+- Clarified that `reproduction_plan.md` is the current first scientific milestone, while `project_outline.md` covers the full GW/radiation goal.
+
+Category: 🔵 Code
+
+- Cleaned up planning docs after external review, keeping the changes targeted to status and prerequisite wording.
+
+Category: 🟡 Physics + Code
+
+- `reproduction_plan.md` now explicitly depends on `project_outline.md` Stages 1-4 before Phase 1 production simulations.

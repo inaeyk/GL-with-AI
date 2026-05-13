@@ -18,8 +18,10 @@ Current milestone: reproduce Pau / Figueras-Andrade-Franca-Gu style 5D black-str
 
 - [TODO.md](TODO.md)
 - [Project log](logs/PROJECT_LOG.md)
+- [Project outline](research_plan/project_outline.md)
 - [Reproduction plan](research_plan/reproduction_plan.md)
+- [Radiation profile plan](research_plan/radiation_profile_plan.md)
 - [Workflow overview](docs/setup/workflow_overview.md)
+- Archived PDF snapshots: [research plans](research_plan/archived_pdfs/README.md), [setup notes](docs/setup/archived_pdfs/)
 
 Large raw outputs are ignored and should not be committed.
-

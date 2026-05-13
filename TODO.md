@@ -2,14 +2,14 @@
 
 ## Immediate
 
-- [ ] Complete Windows WSL2 + Docker setup.
-- [ ] Reproduce the GRChombo `BinaryBH` very-cheap smoke test locally.
-- [ ] Add reproducible smoke-test scripts.
+- [x] Create repository scaffold.
+- [x] Complete Windows WSL2 + Docker setup.
+- [x] Reproduce the GRChombo `BinaryBH` very-cheap smoke test locally.
+- [x] Add reproducible BinaryBH smoke-test scripts.
 
-## Next
+## Active
 
-- [ ] Create GRChombo capability map.
-- [ ] Create GRChombo source map.
+- [ ] Create GRChombo capability/source map.
 - [ ] Review source map before adding `BlackStringToy` skeleton.
 
 ## Later
@@ -20,4 +20,3 @@
 - [ ] Add constraint/gauge diagnostics.
 - [ ] Add horizon diagnostics.
 - [ ] Add radiation extraction.
-
