@@ -1,0 +1,36 @@
+# Python environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# quick_plot environments
+quick_plot/dev/
+*/quick_plot/dev/
+
+# GRChombo raw outputs
+*.hdf5
+*.3d.hdf5
+hdf5/
+checkpoints/
+restart/
+
+# GRChombo build products
+*.o
+*.d
+*.ex
+*.a
+*.so
+
+# Local scratch folders
+runs/
+data/
+tmp/
+
+# OS/editor junk
+.DS_Store
+Thumbs.db
+

@@ -1,0 +1,13 @@
+run_id: example_run_id
+date: YYYY-MM-DD
+goal: Short description of the run goal
+platform: Windows WSL2 + Docker
+git_commit: pending
+grchombo_source: path_or_repository_and_commit
+docker_image: grchombo_image:tag
+parameter_file: path/to/params.txt
+raw_data_location: runs/example_run_id/
+committed_results_location: results/example_project/
+notes: |
+  Add run-specific notes, validation checks, known issues, and links to plots or logs.
+
