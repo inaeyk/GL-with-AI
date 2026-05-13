@@ -15,3 +15,13 @@ Category: 🟡 Physics + Code
 - Stable local development target: Windows PC + WSL2 + Docker.
 - Repository scope: code, docs, scripts, logs, research plans, small plots, and metadata.
 
+## 2026-05-13
+
+Category: 🔵 Code
+
+- GRChombo Docker image ran locally under Windows WSL2 Ubuntu.
+- `BinaryBH` very-cheap example completed and produced HDF5 output in `runs/BinaryBH_verycheap/hdf5/`.
+
+Category: 🟡 Physics + Code
+
+- Windows WSL2 is validated as the stable local development and smoke-test platform for GRChombo BinaryBH work.

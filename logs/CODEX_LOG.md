@@ -15,3 +15,9 @@
 - Files changed: Revised Markdown scaffold files; `.gitignore` unchanged.
 - Validation: Pending final checks.
 - Review status: Needs user review before commit.
+
+- Date: 2026-05-13
+- Goal: Record successful local GRChombo BinaryBH very-cheap smoke test under Windows WSL2.
+- Files changed: `results/BinaryBH_verycheap/metadata.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation: Ran `uname -m`, `git status`, `git diff --stat`, and HDF5 path checks; confirmed no raw HDF5 files are staged or tracked.
+- Review status: Pending human review.
