@@ -13,6 +13,8 @@ Long-term goal: compute gravitational-wave/radiation profiles during the 5D Greg
 - Goal: map existing public GRChombo examples, formulation code, AMR patterns, and diagnostics relevant to a 5D black-string implementation.
 - Main deliverables: capability map, source-entry notes, reusable implementation checklist.
 - Current status: not started.
+- Note: this public-source exercise is an AI-agent capability benchmark. Pau's original code is available through collaboration but intentionally not used yet. The intended evolution keeps SO(3) symmetry and is effectively 2+1D, with the S^2 reconstructed by symmetry.
+- Later collaboration-code phase: compare against or build on Pau's actual code for radiation extraction after the public-source benchmark stage is complete.
 
 ## Stage 2: Editable Build And BlackStringToy Skeleton
 

@@ -41,3 +41,19 @@ Category: 🔵 Code
 Category: 🟡 Physics + Code
 
 - `reproduction_plan.md` now explicitly depends on `project_outline.md` Stages 1-4 before Phase 1 production simulations.
+
+Category: 🔵 Code
+
+- Cloned and inspected public GRChombo source into ignored `external/GRChombo` and created first-pass source/capability maps.
+
+Category: 🟡 Physics + Code
+
+- Identified reusable public GRChombo pieces for the Pau reproduction and separated them from black-string-specific pieces likely needing development.
+
+Category: 🟡 Physics + Code
+
+- External review sharpened the GRChombo map around 3+1D public-main limitations, `GR_SPACEDIM`/`CH_SPACEDIM`, `gww`/`Kww`, `ApparentHorizonFinderTest2D`, and the deliberate choice to withhold Pau's code during the AI-agent benchmark stage.
+
+Category: 🔵 Code
+
+- Completed `GR_SPACEDIM` read-only search; found broad dimension-aware hooks in CCZ4/AH infrastructure but no public ready-to-run Pau-style driver yet.

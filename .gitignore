@@ -26,6 +26,7 @@ restart/
 *.so
 
 # Local scratch folders
+external/
 runs/
 data/
 tmp/
@@ -33,4 +34,3 @@ tmp/
 # OS/editor junk
 .DS_Store
 Thumbs.db
-

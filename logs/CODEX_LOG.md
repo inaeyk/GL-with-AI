@@ -45,3 +45,21 @@
 - Files changed: `scripts/clean_binarybh_smoke.sh`, `scripts/run_binarybh_smoke.sh`, `scripts/README.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `bash -n` on all BinaryBH smoke-test scripts, `git status`, and `git diff --stat`.
 - Review status: Pending human review.
+
+- Date: 2026-05-13
+- Goal: Inspect public GRChombo source and create first-pass capability/source maps.
+- Files changed: `.gitignore`, `docs/grchombo/capability_map.md`, `docs/grchombo/source_map.md`, `docs/grchombo/build_notes.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran requested `git status`, ignored-status, diff-stat, docs listing, and GRChombo inspection commands.
+- Review status: Pending human review.
+
+- Date: 2026-05-13
+- Goal: Refine GRChombo maps after external review of dimensional/cartoon and benchmark framing.
+- Files changed: `docs/grchombo/capability_map.md`, `docs/grchombo/source_map.md`, `docs/grchombo/build_notes.md`, `research_plan/project_outline.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, and targeted greps for approval-gate, `GR_SPACEDIM`, `gww`/`Kww`, and `ApparentHorizonFinderTest2D` language.
+- Review status: Pending human review.
+
+- Date: 2026-05-13
+- Goal: Update GRChombo maps with completed `GR_SPACEDIM` search summary.
+- Files changed: `docs/grchombo/capability_map.md`, `docs/grchombo/source_map.md`, `docs/grchombo/build_notes.md`, `research_plan/project_outline.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, and targeted greps for `GR_SPACEDIM search`, `114`, and `ApparentHorizonFinderTest2D`.
+- Review status: Pending human review.
