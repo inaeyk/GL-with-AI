@@ -41,4 +41,5 @@ Framing: public GRChombo main/default examples are primarily 3+1D. The target 5D
 
 - Searches for `black string`, `Gregory`, `Laflamme`, and `modified cartoon` did not find a ready-made black-string example.
 - `AHStringGeometry.hpp` is real and tested in `Tests/ApparentHorizonFinderTest2D`, but its suitability for 4+1 cartoon black-string diagnostics needs review.
+- Hazard: keep `hww/Aww` distinct from reconstructed `g_ww/K_ww`; `AHFunctions.hpp` appears to rely on positional enum assumptions around `c_K - 1`, so future `UserVariables.hpp` ordering needs verification.
 - Public GRChombo appears to provide strong reusable infrastructure, but the project-specific physics and diagnostics should be treated as new development until verified otherwise.

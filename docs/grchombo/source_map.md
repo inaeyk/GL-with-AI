@@ -197,6 +197,20 @@ Status: first-pass inspection. Do not create `BlackStringToy` or edit GRChombo C
   - Why we care: minimal example of string geometry usage.
   - Inspect next: run and understand this test before adapting the pattern to physical CCZ4/cartoon evolution, and only after source-map review and approval by the user.
 
+## ApparentHorizonFinderTest2D Inspection
+
+- Key files: `ApparentHorizonTest2D.cpp`, `ApparentHorizonTest2D.inputs`, `ApparentHorizonTest2DLevel.hpp`, `AHTest2DFunction.hpp`, `SimulationParameters.hpp`, `UserVariables.hpp`, and `GNUmakefile`.
+- Dimension settings: `GNUmakefile` sets `DIM = 2`, giving a 2D Chombo build. `ApparentHorizonTest2D.cpp` explicitly defines `GR_SPACEDIM 2`.
+- `AHStringGeometry` involvement: `UserVariables.hpp` includes `AHStringGeometry.hpp` and sets `#define AHSurfaceGeometry AHStringGeometry`; `ApparentHorizonTest2D.cpp` constructs `AHStringGeometry sph(sim_params.L)` and passes it to `AHFinder`.
+- Test function: `AHTest2DFunction` reads the single grid variable `V` and uses it as the AH solve function.
+- Initial data: `ApparentHorizonTest2DLevel.hpp` fills `V = sin(y_perturbed) / y_perturbed` with sinusoidal deformation along the periodic `x` direction.
+- Parameters: `ApparentHorizonTest2D.inputs` sets `N_full = 32`, `L_full = 16`, `isPeriodic = 1 0`, `AH_num_points_u = 20`, `AH_level_to_run = 0`, and AH solve/print intervals of 1.
+- Expected build/run command: upstream CI runs `make test -j 4 $BUILD_ARGS` and `make run -j 2 $BUILD_ARGS` from `external/GRChombo/Tests/ApparentHorizonFinderTest2D`, after configuring Chombo and AH finder/PETSc support.
+- Expected outputs: the test reads `stats_AH1.dat`; AH defaults also use `coords_AH` as the coordinates prefix. With `checkpoint_interval = 1`, checkpoint output may also be produced by the Chombo run. These outputs must remain under ignored external/build output locations if generated.
+- Build/run status: local run was attempted with `make test -j 2` and failed before building because `make` is not installed in this environment. `CHOMBO_HOME`, `PETSC_DIR`, and `PETSC_ARCH` were also unset, and the `grchombo/grchombo` Docker image was not locally present in this runtime.
+- What we learned: this is a genuine public 2D/string-like AH validation harness and should be understood before `BlackStringToy`, but it is a geometric/AH test rather than a complete 4+1/SO(3) black-string evolution driver.
+- Remaining questions: exact AH output file set after a successful run, required local Make.defs/PETSc settings, whether the Docker image can run this test without an editable host build, and how `AHStringGeometry` orientation maps onto the desired `x = h(t,z)` black-string convention.
+
 ## Boundary Conditions
 
 - `external/GRChombo/Source/GRChomboCore/BoundaryConditions.hpp` and `.cpp`

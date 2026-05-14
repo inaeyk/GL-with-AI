@@ -2,6 +2,8 @@
 
 Long-term goal: compute gravitational-wave/radiation profiles during the 5D Gregory-Laflamme transition using a reproducible GRChombo-based workflow.
 
+For stage-by-stage gates, see [stage_checklists.md](stage_checklists.md).
+
 ## Stage 0: Infrastructure And Reproducibility
 
 - Goal: establish a stable local development and smoke-test environment.

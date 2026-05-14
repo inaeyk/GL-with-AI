@@ -9,8 +9,9 @@
 
 ## Active
 
-- [ ] Create GRChombo capability/source map.
-- [ ] Review source map before adding `BlackStringToy` skeleton.
+- [ ] Review and approve Stage 1 maps/checklists.
+- [ ] Verify AHFunctions enum-order assumption around `hww` / `c_K - 1`.
+- [ ] Decide whether to run the Stage 1.5 compile preflight.
 
 ## Later
 

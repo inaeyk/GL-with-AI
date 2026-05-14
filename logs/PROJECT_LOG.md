@@ -57,3 +57,23 @@ Category: 🟡 Physics + Code
 Category: 🔵 Code
 
 - Completed `GR_SPACEDIM` read-only search; found broad dimension-aware hooks in CCZ4/AH infrastructure but no public ready-to-run Pau-style driver yet.
+
+Category: 🔵 Code
+
+- Inspected public GRChombo `Tests/ApparentHorizonFinderTest2D`; local run attempt stopped before build because `make` and the required Chombo/PETSc build environment were unavailable.
+
+Category: 🟡 Physics + Code
+
+- `ApparentHorizonFinderTest2D` matters as the closest public string-like AH validation harness for the later SO(3)-reduced horizon pipeline, but it is not a full black-string evolution driver.
+
+Category: 🟡 Physics + Code
+
+- Recorded the CCZ4/cartoon variable naming convention and the `hww`/`Aww` enum-order hazard before starting `BlackStringToy`.
+
+Category: 🟡 Physics + Code
+
+- Created stage checklists to gate the transition from public-source mapping to `BlackStringToy`, cartoon CCZ4, Pau reproduction, and radiation extraction.
+
+Category: 🟡 Physics + Code
+
+- Tightened stage gate language to prevent premature transition from public-source mapping to `BlackStringToy` or physics simulations.

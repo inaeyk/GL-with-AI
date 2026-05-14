@@ -63,3 +63,27 @@
 - Files changed: `docs/grchombo/capability_map.md`, `docs/grchombo/source_map.md`, `docs/grchombo/build_notes.md`, `research_plan/project_outline.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`, `git diff --stat`, and targeted greps for `GR_SPACEDIM search`, `114`, and `ApparentHorizonFinderTest2D`.
 - Review status: Pending human review.
+
+- Date: 2026-05-13
+- Goal: Inspect and attempt to run public GRChombo `ApparentHorizonFinderTest2D`.
+- Files changed: `docs/grchombo/source_map.md`, `docs/grchombo/build_notes.md`, `docs/implementation/horizon_diagnostics.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Inspected test files and upstream CI commands; attempted `make test -j 2` locally, which failed before build because `make` is unavailable; ran requested status/diff/find/grep validation.
+- Review status: Pending human review.
+
+- Date: 2026-05-13
+- Goal: Add concise CCZ4/cartoon variable naming reference for future `BlackStringToy` work.
+- Files changed: `docs/implementation/ccz4_cartoon_variables.md`, `docs/implementation/horizon_diagnostics.md`, `docs/grchombo/capability_map.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, and targeted greps for `hww`, `GR_SPACEDIM`, and `c_K - 1`.
+- Review status: Pending human review.
+
+- Date: 2026-05-13
+- Goal: Create stage-by-stage gate checklists for the GL project.
+- Files changed: `research_plan/stage_checklists.md`, `research_plan/README.md`, `research_plan/project_outline.md`, `TODO.md`, `docs/implementation/ccz4_cartoon_variables.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, and targeted greps for `Stage 1.5`, `c_K - 1`, and `reviewed and approved by the user`.
+- Review status: Pending human review.
+
+- Date: 2026-05-13
+- Goal: Refine stage checklist gates and Stage 1.5 preflight wording before commit.
+- Files changed: `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, and targeted greps for approval-gate, hazards/silent-failure, `ApparentHorizonFinderTest2D`, and `c_K - 1` language.
+- Review status: Pending human review.
