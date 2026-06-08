@@ -33,7 +33,7 @@ Goal: understand what public GRChombo already provides before editing source cod
 - [x] Record that public CCZ4 appears dimension-parameterized but not fully cartoon-source-term aware.
 - [x] Add explicit hazards/silent-failure section in `docs/grchombo/capability_map.md`.
 - [x] Verify exact `AHFunctions.hpp` enum-order assumption around `hww` access: verified from public source that under `GR_SPACEDIM != CH_SPACEDIM`, `hww` is read positionally as `c_K - 1`, while `Aww` is read via `c_Aww`.
-- [ ] Decide whether to run a `CH_SPACEDIM=2`, `GR_SPACEDIM=4` compile preflight.
+- [x] Decide whether to run a `CH_SPACEDIM=2`, `GR_SPACEDIM=4` compile preflight.
 
 Gate: do not proceed to Stage 1.5 or create `BlackStringToy` until the source/capability maps and hazard notes are reviewed and approved by the user.
 
@@ -41,15 +41,16 @@ Gate: do not proceed to Stage 1.5 or create `BlackStringToy` until the source/ca
 
 Goal: check whether the intended compile configuration `CH_SPACEDIM=2`, `GR_SPACEDIM=4` is technically viable before physics implementation.
 
-- [ ] Identify the smallest public test/example suitable for compile preflight.
-- [ ] Preferred first preflight target: adapt or reuse `Tests/ApparentHorizonFinderTest2D` as a controlled `DIM=2`, `GR_SPACEDIM=4` compile experiment, if build tooling allows.
+- [x] Identify the smallest public test/example suitable for compile preflight.
+- [x] Preferred first preflight target: adapt or reuse `Tests/ApparentHorizonFinderTest2D` as a controlled `DIM=2`, `GR_SPACEDIM=4` compile experiment, if build tooling allows.
+- [x] Reproduce the baseline `DIM=2` Docker build/run path for `Tests/ApparentHorizonFinderTest2D`.
 - [ ] If that target is unsuitable, choose the smallest public test/example that probes the `GR_SPACEDIM != CH_SPACEDIM` path.
 - [ ] Attempt `DIM=2` build with `GR_SPACEDIM=4` using controlled compiler flags or minimal local copy.
 - [ ] Record which files compile and which fail.
 - [ ] Check whether `AHSphericalGeometry` guards or other `GR_SPACEDIM==3` assumptions trigger.
 - [ ] Check whether `hww/Aww` enum variables are required for compilation.
-- [ ] Document blockers in `docs/grchombo/build_notes.md`.
-- [ ] A successful compile is not evidence of physical correctness.
+- [x] Document blockers in `docs/grchombo/build_notes.md`.
+- [x] Record that a successful compile is not evidence of physical correctness.
 
 Gate: do not proceed to Stage 2 until this stage is reviewed and approved by the user. Do not treat any `GR_SPACEDIM=4` run as physically meaningful until the relevant equations, variables, and diagnostics are reviewed and approved by the user.
 

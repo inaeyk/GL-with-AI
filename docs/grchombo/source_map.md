@@ -2,7 +2,7 @@
 
 Purpose: path-oriented map of the public GRChombo source inspected under `external/GRChombo`.
 
-Status: first-pass inspection. Do not create `BlackStringToy` or edit GRChombo C++ until this map is reviewed and approved by the user.
+Status: Stage 1 source inspection reviewed and approved by the user. Do not create `BlackStringToy` or edit GRChombo C++ until the Stage 1.5 result is reviewed and approved by the user.
 
 ## Top-Level Repo Structure
 
@@ -212,7 +212,13 @@ Status: first-pass inspection. Do not create `BlackStringToy` or edit GRChombo C
 - Parameters: `ApparentHorizonTest2D.inputs` sets `N_full = 32`, `L_full = 16`, `isPeriodic = 1 0`, `AH_num_points_u = 20`, `AH_level_to_run = 0`, and AH solve/print intervals of 1.
 - Expected build/run command: upstream CI runs `make test -j 4 $BUILD_ARGS` and `make run -j 2 $BUILD_ARGS` from `external/GRChombo/Tests/ApparentHorizonFinderTest2D`, after configuring Chombo and AH finder/PETSc support.
 - Expected outputs: the test reads `stats_AH1.dat`; AH defaults also use `coords_AH` as the coordinates prefix. With `checkpoint_interval = 1`, checkpoint output may also be produced by the Chombo run. These outputs must remain under ignored external/build output locations if generated.
-- Build/run status: local run was attempted with `make test -j 2` and failed before building because `make` is not installed in this environment. `CHOMBO_HOME`, `PETSC_DIR`, and `PETSC_ARCH` were also unset, and the `grchombo/grchombo` Docker image was not locally present in this runtime.
+- Build/run status: baseline `DIM=2` build succeeds inside the public `grchombo/grchombo` Docker image with `make -j2 all DIM=2 DEBUG=FALSE OPT=TRUE USE_PETSC=FALSE`; it produces `ApparentHorizonTest2D2d_ch.Linux.64.mpicxx.gfortran.OPT.MPI.OPENMPCC.ex`. PETSc availability in the Docker image has not been directly tested here.
+- Run status: `make run` initially fails because OpenMPI refuses to run as root inside Docker, while the make target hardcodes `mpirun -np 2 ./ApparentHorizonTest2D2d_ch.Linux.64.mpicxx.gfortran.OPT.MPI.OPENMPCC.ex -q ApparentHorizonTest2D.inputs`. Manual execution with `mpirun --allow-run-as-root -np 2` exits with `EXIT_CODE:0`.
+- AH status: the manual run prints `ApparentHorizon2D test skipped (USE_AHFINDER undefined).` once per MPI rank. No `stats_AH*`, `coords_AH*`, HDF5, or checkpoint files are produced, so the substantive AH solver path remains unverified. Enabling the full apparent-horizon solver requires `USE_AHFINDER`, which requires PETSc to link.
+- Scope note: PETSc/AHFinder-enabled execution is required before Stage 5 diagnostic reproduction, but it does not block Stages 2-4.
+- Stage 1.5 preflight status: `GR_SPACEDIM=4` preflight remains not done. `ApparentHorizonTest2D.cpp` hard-defines `GR_SPACEDIM 2`; a `-DGR_SPACEDIM=4` compiler flag would collide with that source definition, and editing `external/GRChombo` source is outside the Stage 1.5 constraints.
+- GR_SPACEDIM=4 preflight remains open.
+- First Stage 1.5 blocker: PETSc/AHFinder-enabled execution is unresolved for the baseline AH solve; for `GR_SPACEDIM=4`, the blocker is build-system/source-definition uncertainty for a source-free override.
 - What we learned: this is a genuine public 2D/string-like AH validation harness and should be understood before `BlackStringToy`, but it is a geometric/AH test rather than a complete 4+1/SO(3) black-string evolution driver.
 - Remaining questions: exact AH output file set after a successful run, required local Make.defs/PETSc settings, whether the Docker image can run this test without an editable host build, and how `AHStringGeometry` orientation maps onto the desired `x = h(t,z)` black-string convention.
 

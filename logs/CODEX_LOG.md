@@ -93,3 +93,21 @@
 - Files changed: `docs/grchombo/capability_map.md`, `docs/grchombo/source_map.md`, `docs/implementation/ccz4_cartoon_variables.md`, `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Inspected `external/GRChombo/Source/ApparentHorizonFinder/AHFunctions.hpp`; ran `git status --short`, `git diff --stat`, targeted greps for the new hazards section, `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, and `c_K - 1` / `vars[c_K`; checked `git -C external/GRChombo status --short`.
 - Review status: Pending human review.
+
+- Date: 2026-06-08
+- Goal: Begin Stage 1.5 target-dimension compile preflight for public GRChombo `DIM=2`, `GR_SPACEDIM=4` viability without editing external source.
+- Files changed: `docs/grchombo/build_notes.md`, `docs/grchombo/source_map.md`, `research_plan/stage_checklists.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Checked Docker, `make`, main worktree status, and GRChombo worktree status; inspected `ApparentHorizonFinderTest2D/GNUmakefile`, `ApparentHorizonTest2D.cpp`, `UserVariables.hpp`, and `DimensionDefinitions.hpp`; ran requested final status/find/grep validation.
+- Review status: Pending human review.
+
+- Date: 2026-06-08
+- Goal: Update Stage 1.5 documentation with the verified Docker `DIM=2` `ApparentHorizonFinderTest2D` baseline build/run result.
+- Files changed: `docs/grchombo/build_notes.md`, `docs/grchombo/source_map.md`, `research_plan/stage_checklists.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, targeted greps for `USE_AHFINDER undefined`, `EXIT_CODE:0`, and `GR_SPACEDIM=4 preflight`, and checked `git -C external/GRChombo status --short`.
+- Review status: Pending human review.
+
+- Date: 2026-06-08
+- Goal: Reconcile documentation before committing the Stage 1 to Stage 1.5 transition state.
+- Files changed: `research_plan/project_outline.md`, `TODO.md`, `docs/grchombo/build_notes.md`, `docs/grchombo/source_map.md`, `docs/grchombo/capability_map.md`, `logs/PROJECT_LOG.md`, `CLAUDE.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, targeted greps for `Stage 1.5`, `PETSc`, `reviewed and approved by the user`, and `approval gate`, and checked `git -C external/GRChombo status --short`.
+- Review status: Pending human review.

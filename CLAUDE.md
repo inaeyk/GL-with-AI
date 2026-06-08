@@ -115,6 +115,15 @@ appears within reach of a current task:
 - Modify `.gitignore`, branch structure, or anything in
   `run_manifests/`.
 
+## Gate discipline
+
+Checklist items behind an unmet approval gate must not be executed
+until the user explicitly clears that gate. Agents may inspect or
+summarize gated items, but should not begin implementation, build, or
+run tasks behind the gate without user approval. This is especially
+important for physics-sensitive gates, such as treating
+`GR_SPACEDIM=4`, `CH_SPACEDIM=2` outputs as physically meaningful.
+
 ## Authoritative planning documents
 
 These markdown files are the working reference. Defer to them over your
