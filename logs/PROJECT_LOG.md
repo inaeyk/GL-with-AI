@@ -77,3 +77,11 @@ Category: 🟡 Physics + Code
 Category: 🟡 Physics + Code
 
 - Tightened stage gate language to prevent premature transition from public-source mapping to `BlackStringToy` or physics simulations.
+
+Category: 🔵 Code
+
+- Verified from public GRChombo source that `AHFunctions.hpp` reads `hww` positionally as `c_K - 1` under `GR_SPACEDIM != CH_SPACEDIM`, while `Aww` is read via `c_Aww`.
+
+Category: 🟡 Physics + Code
+
+- Documented the modified-cartoon silent-failure hazard: a `CH_SPACEDIM=2`, `GR_SPACEDIM=4` run could compile and write HDF5 while still missing the absorbed-`S^2` source terms needed for physical 5D/SO(3) evolution.

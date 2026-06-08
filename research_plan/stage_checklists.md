@@ -31,8 +31,8 @@ Goal: understand what public GRChombo already provides before editing source cod
 - [x] Identify `hww/Aww` and `g_ww/K_ww` naming issues.
 - [x] Inspect `ApparentHorizonFinderTest2D`.
 - [x] Record that public CCZ4 appears dimension-parameterized but not fully cartoon-source-term aware.
-- [ ] Add explicit hazards/silent-failure section if not already present.
-- [ ] Verify exact `AHFunctions.hpp` enum-order assumption around `hww` access, especially `c_K - 1`.
+- [x] Add explicit hazards/silent-failure section in `docs/grchombo/capability_map.md`.
+- [x] Verify exact `AHFunctions.hpp` enum-order assumption around `hww` access: verified from public source that under `GR_SPACEDIM != CH_SPACEDIM`, `hww` is read positionally as `c_K - 1`, while `Aww` is read via `c_Aww`.
 - [ ] Decide whether to run a `CH_SPACEDIM=2`, `GR_SPACEDIM=4` compile preflight.
 
 Gate: do not proceed to Stage 1.5 or create `BlackStringToy` until the source/capability maps and hazard notes are reviewed and approved by the user.

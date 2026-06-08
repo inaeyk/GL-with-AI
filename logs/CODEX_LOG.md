@@ -87,3 +87,9 @@
 - Files changed: `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`, `git diff --stat`, and targeted greps for approval-gate, hazards/silent-failure, `ApparentHorizonFinderTest2D`, and `c_K - 1` language.
 - Review status: Pending human review.
+
+- Date: 2026-06-07
+- Goal: Close the remaining Stage 1 documentation gaps by verifying the public `AHFunctions.hpp` `hww` access pattern and documenting the modified-cartoon silent-failure hazard before Stage 1.5.
+- Files changed: `docs/grchombo/capability_map.md`, `docs/grchombo/source_map.md`, `docs/implementation/ccz4_cartoon_variables.md`, `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Inspected `external/GRChombo/Source/ApparentHorizonFinder/AHFunctions.hpp`; ran `git status --short`, `git diff --stat`, targeted greps for the new hazards section, `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, and `c_K - 1` / `vars[c_K`; checked `git -C external/GRChombo status --short`.
+- Review status: Pending human review.

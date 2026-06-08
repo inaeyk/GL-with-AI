@@ -192,6 +192,11 @@ Status: first-pass inspection. Do not create `BlackStringToy` or edit GRChombo C
   - Why we care: closest public source match for string-like AH surfaces.
   - Inspect next: coordinate orientation versus desired `x = h(t,z)` convention and 4+1 cartoon compatibility, using `external/GRChombo/Tests/ApparentHorizonFinderTest2D/` as the first validation target.
 
+- `external/GRChombo/Source/ApparentHorizonFinder/AHFunctions.hpp`
+  - Description: reconstructs AH metric/extrinsic-curvature data, including the extra cartoon-direction quantities when `GR_SPACEDIM != CH_SPACEDIM`.
+  - Why we care: verified from public source that `ExpansionFunction` reconstructs the higher-dimensional metric component through positional access `int comp_hww = c_K - 1;` followed by `double hww = a_data.vars.at(comp_hww);`, while `Aww` is read directly as `int comp_Aww = c_Aww;` and `double Aww = a_data.vars.at(comp_Aww);`.
+  - Inspect next: confirm any future `BlackStringToy/UserVariables.hpp` keeps `c_hww == c_K - 1` and that derivative packing still matches `d1_vars_max() == c_K - 1`.
+
 - `external/GRChombo/Tests/ApparentHorizonFinderTest2D/`
   - Description: test wiring `AHStringGeometry` through `AHFinder`.
   - Why we care: minimal example of string geometry usage.
@@ -210,6 +215,14 @@ Status: first-pass inspection. Do not create `BlackStringToy` or edit GRChombo C
 - Build/run status: local run was attempted with `make test -j 2` and failed before building because `make` is not installed in this environment. `CHOMBO_HOME`, `PETSC_DIR`, and `PETSC_ARCH` were also unset, and the `grchombo/grchombo` Docker image was not locally present in this runtime.
 - What we learned: this is a genuine public 2D/string-like AH validation harness and should be understood before `BlackStringToy`, but it is a geometric/AH test rather than a complete 4+1/SO(3) black-string evolution driver.
 - Remaining questions: exact AH output file set after a successful run, required local Make.defs/PETSc settings, whether the Docker image can run this test without an editable host build, and how `AHStringGeometry` orientation maps onto the desired `x = h(t,z)` black-string convention.
+
+## Verified AHFunctions Cartoon Access Pattern
+
+- Verified from public source in `external/GRChombo/Source/ApparentHorizonFinder/AHFunctions.hpp`.
+- Under `#if GR_SPACEDIM != CH_SPACEDIM`, `ExpansionFunction` sets `comp_hww = c_K - 1` and then reads `hww` and `dhww` from that positional slot.
+- The same block reads `Aww` via the named enum `c_Aww`, not via `c_Theta - 1` or another positional expression.
+- The surrounding helper bounds also encode the same layout assumption: `d1_vars_max() { return c_K - 1; }`, with comments stating that `c_K` comes after the last `hij`.
+- Interpretation: the public AH code does contain a real positional convention for the extra metric component. A wrong `UserVariables.hpp` ordering could compile but feed incorrect `hww` data into horizon reconstruction.
 
 ## Boundary Conditions
 

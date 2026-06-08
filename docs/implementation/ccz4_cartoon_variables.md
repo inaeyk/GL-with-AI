@@ -53,8 +53,9 @@ Here GR_SPACEDIM is the full physical spatial dimension, not the spacetime dimen
 
 ## Fragility / Implementation Hazards
 
-- `AHFunctions.hpp` appears to read `hww` positionally through an enum-offset convention, roughly `vars[c_K - 1]`.
-- Future `UserVariables.hpp` enum ordering must be verified before using the AH finder.
+- Verified from public source: under `GR_SPACEDIM != CH_SPACEDIM`, `AHFunctions.hpp` sets `int comp_hww = c_K - 1;` and reads `hww` / `dhww` from that positional slot.
+- Verified from public source: the same block reads `Aww` by name via `int comp_Aww = c_Aww;`, so the public convention is asymmetric: positional for `hww`, named for `Aww`.
+- Future `UserVariables.hpp` enum ordering must preserve `c_hww == c_K - 1` before using the AH finder.
 - A wrong enum order may compile but produce incorrect horizon data.
 - `hww/Aww` are conformal variables; confusing them with `g_ww/K_ww` will corrupt horizon quantities such as `gamma_ww`.
 - The `hww/Aww` enum-order issue is tracked as a gate in `research_plan/stage_checklists.md`.
@@ -62,6 +63,6 @@ Here GR_SPACEDIM is the full physical spatial dimension, not the spacetime dimen
 ## Implications For BlackStringToy
 
 - Add `hww` and `Aww` deliberately, with explicit comments documenting their enum positions.
-- Verify `c_hww`, `c_Aww`, `c_K`, and AH finder assumptions before enabling horizon geometry output.
+- Preserve the verified public AH convention `c_hww == c_K - 1`, and verify `c_Aww` still matches the expected named slot before enabling horizon geometry output.
 - Keep reconstruction formulas close to horizon diagnostics and tests.
-- Treat any positional enum assumption as `needs verification` until checked against a compiled target configuration.
+- Treat the source-level convention as verified, but still treat target-configuration compile/runtime behavior as needing validation.

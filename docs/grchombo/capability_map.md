@@ -41,5 +41,20 @@ Framing: public GRChombo main/default examples are primarily 3+1D. The target 5D
 
 - Searches for `black string`, `Gregory`, `Laflamme`, and `modified cartoon` did not find a ready-made black-string example.
 - `AHStringGeometry.hpp` is real and tested in `Tests/ApparentHorizonFinderTest2D`, but its suitability for 4+1 cartoon black-string diagnostics needs review.
-- Hazard: keep `hww/Aww` distinct from reconstructed `g_ww/K_ww`; `AHFunctions.hpp` appears to rely on positional enum assumptions around `c_K - 1`, so future `UserVariables.hpp` ordering needs verification.
+- Hazard: keep `hww/Aww` distinct from reconstructed `g_ww/K_ww`; verified from public source, `AHFunctions.hpp` reads `hww` positionally via `c_K - 1`, so future `UserVariables.hpp` ordering needs verification.
 - Public GRChombo appears to provide strong reusable infrastructure, but the project-specific physics and diagnostics should be treated as new development until verified otherwise.
+
+## Hazards and Silent-Failure Modes
+
+- Modified-cartoon CCZ4 hazard:
+  The target configuration is `CH_SPACEDIM=2`, `GR_SPACEDIM=4`. Public CCZ4 appears to use `GR_SPACEDIM` in algebraic dimension-dependent coefficients, but the public source map does not yet show a complete modified-cartoon source-term implementation for `GR_SPACEDIM != CH_SPACEDIM`.
+- Modified-cartoon CCZ4 hazard:
+  A target-configuration build or run could therefore compile, step forward, and write HDF5 while still omitting source terms that represent the absorbed `S^2` geometry. That would be physically wrong even if constraints, residuals, or plots look numerically healthy.
+- Modified-cartoon CCZ4 hazard:
+  Do not treat any `GR_SPACEDIM=4` / `CH_SPACEDIM=2` output as physical until the modified-cartoon CCZ4 source terms are implemented, inspected, and tested on controlled cases.
+- `hww/Aww` enum-order hazard:
+  The AH finder expects cartoon-direction data in specific variable slots. Verified from public source, `AHFunctions.hpp` reconstructs the extra metric component with positional access `comp_hww = c_K - 1`, then reads `hww` from `a_data.vars.at(comp_hww)`, while `Aww` is read separately through `c_Aww`.
+- `hww/Aww` enum-order hazard:
+  Incorrect `UserVariables.hpp` ordering could therefore compile and still produce wrong horizon quantities such as reconstructed `g_ww`, `K_ww`, or downstream horizon diagnostics.
+- `hww/Aww` enum-order hazard:
+  The exact convention is now verified from public source for `hww`, but any future `BlackStringToy` variable list must preserve that layout before AH output is enabled.

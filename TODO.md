@@ -9,8 +9,8 @@
 
 ## Active
 
-- [ ] Review and approve Stage 1 maps/checklists.
-- [ ] Verify AHFunctions enum-order assumption around `hww` / `c_K - 1`.
+- [ ] Review Stage 1 hazard documentation.
+- [ ] Decide whether Stage 1 is approved.
 - [ ] Decide whether to run the Stage 1.5 compile preflight.
 
 ## Later
