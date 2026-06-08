@@ -111,3 +111,9 @@
 - Files changed: `research_plan/project_outline.md`, `TODO.md`, `docs/grchombo/build_notes.md`, `docs/grchombo/source_map.md`, `docs/grchombo/capability_map.md`, `logs/PROJECT_LOG.md`, `CLAUDE.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`, `git diff --stat`, targeted greps for `Stage 1.5`, `PETSc`, `reviewed and approved by the user`, and `approval gate`, and checked `git -C external/GRChombo status --short`.
 - Review status: Pending human review.
+
+- Date: 2026-06-08
+- Goal: Run the Stage 1.5 scratch-copy `GR_SPACEDIM=4` compile preflight without modifying `external/GRChombo`.
+- Files changed: `docs/grchombo/build_notes.md`, `docs/grchombo/source_map.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`; ignored scratch files under `runs/stage1_5_preflight/`.
+- Validation performed: Created scratch copy under `runs/stage1_5_preflight/GRChombo_GR4`, changed only the copied `ApparentHorizonTest2D.cpp` macro to `GR_SPACEDIM 4`, ran the requested Docker build, confirmed it exited 0, checked external GRChombo status, and ran the requested final status/find/grep validation.
+- Review status: Pending human review.

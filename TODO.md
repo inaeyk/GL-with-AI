@@ -9,7 +9,6 @@
 
 ## Active
 
-- [ ] Complete the `GR_SPACEDIM=4` compile preflight.
 - [ ] Decide how and when to resolve PETSc/AHFinder-enabled execution.
 - [ ] Do not begin `BlackStringToy` until the Stage 1.5 result is reviewed and approved by the user.
 
@@ -18,6 +17,7 @@
 - [x] Review Stage 1 hazard documentation.
 - [x] Decide whether Stage 1 is approved.
 - [x] Decide whether to run the Stage 1.5 compile preflight.
+- [x] Complete the scratch-copy `GR_SPACEDIM=4` compile preflight.
 
 ## Later
 

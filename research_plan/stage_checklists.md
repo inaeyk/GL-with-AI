@@ -45,10 +45,10 @@ Goal: check whether the intended compile configuration `CH_SPACEDIM=2`, `GR_SPAC
 - [x] Preferred first preflight target: adapt or reuse `Tests/ApparentHorizonFinderTest2D` as a controlled `DIM=2`, `GR_SPACEDIM=4` compile experiment, if build tooling allows.
 - [x] Reproduce the baseline `DIM=2` Docker build/run path for `Tests/ApparentHorizonFinderTest2D`.
 - [ ] If that target is unsuitable, choose the smallest public test/example that probes the `GR_SPACEDIM != CH_SPACEDIM` path.
-- [ ] Attempt `DIM=2` build with `GR_SPACEDIM=4` using controlled compiler flags or minimal local copy.
-- [ ] Record which files compile and which fail.
-- [ ] Check whether `AHSphericalGeometry` guards or other `GR_SPACEDIM==3` assumptions trigger.
-- [ ] Check whether `hww/Aww` enum variables are required for compilation.
+- [x] Attempt `DIM=2` build with `GR_SPACEDIM=4` using controlled compiler flags or minimal local copy.
+- [x] Record which files compile and which fail.
+- [x] Check whether `AHSphericalGeometry` guards or other `GR_SPACEDIM==3` assumptions trigger.
+- [x] Check whether `hww/Aww` enum variables are required for compilation.
 - [x] Document blockers in `docs/grchombo/build_notes.md`.
 - [x] Record that a successful compile is not evidence of physical correctness.
 

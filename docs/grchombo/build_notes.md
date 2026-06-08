@@ -63,9 +63,7 @@ Baseline `DIM=2` build result: reproduced in Docker. The build compiled the `DIM
 
 Baseline run result: reproduced with a manual OpenMPI root override. The executable exited with `EXIT_CODE:0`, but the substantive AH solver path did not run because `USE_AHFINDER` was undefined. The run printed `ApparentHorizon2D test skipped (USE_AHFINDER undefined).` once per MPI rank and produced no `stats_AH*`, `coords_AH*`, HDF5, or checkpoint output.
 
-`GR_SPACEDIM=4` preflight result: not attempted as a compile. Passing `-DGR_SPACEDIM=4` would collide with the source-level `#define GR_SPACEDIM 2` in `ApparentHorizonTest2D.cpp`; changing that file would violate the Stage 1.5 constraint against modifying `external/GRChombo` source. The correct flag path or source-free override path needs investigation in a configured Chombo build environment.
-
-GR_SPACEDIM=4 preflight remains open.
+`GR_SPACEDIM=4` direct-source preflight result: not attempted against `external/GRChombo`. Passing `-DGR_SPACEDIM=4` would collide with the source-level `#define GR_SPACEDIM 2` in `ApparentHorizonTest2D.cpp`; changing that external file would violate the Stage 1.5 constraint against modifying `external/GRChombo` source. The follow-up scratch-copy preflight below tests the one-line macro change in ignored `runs/` only.
 
 First blocker: the baseline AH solve is skipped because `USE_AHFINDER` is undefined. The first target-specific `GR_SPACEDIM=4` blocker is that the preferred public test hard-defines `GR_SPACEDIM 2`, so a clean `GR_SPACEDIM=4` compile preflight is not available from this test without either a supported build-system override that supersedes the source define or a separate local copy/source edit, both of which were outside this task.
 
@@ -81,4 +79,38 @@ Source modification status: no GRChombo source files were modified, staged, or c
 
 Generated outputs: the baseline build produced the ignored executable under `external/GRChombo/Tests/ApparentHorizonFinderTest2D/`. The skip-path run produced no AH stats, AH coordinates, HDF5, or checkpoint output.
 
-Next action: resolve PETSc/AHFinder-enabled execution for the `DIM=2` test if needed, then investigate a source-free way to compile a `DIM=2`, `GR_SPACEDIM=4` AH target. If the only route is editing or copying the public test source, stop for review before doing so.
+Next action: resolve PETSc/AHFinder-enabled execution for the `DIM=2` test if needed, then review the scratch-copy `GR_SPACEDIM=4` compile result below before deciding whether to proceed toward Stage 2.
+
+### Stage 1.5 GR_SPACEDIM=4 Scratch-Copy Preflight
+
+Purpose: probe whether the public `ApparentHorizonFinderTest2D` target can compile with `CH_SPACEDIM=2` and `GR_SPACEDIM=4` after the minimal local macro change needed to avoid editing `external/GRChombo`. This is a compile-only preflight and does not validate 5D/SO(3) physical dynamics.
+
+Scratch-copy location: `runs/stage1_5_preflight/GRChombo_GR4/`.
+
+Exact scratch edit: in `runs/stage1_5_preflight/GRChombo_GR4/Tests/ApparentHorizonFinderTest2D/ApparentHorizonTest2D.cpp`, changed `#define GR_SPACEDIM 2` to `#define GR_SPACEDIM 4`.
+
+Exact Docker command:
+
+```bash
+docker run --rm -v "$(pwd):/settings" grchombo/grchombo bash -lc '
+cd /settings/runs/stage1_5_preflight/GRChombo_GR4/Tests/ApparentHorizonFinderTest2D
+make clean DIM=2 DEBUG=FALSE OPT=TRUE USE_PETSC=FALSE || true
+make -j2 all DIM=2 DEBUG=FALSE OPT=TRUE USE_PETSC=FALSE
+'
+```
+
+Result: build succeeded. The scratch target produced `runs/stage1_5_preflight/GRChombo_GR4/Tests/ApparentHorizonFinderTest2D/ApparentHorizonTest2D2d_ch.Linux.64.mpicxx.gfortran.OPT.MPI.OPENMPCC.ex`.
+
+First blocker: none at compile time for this non-AHFinder `USE_PETSC=FALSE` target.
+
+Failure/error classification:
+
+- First meaningful compiler/build error: none; command exited 0.
+- `GR_SPACEDIM == 3` guards: no compile failure triggered.
+- Missing `hww`, `Aww`, `c_hww`, or `c_Aww`: no compile failure triggered.
+- AH geometry assumptions: no compile failure triggered in this build.
+- Cartoon/AH-relevant code reach: the build reached and compiled `ApparentHorizonTest2D.cpp` and linked the executable, but the substantive AH solver path is still not compiled/exercised because `USE_AHFINDER` is undefined and `USE_PETSC=FALSE`.
+
+Interpretation: a scratch-copy `DIM=2`, `GR_SPACEDIM=4` compile of this public non-AHFinder 2D test is technically viable. This is a narrow compile result only. It does not test modified-cartoon CCZ4 source terms, does not exercise the PETSc-backed AH solver path, and does not establish physical correctness.
+
+Next recommended action: human review of this Stage 1.5 result, then decide whether Stage 2 can begin or whether to first run an additional CCZ4-side `DIM=2`, `GR_SPACEDIM=4` compile probe. PETSc/AHFinder-enabled execution can be deferred until before Stage 5 unless horizon-solver integration becomes necessary earlier.
