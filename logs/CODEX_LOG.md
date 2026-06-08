@@ -117,3 +117,9 @@
 - Files changed: `docs/grchombo/build_notes.md`, `docs/grchombo/source_map.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`; ignored scratch files under `runs/stage1_5_preflight/`.
 - Validation performed: Created scratch copy under `runs/stage1_5_preflight/GRChombo_GR4`, changed only the copied `ApparentHorizonTest2D.cpp` macro to `GR_SPACEDIM 4`, ran the requested Docker build, confirmed it exited 0, checked external GRChombo status, and ran the requested final status/find/grep validation.
 - Review status: Pending human review.
+
+- Date: 2026-06-08
+- Goal: Begin Stage 1.5B CCZ4-side target-dimension compile preflight without modifying `external/GRChombo`.
+- Files changed: `docs/grchombo/build_notes.md`, `docs/grchombo/source_map.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`; ignored scratch files under `runs/stage1_5_preflight/CCZ4_GR4/`.
+- Validation performed: Inspected `CCZ4Test`, `ConstraintTest`, `CCZ4UserVariables.hpp`, and `DimensionDefinitions.hpp`; created a scratch full-GRChombo copy; ran the requested Docker build for `CCZ4Test` with `DIM=2` and `CXXCPPFLAGS="-DGR_SPACEDIM=4"`; documented the first compiler blocker and confirmed `external/GRChombo` remained clean.
+- Review status: Pending human review.

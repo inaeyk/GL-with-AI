@@ -222,6 +222,17 @@ Status: Stage 1 source inspection reviewed and approved by the user. Do not crea
 - What we learned: this is a genuine public 2D/string-like AH validation harness and should be understood before `BlackStringToy`, but it is a geometric/AH test rather than a complete 4+1/SO(3) black-string evolution driver.
 - Remaining questions: exact AH output file set after a successful run, required local Make.defs/PETSc settings, whether the Docker image can run this test without an editable host build, and how `AHStringGeometry` orientation maps onto the desired `x = h(t,z)` black-string convention.
 
+## CCZ4Test Stage 1.5B Inspection
+
+- Target: `external/GRChombo/Tests/CCZ4Test`.
+- Why chosen: it directly includes `CCZ4RHS.hpp`, uses `CCZ4UserVariables.hpp`, and instantiates `CCZ4RHS<MovingPunctureGauge, FourthOrderDerivatives>` through `BoxLoops::loop(...)`.
+- Scratch-copy path: `runs/stage1_5_preflight/CCZ4_GR4/GRChombo/Tests/CCZ4Test/`.
+- Dimension setup: the test does not hard-define `GR_SPACEDIM`; it relies on `DimensionDefinitions.hpp` unless a compiler define is accepted. The stock `CCZ4UserVariables.hpp` declares a 3D-style CCZ4 variable list.
+- Stage 1.5B result: Docker build with `DIM=2 DEBUG=FALSE OPT=TRUE USE_PETSC=FALSE CXXCPPFLAGS="-DGR_SPACEDIM=4"` failed while compiling `CCZ4Test.cpp`.
+- First blocker: `CCZ4Test.cpp` uses 3-argument `IntVect(...)` and 3D boxes, which fail in a `CH_SPACEDIM=2` Chombo build before this public test can serve as a clean target-dimension CCZ4 probe.
+- Additional signal: the emitted compile command did not include `-DGR_SPACEDIM=4`, so the `CXXCPPFLAGS` override path was not confirmed for this target. The compile also reached CCZ4 template instantiation and emitted `VarsTools.hpp` interval-size static assertions, consistent with stock `CCZ4UserVariables.hpp` not matching a reduced `CH_SPACEDIM=2` tensor layout.
+- Interpretation: public `CCZ4Test` is useful as a CCZ4-side map target, but not directly usable as a controlled `DIM=2`, `GR_SPACEDIM=4` compile preflight without scratch-only harness adaptation. This says nothing about physical correctness of modified-cartoon CCZ4.
+
 ## Verified AHFunctions Cartoon Access Pattern
 
 - Verified from public source in `external/GRChombo/Source/ApparentHorizonFinder/AHFunctions.hpp`.

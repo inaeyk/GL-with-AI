@@ -11,6 +11,7 @@
 
 - [ ] Decide how and when to resolve PETSc/AHFinder-enabled execution.
 - [ ] Do not begin `BlackStringToy` until the Stage 1.5 result is reviewed and approved by the user.
+- [ ] Decide whether a scratch-only minimal CCZ4 target is needed before Stage 2.
 
 ## Completed
 
@@ -18,6 +19,7 @@
 - [x] Decide whether Stage 1 is approved.
 - [x] Decide whether to run the Stage 1.5 compile preflight.
 - [x] Complete the scratch-copy `GR_SPACEDIM=4` compile preflight.
+- [x] Attempt the Stage 1.5B CCZ4-side scratch-copy compile probe.
 
 ## Later
 

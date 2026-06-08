@@ -114,3 +114,51 @@ Failure/error classification:
 Interpretation: a scratch-copy `DIM=2`, `GR_SPACEDIM=4` compile of this public non-AHFinder 2D test is technically viable. This is a narrow compile result only. It does not test modified-cartoon CCZ4 source terms, does not exercise the PETSc-backed AH solver path, and does not establish physical correctness.
 
 Next recommended action: human review of this Stage 1.5 result, then decide whether Stage 2 can begin or whether to first run an additional CCZ4-side `DIM=2`, `GR_SPACEDIM=4` compile probe. PETSc/AHFinder-enabled execution can be deferred until before Stage 5 unless horizon-solver integration becomes necessary earlier.
+
+### Stage 1.5B CCZ4-Side Target-Dimension Compile Preflight
+
+Purpose: probe the CCZ4/evolution-side compile path for `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, where the modified-cartoon silent-failure risk lives. This is still a compile preflight only and does not validate physical dynamics.
+
+Chosen target: `external/GRChombo/Tests/CCZ4Test`.
+
+Why this target:
+
+- It directly includes `CCZ4RHS.hpp`.
+- It uses `CCZ4UserVariables.hpp` through its `UserVariables.hpp`.
+- It instantiates `CCZ4RHS<MovingPunctureGauge, FourthOrderDerivatives>` through `BoxLoops::loop(...)`.
+- It is smaller and more direct than matter or full-AMR examples.
+
+Scratch-copy location: `runs/stage1_5_preflight/CCZ4_GR4/GRChombo/`.
+
+`GR_SPACEDIM` setup: `CCZ4Test` does not hard-define `GR_SPACEDIM`. The default comes from `Source/utils/DimensionDefinitions.hpp`, where `GR_SPACEDIM` defaults to `3` unless a compiler definition is accepted. The test uses the stock `CCZ4UserVariables.hpp`, which declares the 3D-style CCZ4 variable set.
+
+Exact Docker command:
+
+```bash
+docker run --rm -v "$(pwd):/settings" grchombo/grchombo bash -lc '
+cd /settings/runs/stage1_5_preflight/CCZ4_GR4/GRChombo/Tests/CCZ4Test
+make clean DIM=2 DEBUG=FALSE OPT=TRUE USE_PETSC=FALSE || true
+make -j2 all DIM=2 DEBUG=FALSE OPT=TRUE USE_PETSC=FALSE CXXCPPFLAGS="-DGR_SPACEDIM=4"
+'
+```
+
+Result: build failed while compiling `CCZ4Test.cpp`.
+
+First meaningful error:
+
+```text
+CCZ4Test.cpp:43:28: error: no matching function for call to 'Chombo::IntVect::IntVect(int, int, int)'
+```
+
+Interpretation of first blocker: the public `CCZ4Test` harness is hard-coded around a 3D Chombo grid (`IntVect(0, 0, 0)`, 3D boxes, 3D loops, and 3-component analytic data), so it is not a clean `DIM=2` compile target without scratch-source adaptation. This failure occurs before a clean target-dimension CCZ4 preflight can be established.
+
+Additional compile observations:
+
+- The emitted compile command for `CCZ4Test.cpp` did not include `-DGR_SPACEDIM=4`, so `CXXCPPFLAGS` was not confirmed as a working GRChombo/Chombo override path for this target.
+- The same failed compile also emitted `VarsTools.hpp:45:5: error: static assertion failed: Interval has wrong size` while instantiating `CCZ4RHS<MovingPunctureGauge, FourthOrderDerivatives>`.
+- The interval-size failure is consistent with stock 3D-style `CCZ4UserVariables.hpp` intervals being incompatible with a `CH_SPACEDIM=2` tensor mapping without a reduced/cartoon variable layout.
+- No `GR_SPACEDIM == 3` guard was the first blocker.
+- No `hww`, `Aww`, `c_hww`, or `c_Aww` symbol error was the first blocker.
+- The failure reaches CCZ4 template instantiation after the test-harness errors, but it does not reach a validated `GR_SPACEDIM=4` CCZ4 compile path because the requested compiler define was not observed in the emitted compile command.
+
+Next recommended action: human review of this Stage 1.5B result. If a deeper CCZ4 compile probe is required before Stage 2, use an explicitly scratch-only minimal target or scratch-adapted `CCZ4Test` that removes 3D Chombo harness assumptions and proves the `GR_SPACEDIM=4` define path in the emitted compiler command.

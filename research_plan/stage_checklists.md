@@ -49,6 +49,8 @@ Goal: check whether the intended compile configuration `CH_SPACEDIM=2`, `GR_SPAC
 - [x] Record which files compile and which fail.
 - [x] Check whether `AHSphericalGeometry` guards or other `GR_SPACEDIM==3` assumptions trigger.
 - [x] Check whether `hww/Aww` enum variables are required for compilation.
+- [x] Attempt an additional CCZ4-side `DIM=2`, `GR_SPACEDIM=4` scratch-copy compile probe.
+- [x] Document that public `CCZ4Test` is blocked as a clean target by 3D test-harness assumptions and unconfirmed `GR_SPACEDIM=4` flag propagation.
 - [x] Document blockers in `docs/grchombo/build_notes.md`.
 - [x] Record that a successful compile is not evidence of physical correctness.
 

@@ -22,7 +22,7 @@ For stage-by-stage gates, see [stage_checklists.md](stage_checklists.md).
 
 - Goal: check whether the intended compile configuration `CH_SPACEDIM=2`, `GR_SPACEDIM=4` is technically viable before physics implementation. This represents a 2+1D computational grid for 4+1D physics, with SO(3) symmetry of the transverse `S^2` absorbed into modified-cartoon source terms.
 - Main deliverables: documented baseline `DIM=2` build/run result, documented `GR_SPACEDIM=4` compile preflight result or blocker, and updated stage gate status.
-- Current status: in progress pending human review. The baseline `DIM=2` `ApparentHorizonFinderTest2D` Docker build/run path has been reproduced, and a scratch-copy `GR_SPACEDIM=4` compile preflight succeeded with `USE_PETSC=FALSE`. PETSc/AHFinder-enabled execution remains unresolved.
+- Current status: in progress pending human review. The baseline `DIM=2` `ApparentHorizonFinderTest2D` Docker build/run path has been reproduced, and an AH-side scratch-copy `GR_SPACEDIM=4` compile preflight succeeded with `USE_PETSC=FALSE`. A CCZ4-side `CCZ4Test` scratch-copy probe failed on 3D test-harness assumptions before establishing a clean `GR_SPACEDIM=4` CCZ4 compile path. PETSc/AHFinder-enabled execution remains unresolved.
 - Item-level gates: see [stage_checklists.md](stage_checklists.md).
 
 ## Stage 2: Editable Build And BlackStringToy Skeleton
