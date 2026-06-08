@@ -2,7 +2,7 @@
 
 Purpose: map what public GRChombo appears to provide for the 5D black-string project, based on a shallow local inspection clone at `external/GRChombo`.
 
-Status: first-pass source inspection. These maps must be reviewed and approved by the user before `BlackStringToy` or C++ edits.
+Status: Stage 1 source inspection reviewed and approved by the user. `BlackStringToy` and C++ edits remain gated on Stage 1.5 review and approval.
 
 Framing: public GRChombo main/default examples are primarily 3+1D. The target 5D black-string problem keeps SO(3) symmetry and should be treated as an effective 2+1D modified-cartoon problem, with the S^2 reconstructed by symmetry, not as a full 4-spatial-dimensional grid evolution. Read the table with that distinction in mind. We have access to Pau's code through collaboration, but are deliberately withholding it at this stage to benchmark AI-agent development against public GRChombo.
 
