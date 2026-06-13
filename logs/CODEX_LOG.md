@@ -131,3 +131,9 @@
 - Files changed: `code/BlackStringToy/`, `scripts/stage2_build_blackstringtoy_scratch.sh`, `docs/grchombo/build_notes.md`, `docs/implementation/black_string_initial_data.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `bash -n scripts/stage2_build_blackstringtoy_scratch.sh`; the initial Codex run failed before scratch-copy creation because Docker was not usable from that shell. After the user manually reran `bash scripts/stage2_build_blackstringtoy_scratch.sh`, inspected `runs/stage2_blackstringtoy/GRChombo/Examples/BlackStringToy/` and confirmed the executable, `pout/pout.0` ending in `GRChombo finished.`, four HDF5 files, and inherited data outputs.
 - Review status: Pending human review before commit.
+
+- Date: 2026-06-13
+- Goal: Begin Stage 2B by hardening the `BlackStringToy` scratch build workflow against root-owned Docker outputs.
+- Files changed: `scripts/stage2_build_blackstringtoy_scratch.sh`, `docs/grchombo/build_notes.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `bash -n scripts/stage2_build_blackstringtoy_scratch.sh`.
+- Review status: Pending human review before commit.

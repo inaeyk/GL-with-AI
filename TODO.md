@@ -9,8 +9,9 @@
 
 ## Active
 
+- [ ] Review Stage 2B scratch workflow hardening before committing.
 - [ ] Review Stage 2A `BlackStringToy` scaffold diff and scratch build output before committing.
-- [ ] Decide whether Stage 2B should keep inherited BinaryBH behavior untouched or trim it before later black-string initial-data work.
+- [ ] Decide whether the next scaffold pass should keep inherited BinaryBH behavior untouched or trim it before later black-string initial-data work.
 - [ ] Decide how and when to resolve PETSc/AHFinder-enabled execution.
 - [ ] Decide whether a scratch-only minimal CCZ4 target is needed before reduced-cartoon evolution work.
 
@@ -23,6 +24,7 @@
 - [x] Complete the scratch-copy `GR_SPACEDIM=4` compile preflight.
 - [x] Attempt the Stage 1.5B CCZ4-side scratch-copy compile probe.
 - [x] Manually rerun the Stage 2A `BlackStringToy` scratch build and smoke test.
+- [x] Harden the Stage 2B scratch build script against root-owned Docker outputs.
 
 ## Later
 

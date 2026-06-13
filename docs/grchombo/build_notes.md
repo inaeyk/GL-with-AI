@@ -234,3 +234,26 @@ validate the editable build workflow. It does not implement 5D initial data,
 compact `z`, GL perturbations, modified-cartoon source terms, `hww/Aww`,
 horizon diagnostics, radiation extraction, or a physical `GR_SPACEDIM=4`,
 `CH_SPACEDIM=2` evolution.
+
+## Stage 2B Scratch Workflow Hardening
+
+Purpose: make repeated Stage 2 scratch runs safe on WSL/Docker when Docker
+creates root-owned files under `runs/stage2_blackstringtoy/`.
+
+Script updated: `scripts/stage2_build_blackstringtoy_scratch.sh`.
+
+Ownership strategy:
+
+- Before deleting the scratch tree, the script verifies that the target is
+  exactly `runs/stage2_blackstringtoy`.
+- If existing scratch files are not owned by the current user, the script runs
+  `sudo chown -R "$(id -u):$(id -g)" runs/stage2_blackstringtoy` before
+  cleanup.
+- If the ownership fix fails or `sudo` is unavailable, the script exits with a
+  manual command instead of continuing into a partial cleanup.
+- After Docker build/run completion, the script runs the same ownership fix so
+  generated files are left removable by the normal WSL user.
+
+This does not change `external/GRChombo`, `code/BlackStringToy`, or any physics
+behavior. Generated build and run outputs remain under
+`runs/stage2_blackstringtoy/`.
