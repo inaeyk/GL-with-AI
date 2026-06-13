@@ -9,6 +9,10 @@
 
 ## Active
 
+- [ ] Ensure future physics-stage PDF notes accompany each physics/design stage.
+- [ ] Review Stage 3A black-string initial-data design note before coding.
+- [ ] Resolve GP branch/sign, `K_ij` convention, and zero-shift gauge startup before implementation.
+- [ ] Decide `hww/Aww` enum layout and target build path before adding variables.
 - [ ] Review Stage 2B scratch workflow hardening before committing.
 - [ ] Review Stage 2A `BlackStringToy` scaffold diff and scratch build output before committing.
 - [ ] Decide whether the next scaffold pass should keep inherited BinaryBH behavior untouched or trim it before later black-string initial-data work.
@@ -25,6 +29,8 @@
 - [x] Attempt the Stage 1.5B CCZ4-side scratch-copy compile probe.
 - [x] Manually rerun the Stage 2A `BlackStringToy` scratch build and smoke test.
 - [x] Harden the Stage 2B scratch build script against root-owned Docker outputs.
+- [x] Draft the Stage 3A black-string initial-data design note.
+- [x] Add physics-stage PDF note workflow and build the Stage 3A PDF note.
 
 ## Later
 

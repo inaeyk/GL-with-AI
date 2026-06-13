@@ -3,6 +3,8 @@
 Long-term goal: compute gravitational-wave/radiation profiles during the 5D Gregory-Laflamme transition using a reproducible GRChombo-based workflow.
 
 For stage-by-stage gates, see [stage_checklists.md](stage_checklists.md).
+Physics and physics-design stages also produce polished review notes under
+`docs/physics_notes/` when they contain substantive physics reasoning.
 
 ## Stage 0: Infrastructure And Reproducibility
 
@@ -35,7 +37,7 @@ For stage-by-stage gates, see [stage_checklists.md](stage_checklists.md).
 
 - Goal: implement the baseline uniform black-string initial data and GL-triggering perturbation.
 - Main deliverables: initial-data implementation, turduckening regularization, constraint-check outputs, short gauge-settling run.
-- Current status: not started.
+- Current status: design in progress. Stage 3A documents the target uniform-string initial data, GL perturbation, variable map, turduckening plan, and unresolved implementation decisions. A polished LaTeX physics-note source and built PDF review artifact exist under `docs/physics_notes/`. No Stage 3 source implementation has started.
 
 ## Stage 4: 4+1 CCZ4 / SO(3) Modified Cartoon Implementation
 

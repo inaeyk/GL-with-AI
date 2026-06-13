@@ -137,3 +137,27 @@
 - Files changed: `scripts/stage2_build_blackstringtoy_scratch.sh`, `docs/grchombo/build_notes.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `bash -n scripts/stage2_build_blackstringtoy_scratch.sh`.
 - Review status: Pending human review before commit.
+
+- Date: 2026-06-13
+- Goal: Begin Stage 3A black-string initial-data design documentation without implementing source changes.
+- Files changed: `docs/implementation/black_string_initial_data.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, `grep -R "Stage 3A" -n docs research_plan logs TODO.md || true`, and `grep -R "hww" -n docs/implementation/black_string_initial_data.md docs/implementation/ccz4_cartoon_variables.md || true`.
+- Review status: Pending human review before commit.
+
+- Date: 2026-06-13
+- Goal: Incorporate Stage 3A review clarifications into the black-string initial-data design note without implementing source changes.
+- Files changed: `docs/implementation/black_string_initial_data.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, `grep -n "h(t,z)" docs/implementation/black_string_initial_data.md || true`, `grep -n "K_xx" docs/implementation/black_string_initial_data.md || true`, `grep -n "beta" docs/implementation/black_string_initial_data.md || true`, and `git -C external/GRChombo status --short`.
+- Review status: Pending human review before commit.
+
+- Date: 2026-06-13
+- Goal: Add a physics-stage PDF note workflow and Stage 3A LaTeX note.
+- Files changed: `docs/physics_notes/`, `scripts/build_physics_notes.sh`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Checked for `latexmk`, `pdflatex`, `lualatex`, `xelatex`, and `tectonic`; none were available in the original Codex shell. Ran `bash -n scripts/build_physics_notes.sh`. Attempted `make -C docs/physics_notes stage3A`, which failed because `make` was unavailable in that shell. The Stage 3A PDF was later built successfully by the user at `docs/physics_notes/stage3A_black_string_initial_data.pdf`.
+- Review status: Pending human review before commit.
+
+- Date: 2026-06-13
+- Goal: Record successful Stage 3A physics-note PDF build.
+- Files changed: `TODO.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, `ls -lh docs/physics_notes/stage3A_black_string_initial_data.pdf`, `git check-ignore -v docs/physics_notes/stage3A_black_string_initial_data.pdf || true`, and `git -C external/GRChombo status --short`. Confirmed the PDF exists and is not ignored.
+- Review status: Pending human review before commit.

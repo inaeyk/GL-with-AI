@@ -1,0 +1,355 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\title{Stage 3A Physics Note: Initial Data for the 5D Uniform Black String}
+\author{GL-with-AI Project}
+\date{\today}
+
+\newcommand{\GRSP}{\texttt{GR\_SPACEDIM}}
+\newcommand{\CHSP}{\texttt{CH\_SPACEDIM}}
+
+\begin{document}
+\maketitle
+
+\section{Scope and Status}
+
+This note is a polished physics review artifact for Stage 3A. It records the
+target continuum initial data and design choices for a future implementation of
+the five-dimensional uniform black string and a Gregory-Laflamme seed
+perturbation.
+
+This is design only. The initial data described here are not implemented in
+\texttt{BlackStringToy}. The current \texttt{BlackStringToy} scaffold remains a
+non-physical build/run scaffold derived from the public GRChombo
+\texttt{Examples/BinaryBH} example. Nothing in this note claims that the
+current code evolves a five-dimensional black string.
+
+\section{Target Geometry}
+
+The target unperturbed spacetime is the five-dimensional uniform black string,
+formally
+\begin{equation}
+  \mathrm{Schwarzschild}_4 \times S^1_z .
+\end{equation}
+
+The dimensional bookkeeping for the intended reduced evolution is:
+\begin{itemize}
+  \item physical spacetime dimension: \(5\);
+  \item physical spatial dimension: \(\GRSP = 4\);
+  \item Chombo gridded dimension: \(\CHSP = 2\);
+  \item gridded directions: a radial/cartoon coordinate \(x\) and compact
+    string coordinate \(z\);
+  \item hidden/reconstructed directions: the transverse \(S^2\), represented by
+    SO(3)/modified-cartoon variables and source terms.
+\end{itemize}
+
+\section{GP-like Horizon-Penetrating Form}
+
+The planned continuum starting point is a horizon-penetrating
+Gullstrand-Painleve-like form of the uniform string. A schematic line element is
+\begin{equation}
+  ds^2
+  =
+  -dt^2
+  +
+  \left(dx + s\sqrt{\frac{r_0}{x}}\,dt\right)^2
+  +
+  x^2 d\Omega_2^2
+  +
+  dz^2 .
+  \label{eq:gp-line-element}
+\end{equation}
+Here \(s=\pm 1\) labels the GP branch/sign convention. The slice is
+horizon-penetrating: the horizon at \(x=r_0\) is not a coordinate singularity
+on the spatial slice.
+
+The sign \(s\), the time orientation, and GRChombo's convention for
+extrinsic curvature \(K_{ij}\) must be matched before implementation. All
+extrinsic-curvature formulas below should be read with that caveat.
+
+\section{ADM Variables and GP Extrinsic Curvature}
+
+The intrinsic spatial metric on the GP-like slice is flat in the radial
+transverse sector times the compact string direction:
+\begin{equation}
+  dl^2 = dx^2 + x^2 d\Omega_2^2 + dz^2 .
+\end{equation}
+
+The natural GP lapse and shift associated with
+Eq.~\eqref{eq:gp-line-element} are
+\begin{equation}
+  \alpha = 1,
+  \qquad
+  \beta^x = s\sqrt{\frac{r_0}{x}},
+  \qquad
+  \beta^z = 0 .
+  \label{eq:natural-gp-shift}
+\end{equation}
+
+Using the convention
+\begin{equation}
+  K_{ij}
+  =
+  \frac{1}{2\alpha}
+  \left(
+    D_i\beta_j + D_j\beta_i - \partial_t \gamma_{ij}
+  \right),
+  \label{eq:kij-convention}
+\end{equation}
+and the time-independent spatial metric, the nonzero components for the
+uniform string are, up to GRChombo's possible overall \(K_{ij}\) sign
+convention,
+\begin{align}
+  K_{xx}
+  &=
+  -\frac{s}{2}\sqrt{\frac{r_0}{x^3}},
+  \\
+  K_{ww}
+  &=
+  s\sqrt{\frac{r_0}{x^3}}
+  \qquad\text{for each hidden transverse direction},
+  \\
+  K_{zz}
+  &= 0 .
+\end{align}
+Thus \(K_{zz}=0\), but the full four-spatial-dimensional trace is not zero.
+The trace is
+\begin{equation}
+  K
+  =
+  K^x{}_{x}
+  +
+  K^z{}_{z}
+  +
+  K^{w_1}{}_{w_1}
+  +
+  K^{w_2}{}_{w_2}
+  =
+  \frac{3s}{2}\sqrt{\frac{r_0}{x^3}},
+  \label{eq:k-trace}
+\end{equation}
+again up to the overall GRChombo \(K_{ij}\) sign convention. If GRChombo uses
+the opposite convention to Eq.~\eqref{eq:kij-convention}, then all
+\(K_{ij}\), \(K\), and conformal traceless components \(A_{ij}\) and
+\(A_{ww}\) must be sign-flipped.
+
+\section{Scalar and Sign Note for \(K\)}
+
+The quantity \(K=\gamma^{ij}K_{ij}\) is a scalar on a fixed spatial slice, so
+it is invariant under spatial coordinate changes on that slice. Its sign can
+still change if one reverses the GP branch, reverses the time orientation, or
+uses the opposite convention for the future-pointing normal. The two values
+\(s=\pm 1\) are time-reversed ingoing/outgoing embeddings of the same flat
+intrinsic spatial geometry. Therefore the sign of \(K\) is fixed only after
+choosing both the GP branch and GRChombo's \(K_{ij}\) convention.
+
+\section{Conformal CCZ4 Variable Map}
+
+The target variables follow the conformal CCZ4 convention already recorded in
+the implementation notes:
+\begin{equation}
+  \gamma_{ij} = \chi^{-1} h_{ij},
+  \qquad
+  \gamma_{ww} = \chi^{-1} h_{ww}.
+  \label{eq:conformal-metric}
+\end{equation}
+The hidden physical extrinsic-curvature component is reconstructed as
+\begin{equation}
+  K_{ww}
+  =
+  \chi^{-1}
+  \left(
+    A_{ww} + \frac{h_{ww}K}{\GRSP}
+  \right).
+  \label{eq:kww-reconstruction}
+\end{equation}
+For \(\GRSP=4\),
+\begin{equation}
+  A_{ij}
+  =
+  \chi
+  \left(
+    K_{ij} - \frac{1}{4}\gamma_{ij}K
+  \right),
+  \qquad
+  A_{ww}
+  =
+  \chi K_{ww} - \frac{1}{4}h_{ww}K .
+  \label{eq:aij-map}
+\end{equation}
+
+At design level, the future initial-data class must provide:
+\begin{itemize}
+  \item \(\chi\), initially \(1\) before the GL perturbation;
+  \item conformal metric components \(h_{xx}\), \(h_{zz}\), and \(h_{xz}\);
+  \item hidden conformal metric component \(h_{ww}\);
+  \item full trace \(K\), using all four spatial directions;
+  \item traceless components \(A_{xx}\), \(A_{zz}\), \(A_{xz}\), and \(A_{ww}\);
+  \item lapse, shift, Gamma variables, and gauge-driver variables consistent
+    with the chosen startup convention.
+\end{itemize}
+
+For the unperturbed flat GP-like spatial slice, the expected conformal metric
+starting values are
+\begin{equation}
+  h_{xx}=1,
+  \qquad
+  h_{zz}=1,
+  \qquad
+  h_{xz}=0,
+  \qquad
+  h_{ww}=1,
+\end{equation}
+before any GL perturbation is applied.
+
+\section{Meaning of \(h_{ww}=1\)}
+
+The variable \(h_{ww}\) is not the angular metric component
+\(g_{\theta\theta}\). It is the hidden Cartesian-like conformal metric
+component used by the SO(3)/modified-cartoon reduction. In flat transverse
+space, the suppressed Cartesian directions have \(\gamma_{ww}=1\).
+
+The angular factor \(x^2\) in \(x^2d\Omega_2^2\) is supplied by the
+coordinate/cartoon reconstruction. The physical transverse sphere radius is
+\begin{equation}
+  R
+  =
+  x\sqrt{\gamma_{ww}}
+  =
+  x\sqrt{\chi^{-1}h_{ww}} .
+  \label{eq:cartoon-radius}
+\end{equation}
+Setting \(h_{ww}=x^2\) would double-count the angular radius.
+
+\section{Horizon Representation}
+
+The future apparent-horizon representation is
+\begin{equation}
+  x = h(t,z).
+\end{equation}
+Here \(h(t,z)\) is the coordinate radius/location of the apparent horizon on
+the reduced grid. For the unperturbed uniform string,
+\begin{equation}
+  h(0,z)=r_0 .
+\end{equation}
+During Gregory-Laflamme evolution, \(h(t,z)\) becomes \(z\)-dependent. The
+physical transverse \(S^2\) radius on the horizon is
+\begin{equation}
+  R(t,z)
+  =
+  h(t,z)
+  \sqrt{
+    \gamma_{ww}\bigl(t,h(t,z),z\bigr)
+  } .
+  \label{eq:horizon-radius}
+\end{equation}
+
+\section{GL Seed Perturbation}
+
+The planned Gregory-Laflamme seed from the reproduction roadmap is a
+conformal-factor perturbation localized near the horizon:
+\begin{equation}
+  \chi
+  =
+  1
+  +
+  \epsilon
+  \sin\left(\frac{2\pi n z}{L}\right)
+  \exp\left[
+    -
+    \left(
+      \frac{x}{r_0}
+      -
+      \frac{r_0}{x}
+    \right)^2
+  \right].
+  \label{eq:gl-seed}
+\end{equation}
+Planned defaults are
+\begin{equation}
+  \epsilon=0.01,
+  \qquad
+  n=1,
+  \qquad
+  r_0=1,
+  \qquad
+  L/r_0=10 .
+\end{equation}
+This perturbation is planned but not implemented. It intentionally introduces
+small constraint violations that must be monitored and damped before nonlinear
+GL growth dominates.
+
+\section{Natural GP Shift Versus Zero-Shift Gauge Startup}
+
+The GP line element is used primarily to define a regular
+horizon-penetrating initial hypersurface and to derive the geometric data
+\(\gamma_{ij}\) and \(K_{ij}\). Natural GP coordinates have the nonzero shift
+in Eq.~\eqref{eq:natural-gp-shift}.
+
+The evolution gauge variables do not necessarily need to be initialized to the
+natural GP shift. If following the reproduction roadmap, one can initialize
+\begin{equation}
+  \alpha(0)=1,
+  \qquad
+  \beta^i(0)=0,
+\end{equation}
+while keeping \(\gamma_{ij}\) and nonzero \(K_{ij}\) from the GP slice. In that
+case the data are GP-slice geometric data, not a fully stationary
+GP-coordinate evolution.
+
+Do not set \(K_{ij}=0\) merely because the evolution shift is initialized to
+zero. \(K_{ij}\) is part of the geometric initial data and must not be
+recomputed from the chosen gauge-startup shift.
+
+\section{Turduckening and Interior Handling}
+
+The GP-like expressions include powers such as \(\sqrt{r_0/x}\), so a cutoff
+or smoothing strategy is needed near \(x=0\). The planned cutoff scale is
+\begin{equation}
+  x_{\rm cut} = 0.1 r_0 .
+\end{equation}
+The quantities that require an interior prescription include \(\chi\), the GL
+perturbation, the shift if used geometrically, \(K\), \(A_{ij}\), \(A_{ww}\),
+\(h_{ww}\), and derived Gamma/constraint quantities. The exact smoothing
+profile is unresolved. A hard clamp is simple but may create derivative
+artifacts, so a smoother transition may be needed.
+
+\section{Boundary and Periodicity}
+
+The compact string direction should be periodic:
+\begin{equation}
+  z \sim z + L .
+\end{equation}
+The outer radial boundary should be far enough away that it is not causally
+connected to the string during the target evolution window. The reproduction
+roadmap uses \(x_{\rm outer}=256 r_0\). The long-term outer boundary will need
+a reviewed outgoing or Sommerfeld-like treatment.
+
+The cartoon axis and radial-origin regularity are separate issues. The
+inherited BinaryBH reflective/Sommerfeld choices, binary-puncture tracking,
+puncture-centered tagging, and Weyl4 extraction settings are not validated
+long-term assumptions for the reduced 5D black-string system.
+
+\section{Unresolved Decisions Before Coding}
+
+\begin{itemize}
+  \item Choose the GP branch \(s\) and match it to GRChombo's \(K_{ij}\) sign
+    convention.
+  \item Confirm whether to follow the roadmap startup
+    \(\alpha(0)=1\), \(\beta^i(0)=0\) while using GP-slice
+    \(\gamma_{ij}\) and nonzero \(K_{ij}\).
+  \item Decide and verify the exact \texttt{hww}/\texttt{Aww} enum layout,
+    including the AH convention \(\texttt{c\_hww}=\texttt{c\_K}-1\).
+  \item Establish a reliable \(\GRSP=4\), \(\CHSP=2\) build path.
+  \item Define unperturbed uniform-string Hamiltonian and momentum constraint
+    validation tests.
+  \item Compare horizon radius and area against \(r_0\) and
+    \(A_0 = 4\pi r_0^2 L\).
+  \item Choose and validate the turduckening smoothing profile.
+\end{itemize}
+
+\end{document}

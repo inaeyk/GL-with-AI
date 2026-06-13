@@ -2,6 +2,8 @@
 
 These checklists are gatekeeping tools. They do not replace the reproduction plan or project outline. Each stage should be reviewed before moving to the next. For code-generating agents, completion requires human review and approval, not just self-review.
 
+Future physics or physics-design stages should include a polished physics-stage PDF note under `docs/physics_notes/` when they contain substantive physics reasoning. Build-only and infrastructure stages do not need full physics PDFs unless they include nontrivial physics design.
+
 ## Stage 0 - Infrastructure and reproducibility
 
 Goal: establish local/remote development, repo hygiene, logs, smoke tests, and reproducible scripts.
@@ -78,6 +80,10 @@ Gate: do not proceed to Stage 3 or add black-string initial data until the skele
 
 Goal: implement analytic initial data and perturbation in a controlled way.
 
+- [x] Stage 3A: document target continuum geometry and dimensional bookkeeping.
+- [x] Stage 3A: document the planned GRChombo variable map for initial data.
+- [x] Stage 3A: document GL perturbation, turduckening, boundary assumptions, and unresolved decisions.
+- [x] Stage 3A: create polished LaTeX physics-note source and build the PDF review artifact under `docs/physics_notes/`.
 - [ ] Write or verify formulas for 5D black-string initial data in chosen coordinates.
 - [ ] Decide exact variables to initialize: `chi`, `h_ij`, `hww`, `K`, `A_ij`, `Aww`, lapse, shift, `B`, `Gamma`, `Theta`.
 - [ ] Verify `hww/Aww` enum placement before implementation.
