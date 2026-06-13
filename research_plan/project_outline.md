@@ -22,14 +22,14 @@ For stage-by-stage gates, see [stage_checklists.md](stage_checklists.md).
 
 - Goal: check whether the intended compile configuration `CH_SPACEDIM=2`, `GR_SPACEDIM=4` is technically viable before physics implementation. This represents a 2+1D computational grid for 4+1D physics, with SO(3) symmetry of the transverse `S^2` absorbed into modified-cartoon source terms.
 - Main deliverables: documented baseline `DIM=2` build/run result, documented `GR_SPACEDIM=4` compile preflight result or blocker, and updated stage gate status.
-- Current status: in progress pending human review. The baseline `DIM=2` `ApparentHorizonFinderTest2D` Docker build/run path has been reproduced, and an AH-side scratch-copy `GR_SPACEDIM=4` compile preflight succeeded with `USE_PETSC=FALSE`. A CCZ4-side `CCZ4Test` scratch-copy probe failed on 3D test-harness assumptions before establishing a clean `GR_SPACEDIM=4` CCZ4 compile path. PETSc/AHFinder-enabled execution remains unresolved.
+- Current status: complete and user-reviewed for the purpose of starting Stage 2A. The baseline `DIM=2` `ApparentHorizonFinderTest2D` Docker build/run path has been reproduced, and an AH-side scratch-copy `GR_SPACEDIM=4` compile preflight succeeded with `USE_PETSC=FALSE`. A CCZ4-side `CCZ4Test` scratch-copy probe failed on 3D test-harness assumptions before establishing a clean `GR_SPACEDIM=4` CCZ4 compile path. PETSc/AHFinder-enabled execution remains unresolved and can be deferred unless horizon-solver integration becomes necessary earlier.
 - Item-level gates: see [stage_checklists.md](stage_checklists.md).
 
 ## Stage 2: Editable Build And BlackStringToy Skeleton
 
 - Goal: create an editable project example that can be built and tested without modifying upstream GRChombo source unexpectedly.
 - Main deliverables: build notes, minimal `BlackStringToy` skeleton, smoke-test parameter files, run manifest template.
-- Current status: not started.
+- Current status: in progress. Stage 2A has produced an editable `BlackStringToy` scaffold derived from the public `Examples/BinaryBH` smoke-test path. The scratch build and one-step smoke run succeeded under `runs/stage2_blackstringtoy/`. This scaffold is only for build/run workflow validation and is not physical black-string evolution.
 
 ## Stage 3: 5D Black-String Initial Data And GL Perturbation
 

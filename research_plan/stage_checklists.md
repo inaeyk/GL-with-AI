@@ -60,15 +60,17 @@ Gate: do not proceed to Stage 2 until this stage is reviewed and approved by the
 
 Goal: create an editable project-specific example while making no physics claims.
 
-- [ ] Choose strategy: copy minimal example, patch upstream, or maintain fork/submodule.
-- [ ] Create `BlackStringToy` skeleton only after user approval.
-- [ ] Preserve known-working build/run behavior initially.
-- [ ] Rename files/classes minimally.
-- [ ] Build successfully.
-- [ ] Run a smoke test.
-- [ ] Confirm output variables and parameter parsing still work.
-- [ ] Record exactly what was inherited from public examples.
-- [ ] Clearly label the skeleton as "not physical black-string evolution."
+- [x] Stage 2A: choose strategy: copy/adapt a minimal public example into tracked project code.
+- [x] Stage 2A: use public `Examples/BinaryBH` as the scaffold origin because its very-cheap Docker smoke path was already validated in this repo.
+- [x] Stage 2A: create `BlackStringToy` scaffold only after Stage 1.5 user review.
+- [x] Stage 2A: add a scratch build script that copies GRChombo under ignored `runs/` and injects tracked `code/BlackStringToy/`.
+- [x] Preserve known-working build/run behavior initially.
+- [x] Rename files/classes minimally.
+- [x] Build successfully.
+- [x] Run a smoke test.
+- [x] Confirm inherited parameter parsing and output writing still work for the scaffold smoke run.
+- [x] Record exactly what was inherited from public examples.
+- [x] Clearly label the skeleton as "not physical black-string evolution."
 
 Gate: do not proceed to Stage 3 or add black-string initial data until the skeleton builds/runs and the diff is reviewed and approved by the user. Do not treat skeleton outputs as physically meaningful.
 

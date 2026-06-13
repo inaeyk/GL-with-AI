@@ -162,3 +162,75 @@ Additional compile observations:
 - The failure reaches CCZ4 template instantiation after the test-harness errors, but it does not reach a validated `GR_SPACEDIM=4` CCZ4 compile path because the requested compiler define was not observed in the emitted compile command.
 
 Next recommended action: human review of this Stage 1.5B result. If a deeper CCZ4 compile probe is required before Stage 2, use an explicitly scratch-only minimal target or scratch-adapted `CCZ4Test` that removes 3D Chombo harness assumptions and proves the `GR_SPACEDIM=4` define path in the emitted compiler command.
+
+## Stage 2A Editable BlackStringToy Scaffold
+
+Purpose: create a project-controlled GRChombo example scaffold that can be
+built from tracked files without modifying `external/GRChombo`.
+
+Candidate chosen: public `external/GRChombo/Examples/BinaryBH`.
+
+Why this candidate:
+
+- It is the public example already validated in this repo through the Docker
+  `params_very_cheap.txt` smoke path.
+- It uses standard 3+1D CCZ4 infrastructure and GRChombo AMR machinery.
+- It has a cheap parameter file suitable for a scaffold smoke test.
+- It avoids starting from the Stage 1.5B `CCZ4Test` path, which failed on 3D
+  test-harness assumptions before establishing a clean reduced/cartoon CCZ4
+  compile path.
+
+Tracked scaffold location: `code/BlackStringToy/`.
+
+Scratch build script: `scripts/stage2_build_blackstringtoy_scratch.sh`.
+
+The script creates `runs/stage2_blackstringtoy/GRChombo/`, copies
+`external/GRChombo` there, injects tracked `code/BlackStringToy/` as
+`Examples/BlackStringToy`, and builds inside Docker with `DIM=3`,
+`DEBUG=FALSE`, `OPT=TRUE`, and `USE_PETSC=FALSE`.
+
+Build status: succeeded after the user manually reran the scratch build script
+from a shell with Docker available.
+
+Command attempted:
+
+```bash
+bash scripts/stage2_build_blackstringtoy_scratch.sh
+```
+
+Observed executable:
+
+```text
+runs/stage2_blackstringtoy/GRChombo/Examples/BlackStringToy/Main_BlackStringToy3d_ch.Linux.64.mpicxx.gfortran.OPT.MPI.OPENMPCC.ex
+```
+
+Observed smoke-run result: the inherited one-step scaffold run completed and
+`pout/pout.0` ended with `GRChombo finished.` The run produced four HDF5 files
+under
+`runs/stage2_blackstringtoy/GRChombo/Examples/BlackStringToy/hdf5/`:
+
+- `BlackStringToyChk_000000.3d.hdf5`
+- `BlackStringToyChk_000001.3d.hdf5`
+- `BlackStringToyPlot_000000.3d.hdf5`
+- `BlackStringToyPlot_000001.3d.hdf5`
+
+It also produced inherited diagnostic text outputs under
+`runs/stage2_blackstringtoy/GRChombo/Examples/BlackStringToy/data/`:
+
+- `Weyl4_mode_20.dat`
+- `Weyl4_mode_21.dat`
+- `Weyl4_mode_22.dat`
+- `constraint_norms.dat`
+- `punctures.dat`
+
+Failure classification: none for Stage 2A scaffold build/run. The earlier
+Codex run failed only because Docker was not usable from that shell; the manual
+rerun validates scaffold copy, Makefile compilation, executable discovery,
+parameter parsing, and a short inherited smoke run.
+
+Interpretation: this scaffold is not physical black-string evolution. It
+inherits public BinaryBH initial data and standard 3+1D CCZ4 behavior only to
+validate the editable build workflow. It does not implement 5D initial data,
+compact `z`, GL perturbations, modified-cartoon source terms, `hww/Aww`,
+horizon diagnostics, radiation extraction, or a physical `GR_SPACEDIM=4`,
+`CH_SPACEDIM=2` evolution.

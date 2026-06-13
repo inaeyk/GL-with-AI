@@ -123,3 +123,11 @@
 - Files changed: `docs/grchombo/build_notes.md`, `docs/grchombo/source_map.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`; ignored scratch files under `runs/stage1_5_preflight/CCZ4_GR4/`.
 - Validation performed: Inspected `CCZ4Test`, `ConstraintTest`, `CCZ4UserVariables.hpp`, and `DimensionDefinitions.hpp`; created a scratch full-GRChombo copy; ran the requested Docker build for `CCZ4Test` with `DIM=2` and `CXXCPPFLAGS="-DGR_SPACEDIM=4"`; documented the first compiler blocker and confirmed `external/GRChombo` remained clean.
 - Review status: Pending human review.
+
+## 2026-06-13
+
+- Date: 2026-06-13
+- Goal: Begin Stage 2A editable build scaffold for `BlackStringToy`.
+- Files changed: `code/BlackStringToy/`, `scripts/stage2_build_blackstringtoy_scratch.sh`, `docs/grchombo/build_notes.md`, `docs/implementation/black_string_initial_data.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `bash -n scripts/stage2_build_blackstringtoy_scratch.sh`; the initial Codex run failed before scratch-copy creation because Docker was not usable from that shell. After the user manually reran `bash scripts/stage2_build_blackstringtoy_scratch.sh`, inspected `runs/stage2_blackstringtoy/GRChombo/Examples/BlackStringToy/` and confirmed the executable, `pout/pout.0` ending in `GRChombo finished.`, four HDF5 files, and inherited data outputs.
+- Review status: Pending human review before commit.
