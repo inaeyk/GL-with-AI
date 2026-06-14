@@ -20,7 +20,7 @@ explicit validation route before it is translated into C++:
 - flat, Minkowski, or sheared-flat zero checks;
 - uniform black-string stationarity checks;
 - constraint-preservation checks;
-- comparison with Pau's reference implementation;
+- later comparison with external/reference implementations;
 - convergence-only checks for nonlinear behavior that has no compact exact
   target.
 
@@ -95,19 +95,19 @@ Term-origin tags:
   absent from public GRChombo for this 5D/SO(3) target;
 - `[mixed]`: terms where standard CCZ4 structure and hidden-sector bookkeeping
   interact;
-- `[reference/convergence]`: terms expected to need Pau/reference-code
+- `[reference/convergence]`: terms expected to need external/reference-code
   comparison or convergence evidence.
 
 | RHS block | Term-origin tags | Term families to separate | Planned validation route |
 | --- | --- | --- | --- |
 | `partial_t h_ij` | `[inherited]`, `[cartoon-new]`, `[mixed]` | Standard conformal-metric advection/stretching terms; determinant-preserving projection; hidden `hww` evolution; off-diagonal `h_xz` terms | Flat/Minkowski zero or pure-gauge check; diagonal Stage 3F limit; off-diagonal Stage 3G algebra; reference-code comparison for exact projection/enforcement choices |
-| `partial_t chi` | `[inherited]`, `[mixed]` | Standard conformal-factor trace/gauge terms; full 4D trace dependence; hidden multiplicity through `K` and divergence terms | Flat/Minkowski check; uniform-string stationarity in chosen gauge; comparison with Pau's implementation for gauge and damping conventions |
+| `partial_t chi` | `[inherited]`, `[mixed]` | Standard conformal-factor trace/gauge terms; full 4D trace dependence; hidden multiplicity through `K` and divergence terms | Flat/Minkowski check; uniform-string stationarity in chosen gauge; later external comparison after GRChombo-facing gauge and damping conventions are fixed |
 | `partial_t K` | `[inherited]`, `[cartoon-new]`, `[reference/convergence]` | Standard trace evolution; lapse Laplacian; 4D Ricci scalar; CCZ4 damping and matter-free terms; hidden Ricci source terms | Exact flat and sheared-flat geometry-source gates; uniform-string stationarity; Hamiltonian-constraint consistency; reference-code comparison for damping/source conventions |
 | `partial_t A_ij` | `[inherited]`, `[cartoon-new]`, `[mixed]`, `[reference/convergence]` | Trace-free Ricci/lapse-Hessian block; `K A_ij` and quadratic `A` terms; hidden `Aww` block; off-diagonal `A_xz` terms; full 4D trace-free projection | Stage 3F/3G trace-free algebra; flat/sheared-flat zero checks; diagonal/off-diagonal regression; reference-code comparison for nonlinear trace-free blocks |
 | `partial_t Theta` | `[inherited]`, `[cartoon-new]`, `[mixed]`, `[reference/convergence]` | CCZ4 constraint-propagation terms; Hamiltonian-constraint coupling; damping; lapse/gauge factors; hidden-sector scalar curvature contributions | Constraint-violation injection tests; uniform-string constraint preservation outside turduckening; reference-code comparison for damping signs and coefficients |
 | `partial_t hat_Gamma^A` | `[inherited]`, `[cartoon-new]`, `[mixed]`, `[reference/convergence]` | Hatted conformal connection evolution; encoded `Z^i` constraint-vector contributions; momentum-constraint coupling; connection/Gamma terms; hidden-direction divergences; off-diagonal `x,z` terms; lapse/shift/Gamma-driver occurrences inside this RHS | Momentum-constraint checks; diagonal limit; sheared-flat geometry guard for connection handling; symbolic dimensional extraction for `Theta`, `Z^i`, and `hat_Gamma^i` terms; reference-code comparison |
 | Gauge/lapse/shift RHS | `[inherited]`, `[reference/convergence]` | Lapse slicing, shift driver, `B` variables if used, advection choices, possible dependence on `K`, `Theta`, and connection functions | Flat/pure-gauge sanity checks; uniform-string stationarity or documented gauge startup behavior; reference-code comparison required |
-| Algebraic enforcement | `[mixed]` | `det h_4D = 1`; trace-free `A`; hidden multiplicity; denominator `/4`; post-step or RHS-level projection choices | Stage 3F/3G determinant, round-trip, and tracelessness scripts; explicit Pau comparison for enforcement timing and hidden-sector participation |
+| Algebraic enforcement | `[mixed]` | `det h_4D = 1`; trace-free `A`; hidden multiplicity; denominator `/4`; post-step or RHS-level projection choices | Stage 3F/3G determinant, round-trip, and tracelessness scripts; document project enforcement timing and hidden-sector participation in the GRChombo-facing variable set; later external comparison is validation only |
 | Regularity/small-`x` placeholders | `[cartoon-new]`, `[reference/convergence]` | `1/x`, `1/x^2`, hidden-sector regular limits, turduckening cutoff behavior, axis/origin treatment | Deferred to Stage 3I; exact regular limits where possible; numerical regularity indicators before production runs |
 
 Ownership rule for gauge coupling: the gauge block owns the evolution equations
@@ -122,7 +122,7 @@ validated against reference code.
 The validation matrix makes clear which checks are exact anchors and which
 blocks will require reference or convergence evidence.
 
-| RHS block | Exact anchor available? | Diagonal/off-diagonal limit | Flat or sheared-flat check | Uniform string stationarity | Constraint relevance | Pau/reference comparison | Risk |
+| RHS block | Exact anchor available? | Diagonal/off-diagonal limit | Flat or sheared-flat check | Uniform string stationarity | Constraint relevance | External/reference comparison | Risk |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `partial_t h_ij` | Partial: determinant and trace-free algebra only | Yes: Stage 3F diagonal and Stage 3G off-diagonal | Flat/pure-gauge only | Gauge dependent | Indirect through determinant/trace health | Required for enforcement timing | Medium |
 | `partial_t chi` | Limited | Diagonal/off-diagonal trace consistency | Flat/pure-gauge | Yes, gauge dependent | Hamiltonian-sensitive | Required for gauge/sign conventions | Medium |
@@ -158,7 +158,8 @@ blocks will require reference or convergence evidence.
   Gregory-Laflamme threshold/growth spectrum for the SO(3)-symmetric sector
   before nonlinear conclusions are trusted.
 - Reference implementation: nonlinear source blocks should be compared
-  term-by-term or at trajectory level against Pau's implementation.
+  term-by-term or at trajectory level against an external/reference
+  implementation after project conventions are fixed.
 - Convergence: full nonlinear behavior requires convergence testing; a
   symbolic identity on a sub-block is not enough.
 
@@ -170,7 +171,7 @@ implementation. They are not completed by Stage 3H.
 | Milestone | What it checks | Nuance |
 | --- | --- | --- |
 | Linear GL spectrum | The linearized RHS around a uniform 5D black string should reproduce the Gregory-Laflamme threshold/growth spectrum for the SO(3)-symmetric sector after matching radius convention, `z`-periodic boundary condition, perturbation sector, gauge choice, and extraction variable. | This is a semi-analytic or literature/numerical spectral anchor from the linear GL eigenvalue problem, not a closed-form elementary identity. It is necessary for the physical linearized RHS but not sufficient for constraint damping. |
-| Constraint-violation damping injection | Inject linearized constraint violations around flat or uniform-string data and track `Theta`, `Z^i`, Hamiltonian constraint, and momentum constraint response. Verify damping signs, `kappa_1`, `kappa_2`, hidden multiplicity, and `/4` dimensional bookkeeping against the chosen CCZ4 formulation and Pau/reference implementation. | Flat exact data is vacuous for damping signs; deliberate constraint-violation data is required before trusting the `Theta` and encoded-`Z^i` damping sector. |
+| Constraint-violation damping injection | Inject linearized constraint violations around flat or uniform-string data and track `Theta`, `Z^i`, Hamiltonian constraint, and momentum constraint response. Verify damping signs, `kappa_1`, `kappa_2`, hidden multiplicity, and `/4` dimensional bookkeeping against the chosen GRChombo-facing CCZ4 formulation; external/reference comparison is a later validation layer. | Flat exact data is vacuous for damping signs; deliberate constraint-violation data is required before trusting the `Theta` and encoded-`Z^i` damping sector. |
 
 The physical GL mode is expected to be constraint-satisfying in the continuum.
 It is therefore a strong check of the physical linearized RHS, `K`, `A_ij`,
@@ -208,7 +209,7 @@ Stage 3H does not:
 - prove physical correctness of the current scaffold;
 - solve small-`x` regularity or turduckening behavior;
 - decide final gauge choices;
-- replace comparison with Pau's implementation;
+- replace later external/reference comparison;
 - define final `UserVariables.hpp` layout or enum order.
 
 ## Acceptance Criteria

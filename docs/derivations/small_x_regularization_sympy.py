@@ -131,7 +131,7 @@ def main():
     # Local convention checked here: the hidden-sector singular part of the
     # cartoon conformal connection is represented as
     #   N_hidden / x * (1 - h_xx / hww)
-    # with N_hidden = 2. The overall sign and full GRChombo/Pau assembly still
+    # with N_hidden = 2. The overall sign and full GRChombo-facing assembly still
     # require implementation-level confirmation, but the finiteness condition
     # and hidden multiplicity are tested explicitly.
     tilde_gamma_x_singular = n_hidden * (1 - h_xx / hww) / x

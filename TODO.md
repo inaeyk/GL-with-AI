@@ -16,11 +16,11 @@
 - [ ] Review Stage 3K minimal C++ implementation plan before any source edits.
 - [ ] After Stage 3K review, inspect candidate repo-owned files for the first algebra-helper implementation slice.
 - [ ] Before grid wiring, add an automated enum/layout `static_assert` or unit-layout gate for helper input component slots.
-- [ ] Confirm Stage 3I parity and axis-filling conventions against GRChombo/Pau implementation before C++ source-term work.
-- [ ] Confirm Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention against GRChombo/Pau implementation.
+- [ ] Align Stage 3I parity and axis-filling conventions with GRChombo-facing project conventions before C++ source-term work.
+- [ ] Derive and document the Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention in the GRChombo-facing cartoon extension.
 - [ ] Required future RHS validation: reproduce the linear Gregory-Laflamme threshold/growth spectrum after matching conventions.
 - [ ] Required future constraint-damping validation: inject linearized constraint violations and verify `Theta` / encoded-`Z^i` damping behavior.
-- [ ] Confirm against Pau's implementation how the cartoon/conformal determinant condition is enforced during evolution, especially whether the hidden `hww` sector participates in `det h = 1` and trace-free `A` enforcement.
+- [ ] Document how the project enforces cartoon/conformal determinant and trace-free constraints in the GRChombo-facing variable set, especially hidden `hww` participation.
 - [ ] Add optional nonconstant profile with `f_zz != 0` so `R_zz` is a nonzero regression target.
 - [ ] Factor duplicated symbolic geometry helpers into a shared module.
 - [ ] Convert Stage 3C/3D symbolic checks into unit-test fixtures after review.
@@ -64,6 +64,7 @@
 - [x] Patch Stage 3J review items: round-`S^2` curvature fixture, Schwarzschild x `S^1` scope, tolerance policy, and separated GL/constraint-damping milestones.
 - [x] Add Stage 3K minimal C++ implementation plan without editing source code.
 - [x] Patch Stage 3K review items: Slice 1 algebra-helper-only scope, deferred Ricci/small-axis helpers, automated layout gate, and helper-green limitations.
+- [x] Clarify convention policy: GRChombo-facing compatibility and internal consistency are authoritative; external/Pau code is later validation only.
 
 ## Later
 

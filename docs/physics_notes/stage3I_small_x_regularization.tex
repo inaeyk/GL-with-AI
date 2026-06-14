@@ -90,8 +90,8 @@ expected to be even in \(x\). Diagonal components \(h_{xx}\), \(h_{zz}\), and
 non-radial index, such as \(h_{xz}\) and \(A_{xz}\), are expected to be odd.
 The radial connection and shift components, such as \(\hat{\Gamma}^x\) and
 \(\beta^x\), are expected to be odd, while the \(z\)-components are expected to
-be even. These component parities should be confirmed against the chosen
-GRChombo/Pau implementation conventions before coding.
+be even. These component parities should be aligned with the chosen
+GRChombo-facing project conventions before coding.
 
 The diagonal smooth-axis matching condition is
 \[
@@ -141,8 +141,8 @@ The hatted connection convention is
 The symbolic check assumes regular \(Z^x=O(x)\) and verifies that
 \(\hat{\Gamma}^x\) remains finite. The expected parity is that
 \(\hat{\Gamma}^x\) is odd and \(\hat{\Gamma}^z\) is even, but the final sign
-and full contracted-connection convention still require confirmation against
-GRChombo's cartoon connection definition and Pau's implementation.
+and full contracted-connection convention still need to be derived and
+documented in the GRChombo-facing cartoon extension.
 
 A residual axis error in \(\hat{\Gamma}^x\) can contaminate the Gamma-driver
 shift/gauge sector, so this assembled check is stronger than generic

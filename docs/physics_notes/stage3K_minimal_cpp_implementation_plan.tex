@@ -31,6 +31,15 @@ Even the safe Slice 1 C++ work requires a separate, explicitly user-approved
 stage after Stage 3K is reviewed and committed. No source edits should begin
 automatically from this plan.
 
+\section{Convention Policy}
+
+The implementation convention target is GRChombo compatibility plus internal
+consistency. External implementations may be used later for validation, but
+they are not the source of truth for variable naming, evolved-variable basis,
+trace convention, or cartoon-extension bookkeeping. When public GRChombo does
+not define the reduced-cartoon extension directly, the project must document
+the extension explicitly and use it consistently.
+
 \section{Recommended First Slice}
 
 The recommended first C++ slice is a repo-owned conformal-cartoon algebra
@@ -89,7 +98,8 @@ Manual review is useful but not sufficient.
 The first slice should not implement the full CCZ4 RHS, gauge or Gamma-driver
 equations, constraint damping, black-string initial data, turduckening,
 finite-difference axis treatment, apparent-horizon finding, waveform
-extraction, production runs, or comparison with Pau's implementation.
+extraction, production runs, or comparison with external/reference
+implementations.
 
 \section{Validation Map}
 

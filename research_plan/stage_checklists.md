@@ -103,14 +103,14 @@ Goal: design the analytic initial data and perturbation, and validate the modifi
 - [x] Stage 3F: verify `q` derivative identities, physical radius derivatives, and diagonal conformal tracelessness with SymPy.
 - [x] Stage 3F: strengthen the SymPy checks with the determinant condition, physical/conformal round trip, `K_ij` reconstruction, hidden-multiplicity tracelessness, and `/4` dimension-denominator guard.
 - [x] Stage 3F: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
-- [ ] Confirm against Pau's implementation how the cartoon/conformal determinant condition is enforced during evolution, especially whether hidden `hww` participates in `det h = 1` and trace-free `A` enforcement.
+- [ ] Document how the project enforces the cartoon/conformal determinant condition and trace-free constraints in the GRChombo-facing variable set, especially hidden `hww` participation in `det h = 1` and trace-free `A` enforcement.
 - [x] Stage 3G: document the off-diagonal reduced metric `h_xz` / `gamma_xz` conformal-cartoon extension.
 - [x] Stage 3G: add SymPy checks for the off-diagonal determinant, inverse metric, full-4D tracelessness, `K_xz` reconstruction, `/4` denominator guard, and diagonal Stage 3F limit.
 - [x] Stage 3G: add sheared-flat off-diagonal Ricci regression for constant `g_xz = lambda` and `x`-dependent `g_xz = x` metrics.
 - [x] Stage 3G: add final review follow-up for explicit normalized `det h_4D = 1` guard and Stage 3F diagonal-only warning.
 - [x] Stage 3G: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
 - [x] Stage 3H: decompose the future CCZ4 RHS into checked source-term blocks before C++ implementation.
-- [x] Stage 3H: separate exact-checkable RHS blocks from blocks requiring Pau/reference-code comparison or convergence evidence.
+- [x] Stage 3H: separate exact-checkable RHS blocks from blocks requiring external/reference-code comparison or convergence evidence.
 - [x] Stage 3H: use `hat_Gamma^A`, not `Z_i`, as the future evolved connection-sector blueprint while keeping `Z^i` as the encoded constraint vector.
 - [x] Stage 3H: tag RHS blocks as inherited, modified-cartoon additions, mixed, or reference/convergence dependent.
 - [x] Stage 3H: document required future GL-spectrum and constraint-violation damping validation milestones.
@@ -124,19 +124,20 @@ Goal: design the analytic initial data and perturbation, and validate the modifi
 - [x] Stage 3I: defer ghost-cell, stencil, axis-boundary, and finite-difference implementation choices.
 - [x] Stage 3J: design unit-test fixtures before adding C++ source terms.
 - [x] Stage 3J: map the validated Stage 3C-3I symbolic gates to future C++ unit-test, RHS-block, reference-comparison, and convergence/evolution fixture roles.
-- [x] Stage 3J: identify required pre-C++ gates, including symbolic-script pass status, determinant/trace conventions, `hat_Gamma^A` convention, small-`x` risk documentation, and unresolved Pau/GRChombo confirmations.
+- [x] Stage 3J: identify required pre-C++ gates, including symbolic-script pass status, determinant/trace conventions, `hat_Gamma^A` convention, small-`x` risk documentation, and unresolved GRChombo-facing convention choices.
 - [x] Stage 3J: separate exact-checkable fixtures from tolerance-based, reference-based, and convergence-based checks.
 - [x] Stage 3J: incorporate review refinements for the round-`S^2` positive-curvature fixture, slicing-scoped Schwarzschild x `S^1` anchor, tolerance policy, and separated GL versus constraint-damping milestones.
 - [x] Stage 3K: create the minimal C++ implementation plan after Stage 3J review.
 - [x] Stage 3K: choose the first safe implementation slice as repo-owned conformal-cartoon algebra helpers plus fixture tests, without connecting to time evolution.
 - [x] Stage 3K: map likely repo-owned implementation targets and validation gates without editing code.
-- [x] Stage 3K: explicitly defer full CCZ4 RHS, gauge/Gamma-driver, constraint damping, turduckening, AH finding, radiation extraction, production runs, and Pau comparison.
+- [x] Stage 3K: explicitly defer full CCZ4 RHS, gauge/Gamma-driver, constraint damping, turduckening, AH finding, radiation extraction, production runs, and external/reference comparison.
 - [x] Stage 3K: clarify Slice 1 is local algebra-helper plus non-grid fixtures only; Ricci, small-axis, grid wiring, RHS, gauge, damping, finite-difference, and evolution work require later explicit approval.
 - [x] Stage 3K: require an automated enum/layout `static_assert` or unit-layout gate before any helper is wired to grid variables.
 - [x] Stage 3K: record that green algebra-helper fixtures do not prove integration, grid-slot wiring, cartoon evolution, or CCZ4 correctness.
+- [x] Stage 3K: document that GRChombo-facing compatibility plus internal consistency is the convention authority, while external/Pau implementations are later validation references only.
 - [ ] Review Stage 3K plan before any C++ source edits.
-- [ ] Confirm Stage 3I parity and axis-filling conventions against GRChombo/Pau implementation before C++ source-term work.
-- [ ] Confirm Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention against GRChombo/Pau implementation.
+- [ ] Align Stage 3I parity and axis-filling conventions with GRChombo-facing project conventions before C++ source-term work.
+- [ ] Derive and document the Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention in the GRChombo-facing cartoon extension.
 - [ ] Required future RHS validation: reproduce the linear Gregory-Laflamme threshold/growth spectrum after matching radius convention, periodicity, perturbation sector, gauge, and extraction variable.
 - [ ] Required future constraint-damping validation: inject linearized constraint violations and verify `Theta` / encoded-`Z^i` damping signs, `kappa_1`, `kappa_2`, hidden multiplicity, and `/4` bookkeeping.
 - [ ] Add optional nonconstant profile with `f_zz != 0` so `R_zz` is a nonzero regression target.

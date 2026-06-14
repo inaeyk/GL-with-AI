@@ -25,14 +25,22 @@ evolution-level checks.
 - The evolved connection-sector blueprint is `hat_Gamma^A`, with `Z^A`
   encoded through `hat_Gamma^A = tilde_Gamma^A + 2 Z^A`.
 
+The implementation convention target is GRChombo compatibility plus internal
+consistency. External implementations may be used later for validation, but
+they are not the source of truth for variable naming, evolved-variable basis,
+trace convention, or cartoon-extension bookkeeping. Cartoon-specific
+extensions must be documented explicitly when public GRChombo does not already
+define them.
+
 ## Test-Type Legend
 
 - Symbolic: a Python/SymPy derivation or regression gate.
 - C++ unit: a small future C++ test for an isolated algebra/source block.
 - RHS-block: a future test of a decomposed CCZ4 RHS term family.
 - Evolution: a controlled short evolution or stationary-data run.
-- Reference-comparison: comparison against Pau's implementation, either
-  term-by-term or trajectory-level.
+- Reference-comparison: later validation against an external implementation,
+  either term-by-term or trajectory-level, after the GRChombo-facing
+  conventions are fixed.
 - Convergence: resolution or self-convergence evidence.
 
 ## Tolerance Policy
@@ -51,15 +59,15 @@ These gates already exist in `docs/derivations/` and should remain part of the
 pre-C++ checklist. They are not C++ tests yet, but they define exact expected
 values and fixture data that later tests should reuse.
 
-| Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Needs Pau/GRChombo confirmation? |
+| Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Convention / validation note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Flat cartoon geometry and GP trace | 3C | Symbolic | Flat GP spatial slice in `(x,theta,phi,z)` with natural GP shift | Spherical Christoffels, `K_ww = beta^x/x`, and `K = K^x_x + K^z_z + 2 K^w_w` | Exact identities | Wrong angular contraction, missing hidden multiplicity, GP trace mistakes | Full CCZ4 RHS, nontrivial `hww`, small-axis finite differencing | Yes | Overall `K_ij` sign convention still requires implementation confirmation |
 | Diagonal nontrivial `gamma_ww=q` Ricci structure | 3D | Symbolic | Diagonal metric with `a(x,z)`, `c(x,z)`, `q(x,z)` | Hidden Christoffels, angular Ricci equality, flat Ricci limit, constant-`q0` cone regression | Exact identities | Wrong angular `sin^2(theta)` handling, hidden Ricci multiplicity, constant hidden-sector curvature mistakes | Nonconstant derivative terms in the abstract printed expression are only partly guarded | Yes | No for geometry engine; yes before mapping signs into GRChombo code |
 | Nonconstant `q(x,z)` derivative-sector Ricci | 3E | Symbolic | `f=x(1+lambda x+mu z)`, `q=(1+lambda x+mu z)^2` | Direct Ricci equals warped-product reference formulas; active `q_x`, `q_z`, `q_xz` | Exact symbolic and substitution identities | Missing hidden derivative terms, wrong warped-product angular Ricci, stale Ricci engine behavior | `R_zz` with nonzero `f_zz`, off-diagonal base metric | Yes | No for symbolic geometry; yes before C++ layout and regularization choices |
-| Diagonal conformal-cartoon algebra | 3F | Symbolic | Diagonal `gamma_xx`, `gamma_zz`, `gamma_ww`, `K_xx`, `K_zz`, `K_ww` | Determinant normalization, `q=hww/chi` identities, radius derivatives, `K_ij` round trip, 4D tracelessness, `/4` guard | Exact identities | Treating `hww` as `g_theta theta`, omitting hidden `hww` from determinant/trace, using `/2` or `/3` | Off-diagonal inverse/tracelessness; Stage 3F is diagonal-only | Yes | Confirm determinant and trace-free enforcement policy against Pau/GRChombo |
+| Diagonal conformal-cartoon algebra | 3F | Symbolic | Diagonal `gamma_xx`, `gamma_zz`, `gamma_ww`, `K_xx`, `K_zz`, `K_ww` | Determinant normalization, `q=hww/chi` identities, radius derivatives, `K_ij` round trip, 4D tracelessness, `/4` guard | Exact identities | Treating `hww` as `g_theta theta`, omitting hidden `hww` from determinant/trace, using `/2` or `/3` | Off-diagonal inverse/tracelessness; Stage 3F is diagonal-only | Yes | Document the GRChombo-facing determinant and trace-free enforcement policy |
 | Off-diagonal conformal-cartoon algebra | 3G | Symbolic | Nonzero `h_xz`, `gamma_xz`, `A_xz`, `K_xz` | Block determinant/inverse, normalized `det h_4D=1`, `K_xz` reconstruction, full 4D tracelessness, diagonal limit to 3F | Exact identities | Reciprocal inverse mistakes, missing `2 h^xz A_xz`, wrong off-diagonal determinant, wrong `/4` denominator | Full Ricci/source terms and finite-difference behavior | Yes | Confirm implementation storage/order and enforcement policy |
 | Sheared-flat off-diagonal Ricci gate | 3G | Symbolic | Flat pullback metrics with constant `g_xz=lambda` and `g_xz=x` | Ricci tensor and scalar vanish exactly | Exact zero | Ricci engine using diagonal-only inverse assumptions, off-diagonal Christoffel wiring mistakes | Non-flat off-diagonal Ricci source formulas, CCZ4 RHS couplings | Yes | No for the local geometry gate; yes for C++ source-term placement |
-| Small-`x` regularity and `hat_Gamma^x` guard | 3I | Symbolic | Taylor data with even diagonal fields, odd off-diagonal fields, matching `h_xx-hww=O(x^2)`, and regular `Z^A` parity | Removable limits finite; violated matching exposes `1/x`; `hat_Gamma^x=tilde_Gamma^x+2Z^x` finite under documented convention | Exact limits and divergence checks | Missing axis matching, hidden multiplicity mistakes in the assembled connection, generic parity tests that miss residual `1/x` terms | Ghost-cell filling, finite-difference stencils, final sign convention | Yes | Confirm `tilde_Gamma^x` sign and full `hat_Gamma^A` convention against Pau/GRChombo |
+| Small-`x` regularity and `hat_Gamma^x` guard | 3I | Symbolic | Taylor data with even diagonal fields, odd off-diagonal fields, matching `h_xx-hww=O(x^2)`, and regular `Z^A` parity | Removable limits finite; violated matching exposes `1/x`; `hat_Gamma^x=tilde_Gamma^x+2Z^x` finite under documented convention | Exact limits and divergence checks | Missing axis matching, hidden multiplicity mistakes in the assembled connection, generic parity tests that miss residual `1/x` terms | Ghost-cell filling, finite-difference stencils, final sign convention | Yes | Derive and document the sign in the GRChombo-facing cartoon convention |
 
 ## Future C++ Unit-Test Candidates
 
@@ -67,16 +75,16 @@ These are not implemented in Stage 3J. They are the first fixtures that should
 be created when the project-specific C++ layer begins. Each test should use a
 small analytic fixture and compare only one algebra/source block at a time.
 
-| Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Needs Pau/GRChombo confirmation? |
+| Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Convention / validation note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Conformal determinant enforcement | 3F/3G | C++ unit | Positive diagonal and off-diagonal metric samples, including nonzero `h_xz` | `(h_xx h_zz - h_xz^2) hww^2 = 1` after the chosen enforcement path | Exact identity to roundoff | Missing hidden `hww`, wrong block determinant, accidental spherical Jacobian factors | Ricci/source-term correctness | Yes | Yes: confirm how enforcement is done in Pau/GRChombo |
+| Conformal determinant enforcement | 3F/3G | C++ unit | Positive diagonal and off-diagonal metric samples, including nonzero `h_xz` | `(h_xx h_zz - h_xz^2) hww^2 = 1` after the chosen enforcement path | Exact identity to roundoff | Missing hidden `hww`, wrong block determinant, accidental spherical Jacobian factors | Ricci/source-term correctness | Yes | Define project enforcement in the GRChombo-facing variable set |
 | Full 4D trace-free projection | 3F/3G | C++ unit | Random symmetric reduced `A_AB`, `Aww`, positive `h_AB`, `hww` | `h^{xx}A_xx + 2h^{xz}A_xz + h^{zz}A_zz + 2Aww/hww = 0` after projection | Exact identity to roundoff | Using 2D trace, missing hidden factor, omitting off-diagonal contraction | Evolution stability or damping signs | Yes | Yes |
 | `/4` trace denominator guard | 3F/3G/3H | C++ unit | Known `K_ij`, `K`, `h_ij` fixtures | `/4` reconstructs `K_ij`; `/2` and `/3` fail in a deliberate negative test | Exact identity and expected nonzero failures | Accidentally using `CH_SPACEDIM` or 3+1 intuition | Sign convention of `K_ij` | Yes | Yes for final convention naming |
 | Hidden `hww` determinant/trace participation | 3F/3G | C++ unit | Same visible metric with varied `hww` | Determinant and trace tests change with `hww` as expected | Exact identity to roundoff | Treating hidden sector as passive or diagnostic-only | Ricci hidden derivatives | Yes | Yes |
 | Off-diagonal inverse and determinant handling | 3G | C++ unit | Nonzero `h_xz` values near but safely below positive-definite limit | Matrix inverse satisfies `h h^{-1}=I`; determinant uses `h_xx h_zz - h_xz^2` | Exact identity to roundoff | Reciprocal inverse, wrong sign on `h^{xz}`, missing positive-definiteness checks | Nonlinear RHS correctness | Yes | No beyond storage convention |
 | `K_ij` reconstruction including `K_xz` | 3G | C++ unit | Off-diagonal physical `K_xz` and conformal `A_xz` fixtures | `K_xz = chi^{-1}(A_xz + h_xz K/4)` | Exact identity to roundoff | Dropped off-diagonal extrinsic-curvature component, wrong denominator | RHS signs and gauge coupling | Yes | Yes for `K_ij` sign convention |
 | Round two-sphere positive-curvature anchor | 3C/3D | Symbolic geometry / C++ geometry unit | Round `S^2` angular sector with radius `a`, or the equivalent extracted hidden angular-sector fixture | `R_{S^2} = 2/a^2` for the two-sphere scalar curvature, with the fixture convention stated explicitly | Exact symbolic identity or roundoff-level C++ check | Wrong Ricci sign, angular-index contraction error, missing angular multiplicity | Black-string source terms, full CCZ4 RHS, gauge or damping behavior | Yes before trusting cartoon Ricci signs | No for the local geometry anchor; yes before source-term placement |
-| Cartoon Ricci source block fixtures | 3D/3E/3G | RHS-block | Analytic diagonal and sheared-flat metrics from symbolic scripts | C++ Ricci/source block matches symbolic expected values | Tolerance-based against symbolic exact values | Missing `1/x`, `1/x^2`, hidden derivative, or off-diagonal geometry terms | Full CCZ4 evolution and damping behavior | Yes before trusting source terms | Yes for final term placement against Pau |
+| Cartoon Ricci source block fixtures | 3D/3E/3G | RHS-block | Analytic diagonal and sheared-flat metrics from symbolic scripts | C++ Ricci/source block matches symbolic expected values | Tolerance-based against symbolic exact values | Missing `1/x`, `1/x^2`, hidden derivative, or off-diagonal geometry terms | Full CCZ4 evolution and damping behavior | Yes before trusting source terms | Use GRChombo-facing term placement; compare externally later as validation |
 | Small-`x` regularized combinations | 3I | C++ unit | Regular and deliberately irregular Taylor data near the axis | Regular data gives finite limits; irregular data triggers expected diagnostic/failure | Exact limit fixtures plus tolerance near finite `x` | Unsafe raw `1/x` forms, missing matching condition, over-aggressive regularization | Correct ghost-zone strategy | Yes | Yes for axis-fill and stencil conventions |
 | Assembled `hat_Gamma^x` axis cancellation | 3I | C++ unit | Taylor data with `h_xx-hww=O(x^2)`, odd `h_xz`, regular `Z^x` | Assembled `tilde_Gamma^x` singular part is finite and `hat_Gamma^x` remains axis-regular | Exact symbolic target or tight tolerance | Wrong sign/multiplicity in highest-risk connection expression | Full Gamma-driver evolution | Yes | Yes, required |
 | `hat_Gamma^A = tilde_Gamma^A + 2Z^A` convention | 3H/3I | C++ unit | Controlled `tilde_Gamma^A` and `Z^A` samples | Encoded `hat_Gamma^A` and recovered constraint quantity match the chosen convention | Exact identity to roundoff | Wrong factor of two, confusing lowered and raised `Z` components | Damping signs in evolution | Yes | Yes, required |
@@ -86,9 +94,9 @@ small analytic fixture and compare only one algebra/source block at a time.
 
 These are not substitutes for unit tests. They catch coupled failures that
 small algebra tests cannot catch, and several require the future implementation
-or Pau/reference-code comparison.
+or external/reference-code comparison.
 
-| Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Needs Pau/GRChombo confirmation? |
+| Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Convention / validation note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Flat/Minkowski zero RHS | 3H | RHS-block/evolution | `chi=1`, flat `h`, zero `A_ij`, `K=0`, zero shift or documented gauge | RHS vanishes or reduces to known pure-gauge terms | Exact zero or gauge-specified tolerance | Gross source-term errors, nonzero hidden flat residues | Constraint-damping signs; many nonlinear terms are inactive | No before planning; required before long runs | Gauge convention yes |
 | Sheared-flat zero Ricci/source check | 3G/3H | RHS-block | Sheared-flat metrics from Stage 3G Ricci gate | Geometry source terms vanish in flat pullback cases | Exact zero or tight tolerance | Off-diagonal geometry mistakes in source assembly | Non-flat Ricci and physical black-string behavior | No before planning; required before implementation trust | No for geometry, yes for source block placement |
@@ -96,8 +104,8 @@ or Pau/reference-code comparison.
 | Uniform Schwarzschild/black-string anchor - slicing-dependent | 3A/3H | Symbolic geometry / evolution / future spacetime check | For a GP-type slice, the spatial metric is the flat GP spatial metric times `S^1` and the nontrivial black-hole geometry is carried by `K_ij`; alternatively, a future spacetime-Ricci engine may check Schwarzschild_4 x `S^1` | GP spatial Ricci vanishes for the GP spatial metric times `S^1`; full spacetime Ricci flatness is out of scope for the current spatial-cartoon fixture layer until a spacetime engine exists | Exact zero for the GP spatial geometry; future reference/spacetime check for full Ricci flatness | Confusing spatial-slice Ricci with spacetime Ricci, careless Schwarzschild x `S^1` assumptions, GP geometry regressions | Does not validate arbitrary Schwarzschild slicings, full CCZ4 RHS, or turduckening | No before planning; required before trusting uniform-string anchors | Yes: slicing, sign, gauge, and variable conventions |
 | Physical-sector linear GL dispersion/growth milestone | 3A/3H | Evolution/reference-comparison | Linear perturbations around uniform string after matching radius convention, `z` periodicity, perturbation sector, gauge choice, extraction variable, and slicing/conformal-variable convention | Threshold/growth spectrum matches the literature or a reference spectral calculation for the SO(3)-symmetric sector | Semi-analytic/reference-based | Physical linearized RHS mistakes in metric, `K`, `A_ij`, gauge/source coupling, and cartoon-sector terms | Full nonlinear dynamics; because the GL mode is constraint-satisfying in the continuum, it is necessary but not sufficient for damping signs | No before planning; required before scientific claims | Yes, required |
 | Constraint-violation damping injection | 3H | RHS-block/evolution | Linearized flat or uniform-string data with controlled Hamiltonian, momentum, `Theta`, and encoded-`Z^A` violations through `hat_Gamma^A = tilde_Gamma^A + 2Z^A` | Prefer derived/documented linearized CCZ4 constraint-subsystem decay rates and signs for the chosen `kappa_1`, `kappa_2`, gauge, and background; otherwise mark as high-risk reference/formulation-derived | Formulation-derived, reference-based, and tolerance-based | Wrong damping sign, wrong `kappa_1`/`kappa_2`, missing hidden multiplicity, wrong `/4` bookkeeping, wrong `hat_Gamma^A` coupling to encoded `Z^A` | Physical GL growth correctness and nonlinear source-term completeness | No before planning; required before trusting the constraint-damping block | Yes, required |
-| Pau term-by-term comparison | 3H/Stage 4 | Reference-comparison | Shared local fields and gauge data for each decomposed RHS block | Project RHS terms match Pau's implementation after convention mapping | Reference-based | Term omissions, sign mistakes, hidden-sector source drift | Bugs shared with reference or mismatched setup | No before planning; required for high-risk blocks | Yes, required |
-| Pau trajectory-level comparison | 3H/Stage 4+ | Reference-comparison/evolution | Short controlled runs with shared parameters | Diagnostics follow the reference trajectory within documented tolerance | Reference/tolerance-based | Integration-level coupling errors | Isolated source-term attribution | No before planning; required before physics interpretation | Yes |
+| External term-by-term comparison | 3H/Stage 4 | Reference-comparison | Shared local fields and gauge data for each decomposed RHS block | Project RHS terms match an external implementation after mapping from the GRChombo-facing project conventions | Reference-based | Term omissions, sign mistakes, hidden-sector source drift | Bugs shared with reference or mismatched setup | No before planning; required for high-risk blocks | Validation only, not convention authority |
+| External trajectory-level comparison | 3H/Stage 4+ | Reference-comparison/evolution | Short controlled runs with shared parameters | Diagnostics follow an external/reference trajectory within documented tolerance | Reference/tolerance-based | Integration-level coupling errors | Isolated source-term attribution | No before planning; required before physics interpretation | Validation only, not convention authority |
 | Resolution self-convergence | 3H/Stage 6 | Convergence | At least three resolutions for controlled fixtures and later black-string runs | Expected convergence rate for constraints, RHS residuals, horizons, and modes | Convergence-based | Discretization and implementation coupling errors | Convergence to wrong continuum equations if source terms are wrong | No before planning; required before claims | No for method, yes for acceptance thresholds |
 
 ## Pre-C++ Gate List
@@ -114,8 +122,8 @@ implementation plan or before C++ source-term work begins:
   variable.
 - Small-`x` risks, cartoon-axis parity, the co-located physical singularity,
   and turduckening/interior regularization are documented as distinct issues.
-- The unresolved Pau/GRChombo confirmations below are listed explicitly and
-  carried into Stage 3K.
+- The unresolved GRChombo-facing convention choices below are listed
+  explicitly and carried into Stage 3K.
 - Each future C++ source block has a proposed exact, reference, convergence, or
   evolution-level validation route.
 
@@ -157,19 +165,21 @@ The GL mode is expected to be constraint-satisfying in the continuum. It is
 therefore necessary for the physical sector but not sufficient for validating
 constraint-damping signs or `kappa_1`, `kappa_2` behavior.
 
-## Known Unresolved Confirmations
+## Known Unresolved Convention And Validation Items
 
-- How Pau's implementation enforces conformal determinant and trace-free
-  conditions when hidden `hww` participates.
-- Exact `tilde_Gamma^x` sign and full `hat_Gamma^A` convention, including
+- Document how the project enforces conformal determinant and trace-free
+  conditions in the GRChombo-facing variable set when hidden `hww`
+  participates.
+- Derive and document the exact `tilde_Gamma^x` sign and full
+  `hat_Gamma^A` convention in the GRChombo-facing cartoon extension, including
   raised/lowered `Z` handling.
-- Gamma-driver and `hat_Gamma^A` coupling ownership in the future
-  implementation.
+- Document Gamma-driver and `hat_Gamma^A` coupling ownership in the
+  GRChombo-facing implementation.
 - Gauge choice for uniform-string stationarity checks.
 - Radius, periodicity, perturbation-sector, gauge, and extraction-variable
   conventions for the GL dispersion comparison.
-- Which Pau comparisons can be term-by-term and which are only reliable at the
-  trajectory or diagnostic level.
+- Which external/reference comparisons can be term-by-term and which are only
+  reliable at the trajectory or diagnostic level.
 
 ## Non-Goals
 
@@ -179,7 +189,8 @@ Stage 3J does not:
 - implement CCZ4 source terms;
 - implement finite-difference stencils or axis ghost filling;
 - choose final production tolerances;
-- settle Pau/GRChombo convention questions;
+- settle all GRChombo-facing convention details or external validation
+  mappings;
 - replace the Stage 3K minimal C++ implementation plan.
 
 ## Acceptance Criteria

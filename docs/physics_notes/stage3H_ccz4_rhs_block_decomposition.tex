@@ -150,8 +150,9 @@ The future checks should be layered:
   uniform-string data should track \(\Theta\), \(Z^i\), Hamiltonian constraint,
   and momentum constraint response, including \(\kappa_1\), \(\kappa_2\),
   hidden multiplicity, and the \(1/4\) trace bookkeeping.
-  \item Nonlinear source blocks require comparison against Pau's implementation
-  and convergence testing.
+  \item Nonlinear source blocks require later comparison against an
+  external/reference implementation and convergence testing after project
+  conventions are fixed.
 \end{itemize}
 
 The Gregory--Laflamme spectrum is a semi-analytic or literature/numerical
@@ -168,12 +169,12 @@ Determinants, inverse metrics, trace-free projections, denominator factors, and
 diagonal/off-diagonal limits have exact algebraic anchors. Ricci-source terms
 have useful flat and sheared-flat geometry gates. Full nonlinear CCZ4 damping,
 constraint propagation, gauge-driver details, enforcement timing, and late-time
-GL dynamics require reference-code comparison and convergence evidence.
+GL dynamics require external/reference-code comparison and convergence evidence.
 
 \section{Non-Goals And Next Stages}
 
 Stage 3H does not solve small-\(x\) regularity, decide final gauge choices,
-replace comparison with Pau's implementation, or start implementation. Stage 3I
+replace later external/reference comparison, or start implementation. Stage 3I
 is reserved for small-\(x\) regularity and turduckening treatment. Stage 3J is
 reserved for unit-test fixture design before C++ source terms are added.
 

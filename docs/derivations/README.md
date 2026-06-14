@@ -19,7 +19,8 @@ translation to an off-diagonal reduced block with `h_xz` / `gamma_xz`. Stage
 3H decomposes the future CCZ4 RHS into validation blocks before implementation.
 Stage 3I records small-`x` regularity expectations and symbolic removable-limit
 checks. Stage 3J designs the unit-test fixture layer that should protect later
-C++ implementation work.
+C++ implementation work. Stage 3K moves from derivation fixtures to the
+repo-owned minimal C++ implementation plan in `docs/implementation/`.
 
 Current artifacts:
 

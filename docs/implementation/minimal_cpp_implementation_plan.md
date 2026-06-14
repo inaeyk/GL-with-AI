@@ -24,6 +24,16 @@ differences, source terms, or production runs.
   user-approved stage after Stage 3K is reviewed and committed. No source edits
   should begin automatically from this plan.
 
+## Convention Policy
+
+The implementation convention target is GRChombo compatibility plus internal
+consistency. External implementations may be used later for validation, but
+they are not the source of truth for variable naming, evolved-variable basis,
+trace convention, or cartoon-extension bookkeeping. Where public GRChombo does
+not already define the reduced-cartoon extension, the project must document the
+cartoon-specific convention explicitly and keep it consistent across helpers,
+tests, diagnostics, and notes.
+
 ## Recommended First Implementation Slice
 
 Recommended first slice: **repo-owned algebraic conformal-cartoon helper layer
@@ -184,7 +194,8 @@ Defer all of the following beyond the first implementation slice:
 - apparent horizon finding;
 - waveform/radiation extraction;
 - production evolution runs;
-- comparison with Pau's implementation, except as a later validation gate.
+- comparison with external/reference implementations, except as a later
+  validation gate.
 
 ## Risk Table
 

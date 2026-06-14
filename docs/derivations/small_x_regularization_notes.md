@@ -76,8 +76,9 @@ choose the finite-difference implementation.
 ## Expected Parity
 
 The following parity expectations are for smooth SO(3)-symmetric data stored as
-cartoon/Cartesian-like reduced variables. They should be checked against
-GRChombo conventions and Pau's implementation before C++ work.
+cartoon/Cartesian-like reduced variables. They should be aligned with
+GRChombo-facing project conventions and documented consistently before C++
+work.
 
 | Quantity | Expected parity in `x` | Notes |
 | --- | --- | --- |
@@ -166,9 +167,8 @@ hat_Gamma^i = tilde_Gamma^i + 2 Z^i.
 The symbolic check assumes regular `Z^x = O(x)` and verifies that the
 corresponding `hat_Gamma^x` expression remains finite. `hat_Gamma^x` is
 expected to be odd, and `hat_Gamma^z` is expected to be even, but the final
-sign and full contracted-connection assembly must still be confirmed against
-GRChombo's cartoon connection definition and Pau's implementation before C++
-work.
+sign and full contracted-connection assembly must still be derived and
+documented in the GRChombo-facing cartoon convention before C++ work.
 
 This connection guard matters because `hat_Gamma^i` couples to the Gamma-driver
 shift/gauge sector. A residual axis `1/x` error in `hat_Gamma^x` can therefore
@@ -246,7 +246,7 @@ Stage 3I deliberately does not decide:
 
 Those decisions belong to Stage 3J unit-test fixture design, Stage 3K
 implementation planning, or the later implementation stage after comparison
-with GRChombo/Pau conventions.
+with the GRChombo-facing project conventions.
 
 ## Acceptance Criteria
 
