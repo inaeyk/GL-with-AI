@@ -96,8 +96,12 @@ Goal: implement analytic initial data and perturbation in a controlled way.
 - [x] Stage 3D: verify hidden-sector Christoffel identities, flat limit, angular contraction multiplicity, Ricci angular equality, and flat Ricci limit.
 - [x] Stage 3D: add constant-q Ricci regression assertions for `R_xx`, `R_zz`, `R_xz`, angular Ricci components, and Ricci scalar.
 - [x] Stage 3D: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
+- [x] Stage 3E: add nonconstant `q(x,z)` Ricci regression against warped-product reference formulas.
+- [x] Stage 3E: assert `partial_x q`, `partial_z q`, and `partial_x partial_z q` are active for the chosen profile.
+- [x] Stage 3E: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
 - [ ] Extend Stage 3D symbolic checks to off-diagonal `g_xz`, conformal `chi/hww`, and regularized small-`x` limits.
-- [ ] Add non-constant `q(x,z)` Ricci regression to guard hidden-sector derivative terms.
+- [ ] Add optional nonconstant profile with `f_zz != 0` so `R_zz` is a nonzero regression target.
+- [ ] Factor duplicated Stage 3C/3D/3E symbolic geometry helpers into a shared module.
 - [ ] Write or verify formulas for 5D black-string initial data in chosen coordinates.
 - [ ] Decide exact variables to initialize: `chi`, `h_ij`, `hww`, `K`, `A_ij`, `Aww`, lapse, shift, `B`, `Gamma`, `Theta`.
 - [ ] Verify `hww/Aww` enum placement before implementation.

@@ -170,6 +170,12 @@ contractions, and confirms structural Ricci identities such as
 `R_phi phi / sin(theta)^2 = R_theta theta` and the two-direction angular Ricci
 scalar contribution.
 
+Stage 3E adds a nonconstant `q(x,z)` regression with
+`q = (1 + lambda x + mu z)^2`. It compares direct Ricci computation against
+independent warped-product formulas for `dl^2 = dx^2 + dz^2 + f(x,z)^2
+dOmega_2^2`, guarding the hidden-sector derivative terms that the Stage 3D
+constant-`q0` regression did not test.
+
 These derivation artifacts are inputs to later implementation work. The actual
 modified-cartoon CCZ4 source terms remain unimplemented.
 

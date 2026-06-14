@@ -1,0 +1,118 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\title{Stage 3E Physics Note: Nonconstant Hidden-Metric Ricci Regression}
+\author{GL-with-AI Project}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Scope}
+
+This note summarizes the Stage 3E symbolic regression for nonconstant
+\(\gamma_{ww}=q(x,z)\). It is a derivation artifact only. It does not implement
+CCZ4 source terms or add GRChombo variables.
+
+\section{Metric Ansatz}
+
+The regression uses
+\begin{equation}
+  dl^2 = dx^2 + dz^2 + f(x,z)^2 d\Omega_2^2,
+\end{equation}
+with
+\begin{equation}
+  f=xP,\qquad
+  P=1+\lambda x+\mu z,\qquad
+  q=P^2.
+\end{equation}
+Equivalently,
+\begin{equation}
+  dl^2 = dx^2 + dz^2 + x^2q(x,z)d\Omega_2^2.
+\end{equation}
+Here \(q=\gamma_{ww}\) is the hidden cartoon component; the factor \(x^2\) is a
+coordinate reconstruction factor.
+
+\section{Warped-product Reference}
+
+For a two-dimensional unit-sphere fiber over the flat base \((x,z)\), the
+independent reference formulas are
+\begin{equation}
+  R_{AB}=-2f^{-1}\partial_A\partial_B f,
+  \qquad A,B\in\{x,z\},
+\end{equation}
+and
+\begin{align}
+  R_{\theta\theta}
+  &=
+  1-|\nabla f|^2-f\Delta f,\\
+  R_{\phi\phi}
+  &=
+  \left(1-|\nabla f|^2-f\Delta f\right)\sin^2\theta,
+\end{align}
+where
+\begin{equation}
+  |\nabla f|^2=f_x^2+f_z^2,
+  \qquad
+  \Delta f=f_{xx}+f_{zz}.
+\end{equation}
+The Ricci scalar reference is
+\begin{equation}
+  R=-4\frac{\Delta f}{f}
+  +2\frac{1-|\nabla f|^2}{f^2}.
+\end{equation}
+
+\section{Regression Checks}
+
+The SymPy script computes Ricci directly from the metric and asserts agreement
+with the warped-product reference for \(R_{xx}\), \(R_{zz}\), \(R_{xz}\),
+\(R_{\theta\theta}\), \(R_{\phi\phi}\), and \(R\). It also asserts that
+\(\partial_x q\), \(\partial_z q\), and \(\partial_x\partial_z q\) are not
+identically zero, verifies the flat special case \(\lambda=\mu=0\), and checks
+the nontrivial substitution \(\lambda=2,\mu=3\).
+
+\section{Caveats}
+
+The Stage 3E script recomputes Ricci using its own copy of symbolic engine
+helpers such as \texttt{christoffel\_symbols} and \texttt{ricci\_tensor}. It
+therefore directly guards the Ricci engine on a nonconstant warped-product case
+with active \(q\)-derivative terms. It does not directly substitute the
+nonconstant profile into the exact abstract Ricci expressions printed by the
+Stage 3D script. The Stage 3D expressions are validated transitively because
+they were produced by the same kind of engine, which is now checked on flat
+limits, the constant-\(q_0\) cone, and this nonconstant warped-product
+regression. The residual risk is that a wiring mistake could corrupt the
+printed or assembled Stage 3D abstract expression while leaving the engine
+functions intact.
+
+The derivation scripts now duplicate symbolic engine helper functions. This is
+acceptable short-term, but a future cleanup should factor common helpers into a
+shared module such as \texttt{docs/derivations/cartoon\_geometry\_common.py}.
+
+For the chosen profile \(f=x(1+\lambda x+\mu z)\), one has \(f_{zz}=0\), so the
+warped-product formula gives
+\begin{equation}
+  R_{zz}=-2f^{-1}f_{zz}=0.
+\end{equation}
+This does not make the \(z\)-derivative sector vacuous: \(\partial_z q\) is
+nonzero, mixed derivative structure is active, \(R_{xz}=-2\mu/f\) is generally
+nonzero, and the angular Ricci components contain \(\mu^2\) terms through
+\(|\nabla f|^2\). The narrower limitation is that a bug appearing only in
+\(R_{zz}\) when \(f_{zz}\ne0\) would not be caught by this profile. A future
+optional refinement could use a profile quadratic in \(z\), making \(R_{zz}\)
+a nonzero target.
+
+\section{Limitations}
+
+This is still not a full CCZ4 RHS derivation. Off-diagonal \(g_{xz}\),
+non-flat base metric components, direct substitution into the exact Stage 3D
+printed abstract Ricci expression, a nonconstant profile with \(f_{zz}\ne0\),
+conformal variables \(\chi,h_{ww}\), regularized small-\(x\) limits, C++
+translation, unit-test fixtures, and a shared symbolic-geometry helper module
+remain future work.
+
+\end{document}

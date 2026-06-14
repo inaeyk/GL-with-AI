@@ -11,9 +11,10 @@ Stage 3C starts with machine-checkable Christoffels, trace multiplicities, and
 Gullstrand-Painleve-like extrinsic-curvature formulas for the unperturbed
 uniform black-string slice. Stage 3D extends the scaffold to a diagonal
 nontrivial hidden metric component `q(x,z) = gamma_ww`, including hidden-sector
-Christoffels and Ricci structural checks. Later stages should extend this area
-to off-diagonal reduced metrics, CCZ4 RHS source terms, regularized small-`x`
-limits, and unit-test fixtures.
+Christoffels and Ricci structural checks. Stage 3E adds a nonconstant
+`q(x,z)` warped-product Ricci regression to guard hidden-sector derivative
+terms. Later stages should extend this area to off-diagonal reduced metrics,
+CCZ4 RHS source terms, regularized small-`x` limits, and unit-test fixtures.
 
 Current artifacts:
 
@@ -28,3 +29,7 @@ Current artifacts:
   limits.
 - `modified_cartoon_nontrivial_hww_notes.md`: prose notes and exact output for
   the Stage 3D nontrivial-`gamma_ww` symbolic check.
+- `modified_cartoon_nonconstant_q_sympy.py`: SymPy regression comparing direct
+  Ricci for `q=(1+lambda x+mu z)^2` against warped-product formulas.
+- `modified_cartoon_nonconstant_q_notes.md`: prose notes and exact output for
+  the Stage 3E nonconstant-`q(x,z)` derivative-sector regression.

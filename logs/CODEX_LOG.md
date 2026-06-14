@@ -203,3 +203,17 @@
 - Files changed: `docs/derivations/modified_cartoon_nontrivial_hww_notes.md`, `docs/physics_notes/stage3D_nontrivial_hww_ricci.tex`, `TODO.md`, `research_plan/stage_checklists.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`, `git diff --stat`, greps for `non-constant` and `derivative terms`, `git -C external/GRChombo status --short`, and targeted diffs for `code/BlackStringToy` and `scripts`.
 - Review status: Pending human review before commit.
+
+## 2026-06-14
+
+- Date: 2026-06-14
+- Goal: Begin Stage 3E nonconstant `q(x,z)` Ricci regression for hidden-sector derivative terms without implementing source changes.
+- Files changed: `docs/derivations/modified_cartoon_nonconstant_q_sympy.py`, `docs/derivations/modified_cartoon_nonconstant_q_notes.md`, `docs/physics_notes/stage3E_nonconstant_q_regression.tex`, `docs/derivations/README.md`, `docs/implementation/modified_cartoon_source_terms.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `python3 docs/derivations/modified_cartoon_nonconstant_q_sympy.py`, `git status --short`, `git diff --stat`, greps for `Stage 3E`, `nonconstant`, and `warped-product`, `git -C external/GRChombo status --short`, and targeted diffs for `code/BlackStringToy` and `scripts`. The Stage 3E nonconstant-`q(x,z)` Ricci regression checks passed.
+- Review status: Pending human review before commit.
+
+- Date: 2026-06-14
+- Goal: Document Stage 3E review caveats without changing derivation scripts or implementation code.
+- Files changed: `docs/derivations/modified_cartoon_nonconstant_q_notes.md`, `docs/physics_notes/stage3E_nonconstant_q_regression.tex`, `TODO.md`, `research_plan/stage_checklists.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, greps for `transitively`, `R_zz`, and `shared module`, `git -C external/GRChombo status --short`, and targeted diffs for `code/BlackStringToy` and `scripts`.
+- Review status: Pending human review before commit.
