@@ -1,0 +1,180 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\title{Stage 3H Physics Note: CCZ4 RHS Block Decomposition}
+\author{GL-with-AI Project}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Scope}
+
+Stage 3H is a planning note for the future \(4+1\) CCZ4 / SO(3)
+modified-cartoon right-hand side. It does not implement C++ source terms, add
+variables, derive the full nonlinear RHS, or prove physical correctness. Its
+purpose is to split the future RHS into separately checkable blocks before
+implementation begins.
+
+Unlike the Stage 3C--3G geometry and algebra checks, the full CCZ4 RHS will
+not have many exact closed-form identities. A passing symbolic check for one
+piece should therefore be treated as local evidence only, not as validation of
+the complete evolution.
+
+\section{Conventions}
+
+The physical spatial dimension is
+\[
+  \mathrm{GR\_SPACEDIM}=4,
+\]
+while the Chombo/grid dimension is
+\[
+  \mathrm{CH\_SPACEDIM}=2.
+\]
+The gridded directions are \(x,z\), and the hidden transverse directions are
+two equivalent \(w\) directions, so
+\[
+  N_{\rm hidden}
+  =
+  \mathrm{GR\_SPACEDIM}-\mathrm{CH\_SPACEDIM}
+  =
+  4-2=2.
+\]
+The component \(h_{ww}\) is a Cartesian-like hidden conformal metric component,
+not \(g_{\theta\theta}\). The spherical/cartoon reconstruction supplies the
+external radius factor,
+\[
+  g_{\theta\theta}
+  =
+  x^2\gamma_{ww}
+  =
+  x^2\frac{h_{ww}}{\chi}.
+\]
+All traces and trace-free projections are full four-dimensional spatial
+operations. The conformal extrinsic-curvature split therefore uses
+\[
+  K_{ij}
+  =
+  \chi^{-1}
+  \left(A_{ij}+\frac{1}{4}h_{ij}K\right).
+\]
+
+\section{Variables}
+
+The future geometric RHS blocks are expected to involve
+\[
+  \chi,\quad
+  h_{xx},h_{xz},h_{zz},h_{ww},\quad
+  A_{xx},A_{xz},A_{zz},A_{ww},\quad
+  K,\quad
+  \Theta,\quad
+  \hat{\Gamma}^x,\hat{\Gamma}^z,
+\]
+plus lapse, shift, and gauge-driver variables as needed. Stage 3H does not
+choose final C++ enum names or storage order.
+
+The connection-sector variable should use the GRChombo-facing hatted
+conformal connection,
+\[
+  \hat{\Gamma}^i
+  =
+  \tilde{\Gamma}^i+2Z^i.
+\]
+Thus the future implementation blueprint should evolve
+\(\hat{\Gamma}^A\), \(A\in\{x,z\}\), with \(Z^i\) understood as the encoded
+Z4 constraint vector inside \(\hat{\Gamma}^i\). Language based directly on
+\(Z^i\) remains useful for constraint-propagation analysis, but the
+\(\hat{\Gamma}^i\) basis avoids an extra translation layer.
+
+\section{RHS Blocks}
+
+The future implementation should be decomposed into the following blocks:
+\begin{itemize}
+  \item \(\partial_t h_{ij}\): standard conformal-metric terms, determinant
+  enforcement, hidden \(h_{ww}\) evolution, and off-diagonal \(h_{xz}\) terms.
+  This block mixes inherited CCZ4 structure with modified-cartoon additions.
+  \item \(\partial_t\chi\): trace and gauge terms using the full
+  four-dimensional trace. This block is mostly inherited but depends on the
+  four-dimensional trace bookkeeping.
+  \item \(\partial_t K\): trace evolution, lapse Laplacian, Ricci scalar,
+  hidden-sector geometry, and CCZ4 damping terms. Hidden Ricci pieces are
+  modified-cartoon additions and require reference checks.
+  \item \(\partial_t A_{ij}\): trace-free Ricci and Hessian blocks, nonlinear
+  \(A\)-terms, \(A_{xz}\), and hidden \(A_{ww}\). This is a mixed block with
+  high risk of silently omitted cartoon-only terms.
+  \item \(\partial_t\Theta\): Hamiltonian-constraint coupling,
+  constraint-propagation terms, and damping.
+  \item \(\partial_t\hat{\Gamma}^A\): hatted conformal connection evolution,
+  encoded \(Z^i\) contributions, momentum-constraint coupling, connection
+  terms, hidden-direction divergences, and off-diagonal \(x,z\) terms.
+  \item Gauge RHS blocks: lapse, shift, and any driver variables.
+  \item Algebraic enforcement blocks: \(\det h_{4D}=1\), trace-free \(A\),
+  hidden multiplicity, and regularity placeholders.
+\end{itemize}
+
+The gauge block owns the evolution equations for lapse, shift, and any
+Gamma-driver auxiliary variables. The \(\hat{\Gamma}^A\) block owns the
+occurrences of lapse, shift, and Gamma-driver quantities inside
+\(\partial_t\hat{\Gamma}^A\). This ownership split should prevent
+double-counting when the blocks are implemented or compared against reference
+code.
+
+\section{Validation Routes}
+
+The future checks should be layered:
+\begin{itemize}
+  \item Flat or Minkowski data should give a vanishing RHS or known pure-gauge
+  behavior.
+  \item The sheared-flat off-diagonal Ricci gate should protect geometry-source
+  handling, but it is not a full CCZ4 check.
+  \item The diagonal limit \(h_{xz}=A_{xz}=\gamma_{xz}=K_{xz}=0\) should recover
+  the diagonal cartoon formulas.
+  \item Exact unperturbed uniform black-string data should produce a stationary
+  or pure-gauge RHS once gauge conventions are fixed; the gauge-fixed uniform
+  GP-string stationarity and constraint preservation outside turduckening are
+  supporting anchors.
+  \item Hamiltonian, momentum, \(\Theta\), and the \(Z^i\) vector encoded in
+  \(\hat{\Gamma}^i\) should check constraint preservation.
+  \item Symbolic dimensional extraction of the \(\Theta\), \(Z^i\), and
+  \(\hat{\Gamma}^i\) terms should guard hidden multiplicity and the
+  four-dimensional trace denominator.
+  \item The eventual linearized RHS should reproduce the Gregory--Laflamme
+  threshold/growth spectrum for the SO(3)-symmetric sector after matching
+  radius convention, \(z\)-periodic boundary condition, perturbation sector,
+  gauge choice, and extraction variable.
+  \item Separate linearized constraint-violation injection tests around flat or
+  uniform-string data should track \(\Theta\), \(Z^i\), Hamiltonian constraint,
+  and momentum constraint response, including \(\kappa_1\), \(\kappa_2\),
+  hidden multiplicity, and the \(1/4\) trace bookkeeping.
+  \item Nonlinear source blocks require comparison against Pau's implementation
+  and convergence testing.
+\end{itemize}
+
+The Gregory--Laflamme spectrum is a semi-analytic or literature/numerical
+spectral anchor from the linear GL eigenvalue problem, not a closed-form
+elementary identity. Since the physical GL mode is expected to be
+constraint-satisfying in the continuum, it is a strong check of the physical
+linearized RHS, \(K\), \(A_{ij}\), metric, gauge, and source-sector couplings.
+It is not by itself sufficient for the \(\Theta/Z^i\) damping signs, so a
+separate constraint-violation damping test is required.
+
+\section{Risk Classification}
+
+Determinants, inverse metrics, trace-free projections, denominator factors, and
+diagonal/off-diagonal limits have exact algebraic anchors. Ricci-source terms
+have useful flat and sheared-flat geometry gates. Full nonlinear CCZ4 damping,
+constraint propagation, gauge-driver details, enforcement timing, and late-time
+GL dynamics require reference-code comparison and convergence evidence.
+
+\section{Non-Goals And Next Stages}
+
+Stage 3H does not solve small-\(x\) regularity, decide final gauge choices,
+replace comparison with Pau's implementation, or start implementation. Stage 3I
+is reserved for small-\(x\) regularity and turduckening treatment. Stage 3J is
+reserved for unit-test fixture design before C++ source terms are added.
+
+\end{document}

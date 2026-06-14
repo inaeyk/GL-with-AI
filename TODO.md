@@ -12,9 +12,10 @@
 - [ ] Ensure future physics-stage PDF notes accompany each physics/design stage.
 - [ ] Review Stage 3B modified-cartoon source-term derivation roadmap.
 - [ ] Generate the Stage 3B physics PDF after the Markdown derivation roadmap is reviewed.
-- [ ] Stage 3H: decompose future CCZ4 RHS into checked source-term blocks.
 - [ ] Stage 3I: document regularity and small-`x` treatment for conformal cartoon variables.
 - [ ] Stage 3J: design unit-test fixtures before adding C++ source terms.
+- [ ] Required future RHS validation: reproduce the linear Gregory-Laflamme threshold/growth spectrum after matching conventions.
+- [ ] Required future constraint-damping validation: inject linearized constraint violations and verify `Theta` / encoded-`Z^i` damping behavior.
 - [ ] Confirm against Pau's implementation how the cartoon/conformal determinant condition is enforced during evolution, especially whether the hidden `hww` sector participates in `det h = 1` and trace-free `A` enforcement.
 - [ ] Add optional nonconstant profile with `f_zz != 0` so `R_zz` is a nonzero regression target.
 - [ ] Factor duplicated symbolic geometry helpers into a shared module.
@@ -51,6 +52,8 @@
 - [x] Add Stage 3G off-diagonal reduced-metric derivation and SymPy checks.
 - [x] Add Stage 3G sheared-flat off-diagonal Ricci regression gate.
 - [x] Add final Stage 3G normalized determinant guard and Stage 3F diagonal-only warning.
+- [x] Add Stage 3H CCZ4 RHS block decomposition plan.
+- [x] Patch Stage 3H review items: hatted connection variable, validation milestones, and inherited/cartoon term tags.
 
 ## Later
 

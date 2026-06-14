@@ -109,9 +109,16 @@ Goal: design the analytic initial data and perturbation, and validate the modifi
 - [x] Stage 3G: add sheared-flat off-diagonal Ricci regression for constant `g_xz = lambda` and `x`-dependent `g_xz = x` metrics.
 - [x] Stage 3G: add final review follow-up for explicit normalized `det h_4D = 1` guard and Stage 3F diagonal-only warning.
 - [x] Stage 3G: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
-- [ ] Stage 3H: decompose the future CCZ4 RHS into checked source-term blocks before C++ implementation.
+- [x] Stage 3H: decompose the future CCZ4 RHS into checked source-term blocks before C++ implementation.
+- [x] Stage 3H: separate exact-checkable RHS blocks from blocks requiring Pau/reference-code comparison or convergence evidence.
+- [x] Stage 3H: use `hat_Gamma^A`, not `Z_i`, as the future evolved connection-sector blueprint while keeping `Z^i` as the encoded constraint vector.
+- [x] Stage 3H: tag RHS blocks as inherited, modified-cartoon additions, mixed, or reference/convergence dependent.
+- [x] Stage 3H: document required future GL-spectrum and constraint-violation damping validation milestones.
+- [x] Stage 3H: document that small-`x` regularity is deferred to Stage 3I and unit-test fixture design is deferred to Stage 3J.
 - [ ] Stage 3I: document regularity and small-`x` treatment for conformal cartoon variables.
 - [ ] Stage 3J: design unit-test fixtures before adding C++ source terms.
+- [ ] Required future RHS validation: reproduce the linear Gregory-Laflamme threshold/growth spectrum after matching radius convention, periodicity, perturbation sector, gauge, and extraction variable.
+- [ ] Required future constraint-damping validation: inject linearized constraint violations and verify `Theta` / encoded-`Z^i` damping signs, `kappa_1`, `kappa_2`, hidden multiplicity, and `/4` bookkeeping.
 - [ ] Add optional nonconstant profile with `f_zz != 0` so `R_zz` is a nonzero regression target.
 - [ ] Factor duplicated Stage 3C/3D/3E symbolic geometry helpers into a shared module.
 - [ ] Write or verify formulas for 5D black-string initial data in chosen coordinates.

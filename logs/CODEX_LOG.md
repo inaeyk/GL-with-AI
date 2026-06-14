@@ -247,3 +247,15 @@
 - Files changed: `docs/derivations/offdiagonal_conformal_cartoon_sympy.py`, `docs/derivations/conformal_cartoon_translation_notes.md`, `docs/derivations/offdiagonal_conformal_cartoon_notes.md`, `docs/physics_notes/stage3G_offdiagonal_conformal_cartoon.tex`, `docs/derivations/README.md`, `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `python3 docs/derivations/conformal_cartoon_translation_sympy.py`, `python3 docs/derivations/offdiagonal_conformal_cartoon_sympy.py`, `python3 docs/derivations/offdiagonal_ricci_flat_gate_sympy.py`, grep for stale old Stage 3G conformal-cartoon filename references, and targeted diffs for `external/GRChombo`, `code/BlackStringToy`, and `scripts`. The Stage 3F, Stage 3G algebra, and Stage 3G Ricci scripts passed.
 - Review status: Pending human review before commit.
+
+- Date: 2026-06-14
+- Goal: Start Stage 3H CCZ4 RHS block decomposition planning without implementing C++ source terms.
+- Files changed: `docs/derivations/ccz4_rhs_block_decomposition_notes.md`, `docs/physics_notes/stage3H_ccz4_rhs_block_decomposition.tex`, `docs/derivations/README.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `python3 docs/derivations/conformal_cartoon_translation_sympy.py`, `python3 docs/derivations/offdiagonal_conformal_cartoon_sympy.py`, `python3 docs/derivations/offdiagonal_ricci_flat_gate_sympy.py`, greps for `Stage 3H` and stale old Stage 3G conformal-cartoon filename references, and targeted diffs for `external/GRChombo`, `code/BlackStringToy`, and `scripts`. The Stage 3F, Stage 3G algebra, and Stage 3G Ricci scripts passed; protected paths had no diffs.
+- Review status: Pending human review before commit.
+
+- Date: 2026-06-14
+- Goal: Patch the staged Stage 3H documentation after independent review before commit.
+- Files changed: `docs/derivations/ccz4_rhs_block_decomposition_notes.md`, `docs/physics_notes/stage3H_ccz4_rhs_block_decomposition.tex`, `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `python3 docs/derivations/conformal_cartoon_translation_sympy.py`, `python3 docs/derivations/offdiagonal_conformal_cartoon_sympy.py`, `python3 docs/derivations/offdiagonal_ricci_flat_gate_sympy.py`, greps for `Stage 3H`, stale evolved-`Z_i` connection-block wording, and stale old Stage 3G conformal-cartoon filename references, plus targeted diffs for `external/GRChombo`, `code/BlackStringToy`, and `scripts`. The Stage 3F, Stage 3G algebra, and Stage 3G Ricci scripts passed; the stale wording greps returned no hits; protected paths had no diffs.
+- Review status: Pending human review before commit.

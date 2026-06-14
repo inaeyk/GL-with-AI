@@ -15,9 +15,10 @@ Christoffels and Ricci structural checks. Stage 3E adds a nonconstant
 `q(x,z)` warped-product Ricci regression to guard hidden-sector derivative
 terms. Stage 3F translates the diagonal physical cartoon variables into
 conformal variables `chi`, `h_AB`, and `hww`. Stage 3G extends that
-translation to an off-diagonal reduced block with `h_xz` / `gamma_xz`. Later
-stages should extend this area to CCZ4 RHS source terms, regularized small-`x`
-limits, and unit-test fixtures.
+translation to an off-diagonal reduced block with `h_xz` / `gamma_xz`. Stage
+3H decomposes the future CCZ4 RHS into validation blocks before implementation.
+Later stages should extend this area to regularized small-`x` limits and
+unit-test fixtures.
 
 Current artifacts:
 
@@ -51,3 +52,6 @@ Current artifacts:
   constant-shear and `x`-dependent-shear off-diagonal metrics.
 - `offdiagonal_ricci_flat_gate_notes.md`: prose notes and exact output for
   the Stage 3G sheared-flat off-diagonal Ricci regression.
+- `ccz4_rhs_block_decomposition_notes.md`: Stage 3H planning note decomposing
+  the future CCZ4 RHS into blocks with exact, reference-code, or
+  convergence-based validation routes.
