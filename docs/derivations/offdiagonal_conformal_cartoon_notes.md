@@ -203,3 +203,17 @@ All Stage 3G off-diagonal conformal cartoon checks passed.
 - Regularity near `x = 0` is not addressed here.
 - Symbolic identities do not by themselves establish physical correctness of
   an evolution.
+
+## Companion Ricci Gate
+
+The companion script
+
+```text
+docs/derivations/offdiagonal_ricci_flat_gate_sympy.py
+```
+
+promotes the sheared-flat off-diagonal Ricci check into the repository. It
+uses full matrix inversion and verifies Ricci flatness for a constant-shear
+metric with `g_xz = lambda` and an `x`-dependent shear metric with `g_xz = x`.
+This guards the off-diagonal geometry engine before the Stage 3H RHS block
+decomposition, but it is still not a full CCZ4 source-term validation.

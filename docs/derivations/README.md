@@ -46,3 +46,7 @@ Current artifacts:
   extrinsic-curvature reconstruction, denominator guard, and diagonal limit.
 - `offdiagonal_conformal_cartoon_notes.md`: prose notes and exact output for
   the Stage 3G off-diagonal reduced-metric extension.
+- `offdiagonal_ricci_flat_gate_sympy.py`: SymPy Ricci flatness gate for
+  constant-shear and `x`-dependent-shear off-diagonal metrics.
+- `offdiagonal_ricci_flat_gate_notes.md`: prose notes and exact output for
+  the Stage 3G sheared-flat off-diagonal Ricci regression.

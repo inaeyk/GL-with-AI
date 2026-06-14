@@ -106,6 +106,7 @@ Goal: design the analytic initial data and perturbation, and validate the modifi
 - [ ] Confirm against Pau's implementation how the cartoon/conformal determinant condition is enforced during evolution, especially whether hidden `hww` participates in `det h = 1` and trace-free `A` enforcement.
 - [x] Stage 3G: document the off-diagonal reduced metric `h_xz` / `gamma_xz` conformal-cartoon extension.
 - [x] Stage 3G: add SymPy checks for the off-diagonal determinant, inverse metric, full-4D tracelessness, `K_xz` reconstruction, `/4` denominator guard, and diagonal Stage 3F limit.
+- [x] Stage 3G: add sheared-flat off-diagonal Ricci regression for constant `g_xz = lambda` and `x`-dependent `g_xz = x` metrics.
 - [x] Stage 3G: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
 - [ ] Stage 3H: decompose the future CCZ4 RHS into checked source-term blocks before C++ implementation.
 - [ ] Stage 3I: document regularity and small-`x` treatment for conformal cartoon variables.

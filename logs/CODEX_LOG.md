@@ -235,3 +235,9 @@
 - Files changed: `docs/derivations/offdiagonal_conformal_cartoon_sympy.py`, `docs/derivations/offdiagonal_conformal_cartoon_notes.md`, `docs/physics_notes/stage3G_offdiagonal_conformal_cartoon.tex`, `docs/derivations/README.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `python3 docs/derivations/conformal_cartoon_translation_sympy.py`, `python3 docs/derivations/offdiagonal_conformal_cartoon_sympy.py`, greps for `Stage 3G` and stale old Stage 3G conformal-cartoon filename references, and targeted diffs for `external/GRChombo`, `code/BlackStringToy`, and `scripts`. The Stage 3F diagonal checks and Stage 3G off-diagonal checks passed.
 - Review status: Pending human review before commit.
+
+- Date: 2026-06-14
+- Goal: Promote the sheared-flat off-diagonal Ricci gate into the repository as a Stage 3G companion regression before Stage 3H RHS decomposition.
+- Files changed: `docs/derivations/offdiagonal_ricci_flat_gate_sympy.py`, `docs/derivations/offdiagonal_ricci_flat_gate_notes.md`, `docs/derivations/offdiagonal_conformal_cartoon_notes.md`, `docs/physics_notes/stage3G_offdiagonal_conformal_cartoon.tex`, `docs/derivations/README.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran the Stage 3C, 3D, 3E, 3F, Stage 3G algebra, and Stage 3G sheared-flat Ricci SymPy scripts; greps for `Stage 3G` and stale old Stage 3G conformal-cartoon filename references; and targeted diffs for `external/GRChombo`, `code/BlackStringToy`, and `scripts`. All six derivation scripts passed, and protected paths had no diffs.
+- Review status: Pending human review before commit.

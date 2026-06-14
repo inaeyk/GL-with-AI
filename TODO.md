@@ -49,6 +49,7 @@
 - [x] Add nonconstant `q(x,z)` Ricci regression to guard derivative terms.
 - [x] Add Stage 3F conformal-cartoon translation derivation and SymPy checks.
 - [x] Add Stage 3G off-diagonal reduced-metric derivation and SymPy checks.
+- [x] Add Stage 3G sheared-flat off-diagonal Ricci regression gate.
 
 ## Later
 

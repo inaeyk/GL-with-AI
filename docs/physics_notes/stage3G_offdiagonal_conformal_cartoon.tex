@@ -183,6 +183,40 @@ It also checks the diagonal limit
 \end{equation}
 which recovers the Stage 3F diagonal formulas.
 
+\section{Companion Ricci Gate}
+
+The companion repository script
+\texttt{docs/derivations/offdiagonal\_ricci\_flat\_gate\_sympy.py}
+checks the geometric Ricci engine on flat metrics with genuine off-diagonal
+cross terms. The constant-shear case is
+\begin{equation}
+  dl^2
+  =
+  (1+\lambda^2)\,dx^2
+  +
+  2\lambda\,dx\,dz
+  +
+  dz^2
+  +
+  x^2d\Omega_2^2,
+\end{equation}
+corresponding to \(dZ=dz+\lambda dx\). The \(x\)-dependent shear case is
+\begin{equation}
+  dl^2
+  =
+  (1+x^2)\,dx^2
+  +
+  2x\,dx\,dz
+  +
+  dz^2
+  +
+  x^2d\Omega_2^2,
+\end{equation}
+corresponding to \(dZ=dz+x\,dx\). The script verifies that the full matrix
+inverse is used and that all Ricci tensor components and the Ricci scalar
+vanish for both metrics. This is a targeted off-diagonal Ricci regression, not
+a full CCZ4 RHS validation.
+
 \section{Limitations}
 
 This note is an algebraic translation and validation scaffold. It does not
