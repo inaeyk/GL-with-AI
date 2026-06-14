@@ -1,0 +1,192 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\title{Stage 3G Physics Note: Off-Diagonal Conformal Cartoon Translation}
+\author{GL-with-AI Project}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Scope}
+
+Stage 3G extends the Stage 3F diagonal conformal-cartoon translation to a
+reduced metric block with nonzero \(h_{xz}\) or \(\gamma_{xz}\). It is a
+derivation and symbolic-validation note only. No C++ source terms or variables
+are implemented, and symbolic execution alone does not establish physical
+correctness of an evolution.
+
+\section{Metric Ansatz}
+
+The reduced physical spatial metric is
+\begin{equation}
+  dl^2
+  =
+  \gamma_{xx}\,dx^2
+  +
+  2\gamma_{xz}\,dx\,dz
+  +
+  \gamma_{zz}\,dz^2
+  +
+  x^2\gamma_{ww}\,d\Omega_2^2 .
+\end{equation}
+The gridded directions are \(x,z\). The hidden transverse directions are two
+equivalent \(w\) directions, so
+\begin{equation}
+  N_{\rm hidden}
+  =
+  \mathrm{GR\_SPACEDIM}-\mathrm{CH\_SPACEDIM}
+  =
+  4-2=2.
+\end{equation}
+As before, \(h_{ww}\) and \(\gamma_{ww}\) are hidden Cartesian-like components;
+the spherical/cartoon reconstruction supplies the external factor \(x^2\).
+
+\section{Determinants}
+
+The reduced physical block determinant is
+\begin{equation}
+  D_\gamma
+  =
+  \gamma_{xx}\gamma_{zz}-\gamma_{xz}^2.
+\end{equation}
+Thus the cartoon/Cartesian-like four-dimensional physical determinant is
+\begin{equation}
+  \det\gamma_{\rm 4D}
+  =
+  D_\gamma\,\gamma_{ww}^2.
+\end{equation}
+With
+\begin{equation}
+  h_{ij}=\chi\gamma_{ij},
+  \qquad
+  \gamma_{ij}=\chi^{-1}h_{ij},
+\end{equation}
+the conformal factor is
+\begin{equation}
+  \chi
+  =
+  \left[
+    \left(\gamma_{xx}\gamma_{zz}-\gamma_{xz}^2\right)
+    \gamma_{ww}^2
+  \right]^{-1/4}.
+\end{equation}
+For the conformal block,
+\begin{equation}
+  D_h
+  =
+  h_{xx}h_{zz}-h_{xz}^2,
+\end{equation}
+and the conformal determinant condition is
+\begin{equation}
+  \det h_{\rm 4D}
+  =
+  D_h h_{ww}^2
+  =
+  \left(h_{xx}h_{zz}-h_{xz}^2\right)h_{ww}^2
+  =
+  1.
+\end{equation}
+This determinant is imposed on the reduced cartoon/Cartesian-like variables;
+it does not include spherical-coordinate Jacobian factors.
+
+\section{Inverse Metric}
+
+The inverse conformal block is
+\begin{equation}
+  h^{xx}=\frac{h_{zz}}{D_h},
+  \qquad
+  h^{xz}=-\frac{h_{xz}}{D_h},
+  \qquad
+  h^{zz}=\frac{h_{xx}}{D_h},
+  \qquad
+  h^{ww}=\frac{1}{h_{ww}}.
+\end{equation}
+
+\section{Tracelessness}
+
+The conformal tracelessness condition is the full four-dimensional one,
+\begin{equation}
+  h^{xx}A_{xx}
+  +
+  2h^{xz}A_{xz}
+  +
+  h^{zz}A_{zz}
+  +
+  2h^{ww}A_{ww}
+  =
+  0.
+\end{equation}
+The \(2h^{xz}A_{xz}\) term is the symmetric off-diagonal contraction. The
+\(2h^{ww}A_{ww}\) term is the hidden-direction multiplicity. Solving for the
+hidden component gives
+\begin{equation}
+  A_{ww}
+  =
+  -\frac{h_{ww}}{2}
+  \left(
+    h^{xx}A_{xx}
+    +
+    2h^{xz}A_{xz}
+    +
+    h^{zz}A_{zz}
+  \right).
+\end{equation}
+
+\section{Extrinsic Curvature}
+
+For \(\mathrm{GR\_SPACEDIM}=4\),
+\begin{equation}
+  K_{ij}
+  =
+  \chi^{-1}
+  \left(A_{ij}+\frac{h_{ij}K}{4}\right).
+\end{equation}
+The off-diagonal component is therefore
+\begin{equation}
+  K_{xz}
+  =
+  \chi^{-1}
+  \left(A_{xz}+\frac{h_{xz}K}{4}\right).
+\end{equation}
+The trace is
+\begin{equation}
+  K
+  =
+  \gamma^{xx}K_{xx}
+  +
+  2\gamma^{xz}K_{xz}
+  +
+  \gamma^{zz}K_{zz}
+  +
+  2\gamma^{ww}K_{ww}.
+\end{equation}
+The denominator \(4\) is the full physical spatial dimension, not the two
+gridded directions and not ordinary \(3+1\) intuition.
+
+\section{Script Checks}
+
+The repository script
+\texttt{docs/derivations/offdiagonal\_conformal\_cartoon\_sympy.py}
+checks the physical and conformal determinant identities, the inverse metric,
+full four-dimensional tracelessness, reconstruction of
+\(K_{xx},K_{xz},K_{zz},K_{ww}\), and a denominator guard showing that \(p=4\)
+works while \(p=2\) and \(p=3\) fail under a numeric substitution.
+
+It also checks the diagonal limit
+\begin{equation}
+  h_{xz}=\gamma_{xz}=A_{xz}=K_{xz}=0,
+\end{equation}
+which recovers the Stage 3F diagonal formulas.
+
+\section{Limitations}
+
+This note is an algebraic translation and validation scaffold. It does not
+derive the full CCZ4 right-hand sides, does not address regularity near
+\(x=0\), and does not add or validate any C++ implementation.
+
+\end{document}

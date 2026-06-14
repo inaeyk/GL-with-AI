@@ -14,9 +14,10 @@ nontrivial hidden metric component `q(x,z) = gamma_ww`, including hidden-sector
 Christoffels and Ricci structural checks. Stage 3E adds a nonconstant
 `q(x,z)` warped-product Ricci regression to guard hidden-sector derivative
 terms. Stage 3F translates the diagonal physical cartoon variables into
-conformal variables `chi`, `h_AB`, and `hww`. Later stages should extend this
-area to off-diagonal reduced metrics, CCZ4 RHS source terms, regularized
-small-`x` limits, and unit-test fixtures.
+conformal variables `chi`, `h_AB`, and `hww`. Stage 3G extends that
+translation to an off-diagonal reduced block with `h_xz` / `gamma_xz`. Later
+stages should extend this area to CCZ4 RHS source terms, regularized small-`x`
+limits, and unit-test fixtures.
 
 Current artifacts:
 
@@ -40,3 +41,8 @@ Current artifacts:
   identities, physical radius derivatives, and diagonal tracelessness.
 - `conformal_cartoon_translation_notes.md`: prose notes and exact output for
   the Stage 3F conformal-variable translation.
+- `offdiagonal_conformal_cartoon_sympy.py`: SymPy checks for the Stage 3G
+  off-diagonal conformal-cartoon determinant, inverse metric, tracelessness,
+  extrinsic-curvature reconstruction, denominator guard, and diagonal limit.
+- `offdiagonal_conformal_cartoon_notes.md`: prose notes and exact output for
+  the Stage 3G off-diagonal reduced-metric extension.

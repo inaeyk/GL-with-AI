@@ -229,3 +229,9 @@
 - Files changed: `docs/derivations/conformal_cartoon_translation_sympy.py`, `docs/derivations/conformal_cartoon_translation_notes.md`, `docs/physics_notes/stage3F_conformal_cartoon_translation.tex`, `docs/implementation/modified_cartoon_source_terms.md`, `TODO.md`, `research_plan/stage_checklists.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `python3 docs/derivations/conformal_cartoon_translation_sympy.py`, `git status --short`, `git diff --stat`, greps for `det gamma_4D`, `det h_4D`, `p=4`, and `hidden multiplicity`, `git -C external/GRChombo status --short`, and targeted diffs for `code/BlackStringToy` and `scripts`. The determinant, round-trip, `K_ij` reconstruction, full-4D tracelessness, and dimension-denominator guard checks passed.
 - Review status: Pending human review before commit.
+
+- Date: 2026-06-14
+- Goal: Start current Stage 3G off-diagonal reduced-metric conformal-cartoon validation without implementing C++ source terms.
+- Files changed: `docs/derivations/offdiagonal_conformal_cartoon_sympy.py`, `docs/derivations/offdiagonal_conformal_cartoon_notes.md`, `docs/physics_notes/stage3G_offdiagonal_conformal_cartoon.tex`, `docs/derivations/README.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `python3 docs/derivations/conformal_cartoon_translation_sympy.py`, `python3 docs/derivations/offdiagonal_conformal_cartoon_sympy.py`, greps for `Stage 3G` and stale `stage3G_conformal_cartoon_translation` references, and targeted diffs for `external/GRChombo`, `code/BlackStringToy`, and `scripts`. The Stage 3F diagonal checks and Stage 3G off-diagonal checks passed.
+- Review status: Pending human review before commit.

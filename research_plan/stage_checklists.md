@@ -104,7 +104,9 @@ Goal: design the analytic initial data and perturbation, and validate the modifi
 - [x] Stage 3F: strengthen the SymPy checks with the determinant condition, physical/conformal round trip, `K_ij` reconstruction, hidden-multiplicity tracelessness, and `/4` dimension-denominator guard.
 - [x] Stage 3F: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
 - [ ] Confirm against Pau's implementation how the cartoon/conformal determinant condition is enforced during evolution, especially whether hidden `hww` participates in `det h = 1` and trace-free `A` enforcement.
-- [ ] Stage 3G: off-diagonal reduced metric `h_xz` / `gamma_xz` extension, using/extending the existing Stage 3D/3E symbolic geometry validation machinery.
+- [x] Stage 3G: document the off-diagonal reduced metric `h_xz` / `gamma_xz` conformal-cartoon extension.
+- [x] Stage 3G: add SymPy checks for the off-diagonal determinant, inverse metric, full-4D tracelessness, `K_xz` reconstruction, `/4` denominator guard, and diagonal Stage 3F limit.
+- [x] Stage 3G: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
 - [ ] Stage 3H: decompose the future CCZ4 RHS into checked source-term blocks before C++ implementation.
 - [ ] Stage 3I: document regularity and small-`x` treatment for conformal cartoon variables.
 - [ ] Stage 3J: design unit-test fixtures before adding C++ source terms.

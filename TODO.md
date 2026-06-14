@@ -12,7 +12,6 @@
 - [ ] Ensure future physics-stage PDF notes accompany each physics/design stage.
 - [ ] Review Stage 3B modified-cartoon source-term derivation roadmap.
 - [ ] Generate the Stage 3B physics PDF after the Markdown derivation roadmap is reviewed.
-- [ ] Stage 3G: off-diagonal reduced metric `h_xz` / `gamma_xz` extension.
 - [ ] Stage 3H: decompose future CCZ4 RHS into checked source-term blocks.
 - [ ] Stage 3I: document regularity and small-`x` treatment for conformal cartoon variables.
 - [ ] Stage 3J: design unit-test fixtures before adding C++ source terms.
@@ -49,6 +48,7 @@
 - [x] Add the Stage 3D constant-q Ricci regression assertions.
 - [x] Add nonconstant `q(x,z)` Ricci regression to guard derivative terms.
 - [x] Add Stage 3F conformal-cartoon translation derivation and SymPy checks.
+- [x] Add Stage 3G off-diagonal reduced-metric derivation and SymPy checks.
 
 ## Later
 
