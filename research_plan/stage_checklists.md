@@ -76,9 +76,9 @@ Goal: create an editable project-specific example while making no physics claims
 
 Gate: do not proceed to Stage 3 or add black-string initial data until the skeleton builds/runs and the diff is reviewed and approved by the user. Do not treat skeleton outputs as physically meaningful.
 
-## Stage 3 - 5D black-string initial data and GL perturbation
+## Stage 3 - 5D black-string initial data plus modified-cartoon geometry derivation/validation
 
-Goal: implement analytic initial data and perturbation in a controlled way.
+Goal: design the analytic initial data and perturbation, and validate the modified-cartoon geometry/source-term bookkeeping before implementation.
 
 - [x] Stage 3A: document target continuum geometry and dimensional bookkeeping.
 - [x] Stage 3A: document the planned GRChombo variable map for initial data.

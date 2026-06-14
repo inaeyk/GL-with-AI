@@ -33,10 +33,10 @@ Physics and physics-design stages also produce polished review notes under
 - Main deliverables: build notes, minimal `BlackStringToy` skeleton, smoke-test parameter files, run manifest template.
 - Current status: in progress. Stage 2A has produced an editable `BlackStringToy` scaffold derived from the public `Examples/BinaryBH` smoke-test path. The scratch build and one-step smoke run succeeded under `runs/stage2_blackstringtoy/`. This scaffold is only for build/run workflow validation and is not physical black-string evolution.
 
-## Stage 3: 5D Black-String Initial Data And GL Perturbation
+## Stage 3: 5D Black-String Initial Data Plus Modified-Cartoon Geometry Derivation/Validation
 
-- Goal: implement the baseline uniform black-string initial data and GL-triggering perturbation.
-- Main deliverables: initial-data implementation, turduckening regularization, constraint-check outputs, short gauge-settling run.
+- Goal: design the baseline uniform black-string initial data, GL-triggering perturbation, and reduced modified-cartoon geometry/source-term bookkeeping before implementation.
+- Main deliverables: initial-data design notes, modified-cartoon source-term and geometry derivation notes, symbolic validation scripts, polished physics notes, and validation gates for later implementation.
 - Current status: design/tooling in progress. Stage 3A documents the target uniform-string initial data, GL perturbation, variable map, turduckening plan, and unresolved implementation decisions. Stage 3B documents the modified-cartoon hidden-direction source-term derivation and validation roadmap. Stage 3C adds a `docs/derivations/` SymPy scaffold for machine-checking basic Christoffels, GP extrinsic curvature, angular contractions, and hidden-direction trace multiplicity; the symbolic geometry check now passes and its output is recorded in the derivation notes. Stage 3D extends the symbolic scaffold to a diagonal nontrivial `gamma_ww = q(x,z)` metric and verifies hidden-sector Christoffel identities, angular Ricci multiplicity, and flat Ricci limits. Stage 3E adds a nonconstant `q(x,z)` warped-product Ricci regression that exercises hidden-sector derivative terms. Stage 3F translates the diagonal physical cartoon variables into conformal `chi`, `h_AB`, and `hww` bookkeeping and verifies derivative/tracelessness identities. A polished Stage 3A PDF exists under `docs/physics_notes/`; initial Stage 3B, Stage 3C, Stage 3D, Stage 3E, and Stage 3F LaTeX sources have been drafted, with PDF generation deferred until after review. No Stage 3 source implementation has started.
 
 ## Stage 4: 4+1 CCZ4 / SO(3) Modified Cartoon Implementation

@@ -19,7 +19,7 @@ The first benchmark is `L/r0 = 10`, followed by `L/r0 = 8, 12, 16`. Only after t
 
 ## Prerequisite Status
 
-This document describes the science target for reproducing Pau / Figueras-Andrade-Franca-Gu diagnostics. It is not an instruction to begin production simulations immediately. Implementation requires completing Stages 1-4 in [project_outline.md](project_outline.md) first: GRChombo source/capability map, editable build/`BlackStringToy` skeleton, black-string initial data and GL perturbation, and 4+1 CCZ4/SO(3) cartoon implementation. Do not begin Phase 1 `L10_med` simulations until Stage 4 is verified.
+This document describes the science target for reproducing Pau / Figueras-Andrade-Franca-Gu diagnostics. It is not an instruction to begin production simulations immediately. Implementation requires completing Stages 1-4 in [project_outline.md](project_outline.md) first: GRChombo source/capability map, editable build/`BlackStringToy` skeleton, black-string initial-data plus modified-cartoon geometry derivation/validation, and 4+1 CCZ4/SO(3) cartoon implementation. Do not begin Phase 1 `L10_med` simulations until Stage 4 is verified.
 
 ## Baseline Physical And Numerical Setup
 
