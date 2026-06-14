@@ -18,7 +18,8 @@ conformal variables `chi`, `h_AB`, and `hww`. Stage 3G extends that
 translation to an off-diagonal reduced block with `h_xz` / `gamma_xz`. Stage
 3H decomposes the future CCZ4 RHS into validation blocks before implementation.
 Stage 3I records small-`x` regularity expectations and symbolic removable-limit
-checks. Later stages should extend this area to unit-test fixtures.
+checks. Stage 3J designs the unit-test fixture layer that should protect later
+C++ implementation work.
 
 Current artifacts:
 
@@ -63,3 +64,7 @@ Current artifacts:
   conformal small-`x` conditions, and deferred numerical implementation
   choices, including the distinction between cartoon-axis regularity and the
   co-located physical black-string singularity.
+- `unit_test_fixture_design.md`: Stage 3J fixture design mapping the existing
+  Stage 3C-3I symbolic gates to future C++ unit tests, RHS-block tests,
+  reference-code comparisons, and convergence/evolution checks before C++
+  source-term implementation.
