@@ -283,3 +283,15 @@
 - Files changed: `docs/derivations/unit_test_fixture_design.md`, `docs/physics_notes/stage3J_unit_test_fixture_design.tex`, `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`; the Stage 3C, Stage 3D, Stage 3E, Stage 3F, Stage 3G algebra, Stage 3G Ricci, and Stage 3I small-`x` symbolic scripts using the actual repository filenames; greps for `Stage 3J`, round-sphere/Schwarzschild/tolerance/constraint-damping/GL-dispersion language, and stale old Stage 3G conformal-cartoon filename references; targeted diffs for `external/GRChombo`, `code/BlackStringToy`, and `scripts`; and `git diff --stat` / `git diff`. All symbolic scripts passed, protected paths had no diffs, and the stale filename grep returned no matches.
 - Review status: Pending human review before commit.
+
+- Date: 2026-06-14
+- Goal: Start Stage 3K minimal C++ implementation planning without source edits.
+- Files changed: `docs/implementation/minimal_cpp_implementation_plan.md`, `docs/physics_notes/stage3K_minimal_cpp_implementation_plan.tex`, `docs/derivations/README.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`; the Stage 3C, Stage 3D, Stage 3E, Stage 3F, Stage 3G algebra, Stage 3G Ricci, and Stage 3I small-`x` symbolic scripts; greps for `Stage 3K` and stale old Stage 3G conformal-cartoon filename references; targeted diffs for `external/GRChombo`, `code/BlackStringToy`, and `scripts`; and `git diff --stat` / `git diff`. All symbolic scripts passed, the stale filename grep returned no matches, and protected paths had no diffs.
+- Review status: Pending human review before commit.
+
+- Date: 2026-06-14
+- Goal: Patch Stage 3K minimal C++ implementation plan after Claude/human review.
+- Files changed: `docs/implementation/minimal_cpp_implementation_plan.md`, `docs/physics_notes/stage3K_minimal_cpp_implementation_plan.tex`, `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`; the Stage 3C, Stage 3D, Stage 3E, Stage 3F, Stage 3G algebra, Stage 3G Ricci, and Stage 3I small-`x` symbolic scripts; greps for `Stage 3K`, enum/layout/static-assert/helper-green/cartoon-evolution wording, and stale old Stage 3G conformal-cartoon filename references; targeted diffs for `external/GRChombo`, `code/BlackStringToy`, and `scripts`; and `git diff --stat` / `git diff`. All symbolic scripts passed, the stale filename grep returned no matches, and protected paths had no diffs.
+- Review status: Pending human review before commit.

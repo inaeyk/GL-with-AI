@@ -127,7 +127,14 @@ Goal: design the analytic initial data and perturbation, and validate the modifi
 - [x] Stage 3J: identify required pre-C++ gates, including symbolic-script pass status, determinant/trace conventions, `hat_Gamma^A` convention, small-`x` risk documentation, and unresolved Pau/GRChombo confirmations.
 - [x] Stage 3J: separate exact-checkable fixtures from tolerance-based, reference-based, and convergence-based checks.
 - [x] Stage 3J: incorporate review refinements for the round-`S^2` positive-curvature fixture, slicing-scoped Schwarzschild x `S^1` anchor, tolerance policy, and separated GL versus constraint-damping milestones.
-- [ ] Stage 3K: create the minimal C++ implementation plan after Stage 3J review.
+- [x] Stage 3K: create the minimal C++ implementation plan after Stage 3J review.
+- [x] Stage 3K: choose the first safe implementation slice as repo-owned conformal-cartoon algebra helpers plus fixture tests, without connecting to time evolution.
+- [x] Stage 3K: map likely repo-owned implementation targets and validation gates without editing code.
+- [x] Stage 3K: explicitly defer full CCZ4 RHS, gauge/Gamma-driver, constraint damping, turduckening, AH finding, radiation extraction, production runs, and Pau comparison.
+- [x] Stage 3K: clarify Slice 1 is local algebra-helper plus non-grid fixtures only; Ricci, small-axis, grid wiring, RHS, gauge, damping, finite-difference, and evolution work require later explicit approval.
+- [x] Stage 3K: require an automated enum/layout `static_assert` or unit-layout gate before any helper is wired to grid variables.
+- [x] Stage 3K: record that green algebra-helper fixtures do not prove integration, grid-slot wiring, cartoon evolution, or CCZ4 correctness.
+- [ ] Review Stage 3K plan before any C++ source edits.
 - [ ] Confirm Stage 3I parity and axis-filling conventions against GRChombo/Pau implementation before C++ source-term work.
 - [ ] Confirm Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention against GRChombo/Pau implementation.
 - [ ] Required future RHS validation: reproduce the linear Gregory-Laflamme threshold/growth spectrum after matching radius convention, periodicity, perturbation sector, gauge, and extraction variable.

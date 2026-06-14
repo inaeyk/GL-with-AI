@@ -1,0 +1,130 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\title{Stage 3K Physics Note: Minimal C++ Implementation Plan}
+\author{GL-with-AI project}
+\date{June 14, 2026}
+
+\begin{document}
+\maketitle
+
+\section{Scope and Status}
+
+Stage 3K is a planning stage. It does not implement C++, finite differences,
+source terms, or production evolutions. Future implementation should live in
+repo-owned code, likely under \texttt{code/BlackStringToy/} or a new
+repo-owned layer copied into scratch GRChombo trees under ignored
+\texttt{runs/}. It must not modify \texttt{external/GRChombo}.
+
+Compilation is not evidence of physical correctness. Algebra-helper fixtures
+passing is not integration correctness, and green helper tests do not prove
+that variables are read from the correct grid slots. No Slice 1 result should
+be described as ``cartoon evolution works'' or ``CCZ4 works.'' Every
+implementation slice must have a validation gate.
+
+Even the safe Slice 1 C++ work requires a separate, explicitly user-approved
+stage after Stage 3K is reviewed and committed. No source edits should begin
+automatically from this plan.
+
+\section{Recommended First Slice}
+
+The recommended first C++ slice is a repo-owned conformal-cartoon algebra
+helper layer plus local, non-grid fixture tests. It must not connect that
+helper to grid variables or time evolution. This is the least risky slice
+because it tests the bookkeeping that all later source terms depend on while
+leaving the public GRChombo RHS untouched.
+
+The slice should cover:
+
+\begin{itemize}[leftmargin=2em]
+\item the off-diagonal determinant
+  \[
+    (h_{xx}h_{zz}-h_{xz}^{2})h_{ww}^{2};
+  \]
+\item the reduced inverse conformal metric;
+\item full 4D trace and trace-free projection with hidden multiplicity
+  \(N_{\rm hidden}=2\);
+\item the \(\mathrm{GR\_SPACEDIM}=4\) trace denominator \(1/4\);
+\item reconstruction of \(K_{ij}\), including
+  \[
+    K_{xz}
+    =
+    \chi^{-1}\left(A_{xz}+\frac14 h_{xz}K\right);
+  \]
+\item the diagonal limit back to the Stage 3F formulas.
+\end{itemize}
+
+Slice 1 explicitly excludes cartoon Ricci helpers, small-axis helpers,
+grid-variable wiring, CCZ4 RHS terms, gauge/Gamma-driver terms, constraint
+damping, finite-difference stencils, and evolution. Passing Slice 1 only shows
+that local algebra formulas were implemented correctly on supplied local
+values.
+
+\section{Automated Layout Gate}
+
+Before editing variable enums or wiring helpers to grid variables, perform a
+read-only layout audit of the public CCZ4 variables, the desired \(h_{ww}\),
+\(A_{ww}\), and \(\hat{\Gamma}^A\) placement, and the apparent-horizon
+positional assumptions around \(h_{ww}\).
+
+Before any helper reads grid data, add an automated layout test or
+compile-time assertion layer. It should assert that each helper input binds to
+the intended enum/component slot, including any retained convention such as
+\[
+  c_{\rm hww}=c_K-1,
+\]
+and the intended slots for \(c_\chi,c_{hxx},c_{hxz},c_{hzz},c_{hww},
+c_{Axx},c_{Axz},c_{Azz},c_{Aww},c_K,c_\Theta,
+c_{\hat{\Gamma}^x},c_{\hat{\Gamma}^z}\), using the actual names present in
+the implementation. The gate should fail loudly if layout assumptions change.
+Manual review is useful but not sufficient.
+
+\section{Deferred Blocks}
+
+The first slice should not implement the full CCZ4 RHS, gauge or Gamma-driver
+equations, constraint damping, black-string initial data, turduckening,
+finite-difference axis treatment, apparent-horizon finding, waveform
+extraction, production runs, or comparison with Pau's implementation.
+
+\section{Validation Map}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Slice & Required validation & Source stage \\
+\midrule
+determinant/inverse & normalized determinant, block inverse & 3F--3G \\
+trace projection & hidden multiplicity and \(1/4\) guard & 3F--3J \\
+\(K_{ij}\) reconstruction & \(K_{xx},K_{xz},K_{zz},K_{ww}\) round trip & 3F--3G \\
+cartoon Ricci helper & flat, round \(S^2\), warped, sheared-flat gates & 3C--3G, 3J \\
+small-axis helper & assembled \(\hat{\Gamma}^x\) limit guard & 3I--3J \\
+constraint damping & injected-constraint linearized milestone & 3H--3J \\
+grid wiring & automated enum/layout assertion gate & 3J--3K \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Primary Risks}
+
+The first implementation must guard against using a 2D trace instead of a full
+4D trace, omitting \(h_{ww}\) from determinant or trace operations,
+double-counting the external \(x^2\) factor by treating \(h_{ww}\) as
+\(g_{\theta\theta}\), using reciprocal inverses when \(h_{xz}\ne0\), leaving a
+residual \(1/x\) in \(\hat{\Gamma}^{x}\), trusting flat-zero checks for
+constraint damping, wiring correct helper formulas to the wrong enum slot,
+editing \texttt{external/GRChombo}, or trusting compilation alone.
+
+\section{Acceptance}
+
+Stage 3K is complete when the minimal implementation slice is limited to local
+algebra helpers and non-grid fixtures, deferred blocks are listed, repo-owned
+implementation targets are mapped without editing code, each slice is linked to
+Stage 3J tests, automated layout gating is required before grid wiring, and no
+C++ implementation has started.
+
+\end{document}

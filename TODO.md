@@ -13,7 +13,9 @@
 - [ ] Review Stage 3B modified-cartoon source-term derivation roadmap.
 - [ ] Generate the Stage 3B physics PDF after the Markdown derivation roadmap is reviewed.
 - [ ] Review Stage 3J unit-test fixture design before Stage 3K implementation planning.
-- [ ] Stage 3K: create the minimal C++ implementation plan after Stage 3J review.
+- [ ] Review Stage 3K minimal C++ implementation plan before any source edits.
+- [ ] After Stage 3K review, inspect candidate repo-owned files for the first algebra-helper implementation slice.
+- [ ] Before grid wiring, add an automated enum/layout `static_assert` or unit-layout gate for helper input component slots.
 - [ ] Confirm Stage 3I parity and axis-filling conventions against GRChombo/Pau implementation before C++ source-term work.
 - [ ] Confirm Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention against GRChombo/Pau implementation.
 - [ ] Required future RHS validation: reproduce the linear Gregory-Laflamme threshold/growth spectrum after matching conventions.
@@ -60,6 +62,8 @@
 - [x] Patch Stage 3I review items: cartoon-axis versus physical singularity distinction and assembled `hat_Gamma^x` axis guard.
 - [x] Add Stage 3J unit-test fixture design before C++ implementation.
 - [x] Patch Stage 3J review items: round-`S^2` curvature fixture, Schwarzschild x `S^1` scope, tolerance policy, and separated GL/constraint-damping milestones.
+- [x] Add Stage 3K minimal C++ implementation plan without editing source code.
+- [x] Patch Stage 3K review items: Slice 1 algebra-helper-only scope, deferred Ricci/small-axis helpers, automated layout gate, and helper-green limitations.
 
 ## Later
 
