@@ -1,0 +1,178 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\title{Stage 3J Physics Note: Unit-Test Fixture Design Before C++ Implementation}
+\author{GL-with-AI project}
+\date{June 14, 2026}
+
+\begin{document}
+\maketitle
+
+\section{Scope and Status}
+
+Stage 3J is a design stage. It does not implement C++ tests, finite
+differences, or modified-cartoon CCZ4 source terms. Its purpose is to define
+the fixture layer that should exist before project-specific source terms are
+implemented.
+
+The target bookkeeping remains
+\[
+  \mathrm{GR\_SPACEDIM}=4,\qquad
+  \mathrm{CH\_SPACEDIM}=2,\qquad
+  N_{\rm hidden}=2.
+\]
+The hidden variable \(h_{ww}\) is a Cartesian-like conformal metric component,
+not \(g_{\theta\theta}\). The spherical/cartoon reconstruction supplies the
+external factor \(x^2\), and all trace and trace-free projections are full
+four-spatial-dimensional operations with denominator \(4\).
+
+\section{Fixture Classes}
+
+The fixture suite should separate exact symbolic checks, C++ algebra unit
+tests, RHS-block tests, reference-code comparisons, and convergence or
+evolution-level tests. A green result in one class should not be read as
+physical correctness of the whole evolution system.
+
+Stage 3J classifies tests as exact, roundoff-level, tolerance-based,
+reference-based, or convergence-based. Numeric tolerances are intentionally not
+chosen here. Future C++ tolerances must be justified from truncation order,
+resolution, floating-point roundoff, interpolation or ghost-zone treatment, and
+reference-data uncertainty. They must not be arbitrary thresholds chosen only
+because a run passes. Exact symbolic identities should remain exact in the
+symbolic scripts.
+
+\subsection{Existing Symbolic Gates}
+
+The current repository already contains symbolic gates for:
+
+\begin{itemize}[leftmargin=2em]
+\item Stage 3C flat cartoon geometry, GP extrinsic curvature, and hidden trace
+  multiplicity;
+\item Stage 3D diagonal nontrivial \(\gamma_{ww}=q(x,z)\) Christoffel and
+  Ricci checks;
+\item Stage 3E nonconstant \(q(x,z)\) warped-product Ricci derivative-sector
+  regression;
+\item Stage 3F diagonal conformal-cartoon algebra and determinant/trace
+  guards;
+\item Stage 3G off-diagonal conformal-cartoon determinant, inverse, trace,
+  \(K_{xz}\), and diagonal-limit checks;
+\item Stage 3G sheared-flat off-diagonal Ricci gate;
+\item Stage 3I small-\(x\) removable-limit and assembled
+  \(\hat{\Gamma}^{x}\) axis guard.
+\end{itemize}
+
+These symbolic gates should become fixture generators or expected-value
+references for the future C++ tests.
+
+\subsection{Future C++ Unit Tests}
+
+The first C++ tests should isolate small blocks:
+
+\begin{itemize}[leftmargin=2em]
+\item determinant enforcement with hidden \(h_{ww}\);
+\item full 4D trace-free projection with hidden multiplicity;
+\item the load-bearing \(1/4\) trace denominator;
+\item off-diagonal \(h_{xz}\) determinant and inverse handling;
+\item \(K_{ij}\) reconstruction, including
+  \[
+    K_{xz}=\chi^{-1}\left(A_{xz}+\frac14 h_{xz}K\right);
+  \]
+\item cartoon Ricci source blocks;
+\item a round two-sphere positive-curvature geometry anchor,
+  \[
+    R_{S^2}=\frac{2}{a^2},
+  \]
+  or the equivalent Ricci/scalar-curvature statement in the project's angular
+  extraction convention;
+\item regularized small-\(x\) combinations;
+\item assembled \(\tilde{\Gamma}^{x}\) and
+  \(\hat{\Gamma}^{x}=\tilde{\Gamma}^{x}+2Z^{x}\);
+\item Gamma-driver and \(\hat{\Gamma}^{A}\) ownership boundaries.
+\end{itemize}
+
+Each off-diagonal fixture should include a diagonal-limit regression. Each
+axis-limit fixture should include both regular Taylor data and deliberately
+irregular data that exposes the expected singular behavior.
+
+\section{Pre-C++ Gates}
+
+Before Stage 3K turns this design into an implementation plan, the minimum
+gates are:
+
+\begin{itemize}[leftmargin=2em]
+\item all Stage 3C--3I symbolic scripts pass;
+\item no stale stage-label or old conformal-cartoon filename references remain;
+\item determinant, trace, \(h_{ww}\), and \(1/4\) conventions are documented;
+\item \(\hat{\Gamma}^{A}=\tilde{\Gamma}^{A}+2Z^{A}\) is documented as the
+  connection-sector blueprint;
+\item small-\(x\) axis risks, the co-located physical singularity, and
+  turduckening/interior regularization are documented as distinct issues;
+\item unresolved Pau/GRChombo convention confirmations are carried forward.
+\end{itemize}
+
+\section{Reference and Evolution Anchors}
+
+Flat data are necessary but not sufficient. The future validation suite should
+also include sheared-flat zero Ricci/source checks, gauge-fixed uniform
+GP-string stationarity outside the turduckening region, a carefully scoped
+uniform Schwarzschild/black-string anchor, linear Gregory--Laflamme
+threshold/growth comparison after convention matching, constraint-violation
+damping injection tests, reference comparison against Pau's implementation, and
+resolution self-convergence.
+
+The Schwarzschild \(\times S^1\) anchor is slicing-dependent. In a GP-type
+slice the spatial metric is flat times \(S^1\), while the nontrivial
+black-hole geometry is carried by \(K_{ij}\). This gives a spatial-Ricci
+geometry check for the GP slice, not a claim that every Schwarzschild spatial
+slice has \(R_{ij}=0\). A full spacetime Ricci-flatness check for
+Schwarzschild\(_4\times S^1\) is out of scope for the current spatial-cartoon
+fixture layer until a spacetime-Ricci symbolic engine exists.
+
+The GL spectrum is a required physical-sector milestone, but it is not a
+closed-form elementary unit test. It is a semi-analytic or literature/numerical
+spectral anchor whose use requires matching radius convention, periodicity,
+perturbation sector, gauge, extraction variable, and slicing/conformal-variable
+convention. It validates the physical linearized RHS, including metric,
+\(K\), \(A_{ij}\), gauge/source coupling, and cartoon-sector terms.
+
+Constraint-damping validation is a separate required milestone. Since the
+physical GL mode is expected to be constraint-satisfying in the continuum, it is
+necessary but not sufficient for damping signs. A non-vacuous damping test
+should inject controlled linearized Hamiltonian, momentum, \(\Theta\), and
+encoded-\(Z^i\) violations around flat or uniform-string data, with
+\[
+  \hat{\Gamma}^i=\tilde{\Gamma}^i+2Z^i.
+\]
+Where feasible, the expected linearized CCZ4 constraint-subsystem decay
+rates/signs for the chosen \(\kappa_1,\kappa_2\), gauge, and background should
+be derived or documented. Otherwise this fixture remains high risk and
+reference/formulation-derived.
+
+\section{Unresolved Confirmations}
+
+The following remain open before implementation:
+
+\begin{itemize}[leftmargin=2em]
+\item determinant and trace-free enforcement with hidden \(h_{ww}\) in Pau's
+  implementation;
+\item exact \(\tilde{\Gamma}^{x}\) sign and full \(\hat{\Gamma}^{A}\)
+  convention;
+\item Gamma-driver and \(\hat{\Gamma}^{A}\) coupling ownership;
+\item gauge choice for uniform-string stationarity;
+\item conventions for GL dispersion comparison;
+\item which Pau comparisons are term-by-term and which are only
+  trajectory-level.
+\end{itemize}
+
+\section{Non-Goals}
+
+Stage 3J does not implement C++ tests or source terms, choose final production
+tolerances, settle convention questions, or replace the Stage 3K minimal C++
+implementation plan.
+
+\end{document}

@@ -12,7 +12,8 @@
 - [ ] Ensure future physics-stage PDF notes accompany each physics/design stage.
 - [ ] Review Stage 3B modified-cartoon source-term derivation roadmap.
 - [ ] Generate the Stage 3B physics PDF after the Markdown derivation roadmap is reviewed.
-- [ ] Stage 3J: design unit-test fixtures before adding C++ source terms.
+- [ ] Review Stage 3J unit-test fixture design before Stage 3K implementation planning.
+- [ ] Stage 3K: create the minimal C++ implementation plan after Stage 3J review.
 - [ ] Confirm Stage 3I parity and axis-filling conventions against GRChombo/Pau implementation before C++ source-term work.
 - [ ] Confirm Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention against GRChombo/Pau implementation.
 - [ ] Required future RHS validation: reproduce the linear Gregory-Laflamme threshold/growth spectrum after matching conventions.
@@ -57,6 +58,8 @@
 - [x] Patch Stage 3H review items: hatted connection variable, validation milestones, and inherited/cartoon term tags.
 - [x] Add Stage 3I small-`x` regularity plan and symbolic removable-limit checks.
 - [x] Patch Stage 3I review items: cartoon-axis versus physical singularity distinction and assembled `hat_Gamma^x` axis guard.
+- [x] Add Stage 3J unit-test fixture design before C++ implementation.
+- [x] Patch Stage 3J review items: round-`S^2` curvature fixture, Schwarzschild x `S^1` scope, tolerance policy, and separated GL/constraint-damping milestones.
 
 ## Later
 
