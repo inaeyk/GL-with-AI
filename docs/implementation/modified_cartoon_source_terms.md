@@ -176,6 +176,48 @@ independent warped-product formulas for `dl^2 = dx^2 + dz^2 + f(x,z)^2
 dOmega_2^2`, guarding the hidden-sector derivative terms that the Stage 3D
 constant-`q0` regression did not test.
 
+### Stage 3G: Conformal-variable translation
+
+Stages 3D and 3E worked mostly in physical variables, especially
+`gamma_ww = q`. Stage 3G translates that bookkeeping into conformal variables:
+
+```text
+q = gamma_ww = hww / chi.
+```
+
+This prepares the future implementation because GRChombo-style CCZ4 evolves
+conformal variables such as `chi`, `h_AB`, and `hww`, not only physical
+`gamma_ij`. The hidden multiplicity remains
+
+```text
+N_hidden = GR_SPACEDIM - CH_SPACEDIM = 4 - 2 = 2.
+```
+
+Stage 3G also records the diagonal conformal tracelessness relation
+
+```text
+A_xx / h_xx + A_zz / h_zz + 2 Aww / hww = 0.
+```
+
+After review, the Stage 3G repository check was strengthened to include the
+cartoon/Cartesian-like determinant condition
+
+```text
+det gamma_4D = gamma_xx gamma_zz gamma_ww^2
+chi = (det gamma_4D)^(-1/4)
+det h_4D = h_xx h_zz hww^2 = 1.
+```
+
+This determinant condition is imposed on the reduced Cartesian-like variables
+with hidden multiplicity; it does not include the spherical-coordinate factors
+`x^4 sin^2(theta)`. The symbolic check now also verifies physical/conformal
+round trips, `K_xx`, `K_zz`, and `K_ww` reconstruction, and a guard showing
+that the `/4` denominator in the `GR_SPACEDIM = 4` extrinsic-curvature
+decomposition is essential.
+
+The actual modified-cartoon CCZ4 source-term implementation remains future
+work.
+
 These derivation artifacts are inputs to later implementation work. The actual
 modified-cartoon CCZ4 source terms remain unimplemented.
 

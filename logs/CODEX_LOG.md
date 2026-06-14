@@ -217,3 +217,15 @@
 - Files changed: `docs/derivations/modified_cartoon_nonconstant_q_notes.md`, `docs/physics_notes/stage3E_nonconstant_q_regression.tex`, `TODO.md`, `research_plan/stage_checklists.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`, `git diff --stat`, greps for `transitively`, `R_zz`, and `shared module`, `git -C external/GRChombo status --short`, and targeted diffs for `code/BlackStringToy` and `scripts`.
 - Review status: Pending human review before commit.
+
+- Date: 2026-06-14
+- Goal: Begin Stage 3G conformal-cartoon translation derivation without implementing C++ source terms.
+- Files changed: `docs/derivations/conformal_cartoon_translation_sympy.py`, `docs/derivations/conformal_cartoon_translation_notes.md`, `docs/physics_notes/stage3G_conformal_cartoon_translation.tex`, `docs/derivations/README.md`, `docs/implementation/modified_cartoon_source_terms.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `python3 docs/derivations/conformal_cartoon_translation_sympy.py`, `git status --short`, `git diff --stat`, greps for `Stage 3G`, `hww / chi`, and `traceless`, `git -C external/GRChombo status --short`, and targeted diffs for `code/BlackStringToy` and `scripts`. The Stage 3G derivative and tracelessness checks passed.
+- Review status: Pending human review before commit.
+
+- Date: 2026-06-14
+- Goal: Strengthen Stage 3G after review by adding repository-owned determinant, round-trip, extrinsic-curvature reconstruction, and dimension-denominator checks.
+- Files changed: `docs/derivations/conformal_cartoon_translation_sympy.py`, `docs/derivations/conformal_cartoon_translation_notes.md`, `docs/physics_notes/stage3G_conformal_cartoon_translation.tex`, `docs/implementation/modified_cartoon_source_terms.md`, `TODO.md`, `research_plan/stage_checklists.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `python3 docs/derivations/conformal_cartoon_translation_sympy.py`, `git status --short`, `git diff --stat`, greps for `det gamma_4D`, `det h_4D`, `p=4`, and `hidden multiplicity`, `git -C external/GRChombo status --short`, and targeted diffs for `code/BlackStringToy` and `scripts`. The determinant, round-trip, `K_ij` reconstruction, full-4D tracelessness, and dimension-denominator guard checks passed.
+- Review status: Pending human review before commit.

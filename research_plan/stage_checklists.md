@@ -99,7 +99,16 @@ Goal: implement analytic initial data and perturbation in a controlled way.
 - [x] Stage 3E: add nonconstant `q(x,z)` Ricci regression against warped-product reference formulas.
 - [x] Stage 3E: assert `partial_x q`, `partial_z q`, and `partial_x partial_z q` are active for the chosen profile.
 - [x] Stage 3E: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
+- [x] Stage 3G: translate diagonal physical `gamma_ww=q` bookkeeping into conformal `q=hww/chi` variables.
+- [x] Stage 3G: verify `q` derivative identities, physical radius derivatives, and diagonal conformal tracelessness with SymPy.
+- [x] Stage 3G: strengthen the SymPy checks with the determinant condition, physical/conformal round trip, `K_ij` reconstruction, hidden-multiplicity tracelessness, and `/4` dimension-denominator guard.
+- [x] Stage 3G: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
+- [ ] Confirm against Pau's implementation how the cartoon/conformal determinant condition is enforced during evolution, especially whether hidden `hww` participates in `det h = 1` and trace-free `A` enforcement.
 - [ ] Extend Stage 3D symbolic checks to off-diagonal `g_xz`, conformal `chi/hww`, and regularized small-`x` limits.
+- [ ] Stage 3H: extend the conformal/cartoon derivation to off-diagonal `h_xz` / `g_xz`.
+- [ ] Stage 3I: decompose the future CCZ4 RHS into checked source-term blocks before C++ implementation.
+- [ ] Stage 3J: document regularity and small-`x` treatment for conformal cartoon variables.
+- [ ] Stage 3K: design unit-test fixtures before adding C++ source terms.
 - [ ] Add optional nonconstant profile with `f_zz != 0` so `R_zz` is a nonzero regression target.
 - [ ] Factor duplicated Stage 3C/3D/3E symbolic geometry helpers into a shared module.
 - [ ] Write or verify formulas for 5D black-string initial data in chosen coordinates.

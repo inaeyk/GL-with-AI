@@ -1,0 +1,238 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\title{Stage 3G Physics Note: Conformal Cartoon Translation}
+\author{GL-with-AI Project}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Scope}
+
+Stage 3G translates the diagonal reduced cartoon geometry from physical metric
+variables into the conformal variables used by GRChombo-style CCZ4. It is a
+derivation note only. No C++ source terms or variables are implemented.
+
+\section{Metric Dictionary}
+
+For gridded indices \(A,B\in\{x,z\}\),
+\begin{equation}
+  \gamma_{AB}=\chi^{-1}h_{AB},
+  \qquad
+  \gamma_{ww}=\chi^{-1}h_{ww}.
+\end{equation}
+The diagonal physical metric is therefore
+\begin{equation}
+  dl^2
+  =
+  \chi^{-1}h_{xx}\,dx^2
+  +
+  \chi^{-1}h_{zz}\,dz^2
+  +
+  x^2\chi^{-1}h_{ww}\,d\Omega_2^2.
+\end{equation}
+Define
+\begin{equation}
+  q=\gamma_{ww}=\frac{h_{ww}}{\chi}.
+\end{equation}
+The physical transverse sphere radius is
+\begin{equation}
+  R_{\rm sphere}=x\sqrt{\gamma_{ww}}
+  =
+  x\sqrt{\frac{h_{ww}}{\chi}}.
+\end{equation}
+The angular component is
+\begin{equation}
+  g_{\theta\theta}=x^2\gamma_{ww}
+  =
+  \frac{x^2h_{ww}}{\chi},
+\end{equation}
+not merely \(h_{ww}\) or \(\gamma_{ww}\).
+
+\section{Determinant Condition}
+
+The conformal split is not fully specified until the conformal determinant
+condition is imposed. For the diagonal cartoon/Cartesian-like
+four-spatial-dimensional metric block,
+\begin{equation}
+  \det\gamma_{\rm 4D}
+  =
+  \gamma_{xx}\gamma_{zz}\gamma_{ww}^2,
+\end{equation}
+because the two hidden directions both contribute \(\gamma_{ww}\). Thus
+\begin{equation}
+  \chi
+  =
+  \left(\det\gamma_{\rm 4D}\right)^{-1/4}
+  =
+  \left(\gamma_{xx}\gamma_{zz}\gamma_{ww}^2\right)^{-1/4},
+\end{equation}
+and
+\begin{equation}
+  h_{xx}=\chi\gamma_{xx},
+  \qquad
+  h_{zz}=\chi\gamma_{zz},
+  \qquad
+  h_{ww}=\chi\gamma_{ww}.
+\end{equation}
+The reduced conformal determinant is then
+\begin{equation}
+  \det h_{\rm 4D}=h_{xx}h_{zz}h_{ww}^2=1.
+\end{equation}
+This is the cartoon/Cartesian-like determinant condition. It does not include
+the spherical-coordinate Jacobian factor \(x^4\sin^2\theta\). The angular
+metric component remains
+\begin{equation}
+  g_{\theta\theta}
+  =
+  x^2\gamma_{ww}
+  =
+  \frac{x^2h_{ww}}{\chi}.
+\end{equation}
+
+\section{Derivative Identities}
+
+For \(q=h_{ww}/\chi\),
+\begin{equation}
+  \partial_A q
+  =
+  \chi^{-1}\partial_A h_{ww}
+  -
+  \chi^{-2}h_{ww}\partial_A\chi .
+\end{equation}
+The second derivative is
+\begin{align}
+  \partial_A\partial_B q
+  &=
+  \chi^{-1}\partial_A\partial_B h_{ww}
+  -
+  \chi^{-2}
+  \left[
+    \partial_A h_{ww}\partial_B\chi
+    +
+    \partial_B h_{ww}\partial_A\chi
+    +
+    h_{ww}\partial_A\partial_B\chi
+  \right] \nonumber\\
+  &\quad
+  +
+  2\chi^{-3}h_{ww}\partial_A\chi\,\partial_B\chi.
+\end{align}
+Equivalently,
+\begin{equation}
+  \partial_A\log q
+  =
+  \partial_A\log h_{ww}
+  -
+  \partial_A\log\chi,
+\end{equation}
+and
+\begin{equation}
+  \frac{\partial_A\partial_B q}{q}
+  =
+  \partial_A\partial_B\log q
+  +
+  \partial_A\log q\,\partial_B\log q.
+\end{equation}
+
+\section{Physical Radius}
+
+Let
+\begin{equation}
+  f=x\sqrt{q}=x\sqrt{\frac{h_{ww}}{\chi}}.
+\end{equation}
+Then
+\begin{align}
+  \partial_x\log f
+  &=
+  \frac{1}{x}
+  +
+  \frac{1}{2}
+  \left(\partial_x\log h_{ww}-\partial_x\log\chi\right),\\
+  \partial_z\log f
+  &=
+  \frac{1}{2}
+  \left(\partial_z\log h_{ww}-\partial_z\log\chi\right),
+\end{align}
+and
+\begin{equation}
+  \partial_A f=f\,\partial_A\log f.
+\end{equation}
+
+\section{Extrinsic Curvature}
+
+With \(\mathrm{GR\_SPACEDIM}=4\),
+\begin{equation}
+  K_{AB}
+  =
+  \chi^{-1}
+  \left(A_{AB}+\frac{h_{AB}K}{4}\right),
+  \qquad
+  K_{ww}
+  =
+  \chi^{-1}
+  \left(A_{ww}+\frac{h_{ww}K}{4}\right).
+\end{equation}
+The hidden component \(K_{ww}\) is the hidden Cartesian-like physical
+extrinsic-curvature component for each suppressed direction.
+
+The full four-dimensional conformal tracelessness relation is
+\begin{equation}
+  h^{AB}A_{AB}+\frac{2A_{ww}}{h_{ww}}=0.
+\end{equation}
+For diagonal \(h_{AB}\),
+\begin{equation}
+  \frac{A_{xx}}{h_{xx}}
+  +
+  \frac{A_{zz}}{h_{zz}}
+  +
+  \frac{2A_{ww}}{h_{ww}}
+  =
+  0,
+\end{equation}
+so
+\begin{equation}
+  A_{ww}
+  =
+  -\frac{h_{ww}}{2}
+  \left(
+    \frac{A_{xx}}{h_{xx}}
+    +
+    \frac{A_{zz}}{h_{zz}}
+  \right).
+\end{equation}
+
+\section{Repository Checks Added After Review}
+
+The initial Stage 3G repository script checked the \(q=h_{ww}/\chi\)
+derivative identities, physical-radius identities, and the diagonal
+tracelessness solve. After review, the script also checks the determinant
+condition, the physical-to-conformal metric round trip, reconstruction of
+\(K_{xx}\), \(K_{zz}\), and \(K_{ww}\), and the full four-dimensional
+tracelessness relation with hidden multiplicity.
+
+It also includes a guard for the dimension denominator in
+\begin{equation}
+  K_{ww}
+  =
+  \chi^{-1}
+  \left(A_{ww}+\frac{h_{ww}K}{4}\right).
+\end{equation}
+The script reconstructs \(K_{ww}\) with a generic denominator \(p\). The
+check passes for \(p=4\), but fails as expected for \(p=2\) and \(p=3\) under
+a positive numeric substitution. This records that the denominator is the full
+\(\mathrm{GR\_SPACEDIM}=4\), not \(\mathrm{CH\_SPACEDIM}=2\) or ordinary
+\(3+1\) intuition.
+
+\section{Limitations}
+
+This note covers only the diagonal reduced metric. Off-diagonal \(h_{xz}\) or
+\(g_{xz}\), full CCZ4 RHS terms, regularity near \(x=0\), and C++ variable
+layout remain future work.
+
+\end{document}
