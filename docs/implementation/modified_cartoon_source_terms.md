@@ -156,6 +156,23 @@ overall GRChombo `K_ij` sign convention. If GRChombo uses the opposite
 extrinsic-curvature sign convention, every `K_ij`, `K`, `A_ij`, and `Aww` sign
 derived from this check must be flipped.
 
+## Stage 3C/3D Symbolic Derivation Status
+
+Stage 3C verified the flat GP cartoon geometry used above: spherical
+Christoffels, the `sin^2(theta)` contraction cancellation, the map to `K_ww`,
+and the trace multiplicity from
+`N_hidden = GR_SPACEDIM - CH_SPACEDIM = 4 - 2 = 2`.
+
+Stage 3D starts the nontrivial hidden-metric derivation with
+`gamma_ww = q(x,z)` for a diagonal reduced metric. The SymPy scaffold isolates
+hidden-sector Christoffel identities, verifies the flat limit, checks angular
+contractions, and confirms structural Ricci identities such as
+`R_phi phi / sin(theta)^2 = R_theta theta` and the two-direction angular Ricci
+scalar contribution.
+
+These derivation artifacts are inputs to later implementation work. The actual
+modified-cartoon CCZ4 source terms remain unimplemented.
+
 ## Source-Term Categories
 
 The final CCZ4 modified-cartoon RHS formulas are not fully derived in this

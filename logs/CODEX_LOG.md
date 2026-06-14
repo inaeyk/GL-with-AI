@@ -185,3 +185,21 @@
 - Files changed: `docs/derivations/modified_cartoon_geometry_notes.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`, `git diff --stat`, and `git -C external/GRChombo status --short`.
 - Review status: Pending human review before commit.
+
+- Date: 2026-06-13
+- Goal: Begin Stage 3D symbolic derivation scaffold for nontrivial `gamma_ww` and hidden Ricci ingredients without implementing source changes.
+- Files changed: `docs/derivations/modified_cartoon_nontrivial_hww_sympy.py`, `docs/derivations/modified_cartoon_nontrivial_hww_notes.md`, `docs/physics_notes/stage3D_nontrivial_hww_ricci.tex`, `docs/derivations/README.md`, `docs/implementation/modified_cartoon_source_terms.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, `python3 docs/derivations/modified_cartoon_nontrivial_hww_sympy.py || true`, greps for `Stage 3D`, `gamma_ww`, and `R_theta`, `git -C external/GRChombo status --short`, and targeted diffs for `code/BlackStringToy` and `scripts`. The Stage 3D symbolic checks passed.
+- Review status: Pending human review before commit.
+
+- Date: 2026-06-13
+- Goal: Refine Stage 3D with constant-q Ricci regression assertions.
+- Files changed: `docs/derivations/modified_cartoon_nontrivial_hww_sympy.py`, `docs/derivations/modified_cartoon_nontrivial_hww_notes.md`, `docs/physics_notes/stage3D_nontrivial_hww_ricci.tex`, `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `python3 docs/derivations/modified_cartoon_nontrivial_hww_sympy.py`, `git status --short`, `git diff --stat`, greps for `constant-q` and `q0`, `git -C external/GRChombo status --short`, and targeted diffs for `code/BlackStringToy` and `scripts`. The Stage 3D constant-q Ricci regression assertions passed.
+- Review status: Pending human review before commit.
+
+- Date: 2026-06-13
+- Goal: Record the endorsed Stage 3D limitation that constant-q Ricci regression does not test non-constant-q derivative terms.
+- Files changed: `docs/derivations/modified_cartoon_nontrivial_hww_notes.md`, `docs/physics_notes/stage3D_nontrivial_hww_ricci.tex`, `TODO.md`, `research_plan/stage_checklists.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, greps for `non-constant` and `derivative terms`, `git -C external/GRChombo status --short`, and targeted diffs for `code/BlackStringToy` and `scripts`.
+- Review status: Pending human review before commit.

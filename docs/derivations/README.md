@@ -9,9 +9,11 @@ layer.
 
 Stage 3C starts with machine-checkable Christoffels, trace multiplicities, and
 Gullstrand-Painleve-like extrinsic-curvature formulas for the unperturbed
-uniform black-string slice. Later stages should extend this area to Ricci
-tensor/scalar terms, CCZ4 RHS source terms, regularized small-`x` limits, and
-unit-test fixtures.
+uniform black-string slice. Stage 3D extends the scaffold to a diagonal
+nontrivial hidden metric component `q(x,z) = gamma_ww`, including hidden-sector
+Christoffels and Ricci structural checks. Later stages should extend this area
+to off-diagonal reduced metrics, CCZ4 RHS source terms, regularized small-`x`
+limits, and unit-test fixtures.
 
 Current artifacts:
 
@@ -20,3 +22,9 @@ Current artifacts:
   cartoon trace bookkeeping.
 - `modified_cartoon_geometry_notes.md`: prose notes describing what the script
   checks, what it does not check, and the next derivation targets.
+- `modified_cartoon_nontrivial_hww_sympy.py`: SymPy checks for a diagonal
+  reduced metric with nontrivial `gamma_ww = q(x,z)`, including hidden-sector
+  Christoffels, angular contractions, Ricci multiplicity, and flat Ricci
+  limits.
+- `modified_cartoon_nontrivial_hww_notes.md`: prose notes and exact output for
+  the Stage 3D nontrivial-`gamma_ww` symbolic check.

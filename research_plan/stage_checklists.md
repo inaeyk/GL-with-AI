@@ -92,6 +92,12 @@ Goal: implement analytic initial data and perturbation in a controlled way.
 - [x] Stage 3C: add SymPy script for spherical Christoffels, GP extrinsic curvature, angular contractions, `K_ww`, and hidden-direction trace multiplicity.
 - [x] Stage 3C: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
 - [x] Stage 3C: rerun the SymPy derivation script in an environment with SymPy available and record passing output.
+- [x] Stage 3D: add SymPy scaffold for diagonal nontrivial `gamma_ww = q(x,z)` hidden-sector geometry.
+- [x] Stage 3D: verify hidden-sector Christoffel identities, flat limit, angular contraction multiplicity, Ricci angular equality, and flat Ricci limit.
+- [x] Stage 3D: add constant-q Ricci regression assertions for `R_xx`, `R_zz`, `R_xz`, angular Ricci components, and Ricci scalar.
+- [x] Stage 3D: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
+- [ ] Extend Stage 3D symbolic checks to off-diagonal `g_xz`, conformal `chi/hww`, and regularized small-`x` limits.
+- [ ] Add non-constant `q(x,z)` Ricci regression to guard hidden-sector derivative terms.
 - [ ] Write or verify formulas for 5D black-string initial data in chosen coordinates.
 - [ ] Decide exact variables to initialize: `chi`, `h_ij`, `hww`, `K`, `A_ij`, `Aww`, lapse, shift, `B`, `Gamma`, `Theta`.
 - [ ] Verify `hww/Aww` enum placement before implementation.

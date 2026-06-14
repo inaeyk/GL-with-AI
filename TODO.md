@@ -12,7 +12,9 @@
 - [ ] Ensure future physics-stage PDF notes accompany each physics/design stage.
 - [ ] Review Stage 3B modified-cartoon source-term derivation roadmap.
 - [ ] Generate the Stage 3B physics PDF after the Markdown derivation roadmap is reviewed.
-- [ ] Extend the Stage 3C derivation scaffold to Ricci and CCZ4 source-term formulas.
+- [ ] Extend the Stage 3D derivation scaffold to off-diagonal `g_xz`, conformal `chi/hww`, and regularized small-`x` limits.
+- [ ] Add non-constant `q(x,z)` Ricci regression to guard derivative terms.
+- [ ] Convert Stage 3C/3D symbolic checks into unit-test fixtures after review.
 - [ ] Review Stage 3A black-string initial-data design note before coding.
 - [ ] Resolve GP branch/sign, `K_ij` convention, and zero-shift gauge startup before implementation.
 - [ ] Decide `hww/Aww` enum layout and target build path before adding variables.
@@ -38,6 +40,8 @@
 - [x] Incorporate Stage 3B review refinements into the modified-cartoon notes.
 - [x] Create the Stage 3C symbolic/geometric derivation scaffold.
 - [x] Rerun the Stage 3C SymPy derivation script and record passing output.
+- [x] Create and run the Stage 3D nontrivial-`gamma_ww` symbolic derivation scaffold.
+- [x] Add the Stage 3D constant-q Ricci regression assertions.
 
 ## Later
 

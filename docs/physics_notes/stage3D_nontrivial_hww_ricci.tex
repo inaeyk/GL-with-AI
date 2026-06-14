@@ -1,0 +1,148 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\title{Stage 3D Physics Note: Nontrivial Hidden Metric and Ricci Ingredients}
+\author{GL-with-AI Project}
+\date{\today}
+
+\newcommand{\GRSP}{\texttt{GR\_SPACEDIM}}
+\newcommand{\CHSP}{\texttt{CH\_SPACEDIM}}
+
+\begin{document}
+\maketitle
+
+\section{Scope}
+
+This note summarizes the Stage 3D symbolic derivation scaffold. It is a
+derivation artifact only. It does not implement CCZ4 source terms, add
+\texttt{hww}/\texttt{Aww} variables, or make the current
+\texttt{BlackStringToy} scaffold physically meaningful.
+
+\section{Metric Ansatz}
+
+The first nontrivial hidden-metric check uses the diagonal SO(3)-symmetric
+spatial metric
+\begin{equation}
+  dl^2
+  =
+  a(x,z)\,dx^2
+  + c(x,z)\,dz^2
+  + x^2 q(x,z)\,d\theta^2
+  + x^2 q(x,z)\sin^2\theta\,d\phi^2 .
+\end{equation}
+Here \(q(x,z)=\gamma_{ww}\) is the physical hidden cartoon component. The
+factors \(x^2\) and \(x^2\sin^2\theta\) are coordinate reconstruction factors,
+not part of the hidden Cartesian-like component itself.
+
+\section{Christoffel Checks}
+
+The key hidden-sector Christoffels are
+\begin{align}
+  \Gamma^x_{\theta\theta}
+  &=
+  -\frac{1}{2a}\partial_x(x^2q),&
+  \Gamma^z_{\theta\theta}
+  &=
+  -\frac{1}{2c}\partial_z(x^2q),\\
+  \Gamma^\theta_{x\theta}
+  &=
+  \frac{1}{2}\partial_x\log(x^2q)
+  =
+  \frac{1}{x}+\frac{1}{2}\partial_x\log q,&
+  \Gamma^\theta_{z\theta}
+  &=
+  \frac{1}{2}\partial_z\log q .
+\end{align}
+The \(\phi\) versions satisfy
+\begin{align}
+  \Gamma^x_{\phi\phi}
+  &=
+  \Gamma^x_{\theta\theta}\sin^2\theta,&
+  \Gamma^z_{\phi\phi}
+  &=
+  \Gamma^z_{\theta\theta}\sin^2\theta,\\
+  \Gamma^\phi_{x\phi}
+  &=
+  \Gamma^\theta_{x\theta},&
+  \Gamma^\phi_{z\phi}
+  &=
+  \Gamma^\theta_{z\theta}.
+\end{align}
+
+\section{Flat Limit and Multiplicity}
+
+Setting \(a=c=q=1\) recovers the Stage 3C flat spherical Christoffels. For any
+angular tensor satisfying
+\begin{equation}
+  T_{\phi\phi}=T_{\theta\theta}\sin^2\theta,
+\end{equation}
+the angular contractions agree:
+\begin{equation}
+  g^{\phi\phi}T_{\phi\phi}
+  =
+  g^{\theta\theta}T_{\theta\theta}.
+\end{equation}
+For the black-string reduction,
+\begin{equation}
+  N_{\rm hidden}=\GRSP-\CHSP=4-2=2,
+\end{equation}
+so these two equivalent angular sectors give two hidden contributions.
+
+\section{Ricci Structural Checks}
+
+The Stage 3D script checks the structural Ricci identities
+\begin{equation}
+  \frac{R_{\phi\phi}}{\sin^2\theta} - R_{\theta\theta}=0
+\end{equation}
+and
+\begin{equation}
+  g^{\theta\theta}R_{\theta\theta}
+  +
+  g^{\phi\phi}R_{\phi\phi}
+  =
+  2g^{\theta\theta}R_{\theta\theta}.
+\end{equation}
+It also verifies that \(R_{xx}\), \(R_{zz}\), \(R_{\theta\theta}\), and
+\(R_{\phi\phi}\) vanish in the flat limit.
+
+\section{Constant-\texorpdfstring{\(q\)}{q} Ricci Regression}
+
+Because the general abstract Ricci expressions are large, the script also
+asserts a nontrivial constant-\(q\) regression. For
+\begin{equation}
+  dl^2 = dx^2 + dz^2 + q_0 x^2 d\Omega_2^2,
+\end{equation}
+the metric is flat only when \(q_0=1\). The asserted Ricci components are
+\begin{align}
+  R_{xx} &= 0,&
+  R_{zz} &= 0,&
+  R_{xz} &= 0,\\
+  R_{\theta\theta} &= 1-q_0,&
+  R_{\phi\phi} &= (1-q_0)\sin^2\theta,
+\end{align}
+and the Ricci scalar is
+\begin{equation}
+  R=\frac{2(1-q_0)}{q_0 x^2}.
+\end{equation}
+This is a self-guarding Ricci check, not a completed CCZ4 RHS derivation.
+
+The constant-\(q_0\) regression is a useful non-flat check, but it does not
+test the derivative sector of the general \(q(x,z)\) expressions. Since
+\(\partial_x q=\partial_z q=0\) and all second derivatives vanish for
+\(q=q_0\), the terms involving gradients and Hessians of \(\gamma_{ww}\)
+remain unguarded by an internal assertion. A later derivation stage should
+introduce a non-constant profile \(q(x,z)\) with independently known curvature,
+or an equivalent reference calculation, to regression-test these terms.
+
+\section{Remaining Work}
+
+The off-diagonal reduced component \(g_{xz}\), non-constant \(q(x,z)\)
+derivative-term regression, conformal variables \(\chi,h_{ww}\), full CCZ4 RHS
+terms, regularized small-\(x\) limits, C++ translation, and unit-test fixtures
+remain future work.
+
+\end{document}
