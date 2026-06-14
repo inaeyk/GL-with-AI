@@ -50,6 +50,7 @@
 - [x] Add Stage 3F conformal-cartoon translation derivation and SymPy checks.
 - [x] Add Stage 3G off-diagonal reduced-metric derivation and SymPy checks.
 - [x] Add Stage 3G sheared-flat off-diagonal Ricci regression gate.
+- [x] Add final Stage 3G normalized determinant guard and Stage 3F diagonal-only warning.
 
 ## Later
 

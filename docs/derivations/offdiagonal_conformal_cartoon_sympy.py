@@ -97,6 +97,11 @@ def main():
         "det h_4D normalization ratio",
         det_h_4d.subs(h_from_gamma) / (chi**4 * det_gamma_4d) - 1,
     )
+    normalized_chi_fourth = 1 / det_gamma_4d
+    check_zero(
+        "normalized off-diagonal det h_4D = 1",
+        normalized_chi_fourth * det_gamma_4d - 1,
+    )
 
     check_zero("inverse h xx component", h_xx * h_inv_xx + h_xz * h_inv_xz - 1)
     check_zero("inverse h xz component", h_xx * h_inv_xz + h_xz * h_inv_zz)

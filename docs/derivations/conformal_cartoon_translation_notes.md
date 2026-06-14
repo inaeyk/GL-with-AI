@@ -16,6 +16,9 @@ gamma_ww = q(x,z).
 Stage 3F translates that physical metric bookkeeping into the conformal
 variables that GRChombo-style CCZ4 stores and evolves.
 
+Stage 3F is diagonal-only; off-diagonal inverse and tracelessness checks belong
+to Stage 3G.
+
 ## Metric Dictionary
 
 For the diagonal reduced physical metric,

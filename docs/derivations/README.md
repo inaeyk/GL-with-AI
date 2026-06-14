@@ -43,7 +43,8 @@ Current artifacts:
   the Stage 3F conformal-variable translation.
 - `offdiagonal_conformal_cartoon_sympy.py`: SymPy checks for the Stage 3G
   off-diagonal conformal-cartoon determinant, inverse metric, tracelessness,
-  extrinsic-curvature reconstruction, denominator guard, and diagonal limit.
+  extrinsic-curvature reconstruction, normalized determinant guard,
+  denominator guard, and diagonal limit.
 - `offdiagonal_conformal_cartoon_notes.md`: prose notes and exact output for
   the Stage 3G off-diagonal reduced-metric extension.
 - `offdiagonal_ricci_flat_gate_sympy.py`: SymPy Ricci flatness gate for

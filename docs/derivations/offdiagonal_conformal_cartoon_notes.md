@@ -143,7 +143,8 @@ ordinary 3+1 intuition.
 `offdiagonal_conformal_cartoon_sympy.py` verifies:
 
 - physical determinant `D_gamma` and `det gamma_4D`;
-- conformal determinant relation and determinant normalization ratio;
+- conformal determinant relation, determinant normalization ratio, and explicit
+  normalized `det h_4D = 1` guard;
 - inverse conformal metric components;
 - full 4D tracelessness with both off-diagonal and hidden multiplicity factors;
 - reconstruction of `K_xx`, `K_xz`, `K_zz`, and `K_ww` using `/4`;
@@ -171,6 +172,7 @@ PASS physical 4D determinant det gamma_4D = 0
 PASS conformal reduced-block determinant from physical block = 0
 PASS conformal 4D determinant relation = 0
 PASS det h_4D normalization ratio = 0
+PASS normalized off-diagonal det h_4D = 1 = 0
 PASS inverse h xx component = 0
 PASS inverse h xz component = 0
 PASS inverse h zx component = 0
