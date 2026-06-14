@@ -10,6 +10,9 @@
 ## Active
 
 - [ ] Ensure future physics-stage PDF notes accompany each physics/design stage.
+- [ ] Review Stage 3B modified-cartoon source-term derivation roadmap.
+- [ ] Generate the Stage 3B physics PDF after the Markdown derivation roadmap is reviewed.
+- [ ] Complete symbolic verification plan for modified-cartoon source terms.
 - [ ] Review Stage 3A black-string initial-data design note before coding.
 - [ ] Resolve GP branch/sign, `K_ij` convention, and zero-shift gauge startup before implementation.
 - [ ] Decide `hww/Aww` enum layout and target build path before adding variables.
@@ -31,6 +34,8 @@
 - [x] Harden the Stage 2B scratch build script against root-owned Docker outputs.
 - [x] Draft the Stage 3A black-string initial-data design note.
 - [x] Add physics-stage PDF note workflow and build the Stage 3A PDF note.
+- [x] Draft the Stage 3B modified-cartoon source-term derivation and validation roadmap.
+- [x] Incorporate Stage 3B review refinements into the modified-cartoon notes.
 
 ## Later
 

@@ -1,0 +1,208 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{hyperref}
+
+\title{Stage 3B Physics Note: Modified-Cartoon Source Terms for the 5D Black String}
+\author{GL-with-AI Project}
+\date{\today}
+
+\newcommand{\GRSP}{\texttt{GR\_SPACEDIM}}
+\newcommand{\CHSP}{\texttt{CH\_SPACEDIM}}
+
+\begin{document}
+\maketitle
+
+\section{Scope and Status}
+
+This note is a polished companion source for the Stage 3B implementation note.
+It is a derivation and validation roadmap only. No modified-cartoon source
+terms are implemented in \texttt{BlackStringToy}; the current scaffold does not
+evolve a five-dimensional black string.
+
+The target reduction has gridded directions \(x,z\) and two hidden transverse
+directions \(w_1,w_2\), with \(\GRSP=4\) and \(\CHSP=2\). The primary risk is
+silent failure: a code may compile and run while omitting hidden-direction
+algebraic terms.
+
+The Stage 1 source inspection found that the required 5D/SO(3)
+modified-cartoon CCZ4 source terms are absent from public GRChombo. Public
+CCZ4 contains dimension-parameterized algebra, but not the project-specific
+hidden-sphere source-term system required for \(\CHSP=2\), \(\GRSP=4\). This
+is a statement about the black-string target in this project, not a defect in
+public GRChombo's intended 3+1D use.
+
+Thus Stage 3B is not merely checking whether these terms exist. It is planning
+the derivation, implementation, and validation of source terms that must be
+added in the project-specific layer.
+
+\section{Reduced Geometry}
+
+The transverse flat spatial metric can be written in spherical form as
+\begin{equation}
+  dx^2 + x^2 d\Omega_2^2 .
+\end{equation}
+In the hidden Cartesian-like cartoon representation, flat transverse space has
+\begin{equation}
+  \gamma_{ww}=1.
+\end{equation}
+The angular factor \(x^2\) is supplied by coordinate reconstruction, not by
+setting \(h_{ww}\) or \(\gamma_{ww}\) to \(x^2\). The physical transverse sphere
+radius is
+\begin{equation}
+  R = x\sqrt{\gamma_{ww}} = x\sqrt{\chi^{-1}h_{ww}} .
+\end{equation}
+
+\section{Spherical-to-Cartoon Map}
+
+\begin{center}
+\begin{tabular}{>{\raggedright}p{0.42\linewidth}>{\raggedright\arraybackslash}p{0.48\linewidth}}
+\hline
+Spherical object & Hidden/cartoon representation \\
+\hline
+\(g_{\theta\theta}=x^2\) & \(\gamma_{ww}=1\) plus external \(x^2\) radius factor \\
+\(K_{\theta\theta}=x\beta^x\) & \(K_{ww}=\beta^x/x\) \\
+\(\Gamma^x_{\theta\theta}=-x\) & hidden algebraic source terms after contraction \\
+\(\Gamma^\theta_{x\theta}=1/x\) & explicit \(1/x\) reduced source terms \\
+angular trace contribution & two hidden contributions, one for each suppressed direction \\
+diagonal trace & \(T^x{}_x + T^z{}_z + 2T^w{}_w\) \\
+\hline
+\end{tabular}
+\end{center}
+
+For this project the number of suppressed spatial directions is
+\begin{equation}
+  N_{\rm hidden}=\GRSP-\CHSP=4-2=2,
+\end{equation}
+so diagonal traces contain \(2T^w{}_w\). Writing the factor this way helps
+avoid hard-coding the wrong multiplicity in future variants. The two hidden
+directions are equivalent here because of the imposed SO(3) spherical symmetry.
+In source-code notation, this is
+\verb|N_hidden = GR_SPACEDIM - CH_SPACEDIM = 4 - 2 = 2|.
+
+\section{GP Extrinsic-Curvature Check}
+
+For the natural GP shift
+\begin{equation}
+  \beta^x = s\sqrt{\frac{r_0}{x}},
+\end{equation}
+and flat spatial metric
+\begin{equation}
+  dl^2 = dx^2 + x^2 d\Omega_2^2 + dz^2,
+\end{equation}
+the relevant spherical Christoffels are
+\begin{align}
+  \Gamma^x_{\theta\theta} &= -x, &
+  \Gamma^x_{\phi\phi} &= -x\sin^2\theta,\\
+  \Gamma^\theta_{x\theta} &= \frac{1}{x}, &
+  \Gamma^\phi_{x\phi} &= \frac{1}{x}.
+\end{align}
+Using
+\begin{equation}
+  K_{ij}
+  =
+  \frac{1}{2\alpha}
+  \left(D_i\beta_j+D_j\beta_i-\partial_t\gamma_{ij}\right),
+\end{equation}
+with \(\alpha=1\), one obtains
+\begin{align}
+  K_{xx} &= \partial_x\beta_x
+  = -\frac{s}{2}\sqrt{\frac{r_0}{x^3}},\\
+  K_{\theta\theta} &= x\beta^x = s\sqrt{r_0x},\\
+  K_{\phi\phi} &= x\beta^x\sin^2\theta,\\
+  K_{zz} &= 0.
+\end{align}
+The \(\sin^2\theta\) factor cancels in the contracted contribution:
+\begin{align}
+  \gamma^{\phi\phi}K_{\phi\phi}
+  &=
+  \frac{1}{x^2\sin^2\theta}
+  \left(x\beta^x\sin^2\theta\right)
+  =
+  \frac{\beta^x}{x},\\
+  \gamma^{\theta\theta}K_{\theta\theta}
+  &=
+  \frac{1}{x^2}\left(x\beta^x\right)
+  =
+  \frac{\beta^x}{x}.
+\end{align}
+This demonstrates why the two suppressed directions contribute equally after
+contraction and why the cartoon representation uses two copies of
+\(K^w{}_w\).
+Mapping to hidden cartoon components gives
+\begin{equation}
+  K_{ww} = \frac{\beta^x}{x} = s\sqrt{\frac{r_0}{x^3}},
+\end{equation}
+for each hidden direction, and
+\begin{equation}
+  K
+  =
+  K^x{}_x+K^z{}_z+K^{w_1}{}_{w_1}+K^{w_2}{}_{w_2}
+  =
+  \frac{3s}{2}\sqrt{\frac{r_0}{x^3}}.
+\end{equation}
+This check assumes the unperturbed \(\chi=1\) GP slice and remains subject to
+GRChombo's possible overall \(K_{ij}\) sign convention.
+
+\section{Source-Term Categories}
+
+The eventual CCZ4 implementation must handle hidden metric variables
+\(h_{ww}\) and \(\gamma_{ww}\), hidden extrinsic curvature \(A_{ww}\) and
+\(K_{ww}\), full-dimensional traces with \(\GRSP=4\), algebraic \(1/x\) and
+\(1/x^2\) replacements for suppressed derivatives, hidden Ricci tensor/scalar
+terms, conformal connection functions and Gamma constraints, gauge RHS terms,
+and regularization near small \(x\).
+
+In this Stage 3B target, hidden-direction multiplicities should be written as
+\(N_{\rm hidden}=\GRSP-\CHSP=2\) equivalent SO(3) contributions, not inferred
+from the number of grid axes alone.
+
+Detailed CCZ4 RHS formulas are future work and require symbolic verification
+before implementation.
+
+\section{Validation Strategy}
+
+Validation should proceed in layers:
+\begin{enumerate}
+  \item Symbolically derive reduced Christoffels, Ricci terms, traces, and CCZ4
+    RHS contributions, preferably with xAct/Mathematica or SymPy.
+  \item Unit-test Minkowski cartoon variables, the uniform GP black string, and
+    the perturbed GL seed.
+  \item Track runtime diagnostics: Hamiltonian and momentum constraints,
+    \(\Theta\), tracelessness, extrema of \(h_{ww}\) and \(\gamma_{ww}\),
+    source-term norms, regularity near small \(x\), and horizon radius/area.
+  \item Run at least three resolutions and compare to exact/unperturbed
+    solutions, because wrong source terms can converge to the wrong equations.
+\end{enumerate}
+
+\section{Failure Modes}
+
+Common silent failures include using \(\CHSP=2\) in physical traces, missing
+the factor \(N_{\rm hidden}=\GRSP-\CHSP=4-2=2\) for the two equivalent hidden
+directions, setting \(h_{ww}=x^2\), confusing \(K_{ww}\) with
+\(K_{\theta\theta}\), dropping \(1/x\) or \(1/x^2\) terms, failing to
+regularize near small \(x\), or using an enum layout that causes AH or
+source-term code to read the wrong variable.
+
+\section{Unresolved Before Coding}
+
+Before implementation, the project still needs a staged CCZ4 modified-cartoon
+RHS derivation. The future sub-plan is to derive reduced metric and
+inverse-metric bookkeeping including \(h_{ww}\) and \(\gamma_{ww}\), derive
+reduced Christoffels including all \(1/x\) terms and regular limits, derive
+hidden Ricci tensor/scalar contributions, derive conformal-metric RHS terms
+involving \(h_{ww}\), derive extrinsic-curvature RHS terms involving \(A_{ww}\)
+and trace terms, derive Gamma/connection and constraint-propagation terms,
+derive gauge-equation terms and verify whether hidden-direction contributions
+enter, and validate each block against symbolic calculations and exact test
+data before coding the next block.
+
+The project also still needs symbolic verification, a small-\(x\)
+regularization decision, the exact \texttt{hww}/\texttt{Aww} enum layout, a
+reliable \(\GRSP=4\) build path, unit-test definitions, direct comparison to
+spherical-coordinate formulas, and convergence acceptance criteria.
+
+\end{document}

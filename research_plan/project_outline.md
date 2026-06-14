@@ -37,7 +37,7 @@ Physics and physics-design stages also produce polished review notes under
 
 - Goal: implement the baseline uniform black-string initial data and GL-triggering perturbation.
 - Main deliverables: initial-data implementation, turduckening regularization, constraint-check outputs, short gauge-settling run.
-- Current status: design in progress. Stage 3A documents the target uniform-string initial data, GL perturbation, variable map, turduckening plan, and unresolved implementation decisions. A polished LaTeX physics-note source and built PDF review artifact exist under `docs/physics_notes/`. No Stage 3 source implementation has started.
+- Current status: design in progress. Stage 3A documents the target uniform-string initial data, GL perturbation, variable map, turduckening plan, and unresolved implementation decisions. Stage 3B documents the modified-cartoon hidden-direction source-term derivation and validation roadmap. A polished Stage 3A PDF exists under `docs/physics_notes/`; initial Stage 3B LaTeX source has been drafted, with PDF generation deferred until after review. No Stage 3 source implementation has started.
 
 ## Stage 4: 4+1 CCZ4 / SO(3) Modified Cartoon Implementation
 

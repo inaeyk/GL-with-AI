@@ -84,6 +84,10 @@ Goal: implement analytic initial data and perturbation in a controlled way.
 - [x] Stage 3A: document the planned GRChombo variable map for initial data.
 - [x] Stage 3A: document GL perturbation, turduckening, boundary assumptions, and unresolved decisions.
 - [x] Stage 3A: create polished LaTeX physics-note source and build the PDF review artifact under `docs/physics_notes/`.
+- [x] Stage 3B: document modified-cartoon hidden-direction source-term derivation and validation roadmap.
+- [x] Stage 3B: document silent-failure modes for reduced 5D/SO(3) evolution.
+- [x] Stage 3B: add initial LaTeX physics-note source; PDF build deferred until after Markdown review.
+- [x] Stage 3B: incorporate review refinements for the `sin^2(theta)` contraction check, public-GRChombo source-term absence statement, staged CCZ4 RHS derivation plan, and hidden-direction multiplicity.
 - [ ] Write or verify formulas for 5D black-string initial data in chosen coordinates.
 - [ ] Decide exact variables to initialize: `chi`, `h_ij`, `hww`, `K`, `A_ij`, `Aww`, lapse, shift, `B`, `Gamma`, `Theta`.
 - [ ] Verify `hww/Aww` enum placement before implementation.
@@ -94,6 +98,7 @@ Goal: implement analytic initial data and perturbation in a controlled way.
 - [ ] Check periodicity in `z`.
 - [ ] Check smoothness outside cutoff.
 - [ ] Check constraints and gauge quantities qualitatively.
+- [ ] Generate and review the Stage 3B polished physics PDF after the Markdown derivation roadmap is reviewed.
 
 Gate: do not proceed to Stage 4 or run long GL evolutions until `t=0` fields, parameter parsing, and constraints are reviewed and approved by the user. Do not treat outputs as physically meaningful until the relevant equations, variables, and diagnostics are reviewed and approved by the user.
 
@@ -101,7 +106,7 @@ Gate: do not proceed to Stage 4 or run long GL evolutions until `t=0` fields, pa
 
 Goal: implement the actual reduced 5D dynamics on the 2D grid.
 
-- [ ] Derive/list required modified-cartoon source terms.
+- [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.
 - [ ] Implement `hww/Aww` evolution equations.
 - [ ] Ensure `K` trace and `A` tracelessness use `GR_SPACEDIM=4`.

@@ -161,3 +161,15 @@
 - Files changed: `TODO.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`, `git diff --stat`, `ls -lh docs/physics_notes/stage3A_black_string_initial_data.pdf`, `git check-ignore -v docs/physics_notes/stage3A_black_string_initial_data.pdf || true`, and `git -C external/GRChombo status --short`. Confirmed the PDF exists and is not ignored.
 - Review status: Pending human review before commit.
+
+- Date: 2026-06-13
+- Goal: Begin Stage 3B modified-cartoon source-term derivation and validation planning without implementing source changes.
+- Files changed: `docs/implementation/modified_cartoon_source_terms.md`, `docs/physics_notes/stage3B_modified_cartoon_source_terms.tex`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, targeted greps for `Stage 3B`, `modified-cartoon`, and `K_ww`, checked `git -C external/GRChombo status --short`, and confirmed no `code/BlackStringToy`, `external/GRChombo`, or script files were changed.
+- Review status: Pending human review before commit.
+
+- Date: 2026-06-13
+- Goal: Incorporate Stage 3B review refinements into the modified-cartoon source-term notes without implementing source changes.
+- Files changed: `docs/implementation/modified_cartoon_source_terms.md`, `docs/physics_notes/stage3B_modified_cartoon_source_terms.tex`, `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, greps for `sin`, `GR_SPACEDIM - CH_SPACEDIM`, and `absent from public GRChombo`, checked `git -C external/GRChombo status --short`, and confirmed no `code/BlackStringToy`, `external/GRChombo`, or script files were changed.
+- Review status: Pending human review before commit.
