@@ -88,6 +88,10 @@ Goal: implement analytic initial data and perturbation in a controlled way.
 - [x] Stage 3B: document silent-failure modes for reduced 5D/SO(3) evolution.
 - [x] Stage 3B: add initial LaTeX physics-note source; PDF build deferred until after Markdown review.
 - [x] Stage 3B: incorporate review refinements for the `sin^2(theta)` contraction check, public-GRChombo source-term absence statement, staged CCZ4 RHS derivation plan, and hidden-direction multiplicity.
+- [x] Stage 3C: create `docs/derivations/` scaffold for symbolic modified-cartoon geometry checks.
+- [x] Stage 3C: add SymPy script for spherical Christoffels, GP extrinsic curvature, angular contractions, `K_ww`, and hidden-direction trace multiplicity.
+- [x] Stage 3C: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
+- [x] Stage 3C: rerun the SymPy derivation script in an environment with SymPy available and record passing output.
 - [ ] Write or verify formulas for 5D black-string initial data in chosen coordinates.
 - [ ] Decide exact variables to initialize: `chi`, `h_ij`, `hww`, `K`, `A_ij`, `Aww`, lapse, shift, `B`, `Gamma`, `Theta`.
 - [ ] Verify `hww/Aww` enum placement before implementation.

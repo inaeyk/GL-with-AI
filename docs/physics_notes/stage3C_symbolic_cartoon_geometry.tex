@@ -1,0 +1,102 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\title{Stage 3C Physics Note: Symbolic Cartoon Geometry Checks}
+\author{GL-with-AI Project}
+\date{\today}
+
+\newcommand{\GRSP}{\texttt{GR\_SPACEDIM}}
+\newcommand{\CHSP}{\texttt{CH\_SPACEDIM}}
+
+\begin{document}
+\maketitle
+
+\section{Scope and Status}
+
+This note summarizes the Stage 3C symbolic derivation scaffold for the
+modified-cartoon black-string reduction. The scaffold is documentation and
+derivation tooling only. It is not GRChombo evolution code and does not
+implement CCZ4 source terms.
+
+\section{Spatial Metric and Christoffels}
+
+The check starts from the four-spatial-dimensional GP spatial slice in
+coordinates \((x,\theta,\phi,z)\),
+\begin{equation}
+  dl^2 = dx^2 + x^2 d\theta^2 + x^2\sin^2\theta\,d\phi^2 + dz^2 .
+\end{equation}
+Computing Christoffel symbols from this metric gives the angular components
+needed for the reduced cartoon bookkeeping:
+\begin{align}
+  \Gamma^x_{\theta\theta} &= -x, &
+  \Gamma^x_{\phi\phi} &= -x\sin^2\theta,\\
+  \Gamma^\theta_{x\theta} &= \frac{1}{x}, &
+  \Gamma^\phi_{x\phi} &= \frac{1}{x}.
+\end{align}
+
+\section{GP Extrinsic Curvature}
+
+For the natural GP radial shift
+\begin{equation}
+  \beta^x=s\sqrt{\frac{r_0}{x}},
+\end{equation}
+with \(\beta_x=\beta^x\), \(\alpha=1\), and time-independent spatial metric,
+the convention checked by the script is
+\begin{equation}
+  K_{ij}=\frac{1}{2}\left(D_i\beta_j+D_j\beta_i\right).
+\end{equation}
+The resulting components are
+\begin{align}
+  K_{xx} &= -\frac{s}{2}\sqrt{\frac{r_0}{x^3}},\\
+  K_{\theta\theta} &= x\beta^x=s\sqrt{r_0x},\\
+  K_{\phi\phi} &= x\beta^x\sin^2\theta,\\
+  K_{zz} &= 0.
+\end{align}
+This remains subject to the final GRChombo \(K_{ij}\) sign convention.
+
+\section{Cartoon Contractions and Multiplicity}
+
+The angular contractions are equal:
+\begin{align}
+  \gamma^{\theta\theta}K_{\theta\theta}
+  &=
+  \frac{1}{x^2}(x\beta^x)
+  =
+  \frac{\beta^x}{x},\\
+  \gamma^{\phi\phi}K_{\phi\phi}
+  &=
+  \frac{1}{x^2\sin^2\theta}
+  (x\beta^x\sin^2\theta)
+  =
+  \frac{\beta^x}{x}.
+\end{align}
+Thus the hidden cartoon component in this basic check is
+\begin{equation}
+  K_{ww}=\frac{\beta^x}{x}.
+\end{equation}
+For this project,
+\begin{equation}
+  N_{\rm hidden}=\GRSP-\CHSP=4-2=2,
+\end{equation}
+or in code notation,
+\begin{center}
+\verb|N_hidden = GR_SPACEDIM - CH_SPACEDIM = 4 - 2 = 2|.
+\end{center}
+The trace check is
+\begin{equation}
+  K = K^x{}_x + K^z{}_z + 2K^w{}_w
+    = \frac{3s}{2}\sqrt{\frac{r_0}{x^3}} .
+\end{equation}
+
+\section{Limits}
+
+The current scaffold verifies Christoffels, angular contractions, hidden
+multiplicity, and GP extrinsic-curvature formulas. It does not yet derive
+Ricci terms, CCZ4 RHS source terms, nontrivial \(h_{ww}\), regularized
+small-\(x\) limits, or unit-test fixtures.
+
+\end{document}

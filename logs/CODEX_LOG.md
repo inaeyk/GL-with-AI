@@ -173,3 +173,15 @@
 - Files changed: `docs/implementation/modified_cartoon_source_terms.md`, `docs/physics_notes/stage3B_modified_cartoon_source_terms.tex`, `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`, `git diff --stat`, greps for `sin`, `GR_SPACEDIM - CH_SPACEDIM`, and `absent from public GRChombo`, checked `git -C external/GRChombo status --short`, and confirmed no `code/BlackStringToy`, `external/GRChombo`, or script files were changed.
 - Review status: Pending human review before commit.
+
+- Date: 2026-06-13
+- Goal: Begin Stage 3C symbolic/geometric derivation scaffold for modified-cartoon source terms without implementing source changes.
+- Files changed: `docs/derivations/README.md`, `docs/derivations/modified_cartoon_geometry_sympy.py`, `docs/derivations/modified_cartoon_geometry_notes.md`, `docs/physics_notes/stage3C_symbolic_cartoon_geometry.tex`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, `python3 docs/derivations/modified_cartoon_geometry_sympy.py || true`, greps for `Stage 3C`, `Gamma`, and `K_ww`, `git -C external/GRChombo status --short`, and targeted diffs for `code/BlackStringToy` and `scripts`. The script reported `SymPy is required for this derivation check. Install it with: python3 -m pip install sympy`.
+- Review status: Pending human review before commit.
+
+- Date: 2026-06-13
+- Goal: Record the successful Stage 3C SymPy symbolic-geometry derivation run.
+- Files changed: `docs/derivations/modified_cartoon_geometry_notes.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`, `git diff --stat`, and `git -C external/GRChombo status --short`.
+- Review status: Pending human review before commit.

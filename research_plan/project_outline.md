@@ -37,7 +37,7 @@ Physics and physics-design stages also produce polished review notes under
 
 - Goal: implement the baseline uniform black-string initial data and GL-triggering perturbation.
 - Main deliverables: initial-data implementation, turduckening regularization, constraint-check outputs, short gauge-settling run.
-- Current status: design in progress. Stage 3A documents the target uniform-string initial data, GL perturbation, variable map, turduckening plan, and unresolved implementation decisions. Stage 3B documents the modified-cartoon hidden-direction source-term derivation and validation roadmap. A polished Stage 3A PDF exists under `docs/physics_notes/`; initial Stage 3B LaTeX source has been drafted, with PDF generation deferred until after review. No Stage 3 source implementation has started.
+- Current status: design/tooling in progress. Stage 3A documents the target uniform-string initial data, GL perturbation, variable map, turduckening plan, and unresolved implementation decisions. Stage 3B documents the modified-cartoon hidden-direction source-term derivation and validation roadmap. Stage 3C adds a `docs/derivations/` SymPy scaffold for machine-checking basic Christoffels, GP extrinsic curvature, angular contractions, and hidden-direction trace multiplicity; the symbolic geometry check now passes and its output is recorded in the derivation notes. A polished Stage 3A PDF exists under `docs/physics_notes/`; initial Stage 3B and Stage 3C LaTeX sources have been drafted, with PDF generation deferred until after review. No Stage 3 source implementation has started.
 
 ## Stage 4: 4+1 CCZ4 / SO(3) Modified Cartoon Implementation
 
