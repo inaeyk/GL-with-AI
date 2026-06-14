@@ -17,8 +17,8 @@ terms. Stage 3F translates the diagonal physical cartoon variables into
 conformal variables `chi`, `h_AB`, and `hww`. Stage 3G extends that
 translation to an off-diagonal reduced block with `h_xz` / `gamma_xz`. Stage
 3H decomposes the future CCZ4 RHS into validation blocks before implementation.
-Later stages should extend this area to regularized small-`x` limits and
-unit-test fixtures.
+Stage 3I records small-`x` regularity expectations and symbolic removable-limit
+checks. Later stages should extend this area to unit-test fixtures.
 
 Current artifacts:
 
@@ -55,3 +55,11 @@ Current artifacts:
 - `ccz4_rhs_block_decomposition_notes.md`: Stage 3H planning note decomposing
   the future CCZ4 RHS into blocks with exact, reference-code, or
   convergence-based validation routes.
+- `small_x_regularization_sympy.py`: SymPy checks for representative
+  removable singularity limits near `x = 0`, including even hidden-sector
+  fields, odd off-diagonal components, and the assembled
+  `tilde_Gamma^x` / `hat_Gamma^x` cartoon connection singular part.
+- `small_x_regularization_notes.md`: Stage 3I notes on parity, axis matching,
+  conformal small-`x` conditions, and deferred numerical implementation
+  choices, including the distinction between cartoon-axis regularity and the
+  co-located physical black-string singularity.

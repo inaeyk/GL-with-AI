@@ -1,0 +1,186 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\title{Stage 3I Physics Note: Small-\(x\) Regularity for Cartoon Variables}
+\author{GL-with-AI Project}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Scope}
+
+Stage 3I documents regularity requirements near the cartoon/spherical axis
+\(x=0\) for the future \(4+1\) black-string modified-cartoon implementation.
+It is a documentation and symbolic-limit note only. It does not implement C++
+source terms, finite differences, ghost-cell filling, or axis boundary
+conditions.
+
+\section{Conventions}
+
+The physical spatial dimension is
+\[
+  \mathrm{GR\_SPACEDIM}=4,
+\]
+and the gridded Chombo dimension is
+\[
+  \mathrm{CH\_SPACEDIM}=2.
+\]
+The gridded directions are \(x,z\). The two hidden directions are equivalent
+\(w\) directions, so
+\[
+  N_{\rm hidden}=4-2=2.
+\]
+The hidden component \(h_{ww}\) is Cartesian-like, not \(g_{\theta\theta}\).
+The spherical/cartoon reconstruction supplies the external factor:
+\[
+  g_{\theta\theta}
+  =
+  x^2\gamma_{ww}
+  =
+  x^2\frac{h_{ww}}{\chi}.
+\]
+All traces are four-dimensional, and the conformal extrinsic-curvature
+denominator remains \(1/4\).
+
+\section{Cartoon Axis Versus Physical Singularity}
+
+In the reduced black-string cartoon setup, the cartoon/spherical axis is at
+\(x=0\). The unregularized black-string curvature singularity is also located
+at \(x=0\). These two issues are co-located in the coordinate description but
+are conceptually distinct.
+
+The cartoon-axis problem is a removable coordinate-singularity, parity, and
+tensor-regularity problem for smooth SO(3)-symmetric fields. The black-string
+singularity is a physical curvature singularity of the target spacetime.
+Turduckening or interior regularization is meant to remove or regularize the
+physical singularity from the active evolved problem. The cartoon-axis
+treatment separately handles the removable singular structures introduced by
+the spherical/cartoon reduction.
+
+Therefore turduckening addresses the fact that the physical singularity is
+co-located with the cartoon axis, but it does not replace correct axis parity
+and removable-singularity treatment. Conversely, passing the small-\(x\)
+cartoon regularity checks does not prove that the black-string interior has
+been physically regularized correctly.
+
+\section{Apparent Singularities}
+
+Cartoon source terms near \(x=0\) contain apparent singular structures such as
+\[
+  \frac{1}{x},\qquad
+  \frac{1}{x^2},\qquad
+  \frac{\gamma_{xx}-\gamma_{ww}}{x^2},\qquad
+  \frac{\partial_x q}{x}.
+\]
+The corresponding conformal expressions involve \(h_{xx}\), \(h_{ww}\),
+\(\chi\), and their derivatives. These expressions can be removable
+singularities for smooth SO(3)-symmetric data, but they are unsafe in raw
+numerical form unless the limiting behavior is enforced.
+
+\section{Parity And Matching}
+
+Scalar-like quantities such as \(\chi\), \(K\), \(\Theta\), and the lapse are
+expected to be even in \(x\). Diagonal components \(h_{xx}\), \(h_{zz}\), and
+\(h_{ww}\) are expected to be even. Components with one radial and one
+non-radial index, such as \(h_{xz}\) and \(A_{xz}\), are expected to be odd.
+The radial connection and shift components, such as \(\hat{\Gamma}^x\) and
+\(\beta^x\), are expected to be odd, while the \(z\)-components are expected to
+be even. These component parities should be confirmed against the chosen
+GRChombo/Pau implementation conventions before coding.
+
+The diagonal smooth-axis matching condition is
+\[
+  \gamma_{xx}-\gamma_{ww}=O(x^2).
+\]
+Since \(\gamma_{ij}=\chi^{-1}h_{ij}\), with \(\chi\) finite and even at the
+axis, the corresponding conformal condition is
+\[
+  h_{xx}-h_{ww}=O(x^2).
+\]
+For the off-diagonal component,
+\[
+  \gamma_{xz}=O(x),\qquad
+  h_{xz}=O(x),\qquad
+  A_{xz}=O(x).
+\]
+
+\section{Hatted Connection Guard}
+
+The highest-risk small-axis quantity is the hatted conformal connection,
+especially \(\hat{\Gamma}^x\). Scalar-like variables and manifestly odd tensor
+fields can be checked with generic Taylor representatives. In contrast,
+\(\hat{\Gamma}^x\) is assembled from contracted angular Christoffels that can
+carry bare \(1/x\) behavior, and the hidden-sector multiplicity
+\(N_{\rm hidden}=2\) is load-bearing.
+
+The local Stage 3I symbolic guard checks the documented singular cartoon
+contribution
+\[
+  \tilde{\Gamma}^x_{\rm singular}
+  =
+  \frac{N_{\rm hidden}}{x}
+  \left(1-\frac{h_{xx}}{h_{ww}}\right),
+  \qquad
+  N_{\rm hidden}=2.
+\]
+With \(h_{xx}-h_{ww}=O(x^2)\), this expression is finite and odd. If the
+axis values of \(h_{xx}\) and \(h_{ww}\) do not match, the same assembled
+expression exposes a residual \(1/x\) divergence.
+
+The hatted connection convention is
+\[
+  \hat{\Gamma}^i
+  =
+  \tilde{\Gamma}^i+2Z^i.
+\]
+The symbolic check assumes regular \(Z^x=O(x)\) and verifies that
+\(\hat{\Gamma}^x\) remains finite. The expected parity is that
+\(\hat{\Gamma}^x\) is odd and \(\hat{\Gamma}^z\) is even, but the final sign
+and full contracted-connection convention still require confirmation against
+GRChombo's cartoon connection definition and Pau's implementation.
+
+A residual axis error in \(\hat{\Gamma}^x\) can contaminate the Gamma-driver
+shift/gauge sector, so this assembled check is stronger than generic
+``odd-over-\(x\)'' tests.
+
+\section{Symbolic Limits}
+
+The Stage 3I SymPy check uses Taylor representatives
+\[
+  q(x,z)=q_0(z)+q_2(z)x^2+O(x^4),
+\]
+and
+\[
+  \gamma_{xz}(x,z)=s_1(z)x+s_3(z)x^3+O(x^5).
+\]
+It verifies limits such as
+\[
+  \lim_{x\to0}\frac{\partial_x q}{x}=2q_2(z),
+\]
+and
+\[
+  \lim_{x\to0}\frac{\gamma_{xx}-\gamma_{ww}}{x^2}
+\]
+is finite when the axis matching condition is imposed. It also verifies that
+odd off-diagonal components have finite quotients such as
+\[
+  \lim_{x\to0}\frac{\gamma_{xz}}{x}=s_1(z).
+\]
+It also checks the assembled \(\tilde{\Gamma}^x\) singular part and
+\(\hat{\Gamma}^x=\tilde{\Gamma}^x+2Z^x\) under regular \(Z^x\) parity. These
+checks validate local removable-singularity bookkeeping only; they do not
+derive the full CCZ4 RHS.
+
+\section{Deferred Implementation Choices}
+
+Stage 3I does not choose ghost-cell parity rules, one-sided stencils,
+axis-point evaluation, turduckening cutoff handling, finite-difference order,
+or C++ source-term organization. Those decisions are deferred to Stage 3J,
+Stage 3K, and the later implementation stage.
+
+\end{document}

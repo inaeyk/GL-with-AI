@@ -12,8 +12,9 @@
 - [ ] Ensure future physics-stage PDF notes accompany each physics/design stage.
 - [ ] Review Stage 3B modified-cartoon source-term derivation roadmap.
 - [ ] Generate the Stage 3B physics PDF after the Markdown derivation roadmap is reviewed.
-- [ ] Stage 3I: document regularity and small-`x` treatment for conformal cartoon variables.
 - [ ] Stage 3J: design unit-test fixtures before adding C++ source terms.
+- [ ] Confirm Stage 3I parity and axis-filling conventions against GRChombo/Pau implementation before C++ source-term work.
+- [ ] Confirm Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention against GRChombo/Pau implementation.
 - [ ] Required future RHS validation: reproduce the linear Gregory-Laflamme threshold/growth spectrum after matching conventions.
 - [ ] Required future constraint-damping validation: inject linearized constraint violations and verify `Theta` / encoded-`Z^i` damping behavior.
 - [ ] Confirm against Pau's implementation how the cartoon/conformal determinant condition is enforced during evolution, especially whether the hidden `hww` sector participates in `det h = 1` and trace-free `A` enforcement.
@@ -54,6 +55,8 @@
 - [x] Add final Stage 3G normalized determinant guard and Stage 3F diagonal-only warning.
 - [x] Add Stage 3H CCZ4 RHS block decomposition plan.
 - [x] Patch Stage 3H review items: hatted connection variable, validation milestones, and inherited/cartoon term tags.
+- [x] Add Stage 3I small-`x` regularity plan and symbolic removable-limit checks.
+- [x] Patch Stage 3I review items: cartoon-axis versus physical singularity distinction and assembled `hat_Gamma^x` axis guard.
 
 ## Later
 
