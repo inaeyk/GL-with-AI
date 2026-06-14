@@ -176,10 +176,10 @@ independent warped-product formulas for `dl^2 = dx^2 + dz^2 + f(x,z)^2
 dOmega_2^2`, guarding the hidden-sector derivative terms that the Stage 3D
 constant-`q0` regression did not test.
 
-### Stage 3G: Conformal-variable translation
+### Stage 3F: Conformal-variable translation
 
 Stages 3D and 3E worked mostly in physical variables, especially
-`gamma_ww = q`. Stage 3G translates that bookkeeping into conformal variables:
+`gamma_ww = q`. Stage 3F translates that bookkeeping into conformal variables:
 
 ```text
 q = gamma_ww = hww / chi.
@@ -193,13 +193,13 @@ conformal variables such as `chi`, `h_AB`, and `hww`, not only physical
 N_hidden = GR_SPACEDIM - CH_SPACEDIM = 4 - 2 = 2.
 ```
 
-Stage 3G also records the diagonal conformal tracelessness relation
+Stage 3F also records the diagonal conformal tracelessness relation
 
 ```text
 A_xx / h_xx + A_zz / h_zz + 2 Aww / hww = 0.
 ```
 
-After review, the Stage 3G repository check was strengthened to include the
+After review, the Stage 3F repository check was strengthened to include the
 cartoon/Cartesian-like determinant condition
 
 ```text

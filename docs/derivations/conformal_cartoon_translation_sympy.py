@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stage 3G conformal-variable translation checks.
+"""Stage 3F conformal-variable translation checks.
 
 This script is a derivation artifact, not evolution code. It verifies the
 basic symbolic dictionary between physical cartoon variables and the
@@ -76,7 +76,7 @@ def main():
     log_q_x = sp.diff(hww_fn, x) / hww_fn - sp.diff(chi, x) / chi
     log_q_z = sp.diff(hww_fn, z) / hww_fn - sp.diff(chi, z) / chi
 
-    print("Stage 3G conformal cartoon translation checks")
+    print("Stage 3F conformal cartoon translation checks")
     print("q = gamma_ww = hww / chi")
     print("N_hidden = GR_SPACEDIM - CH_SPACEDIM = 4 - 2 = 2")
 
@@ -190,7 +190,7 @@ def main():
     solved_Aww = sp.solve(sp.Eq(trace, 0), Aww)[0]
     check_zero("solve(trace=0) returns Aww formula", solved_Aww - Aww_solution)
 
-    print("All Stage 3G conformal cartoon translation checks passed.")
+    print("All Stage 3F conformal cartoon translation checks passed.")
 
 
 if __name__ == "__main__":

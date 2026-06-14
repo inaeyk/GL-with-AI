@@ -13,7 +13,7 @@ uniform black-string slice. Stage 3D extends the scaffold to a diagonal
 nontrivial hidden metric component `q(x,z) = gamma_ww`, including hidden-sector
 Christoffels and Ricci structural checks. Stage 3E adds a nonconstant
 `q(x,z)` warped-product Ricci regression to guard hidden-sector derivative
-terms. Stage 3G translates the diagonal physical cartoon variables into
+terms. Stage 3F translates the diagonal physical cartoon variables into
 conformal variables `chi`, `h_AB`, and `hww`. Later stages should extend this
 area to off-diagonal reduced metrics, CCZ4 RHS source terms, regularized
 small-`x` limits, and unit-test fixtures.
@@ -39,4 +39,4 @@ Current artifacts:
   physical `gamma_ww=q` into conformal `q=hww/chi`, including derivative
   identities, physical radius derivatives, and diagonal tracelessness.
 - `conformal_cartoon_translation_notes.md`: prose notes and exact output for
-  the Stage 3G conformal-variable translation.
+  the Stage 3F conformal-variable translation.

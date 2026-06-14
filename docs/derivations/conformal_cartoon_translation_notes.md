@@ -1,6 +1,6 @@
 # Conformal Cartoon Translation Notes
 
-Status: Stage 3G symbolic translation scaffold. This is documentation and
+Status: Stage 3F symbolic translation scaffold. This is documentation and
 symbolic checking only. It is not GRChombo evolution code and does not
 implement CCZ4 RHS source terms.
 
@@ -13,7 +13,7 @@ metric variables, using
 gamma_ww = q(x,z).
 ```
 
-Stage 3G translates that physical metric bookkeeping into the conformal
+Stage 3F translates that physical metric bookkeeping into the conformal
 variables that GRChombo-style CCZ4 stores and evolves.
 
 ## Metric Dictionary
@@ -210,7 +210,7 @@ N_hidden = GR_SPACEDIM - CH_SPACEDIM = 4 - 2 = 2.
 
 ## Repository Checks Added After Review
 
-The first Stage 3G script checked the derivative identities for `q = hww/chi`,
+The first Stage 3F script checked the derivative identities for `q = hww/chi`,
 the physical-radius identities, and the diagonal tracelessness solve. After
 review, the repository script also checks:
 
@@ -237,7 +237,7 @@ python3 docs/derivations/conformal_cartoon_translation_sympy.py
 Exact output:
 
 ```text
-Stage 3G conformal cartoon translation checks
+Stage 3F conformal cartoon translation checks
 q = gamma_ww = hww / chi
 N_hidden = GR_SPACEDIM - CH_SPACEDIM = 4 - 2 = 2
 PASS q definition = 0
@@ -269,7 +269,7 @@ PASS p=2 dimension denominator fails as expected = 371/24
 PASS p=3 dimension denominator fails as expected = 371/72
 PASS diagonal conformal tracelessness solved for Aww = 0
 PASS solve(trace=0) returns Aww formula = 0
-All Stage 3G conformal cartoon translation checks passed.
+All Stage 3F conformal cartoon translation checks passed.
 ```
 
 ## Limitations
