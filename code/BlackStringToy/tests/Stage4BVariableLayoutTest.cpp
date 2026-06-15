@@ -149,9 +149,7 @@ void document_future_stage4c_requirements()
 {
     note("Stage 4B proves only the public CCZ4 baseline layout.");
     note("Stage 4B does not prove hww/Aww placement because c_hww and c_Aww do not exist yet.");
-    note("Stage 4C must add real repo-owned hidden enum symbols before grid wiring.");
-    note("After c_hww exists, add static_assert(c_hww == c_K - 1, ...).");
-    note("After c_Aww exists, add static_assert(c_Aww == c_Theta - 1, ...).");
+    note("Stage 4C owns the repo-specific hww/Aww extension and header-level placement assertions.");
 }
 
 } // namespace
@@ -162,8 +160,8 @@ int main()
     std::cout << "Public GRChombo CCZ4 baseline-layout check only; no grid "
                  "variables, Cell, Vars, FArrayBox, or evolution data are "
                  "read.\n";
-    std::cout << "Current BlackStringToy UserVariables.hpp aliases public "
-                 "CCZ4 variables; hidden hww/Aww enum edits are deferred.\n";
+    std::cout << "This test checks the unextended public CCZ4 baseline; "
+                 "repo-owned BlackStringToy variables are checked separately.\n";
 
     check_current_public_layout();
     document_future_stage4c_requirements();

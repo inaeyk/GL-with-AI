@@ -82,20 +82,20 @@ independently derived \(K_{ij}\) reconstruction oracle should be included.
 \section{Stage 4B Public Layout Baseline}
 
 Before editing variable enums or wiring helpers to grid variables, perform a
-read-only baseline check of the public CCZ4 variables currently aliased by
-BlackStringToy. Stage 4B proves that this public GRChombo-facing layout has
-not drifted unexpectedly. It does not yet prove that \(h_{ww}\) or \(A_{ww}\)
-are correctly placed, because the repo-owned enum symbols do not exist yet.
+read-only baseline check of the public CCZ4 variables retained for comparison.
+Stage 4B proves that this public GRChombo-facing layout has not drifted
+unexpectedly. It does not by itself prove that \(h_{ww}\) or \(A_{ww}\) are
+correctly placed.
 
-Stage 4C must add the real hidden enum names and header-level checks in
-\texttt{UserVariables.hpp}. If the final names are \(c_{\rm hww}\) and
-\(c_{\rm Aww}\), the intended assertions are
+Stage 4C adds the real hidden enum names and header-level checks in
+\texttt{UserVariables.hpp}. With the Stage 4C names \(c_{\rm hww}\) and
+\(c_{\rm Aww}\), the assertions are
 \[
   c_{\rm hww}=c_K-1,\qquad c_{\rm Aww}=c_\Theta-1,
 \]
-using compile-time assertions in the variable header. Stage 4D is the earliest
-planned grid-variable handoff, and only after Stage 4C passes review and gets
-explicit approval.
+using compile-time assertions in the variable header. Stage 4D remains the
+earliest planned grid-variable handoff, and only after Stage 4C passes review
+and gets explicit approval.
 
 \section{Deferred Blocks}
 
