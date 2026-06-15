@@ -13,9 +13,8 @@
 - [ ] Review Stage 3B modified-cartoon source-term derivation roadmap.
 - [ ] Generate the Stage 3B physics PDF after the Markdown derivation roadmap is reviewed.
 - [ ] Review Stage 3J unit-test fixture design before Stage 3K implementation planning.
-- [ ] Review Stage 3K minimal C++ implementation plan before any source edits.
-- [ ] After Stage 3K review, inspect candidate repo-owned files for the first algebra-helper implementation slice.
-- [ ] Before grid wiring, add an automated enum/layout `static_assert` or unit-layout gate for helper input component slots.
+- [ ] Review Stage 4A local conformal-cartoon algebra helper and fixture output before any grid wiring.
+- [ ] Stage 4B: before grid wiring, add an automated enum/layout `static_assert` or unit-layout gate for helper input component slots.
 - [ ] Align Stage 3I parity and axis-filling conventions with GRChombo-facing project conventions before C++ source-term work.
 - [ ] Derive and document the Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention in the GRChombo-facing cartoon extension.
 - [ ] Required future RHS validation: reproduce the linear Gregory-Laflamme threshold/growth spectrum after matching conventions.
@@ -63,8 +62,11 @@
 - [x] Add Stage 3J unit-test fixture design before C++ implementation.
 - [x] Patch Stage 3J review items: round-`S^2` curvature fixture, Schwarzschild x `S^1` scope, tolerance policy, and separated GL/constraint-damping milestones.
 - [x] Add Stage 3K minimal C++ implementation plan without editing source code.
-- [x] Patch Stage 3K review items: Slice 1 algebra-helper-only scope, deferred Ricci/small-axis helpers, automated layout gate, and helper-green limitations.
+- [x] Patch Stage 3K review items: Stage 4A algebra-helper-only scope, deferred Ricci/small-axis helpers, Stage 4B automated layout gate, and helper-green limitations.
 - [x] Clarify convention policy: GRChombo-facing compatibility and internal consistency are authoritative; external/Pau code is later validation only.
+- [x] Review Stage 3K minimal C++ implementation plan enough to explicitly approve Stage 4A source edits.
+- [x] Inspect `code/BlackStringToy` files and add Stage 4A local conformal-cartoon algebra helper plus non-grid fixture.
+- [x] Patch Stage 4A review items: dimension-aware `chi` power, tolerance-based floating-point guards, independent `K_ij` oracles, and Stage 4A/4B terminology.
 
 ## Later
 

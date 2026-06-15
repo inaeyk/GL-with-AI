@@ -75,6 +75,14 @@ These are not implemented in Stage 3J. They are the first fixtures that should
 be created when the project-specific C++ layer begins. Each test should use a
 small analytic fixture and compare only one algebra/source block at a time.
 
+Initial Stage 4A coverage now lives in
+`code/BlackStringToy/tests/Stage4AConformalCartoonAlgebraTest.cpp`, using
+`code/BlackStringToy/ConformalCartoonAlgebra.hpp`. This fixture is local-value
+only: it does not read grid variables, enum slots, `Cell`, `Vars`,
+`FArrayBox`, or evolution data. The Stage 4A review follow-up adds
+dimension-aware `chi` power bookkeeping, tolerance-based floating-point guards,
+and independent hard-coded `K_xz`/`K_ww` reconstruction oracle values.
+
 | Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Convention / validation note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Conformal determinant enforcement | 3F/3G | C++ unit | Positive diagonal and off-diagonal metric samples, including nonzero `h_xz` | `(h_xx h_zz - h_xz^2) hww^2 = 1` after the chosen enforcement path | Exact identity to roundoff | Missing hidden `hww`, wrong block determinant, accidental spherical Jacobian factors | Ricci/source-term correctness | Yes | Define project enforcement in the GRChombo-facing variable set |

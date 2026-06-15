@@ -23,13 +23,12 @@ repo-owned layer copied into scratch GRChombo trees under ignored
 
 Compilation is not evidence of physical correctness. Algebra-helper fixtures
 passing is not integration correctness, and green helper tests do not prove
-that variables are read from the correct grid slots. No Slice 1 result should
+that variables are read from the correct grid slots. No Stage 4A result should
 be described as ``cartoon evolution works'' or ``CCZ4 works.'' Every
-implementation slice must have a validation gate.
+implementation stage must have a validation gate.
 
-Even the safe Slice 1 C++ work requires a separate, explicitly user-approved
-stage after Stage 3K is reviewed and committed. No source edits should begin
-automatically from this plan.
+Stage 4A C++ work requires explicit user approval after Stage 3K review.
+Stage 4B and later stages also require explicit approval before source edits.
 
 \section{Convention Policy}
 
@@ -40,15 +39,15 @@ trace convention, or cartoon-extension bookkeeping. When public GRChombo does
 not define the reduced-cartoon extension directly, the project must document
 the extension explicitly and use it consistently.
 
-\section{Recommended First Slice}
+\section{Recommended First Stage}
 
-The recommended first C++ slice is a repo-owned conformal-cartoon algebra
+The recommended first C++ implementation stage is Stage 4A: a repo-owned conformal-cartoon algebra
 helper layer plus local, non-grid fixture tests. It must not connect that
-helper to grid variables or time evolution. This is the least risky slice
+helper to grid variables or time evolution. This is the least risky first stage
 because it tests the bookkeeping that all later source terms depend on while
 leaving the public GRChombo RHS untouched.
 
-The slice should cover:
+Stage 4A should cover:
 
 \begin{itemize}[leftmargin=2em]
 \item the off-diagonal determinant
@@ -68,13 +67,19 @@ The slice should cover:
 \item the diagonal limit back to the Stage 3F formulas.
 \end{itemize}
 
-Slice 1 explicitly excludes cartoon Ricci helpers, small-axis helpers,
+Stage 4A explicitly excludes cartoon Ricci helpers, small-axis helpers,
 grid-variable wiring, CCZ4 RHS terms, gauge/Gamma-driver terms, constraint
-damping, finite-difference stencils, and evolution. Passing Slice 1 only shows
+damping, finite-difference stencils, and evolution. Passing Stage 4A only shows
 that local algebra formulas were implemented correctly on supplied local
 values.
 
-\section{Automated Layout Gate}
+The Stage 4A review follow-up keeps that scope unchanged while making the
+local fixture more robust: the conformal-factor power should be expressed as
+\(-1/\mathrm{GR\_SPACEDIM}=-1/4\) using the physical spatial dimension, local
+floating-point zero guards should use tolerances, and at least one
+independently derived \(K_{ij}\) reconstruction oracle should be included.
+
+\section{Stage 4B Automated Layout Gate}
 
 Before editing variable enums or wiring helpers to grid variables, perform a
 read-only layout audit of the public CCZ4 variables, the desired \(h_{ww}\),
@@ -95,7 +100,7 @@ Manual review is useful but not sufficient.
 
 \section{Deferred Blocks}
 
-The first slice should not implement the full CCZ4 RHS, gauge or Gamma-driver
+Stage 4A should not implement the full CCZ4 RHS, gauge or Gamma-driver
 equations, constraint damping, black-string initial data, turduckening,
 finite-difference axis treatment, apparent-horizon finding, waveform
 extraction, production runs, or comparison with external/reference
@@ -106,15 +111,15 @@ implementations.
 \begin{center}
 \begin{tabular}{lll}
 \toprule
-Slice & Required validation & Source stage \\
+Stage & Required validation & Source stage \\
 \midrule
-determinant/inverse & normalized determinant, block inverse & 3F--3G \\
-trace projection & hidden multiplicity and \(1/4\) guard & 3F--3J \\
-\(K_{ij}\) reconstruction & \(K_{xx},K_{xz},K_{zz},K_{ww}\) round trip & 3F--3G \\
-cartoon Ricci helper & flat, round \(S^2\), warped, sheared-flat gates & 3C--3G, 3J \\
-small-axis helper & assembled \(\hat{\Gamma}^x\) limit guard & 3I--3J \\
-constraint damping & injected-constraint linearized milestone & 3H--3J \\
-grid wiring & automated enum/layout assertion gate & 3J--3K \\
+Stage 4A determinant/inverse & normalized determinant, block inverse & 3F--3G \\
+Stage 4A trace projection & hidden multiplicity and \(1/4\) guard & 3F--3J \\
+Stage 4A \(K_{ij}\) reconstruction & \(K_{xx},K_{xz},K_{zz},K_{ww}\) round trip & 3F--3G \\
+Stage 4C cartoon Ricci helper & flat, round \(S^2\), warped, sheared-flat gates & 3C--3G, 3J \\
+Stage 4D small-axis helper & assembled \(\hat{\Gamma}^x\) limit guard & 3I--3J \\
+Later constraint damping & injected-constraint linearized milestone & 3H--3J \\
+Stage 4B grid wiring gate & automated enum/layout assertion gate & 3J--3K \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -131,10 +136,11 @@ editing \texttt{external/GRChombo}, or trusting compilation alone.
 
 \section{Acceptance}
 
-Stage 3K is complete when the minimal implementation slice is limited to local
+Stage 3K is complete when the minimal first implementation stage is limited to local
 algebra helpers and non-grid fixtures, deferred blocks are listed, repo-owned
-implementation targets are mapped without editing code, each slice is linked to
+implementation targets are mapped without editing code, each stage is linked to
 Stage 3J tests, automated layout gating is required before grid wiring, and no
-C++ implementation has started.
+C++ implementation has started. Stage 4A is the approved follow-up stage that
+implements the local helper and non-grid fixture only.
 
 \end{document}
