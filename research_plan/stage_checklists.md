@@ -141,8 +141,12 @@ Goal: design the analytic initial data and perturbation, and validate the modifi
 - [x] Review Stage 4A helper and fixture output enough to approve Stage 4B layout-check work.
 - [x] Stage 4B: add automatic public CCZ4 baseline-layout fixture for current public component order and visible helper-input bindings without enum edits or grid reads.
 - [x] Stage 4B review follow-up: clarify that real `hww/Aww` placement is not yet enforced because the repo-owned enum symbols do not exist.
-- [ ] Review Stage 4B public baseline-layout fixture before adding hidden enum symbols.
-- [ ] Stage 4C: add repo-owned `hww/Aww` enum names and real header-level placement assertions in `UserVariables.hpp`.
+- [x] Review Stage 4B public baseline-layout fixture enough to approve Stage 4C hidden enum work.
+- [x] Stage 4C: add repo-owned `hww/Aww` enum names and real header-level placement assertions in `UserVariables.hpp`.
+- [x] Stage 4C: add a non-grid placement fixture proving `c_hww`, `c_Aww`, their names, and helper-map component slots.
+- [x] Stage 4C: rerun the scratch Docker/GRChombo scaffold build; compile succeeds with the 27-variable layout.
+- [ ] Stage 4C/4D follow-up: inherited smoke run currently fails with `hww/Aww` non-finite until a later approved stage initializes or hands off the hidden variables.
+- [ ] Review Stage 4C hidden-variable placement before any helper reads live grid components.
 - [ ] Stage 4D: after Stage 4C passes and gets approval, add first grid-variable handoff tests before helpers read live grid components.
 - [ ] Align Stage 3I parity and axis-filling conventions with GRChombo-facing project conventions before C++ source-term work.
 - [ ] Derive and document the Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention in the GRChombo-facing cartoon extension.

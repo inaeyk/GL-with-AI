@@ -139,20 +139,17 @@ because the repo-owned `c_hww` and `c_Aww` symbols do not exist yet. It also
 does not prove that future grid reads pass the right values to Stage 4A
 helpers, or that evolution, CCZ4 source terms, or cartoon terms work.
 
-Stage 4B has started with a standalone non-grid layout fixture:
+Stage 4B was completed with a standalone non-grid layout fixture:
 
 - Fixture: `code/BlackStringToy/tests/Stage4BVariableLayoutTest.cpp`.
-- Current `code/BlackStringToy/UserVariables.hpp` state: aliases public
+- It checks the underlying public `CCZ4UserVariables.hpp` directly, so it
+  remains a baseline for the public layout even after BlackStringToy adds
+  repo-owned variables.
+- Before Stage 4C, `code/BlackStringToy/UserVariables.hpp` aliased public
   `CCZ4UserVariables.hpp` through `NUM_VARS = NUM_CCZ4_VARS` and
   `variable_names = ccz4_variable_names`.
-- Because `UserVariables.hpp` includes GRChombo core/Chombo-facing support
-  headers, the lightweight fixture checks the underlying public
-  `CCZ4UserVariables.hpp` directly. This is the layout currently exposed by
-  `BlackStringToy`.
-- No hidden `hww` or `Aww` enum names exist yet. Stage 4B therefore cannot
-  enforce their final placement. It only records that the current public slots
-  before `K` and `Theta` are `h33` and `A33`, respectively, and that the real
-  hidden-placement guard is deferred to Stage 4C.
+- Stage 4B cannot enforce hidden placement by itself. It records that the
+  public slots before `K` and `Theta` are `h33` and `A33`, respectively.
 
 The current public CCZ4 component layout found before hidden-variable
 extension is:
@@ -184,26 +181,58 @@ components is:
 | `helper.hat_Gamma^x` | `c_Gamma1` |
 | `helper.hat_Gamma^z` | `c_Gamma2` |
 
-The hidden helper inputs are intentionally absent from this working map:
+## Stage 4C Hidden Enum And Header-Level Placement Guard
 
-| Future helper input | Stage 4C requirement |
-| --- | --- |
-| `helper.hww` | add a real repo-owned hidden metric enum symbol, then assert the final placement in `UserVariables.hpp` |
-| `helper.Aww` | add a real repo-owned hidden extrinsic-curvature enum symbol, then assert the final placement in `UserVariables.hpp` |
+Stage 4C adds the real repo-owned hidden-sector variables:
 
-Stage 4C must add the real repo-owned hidden enum entries and header-level
-checks inside `code/BlackStringToy/UserVariables.hpp`, not only inside a test
-file. If the final names are `c_hww` and `c_Aww`, the intended checks are:
+- `c_hww`, named `hww`, immediately before `c_K`;
+- `c_Aww`, named `Aww`, immediately before `c_Theta`.
+
+The real guard now lives in `code/BlackStringToy/UserVariables.hpp`, not only
+in a test file:
 
 ```cpp
 static_assert(c_hww == c_K - 1, "hww must be immediately before K");
 static_assert(c_Aww == c_Theta - 1, "Aww must be immediately before Theta");
 ```
 
-If Stage 4C chooses different final enum names, use those actual names in the
-assertions. Keeping these assertions in `UserVariables.hpp` makes the guard
-hard to skip, because any translation unit that includes the variable header
-will compile the check.
+This makes the placement check hard to skip: every normal translation unit
+that includes `UserVariables.hpp` compiles the assertions. The standalone
+Stage 4C placement fixture uses a layout-test-only include path to compile the
+header checks without pulling in Chombo grid infrastructure.
+
+The Stage 4C helper-input map now has real hidden component slots:
+
+| Helper input | Component convention |
+| --- | --- |
+| `helper.chi` | `c_chi` |
+| `helper.h_xx` | `c_h11` |
+| `helper.h_xz` | `c_h12` |
+| `helper.h_zz` | `c_h22` |
+| `helper.hww` | `c_hww` |
+| `helper.A_xx` | `c_A11` |
+| `helper.A_xz` | `c_A12` |
+| `helper.A_zz` | `c_A22` |
+| `helper.Aww` | `c_Aww` |
+| `helper.K` | `c_K` |
+| `helper.Theta` | `c_Theta` |
+| `helper.hat_Gamma^x` | `c_Gamma1` |
+| `helper.hat_Gamma^z` | `c_Gamma2` |
+
+The Stage 4C layout after editing is:
+
+| Component | Index | Notes |
+| --- | ---: | --- |
+| `c_chi` | 0 | conformal factor |
+| `c_h11`, `c_h12`, `c_h13`, `c_h22`, `c_h23`, `c_h33` | 1-6 | visible metric block |
+| `c_hww` | 7 | hidden Cartesian-like conformal metric component |
+| `c_K` | 8 | trace; header asserts `c_hww == c_K - 1` |
+| `c_A11`, `c_A12`, `c_A13`, `c_A22`, `c_A23`, `c_A33` | 9-14 | visible trace-free block |
+| `c_Aww` | 15 | hidden trace-free extrinsic-curvature component |
+| `c_Theta` | 16 | Z4 scalar; header asserts `c_Aww == c_Theta - 1` |
+| `c_Gamma1`, `c_Gamma2`, `c_Gamma3` | 17-19 | hatted connection-sector components |
+| `c_lapse`, `c_shift1..3`, `c_B1..3` | 20-26 | gauge variables |
+| `NUM_VARS` | 27 | total variable count |
 
 Stage 4D is the earliest possible stage for connecting helpers to grid data,
 and only after Stage 4C passes, is reviewed, and receives explicit user
@@ -216,8 +245,8 @@ helper input receives the intended live component.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Stage 4A local algebra helper | `code/BlackStringToy/ConformalCartoonAlgebra.hpp` | Determinant, inverse, trace-free projection, `/4`, `K_ij` reconstruction | Local scalar components `h_xx`, `h_xz`, `h_zz`, `hww`, `A_ij`, `K` supplied directly by tests, not read from grid data | Algebraic quantities and projections | Stages 3F-3G | determinant, off-diagonal inverse, full-4D trace-free, `/4`, `K_xz`, diagonal-limit fixtures | Medium |
 | Stage 4A local algebra fixture target | `code/BlackStringToy/tests/Stage4AConformalCartoonAlgebraTest.cpp` | Verify helper without evolution or grid variables | Hard-coded exact fixtures from Stages 3F-3G | Pass/fail with roundoff-level checks | Stage 3J | all algebra helper tests, negative denominator guards | Medium |
-| Stage 4B public CCZ4 baseline layout check | `code/BlackStringToy/tests/Stage4BVariableLayoutTest.cpp` | Prove the public CCZ4 layout currently aliased by `BlackStringToy` has not drifted unexpectedly | Public CCZ4 enum and names only; no hidden enum symbols | Loud failure on public visible layout/name drift; no claim about real `hww/Aww` placement | Stage 1, Stage 3J | public-layout fixture and visible helper-map check | Medium |
-| Stage 4C hidden enum and header-level placement guard | `code/BlackStringToy/UserVariables.hpp` plus layout fixture update | Add repo-owned `hww/Aww` enum names and enforce their final placement where the header is included | Actual repo-owned hidden enum definitions | `UserVariables.hpp` static assertions for the final hidden metric/A slots; updated layout fixture | Stage 4B review | real `hww/Aww` placement guard, AH positional hazard, hidden determinant/trace participation setup | High |
+| Stage 4B public CCZ4 baseline layout check | `code/BlackStringToy/tests/Stage4BVariableLayoutTest.cpp` | Prove the public CCZ4 comparison baseline has not drifted unexpectedly | Public CCZ4 enum and names only; no hidden enum symbols | Loud failure on public visible layout/name drift; no claim about real `hww/Aww` placement | Stage 1, Stage 3J | public-layout fixture and visible helper-map check | Medium |
+| Stage 4C hidden enum and header-level placement guard | `code/BlackStringToy/UserVariables.hpp`; `code/BlackStringToy/tests/Stage4CVariablePlacementTest.cpp` | Add repo-owned `hww/Aww` enum names and enforce their final placement where the header is included | Actual repo-owned hidden enum definitions | `UserVariables.hpp` static assertions for the final hidden metric/A slots; placement fixture with real helper map | Stage 4B review | real `hww/Aww` placement guard, AH positional hazard, hidden determinant/trace participation setup | High |
 | Stage 4D first grid-variable handoff | New repo-owned handoff fixture or minimal wrapper, exact harness TBD | Connect Stage 4A helpers to live component slots for the first time | Repo-owned enum with hidden variables, local mock/grid-adjacent component data | Loud failure if helper inputs bind to wrong live components | Stage 4C review and explicit approval | helper input map, enum/layout, no-RHS handoff fixture | High |
 
 Deferred later stages, requiring explicit user approval after the layout and
@@ -236,9 +265,10 @@ abstraction if a local GRChombo pattern already exists.
 ## Likely Repo-Owned Files To Inspect Before Coding
 
 - `code/BlackStringToy/UserVariables.hpp`
-  - Purpose: future enum and variable-name extension.
-  - Current state: aliases public CCZ4 variables only.
-  - Validation gate: enum layout review, hidden `hww/Aww` placement, AH
+  - Purpose: repo-owned enum and variable-name layout.
+  - Current state: extends public CCZ4 naming with real `hww` and `Aww`
+    entries.
+  - Validation gate: header-level hidden `hww/Aww` placement assertions, AH
     positional hazard, determinant/trace participation tests.
   - Risk: high.
 - `code/BlackStringToy/BlackStringToyLevel.hpp` and

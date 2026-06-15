@@ -257,3 +257,58 @@ Ownership strategy:
 This does not change `external/GRChombo`, `code/BlackStringToy`, or any physics
 behavior. Generated build and run outputs remain under
 `runs/stage2_blackstringtoy/`.
+
+## Stage 4C Scratch Build-Validation Follow-Up
+
+Purpose: re-run the Stage 2 scratch Docker/GRChombo workflow after Stage 4C
+added the real repo-owned `hww` and `Aww` variable entries, increasing
+`BlackStringToy` from 25 to 27 evolved variables.
+
+Command:
+
+```bash
+bash scripts/stage2_build_blackstringtoy_scratch.sh
+```
+
+The sandboxed shell could not use Docker, so the same command was rerun from an
+escalated Docker-capable shell. Scratch ownership was repaired with a
+Docker-scoped `chown` under `runs/stage2_blackstringtoy/` after a failed smoke
+run left generated files behind.
+
+First observed runtime issue: the tracked smoke parameter file still supplied
+25 `vars_parity` entries. This was directly caused by the Stage 4C variable
+count change, so `code/BlackStringToy/params_stage2_smoke.txt` was minimally
+updated to add even-parity entries for `hww` and `Aww`.
+
+After that params fix, the scratch build compiled successfully and produced:
+
+```text
+runs/stage2_blackstringtoy/GRChombo/Examples/BlackStringToy/Main_BlackStringToy3d_ch.Linux.64.mpicxx.gfortran.OPT.MPI.OPENMPCC.ex
+```
+
+Docker/GRChombo build command printed by the script:
+
+```bash
+make -j2 all DIM=3 DEBUG=FALSE OPT=TRUE USE_PETSC=FALSE
+```
+
+Smoke command printed by the script:
+
+```bash
+timeout 180s ./Main_BlackStringToy3d_ch.Linux.64.mpicxx.gfortran.OPT.MPI.OPENMPCC.ex params_stage2_smoke.txt
+```
+
+Smoke status: failed during the first advance with `Values have become nan`.
+The `pout/pout.0` diagnostic showed the new hidden variables were not initialized
+to finite scaffold values:
+
+```text
+hww: 1.54321e+299
+Aww: 1.54321e+299
+```
+
+Interpretation: Stage 4C now passes the real GRChombo compile context with the
+27-variable layout, but the inherited runtime scaffold is not smoke-clean until
+a later, explicitly approved stage initializes or hands off the new hidden
+components. This follow-up does not prove cartoon evolution, CCZ4 source terms,
+or physical black-string behavior.

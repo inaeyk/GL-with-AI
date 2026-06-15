@@ -13,8 +13,8 @@
 - [ ] Review Stage 3B modified-cartoon source-term derivation roadmap.
 - [ ] Generate the Stage 3B physics PDF after the Markdown derivation roadmap is reviewed.
 - [ ] Review Stage 3J unit-test fixture design before Stage 3K implementation planning.
-- [ ] Review Stage 4B public CCZ4 baseline-layout fixture before adding hidden enum symbols.
-- [ ] Stage 4C: after explicit approval, add repo-owned `hww/Aww` enum names and real `UserVariables.hpp` placement assertions.
+- [ ] Review Stage 4C hidden-variable enum placement and header-level assertions before any grid handoff.
+- [ ] Resolve the Stage 4C scratch smoke NaN by explicitly initializing or handing off `hww/Aww` in a later approved grid stage.
 - [ ] Stage 4D: after Stage 4C passes and gets approval, add the first grid-variable handoff behind the layout guards.
 - [ ] Align Stage 3I parity and axis-filling conventions with GRChombo-facing project conventions before C++ source-term work.
 - [ ] Derive and document the Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention in the GRChombo-facing cartoon extension.
@@ -69,6 +69,8 @@
 - [x] Inspect `code/BlackStringToy` files and add Stage 4A local conformal-cartoon algebra helper plus non-grid fixture.
 - [x] Patch Stage 4A review items: dimension-aware `chi` power, tolerance-based floating-point guards, independent `K_ij` oracles, and Stage 4A/4B terminology.
 - [x] Add Stage 4B public CCZ4 baseline-layout fixture for the current public layout and visible helper input map without grid reads or enum edits.
+- [x] Add Stage 4C real `hww/Aww` enum entries and header-level placement assertions without grid reads or helper handoff.
+- [x] Run Stage 4C scratch build-validation follow-up: full GRChombo compile passes with 27 variables; inherited smoke run now exposes uninitialized `hww/Aww`.
 
 ## Later
 
