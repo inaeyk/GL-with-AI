@@ -40,6 +40,7 @@
 - [x] Harden the Stage 2B scratch build script against root-owned Docker outputs.
 - [x] Draft the Stage 3A black-string initial-data design note.
 - [x] Add physics-stage PDF note workflow and build the Stage 3A PDF note.
+- [x] Compile companion PDFs for all current physics-note LaTeX sources.
 - [x] Draft the Stage 3B modified-cartoon source-term derivation and validation roadmap.
 - [x] Review Stage 3B modified-cartoon source-term derivation roadmap for the Stage 3 design pass.
 - [x] Incorporate Stage 3B review refinements into the modified-cartoon notes.
@@ -73,7 +74,6 @@
 
 ## Later
 
-- [ ] Generate the Stage 3B physics PDF if the team still wants a polished PDF artifact for that roadmap note.
 - [ ] Implement black-string initial data.
 - [ ] Implement compact-z handling.
 - [ ] Add GL perturbation controls.

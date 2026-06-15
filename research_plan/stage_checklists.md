@@ -90,29 +90,29 @@ reviewed Stage 4A-4C setup work.
 - [x] Stage 3A: create polished LaTeX physics-note source and build the PDF review artifact under `docs/physics_notes/`.
 - [x] Stage 3B: document modified-cartoon hidden-direction source-term derivation and validation roadmap.
 - [x] Stage 3B: document silent-failure modes for reduced 5D/SO(3) evolution.
-- [x] Stage 3B: add initial LaTeX physics-note source; PDF build deferred until after Markdown review.
+- [x] Stage 3B: add LaTeX physics-note source and compiled PDF review artifact.
 - [x] Stage 3B: incorporate review refinements for the `sin^2(theta)` contraction check, public-GRChombo source-term absence statement, staged CCZ4 RHS derivation plan, and hidden-direction multiplicity.
 - [x] Stage 3C: create `docs/derivations/` scaffold for symbolic modified-cartoon geometry checks.
 - [x] Stage 3C: add SymPy script for spherical Christoffels, GP extrinsic curvature, angular contractions, `K_ww`, and hidden-direction trace multiplicity.
-- [x] Stage 3C: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
+- [x] Stage 3C: add prose derivation notes, LaTeX physics-note source, and compiled PDF review artifact.
 - [x] Stage 3C: rerun the SymPy derivation script in an environment with SymPy available and record passing output.
 - [x] Stage 3D: add SymPy scaffold for diagonal nontrivial `gamma_ww = q(x,z)` hidden-sector geometry.
 - [x] Stage 3D: verify hidden-sector Christoffel identities, flat limit, angular contraction multiplicity, Ricci angular equality, and flat Ricci limit.
 - [x] Stage 3D: add constant-q Ricci regression assertions for `R_xx`, `R_zz`, `R_xz`, angular Ricci components, and Ricci scalar.
-- [x] Stage 3D: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
+- [x] Stage 3D: add prose derivation notes, LaTeX physics-note source, and compiled PDF review artifact.
 - [x] Stage 3E: add nonconstant `q(x,z)` Ricci regression against warped-product reference formulas.
 - [x] Stage 3E: assert `partial_x q`, `partial_z q`, and `partial_x partial_z q` are active for the chosen profile.
-- [x] Stage 3E: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
+- [x] Stage 3E: add prose derivation notes, LaTeX physics-note source, and compiled PDF review artifact.
 - [x] Stage 3F: translate diagonal physical `gamma_ww=q` bookkeeping into conformal `q=hww/chi` variables.
 - [x] Stage 3F: verify `q` derivative identities, physical radius derivatives, and diagonal conformal tracelessness with SymPy.
 - [x] Stage 3F: strengthen the SymPy checks with the determinant condition, physical/conformal round trip, `K_ij` reconstruction, hidden-multiplicity tracelessness, and `/4` dimension-denominator guard.
-- [x] Stage 3F: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
+- [x] Stage 3F: add prose derivation notes, LaTeX physics-note source, and compiled PDF review artifact.
 - [ ] Carry forward: document how the project enforces the cartoon/conformal determinant condition and trace-free constraints in the GRChombo-facing variable set, especially hidden `hww` participation in `det h = 1` and trace-free `A` enforcement.
 - [x] Stage 3G: document the off-diagonal reduced metric `h_xz` / `gamma_xz` conformal-cartoon extension.
 - [x] Stage 3G: add SymPy checks for the off-diagonal determinant, inverse metric, full-4D tracelessness, `K_xz` reconstruction, `/4` denominator guard, and diagonal Stage 3F limit.
 - [x] Stage 3G: add sheared-flat off-diagonal Ricci regression for constant `g_xz = lambda` and `x`-dependent `g_xz = x` metrics.
 - [x] Stage 3G: add final review follow-up for explicit normalized `det h_4D = 1` guard and Stage 3F diagonal-only warning.
-- [x] Stage 3G: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
+- [x] Stage 3G: add prose derivation notes, LaTeX physics-note source, and compiled PDF review artifact.
 - [x] Stage 3H: decompose the future CCZ4 RHS into checked source-term blocks before C++ implementation.
 - [x] Stage 3H: separate exact-checkable RHS blocks from blocks requiring external/reference-code comparison or convergence evidence.
 - [x] Stage 3H: use `hat_Gamma^A`, not `Z_i`, as the future evolved connection-sector blueprint while keeping `Z^i` as the encoded constraint vector.
@@ -169,7 +169,7 @@ reviewed Stage 4A-4C setup work.
 - [ ] Check periodicity in `z`.
 - [ ] Check smoothness outside cutoff.
 - [ ] Check constraints and gauge quantities qualitatively.
-- [ ] Generate and review the Stage 3B polished physics PDF after the Markdown derivation roadmap is reviewed.
+- [x] Compile companion PDFs for all current physics-note LaTeX sources under `docs/physics_notes/`.
 
 Gate status: Stage 3 design/tooling is complete and Stage 4A-4C setup work has
 begun under explicit approval. Do not run long GL evolutions or treat outputs

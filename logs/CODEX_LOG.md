@@ -345,3 +345,9 @@
 - Files changed: `TODO.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `docs/implementation/minimal_cpp_implementation_plan.md`, `docs/derivations/unit_test_fixture_design.md`, `docs/grchombo/build_notes.md`, `docs/physics_notes/stage3K_minimal_cpp_implementation_plan.tex`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`; all Stage 3C-3I symbolic scripts; compiled and ran the Stage 4A, Stage 4B, and Stage 4C standalone fixtures; greps for retired implementation-stage terminology, Stage 4A-4D roadmap references, stale old Stage 3G conformal-cartoon filename references, and pending-review log text; protected-path diffs for `external/GRChombo` and `scripts`; and `git diff --stat` / `git diff`. Symbolic scripts and Stage 4 fixtures passed; stale slice/stale filename greps returned no matches; pending-review hits are older historical log entries, while Stage 4A-4C entries now say completed/committed; protected paths had no diffs.
 - Review status: Unstaged bookkeeping update; no commit requested.
+
+- Date: 2026-06-15
+- Goal: Compile companion PDFs for all current physics-note LaTeX sources.
+- Files changed: `docs/physics_notes/*.pdf`, `docs/physics_notes/Makefile`, `TODO.md`, `research_plan/stage_checklists.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Found all `.tex` files with `find`; checked same-name PDF status; built missing PDFs with `latexmk`; removed the ignored `.build` auxiliary directory; verified every current physics-note `.tex` has a same-name `.pdf`; ran only the requested git checks for status, diff stat, `external/GRChombo`, and `scripts`.
+- Review status: Unstaged documentation/build-output update; no commit requested.
