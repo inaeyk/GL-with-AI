@@ -105,6 +105,13 @@ or handed off yet. Stage 4D should address only that finite scaffold-value
 failure; a Stage 4D smoke pass would still not validate cartoon Ricci terms,
 full CCZ4 RHS terms, or physical black-string evolution.
 
+Stage 4D should keep that finite scaffold support explicitly smoke-only. The
+temporary freeze should be controlled by a default-off parameter such as
+`scaffold_freeze_hidden`, enabled only by the cheap smoke parameter file. A
+passing Stage 4D smoke run then shows only that the inherited scaffold no
+longer dies immediately from hidden-variable NaNs; it must not be interpreted
+as a hidden-sector RHS, cartoon Ricci, or physical-evolution test.
+
 | Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Convention / validation note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Conformal determinant enforcement | 3F/3G | C++ unit | Positive diagonal and off-diagonal metric samples, including nonzero `h_xz` | `(h_xx h_zz - h_xz^2) hww^2 = 1` after the chosen enforcement path | Exact identity to roundoff | Missing hidden `hww`, wrong block determinant, accidental spherical Jacobian factors | Ricci/source-term correctness | Yes | Define project enforcement in the GRChombo-facing variable set |

@@ -2,10 +2,11 @@
 
 Purpose: confirmed build, Docker, and platform notes.
 
-Status: editable `BlackStringToy` scratch builds are verified through Stage 4C.
+Status: editable `BlackStringToy` scratch builds are verified through Stage 4D.
 The full Docker/GRChombo scaffold compile succeeds with the 27-variable
-`hww/Aww` layout. The inherited cheap smoke run reaches runtime but currently
-fails because the new hidden variables are not initialized or handed off yet.
+`hww/Aww` layout. The inherited cheap smoke run now uses the explicit
+default-off `scaffold_freeze_hidden` parameter to enable smoke-only scaffold
+values `hww = 1.0` and `Aww = 0.0` with inert hidden RHS slots.
 
 ## Confirmed
 
@@ -18,14 +19,22 @@ fails because the new hidden variables are not initialized or handed off yet.
   - `scripts/clean_binarybh_smoke.sh`
 - Upstream GRChombo source is inspected locally under `external/GRChombo`; this directory is ignored and must not be committed.
 
-## Next Build Milestone
+## Current Build Milestone
 
-- Stage 4D: add the narrow finite scaffold initialization/handoff needed for
-  `hww/Aww` so the cheap `BlackStringToy` smoke run no longer dies immediately
-  from NaNs.
-- Do not infer physical evolution correctness from a future Stage 4D smoke
-  pass; cartoon Ricci terms, full RHS terms, physical initial data, and
-  diagnostics remain future work.
+- Stage 4D: the narrow finite scaffold support for `hww/Aww` is guarded by the
+  explicit smoke-only `scaffold_freeze_hidden` parameter. The default is off;
+  `code/BlackStringToy/params_stage2_smoke.txt` turns it on for the inherited
+  cheap smoke run.
+- The Stage 4D cheap smoke file is intentionally kept small (`max_level = 1`)
+  so the scaffold run remains within the documented smoke timeout while still
+  exercising startup and an advance step.
+- With `scaffold_freeze_hidden = 1`, the Stage 4D smoke executable completed
+  and `pout/pout.0` ended with `GRChombo finished.`
+- Do not infer physical evolution correctness from a Stage 4D smoke pass;
+  cartoon Ricci terms, full RHS terms, physical initial data, and diagnostics
+  remain future work.
+- Future real hidden-sector RHS support must disable or replace this temporary
+  freeze and add a loud guard against using both paths together.
 - Historical Stage 1.5 preflight notes are retained below for traceability.
 
 ## AHFinderTest2D Run Status

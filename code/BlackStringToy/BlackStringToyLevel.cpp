@@ -20,6 +20,7 @@
 #include "SmallDataIO.hpp"
 #include "TraceARemoval.hpp"
 #include "TwoPuncturesInitialData.hpp"
+#include "UserVariables.hpp"
 #include "Weyl4.hpp"
 #include "WeylExtraction.hpp"
 
@@ -27,12 +28,47 @@
 // BinaryBH initial data and standard 3+1D CCZ4 behavior. It is not physical
 // black-string evolution.
 
+namespace
+{
+class SetHiddenScaffoldVariables
+{
+    double m_hww;
+    double m_Aww;
+
+  public:
+    SetHiddenScaffoldVariables(double a_hww, double a_Aww)
+        : m_hww(a_hww), m_Aww(a_Aww)
+    {
+    }
+
+    template <class data_t> void compute(Cell<data_t> current_cell) const
+    {
+        // Stage 4D smoke-only scaffold fill. These values keep the new hidden
+        // variables finite in the inherited cheap smoke run; they are not
+        // physical black-string initial data or cartoon evolution equations.
+        // Future real hidden-sector RHS support must disable or replace this
+        // freeze, with a loud guard against using both paths together.
+        current_cell.store_vars(m_hww, c_hww);
+        current_cell.store_vars(m_Aww, c_Aww);
+    }
+};
+} // namespace
+
 // Things to do during the advance step after RK4 steps
 void BlackStringToyLevel::specificAdvance()
 {
     // Enforce the trace free A_ij condition and positive chi and alpha
-    BoxLoops::loop(make_compute_pack(TraceARemoval(), PositiveChiAndAlpha()),
-                   m_state_new, m_state_new, INCLUDE_GHOST_CELLS);
+    if (m_p.scaffold_freeze_hidden)
+    {
+        BoxLoops::loop(make_compute_pack(TraceARemoval(), PositiveChiAndAlpha(),
+                                         SetHiddenScaffoldVariables(1.0, 0.0)),
+                       m_state_new, m_state_new, INCLUDE_GHOST_CELLS);
+    }
+    else
+    {
+        BoxLoops::loop(make_compute_pack(TraceARemoval(), PositiveChiAndAlpha()),
+                       m_state_new, m_state_new, INCLUDE_GHOST_CELLS);
+    }
 
     // Check for nan's
     if (m_p.nan_check)
@@ -62,6 +98,11 @@ void BlackStringToyLevel::initialData()
     // then calculate initial data
     BoxLoops::loop(make_compute_pack(SetValue(0.), binary), m_state_new,
                    m_state_new, INCLUDE_GHOST_CELLS);
+    if (m_p.scaffold_freeze_hidden)
+    {
+        BoxLoops::loop(SetHiddenScaffoldVariables(1.0, 0.0), m_state_new,
+                       m_state_new, INCLUDE_GHOST_CELLS);
+    }
 #endif
 }
 
@@ -86,6 +127,16 @@ void BlackStringToyLevel::specificEvalRHS(GRLevelData &a_soln, GRLevelData &a_rh
                            m_p.ccz4_params, m_dx, m_p.sigma, m_p.formulation),
                        a_soln, a_rhs, EXCLUDE_GHOST_CELLS);
     }
+
+    if (m_p.scaffold_freeze_hidden)
+    {
+        // Stage 4D smoke-only scaffold behavior: the inherited public CCZ4 RHS
+        // does not evolve repo-owned hidden variables. Keep their RHS finite
+        // and zero only for the cheap smoke run. This must not be used with a
+        // future real hidden-sector RHS.
+        BoxLoops::loop(SetHiddenScaffoldVariables(0.0, 0.0), a_rhs, a_rhs,
+                       EXCLUDE_GHOST_CELLS);
+    }
 }
 
 // enforce trace removal during RK4 substeps
@@ -93,7 +144,16 @@ void BlackStringToyLevel::specificUpdateODE(GRLevelData &a_soln,
                                       const GRLevelData &a_rhs, Real a_dt)
 {
     // Enforce the trace free A_ij condition
-    BoxLoops::loop(TraceARemoval(), a_soln, a_soln, INCLUDE_GHOST_CELLS);
+    if (m_p.scaffold_freeze_hidden)
+    {
+        BoxLoops::loop(make_compute_pack(TraceARemoval(),
+                                         SetHiddenScaffoldVariables(1.0, 0.0)),
+                       a_soln, a_soln, INCLUDE_GHOST_CELLS);
+    }
+    else
+    {
+        BoxLoops::loop(TraceARemoval(), a_soln, a_soln, INCLUDE_GHOST_CELLS);
+    }
 }
 
 void BlackStringToyLevel::preTagCells()

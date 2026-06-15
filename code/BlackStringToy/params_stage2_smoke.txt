@@ -71,7 +71,7 @@ N_full = 32
 L_full = 16
 
 # Maximum number of times you can regrid above coarsest level
-max_level = 2 # There are (max_level+1) grids, so min is zero
+max_level = 1 # There are (max_level+1) grids, so min is zero
 
 # Frequency of regridding at each level and thresholds on the tagging
 # Need one for each level except the top one, ie max_level items
@@ -137,6 +137,11 @@ max_steps = 1
 max_spatial_derivative_order = 4 # can be 4 or 6
 
 nan_check = 1
+
+# Stage 4D smoke-only support. This keeps repo-owned hidden variables finite
+# in the inherited scaffold run by freezing hww=1 and Aww=0 with zero RHS.
+# It is not physical black-string initial data or hidden-sector evolution.
+scaffold_freeze_hidden = 1
 
 # Lapse evolution
 lapse_advec_coeff = 1.0

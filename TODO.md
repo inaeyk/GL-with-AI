@@ -10,8 +10,8 @@
 ## Active
 
 - [ ] Ensure future physics-stage PDF notes accompany each physics/design stage.
-- [ ] Stage 4D: add finite scaffold initialization/handoff for `hww/Aww` so the cheap smoke run no longer dies immediately from NaNs.
-- [ ] Stage 4D: keep the finite-value handoff narrow; do not claim physical evolution correctness or implement cartoon Ricci/RHS terms.
+- [ ] Stage 4D review: confirm the smoke-only `scaffold_freeze_hidden` guard is acceptable before committing.
+- [ ] Future hidden-sector RHS work must disable or replace the Stage 4D smoke-only `hww/Aww` freeze and add a loud guard against using both paths together.
 - [ ] Align Stage 3I parity and axis-filling conventions with GRChombo-facing project conventions before C++ source-term work.
 - [ ] Derive and document the Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention in the GRChombo-facing cartoon extension.
 - [ ] Required future RHS validation: reproduce the linear Gregory-Laflamme threshold/growth spectrum after matching conventions.
@@ -71,6 +71,8 @@
 - [x] Add Stage 4C real `hww/Aww` enum entries and header-level placement assertions without grid reads or helper handoff.
 - [x] Run Stage 4C scratch build-validation follow-up: full GRChombo compile passes with 27 variables; inherited smoke run now exposes uninitialized `hww/Aww`.
 - [x] Review Stage 4C hidden-variable enum placement and header-level assertions before Stage 4D planning.
+- [x] Stage 4D: add finite smoke-only scaffold support for `hww/Aww` behind the default-off `scaffold_freeze_hidden` parameter.
+- [x] Stage 4D: keep the temporary `hww/Aww` freeze narrow; do not claim physical evolution correctness or implement cartoon Ricci/RHS terms.
 
 ## Later
 

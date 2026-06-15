@@ -182,3 +182,11 @@ Category: 🟡 Physics + Code
 
 - Reconciled roadmap, checklist, TODO, and build-note bookkeeping after the committed Stage 4C work. Stage 3 is recorded as complete; Stage 4A, Stage 4B, and Stage 4C are recorded as complete and committed; and Stage 4D is identified as the next narrow step to give `hww/Aww` finite scaffold values so the cheap smoke run no longer dies immediately from NaNs. This remains bookkeeping only and does not implement grid handoff, RHS terms, or physical evolution.
 - Compiled companion PDFs for all current `docs/physics_notes/*.tex` sources, so Stage 3A through Stage 3K physics-note LaTeX sources now have same-name PDF review artifacts. Updated the physics-notes Makefile so `make -C docs/physics_notes all` builds all current notes.
+
+Category: 🔵 Code
+
+- Patched Stage 4D so the temporary `hww/Aww` finite scaffold support is explicitly smoke-only. The new `scaffold_freeze_hidden` parameter defaults off, while the cheap smoke parameter file turns it on to freeze `hww = 1.0`, `Aww = 0.0`, and inert hidden RHS slots. The cheap smoke workload was kept to `max_level = 1`; the scratch build succeeded and the smoke log ended with `GRChombo finished.`
+
+Category: 🟡 Physics + Code
+
+- Stage 4D still does not implement physical black-string initial data, cartoon Ricci terms, hidden-sector CCZ4 RHS terms, gauge/damping changes, small-axis regularization, finite differences, AH finding, radiation extraction, or meaningful black-string evolution. Future real hidden-sector RHS work must disable or replace the smoke-only freeze and add a loud guard against using both paths together.

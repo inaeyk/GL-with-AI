@@ -245,6 +245,14 @@ claim of physical evolution correctness and not an implementation of cartoon
 Ricci, full CCZ4 RHS, gauge/damping, finite differences, initial data, AH
 finding, or radiation extraction.
 
+Stage 4D uses an explicit smoke-only parameter,
+`scaffold_freeze_hidden`, for this temporary support. The default is off; the
+cheap smoke parameter file turns it on. When enabled, the scaffold freezes
+`hww = 1.0`, `Aww = 0.0`, and the corresponding RHS slots at zero so the
+inherited scaffold can run without hidden-variable NaNs. This is not physical
+hidden-sector evolution and must be disabled or replaced before any real
+cartoon hidden-sector RHS is enabled.
+
 A broader helper-to-grid handoff test remains required before Stage 4A helpers
 are allowed to consume live evolution components.
 
@@ -256,11 +264,11 @@ are allowed to consume live evolution components.
 | Stage 4A local algebra fixture target | `code/BlackStringToy/tests/Stage4AConformalCartoonAlgebraTest.cpp` | Verify helper without evolution or grid variables | Hard-coded exact fixtures from Stages 3F-3G | Pass/fail with roundoff-level checks | Stage 3J | all algebra helper tests, negative denominator guards | Medium |
 | Stage 4B public CCZ4 baseline layout check | `code/BlackStringToy/tests/Stage4BVariableLayoutTest.cpp` | Prove the public CCZ4 comparison baseline has not drifted unexpectedly | Public CCZ4 enum and names only; no hidden enum symbols | Loud failure on public visible layout/name drift; no claim about real `hww/Aww` placement | Stage 1, Stage 3J | public-layout fixture and visible helper-map check | Medium |
 | Stage 4C hidden enum and header-level placement guard | `code/BlackStringToy/UserVariables.hpp`; `code/BlackStringToy/tests/Stage4CVariablePlacementTest.cpp` | Add repo-owned `hww/Aww` enum names and enforce their final placement where the header is included | Actual repo-owned hidden enum definitions | `UserVariables.hpp` static assertions for the final hidden metric/A slots; placement fixture with real helper map | Stage 4B review | real `hww/Aww` placement guard, AH positional hazard, hidden determinant/trace participation setup | High |
-| Stage 4D finite scaffold initialization/handoff | Minimal repo-owned scaffold initialization or handoff location, exact file TBD after inspection | Give `hww/Aww` finite scaffold values so the cheap smoke run no longer dies immediately from NaNs | Repo-owned enum with hidden variables; scaffold startup data only | Cheap smoke run reaches past the current non-finite hidden-variable failure | Stage 4C review and explicit approval | Stage 4C placement guard plus smoke-run NaN regression | High |
-| Later helper-to-grid handoff | New repo-owned handoff fixture or minimal wrapper, exact harness TBD | Connect Stage 4A helpers to live component slots for the first time | Repo-owned enum with hidden variables, local mock/grid-adjacent component data | Loud failure if helper inputs bind to wrong live components | Stage 4D or later review and explicit approval | helper input map, enum/layout, no-RHS handoff fixture | High |
+| Stage 4D smoke-only hidden-variable freeze | `BlackStringToyLevel` plus smoke parameter file | Give `hww/Aww` finite scaffold values only when the smoke-only parameter is enabled | Repo-owned enum with hidden variables; inherited scaffold state/RHS slots | Cheap smoke run reaches past the current non-finite hidden-variable failure without silently freezing future runs by default | Stage 4C review and explicit approval | Stage 4C placement guard plus smoke-run NaN regression | High |
+| Later helper-to-grid handoff | New repo-owned handoff fixture or minimal wrapper, exact harness TBD | Connect Stage 4A helpers to live component slots for the first time | Repo-owned enum with hidden variables, local mock/grid-adjacent component data | Loud failure if helper inputs bind to wrong live components | Stage 4D review plus later explicit approval | helper input map, enum/layout, no-RHS handoff fixture | High |
 
 Deferred later stages, requiring explicit user approval after the layout and
-handoff stages pass:
+smoke-only scaffold stages pass:
 
 | Later stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -313,7 +321,8 @@ abstraction if a local GRChombo pattern already exists.
 | `K_ij` reconstruction | Stage 3F/3G `K_xx`, `K_xz`, `K_zz`, `K_ww` reconstruction fixtures |
 | Public layout baseline | Stage 4B public CCZ4 layout fixture; visible helper-map drift check |
 | Hidden enum placement | Stage 4C header-level `UserVariables.hpp` assertions for real `hww/Aww` symbols; AH positional hazard check |
-| Grid-variable wiring | Stage 4D handoff fixture before any helper reads live grid data; assert intended enum/component slots and positional assumptions |
+| Smoke-only hidden freeze | Stage 4D smoke parameter and runtime guard; verify default-off behavior is documented and the cheap smoke file opts in explicitly |
+| Grid-variable wiring | Later handoff fixture before any helper reads live grid data; assert intended enum/component slots and positional assumptions |
 | Cartoon Ricci helper | Stage 3C flat/cartoon geometry, Stage 3D constant-`q0`, Stage 3E nonconstant `q`, round-`S^2`, sheared-flat Stage 3G Ricci gate |
 | Small-axis helper | Stage 3I regular and irregular Taylor fixtures; assembled `tilde_Gamma^x` / `hat_Gamma^x` limit guard |
 | Constraint damping | Not a Stage 4A task; requires Stage 3H/3J linearized constraint-violation injection milestone |
@@ -351,7 +360,8 @@ Defer all of the following beyond Stage 4A:
 | Trusting compilation alone | Any implementation stage | All Stage gates | Require fixture tests and documented validation before claims |
 | Enum layout breaks AH/source assumptions | `UserVariables.hpp`, AH access, diagnostics | Stage 1 and Stage 3J | Review enum order and add layout tests before implementation |
 | Stage 4B overclaimed as hidden-placement protection | Planning docs or review notes | Stage 4B review | State clearly that Stage 4B checks public CCZ4 baseline layout only; real `hww/Aww` placement waits for Stage 4C |
-| Helper formulas correct but wired to wrong grid component | Enum/component layout, AHFunctions positional assumptions, `hww/K` adjacency assumptions | Stage 3J and Stage 4B-4D layout gates | Keep Stage 4A helpers local-value-only until Stage 4C header assertions and Stage 4D handoff tests exist |
+| Helper formulas correct but wired to wrong grid component | Enum/component layout, AHFunctions positional assumptions, `hww/K` adjacency assumptions | Stage 3J and Stage 4B-4D layout gates | Keep Stage 4A helpers local-value-only until Stage 4C header assertions and a later explicit handoff test exist |
+| Temporary `hww/Aww` smoke freeze silently masks future physics | Stage 4D scaffold support if left unconditional | Stage 4D review | Keep `scaffold_freeze_hidden` default-off, enable it only in the cheap smoke parameter file, and require future real hidden-sector RHS support to disable or replace it |
 
 ## Acceptance Criteria
 
