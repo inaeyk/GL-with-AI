@@ -138,7 +138,12 @@ Goal: design the analytic initial data and perturbation, and validate the modifi
 - [x] Review Stage 3K plan enough to explicitly approve Stage 4A local C++ source edits.
 - [x] Stage 4A: add local conformal-cartoon algebra helper and non-grid fixture for determinant, inverse, full 4D trace/tracelessness, `/4` guards, `K_ij` reconstruction, diagonal limit, and normalized determinant checks.
 - [x] Stage 4A: patch review items for dimension-aware `chi` power, tolerance-based floating-point guards, independent `K_ij` oracle values, and Stage 4A/4B terminology.
-- [ ] Review Stage 4A helper and fixture output before any grid wiring.
+- [x] Review Stage 4A helper and fixture output enough to approve Stage 4B layout-check work.
+- [x] Stage 4B: add automatic public CCZ4 baseline-layout fixture for current public component order and visible helper-input bindings without enum edits or grid reads.
+- [x] Stage 4B review follow-up: clarify that real `hww/Aww` placement is not yet enforced because the repo-owned enum symbols do not exist.
+- [ ] Review Stage 4B public baseline-layout fixture before adding hidden enum symbols.
+- [ ] Stage 4C: add repo-owned `hww/Aww` enum names and real header-level placement assertions in `UserVariables.hpp`.
+- [ ] Stage 4D: after Stage 4C passes and gets approval, add first grid-variable handoff tests before helpers read live grid components.
 - [ ] Align Stage 3I parity and axis-filling conventions with GRChombo-facing project conventions before C++ source-term work.
 - [ ] Derive and document the Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention in the GRChombo-facing cartoon extension.
 - [ ] Required future RHS validation: reproduce the linear Gregory-Laflamme threshold/growth spectrum after matching radius convention, periodicity, perturbation sector, gauge, and extraction variable.

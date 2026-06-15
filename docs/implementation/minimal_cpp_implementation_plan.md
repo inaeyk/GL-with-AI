@@ -119,28 +119,96 @@ does not touch `UserVariables.hpp`, and does not wire anything to evolution.
 Passing this fixture does not show that grid variables are wired correctly or
 that modified-cartoon CCZ4 evolution works.
 
-## Stage 4B Automated Variable-Layout Gate Before Grid Wiring
+## Stage 4B Public CCZ4 Baseline Layout Check
 
-Stage 4A helpers operate on supplied local values only. Before any helper is
-wired to grid variables, Stage 4B must add an automated layout test or compile-time
-assertion layer. Manual review is useful, but it is not sufficient.
+Stage 4A helpers operate on supplied local values only. Stage 4B adds an
+automated public-layout baseline check before any helper is wired to grid
+variables. Manual review is useful, but it is not sufficient.
 
-The Stage 4B layout gate should:
+Stage 4B proves one limited point:
 
-- verify that each helper input binds to the intended enum/component slot;
-- assert the project/GRChombo positional assumptions that remain intentional,
-  including `c_hww == c_K - 1` if that remains the intended
-  `AHFunctions`/variable-layout convention;
-- verify that `c_chi`, `c_hxx`, `c_hxz`, `c_hzz`, `c_hww`, `c_Axx`,
-  `c_Axz`, `c_Azz`, `c_Aww`, `c_K`, `c_Theta`, `c_hat_Gamma^x`, and
-  `c_hat_Gamma^z` map to their intended components, using the actual enum
-  names present in the implementation;
-- fail loudly if enum names, component ordering, `hww/K` adjacency, or
-  AH/source positional assumptions change.
+- the public GRChombo CCZ4 symbols currently used by this project still have
+  the expected order;
+- public-name drift or public-layout drift is caught when the Stage 4B test is
+  built and run;
+- the visible part of the future helper input map is documented before adding
+  repo-owned hidden variables.
 
-If exact enum names differ from the names above, implementation must inspect
-the repo-owned enum definitions and assert the actual names/indices. The
-helper-green state is not enough to permit grid wiring.
+Stage 4B does **not** yet prove that `hww` or `Aww` are correctly placed,
+because the repo-owned `c_hww` and `c_Aww` symbols do not exist yet. It also
+does not prove that future grid reads pass the right values to Stage 4A
+helpers, or that evolution, CCZ4 source terms, or cartoon terms work.
+
+Stage 4B has started with a standalone non-grid layout fixture:
+
+- Fixture: `code/BlackStringToy/tests/Stage4BVariableLayoutTest.cpp`.
+- Current `code/BlackStringToy/UserVariables.hpp` state: aliases public
+  `CCZ4UserVariables.hpp` through `NUM_VARS = NUM_CCZ4_VARS` and
+  `variable_names = ccz4_variable_names`.
+- Because `UserVariables.hpp` includes GRChombo core/Chombo-facing support
+  headers, the lightweight fixture checks the underlying public
+  `CCZ4UserVariables.hpp` directly. This is the layout currently exposed by
+  `BlackStringToy`.
+- No hidden `hww` or `Aww` enum names exist yet. Stage 4B therefore cannot
+  enforce their final placement. It only records that the current public slots
+  before `K` and `Theta` are `h33` and `A33`, respectively, and that the real
+  hidden-placement guard is deferred to Stage 4C.
+
+The current public CCZ4 component layout found before hidden-variable
+extension is:
+
+| Component | Index | Notes |
+| --- | ---: | --- |
+| `c_chi` | 0 | conformal factor |
+| `c_h11`, `c_h12`, `c_h13`, `c_h22`, `c_h23`, `c_h33` | 1-6 | visible public CCZ4 metric block |
+| `c_K` | 7 | trace; current `c_K - 1` slot is `h33`, not a named `hww` |
+| `c_A11`, `c_A12`, `c_A13`, `c_A22`, `c_A23`, `c_A33` | 8-13 | visible public CCZ4 trace-free block |
+| `c_Theta` | 14 | Z4 scalar; current `c_Theta - 1` slot is `A33`, not a named `Aww` |
+| `c_Gamma1`, `c_Gamma2`, `c_Gamma3` | 15-17 | hatted connection-sector components in the GRChombo-facing basis |
+| `c_lapse`, `c_shift1..3`, `c_B1..3` | 18-24 | gauge variables in the public layout |
+
+The Stage 4B helper-input map currently checked for the visible public
+components is:
+
+| Future helper input | Current component convention checked |
+| --- | --- |
+| `helper.chi` | `c_chi` |
+| `helper.h_xx` | `c_h11` |
+| `helper.h_xz` | `c_h12` |
+| `helper.h_zz` | `c_h22` |
+| `helper.A_xx` | `c_A11` |
+| `helper.A_xz` | `c_A12` |
+| `helper.A_zz` | `c_A22` |
+| `helper.K` | `c_K` |
+| `helper.Theta` | `c_Theta` |
+| `helper.hat_Gamma^x` | `c_Gamma1` |
+| `helper.hat_Gamma^z` | `c_Gamma2` |
+
+The hidden helper inputs are intentionally absent from this working map:
+
+| Future helper input | Stage 4C requirement |
+| --- | --- |
+| `helper.hww` | add a real repo-owned hidden metric enum symbol, then assert the final placement in `UserVariables.hpp` |
+| `helper.Aww` | add a real repo-owned hidden extrinsic-curvature enum symbol, then assert the final placement in `UserVariables.hpp` |
+
+Stage 4C must add the real repo-owned hidden enum entries and header-level
+checks inside `code/BlackStringToy/UserVariables.hpp`, not only inside a test
+file. If the final names are `c_hww` and `c_Aww`, the intended checks are:
+
+```cpp
+static_assert(c_hww == c_K - 1, "hww must be immediately before K");
+static_assert(c_Aww == c_Theta - 1, "Aww must be immediately before Theta");
+```
+
+If Stage 4C chooses different final enum names, use those actual names in the
+assertions. Keeping these assertions in `UserVariables.hpp` makes the guard
+hard to skip, because any translation unit that includes the variable header
+will compile the check.
+
+Stage 4D is the earliest possible stage for connecting helpers to grid data,
+and only after Stage 4C passes, is reviewed, and receives explicit user
+approval. Stage 4D must update or add a grid-handoff test that proves each
+helper input receives the intended live component.
 
 ## Implementation Stages And Gates
 
@@ -148,15 +216,18 @@ helper-green state is not enough to permit grid wiring.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Stage 4A local algebra helper | `code/BlackStringToy/ConformalCartoonAlgebra.hpp` | Determinant, inverse, trace-free projection, `/4`, `K_ij` reconstruction | Local scalar components `h_xx`, `h_xz`, `h_zz`, `hww`, `A_ij`, `K` supplied directly by tests, not read from grid data | Algebraic quantities and projections | Stages 3F-3G | determinant, off-diagonal inverse, full-4D trace-free, `/4`, `K_xz`, diagonal-limit fixtures | Medium |
 | Stage 4A local algebra fixture target | `code/BlackStringToy/tests/Stage4AConformalCartoonAlgebraTest.cpp` | Verify helper without evolution or grid variables | Hard-coded exact fixtures from Stages 3F-3G | Pass/fail with roundoff-level checks | Stage 3J | all algebra helper tests, negative denominator guards | Medium |
-| Stage 4B grid layout gate | Automated `static_assert` or unit-layout test, exact harness TBD | Prove helper inputs map to intended enum/component slots before grid wiring | Actual repo-owned enum definitions and public assumptions | Loud failure on layout drift or wrong component binding | Stage 1, Stage 3J | enum/layout fixture, `c_hww == c_K - 1` if retained, `hat_Gamma^A` convention | High |
+| Stage 4B public CCZ4 baseline layout check | `code/BlackStringToy/tests/Stage4BVariableLayoutTest.cpp` | Prove the public CCZ4 layout currently aliased by `BlackStringToy` has not drifted unexpectedly | Public CCZ4 enum and names only; no hidden enum symbols | Loud failure on public visible layout/name drift; no claim about real `hww/Aww` placement | Stage 1, Stage 3J | public-layout fixture and visible helper-map check | Medium |
+| Stage 4C hidden enum and header-level placement guard | `code/BlackStringToy/UserVariables.hpp` plus layout fixture update | Add repo-owned `hww/Aww` enum names and enforce their final placement where the header is included | Actual repo-owned hidden enum definitions | `UserVariables.hpp` static assertions for the final hidden metric/A slots; updated layout fixture | Stage 4B review | real `hww/Aww` placement guard, AH positional hazard, hidden determinant/trace participation setup | High |
+| Stage 4D first grid-variable handoff | New repo-owned handoff fixture or minimal wrapper, exact harness TBD | Connect Stage 4A helpers to live component slots for the first time | Repo-owned enum with hidden variables, local mock/grid-adjacent component data | Loud failure if helper inputs bind to wrong live components | Stage 4C review and explicit approval | helper input map, enum/layout, no-RHS handoff fixture | High |
 
-Deferred later stages, requiring explicit user approval after Stage 4A passes:
+Deferred later stages, requiring explicit user approval after the layout and
+handoff stages pass:
 
 | Later stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Stage 4C cartoon Ricci helper interface/implementation | New repo-owned geometry helper | Define and later implement diagonal/off-diagonal cartoon Ricci blocks | Reduced metric, hidden `gamma_ww`, derivatives, off-diagonal block | Interface contract first; implementation only after approval | Stages 3C-3E, 3G | round-`S^2`, Stage 3C-3E Ricci fixtures, sheared-flat gate | High |
-| Stage 4D small-axis helper interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
-| Stage 4E RHS block wiring | Future repo-owned RHS class or wrapper | Connect CCZ4 source blocks to evolution | Grid variables and derivatives | Time derivatives | Stages 3H-3J | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
+| Stage 4E cartoon Ricci helper interface/implementation | New repo-owned geometry helper | Define and later implement diagonal/off-diagonal cartoon Ricci blocks | Reduced metric, hidden `gamma_ww`, derivatives, off-diagonal block | Interface contract first; implementation only after approval | Stages 3C-3E, 3G | round-`S^2`, Stage 3C-3E Ricci fixtures, sheared-flat gate | High |
+| Stage 4F small-axis helper interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
+| Stage 4G RHS block wiring | Future repo-owned RHS class or wrapper | Connect CCZ4 source blocks to evolution | Grid variables and derivatives | Time derivatives | Stages 3H-3J | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
 
 Unknown exact class and file names should be resolved by a separate code
 inspection pass immediately before implementation. Do not invent a new
@@ -200,8 +271,9 @@ abstraction if a local GRChombo pattern already exists.
 | Reduced inverse helper | Stage 3G block-inverse identity, including nonzero `h_xz` and diagonal limit |
 | Trace-free projection | Full 4D trace-free projection with hidden multiplicity; `/4` denominator negative tests |
 | `K_ij` reconstruction | Stage 3F/3G `K_xx`, `K_xz`, `K_zz`, `K_ww` reconstruction fixtures |
-| Variable layout | Enum layout review; `hww/Aww` placement; `hat_Gamma^A` convention; AH positional hazard check |
-| Grid-variable wiring | Automated layout/static-assert gate before any helper reads grid data; assert intended enum/component slots and positional assumptions |
+| Public layout baseline | Stage 4B public CCZ4 layout fixture; visible helper-map drift check |
+| Hidden enum placement | Stage 4C header-level `UserVariables.hpp` assertions for real `hww/Aww` symbols; AH positional hazard check |
+| Grid-variable wiring | Stage 4D handoff fixture before any helper reads live grid data; assert intended enum/component slots and positional assumptions |
 | Cartoon Ricci helper | Stage 3C flat/cartoon geometry, Stage 3D constant-`q0`, Stage 3E nonconstant `q`, round-`S^2`, sheared-flat Stage 3G Ricci gate |
 | Small-axis helper | Stage 3I regular and irregular Taylor fixtures; assembled `tilde_Gamma^x` / `hat_Gamma^x` limit guard |
 | Constraint damping | Not a Stage 4A task; requires Stage 3H/3J linearized constraint-violation injection milestone |
@@ -238,7 +310,8 @@ Defer all of the following beyond Stage 4A:
 | Modifying `external/GRChombo` | Any implementation stage | Stage 2 workflow | Use scratch copy under `runs/` and repo-owned code only |
 | Trusting compilation alone | Any implementation stage | All Stage gates | Require fixture tests and documented validation before claims |
 | Enum layout breaks AH/source assumptions | `UserVariables.hpp`, AH access, diagnostics | Stage 1 and Stage 3J | Review enum order and add layout tests before implementation |
-| Helper formulas correct but wired to wrong grid component | Enum/component layout, AHFunctions positional assumptions, `hww/K` adjacency assumptions | Stage 3J and Stage 4B layout gate | Keep Stage 4A helpers local-value-only until automated `static_assert` or unit-layout tests exist |
+| Stage 4B overclaimed as hidden-placement protection | Planning docs or review notes | Stage 4B review | State clearly that Stage 4B checks public CCZ4 baseline layout only; real `hww/Aww` placement waits for Stage 4C |
+| Helper formulas correct but wired to wrong grid component | Enum/component layout, AHFunctions positional assumptions, `hww/K` adjacency assumptions | Stage 3J and Stage 4B-4D layout gates | Keep Stage 4A helpers local-value-only until Stage 4C header assertions and Stage 4D handoff tests exist |
 
 ## Acceptance Criteria
 

@@ -83,6 +83,15 @@ only: it does not read grid variables, enum slots, `Cell`, `Vars`,
 dimension-aware `chi` power bookkeeping, tolerance-based floating-point guards,
 and independent hard-coded `K_xz`/`K_ww` reconstruction oracle values.
 
+Initial Stage 4B coverage now lives in
+`code/BlackStringToy/tests/Stage4BVariableLayoutTest.cpp`. This fixture checks
+the public CCZ4 component order currently aliased by
+`code/BlackStringToy/UserVariables.hpp` and records the visible helper-input
+map without editing the enum or reading grid data. It is a public-layout drift
+guard only: it does not prove that `hww` or `Aww` are correctly placed, because
+the real repo-owned symbols do not exist yet. Stage 4C must add those symbols
+and the real header-level placement assertions in `UserVariables.hpp`.
+
 | Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Convention / validation note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Conformal determinant enforcement | 3F/3G | C++ unit | Positive diagonal and off-diagonal metric samples, including nonzero `h_xz` | `(h_xx h_zz - h_xz^2) hww^2 = 1` after the chosen enforcement path | Exact identity to roundoff | Missing hidden `hww`, wrong block determinant, accidental spherical Jacobian factors | Ricci/source-term correctness | Yes | Define project enforcement in the GRChombo-facing variable set |
@@ -96,6 +105,8 @@ and independent hard-coded `K_xz`/`K_ww` reconstruction oracle values.
 | Small-`x` regularized combinations | 3I | C++ unit | Regular and deliberately irregular Taylor data near the axis | Regular data gives finite limits; irregular data triggers expected diagnostic/failure | Exact limit fixtures plus tolerance near finite `x` | Unsafe raw `1/x` forms, missing matching condition, over-aggressive regularization | Correct ghost-zone strategy | Yes | Yes for axis-fill and stencil conventions |
 | Assembled `hat_Gamma^x` axis cancellation | 3I | C++ unit | Taylor data with `h_xx-hww=O(x^2)`, odd `h_xz`, regular `Z^x` | Assembled `tilde_Gamma^x` singular part is finite and `hat_Gamma^x` remains axis-regular | Exact symbolic target or tight tolerance | Wrong sign/multiplicity in highest-risk connection expression | Full Gamma-driver evolution | Yes | Yes, required |
 | `hat_Gamma^A = tilde_Gamma^A + 2Z^A` convention | 3H/3I | C++ unit | Controlled `tilde_Gamma^A` and `Z^A` samples | Encoded `hat_Gamma^A` and recovered constraint quantity match the chosen convention | Exact identity to roundoff | Wrong factor of two, confusing lowered and raised `Z` components | Damping signs in evolution | Yes | Yes, required |
+| Stage 4B public CCZ4 baseline-layout check | 3J/4B | C++ layout fixture | Public CCZ4 enum currently aliased by `BlackStringToy/UserVariables.hpp`; visible helper input map | Public symbols bind to the expected names/indices; current slots before `K` and `Theta` are identified as public `h33` and `A33` | Compile-time assertions plus runtime string/name checks | Public CCZ4 name/order drift before adding repo-owned variables; stale visible helper input map | Real grid reads, hidden enum implementation, real `hww/Aww` placement, helper integration, source terms | Yes before Stage 4C/4D | GRChombo-facing public layout is the current authority; real hidden placement guard is deferred to Stage 4C |
+| Stage 4C hidden enum placement guard | 3J/4C | Header-level compile-time check plus updated layout fixture | Repo-owned `hww/Aww` enum entries after they are explicitly added | `UserVariables.hpp` static assertions prove the final hidden symbols occupy the intended positions, such as immediately before `K` and `Theta` if those names/positions are retained | Compile-time assertions | Wrong `hww/Aww` placement, missed AH positional hazard, hidden helper input mismatch | Evolution, source terms, finite-difference correctness | Yes before Stage 4D grid handoff | Use the actual enum names chosen in Stage 4C |
 | Gamma-driver ownership boundary | 3H | C++ unit/design check | Mock RHS block inputs for gauge and `hat_Gamma^A` terms | Gauge block owns lapse/shift/auxiliary evolution; `hat_Gamma^A` block owns their appearances in `partial_t hat_Gamma^A` | Structural review plus targeted unit checks | Double-counting gauge terms, split ownership drift | Physical correctness of chosen gauge | Yes as a design review gate | Yes |
 
 ## Integration, Reference, And Convergence Tests
