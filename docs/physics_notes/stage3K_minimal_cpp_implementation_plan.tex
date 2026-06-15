@@ -94,8 +94,10 @@ Stage 4C adds the real hidden enum names and header-level checks in
   c_{\rm hww}=c_K-1,\qquad c_{\rm Aww}=c_\Theta-1,
 \]
 using compile-time assertions in the variable header. Stage 4D remains the
-earliest planned grid-variable handoff, and only after Stage 4C passes review
-and gets explicit approval.
+next narrow step, and only after Stage 4C passes review and gets explicit
+approval: give \(h_{ww}\) and \(A_{ww}\) finite scaffold values so the cheap
+smoke run no longer dies immediately from NaNs. This is not a physical
+evolution check. A broader helper-to-grid handoff remains a later stage.
 
 \section{Deferred Blocks}
 
@@ -117,7 +119,8 @@ Stage 4A trace projection & hidden multiplicity and \(1/4\) guard & 3F--3J \\
 Stage 4A \(K_{ij}\) reconstruction & \(K_{xx},K_{xz},K_{zz},K_{ww}\) round trip & 3F--3G \\
 Stage 4B public baseline layout & public CCZ4 visible enum/name order & 3J--3K \\
 Stage 4C hidden enum placement & header-level \(h_{ww}/A_{ww}\) assertions & 3J--3K \\
-Stage 4D grid handoff & helper input slots receive intended live components & 3J--3K \\
+Stage 4D finite scaffold values & \(h_{ww}/A_{ww}\) no longer fail cheap smoke with NaNs & 3J--3K \\
+Later grid handoff & helper input slots receive intended live components & 3J--3K \\
 Stage 4E cartoon Ricci helper & flat, round \(S^2\), warped, sheared-flat gates & 3C--3G, 3J \\
 Stage 4F small-axis helper & assembled \(\hat{\Gamma}^x\) limit guard & 3I--3J \\
 Later constraint damping & injected-constraint linearized milestone & 3H--3J \\

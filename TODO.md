@@ -10,12 +10,8 @@
 ## Active
 
 - [ ] Ensure future physics-stage PDF notes accompany each physics/design stage.
-- [ ] Review Stage 3B modified-cartoon source-term derivation roadmap.
-- [ ] Generate the Stage 3B physics PDF after the Markdown derivation roadmap is reviewed.
-- [ ] Review Stage 3J unit-test fixture design before Stage 3K implementation planning.
-- [ ] Review Stage 4C hidden-variable enum placement and header-level assertions before any grid handoff.
-- [ ] Resolve the Stage 4C scratch smoke NaN by explicitly initializing or handing off `hww/Aww` in a later approved grid stage.
-- [ ] Stage 4D: after Stage 4C passes and gets approval, add the first grid-variable handoff behind the layout guards.
+- [ ] Stage 4D: add finite scaffold initialization/handoff for `hww/Aww` so the cheap smoke run no longer dies immediately from NaNs.
+- [ ] Stage 4D: keep the finite-value handoff narrow; do not claim physical evolution correctness or implement cartoon Ricci/RHS terms.
 - [ ] Align Stage 3I parity and axis-filling conventions with GRChombo-facing project conventions before C++ source-term work.
 - [ ] Derive and document the Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention in the GRChombo-facing cartoon extension.
 - [ ] Required future RHS validation: reproduce the linear Gregory-Laflamme threshold/growth spectrum after matching conventions.
@@ -26,7 +22,6 @@
 - [ ] Convert Stage 3C/3D symbolic checks into unit-test fixtures after review.
 - [ ] Review Stage 3A black-string initial-data design note before coding.
 - [ ] Resolve GP branch/sign, `K_ij` convention, and zero-shift gauge startup before implementation.
-- [ ] Decide `hww/Aww` enum layout and target build path before adding variables.
 - [ ] Review Stage 2B scratch workflow hardening before committing.
 - [ ] Review Stage 2A `BlackStringToy` scaffold diff and scratch build output before committing.
 - [ ] Decide whether the next scaffold pass should keep inherited BinaryBH behavior untouched or trim it before later black-string initial-data work.
@@ -46,6 +41,7 @@
 - [x] Draft the Stage 3A black-string initial-data design note.
 - [x] Add physics-stage PDF note workflow and build the Stage 3A PDF note.
 - [x] Draft the Stage 3B modified-cartoon source-term derivation and validation roadmap.
+- [x] Review Stage 3B modified-cartoon source-term derivation roadmap for the Stage 3 design pass.
 - [x] Incorporate Stage 3B review refinements into the modified-cartoon notes.
 - [x] Create the Stage 3C symbolic/geometric derivation scaffold.
 - [x] Rerun the Stage 3C SymPy derivation script and record passing output.
@@ -62,6 +58,7 @@
 - [x] Patch Stage 3I review items: cartoon-axis versus physical singularity distinction and assembled `hat_Gamma^x` axis guard.
 - [x] Add Stage 3J unit-test fixture design before C++ implementation.
 - [x] Patch Stage 3J review items: round-`S^2` curvature fixture, Schwarzschild x `S^1` scope, tolerance policy, and separated GL/constraint-damping milestones.
+- [x] Review Stage 3J unit-test fixture design before Stage 3K implementation planning.
 - [x] Add Stage 3K minimal C++ implementation plan without editing source code.
 - [x] Patch Stage 3K review items: Stage 4A algebra-helper-only scope, deferred Ricci/small-axis helpers, Stage 4B automated layout gate, and helper-green limitations.
 - [x] Clarify convention policy: GRChombo-facing compatibility and internal consistency are authoritative; external/Pau code is later validation only.
@@ -69,11 +66,14 @@
 - [x] Inspect `code/BlackStringToy` files and add Stage 4A local conformal-cartoon algebra helper plus non-grid fixture.
 - [x] Patch Stage 4A review items: dimension-aware `chi` power, tolerance-based floating-point guards, independent `K_ij` oracles, and Stage 4A/4B terminology.
 - [x] Add Stage 4B public CCZ4 baseline-layout fixture for the current public layout and visible helper input map without grid reads or enum edits.
+- [x] Decide `hww/Aww` enum layout and target build path before adding variables.
 - [x] Add Stage 4C real `hww/Aww` enum entries and header-level placement assertions without grid reads or helper handoff.
 - [x] Run Stage 4C scratch build-validation follow-up: full GRChombo compile passes with 27 variables; inherited smoke run now exposes uninitialized `hww/Aww`.
+- [x] Review Stage 4C hidden-variable enum placement and header-level assertions before Stage 4D planning.
 
 ## Later
 
+- [ ] Generate the Stage 3B physics PDF if the team still wants a polished PDF artifact for that roadmap note.
 - [ ] Implement black-string initial data.
 - [ ] Implement compact-z handling.
 - [ ] Add GL perturbation controls.

@@ -234,10 +234,19 @@ The Stage 4C layout after editing is:
 | `c_lapse`, `c_shift1..3`, `c_B1..3` | 20-26 | gauge variables |
 | `NUM_VARS` | 27 | total variable count |
 
-Stage 4D is the earliest possible stage for connecting helpers to grid data,
-and only after Stage 4C passes, is reviewed, and receives explicit user
-approval. Stage 4D must update or add a grid-handoff test that proves each
-helper input receives the intended live component.
+Stage 4C also passed the full scratch Docker/GRChombo compile with the
+27-variable layout. The inherited cheap smoke run reaches runtime but aborts
+because `hww` and `Aww` are still non-finite/uninitialized in the scaffold.
+
+Stage 4D is the next narrow implementation stage: provide finite scaffold
+initialization or handoff for `hww` and `Aww` so the cheap smoke run no longer
+dies immediately from NaNs. Stage 4D must remain a runtime-sanity cleanup, not a
+claim of physical evolution correctness and not an implementation of cartoon
+Ricci, full CCZ4 RHS, gauge/damping, finite differences, initial data, AH
+finding, or radiation extraction.
+
+A broader helper-to-grid handoff test remains required before Stage 4A helpers
+are allowed to consume live evolution components.
 
 ## Implementation Stages And Gates
 
@@ -247,7 +256,8 @@ helper input receives the intended live component.
 | Stage 4A local algebra fixture target | `code/BlackStringToy/tests/Stage4AConformalCartoonAlgebraTest.cpp` | Verify helper without evolution or grid variables | Hard-coded exact fixtures from Stages 3F-3G | Pass/fail with roundoff-level checks | Stage 3J | all algebra helper tests, negative denominator guards | Medium |
 | Stage 4B public CCZ4 baseline layout check | `code/BlackStringToy/tests/Stage4BVariableLayoutTest.cpp` | Prove the public CCZ4 comparison baseline has not drifted unexpectedly | Public CCZ4 enum and names only; no hidden enum symbols | Loud failure on public visible layout/name drift; no claim about real `hww/Aww` placement | Stage 1, Stage 3J | public-layout fixture and visible helper-map check | Medium |
 | Stage 4C hidden enum and header-level placement guard | `code/BlackStringToy/UserVariables.hpp`; `code/BlackStringToy/tests/Stage4CVariablePlacementTest.cpp` | Add repo-owned `hww/Aww` enum names and enforce their final placement where the header is included | Actual repo-owned hidden enum definitions | `UserVariables.hpp` static assertions for the final hidden metric/A slots; placement fixture with real helper map | Stage 4B review | real `hww/Aww` placement guard, AH positional hazard, hidden determinant/trace participation setup | High |
-| Stage 4D first grid-variable handoff | New repo-owned handoff fixture or minimal wrapper, exact harness TBD | Connect Stage 4A helpers to live component slots for the first time | Repo-owned enum with hidden variables, local mock/grid-adjacent component data | Loud failure if helper inputs bind to wrong live components | Stage 4C review and explicit approval | helper input map, enum/layout, no-RHS handoff fixture | High |
+| Stage 4D finite scaffold initialization/handoff | Minimal repo-owned scaffold initialization or handoff location, exact file TBD after inspection | Give `hww/Aww` finite scaffold values so the cheap smoke run no longer dies immediately from NaNs | Repo-owned enum with hidden variables; scaffold startup data only | Cheap smoke run reaches past the current non-finite hidden-variable failure | Stage 4C review and explicit approval | Stage 4C placement guard plus smoke-run NaN regression | High |
+| Later helper-to-grid handoff | New repo-owned handoff fixture or minimal wrapper, exact harness TBD | Connect Stage 4A helpers to live component slots for the first time | Repo-owned enum with hidden variables, local mock/grid-adjacent component data | Loud failure if helper inputs bind to wrong live components | Stage 4D or later review and explicit approval | helper input map, enum/layout, no-RHS handoff fixture | High |
 
 Deferred later stages, requiring explicit user approval after the layout and
 handoff stages pass:

@@ -98,6 +98,13 @@ This confirms that `c_hww` and `c_Aww` exist, that `c_hww == c_K - 1` and
 component slots for `hww` and `Aww`. It still does not read grid data or prove
 that a future handoff passes those components correctly.
 
+The Stage 4C scratch Docker/GRChombo build also compiles the full
+`BlackStringToy` scaffold with the 27-variable layout. The inherited cheap
+smoke run reaches runtime but fails because `hww` and `Aww` are not initialized
+or handed off yet. Stage 4D should address only that finite scaffold-value
+failure; a Stage 4D smoke pass would still not validate cartoon Ricci terms,
+full CCZ4 RHS terms, or physical black-string evolution.
+
 | Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Convention / validation note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Conformal determinant enforcement | 3F/3G | C++ unit | Positive diagonal and off-diagonal metric samples, including nonzero `h_xz` | `(h_xx h_zz - h_xz^2) hww^2 = 1` after the chosen enforcement path | Exact identity to roundoff | Missing hidden `hww`, wrong block determinant, accidental spherical Jacobian factors | Ricci/source-term correctness | Yes | Define project enforcement in the GRChombo-facing variable set |

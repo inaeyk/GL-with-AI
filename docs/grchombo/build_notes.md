@@ -2,7 +2,10 @@
 
 Purpose: confirmed build, Docker, and platform notes.
 
-Status: first local smoke test complete; editable rebuild not yet verified.
+Status: editable `BlackStringToy` scratch builds are verified through Stage 4C.
+The full Docker/GRChombo scaffold compile succeeds with the 27-variable
+`hww/Aww` layout. The inherited cheap smoke run reaches runtime but currently
+fails because the new hidden variables are not initialized or handed off yet.
 
 ## Confirmed
 
@@ -17,10 +20,13 @@ Status: first local smoke test complete; editable rebuild not yet verified.
 
 ## Next Build Milestone
 
-- Perform an editable rebuild test of a small GRChombo example from source.
-- Stage 1 action: run or inspect `external/GRChombo/Tests/ApparentHorizonFinderTest2D/`, because it explicitly defines `GR_SPACEDIM 2` and is likely the best public validation harness for lower-dimensional/string-like AH behavior.
-- Confirm the local `CHOMBO_HOME`, compiler, HDF5, MPI/OpenMP, and optional PETSc/AH finder settings.
-- Verify the executable naming convention produced by the editable build.
+- Stage 4D: add the narrow finite scaffold initialization/handoff needed for
+  `hww/Aww` so the cheap `BlackStringToy` smoke run no longer dies immediately
+  from NaNs.
+- Do not infer physical evolution correctness from a future Stage 4D smoke
+  pass; cartoon Ricci terms, full RHS terms, physical initial data, and
+  diagnostics remain future work.
+- Historical Stage 1.5 preflight notes are retained below for traceability.
 
 ## AHFinderTest2D Run Status
 

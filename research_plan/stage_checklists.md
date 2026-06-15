@@ -80,6 +80,10 @@ Gate: do not proceed to Stage 3 or add black-string initial data until the skele
 
 Goal: design the analytic initial data and perturbation, and validate the modified-cartoon geometry/source-term bookkeeping before implementation.
 
+Status: complete. Remaining unchecked items in this section are carry-forward
+validation or implementation prerequisites, not blockers to the already
+reviewed Stage 4A-4C setup work.
+
 - [x] Stage 3A: document target continuum geometry and dimensional bookkeeping.
 - [x] Stage 3A: document the planned GRChombo variable map for initial data.
 - [x] Stage 3A: document GL perturbation, turduckening, boundary assumptions, and unresolved decisions.
@@ -103,7 +107,7 @@ Goal: design the analytic initial data and perturbation, and validate the modifi
 - [x] Stage 3F: verify `q` derivative identities, physical radius derivatives, and diagonal conformal tracelessness with SymPy.
 - [x] Stage 3F: strengthen the SymPy checks with the determinant condition, physical/conformal round trip, `K_ij` reconstruction, hidden-multiplicity tracelessness, and `/4` dimension-denominator guard.
 - [x] Stage 3F: add prose derivation notes and optional LaTeX physics-note source; PDF build deferred.
-- [ ] Document how the project enforces the cartoon/conformal determinant condition and trace-free constraints in the GRChombo-facing variable set, especially hidden `hww` participation in `det h = 1` and trace-free `A` enforcement.
+- [ ] Carry forward: document how the project enforces the cartoon/conformal determinant condition and trace-free constraints in the GRChombo-facing variable set, especially hidden `hww` participation in `det h = 1` and trace-free `A` enforcement.
 - [x] Stage 3G: document the off-diagonal reduced metric `h_xz` / `gamma_xz` conformal-cartoon extension.
 - [x] Stage 3G: add SymPy checks for the off-diagonal determinant, inverse metric, full-4D tracelessness, `K_xz` reconstruction, `/4` denominator guard, and diagonal Stage 3F limit.
 - [x] Stage 3G: add sheared-flat off-diagonal Ricci regression for constant `g_xz = lambda` and `x`-dependent `g_xz = x` metrics.
@@ -145,9 +149,10 @@ Goal: design the analytic initial data and perturbation, and validate the modifi
 - [x] Stage 4C: add repo-owned `hww/Aww` enum names and real header-level placement assertions in `UserVariables.hpp`.
 - [x] Stage 4C: add a non-grid placement fixture proving `c_hww`, `c_Aww`, their names, and helper-map component slots.
 - [x] Stage 4C: rerun the scratch Docker/GRChombo scaffold build; compile succeeds with the 27-variable layout.
-- [ ] Stage 4C/4D follow-up: inherited smoke run currently fails with `hww/Aww` non-finite until a later approved stage initializes or hands off the hidden variables.
-- [ ] Review Stage 4C hidden-variable placement before any helper reads live grid components.
-- [ ] Stage 4D: after Stage 4C passes and gets approval, add first grid-variable handoff tests before helpers read live grid components.
+- [x] Stage 4C: record that the inherited smoke run reaches runtime but fails with non-finite `hww/Aww` until a later approved stage initializes or hands off the hidden variables.
+- [x] Review Stage 4C hidden-variable placement before any helper reads live grid components.
+- [ ] Stage 4D: add finite scaffold initialization/handoff for `hww/Aww` so the cheap smoke run no longer dies immediately from NaNs.
+- [ ] Stage 4D: keep the handoff narrow; do not claim physical evolution correctness or implement cartoon Ricci/RHS terms.
 - [ ] Align Stage 3I parity and axis-filling conventions with GRChombo-facing project conventions before C++ source-term work.
 - [ ] Derive and document the Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention in the GRChombo-facing cartoon extension.
 - [ ] Required future RHS validation: reproduce the linear Gregory-Laflamme threshold/growth spectrum after matching radius convention, periodicity, perturbation sector, gauge, and extraction variable.
@@ -166,12 +171,23 @@ Goal: design the analytic initial data and perturbation, and validate the modifi
 - [ ] Check constraints and gauge quantities qualitatively.
 - [ ] Generate and review the Stage 3B polished physics PDF after the Markdown derivation roadmap is reviewed.
 
-Gate: do not proceed to Stage 4 or run long GL evolutions until `t=0` fields, parameter parsing, and constraints are reviewed and approved by the user. Do not treat outputs as physically meaningful until the relevant equations, variables, and diagnostics are reviewed and approved by the user.
+Gate status: Stage 3 design/tooling is complete and Stage 4A-4C setup work has
+begun under explicit approval. Do not run long GL evolutions or treat outputs
+as physically meaningful until `t=0` fields, parameter parsing, constraints,
+modified-cartoon source terms, and diagnostics are reviewed and approved by the
+user.
 
 ## Stage 4 - 4+1 CCZ4 / SO(3) modified-cartoon evolution
 
 Goal: implement the actual reduced 5D dynamics on the 2D grid.
 
+- [x] Stage 4A: local conformal-cartoon algebra helpers and non-grid tests.
+- [x] Stage 4B: public GRChombo CCZ4 baseline-layout check.
+- [x] Stage 4C: real `hww/Aww` variable entries, header-level placement checks, and non-grid placement fixture.
+- [x] Stage 4C: full scratch Docker/GRChombo `BlackStringToy` scaffold compile succeeds with the 27-variable layout.
+- [x] Stage 4C: cheap inherited smoke run result recorded accurately; it reaches runtime but fails because `hww/Aww` are not initialized or handed off yet.
+- [ ] Stage 4D: finite scaffold initialization/handoff for `hww/Aww` so the cheap smoke run no longer dies immediately from NaNs.
+- [ ] Stage 4D: do not claim physical evolution correctness; do not implement cartoon Ricci, full RHS, gauge/damping, finite differences, initial data, AH finding, or radiation extraction.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.
 - [ ] Implement `hww/Aww` evolution equations.

@@ -175,3 +175,9 @@ Category: 🟡 Physics + Code
 - Patched Stage 4B after review: narrowed the claim to a public GRChombo CCZ4 baseline-layout check. Because `c_hww` and `c_Aww` do not exist yet, real hidden-placement assertions are deferred to Stage 4C inside `UserVariables.hpp`; Stage 4D is the earliest planned grid-variable handoff.
 - Began Stage 4C by adding real repo-owned `hww` and `Aww` variable entries in `BlackStringToy/UserVariables.hpp`, with header-level assertions that `c_hww == c_K - 1` and `c_Aww == c_Theta - 1`. Added a non-grid placement fixture; no helper reads grid data and no RHS/evolution code was added.
 - Ran the Stage 4C scratch build-validation follow-up. The full Docker/GRChombo `BlackStringToy` scaffold compile succeeds with the 27-variable layout and produces the expected executable. The inherited one-step smoke run initially exposed a 25-entry `vars_parity` mismatch, fixed by adding even parities for `hww/Aww`; after that, the smoke run reaches the first advance but aborts because `hww` and `Aww` are non-finite/uninitialized in the inherited scaffold. No grid handoff or source-term implementation was added.
+
+## 2026-06-15
+
+Category: 🟡 Physics + Code
+
+- Reconciled roadmap, checklist, TODO, and build-note bookkeeping after the committed Stage 4C work. Stage 3 is recorded as complete; Stage 4A, Stage 4B, and Stage 4C are recorded as complete and committed; and Stage 4D is identified as the next narrow step to give `hww/Aww` finite scaffold values so the cheap smoke run no longer dies immediately from NaNs. This remains bookkeeping only and does not implement grid handoff, RHS terms, or physical evolution.

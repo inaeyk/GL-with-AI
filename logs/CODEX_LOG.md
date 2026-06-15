@@ -306,34 +306,42 @@
 - Goal: Start the explicitly approved Stage 4A C++ implementation with local conformal-cartoon algebra helpers and non-grid fixtures only.
 - Files changed: `code/BlackStringToy/ConformalCartoonAlgebra.hpp`, `code/BlackStringToy/tests/Stage4AConformalCartoonAlgebraTest.cpp`, `docs/implementation/minimal_cpp_implementation_plan.md`, `docs/derivations/unit_test_fixture_design.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`; all Stage 3C-3I symbolic scripts; compiled the local fixture with `g++ -std=c++17 -Wall -Wextra -pedantic -I code/BlackStringToy code/BlackStringToy/tests/Stage4AConformalCartoonAlgebraTest.cpp -o /tmp/blackstringtoy_stage4a_algebra_test`; ran `/tmp/blackstringtoy_stage4a_algebra_test`; grep for stale old Stage 3G conformal-cartoon filename references; targeted diffs for `external/GRChombo` and `scripts`; and `git diff --stat` / `git diff`. All symbolic scripts and the Stage 4A fixture passed. No files were staged.
-- Review status: Pending human review before commit.
+- Review status: Completed and committed.
 
 - Date: 2026-06-14
 - Goal: Patch Stage 4A after review without adding grid wiring, enum edits, or source-term implementation.
 - Files changed: `code/BlackStringToy/ConformalCartoonAlgebra.hpp`, `code/BlackStringToy/tests/Stage4AConformalCartoonAlgebraTest.cpp`, `docs/implementation/minimal_cpp_implementation_plan.md`, `docs/physics_notes/stage3K_minimal_cpp_implementation_plan.tex`, `docs/derivations/unit_test_fixture_design.md`, `TODO.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`; all Stage 3C-3I symbolic scripts; compiled the Stage 4A fixture with `g++ -std=c++17 -Wall -Wextra -pedantic -I code/BlackStringToy code/BlackStringToy/tests/Stage4AConformalCartoonAlgebraTest.cpp -o /tmp/blackstringtoy_stage4a_algebra_test`; ran `/tmp/blackstringtoy_stage4a_algebra_test`; greps for retired implementation-stage terminology, Stage 4A/4B references, and stale old Stage 3G conformal-cartoon filename references; targeted diffs for `external/GRChombo` and `scripts`; and `git diff --stat` / staged-diff checks. All symbolic scripts and the Stage 4A fixture passed, retired active terminology/stale filename greps returned no matches, protected paths had no diffs, and no files were staged.
-- Review status: Pending human review before commit.
+- Review status: Completed and committed.
 
 - Date: 2026-06-14
 - Goal: Start Stage 4B by adding an automatic variable-layout check before connecting Stage 4A helpers to grid data.
 - Files changed: `code/BlackStringToy/tests/Stage4BVariableLayoutTest.cpp`, `docs/implementation/minimal_cpp_implementation_plan.md`, `docs/derivations/unit_test_fixture_design.md`, `TODO.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`; all Stage 3C-3I symbolic scripts; compiled and ran the Stage 4A local algebra fixture; compiled and ran the Stage 4B layout fixture with `g++ -std=c++17 -Wall -Wextra -pedantic -I external/GRChombo/Source/CCZ4 code/BlackStringToy/tests/Stage4BVariableLayoutTest.cpp -o /tmp/blackstringtoy_stage4b_layout_test` and `/tmp/blackstringtoy_stage4b_layout_test`; greps for retired implementation-stage terminology, Stage 4A/4B/4C references, and stale old Stage 3G conformal-cartoon filename references; protected-path diffs for `external/GRChombo` and `scripts`; and `git diff --stat` / `git diff`. All symbolic scripts, the Stage 4A fixture, and the Stage 4B fixture passed; retired active terminology/stale filename greps returned no matches; protected paths had no diffs; and no files were staged.
-- Review status: Pending human review; no files staged.
+- Review status: Completed and committed.
 
 - Date: 2026-06-14
 - Goal: Patch Stage 4B after Claude/human review so its claims match what the current enum can actually prove.
 - Files changed: `code/BlackStringToy/tests/Stage4BVariableLayoutTest.cpp`, `docs/implementation/minimal_cpp_implementation_plan.md`, `docs/derivations/unit_test_fixture_design.md`, `TODO.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`; all Stage 3C-3I symbolic scripts; compiled and ran the Stage 4A local algebra fixture; compiled and ran the Stage 4B public CCZ4 baseline-layout fixture; greps for retired implementation-stage terminology, Stage 4A/4B/4C/4D references, hidden-placement wording, and stale old Stage 3G conformal-cartoon filename references; protected-path diffs for `external/GRChombo`, `scripts`, and unchanged Stage 4A/UserVariables headers; and `git diff --stat` / `git diff`. All symbolic scripts, the Stage 4A fixture, and the Stage 4B fixture passed; retired terminology and stale filename greps returned no matches; protected paths had no diffs; and no files were staged.
-- Review status: Pending human review; no files staged.
+- Review status: Completed and committed.
 
 - Date: 2026-06-14
 - Goal: Start Stage 4C by adding real repo-owned hidden `hww/Aww` variable entries with hard placement checks in `UserVariables.hpp`.
 - Files changed: `code/BlackStringToy/UserVariables.hpp`, `code/BlackStringToy/tests/Stage4CVariablePlacementTest.cpp`, `code/BlackStringToy/tests/Stage4BVariableLayoutTest.cpp`, `docs/implementation/minimal_cpp_implementation_plan.md`, `docs/derivations/unit_test_fixture_design.md`, `docs/physics_notes/stage3K_minimal_cpp_implementation_plan.tex`, `TODO.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`; all Stage 3C-3I symbolic scripts; compiled and ran the Stage 4A local algebra fixture; compiled and ran the Stage 4B public baseline fixture; compiled and ran the Stage 4C hidden-variable placement fixture; greps for retired implementation-stage terminology, Stage 4A/4B/4C/4D references, real hidden-placement assertions, stale public-alias wording, and stale old Stage 3G conformal-cartoon filename references; protected-path diffs for `external/GRChombo` and `scripts`; a grid-structure grep over Stage 4B/4C tests and `UserVariables.hpp`; and `git diff --stat` / `git diff`. All symbolic scripts and Stage 4 fixtures passed, stale wording/filename greps returned no matches, protected paths had no diffs, and no files were staged.
-- Review status: Pending human review; no files staged.
+- Review status: Completed and committed.
 
 - Date: 2026-06-14
 - Goal: Run the Stage 4C build-validation follow-up in the full scratch Docker/GRChombo scaffold.
 - Files changed: `code/BlackStringToy/params_stage2_smoke.txt`, `docs/grchombo/build_notes.md`, `TODO.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Ran `git status --short`; all Stage 3C-3I symbolic scripts; compiled and ran the Stage 4A, Stage 4B, and Stage 4C standalone fixtures; attempted `bash scripts/stage2_build_blackstringtoy_scratch.sh` from the sandbox and observed Docker was unavailable there; reran the same script from an escalated Docker-capable shell; repaired root-owned scratch output with Docker-scoped `chown`; minimally updated the smoke `vars_parity` list from 25 to 27 entries for `hww/Aww`; reran the same scratch script. The full GRChombo compile succeeded and produced `Main_BlackStringToy3d_ch.Linux.64.mpicxx.gfortran.OPT.MPI.OPENMPCC.ex`. The smoke command `timeout 180s ./Main_BlackStringToy3d_ch.Linux.64.mpicxx.gfortran.OPT.MPI.OPENMPCC.ex params_stage2_smoke.txt` failed during first advance because `hww` and `Aww` were non-finite/uninitialized. Greps for retired implementation-stage terminology and stale old Stage 3G conformal-cartoon filename references returned no matches; protected-path diffs for `external/GRChombo` and `scripts` were clean; scratch ownership was clean after repair.
-- Review status: Pending human review; no files staged.
+- Review status: Completed and committed.
+
+## 2026-06-15
+
+- Date: 2026-06-15
+- Goal: Tie up Stage 4C bookkeeping before starting Stage 4D.
+- Files changed: `TODO.md`, `research_plan/stage_checklists.md`, `research_plan/project_outline.md`, `docs/implementation/minimal_cpp_implementation_plan.md`, `docs/derivations/unit_test_fixture_design.md`, `docs/grchombo/build_notes.md`, `docs/physics_notes/stage3K_minimal_cpp_implementation_plan.tex`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Ran `git status --short`; all Stage 3C-3I symbolic scripts; compiled and ran the Stage 4A, Stage 4B, and Stage 4C standalone fixtures; greps for retired implementation-stage terminology, Stage 4A-4D roadmap references, stale old Stage 3G conformal-cartoon filename references, and pending-review log text; protected-path diffs for `external/GRChombo` and `scripts`; and `git diff --stat` / `git diff`. Symbolic scripts and Stage 4 fixtures passed; stale slice/stale filename greps returned no matches; pending-review hits are older historical log entries, while Stage 4A-4C entries now say completed/committed; protected paths had no diffs.
+- Review status: Unstaged bookkeeping update; no commit requested.
