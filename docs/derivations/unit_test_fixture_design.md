@@ -166,6 +166,17 @@ Ricci component storage is private, and the bridge exposes a distinct
 field access; that access path is intentionally restricted so the hidden
 `R_ww` and off-diagonal multiplicities cannot be bypassed accidentally.
 
+Stage 4J adds the local Ricci-to-RHS contract. It accepts the Stage 4I
+bridge-approved `RhsRicciComponents` view and local algebra inputs, then
+computes only named Ricci contractions for future RHS blocks. It intentionally
+does not accept raw cartoon Ricci, implement RHS formulas, read grid data, or
+wire anything into evolution.
+
+The Stage 4J review follow-up keeps the sanctioned bridge path easy to use but
+makes the internal `RicciAccess` doorway private. The bridge output remains a
+typed by-value view, not a raw pointer, reference, mutable alias, or loose list
+of doubles.
+
 | Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Convention / validation note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Conformal determinant enforcement | 3F/3G | C++ unit | Positive diagonal and off-diagonal metric samples, including nonzero `h_xz` | `(h_xx h_zz - h_xz^2) hww^2 = 1` after the chosen enforcement path | Exact identity to roundoff | Missing hidden `hww`, wrong block determinant, accidental spherical Jacobian factors | Ricci/source-term correctness | Yes | Define project enforcement in the GRChombo-facing variable set |
@@ -185,6 +196,7 @@ field access; that access path is intentionally restricted so the hidden
 | Stage 4F cartoon Ricci interface fixture | 3J/4F | C++ interface/type fixture | Local-value metric-derivative input and output structures for future cartoon Ricci helper | Interface compiles; hidden multiplicity is two; after Stage 4G, `ricci_formulas_implemented` is true | Compile/type check only | Interface drift, accidental hidden multiplicity change, ambiguous metric-derivative versus Gamma-based Ricci contract | Source term, RHS, evolution, small-`x` safety, or physical correctness | Yes before Ricci implementation | Later RHS wiring must resolve compatibility with any Gamma-based GRChombo Ricci expectation |
 | Stage 4G metric-derivative cartoon Ricci fixture | 3J/4G | C++ local geometry unit | Local Stage 4F inputs for flat data, constant `q0=4` cone at `x=2`, nonconstant `q=(1+x)^2` at `x=1`, and Stage 3G `x`-shear flat metric | Flat and shear cases give zero Ricci; constant cone gives `R_ww=-3/4`; nonconstant `q` gives `R_xx=-2`, `R_ww=-12`; `x=0` is rejected | Roundoff-level local exact oracles | Wrong angular sign, confusing `hww` with `x^2 hww`, missing metric derivatives, broken off-diagonal inverse path, unsafe axis acceptance | RHS wiring, Gamma-based Ricci compatibility, full small-`x` regularization, physical evolution | Yes before any Ricci output is used outside local tests | Metric-derivative form only; not Gamma-based `CCZ4Geometry` Ricci |
 | Stage 4I typed Ricci bridge contract fixture | 3H/3J/4H/4I | C++ local contract fixture | `R_xx=2`, `R_xz=3`, `R_zz=5`, `R_ww=7`; `h^{xx}=11`, `h^{xz}=13`, `h^{zz}=17`, `h^{ww}=19`; `chi=0.5` | Raw cartoon Ricci fields are not directly accessible; bridge exposes the intended RHS-facing values; full 4D conformal-inverse contraction is `451`; physical scalar is `225.5`; missing off-diagonal or hidden factors fail; nonpositive `chi` rejected | Exact local identities to roundoff plus compile-time access restriction | Wrong Ricci component placement, missing hidden `R_ww`, missing off-diagonal factor, missing hidden multiplicity, accidental direct-use convention drift | Live RHS correctness, Gamma-driver/damping signs, physical evolution | Required before any Ricci output is wired into RHS | No evolution wiring; future RHS-facing code must cross the bridge |
+| Stage 4J local Ricci-to-RHS contract fixture | 3H/3J/4H/4I/4J | C++ local contract fixture | Bridge-approved `RhsRicciComponents` with `R_xx=2`, `R_xz=3`, `R_zz=5`, `R_ww=7`; `h^{xx}=11`, `h^{xz}=13`, `h^{zz}=17`, `h^{ww}=19`; `chi=0.5`; local `x=2` | Contract accepts bridge Ricci, not raw cartoon Ricci; full 4D Ricci trace is `451`; physical scalar is `225.5`; dropping `Rww` or the off-diagonal factor fails; `x=0` rejected | Exact local identities to roundoff plus type-boundary check | Future RHS grabbing raw Ricci, omitting `Rww`, missing hidden multiplicity, missing off-diagonal factor, accepting unsafe axis input | Real RHS formula correctness, evolution correctness, small-axis regularization, Gamma-based compatibility | Required before any repo-owned RHS source block consumes Ricci | No evolution wiring; local contract only |
 | Gamma-driver ownership boundary | 3H | C++ unit/design check | Mock RHS block inputs for gauge and `hat_Gamma^A` terms | Gauge block owns lapse/shift/auxiliary evolution; `hat_Gamma^A` block owns their appearances in `partial_t hat_Gamma^A` | Structural review plus targeted unit checks | Double-counting gauge terms, split ownership drift | Physical correctness of chosen gauge | Yes as a design review gate | Yes |
 
 ## Integration, Reference, And Convergence Tests

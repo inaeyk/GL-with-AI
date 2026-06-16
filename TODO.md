@@ -79,6 +79,7 @@
 - [ ] Stage 4H: review the Ricci/RHS compatibility decision note.
 - [ ] Stage 4I: review the typed Ricci bridge contract and `451` trace-oracle fixture before any RHS wiring.
 - [ ] Stage 4I review follow-up: confirm the opaque cartoon Ricci result and bridge-only RHS-facing access pattern before any RHS wiring.
+- [ ] Stage 4J: review the local Ricci-to-RHS contract and standalone `451` trace-oracle fixture before any RHS source formulas or evolution wiring.
 
 ## Later
 

@@ -166,6 +166,11 @@ RHS-facing component type. This prevents ordinary future code from reading
 off-diagonal factor or hidden `R_ww` multiplicity. Future RHS use must cross
 the Stage 4I bridge or a reviewed replacement.
 
+Stage 4J refines that boundary into a local Ricci-to-RHS contract. It defines
+the bridge-approved Ricci view and local algebra inputs a future repo-owned RHS
+source block may consume, but it still does not implement RHS formulas or call
+evolution code.
+
 ## Non-goals
 
 Stage 4H does not:

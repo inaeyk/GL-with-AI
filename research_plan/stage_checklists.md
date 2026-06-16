@@ -206,6 +206,9 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4I: test the full 4D bridge contraction with the hard-coded `451` oracle and hidden/off-diagonal sensitivity checks.
 - [x] Stage 4I review follow-up: make raw cartoon Ricci component storage private and require bridge exposure for RHS-facing access.
 - [x] Stage 4I: keep the bridge local; do not call RHS, read grid data, or wire Ricci into evolution.
+- [x] Stage 4J: define the local Ricci-to-RHS contract using bridge-approved Ricci data only.
+- [x] Stage 4J: test the contract with the hard-coded `451` trace oracle, `Rww` omission sensitivity, off-diagonal sensitivity, and away-axis guard.
+- [x] Stage 4J: keep the contract local; do not implement RHS formulas, read grid data, or wire evolution.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.

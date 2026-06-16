@@ -40,8 +40,15 @@ struct RhsRicciComponents
     double ww;
 };
 
-struct RicciAccess
+class RicciAccess
 {
+  private:
+    friend RhsRicciComponents
+    to_rhs_ricci_components(const CartoonRicci::RicciComponents &ricci_LL);
+
+    // Internal bridge-only doorway. Keep this returning a typed by-value view.
+    // Do not change it to return raw doubles, references, pointers, or mutable
+    // aliases to CartoonRicci::RicciComponents storage.
     static RhsRicciComponents
     expose_for_bridge(const CartoonRicci::RicciComponents &ricci_LL)
     {

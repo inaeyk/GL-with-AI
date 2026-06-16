@@ -394,6 +394,32 @@ Stage 4I still does not wire Ricci into the RHS, call evolution code, read grid
 data, or prove RHS correctness. It only makes the convention boundary explicit
 and testable.
 
+## Stage 4J Local Ricci-To-RHS Contract
+
+Stage 4J defines the first local contract for how bridge-approved Ricci data
+may be consumed by a future repo-owned RHS source block:
+
+- Contract: `code/BlackStringToy/CartoonRhsContract.hpp`.
+- Fixture: `code/BlackStringToy/tests/Stage4JRicciRhsContractTest.cpp`.
+
+The contract accepts `CartoonRicciBridge::RhsRicciComponents`, not raw
+`CartoonRicci::RicciComponents`. It records that the Ricci input is physical
+lower/lower metric-derivative cartoon Ricci, that `R_ww` and `hww` are
+Cartesian-like hidden components rather than angular `theta theta` components,
+and that the external spherical/cartoon `x^2` factor is not stored inside
+`hww`.
+
+Stage 4J is still local only. It may compute named Ricci contractions such as
+`h^{ij} R_ij` and `chi h^{ij} R_ij` from already-bridged data, but it does not
+implement real RHS source formulas, does not call evolution code, does not read
+grid data, and does not implement small-axis regularization.
+
+After review, the internal `RicciAccess` doorway in the Stage 4I bridge is
+private. The intended public path remains `to_rhs_ricci_components(...)`,
+which returns a typed by-value `RhsRicciComponents` view. This internal doorway
+must not be changed to expose raw doubles, references, pointers, or mutable
+aliases to the hidden cartoon Ricci storage.
+
 ## Implementation Stages And Gates
 
 | Stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
@@ -408,14 +434,15 @@ and testable.
 | Stage 4G local metric-derivative cartoon Ricci helper | `CartoonRicciInterface.hpp`; `Stage4GCartoonRicciMetricDerivativeTest.cpp` | Compute local physical Ricci components from metric-derivative cartoon data without grid/RHS wiring | Stage 4F local-value inputs | `R_xx`, `R_xz`, `R_zz`, `R_ww` for away-axis inputs | Stage 4F review and explicit approval | flat zero, constant-`q` cone, nonconstant-`q` warped-product oracle, sheared-flat off-diagonal gate, away-axis guard | High |
 | Stage 4H Ricci/RHS compatibility note | `docs/implementation/stage4H_ricci_rhs_compatibility.md` | Decide how the Stage 4G metric-derivative Ricci helper can later feed CCZ4 RHS work without mixing Ricci conventions | Current BlackStringToy RHS path and public GRChombo CCZ4 geometry headers | Recommendation and future contract requirements only | Stage 4G review | Ricci-form compatibility review; no code execution | High |
 | Stage 4I typed Ricci bridge contract | `CartoonRicciBridge.hpp`; `Stage4IRicciBridgeContractTest.cpp` | Make the Ricci convention boundary explicit before any RHS use | Opaque `CartoonRicci::RicciComponents`, conformal inverse metric, `chi` | Distinct `RhsRicciComponents` bridge view, full 4D contraction, and physical scalar contract only; no RHS writes | Stage 4H | `451` hard-coded trace oracle, hidden/off-diagonal multiplicity negative checks, private raw-component storage, no-direct-use rule | High |
+| Stage 4J local Ricci-to-RHS contract | `CartoonRhsContract.hpp`; `Stage4JRicciRhsContractTest.cpp` | Define the local future RHS entry shape for bridge-approved Ricci data without implementing RHS formulas | `CartoonRicciBridge::RhsRicciComponents`, conformal inverse metric, `chi`, local `x` | Named Ricci contractions and inert local output struct only; no RHS writes | Stage 4I | bridge-only input type, `451` trace oracle, Rww/off-diagonal omission negative checks, away-axis guard | High |
 
 Deferred later stages, requiring explicit user approval after the layout and
 smoke-only scaffold stages pass:
 
 | Later stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Stage 4J small-axis helper interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
-| Stage 4K RHS block wiring | Future repo-owned RHS class or wrapper | Connect source blocks to evolution only after local contracts pass | Grid variables and derivatives | Time derivatives | Stages 3H-3J and Stage 4I | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
+| Stage 4K small-axis helper interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
+| Stage 4L RHS block wiring | Future repo-owned RHS class or wrapper | Connect source blocks to evolution only after local contracts pass | Grid variables and derivatives | Time derivatives | Stages 3H-3J and Stage 4J | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
 
 Unknown exact class and file names should be resolved by a separate code
 inspection pass immediately before implementation. Do not invent a new
