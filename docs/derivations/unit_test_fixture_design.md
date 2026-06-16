@@ -128,6 +128,19 @@ distinct local values for each relevant component and checks the exact helper
 input map plus an independent `K_ww` oracle, so it can catch swaps that the
 runtime finiteness check would miss.
 
+Stage 4F adds only the future cartoon Ricci helper interface. The header
+`code/BlackStringToy/CartoonRicciInterface.hpp` defines the
+metric-derivative Ricci contract used by the Stage 3C-3E symbolic checks:
+local-value input structures for `x`, `chi`, `h_xx`, `h_xz`, `h_zz`, `hww`,
+first derivatives, and second derivatives, plus an output structure for
+`R_xx`, `R_xz`, `R_zz`, and `R_ww`. This is not the Gamma-based GRChombo
+`CCZ4Geometry` Ricci form. Before RHS wiring, a later stage must confirm how
+this metric-derivative output is consumed by the GRChombo-facing RHS path and
+resolve any mismatch. The companion interface fixture checks that these types
+compile and that hidden multiplicity is two. It does not compute Ricci values,
+and the future implementation must still apply the Stage 3I small-`x`
+regularity rules.
+
 | Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Convention / validation note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Conformal determinant enforcement | 3F/3G | C++ unit | Positive diagonal and off-diagonal metric samples, including nonzero `h_xz` | `(h_xx h_zz - h_xz^2) hww^2 = 1` after the chosen enforcement path | Exact identity to roundoff | Missing hidden `hww`, wrong block determinant, accidental spherical Jacobian factors | Ricci/source-term correctness | Yes | Define project enforcement in the GRChombo-facing variable set |
@@ -144,6 +157,7 @@ runtime finiteness check would miss.
 | Stage 4B public CCZ4 baseline-layout check | 3J/4B | C++ layout fixture | Public CCZ4 enum retained as a comparison baseline; visible helper input map | Public symbols bind to the expected names/indices; current slots before `K` and `Theta` are identified as public `h33` and `A33` | Compile-time assertions plus runtime string/name checks | Public CCZ4 name/order drift before adding repo-owned variables; stale visible helper input map | Real grid reads, hidden enum implementation, real `hww/Aww` placement, helper integration, source terms | Yes before Stage 4C/4D | GRChombo-facing public layout is the baseline; real hidden placement guard is Stage 4C |
 | Stage 4C hidden enum placement guard | 3J/4C | Header-level compile-time check plus updated layout fixture | Repo-owned `hww/Aww` enum entries in `BlackStringToy/UserVariables.hpp` | `UserVariables.hpp` static assertions prove `c_hww == c_K - 1` and `c_Aww == c_Theta - 1`; the placement fixture verifies names and helper-map slots | Compile-time assertions plus runtime name checks | Wrong `hww/Aww` placement, missed AH positional hazard, hidden helper input mismatch | Evolution, source terms, finite-difference correctness, real grid handoff correctness | Yes before Stage 4D grid handoff | Uses actual Stage 4C enum names |
 | Stage 4E grid-to-helper handoff diagnostic | 3J/4E | Scaffold diagnostic / grid-read fixture plus standalone mapping fixture | Cheap smoke scaffold grid state with Stage 4D finite hidden-variable support enabled; distinct local values `chi=2`, `h11=3`, `h12=5`, `h22=37`, `hww=11`, `A11=13`, `A12=17`, `A22=19`, `Aww=23`, `K=29` | Stage 4A helper receives finite values from the intended slots; the standalone fixture checks exact component values and `K_ww = 51.375` | Runtime finite-value checks plus exact local value mapping to roundoff | Wrong live component handoff, swapped helper-map slots, non-finite hidden slots, invalid local conformal determinant before helper use | Cartoon Ricci, RHS correctness, physical hidden-sector evolution, finite-difference correctness | Yes before any helper output is used by evolution | Check-only; helper results are not written back |
+| Stage 4F cartoon Ricci interface fixture | 3J/4F | C++ interface/type fixture | Local-value metric-derivative input and output structures for future cartoon Ricci helper | Interface compiles; hidden multiplicity is two; `ricci_formulas_implemented` remains false | Compile/type check only | Interface drift before formulas are implemented, accidental hidden multiplicity change, ambiguous metric-derivative versus Gamma-based Ricci contract | Any Ricci value, source term, RHS, evolution, small-`x` safety, or physical correctness | Yes before Ricci implementation | No formulas are implemented in Stage 4F; later RHS wiring must resolve compatibility with any Gamma-based GRChombo Ricci expectation |
 | Gamma-driver ownership boundary | 3H | C++ unit/design check | Mock RHS block inputs for gauge and `hat_Gamma^A` terms | Gauge block owns lapse/shift/auxiliary evolution; `hat_Gamma^A` block owns their appearances in `partial_t hat_Gamma^A` | Structural review plus targeted unit checks | Double-counting gauge terms, split ownership drift | Physical correctness of chosen gauge | Yes as a design review gate | Yes |
 
 ## Integration, Reference, And Convergence Tests

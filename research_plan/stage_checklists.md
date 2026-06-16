@@ -194,6 +194,10 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4E: add the first guarded grid-to-helper handoff diagnostic for `chi`, visible conformal metric/A components, `hww`, `Aww`, and `K`.
 - [x] Stage 4E: keep the diagnostic check-only; helper outputs must not feed back into evolution or RHS terms.
 - [x] Stage 4E: add a distinct-value standalone mapping fixture to catch swapped helper input slots that could remain finite in the cheap smoke data.
+- [x] Stage 4F: add a local-value cartoon Ricci helper interface and compile-only/type fixture.
+- [x] Stage 4F: document that the interface is the metric-derivative Ricci form from Stages 3C-3E, not the Gamma-based GRChombo Ricci form.
+- [x] Stage 4F: do not implement Ricci formulas, source terms, RHS terms, or evolution wiring.
+- [ ] Stage 4G: resolve metric-derivative Ricci output versus any Gamma-based GRChombo RHS expectation before wiring or implementing formulas.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.

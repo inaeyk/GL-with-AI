@@ -284,6 +284,37 @@ This fixture catches swapped slots that could remain finite in the symmetric
 cheap smoke data. It still does not read `Cell`, `Vars`, `FArrayBox`, AMR data,
 or evolution data.
 
+## Stage 4F Cartoon Ricci Helper Interface
+
+Stage 4F adds only the repo-owned interface for the future cartoon Ricci
+helper:
+
+- Interface: `code/BlackStringToy/CartoonRicciInterface.hpp`.
+- Fixture: `code/BlackStringToy/tests/Stage4FCartoonRicciInterfaceTest.cpp`.
+
+The interface is local-value based and explicitly targets the
+metric-derivative cartoon Ricci form validated by Stages 3C-3E. A later Ricci
+implementation using this interface is expected to compute Ricci from
+coordinate `x`, `chi`, conformal metric components `h_xx`, `h_xz`, `h_zz`,
+`hww`, their first derivatives, their second derivatives, and hidden
+multiplicity. It also defines the future output shape `R_xx`, `R_xz`, `R_zz`,
+and `R_ww`.
+
+This is not the Gamma-based GRChombo `CCZ4Geometry` Ricci form. Before this
+helper is wired into a CCZ4 RHS, a later stage must check how the
+metric-derivative Ricci output will be consumed by the GRChombo-facing RHS
+code. If that code path expects a Gamma-based Ricci form, the mismatch must be
+resolved before wiring.
+
+Stage 4F deliberately does not implement Ricci formulas, does not return fake
+zero curvature, does not read grid data, and does not affect evolution. The
+interface records that `hww` is the hidden Cartesian-like conformal metric
+component, not `g_theta theta`, and that the external spherical/cartoon `x^2`
+factor is not stored inside `hww`. Hidden multiplicity remains fixed to two
+for this project. The future implementation must apply the Stage 3I small-`x`
+regularity rules; including coordinate `x` in the interface does not by itself
+make the `x -> 0` behavior safe.
+
 ## Implementation Stages And Gates
 
 | Stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
@@ -294,15 +325,16 @@ or evolution data.
 | Stage 4C hidden enum and header-level placement guard | `code/BlackStringToy/UserVariables.hpp`; `code/BlackStringToy/tests/Stage4CVariablePlacementTest.cpp` | Add repo-owned `hww/Aww` enum names and enforce their final placement where the header is included | Actual repo-owned hidden enum definitions | `UserVariables.hpp` static assertions for the final hidden metric/A slots; placement fixture with real helper map | Stage 4B review | real `hww/Aww` placement guard, AH positional hazard, hidden determinant/trace participation setup | High |
 | Stage 4D smoke-only hidden-variable freeze | `BlackStringToyLevel` plus smoke parameter file | Give `hww/Aww` finite scaffold values only when the smoke-only parameter is enabled | Repo-owned enum with hidden variables; inherited scaffold state/RHS slots | Cheap smoke run reaches past the current non-finite hidden-variable failure without silently freezing future runs by default | Stage 4C review and explicit approval | Stage 4C placement guard plus smoke-run NaN regression | High |
 | Stage 4E first grid-to-helper handoff diagnostic | `BlackStringToyLevel` guarded scaffold diagnostic plus `Stage4EGridToHelperMappingTest.cpp` | Connect Stage 4A helpers to live component slots for the first time in a check-only path and guard the map with distinct local values | Repo-owned enum with hidden variables and inherited scaffold grid state; standalone distinct local fixture values | Loud failure if helper inputs are non-finite, the local conformal determinant is invalid, or the intended helper input map is swapped; no writes or evolution use | Stage 4D review plus explicit approval | helper input map, enum/layout, no-RHS handoff fixture | High |
+| Stage 4F cartoon Ricci helper interface | `CartoonRicciInterface.hpp`; `Stage4FCartoonRicciInterfaceTest.cpp` | Define the metric-derivative local-value input/output contract for future cartoon Ricci calculations | Local `x`, `chi`, reduced conformal metric components, first derivatives, and second derivatives | Type/interface contract only; no Ricci values are computed | Stages 3C-3E, 3G, 4E | round-`S^2`, Stage 3C-3E Ricci fixtures, sheared-flat gate as later implementation tests; later GRChombo-facing Ricci-form compatibility check | High |
 
 Deferred later stages, requiring explicit user approval after the layout and
 smoke-only scaffold stages pass:
 
 | Later stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Stage 4F cartoon Ricci helper interface/implementation | New repo-owned geometry helper | Define and later implement diagonal/off-diagonal cartoon Ricci blocks | Reduced metric, hidden `gamma_ww`, derivatives, off-diagonal block | Interface contract first; implementation only after approval | Stages 3C-3E, 3G | round-`S^2`, Stage 3C-3E Ricci fixtures, sheared-flat gate | High |
-| Stage 4G small-axis helper interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
-| Stage 4H RHS block wiring | Future repo-owned RHS class or wrapper | Connect CCZ4 source blocks to evolution | Grid variables and derivatives | Time derivatives | Stages 3H-3J | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
+| Stage 4G cartoon Ricci helper implementation | `CartoonRicciInterface.hpp` implementation target TBD | Implement diagonal/off-diagonal metric-derivative cartoon Ricci blocks against the Stage 4F interface, after resolving compatibility with any Gamma-based GRChombo RHS expectations | Reduced metric, hidden `gamma_ww`, derivatives, off-diagonal block | Actual Ricci components only after approval and tests | Stage 4F review | round-`S^2`, Stage 3C-3E Ricci fixtures, sheared-flat gate, Stage 3I small-`x` regularity gates | High |
+| Stage 4H small-axis helper interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
+| Stage 4I RHS block wiring | Future repo-owned RHS class or wrapper | Connect CCZ4 source blocks to evolution | Grid variables and derivatives | Time derivatives | Stages 3H-3J | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
 
 Unknown exact class and file names should be resolved by a separate code
 inspection pass immediately before implementation. Do not invent a new
@@ -351,7 +383,8 @@ abstraction if a local GRChombo pattern already exists.
 | Hidden enum placement | Stage 4C header-level `UserVariables.hpp` assertions for real `hww/Aww` symbols; AH positional hazard check |
 | Smoke-only hidden freeze | Stage 4D smoke parameter and runtime guard; verify default-off behavior is documented and the cheap smoke file opts in explicitly |
 | Grid-variable handoff diagnostic | Stage 4E `scaffold_check_hidden_handoff` path plus the distinct-value mapping fixture; read intended enum/component slots into Stage 4A helper structs and check finite determinant/inverse/trace/`K_ij` outputs without writing helper results |
-| Cartoon Ricci helper | Stage 3C flat/cartoon geometry, Stage 3D constant-`q0`, Stage 3E nonconstant `q`, round-`S^2`, sheared-flat Stage 3G Ricci gate |
+| Cartoon Ricci interface | Stage 4F compile-only/type fixture for the metric-derivative Ricci form; no Ricci formulas until a later approved implementation stage |
+| Cartoon Ricci implementation | Stage 3C flat/cartoon geometry, Stage 3D constant-`q0`, Stage 3E nonconstant `q`, round-`S^2`, sheared-flat Stage 3G Ricci gate |
 | Small-axis helper | Stage 3I regular and irregular Taylor fixtures; assembled `tilde_Gamma^x` / `hat_Gamma^x` limit guard |
 | Constraint damping | Not a Stage 4A task; requires Stage 3H/3J linearized constraint-violation injection milestone |
 | Gauge/Gamma driver | Not a Stage 4A task; requires ownership and convention confirmation |

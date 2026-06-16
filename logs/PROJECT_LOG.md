@@ -203,3 +203,8 @@ Category: 🟡 Physics + Code
 Category: 🔵 Code
 
 - Patched Stage 4E after review with a standalone distinct-value mapping fixture. The test assigns different local values to `chi`, visible conformal metric/A components, `hww`, `Aww`, and `K`, verifies the helper input map, and checks an independent `K_ww = 51.375` oracle so swapped slots cannot hide behind finite symmetric smoke data.
+
+Category: 🔵 Code
+
+- Began Stage 4F by adding `CartoonRicciInterface.hpp` and a compile/type fixture for the future cartoon Ricci helper. The interface records local-value inputs for `x`, `chi`, reduced conformal metric components, first derivatives, second derivatives, hidden multiplicity, and future `R_xx/R_xz/R_zz/R_ww` outputs. It deliberately does not compute Ricci values, source terms, RHS terms, or evolution updates.
+- Patched Stage 4F after review to make the interface contract explicit: it is the metric-derivative cartoon Ricci form validated by Stages 3C-3E, not the Gamma-based GRChombo `CCZ4Geometry` Ricci form. Later Ricci/RHS work must resolve how that output is consumed by GRChombo-facing RHS code and must still apply Stage 3I small-`x` regularity rules.

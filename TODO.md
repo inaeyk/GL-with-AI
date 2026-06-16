@@ -74,6 +74,8 @@
 - [x] Stage 4D: add finite smoke-only scaffold support for `hww/Aww` behind the default-off `scaffold_freeze_hidden` parameter.
 - [x] Stage 4D: keep the temporary `hww/Aww` freeze narrow; do not claim physical evolution correctness or implement cartoon Ricci/RHS terms.
 - [ ] Stage 4E: review the first grid-to-helper handoff diagnostic and distinct-value mapping fixture.
+- [ ] Stage 4F: review the cartoon Ricci helper interface before any Ricci formulas are implemented.
+- [ ] Stage 4G: before implementing Ricci formulas, resolve how the Stage 4F metric-derivative Ricci interface will feed any GRChombo-facing RHS path that expects Gamma-based Ricci data.
 
 ## Later
 
