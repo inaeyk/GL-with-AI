@@ -197,7 +197,10 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4F: add a local-value cartoon Ricci helper interface and compile-only/type fixture.
 - [x] Stage 4F: document that the interface is the metric-derivative Ricci form from Stages 3C-3E, not the Gamma-based GRChombo Ricci form.
 - [x] Stage 4F: do not implement Ricci formulas, source terms, RHS terms, or evolution wiring.
-- [ ] Stage 4G: resolve metric-derivative Ricci output versus any Gamma-based GRChombo RHS expectation before wiring or implementing formulas.
+- [x] Stage 4G: implement the first local metric-derivative cartoon Ricci helper for away-axis inputs only.
+- [x] Stage 4G: add flat, constant-`q`, nonconstant-`q`, sheared-flat, and `x = 0` rejection fixture checks.
+- [x] Stage 4G: keep the Ricci helper local-value only; do not wire it into grid data, RHS terms, or evolution.
+- [ ] Future RHS wiring: resolve metric-derivative Ricci output versus any Gamma-based GRChombo RHS expectation before wiring helper outputs into evolution.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.

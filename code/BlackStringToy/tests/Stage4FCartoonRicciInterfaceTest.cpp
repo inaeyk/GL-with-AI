@@ -25,20 +25,20 @@ void require_equal(const std::string &label, const int value,
     std::cout << "PASS " << label << " = " << value << "\n";
 }
 
-void require_false(const std::string &label, const bool value)
+void require_true(const std::string &label, const bool value)
 {
-    if (value)
+    if (!value)
     {
-        fail(label, "expected false");
+        fail(label, "expected true");
     }
-    std::cout << "PASS " << label << " = false\n";
+    std::cout << "PASS " << label << " = true\n";
 }
 
 void check_interface_types()
 {
     require_equal("hidden multiplicity", hidden_multiplicity, 2);
-    require_false("Ricci formulas are not implemented",
-                  ricci_formulas_implemented);
+    require_true("metric-derivative Ricci formulas are implemented",
+                 ricci_formulas_implemented);
 
     CartoonRicciInputs inputs{};
     inputs.x = 1.25;
@@ -64,7 +64,7 @@ void check_interface_types()
 int main()
 {
     std::cout << "Stage 4F BlackStringToy cartoon Ricci interface fixture\n";
-    std::cout << "Interface/type check only; no Ricci formulas, grid data, "
+    std::cout << "Interface/type check only; no grid data, "
                  "Cell, Vars, FArrayBox, or evolution data are used.\n";
 
     check_interface_types();
