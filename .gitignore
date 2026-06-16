@@ -30,6 +30,7 @@ external/
 runs/
 data/
 tmp/
+.codegraph/
 
 # OS/editor junk
 .DS_Store
