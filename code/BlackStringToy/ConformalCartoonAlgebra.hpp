@@ -80,13 +80,21 @@ inline double trace(const SymmetricTensor &tensor, const ConformalMetric &h)
 
 inline SymmetricTensor trace_free_part(
     const SymmetricTensor &tensor, const ConformalMetric &h,
+    const InverseConformalMetric &h_UU,
     const double denominator = trace_denominator)
 {
-    const double tr = trace(tensor, h);
+    const double tr = trace(tensor, h_UU);
     return {tensor.xx - h.xx * tr / denominator,
             tensor.xz - h.xz * tr / denominator,
             tensor.zz - h.zz * tr / denominator,
             tensor.ww - h.ww * tr / denominator};
+}
+
+inline SymmetricTensor trace_free_part(
+    const SymmetricTensor &tensor, const ConformalMetric &h,
+    const double denominator = trace_denominator)
+{
+    return trace_free_part(tensor, h, inverse(h), denominator);
 }
 
 inline SymmetricTensor reconstruct_extrinsic_curvature(

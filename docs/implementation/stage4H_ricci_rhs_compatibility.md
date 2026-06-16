@@ -175,6 +175,12 @@ Stage 4K then adds the local source-block skeleton that consumes the Stage 4J
 contract type and names future RHS output slots. It remains an inert container
 only: no physical source formulas or live evolution wiring are implemented.
 
+Stage 4L adds the first narrow local formula block inside that source-block
+layer: the 4D trace-free projection of bridge-approved Ricci components. It
+uses the full trace with off-diagonal `xz` and hidden `ww` multiplicity factors
+and the `/4` projection denominator, but it is still not the full CCZ4 RHS and
+is not called from evolution.
+
 ## Non-goals
 
 Stage 4H does not:

@@ -212,6 +212,9 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4K: add a local RHS source-block skeleton that consumes the Stage 4J contract type.
 - [x] Stage 4K: test the skeleton's named inert output fields without implementing real RHS formulas.
 - [x] Stage 4K: keep the skeleton local; do not call `BlackStringToyLevel`, read grid data, or wire evolution.
+- [x] Stage 4L: implement the first local RHS formula block, limited to trace-free Ricci projection.
+- [x] Stage 4L: test the full 4D trace, hidden `ww` multiplicity, shared `/4` denominator convention, zero-trace projection behavior, and `x = 0` rejection.
+- [x] Stage 4L: keep the projection local; do not add live RHS wiring, grid reads, gauge/damping, or evolution changes.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.

@@ -81,6 +81,7 @@
 - [ ] Stage 4I review follow-up: confirm the opaque cartoon Ricci result and bridge-only RHS-facing access pattern before any RHS wiring.
 - [ ] Stage 4J: review the local Ricci-to-RHS contract and standalone `451` trace-oracle fixture before any RHS source formulas or evolution wiring.
 - [ ] Stage 4K: review the local RHS source-block skeleton before any real source formulas, grid reads, or evolution wiring.
+- [ ] Stage 4L: review the local trace-free Ricci projection block before any additional RHS source formulas, grid reads, or evolution wiring.
 
 ## Later
 

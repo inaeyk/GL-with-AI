@@ -73,7 +73,7 @@ void check_empty_source_block_contract()
     const CartoonRhsContract::RhsLocalInputs contract_input{
         {bridge_ricci, h_UU, 0.5}, 2.0};
     const CartoonRhsSourceBlock::LocalSourceBlockInput source_input{
-        contract_input};
+        contract_input, {1.0, 0.0, 1.0, 1.0}};
 
     const auto output =
         CartoonRhsSourceBlock::make_empty_source_block_for_contract_test(
