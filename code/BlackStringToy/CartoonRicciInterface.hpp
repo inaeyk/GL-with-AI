@@ -9,6 +9,11 @@
 
 namespace BlackStringToy
 {
+namespace CartoonRicciBridge
+{
+struct RicciAccess;
+}
+
 namespace CartoonRicci
 {
 // Stage 4F introduced the local-value interface for a future cartoon Ricci
@@ -73,12 +78,27 @@ struct CartoonRicciInputs
     MetricDerivatives h_derivatives;
 };
 
-struct RicciComponents
+class RicciComponents
 {
-    double xx;
-    double xz;
-    double zz;
-    double ww;
+    friend struct CartoonRicciBridge::RicciAccess;
+
+  public:
+    RicciComponents() = default;
+
+    RicciComponents(const double a_xx, const double a_xz, const double a_zz,
+                    const double a_ww)
+        : m_xx(a_xx), m_xz(a_xz), m_zz(a_zz), m_ww(a_ww)
+    {
+    }
+
+  private:
+    // Raw metric-derivative Ricci components are intentionally not public.
+    // Future RHS-facing use must cross the Stage 4I bridge so the lower/lower
+    // component, hidden-multiplicity, and trace conventions are explicit.
+    double m_xx = 0.0;
+    double m_xz = 0.0;
+    double m_zz = 0.0;
+    double m_ww = 0.0;
 };
 
 namespace detail
@@ -328,7 +348,8 @@ compute_metric_derivative_ricci(const CartoonRicciInputs &inputs)
         }
     }
 
-    return {ricci[0][0], ricci[0][3], ricci[3][3], ricci[1][1] / x2};
+    return RicciComponents(ricci[0][0], ricci[0][3], ricci[3][3],
+                           ricci[1][1] / x2);
 }
 
 } // namespace CartoonRicci

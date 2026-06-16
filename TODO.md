@@ -76,7 +76,9 @@
 - [ ] Stage 4E: review the first grid-to-helper handoff diagnostic and distinct-value mapping fixture.
 - [ ] Stage 4F: review the cartoon Ricci helper interface before any Ricci formulas are implemented.
 - [ ] Stage 4G: review the first local metric-derivative cartoon Ricci helper and standalone nonzero-oracle fixture.
-- [ ] Future RHS wiring: resolve how the Stage 4G metric-derivative Ricci output will feed any GRChombo-facing RHS path that expects Gamma-based Ricci data.
+- [ ] Stage 4H: review the Ricci/RHS compatibility decision note.
+- [ ] Stage 4I: review the typed Ricci bridge contract and `451` trace-oracle fixture before any RHS wiring.
+- [ ] Stage 4I review follow-up: confirm the opaque cartoon Ricci result and bridge-only RHS-facing access pattern before any RHS wiring.
 
 ## Later
 

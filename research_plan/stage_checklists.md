@@ -200,7 +200,12 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4G: implement the first local metric-derivative cartoon Ricci helper for away-axis inputs only.
 - [x] Stage 4G: add flat, constant-`q`, nonconstant-`q`, sheared-flat, and `x = 0` rejection fixture checks.
 - [x] Stage 4G: keep the Ricci helper local-value only; do not wire it into grid data, RHS terms, or evolution.
-- [ ] Future RHS wiring: resolve metric-derivative Ricci output versus any Gamma-based GRChombo RHS expectation before wiring helper outputs into evolution.
+- [x] Stage 4H: document the compatibility issue between Stage 4G metric-derivative Ricci and GRChombo's Gamma-based `CCZ4Geometry::compute_ricci_Z` path.
+- [x] Stage 4H: recommend keeping Stage 4G as a checked local Ricci source/oracle until a local Ricci-to-RHS contract exists.
+- [x] Stage 4I: add a typed Ricci bridge contract before any Ricci output is wired into evolution.
+- [x] Stage 4I: test the full 4D bridge contraction with the hard-coded `451` oracle and hidden/off-diagonal sensitivity checks.
+- [x] Stage 4I review follow-up: make raw cartoon Ricci component storage private and require bridge exposure for RHS-facing access.
+- [x] Stage 4I: keep the bridge local; do not call RHS, read grid data, or wire Ricci into evolution.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.

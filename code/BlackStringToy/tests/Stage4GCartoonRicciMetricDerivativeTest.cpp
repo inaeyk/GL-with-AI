@@ -1,4 +1,4 @@
-#include "CartoonRicciInterface.hpp"
+#include "CartoonRicciBridge.hpp"
 
 #include <cmath>
 #include <cstdlib>
@@ -9,6 +9,7 @@
 namespace
 {
 using namespace BlackStringToy::CartoonRicci;
+namespace RicciBridge = BlackStringToy::CartoonRicciBridge;
 
 constexpr double tol = 1.0e-12;
 
@@ -96,7 +97,9 @@ CartoonRicciInputs x_shear_flat_inputs()
 
 void check_flat_zero()
 {
-    const auto ricci = compute_metric_derivative_ricci(flat_inputs());
+    const auto ricci =
+        RicciBridge::to_rhs_ricci_components(compute_metric_derivative_ricci(
+            flat_inputs()));
     require_close("flat R_xx", ricci.xx, 0.0);
     require_close("flat R_xz", ricci.xz, 0.0);
     require_close("flat R_zz", ricci.zz, 0.0);
@@ -108,7 +111,9 @@ void check_constant_q_cone()
     // Stage 3D constant-q cone with q0 = 4 at x = 2:
     // R_theta theta = 1 - q0 = -3, so the Cartesian-like hidden component is
     // R_ww = R_theta theta / x^2 = -3/4.
-    const auto ricci = compute_metric_derivative_ricci(constant_q_cone_inputs());
+    const auto ricci =
+        RicciBridge::to_rhs_ricci_components(compute_metric_derivative_ricci(
+            constant_q_cone_inputs()));
     require_close("constant-q cone R_xx", ricci.xx, 0.0);
     require_close("constant-q cone R_xz", ricci.xz, 0.0);
     require_close("constant-q cone R_zz", ricci.zz, 0.0);
@@ -122,7 +127,9 @@ void check_nonconstant_q_oracle()
     // R_xx = -2 f_xx / f = -2.
     // R_theta theta = 1 - |grad f|^2 - f Delta f = 1 - 9 - 4 = -12,
     // so R_ww = -12 at x = 1.
-    const auto ricci = compute_metric_derivative_ricci(nonconstant_q_inputs());
+    const auto ricci =
+        RicciBridge::to_rhs_ricci_components(compute_metric_derivative_ricci(
+            nonconstant_q_inputs()));
     require_close("nonconstant-q R_xx", ricci.xx, -2.0);
     require_close("nonconstant-q R_xz", ricci.xz, 0.0);
     require_close("nonconstant-q R_zz", ricci.zz, 0.0);
@@ -131,7 +138,9 @@ void check_nonconstant_q_oracle()
 
 void check_x_shear_flat_gate()
 {
-    const auto ricci = compute_metric_derivative_ricci(x_shear_flat_inputs());
+    const auto ricci =
+        RicciBridge::to_rhs_ricci_components(compute_metric_derivative_ricci(
+            x_shear_flat_inputs()));
     require_close("x-shear flat R_xx", ricci.xx, 0.0);
     require_close("x-shear flat R_xz", ricci.xz, 0.0);
     require_close("x-shear flat R_zz", ricci.zz, 0.0);
