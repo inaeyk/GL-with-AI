@@ -190,3 +190,16 @@ Category: 🔵 Code
 Category: 🟡 Physics + Code
 
 - Stage 4D still does not implement physical black-string initial data, cartoon Ricci terms, hidden-sector CCZ4 RHS terms, gauge/damping changes, small-axis regularization, finite differences, AH finding, radiation extraction, or meaningful black-string evolution. Future real hidden-sector RHS work must disable or replace the smoke-only freeze and add a loud guard against using both paths together.
+
+Category: 🔵 Code
+
+- Began Stage 4E by adding a default-off `scaffold_check_hidden_handoff` diagnostic. When enabled by the cheap smoke parameter file, the diagnostic reads the real scaffold grid slots for `chi`, visible conformal metric/A components, `hww`, `Aww`, and `K`, passes them to the Stage 4A local conformal-cartoon algebra helper, and checks finite determinant, inverse, trace, and `K_ij` reconstruction outputs. The helper output is not written back to the grid or used for evolution.
+- The Stage 4E scratch Docker/GRChombo build completed, and the cheap smoke log ended with `GRChombo finished` with both `scaffold_freeze_hidden = 1` and `scaffold_check_hidden_handoff = 1` enabled. The wrapper still needed the known post-run scratch ownership repair outside the sandbox.
+
+Category: 🟡 Physics + Code
+
+- Stage 4E is a handoff sanity check only. It does not implement cartoon Ricci terms, hidden-sector RHS terms, gauge/damping changes, small-axis regularization, finite differences, real black-string initial data, or physically meaningful black-string evolution.
+
+Category: 🔵 Code
+
+- Patched Stage 4E after review with a standalone distinct-value mapping fixture. The test assigns different local values to `chi`, visible conformal metric/A components, `hww`, `Aww`, and `K`, verifies the helper input map, and checks an independent `K_ww = 51.375` oracle so swapped slots cannot hide behind finite symmetric smoke data.

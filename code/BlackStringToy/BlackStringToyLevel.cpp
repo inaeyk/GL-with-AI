@@ -11,6 +11,8 @@
 #include "ChiExtractionTaggingCriterion.hpp"
 #include "ChiPunctureExtractionTaggingCriterion.hpp"
 #include "ComputePack.hpp"
+#include "ConformalCartoonAlgebra.hpp"
+#include "MayDay.H"
 #include "NanCheck.hpp"
 #include "NewConstraints.hpp"
 #include "PositiveChiAndAlpha.hpp"
@@ -24,12 +26,27 @@
 #include "Weyl4.hpp"
 #include "WeylExtraction.hpp"
 
+#include <cmath>
+#include <exception>
+#include <string>
+
 // Stage 2A scaffold note: this class intentionally still uses inherited
 // BinaryBH initial data and standard 3+1D CCZ4 behavior. It is not physical
 // black-string evolution.
 
 namespace
 {
+void check_finite_stage4e(const double value, const char *name)
+{
+    if (!std::isfinite(value))
+    {
+        const std::string message =
+            std::string("Stage 4E grid-to-helper handoff produced nonfinite ") +
+            name;
+        MayDay::Error(message.c_str());
+    }
+}
+
 class SetHiddenScaffoldVariables
 {
     double m_hww;
@@ -52,6 +69,85 @@ class SetHiddenScaffoldVariables
         current_cell.store_vars(m_Aww, c_Aww);
     }
 };
+
+class CheckHiddenHandoffToAlgebra
+{
+  public:
+    template <class data_t> void compute(Cell<data_t> current_cell) const
+    {
+        using namespace BlackStringToy::ConformalCartoonAlgebra;
+
+        // Stage 4E diagnostic only: read real grid slots into the Stage 4A
+        // local algebra helper API. The computed values are checked for
+        // finiteness and are not written back or used for evolution.
+        const double chi = current_cell.load_vars(c_chi);
+        const ConformalMetric h{current_cell.load_vars(c_h11),
+                                current_cell.load_vars(c_h12),
+                                current_cell.load_vars(c_h22),
+                                current_cell.load_vars(c_hww)};
+        const ConformalExtrinsicCurvature A{current_cell.load_vars(c_A11),
+                                            current_cell.load_vars(c_A12),
+                                            current_cell.load_vars(c_A22),
+                                            current_cell.load_vars(c_Aww)};
+        const double K = current_cell.load_vars(c_K);
+
+        check_finite_stage4e(chi, "chi input");
+        check_finite_stage4e(h.xx, "hxx input");
+        check_finite_stage4e(h.xz, "hxz input");
+        check_finite_stage4e(h.zz, "hzz input");
+        check_finite_stage4e(h.ww, "hww input");
+        check_finite_stage4e(A.xx, "Axx input");
+        check_finite_stage4e(A.xz, "Axz input");
+        check_finite_stage4e(A.zz, "Azz input");
+        check_finite_stage4e(A.ww, "Aww input");
+        check_finite_stage4e(K, "K input");
+
+        if (chi <= algebra_zero_tolerance)
+        {
+            MayDay::Error(
+                "Stage 4E grid-to-helper handoff requires positive chi");
+        }
+
+        const double reduced_det = reduced_determinant(h);
+        if (reduced_det <= algebra_zero_tolerance)
+        {
+            MayDay::Error("Stage 4E grid-to-helper handoff found invalid "
+                          "reduced conformal determinant");
+        }
+        if (h.ww <= algebra_zero_tolerance)
+        {
+            MayDay::Error(
+                "Stage 4E grid-to-helper handoff requires positive hww");
+        }
+
+        try
+        {
+            const double det_4d = determinant_4d(h);
+            const auto h_UU = inverse(h);
+            const double tr_A = trace(A, h_UU);
+            const auto K_ij = reconstruct_extrinsic_curvature(A, h, chi, K);
+
+            check_finite_stage4e(reduced_det, "reduced determinant output");
+            check_finite_stage4e(det_4d, "4D determinant output");
+            check_finite_stage4e(h_UU.xx, "inverse hxx output");
+            check_finite_stage4e(h_UU.xz, "inverse hxz output");
+            check_finite_stage4e(h_UU.zz, "inverse hzz output");
+            check_finite_stage4e(h_UU.ww, "inverse hww output");
+            check_finite_stage4e(tr_A, "full 4D trace output");
+            check_finite_stage4e(K_ij.xx, "K_xx reconstruction output");
+            check_finite_stage4e(K_ij.xz, "K_xz reconstruction output");
+            check_finite_stage4e(K_ij.zz, "K_zz reconstruction output");
+            check_finite_stage4e(K_ij.ww, "K_ww reconstruction output");
+        }
+        catch (const std::exception &error)
+        {
+            const std::string message =
+                std::string("Stage 4E grid-to-helper handoff failed: ") +
+                error.what();
+            MayDay::Error(message.c_str());
+        }
+    }
+};
 } // namespace
 
 // Things to do during the advance step after RK4 steps
@@ -68,6 +164,12 @@ void BlackStringToyLevel::specificAdvance()
     {
         BoxLoops::loop(make_compute_pack(TraceARemoval(), PositiveChiAndAlpha()),
                        m_state_new, m_state_new, INCLUDE_GHOST_CELLS);
+    }
+
+    if (m_p.scaffold_check_hidden_handoff)
+    {
+        BoxLoops::loop(CheckHiddenHandoffToAlgebra(), m_state_new,
+                       m_state_new, EXCLUDE_GHOST_CELLS, disable_simd());
     }
 
     // Check for nan's

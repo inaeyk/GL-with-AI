@@ -40,6 +40,8 @@ class SimulationParameters : public SimulationParametersBase
         pp.load("calculate_constraint_norms", calculate_constraint_norms,
                 false);
         pp.load("scaffold_freeze_hidden", scaffold_freeze_hidden, false);
+        pp.load("scaffold_check_hidden_handoff",
+                scaffold_check_hidden_handoff, false);
 
 #ifdef USE_AHFINDER
         pp.load("AH_1_initial_guess", AH_1_initial_guess,
@@ -306,7 +308,7 @@ class SimulationParameters : public SimulationParametersBase
     }
 
     bool track_punctures, calculate_constraint_norms;
-    bool scaffold_freeze_hidden;
+    bool scaffold_freeze_hidden, scaffold_check_hidden_handoff;
     int puncture_tracking_level;
 
     // Collection of parameters necessary for initial conditions

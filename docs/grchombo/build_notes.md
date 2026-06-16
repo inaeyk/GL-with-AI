@@ -2,7 +2,7 @@
 
 Purpose: confirmed build, Docker, and platform notes.
 
-Status: editable `BlackStringToy` scratch builds are verified through Stage 4D.
+Status: editable `BlackStringToy` scratch builds are verified through Stage 4E.
 The full Docker/GRChombo scaffold compile succeeds with the 27-variable
 `hww/Aww` layout. The inherited cheap smoke run now uses the explicit
 default-off `scaffold_freeze_hidden` parameter to enable smoke-only scaffold
@@ -35,6 +35,17 @@ values `hww = 1.0` and `Aww = 0.0` with inert hidden RHS slots.
   remain future work.
 - Future real hidden-sector RHS support must disable or replace this temporary
   freeze and add a loud guard against using both paths together.
+- Stage 4E adds a separate default-off `scaffold_check_hidden_handoff`
+  diagnostic. The cheap smoke file enables it to read the real grid slots into
+  the Stage 4A local algebra helper and check finite determinant, inverse,
+  trace, and `K_ij` reconstruction outputs. This diagnostic does not write
+  helper outputs back to the state and does not validate physical evolution.
+- With both `scaffold_freeze_hidden = 1` and
+  `scaffold_check_hidden_handoff = 1`, the cheap smoke executable completed and
+  `pout/pout.0` ended with `GRChombo finished.`
+- After review, `code/BlackStringToy/tests/Stage4EGridToHelperMappingTest.cpp`
+  adds a standalone distinct-value mapping fixture to catch helper input slot
+  swaps that may remain finite in the symmetric smoke data.
 - Historical Stage 1.5 preflight notes are retained below for traceability.
 
 ## AHFinderTest2D Run Status

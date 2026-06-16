@@ -253,8 +253,36 @@ inherited scaffold can run without hidden-variable NaNs. This is not physical
 hidden-sector evolution and must be disabled or replaced before any real
 cartoon hidden-sector RHS is enabled.
 
-A broader helper-to-grid handoff test remains required before Stage 4A helpers
-are allowed to consume live evolution components.
+## Stage 4E First Grid-To-Helper Handoff Diagnostic
+
+Stage 4E adds the first guarded grid-to-helper diagnostic. It is controlled by
+the default-off `scaffold_check_hidden_handoff` parameter; the cheap smoke
+parameter file enables it together with the Stage 4D hidden freeze. When
+enabled, the diagnostic reads the real grid slots for `chi`, `h11`, `h12`,
+`h22`, `hww`, `A11`, `A12`, `A22`, `Aww`, and `K`, packages them into the
+Stage 4A local algebra helper structs, and checks the determinant, inverse,
+full 4D trace, and `K_ij` reconstruction outputs for finite values.
+
+This is a check-only path. The helper output is not written back to the grid
+and is not used to evolve the system. Passing Stage 4E shows only that the
+current scaffold can read the intended component slots and hand finite local
+values to the Stage 4A helper during the cheap smoke run. It does not validate
+cartoon Ricci terms, CCZ4 RHS terms, hidden-sector dynamics, or physical
+black-string evolution.
+
+After review, Stage 4E also includes a standalone distinct-value mapping
+fixture:
+
+- Fixture: `code/BlackStringToy/tests/Stage4EGridToHelperMappingTest.cpp`.
+- It uses deliberately different local values for `chi`, `h11`, `h12`, `h22`,
+  `hww`, `A11`, `A12`, `A22`, `Aww`, and `K`.
+- It checks that the future handoff map populates the Stage 4A helper input
+  structs with the intended component values and verifies an independently
+  derived `K_ww = 51.375` oracle.
+
+This fixture catches swapped slots that could remain finite in the symmetric
+cheap smoke data. It still does not read `Cell`, `Vars`, `FArrayBox`, AMR data,
+or evolution data.
 
 ## Implementation Stages And Gates
 
@@ -265,16 +293,16 @@ are allowed to consume live evolution components.
 | Stage 4B public CCZ4 baseline layout check | `code/BlackStringToy/tests/Stage4BVariableLayoutTest.cpp` | Prove the public CCZ4 comparison baseline has not drifted unexpectedly | Public CCZ4 enum and names only; no hidden enum symbols | Loud failure on public visible layout/name drift; no claim about real `hww/Aww` placement | Stage 1, Stage 3J | public-layout fixture and visible helper-map check | Medium |
 | Stage 4C hidden enum and header-level placement guard | `code/BlackStringToy/UserVariables.hpp`; `code/BlackStringToy/tests/Stage4CVariablePlacementTest.cpp` | Add repo-owned `hww/Aww` enum names and enforce their final placement where the header is included | Actual repo-owned hidden enum definitions | `UserVariables.hpp` static assertions for the final hidden metric/A slots; placement fixture with real helper map | Stage 4B review | real `hww/Aww` placement guard, AH positional hazard, hidden determinant/trace participation setup | High |
 | Stage 4D smoke-only hidden-variable freeze | `BlackStringToyLevel` plus smoke parameter file | Give `hww/Aww` finite scaffold values only when the smoke-only parameter is enabled | Repo-owned enum with hidden variables; inherited scaffold state/RHS slots | Cheap smoke run reaches past the current non-finite hidden-variable failure without silently freezing future runs by default | Stage 4C review and explicit approval | Stage 4C placement guard plus smoke-run NaN regression | High |
-| Later helper-to-grid handoff | New repo-owned handoff fixture or minimal wrapper, exact harness TBD | Connect Stage 4A helpers to live component slots for the first time | Repo-owned enum with hidden variables, local mock/grid-adjacent component data | Loud failure if helper inputs bind to wrong live components | Stage 4D review plus later explicit approval | helper input map, enum/layout, no-RHS handoff fixture | High |
+| Stage 4E first grid-to-helper handoff diagnostic | `BlackStringToyLevel` guarded scaffold diagnostic plus `Stage4EGridToHelperMappingTest.cpp` | Connect Stage 4A helpers to live component slots for the first time in a check-only path and guard the map with distinct local values | Repo-owned enum with hidden variables and inherited scaffold grid state; standalone distinct local fixture values | Loud failure if helper inputs are non-finite, the local conformal determinant is invalid, or the intended helper input map is swapped; no writes or evolution use | Stage 4D review plus explicit approval | helper input map, enum/layout, no-RHS handoff fixture | High |
 
 Deferred later stages, requiring explicit user approval after the layout and
 smoke-only scaffold stages pass:
 
 | Later stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Stage 4E cartoon Ricci helper interface/implementation | New repo-owned geometry helper | Define and later implement diagonal/off-diagonal cartoon Ricci blocks | Reduced metric, hidden `gamma_ww`, derivatives, off-diagonal block | Interface contract first; implementation only after approval | Stages 3C-3E, 3G | round-`S^2`, Stage 3C-3E Ricci fixtures, sheared-flat gate | High |
-| Stage 4F small-axis helper interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
-| Stage 4G RHS block wiring | Future repo-owned RHS class or wrapper | Connect CCZ4 source blocks to evolution | Grid variables and derivatives | Time derivatives | Stages 3H-3J | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
+| Stage 4F cartoon Ricci helper interface/implementation | New repo-owned geometry helper | Define and later implement diagonal/off-diagonal cartoon Ricci blocks | Reduced metric, hidden `gamma_ww`, derivatives, off-diagonal block | Interface contract first; implementation only after approval | Stages 3C-3E, 3G | round-`S^2`, Stage 3C-3E Ricci fixtures, sheared-flat gate | High |
+| Stage 4G small-axis helper interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
+| Stage 4H RHS block wiring | Future repo-owned RHS class or wrapper | Connect CCZ4 source blocks to evolution | Grid variables and derivatives | Time derivatives | Stages 3H-3J | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
 
 Unknown exact class and file names should be resolved by a separate code
 inspection pass immediately before implementation. Do not invent a new
@@ -322,7 +350,7 @@ abstraction if a local GRChombo pattern already exists.
 | Public layout baseline | Stage 4B public CCZ4 layout fixture; visible helper-map drift check |
 | Hidden enum placement | Stage 4C header-level `UserVariables.hpp` assertions for real `hww/Aww` symbols; AH positional hazard check |
 | Smoke-only hidden freeze | Stage 4D smoke parameter and runtime guard; verify default-off behavior is documented and the cheap smoke file opts in explicitly |
-| Grid-variable wiring | Later handoff fixture before any helper reads live grid data; assert intended enum/component slots and positional assumptions |
+| Grid-variable handoff diagnostic | Stage 4E `scaffold_check_hidden_handoff` path plus the distinct-value mapping fixture; read intended enum/component slots into Stage 4A helper structs and check finite determinant/inverse/trace/`K_ij` outputs without writing helper results |
 | Cartoon Ricci helper | Stage 3C flat/cartoon geometry, Stage 3D constant-`q0`, Stage 3E nonconstant `q`, round-`S^2`, sheared-flat Stage 3G Ricci gate |
 | Small-axis helper | Stage 3I regular and irregular Taylor fixtures; assembled `tilde_Gamma^x` / `hat_Gamma^x` limit guard |
 | Constraint damping | Not a Stage 4A task; requires Stage 3H/3J linearized constraint-violation injection milestone |

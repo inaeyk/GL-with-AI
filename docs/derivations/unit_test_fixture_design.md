@@ -112,6 +112,22 @@ passing Stage 4D smoke run then shows only that the inherited scaffold no
 longer dies immediately from hidden-variable NaNs; it must not be interpreted
 as a hidden-sector RHS, cartoon Ricci, or physical-evolution test.
 
+Stage 4E adds the first grid-to-helper handoff diagnostic. The default-off
+`scaffold_check_hidden_handoff` parameter enables a read-only path that loads
+the actual scaffold grid slots for `chi`, `h11`, `h12`, `h22`, `hww`, `A11`,
+`A12`, `A22`, `Aww`, and `K`, packages them into the Stage 4A local algebra
+helper input structs, and checks finite determinant, inverse, full-4D trace,
+and `K_ij` reconstruction outputs. This is a fixture-style handoff check only:
+it does not write helper results back to the grid, implement RHS terms, or show
+that cartoon evolution is physically meaningful.
+
+The smoke data is intentionally cheap and can be symmetric enough that swapped
+slots remain finite. The companion
+`code/BlackStringToy/tests/Stage4EGridToHelperMappingTest.cpp` fixture uses
+distinct local values for each relevant component and checks the exact helper
+input map plus an independent `K_ww` oracle, so it can catch swaps that the
+runtime finiteness check would miss.
+
 | Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Convention / validation note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Conformal determinant enforcement | 3F/3G | C++ unit | Positive diagonal and off-diagonal metric samples, including nonzero `h_xz` | `(h_xx h_zz - h_xz^2) hww^2 = 1` after the chosen enforcement path | Exact identity to roundoff | Missing hidden `hww`, wrong block determinant, accidental spherical Jacobian factors | Ricci/source-term correctness | Yes | Define project enforcement in the GRChombo-facing variable set |
@@ -127,6 +143,7 @@ as a hidden-sector RHS, cartoon Ricci, or physical-evolution test.
 | `hat_Gamma^A = tilde_Gamma^A + 2Z^A` convention | 3H/3I | C++ unit | Controlled `tilde_Gamma^A` and `Z^A` samples | Encoded `hat_Gamma^A` and recovered constraint quantity match the chosen convention | Exact identity to roundoff | Wrong factor of two, confusing lowered and raised `Z` components | Damping signs in evolution | Yes | Yes, required |
 | Stage 4B public CCZ4 baseline-layout check | 3J/4B | C++ layout fixture | Public CCZ4 enum retained as a comparison baseline; visible helper input map | Public symbols bind to the expected names/indices; current slots before `K` and `Theta` are identified as public `h33` and `A33` | Compile-time assertions plus runtime string/name checks | Public CCZ4 name/order drift before adding repo-owned variables; stale visible helper input map | Real grid reads, hidden enum implementation, real `hww/Aww` placement, helper integration, source terms | Yes before Stage 4C/4D | GRChombo-facing public layout is the baseline; real hidden placement guard is Stage 4C |
 | Stage 4C hidden enum placement guard | 3J/4C | Header-level compile-time check plus updated layout fixture | Repo-owned `hww/Aww` enum entries in `BlackStringToy/UserVariables.hpp` | `UserVariables.hpp` static assertions prove `c_hww == c_K - 1` and `c_Aww == c_Theta - 1`; the placement fixture verifies names and helper-map slots | Compile-time assertions plus runtime name checks | Wrong `hww/Aww` placement, missed AH positional hazard, hidden helper input mismatch | Evolution, source terms, finite-difference correctness, real grid handoff correctness | Yes before Stage 4D grid handoff | Uses actual Stage 4C enum names |
+| Stage 4E grid-to-helper handoff diagnostic | 3J/4E | Scaffold diagnostic / grid-read fixture plus standalone mapping fixture | Cheap smoke scaffold grid state with Stage 4D finite hidden-variable support enabled; distinct local values `chi=2`, `h11=3`, `h12=5`, `h22=37`, `hww=11`, `A11=13`, `A12=17`, `A22=19`, `Aww=23`, `K=29` | Stage 4A helper receives finite values from the intended slots; the standalone fixture checks exact component values and `K_ww = 51.375` | Runtime finite-value checks plus exact local value mapping to roundoff | Wrong live component handoff, swapped helper-map slots, non-finite hidden slots, invalid local conformal determinant before helper use | Cartoon Ricci, RHS correctness, physical hidden-sector evolution, finite-difference correctness | Yes before any helper output is used by evolution | Check-only; helper results are not written back |
 | Gamma-driver ownership boundary | 3H | C++ unit/design check | Mock RHS block inputs for gauge and `hat_Gamma^A` terms | Gauge block owns lapse/shift/auxiliary evolution; `hat_Gamma^A` block owns their appearances in `partial_t hat_Gamma^A` | Structural review plus targeted unit checks | Double-counting gauge terms, split ownership drift | Physical correctness of chosen gauge | Yes as a design review gate | Yes |
 
 ## Integration, Reference, And Convergence Tests

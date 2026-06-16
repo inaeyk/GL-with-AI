@@ -143,6 +143,12 @@ nan_check = 1
 # It is not physical black-string initial data or hidden-sector evolution.
 scaffold_freeze_hidden = 1
 
+# Stage 4E smoke-only diagnostic. This reads the real grid slots for the
+# conformal-cartoon algebra inputs and checks that the Stage 4A local helper
+# receives finite values with a valid local determinant. It does not feed helper
+# output back into the evolution.
+scaffold_check_hidden_handoff = 1
+
 # Lapse evolution
 lapse_advec_coeff = 1.0
 lapse_coeff = 2.0
