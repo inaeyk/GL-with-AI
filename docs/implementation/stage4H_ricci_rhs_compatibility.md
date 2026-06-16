@@ -171,6 +171,10 @@ the bridge-approved Ricci view and local algebra inputs a future repo-owned RHS
 source block may consume, but it still does not implement RHS formulas or call
 evolution code.
 
+Stage 4K then adds the local source-block skeleton that consumes the Stage 4J
+contract type and names future RHS output slots. It remains an inert container
+only: no physical source formulas or live evolution wiring are implemented.
+
 ## Non-goals
 
 Stage 4H does not:
