@@ -215,6 +215,9 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4L: implement the first local RHS formula block, limited to trace-free Ricci projection.
 - [x] Stage 4L: test the full 4D trace, hidden `ww` multiplicity, shared `/4` denominator convention, zero-trace projection behavior, and `x = 0` rejection.
 - [x] Stage 4L: keep the projection local; do not add live RHS wiring, grid reads, gauge/damping, or evolution changes.
+- [x] Stage 4M: add a named away-axis policy for local cartoon/RHS expressions.
+- [x] Stage 4M: centralize finite `x > 0` validation and guarded `1/x` / `1/x^2` helpers before adding future singular-looking source terms.
+- [x] Stage 4M: keep Stage 3I small-axis regularization deferred; do not clamp `x`, substitute epsilon, or claim axis-valid evaluation.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.

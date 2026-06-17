@@ -181,6 +181,12 @@ uses the full trace with off-diagonal `xz` and hidden `ww` multiplicity factors
 and the `/4` projection denominator, but it is still not the full CCZ4 RHS and
 is not called from evolution.
 
+Stage 4M adds a named away-axis policy object for local cartoon/RHS
+expressions. It centralizes the finite `x > 0` guard and the guarded `1/x` and
+`1/x^2` helpers that later source terms may need. It does not clamp `x`,
+replace the axis with an epsilon, implement Stage 3I small-axis
+regularization, or make axis evaluation physically valid.
+
 ## Non-goals
 
 Stage 4H does not:

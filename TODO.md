@@ -82,6 +82,7 @@
 - [ ] Stage 4J: review the local Ricci-to-RHS contract and standalone `451` trace-oracle fixture before any RHS source formulas or evolution wiring.
 - [ ] Stage 4K: review the local RHS source-block skeleton before any real source formulas, grid reads, or evolution wiring.
 - [ ] Stage 4L: review the local trace-free Ricci projection block before any additional RHS source formulas, grid reads, or evolution wiring.
+- [ ] Stage 4M: review the named away-axis policy before adding explicit `1/x` or `1/x^2` RHS source terms.
 
 ## Later
 

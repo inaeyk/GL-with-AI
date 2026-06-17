@@ -1,6 +1,7 @@
 #ifndef BLACKSTRINGTOY_CARTOONRHSCONTRACT_HPP
 #define BLACKSTRINGTOY_CARTOONRHSCONTRACT_HPP
 
+#include "CartoonAxisPolicy.hpp"
 #include "CartoonRicciBridge.hpp"
 #include "ConformalCartoonAlgebra.hpp"
 
@@ -86,12 +87,7 @@ compute_ricci_contractions(const RhsRicciInputs &inputs)
 inline RhsLocalOutputs make_inert_rhs_contract_outputs(
     const RhsLocalInputs &inputs)
 {
-    if (inputs.x <= CartoonRicci::ricci_zero_tolerance)
-    {
-        throw std::domain_error(
-            "CartoonRhsContract is away-axis only until Stage 3I "
-            "regularization is implemented");
-    }
+    CartoonAxisPolicy::require_away_axis(inputs.x);
 
     return {compute_ricci_contractions(inputs.ricci)};
 }

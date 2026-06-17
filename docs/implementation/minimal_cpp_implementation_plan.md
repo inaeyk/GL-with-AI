@@ -458,6 +458,25 @@ Stage 4L still does not implement the full CCZ4 RHS, does not add live
 evolution wiring, does not read grid data, does not implement gauge or damping
 terms, and does not implement small-axis regularization.
 
+## Stage 4M Away-Axis Policy
+
+Stage 4M adds one named local policy for deciding whether a cartoon/RHS
+expression may evaluate at a supplied reduced coordinate `x`:
+
+- Policy: `code/BlackStringToy/CartoonAxisPolicy.hpp`.
+- Fixture: `code/BlackStringToy/tests/Stage4MAxisPolicyTest.cpp`.
+
+The implemented mode is away-axis only. The policy accepts only finite
+positive `x`, rejects `x = 0`, negative `x`, NaN, and infinity, and provides
+guarded `1/x` and `1/x^2` helper entry points. Stage 4J's local contract
+boundary now uses this policy instead of a local ad hoc `x > 0` check, so Stage
+4K and Stage 4L continue to inherit the same boundary.
+
+Stage 4M is deliberately not Stage 3I regularization. It does not clamp `x`,
+replace the axis with an epsilon, provide a finite axis limit, or make
+cartoon-axis evaluation physically valid. The Stage 3I parity and removable
+singularity logic remains deferred to a later implementation stage.
+
 ## Implementation Stages And Gates
 
 | Stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
@@ -475,15 +494,16 @@ terms, and does not implement small-axis regularization.
 | Stage 4J local Ricci-to-RHS contract | `CartoonRhsContract.hpp`; `Stage4JRicciRhsContractTest.cpp` | Define the local future RHS entry shape for bridge-approved Ricci data without implementing RHS formulas | `CartoonRicciBridge::RhsRicciComponents`, conformal inverse metric, `chi`, local `x` | Named Ricci contractions and inert local output struct only; no RHS writes | Stage 4I | bridge-only input type, `451` trace oracle, Rww/off-diagonal omission negative checks, away-axis guard | High |
 | Stage 4K local RHS source-block skeleton | `CartoonRhsSourceBlock.hpp`; `Stage4KLocalRhsSourceBlockTest.cpp` | Define the future local source-block container without implementing physics RHS formulas | Stage 4J `RhsLocalInputs` contract | Named inert output fields for future source pieces; no RHS writes | Stage 4J | accepts Stage 4J contract type, rejects raw Ricci by type, finite inert placeholder fields, no-real-RHS guard | High |
 | Stage 4L local trace-free Ricci projection block | `CartoonRhsSourceBlock.hpp`; `Stage4LRicciTraceFreeSourceTest.cpp` | Compute only the local 4D trace-free projection of bridge-approved Ricci | Stage 4K source-block input with lower/inverse conformal metric and Ricci | `R_xx^TF`, `R_xz^TF`, `R_zz^TF`, `R_ww^TF`; no RHS writes | Stage 4K | hard-coded projection oracle, zero trace in consistent metric case, `/4` denominator and hidden `ww` sensitivity checks, `x = 0` rejection | High |
+| Stage 4M away-axis policy | `CartoonAxisPolicy.hpp`; `Stage4MAxisPolicyTest.cpp` | Centralize the finite `x > 0` decision before adding explicit `1/x` or `1/x^2` source terms | Local reduced coordinate `x` | Away-axis validation and guarded inverse helpers only; no small-axis regularization | Stage 4L | finite-positive acceptance, zero/negative/NaN/infinity rejection, guarded inverse helpers, Stage 4L boundary still rejects `x = 0` | High |
 
 Deferred later stages, requiring explicit user approval after the layout and
 smoke-only scaffold stages pass:
 
 | Later stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Stage 4M small-axis helper interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
-| Stage 4N additional RHS formula implementation | Future repo-owned RHS source-block implementation | Fill selected source-block terms only after local skeleton and regularity gates pass | Stage 4K source-block input plus reviewed local formulas | Computed source terms for reviewed blocks only | Stages 3H-3J and Stage 4L | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
-| Stage 4O RHS block wiring | Future repo-owned RHS class or wrapper | Connect source blocks to evolution only after local contracts pass | Grid variables and derivatives | Time derivatives | Stages 3H-3J and Stage 4N | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
+| Stage 4N small-axis regularization interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I and Stage 4M | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
+| Stage 4O additional RHS formula implementation | Future repo-owned RHS source-block implementation | Fill selected source-block terms only after local skeleton and regularity gates pass | Stage 4K source-block input plus reviewed local formulas | Computed source terms for reviewed blocks only | Stages 3H-3J and Stage 4M | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
+| Stage 4P RHS block wiring | Future repo-owned RHS class or wrapper | Connect source blocks to evolution only after local contracts pass | Grid variables and derivatives | Time derivatives | Stages 3H-3J and Stage 4O | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
 
 Unknown exact class and file names should be resolved by a separate code
 inspection pass immediately before implementation. Do not invent a new
@@ -534,6 +554,7 @@ abstraction if a local GRChombo pattern already exists.
 | Grid-variable handoff diagnostic | Stage 4E `scaffold_check_hidden_handoff` path plus the distinct-value mapping fixture; read intended enum/component slots into Stage 4A helper structs and check finite determinant/inverse/trace/`K_ij` outputs without writing helper results |
 | Cartoon Ricci interface | Stage 4F compile-only/type fixture for the metric-derivative Ricci form |
 | Cartoon Ricci implementation | Stage 4G fixture with Stage 3C flat/cartoon geometry, Stage 3D constant-`q0`, Stage 3E nonconstant `q`, and sheared-flat Stage 3G Ricci gate; round-`S^2` and additional axis-regularized fixtures remain future extensions |
+| Away-axis policy | Stage 4M fixture proving finite-positive acceptance, zero/negative/NaN/infinity rejection, guarded `1/x` and `1/x^2`, and continued Stage 4L `x = 0` rejection |
 | Small-axis helper | Stage 3I regular and irregular Taylor fixtures; assembled `tilde_Gamma^x` / `hat_Gamma^x` limit guard |
 | Constraint damping | Not a Stage 4A task; requires Stage 3H/3J linearized constraint-violation injection milestone |
 | Gauge/Gamma driver | Not a Stage 4A task; requires ownership and convention confirmation |
