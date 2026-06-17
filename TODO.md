@@ -88,6 +88,7 @@
 - [ ] Stage 4P: review that raw cartoon geometry primitives expose only low-risk away-axis values before source-block use.
 - [ ] Stage 4Q: review the local `hxx - hww = O(x^2)` matching guard before using it near the axis in source blocks.
 - [ ] Stage 4R: review the regularity-guarded local source sub-block as the required path for `(hxx - hww) / x^2` before any real Ricci/RHS formula uses it.
+- [ ] Stage 4S: review the checked-by-construction local RHS source-block integration carrying the Stage 4R guarded geometry package before any real source formula consumes it.
 
 ## Later
 

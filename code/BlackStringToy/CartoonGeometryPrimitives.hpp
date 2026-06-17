@@ -36,18 +36,6 @@ inline Primitives compute(const LocalInputs &inputs)
         inputs.d_x_hww, inputs.x)};
 }
 
-namespace detail
-{
-// Internal Stage 4R helper only. This risky quantity is not exposed by the
-// public Stage 4P compute path because source-facing use must first cross the
-// Stage 4Q h_xx - h_ww = O(x^2) matching guard.
-inline double hxx_minus_hww_over_x2_for_guarded_source_only(
-    const double h_xx, const double h_ww, const double x)
-{
-    return CartoonSingularCombinations::difference_over_x2(h_xx, h_ww, x);
-}
-} // namespace detail
-
 } // namespace CartoonGeometryPrimitives
 } // namespace BlackStringToy
 

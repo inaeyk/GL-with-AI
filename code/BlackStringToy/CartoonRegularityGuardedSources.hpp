@@ -3,6 +3,7 @@
 
 #include "CartoonGeometryPrimitives.hpp"
 #include "CartoonRegularityChecks.hpp"
+#include "CartoonSingularCombinations.hpp"
 
 namespace BlackStringToy
 {
@@ -24,11 +25,37 @@ struct LocalInputs
     double d_x_hww;
 };
 
-struct RegularityGuardedGeometrySources
+class RegularityGuardedGeometrySources
 {
-    double dx_hww_over_x;
-    double hxx_minus_hww_over_x2;
-    double hxx_hww_matching_residual;
+  public:
+    double dx_hww_over_x() const { return m_dx_hww_over_x; }
+    double hxx_minus_hww_over_x2() const
+    {
+        return m_hxx_minus_hww_over_x2;
+    }
+    double hxx_hww_matching_residual() const
+    {
+        return m_hxx_hww_matching_residual;
+    }
+
+  private:
+    RegularityGuardedGeometrySources(
+        const double dx_hww_over_x,
+        const double hxx_minus_hww_over_x2,
+        const double hxx_hww_matching_residual)
+        : m_dx_hww_over_x(dx_hww_over_x),
+          m_hxx_minus_hww_over_x2(hxx_minus_hww_over_x2),
+          m_hxx_hww_matching_residual(hxx_hww_matching_residual)
+    {
+    }
+
+    friend RegularityGuardedGeometrySources
+    compute_away_axis_regularly_matched_geometry_sources(
+        const LocalInputs &inputs);
+
+    double m_dx_hww_over_x;
+    double m_hxx_minus_hww_over_x2;
+    double m_hxx_hww_matching_residual;
 };
 
 inline RegularityGuardedGeometrySources
@@ -41,15 +68,14 @@ compute_away_axis_regularly_matched_geometry_sources(
     const auto primitives = CartoonGeometryPrimitives::compute(
         {inputs.x, inputs.d_x_hww});
     const double guarded_hxx_minus_hww_over_x2 =
-        CartoonGeometryPrimitives::detail::
-            hxx_minus_hww_over_x2_for_guarded_source_only(
-                inputs.h_xx, inputs.h_ww, inputs.x);
+        CartoonSingularCombinations::difference_over_x2(
+            inputs.h_xx, inputs.h_ww, inputs.x);
     const double residual =
         CartoonRegularityChecks::hxx_hww_matching_residual(
             inputs.x, inputs.h_xx, inputs.h_ww);
 
-    return {primitives.dx_hww_over_x, guarded_hxx_minus_hww_over_x2,
-            residual};
+    return RegularityGuardedGeometrySources(
+        primitives.dx_hww_over_x, guarded_hxx_minus_hww_over_x2, residual);
 }
 
 } // namespace CartoonRegularityGuardedSources

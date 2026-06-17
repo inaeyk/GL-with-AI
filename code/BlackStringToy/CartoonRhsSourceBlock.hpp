@@ -1,6 +1,7 @@
 #ifndef BLACKSTRINGTOY_CARTOONRHSSOURCEBLOCK_HPP
 #define BLACKSTRINGTOY_CARTOONRHSSOURCEBLOCK_HPP
 
+#include "CartoonRegularityGuardedSources.hpp"
 #include "CartoonRhsContract.hpp"
 
 namespace BlackStringToy
@@ -20,6 +21,7 @@ namespace CartoonRhsSourceBlock
 static constexpr bool source_terms_implemented = false;
 static constexpr bool evolution_wiring_implemented = false;
 static constexpr bool trace_free_ricci_projection_implemented = true;
+static constexpr bool regularity_guarded_geometry_source_block_available = true;
 
 struct TraceFreeRicci
 {
@@ -50,6 +52,40 @@ struct LocalSourceBlockOutput
     bool inert_test_output;
 };
 
+struct LocalGuardedGeometrySourceBlockInput
+{
+    CartoonRegularityGuardedSources::LocalInputs guarded_geometry;
+};
+
+class LocalGuardedGeometrySourceBlockOutput
+{
+  public:
+    const CartoonRegularityGuardedSources::RegularityGuardedGeometrySources &
+    regularity_guarded_geometry() const
+    {
+        return m_regularity_guarded_geometry;
+    }
+
+  private:
+    // Stage 4S carries the Stage 4R guarded package through the local
+    // source-block layer. The regularity-sensitive metric-difference value is
+    // source-facing only because Stage 4R has already called the Stage 4Q
+    // matching guard. This is still not a full Ricci or CCZ4 RHS formula.
+    explicit LocalGuardedGeometrySourceBlockOutput(
+        const CartoonRegularityGuardedSources::RegularityGuardedGeometrySources
+            &regularity_guarded_geometry)
+        : m_regularity_guarded_geometry(regularity_guarded_geometry)
+    {
+    }
+
+    friend LocalGuardedGeometrySourceBlockOutput
+    compute_local_guarded_geometry_source_block(
+        const LocalGuardedGeometrySourceBlockInput &input);
+
+    CartoonRegularityGuardedSources::RegularityGuardedGeometrySources
+        m_regularity_guarded_geometry;
+};
+
 inline LocalSourceBlockOutput make_empty_source_block_for_contract_test(
     const LocalSourceBlockInput &input)
 {
@@ -59,6 +95,16 @@ inline LocalSourceBlockOutput make_empty_source_block_for_contract_test(
 
     return {0.0, 0.0, 0.0, 0.0,
             contract_outputs.ricci_contractions, true};
+}
+
+inline LocalGuardedGeometrySourceBlockOutput
+compute_local_guarded_geometry_source_block(
+    const LocalGuardedGeometrySourceBlockInput &input)
+{
+    return LocalGuardedGeometrySourceBlockOutput(
+        CartoonRegularityGuardedSources::
+            compute_away_axis_regularly_matched_geometry_sources(
+                input.guarded_geometry));
 }
 
 inline TraceFreeRicci compute_ricci_trace_free_source_block(

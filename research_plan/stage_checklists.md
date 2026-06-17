@@ -235,6 +235,10 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4R: combine Stage 4P primitives with the Stage 4Q matching guard and Stage 4O away-axis semantics.
 - [x] Stage 4R review patch: make Stage 4R the normal source-facing path for `(hxx - hww) / x^2`; raw Stage 4P no longer exposes that risky value as a public output.
 - [x] Stage 4R: do not implement full Ricci, full CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, or evolution wiring.
+- [x] Stage 4S: connect the Stage 4R guarded geometry package into the local RHS source-block skeleton.
+- [x] Stage 4S: keep the risky `(hxx - hww) / x^2` ingredient source-facing only through the Stage 4R guarded path.
+- [x] Stage 4S review patch: make the guarded package and source-block carry output checked-by-construction, not open aggregates.
+- [x] Stage 4S: do not implement full Ricci, full CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, or evolution wiring.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.

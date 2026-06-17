@@ -256,3 +256,19 @@ Category: 🟡 Physics + Code
 
 - Stage 4R remains local and inert. It does not implement full Ricci, full CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, finite differences, or evolution wiring.
 - Patched Stage 4R after review so raw Stage 4P exposes only the low-risk `(d_x hww) / x` primitive as a public output. The regularity-sensitive `(hxx - hww) / x^2` source-facing value now appears only through the Stage 4R guarded path after the Stage 4Q matching guard has passed.
+
+Category: 🔵 Code
+
+- Began Stage 4S by connecting the Stage 4R guarded geometry package into the local RHS source-block skeleton. `CartoonRhsSourceBlock.hpp` now has a narrow local guarded-geometry source-block path that calls the Stage 4R helper and carries the guarded geometry package as source-block output.
+
+Category: 🟡 Physics + Code
+
+- Stage 4S keeps the risky `(hxx - hww) / x^2` ingredient source-facing only through the Stage 4R guarded path. It does not implement full Ricci, full CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, finite differences, or evolution wiring.
+
+Category: 🔵 Code
+
+- Patched Stage 4S after review so the guarded geometry package is checked-by-construction. `RegularityGuardedGeometrySources` now has private storage, accessor methods, and construction limited to the Stage 4R guarded compute path. The local RHS source-block carry output is likewise not an open aggregate, and the former Stage 4P `detail` helper for the risky metric-difference value was removed.
+
+Category: 🟡 Physics + Code
+
+- The patch hardens the local type boundary only. It still does not add a physical source formula, full Ricci, CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, finite differences, or evolution wiring.

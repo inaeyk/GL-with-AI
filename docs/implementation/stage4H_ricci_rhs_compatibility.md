@@ -232,6 +232,21 @@ guarded path. This is still only a future source-block boundary/helper, not a
 full Ricci tensor, not a CCZ4 RHS formula, not Stage 3I small-axis
 regularization, and not wired into evolution.
 
+Stage 4S connects that Stage 4R guarded package into the existing local RHS
+source-block skeleton. The source-block layer now has a narrow local pathway
+that carries the guarded geometry ingredients as a nested result, so
+source-block consumers receive the risky `(hxx - hww) / x^2` ingredient only
+after the Stage 4R helper has crossed the Stage 4Q matching guard. This still
+does not implement full Ricci, a CCZ4 RHS formula, grid reads, finite
+differences, or live evolution wiring.
+
+After the Stage 4S review patch, the guarded geometry package and the
+source-block carry output are checked-by-construction rather than open
+aggregates. Callers can read the checked values through accessors, but they
+cannot brace-initialize fake trusted values. The former public `detail` helper
+for the risky metric-difference value was removed; Stage 4R now computes that
+value internally only after calling the Stage 4Q guard.
+
 ## Non-goals
 
 Stage 4H does not:

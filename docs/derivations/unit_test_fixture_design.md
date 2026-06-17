@@ -231,6 +231,18 @@ This is now the normal source-facing path for the risky cartoon geometry
 ingredient, but it is still not full Ricci, not full CCZ4 RHS, and not Stage
 3I small-axis regularization.
 
+Stage 4S carries that Stage 4R package through the local RHS source-block
+skeleton. The source-block fixture checks that a matching sample passes,
+obvious mismatch and invalid inputs reject, and the carried values agree with
+the Stage 4R guarded helper. This is a source-block integration boundary only:
+it does not add a physical RHS term, grid reads, finite differences, or
+evolution wiring.
+
+After the Stage 4S review patch, both the Stage 4R guarded package and the
+Stage 4S carry output are checked-by-construction. The fixtures include
+compile-time type-shape checks showing the trusted package and carry output
+are not open aggregates that can be brace-initialized with arbitrary doubles.
+
 | Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Convention / validation note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Conformal determinant enforcement | 3F/3G | C++ unit | Positive diagonal and off-diagonal metric samples, including nonzero `h_xz` | `(h_xx h_zz - h_xz^2) hww^2 = 1` after the chosen enforcement path | Exact identity to roundoff | Missing hidden `hww`, wrong block determinant, accidental spherical Jacobian factors | Ricci/source-term correctness | Yes | Define project enforcement in the GRChombo-facing variable set |
@@ -259,6 +271,7 @@ ingredient, but it is still not full Ricci, not full CCZ4 RHS, and not Stage
 | Stage 4P cartoon geometry primitives fixture | 3I/3J/4P | C++ local helper fixture | Local `x=2`, `d_x hww=6`; bad zero/negative/NaN/infinite `x`; bad NaN/infinite derivative value | `dx_hww_over_x=3`; helper agrees with Stage 4N singular-combination helper; bad inputs reject; raw output has no public `hxx_minus_hww_over_x2` field | Exact local identities plus compile-time shape check and exception checks | Future raw `(hxx-hww)/x^2` source use from Stage 4P, bypassing the Stage 4R guarded path, unsafe nonfinite inputs | Full Ricci tensor, CCZ4 RHS source terms, finite axis limits, live evolution, enforcement of `hxx-hww=O(x^2)` on grid data | Required before these geometry combinations appear in source blocks | Away-axis low-risk primitive only; risky metric difference is source-facing only through Stage 4R |
 | Stage 4Q regularity matching fixture | 3I/3J/4Q | C++ local guard fixture | Local matching sample `x=0.1`, `h_ww=1`, `h_xx=1+0.25x^2`; clear mismatch `h_xx=1.2`; bad zero/negative/NaN/infinite inputs | Matching sample passes with finite residual; clear mismatch rejects; invalid inputs and bad tolerance reject | Tolerance-based local exception checks | Obvious local violations of `hxx-hww=O(x^2)`, unsafe finite/nonfinite inputs, accidentally claiming analytic regularity | Full analytic regularity proof, finite axis limits, grid-data matching enforcement, real RHS source terms | Required before using `(hxx-hww)/x^2` near the axis in a source block | Pointwise guard only; no Stage 3I regularized construction |
 | Stage 4R regularity-guarded source-block fixture | 3I/3J/4R | C++ local source-style fixture | Matching sample `x=0.5`, `h_ww=1`, `h_xx=1+0.25x^2`, `d_x hww=1`; clear mismatch and bad inputs | Guarded package returns `dx_hww_over_x=2`, source-facing `hxx_minus_hww_over_x2=0.25`, matching residual, and agrees with Stage 4P for `dx_hww_over_x`; mismatch and invalid inputs reject | Exact local identities plus exception checks | Future source block bypassing the Stage 4Q guard before using the risky metric-difference ingredient, unsafe invalid inputs, accidental full-RHS or regularization claims | Full Ricci tensor, CCZ4 RHS, finite axis limits, grid reads, evolution wiring | Required before these guarded ingredients are used in future source blocks | Local guarded ingredient package only |
+| Stage 4S local RHS guarded-geometry integration fixture | 3I/3J/4S | C++ local source-block fixture | Matching sample `x=0.5`, `h_ww=1`, `h_xx=1+0.25x^2`, `d_x hww=1`; clear mismatch and bad inputs through `CartoonRhsSourceBlock` | Local RHS source-block output carries `dx_hww_over_x=2`, source-facing `hxx_minus_hww_over_x2=0.25`, and matching residual from the Stage 4R guarded path; mismatch and invalid inputs reject; guarded package/carry output are not open aggregates | Exact local identities plus exception and type-shape checks | Source-block integration accidentally bypassing Stage 4R, dropping guarded geometry fields, unsafe invalid inputs, reintroducing forgeable trusted packages | Full Ricci tensor, CCZ4 RHS, finite axis limits, grid reads, evolution wiring | Required before guarded ingredients are consumed by later source-block formulas | Local source-block integration only |
 | Gamma-driver ownership boundary | 3H | C++ unit/design check | Mock RHS block inputs for gauge and `hat_Gamma^A` terms | Gauge block owns lapse/shift/auxiliary evolution; `hat_Gamma^A` block owns their appearances in `partial_t hat_Gamma^A` | Structural review plus targeted unit checks | Double-counting gauge terms, split ownership drift | Physical correctness of chosen gauge | Yes as a design review gate | Yes |
 
 ## Integration, Reference, And Convergence Tests

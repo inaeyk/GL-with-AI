@@ -7,6 +7,7 @@
 #include <limits>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 
 namespace
 {
@@ -79,19 +80,34 @@ void check_matching_case()
     const auto primitives = CartoonGeometryPrimitives::compute(
         {inputs.x, inputs.d_x_hww});
 
-    require_close("dx hww over x", guarded.dx_hww_over_x, 2.0);
+    require_close("dx hww over x", guarded.dx_hww_over_x(), 2.0);
     require_close("hxx minus hww over x^2",
-                  guarded.hxx_minus_hww_over_x2, 0.25);
-    require_close("matching residual", guarded.hxx_hww_matching_residual,
+                  guarded.hxx_minus_hww_over_x2(), 0.25);
+    require_close("matching residual", guarded.hxx_hww_matching_residual(),
                   0.25 / inputs.h_xx);
 
     require_close("guarded dx hww agrees with Stage 4P",
-                  guarded.dx_hww_over_x, primitives.dx_hww_over_x);
+                  guarded.dx_hww_over_x(), primitives.dx_hww_over_x);
 
     // The regularity-sensitive metric-difference value is intentionally not
     // available from the raw Stage 4P output. The source-facing public double
     // appears here only after the Stage 4Q matching guard has accepted the
     // inputs.
+}
+
+void check_guarded_package_is_not_forgeable()
+{
+    using Guarded =
+        CartoonRegularityGuardedSources::RegularityGuardedGeometrySources;
+    static_assert(!std::is_aggregate<Guarded>::value,
+                  "guarded geometry package must not be an open aggregate");
+    static_assert(!std::is_constructible<Guarded, double, double, double>::value,
+                  "guarded geometry package must not be directly built from "
+                  "unchecked doubles");
+
+    // Former forgeable path, intentionally left as a non-compiling example:
+    // Guarded fake{1.0, 2.0, 3.0};
+    std::cout << "PASS guarded package is not open aggregate-forgeable\n";
 }
 
 void check_mismatch_rejection()
@@ -202,6 +218,7 @@ int main()
                       evolution_wiring_implemented);
 
     check_matching_case();
+    check_guarded_package_is_not_forgeable();
     check_mismatch_rejection();
     check_axis_rejections();
     check_value_rejections();
