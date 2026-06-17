@@ -53,7 +53,8 @@ inline double hxx_hww_matching_residual(const double x, const double h_xx,
     CartoonAxisPolicy::require_away_axis(x);
 
     const double scale = matching_scale(h_xx, h_ww);
-    return std::abs(h_xx - h_ww) / (x * x * scale);
+    return std::abs(h_xx - h_ww) *
+           CartoonAxisPolicy::inverse_x2_away_axis(x) / scale;
 }
 
 inline void require_hxx_hww_axis_matching(

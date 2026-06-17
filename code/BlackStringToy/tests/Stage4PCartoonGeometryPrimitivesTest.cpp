@@ -7,6 +7,8 @@
 #include <limits>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
+#include <utility>
 
 namespace
 {
@@ -61,9 +63,21 @@ template <class Function> void require_domain_error(const std::string &label,
     fail(label, "expected std::domain_error");
 }
 
+template <class T, class = void> struct has_public_risky_metric_difference
+    : std::false_type
+{
+};
+
+template <class T>
+struct has_public_risky_metric_difference<
+    T, std::void_t<decltype(std::declval<T>().hxx_minus_hww_over_x2)>>
+    : std::true_type
+{
+};
+
 CartoonGeometryPrimitives::LocalInputs oracle_inputs()
 {
-    return {2.0, 10.0, 6.0, 6.0};
+    return {2.0, 6.0};
 }
 
 void check_oracle_values()
@@ -72,30 +86,24 @@ void check_oracle_values()
         CartoonGeometryPrimitives::compute(oracle_inputs());
 
     require_close("dx hww over x", primitives.dx_hww_over_x, 3.0);
-    require_close("hxx minus hww over x^2",
-                  primitives.hxx_minus_hww_over_x2, 1.0);
 
     require_close("dx hww agrees with Stage 4N helper",
                   primitives.dx_hww_over_x,
                   CartoonSingularCombinations::first_derivative_over_x(6.0,
                                                                        2.0));
-    require_close("metric difference agrees with Stage 4N helper",
-                  primitives.hxx_minus_hww_over_x2,
-                  CartoonSingularCombinations::difference_over_x2(10.0, 6.0,
-                                                                  2.0));
 }
 
-void check_large_finite_value_is_not_regularity_proof()
+void check_risky_value_is_not_public_stage4p_output()
 {
-    // This deliberately passes. Away from the axis the primitive may return a
-    // large finite value even when h_xx - h_ww does not satisfy the Stage 3I
-    // matching condition h_xx - h_ww = O(x^2). That finite quotient is not a
-    // regularity validation and must not be used as one.
-    const auto primitives =
-        CartoonGeometryPrimitives::compute({1.0e-2, 2.0, 1.0, 0.0});
-
-    require_close("unmatched metric difference remains finite away-axis",
-                  primitives.hxx_minus_hww_over_x2, 10000.0);
+    // Stage 4P remains the low-risk away-axis primitive layer. The
+    // regularity-sensitive (h_xx - h_ww) / x^2 value is intentionally not a
+    // public field on the raw Stage 4P output. Source-facing use must go
+    // through the Stage 4R guarded path after the Stage 4Q matching guard.
+    using RawStage4POutput = decltype(CartoonGeometryPrimitives::compute(
+        std::declval<CartoonGeometryPrimitives::LocalInputs>()));
+    require_false("raw Stage 4P exposes hxx-hww over x^2",
+                  has_public_risky_metric_difference<
+                      RawStage4POutput>::value);
 }
 
 void check_axis_rejections()
@@ -130,30 +138,6 @@ void check_value_rejections()
 {
     auto inputs = oracle_inputs();
 
-    inputs.h_xx = std::numeric_limits<double>::quiet_NaN();
-    require_domain_error("NaN h_xx", [&]() {
-        (void)CartoonGeometryPrimitives::compute(inputs);
-    });
-
-    inputs = oracle_inputs();
-    inputs.h_xx = std::numeric_limits<double>::infinity();
-    require_domain_error("infinite h_xx", [&]() {
-        (void)CartoonGeometryPrimitives::compute(inputs);
-    });
-
-    inputs = oracle_inputs();
-    inputs.h_ww = std::numeric_limits<double>::quiet_NaN();
-    require_domain_error("NaN h_ww", [&]() {
-        (void)CartoonGeometryPrimitives::compute(inputs);
-    });
-
-    inputs = oracle_inputs();
-    inputs.h_ww = std::numeric_limits<double>::infinity();
-    require_domain_error("infinite h_ww", [&]() {
-        (void)CartoonGeometryPrimitives::compute(inputs);
-    });
-
-    inputs = oracle_inputs();
     inputs.d_x_hww = std::numeric_limits<double>::quiet_NaN();
     require_domain_error("NaN d_x_hww", [&]() {
         (void)CartoonGeometryPrimitives::compute(inputs);
@@ -182,7 +166,7 @@ int main()
                   CartoonGeometryPrimitives::
                       full_ricci_or_rhs_formula_implemented);
     check_oracle_values();
-    check_large_finite_value_is_not_regularity_proof();
+    check_risky_value_is_not_public_stage4p_output();
     check_axis_rejections();
     check_value_rejections();
 

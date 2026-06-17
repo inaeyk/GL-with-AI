@@ -210,20 +210,26 @@ clamp, epsilon substitution, or regularized-axis support is implemented. The
 regularized or clamped behavior must define `1/x` and `1/x^2` semantics
 independently.
 
-Stage 4P adds the first named away-axis cartoon geometry primitives. The
-primitive block forms `(d_x hww) / x` and `(hxx - hww) / x^2` through the
-Stage 4N singular-combination helpers and Stage 4O away-axis semantics. It is
-not a full Ricci tensor, not a CCZ4 RHS source term, and not Stage 3I
-small-axis regularization. The `(hxx - hww) / x^2` primitive is finite at the
-axis only if the Stage 3I matching condition `hxx - hww = O(x^2)` holds.
-Stage 4P does not enforce that condition; a later regularity/matching guard
-must check or construct it before real near-axis source-block use.
+Stage 4P adds the first named away-axis cartoon geometry primitive. The public
+primitive block forms `(d_x hww) / x` through the Stage 4N
+singular-combination helpers and Stage 4O away-axis semantics. After the
+Stage 4R review patch, raw Stage 4P no longer exposes `(hxx - hww) / x^2` as
+an ordinary public output because that value is regularity-sensitive. It is not
+a full Ricci tensor, not a CCZ4 RHS source term, and not Stage 3I small-axis
+regularization.
 
 Stage 4Q adds the first local version of that matching guard. It checks finite
 local values, uses the Stage 4O away-axis policy for `x`, and rejects clear
 pointwise violations of `hxx - hww = O(x^2)`. This guard is useful before
 near-axis use of the Stage 4P primitive, but it is not a proof of full
 analytic regularity and does not implement Stage 3I finite-limit formulas.
+
+Stage 4R adds the first regularity-guarded local source-style sub-block. It
+calls the Stage 4Q matching guard before returning the Stage 4P low-risk
+primitive, the source-facing `(hxx - hww) / x^2`, and the matching residual.
+This is now the normal source-facing path for the risky cartoon geometry
+ingredient, but it is still not full Ricci, not full CCZ4 RHS, and not Stage
+3I small-axis regularization.
 
 | Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Convention / validation note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -250,8 +256,9 @@ analytic regularity and does not implement Stage 3I finite-limit formulas.
 | Stage 4M away-axis policy fixture | 3I/3J/4M | C++ local policy fixture | Local reduced coordinates `x = 2`, `0`, `-1`, NaN, and infinity; Stage 4L source-block input with `x = 0` | Finite positive `x` passes; zero, negative, NaN, and infinity reject; guarded `1/x` and `1/x^2` at `x=2` return `0.5` and `0.25`; Stage 4L boundary still rejects `x=0` | Exact local identities plus exception checks | Hand-rolled unsafe axis acceptance, silent epsilon/clamping behavior, unguarded inverse helpers | True Stage 3I small-axis regularization, finite axis limits, live RHS correctness | Required before future explicit `1/x` or `1/x^2` RHS terms are added | Away-axis policy only; no regularized-axis support |
 | Stage 4N singular-combinations fixture | 3I/3J/4N | C++ local helper fixture | Finite values for `d_x f`, `f`, `g`, and `x`; bad zero/negative/NaN/infinite `x`; bad NaN/infinite function values | `first_derivative_over_x(6,2)=3`; `difference_over_x2(10,6,2)=1`; all bad inputs reject; helpers agree with Stage 4M inverse helpers | Exact local identities plus exception checks | Future raw `1/x` or `1/x^2` use, unsafe nonfinite inputs, bypassing axis policy | True small-axis regularization, finite axis limits, full RHS correctness | Required before future singular-looking source combinations are used in RHS blocks | Away-axis singular combinations only; no physical RHS term |
 | Stage 4O axis-regime semantics fixture | 3I/3J/4O | C++ local policy fixture | Current `CartoonAxisPolicy` regime constants; local reduced coordinates `x = 2`, `0`, `-1`, NaN, and infinity | `AwayAxisOnly` is the only implemented regime; regularized-axis support is not exposed as working; guarded `1/x=0.5` and independently guarded `1/x^2=0.25` at `x=2`; invalid inputs reject | Exact local identities plus exception checks | Future clamp drift, accidental regularized-mode exposure, unsafe `1/x^2` inheritance from clamped `1/x` | True Stage 3I small-axis regularization, finite axis limits, real RHS source terms | Required before real singular source terms use the helper path | Away-axis semantics only; no clamp, epsilon replacement, or physical axis evaluation |
-| Stage 4P cartoon geometry primitives fixture | 3I/3J/4P | C++ local helper fixture | Local `x=2`, `d_x hww=6`, `h_xx=10`, `h_ww=6`; bad zero/negative/NaN/infinite `x`; bad NaN/infinite local values; one away-axis unmatched sample | `dx_hww_over_x=3`; `hxx_minus_hww_over_x2=1`; helper agrees with Stage 4N singular-combination helpers; bad inputs reject; unmatched away-axis sample returns a large finite value without claiming regularity | Exact local identities plus exception checks | Future raw `(d_x hww)/x` or `(hxx-hww)/x^2` use, bypassing the named primitive layer, unsafe nonfinite inputs, mistaking finite away-axis quotient for Stage 3I matching validation | Full Ricci tensor, CCZ4 RHS source terms, finite axis limits, live evolution, enforcement of `hxx-hww=O(x^2)` on grid data | Required before these geometry combinations appear in source blocks | Away-axis geometry primitives only; no small-axis regularization, matching guard, or physical RHS term |
+| Stage 4P cartoon geometry primitives fixture | 3I/3J/4P | C++ local helper fixture | Local `x=2`, `d_x hww=6`; bad zero/negative/NaN/infinite `x`; bad NaN/infinite derivative value | `dx_hww_over_x=3`; helper agrees with Stage 4N singular-combination helper; bad inputs reject; raw output has no public `hxx_minus_hww_over_x2` field | Exact local identities plus compile-time shape check and exception checks | Future raw `(hxx-hww)/x^2` source use from Stage 4P, bypassing the Stage 4R guarded path, unsafe nonfinite inputs | Full Ricci tensor, CCZ4 RHS source terms, finite axis limits, live evolution, enforcement of `hxx-hww=O(x^2)` on grid data | Required before these geometry combinations appear in source blocks | Away-axis low-risk primitive only; risky metric difference is source-facing only through Stage 4R |
 | Stage 4Q regularity matching fixture | 3I/3J/4Q | C++ local guard fixture | Local matching sample `x=0.1`, `h_ww=1`, `h_xx=1+0.25x^2`; clear mismatch `h_xx=1.2`; bad zero/negative/NaN/infinite inputs | Matching sample passes with finite residual; clear mismatch rejects; invalid inputs and bad tolerance reject | Tolerance-based local exception checks | Obvious local violations of `hxx-hww=O(x^2)`, unsafe finite/nonfinite inputs, accidentally claiming analytic regularity | Full analytic regularity proof, finite axis limits, grid-data matching enforcement, real RHS source terms | Required before using `(hxx-hww)/x^2` near the axis in a source block | Pointwise guard only; no Stage 3I regularized construction |
+| Stage 4R regularity-guarded source-block fixture | 3I/3J/4R | C++ local source-style fixture | Matching sample `x=0.5`, `h_ww=1`, `h_xx=1+0.25x^2`, `d_x hww=1`; clear mismatch and bad inputs | Guarded package returns `dx_hww_over_x=2`, source-facing `hxx_minus_hww_over_x2=0.25`, matching residual, and agrees with Stage 4P for `dx_hww_over_x`; mismatch and invalid inputs reject | Exact local identities plus exception checks | Future source block bypassing the Stage 4Q guard before using the risky metric-difference ingredient, unsafe invalid inputs, accidental full-RHS or regularization claims | Full Ricci tensor, CCZ4 RHS, finite axis limits, grid reads, evolution wiring | Required before these guarded ingredients are used in future source blocks | Local guarded ingredient package only |
 | Gamma-driver ownership boundary | 3H | C++ unit/design check | Mock RHS block inputs for gauge and `hat_Gamma^A` terms | Gauge block owns lapse/shift/auxiliary evolution; `hat_Gamma^A` block owns their appearances in `partial_t hat_Gamma^A` | Structural review plus targeted unit checks | Double-counting gauge terms, split ownership drift | Physical correctness of chosen gauge | Yes as a design review gate | Yes |
 
 ## Integration, Reference, And Convergence Tests

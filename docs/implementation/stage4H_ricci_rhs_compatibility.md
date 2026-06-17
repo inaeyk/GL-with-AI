@@ -222,6 +222,16 @@ safer future use of `(hxx - hww) / x^2` near the axis, but it does not prove
 analytic regularity from one point, implement finite axis limits, add a
 physical RHS term, or touch evolution.
 
+Stage 4R adds the first local source-style sub-block that combines these
+pieces. It calls the Stage 4Q matching guard before packaging the Stage 4P
+away-axis primitive and exposes the matching residual alongside
+`(d_x hww) / x` and the guarded source-facing `(hxx - hww) / x^2`. After the
+Stage 4R review patch, raw Stage 4P no longer exposes `(hxx - hww) / x^2` as
+an ordinary public output; source-facing use must go through the Stage 4R
+guarded path. This is still only a future source-block boundary/helper, not a
+full Ricci tensor, not a CCZ4 RHS formula, not Stage 3I small-axis
+regularization, and not wired into evolution.
+
 ## Non-goals
 
 Stage 4H does not:

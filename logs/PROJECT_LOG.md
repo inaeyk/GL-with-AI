@@ -247,3 +247,12 @@ Category: 🔵 Code
 Category: 🟡 Physics + Code
 
 - Stage 4Q is not Stage 3I small-axis regularization. It cannot prove analytic regularity from one point, does not construct finite axis limits, and does not add Ricci/RHS physics, grid reads, finite differences, or evolution wiring.
+
+Category: 🔵 Code
+
+- Began Stage 4R by adding `CartoonRegularityGuardedSources.hpp`, the first local source-style package for regularity-sensitive cartoon geometry ingredients. The helper calls the Stage 4Q matching guard before returning the Stage 4P primitives and matching residual.
+
+Category: 🟡 Physics + Code
+
+- Stage 4R remains local and inert. It does not implement full Ricci, full CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, finite differences, or evolution wiring.
+- Patched Stage 4R after review so raw Stage 4P exposes only the low-risk `(d_x hww) / x` primitive as a public output. The regularity-sensitive `(hxx - hww) / x^2` source-facing value now appears only through the Stage 4R guarded path after the Stage 4Q matching guard has passed.

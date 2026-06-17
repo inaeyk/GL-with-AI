@@ -19,8 +19,6 @@ static constexpr bool full_ricci_or_rhs_formula_implemented = false;
 struct LocalInputs
 {
     double x;
-    double h_xx;
-    double h_ww;
     double d_x_hww;
 };
 
@@ -30,24 +28,25 @@ struct Primitives
     // expected even-parity behavior of h_ww. This helper does not implement
     // the finite axis limit.
     double dx_hww_over_x;
-
-    // This is an away-axis expression only. Near the axis, regularity requires
-    // h_xx - h_ww = O(x^2). This helper does not enforce that matching
-    // condition. A later regularity guard must check or construct that
-    // behavior before this primitive is used in a real source block near the
-    // axis.
-    double hxx_minus_hww_over_x2;
 };
 
 inline Primitives compute(const LocalInputs &inputs)
 {
-    return {
-        CartoonSingularCombinations::first_derivative_over_x(inputs.d_x_hww,
-                                                             inputs.x),
-        CartoonSingularCombinations::difference_over_x2(inputs.h_xx,
-                                                        inputs.h_ww,
-                                                        inputs.x)};
+    return {CartoonSingularCombinations::first_derivative_over_x(
+        inputs.d_x_hww, inputs.x)};
 }
+
+namespace detail
+{
+// Internal Stage 4R helper only. This risky quantity is not exposed by the
+// public Stage 4P compute path because source-facing use must first cross the
+// Stage 4Q h_xx - h_ww = O(x^2) matching guard.
+inline double hxx_minus_hww_over_x2_for_guarded_source_only(
+    const double h_xx, const double h_ww, const double x)
+{
+    return CartoonSingularCombinations::difference_over_x2(h_xx, h_ww, x);
+}
+} // namespace detail
 
 } // namespace CartoonGeometryPrimitives
 } // namespace BlackStringToy

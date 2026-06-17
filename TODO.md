@@ -85,8 +85,9 @@
 - [ ] Stage 4M: review the named away-axis policy before adding explicit `1/x` or `1/x^2` RHS source terms.
 - [ ] Stage 4N: review guarded singular-combination helpers before using them in any RHS/Ricci source block.
 - [ ] Stage 4O: review the away-axis-only regime semantics and separate `1/x^2` primitive before real singular source terms are added.
-- [ ] Stage 4P: review named cartoon geometry primitives and the `hxx - hww = O(x^2)` precondition before using them in any Ricci/RHS source block.
+- [ ] Stage 4P: review that raw cartoon geometry primitives expose only low-risk away-axis values before source-block use.
 - [ ] Stage 4Q: review the local `hxx - hww = O(x^2)` matching guard before using it near the axis in source blocks.
+- [ ] Stage 4R: review the regularity-guarded local source sub-block as the required path for `(hxx - hww) / x^2` before any real Ricci/RHS formula uses it.
 
 ## Later
 
