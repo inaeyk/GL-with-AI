@@ -187,6 +187,12 @@ expressions. It centralizes the finite `x > 0` guard and the guarded `1/x` and
 replace the axis with an epsilon, implement Stage 3I small-axis
 regularization, or make axis evaluation physically valid.
 
+Stage 4N adds guarded away-axis singular-combination helpers for local
+cartoon expressions such as `d_x f / x` and `(f - g) / x^2`. These helpers
+route through the Stage 4M axis policy, reject nonfinite inputs, and provide a
+single local path for future singular-looking source-term factors. They do not
+implement small-axis regularization or add any physical RHS term.
+
 ## Non-goals
 
 Stage 4H does not:
