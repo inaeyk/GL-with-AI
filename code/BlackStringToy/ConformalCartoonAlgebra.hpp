@@ -17,6 +17,7 @@ static constexpr int hidden_multiplicity =
 static constexpr double trace_denominator =
     static_cast<double>(physical_spatial_dim);
 static constexpr double algebra_zero_tolerance = 1.0e-14;
+static constexpr double inverse_metric_consistency_tolerance = 1.0e-12;
 
 struct SymmetricTensor
 {
@@ -63,6 +64,40 @@ inline InverseConformalMetric inverse(const ConformalMetric &h)
     }
 
     return {h.zz / det, -h.xz / det, h.xx / det, 1.0 / h.ww};
+}
+
+inline void require_inverse_metric_consistency(
+    const ConformalMetric &h_LL, const InverseConformalMetric &h_UU,
+    const double tolerance = inverse_metric_consistency_tolerance)
+{
+    const double values[] = {h_LL.xx, h_LL.xz, h_LL.zz, h_LL.ww,
+                             h_UU.xx, h_UU.xz, h_UU.zz, h_UU.ww};
+    for (const double value : values)
+    {
+        if (!std::isfinite(value))
+        {
+            throw std::domain_error(
+                "ConformalCartoonAlgebra metric/inverse consistency "
+                "requires finite entries");
+        }
+    }
+
+    const double reduced_xx = h_LL.xx * h_UU.xx + h_LL.xz * h_UU.xz;
+    const double reduced_xz = h_LL.xx * h_UU.xz + h_LL.xz * h_UU.zz;
+    const double reduced_zx = h_LL.xz * h_UU.xx + h_LL.zz * h_UU.xz;
+    const double reduced_zz = h_LL.xz * h_UU.xz + h_LL.zz * h_UU.zz;
+    const double hidden_ww = h_LL.ww * h_UU.ww;
+
+    if (std::abs(reduced_xx - 1.0) > tolerance ||
+        std::abs(reduced_xz) > tolerance ||
+        std::abs(reduced_zx) > tolerance ||
+        std::abs(reduced_zz - 1.0) > tolerance ||
+        std::abs(hidden_ww - 1.0) > tolerance)
+    {
+        throw std::domain_error(
+            "ConformalCartoonAlgebra requires h_LL and h_UU to be "
+            "mutually consistent");
+    }
 }
 
 inline double trace(const SymmetricTensor &tensor,

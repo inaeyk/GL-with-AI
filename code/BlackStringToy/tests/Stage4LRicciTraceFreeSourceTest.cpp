@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
+#include <limits>
 #include <stdexcept>
 #include <string>
 
@@ -73,7 +74,8 @@ void check_hard_coded_projection_oracle()
         CartoonRicci::RicciComponents(2.0, 3.0, 5.0, 7.0));
     const ConformalCartoonAlgebra::InverseConformalMetric h_UU{11.0, 13.0,
                                                                17.0, 19.0};
-    const ConformalCartoonAlgebra::ConformalMetric h_LL{1.0, 0.0, 1.0, 1.0};
+    const ConformalCartoonAlgebra::ConformalMetric h_LL{
+        17.0 / 18.0, -13.0 / 18.0, 11.0 / 18.0, 1.0 / 19.0};
     const auto source_input = make_source_input(ricci, h_UU, h_LL);
 
     const auto tf =
@@ -82,20 +84,21 @@ void check_hard_coded_projection_oracle()
 
     // Hard-coded trace oracle:
     // 11*2 + 2*13*3 + 17*5 + 2*19*7 = 451.
-    // With h_xx=h_zz=h_ww=1 and h_xz=0:
-    // R_xx^TF = 2 - 451/4 = -110.75
-    // R_xz^TF = 3
-    // R_zz^TF = 5 - 451/4 = -107.75
-    // R_ww^TF = 7 - 451/4 = -105.75
+    // h_LL is the exact inverse of the reduced h_UU block above, with
+    // h_ww = 1/19, so this oracle also guards metric/inverse consistency.
     const double source_trace =
         CartoonRhsContract::compute_ricci_contractions(
             source_input.rhs_contract.ricci)
             .conformal_inverse_contract;
     require_close("hard-coded Ricci trace", source_trace, 451.0);
-    require_close("R_xx trace-free oracle", tf.xx, -110.75);
-    require_close("R_xz trace-free oracle", tf.xz, 3.0);
-    require_close("R_zz trace-free oracle", tf.zz, -107.75);
-    require_close("R_ww trace-free oracle", tf.ww, -105.75);
+    require_close("R_xx trace-free oracle", tf.xx,
+                  2.0 - h_LL.xx * 451.0 / 4.0);
+    require_close("R_xz trace-free oracle", tf.xz,
+                  3.0 - h_LL.xz * 451.0 / 4.0);
+    require_close("R_zz trace-free oracle", tf.zz,
+                  5.0 - h_LL.zz * 451.0 / 4.0);
+    require_close("R_ww trace-free oracle", tf.ww,
+                  7.0 - h_LL.ww * 451.0 / 4.0);
 
     const double trace_without_hidden_factor =
         h_UU.xx * ricci.xx + 2.0 * h_UU.xz * ricci.xz +
@@ -128,6 +131,53 @@ void check_hard_coded_projection_oracle()
     }
     std::cout << "PASS using /3 would fail: " << xx_with_denominator_3
               << "\n";
+}
+
+void check_metric_inverse_consistency_guard()
+{
+    const auto ricci = CartoonRicciBridge::to_rhs_ricci_components(
+        CartoonRicci::RicciComponents(2.0, 3.0, 5.0, 7.0));
+    const ConformalCartoonAlgebra::InverseConformalMetric h_UU{11.0, 13.0,
+                                                               17.0, 19.0};
+    const ConformalCartoonAlgebra::ConformalMetric h_LL{
+        17.0 / 18.0, -13.0 / 18.0, 11.0 / 18.0, 1.0 / 19.0};
+
+    ConformalCartoonAlgebra::require_inverse_metric_consistency(h_LL, h_UU);
+    const auto consistent_input = make_source_input(ricci, h_UU, h_LL);
+    (void)CartoonRhsSourceBlock::compute_ricci_trace_free_source_block(
+        consistent_input);
+    std::cout << "PASS consistent metric/inverse pair accepted\n";
+
+    auto bad_reduced_inverse = h_UU;
+    bad_reduced_inverse.xx += 0.125;
+    auto bad_reduced_input =
+        make_source_input(ricci, bad_reduced_inverse, h_LL);
+    require_domain_error("reduced metric/inverse mismatch",
+                         [&bad_reduced_input]() {
+                             (void)CartoonRhsSourceBlock::
+                                 compute_ricci_trace_free_source_block(
+                                     bad_reduced_input);
+                         });
+
+    auto bad_hidden_inverse = h_UU;
+    bad_hidden_inverse.ww = 18.0;
+    auto bad_hidden_input = make_source_input(ricci, bad_hidden_inverse, h_LL);
+    require_domain_error("hidden metric/inverse mismatch",
+                         [&bad_hidden_input]() {
+                             (void)CartoonRhsSourceBlock::
+                                 compute_ricci_trace_free_source_block(
+                                     bad_hidden_input);
+                         });
+
+    auto nonfinite_metric = h_LL;
+    nonfinite_metric.xx = std::numeric_limits<double>::infinity();
+    auto nonfinite_input = make_source_input(ricci, h_UU, nonfinite_metric);
+    require_domain_error("nonfinite metric/inverse consistency input",
+                         [&nonfinite_input]() {
+                             (void)CartoonRhsSourceBlock::
+                                 compute_ricci_trace_free_source_block(
+                                     nonfinite_input);
+                         });
 }
 
 void check_consistent_trace_free_zero()
@@ -182,6 +232,7 @@ int main()
     require_true("trace-free Ricci projection is implemented",
                  CartoonRhsSourceBlock::trace_free_ricci_projection_implemented);
     check_hard_coded_projection_oracle();
+    check_metric_inverse_consistency_guard();
     check_consistent_trace_free_zero();
     check_away_axis_guard();
 

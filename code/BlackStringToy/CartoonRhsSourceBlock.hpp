@@ -69,6 +69,7 @@ inline TraceFreeRicci compute_ricci_trace_free_source_block(
     const auto &ricci = ricci_input.ricci_LL;
     const auto &h_UU = ricci_input.h_UU;
     const auto &h_LL = input.h_LL;
+    ConformalCartoonAlgebra::require_inverse_metric_consistency(h_LL, h_UU);
 
     // Local trace-free Ricci projection only:
     // R_ij^TF = R_ij - (1 / GR_SPACEDIM) h_ij h^{kl} R_kl.
