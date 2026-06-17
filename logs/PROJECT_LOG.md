@@ -230,3 +230,12 @@ Category: 🔵 Code
 Category: 🟡 Physics + Code
 
 - Stage 4O does not implement Stage 3I small-axis regularization, clamping, epsilon replacement, new RHS source terms, grid reads, or evolution wiring. Future clamped or regularized behavior must decide the `1/x` and `1/x^2` semantics independently.
+
+Category: 🔵 Code
+
+- Began Stage 4P by adding named away-axis cartoon geometry primitives for `(d_x hww) / x` and `(hxx - hww) / x^2`. The helper routes through the Stage 4N singular-combination path and remains local-value-only.
+
+Category: 🟡 Physics + Code
+
+- Stage 4P does not implement Stage 3I small-axis regularization, a full Ricci tensor, CCZ4 RHS source terms, finite-difference stencils, grid reads, or evolution wiring.
+- Patched Stage 4P after review to document the regularity precondition for `(hxx - hww) / x^2`: finite axis behavior requires `hxx - hww = O(x^2)`, and the away-axis helper does not enforce that matching condition. Future near-axis source-block use needs a separate regularity/matching guard.

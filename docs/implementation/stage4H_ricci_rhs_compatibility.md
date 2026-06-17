@@ -201,6 +201,20 @@ regularization is implemented. The guarded `1/x^2` helper is a separately
 guarded away-axis primitive so any future clamped or regularized regime must
 decide the `1/x` and `1/x^2` meanings independently.
 
+Stage 4P adds the first named away-axis cartoon geometry primitives, including
+`(d_x hww) / x` and `(hxx - hww) / x^2`. These primitives route through the
+Stage 4N singular-combination helpers and inherit the Stage 4O away-axis-only
+semantics. They are local building blocks only: no full Ricci tensor, CCZ4 RHS
+source term, small-axis regularization, grid read, or evolution wiring is
+implemented.
+
+For finite axis behavior, `(hxx - hww) / x^2` additionally requires the Stage
+3I matching condition `hxx - hww = O(x^2)`. Stage 4P does not check that
+condition on grid data; away-axis evaluation can still return a large finite
+value when matching is violated. A later regularity/matching guard must check
+or construct that behavior before this primitive is used in a real source
+block near the axis.
+
 ## Non-goals
 
 Stage 4H does not:
