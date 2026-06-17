@@ -239,3 +239,11 @@ Category: 🟡 Physics + Code
 
 - Stage 4P does not implement Stage 3I small-axis regularization, a full Ricci tensor, CCZ4 RHS source terms, finite-difference stencils, grid reads, or evolution wiring.
 - Patched Stage 4P after review to document the regularity precondition for `(hxx - hww) / x^2`: finite axis behavior requires `hxx - hww = O(x^2)`, and the away-axis helper does not enforce that matching condition. Future near-axis source-block use needs a separate regularity/matching guard.
+
+Category: 🔵 Code
+
+- Began Stage 4Q by adding `CartoonRegularityChecks.hpp`, a local pointwise guard for the `hxx - hww = O(x^2)` matching condition. The guard uses the Stage 4O away-axis policy, checks finite inputs, and rejects obvious local mismatches before future near-axis use of the Stage 4P primitive.
+
+Category: 🟡 Physics + Code
+
+- Stage 4Q is not Stage 3I small-axis regularization. It cannot prove analytic regularity from one point, does not construct finite axis limits, and does not add Ricci/RHS physics, grid reads, finite differences, or evolution wiring.

@@ -215,6 +215,13 @@ value when matching is violated. A later regularity/matching guard must check
 or construct that behavior before this primitive is used in a real source
 block near the axis.
 
+Stage 4Q adds that first local matching guard. It checks finite inputs, uses
+the Stage 4O away-axis policy for `x`, and rejects clear pointwise violations
+of `hxx - hww = O(x^2)` using a named residual tolerance. This prepares for
+safer future use of `(hxx - hww) / x^2` near the axis, but it does not prove
+analytic regularity from one point, implement finite axis limits, add a
+physical RHS term, or touch evolution.
+
 ## Non-goals
 
 Stage 4H does not:

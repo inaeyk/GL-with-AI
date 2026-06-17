@@ -228,6 +228,9 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4P: route the geometry primitives through Stage 4N guarded singular-combination helpers and Stage 4O away-axis semantics.
 - [x] Stage 4P review patch: document that finite axis behavior of `(hxx - hww) / x^2` requires `hxx - hww = O(x^2)`, which Stage 4P does not enforce.
 - [x] Stage 4P: do not implement full Ricci, CCZ4 RHS terms, small-axis regularization, grid reads, or evolution wiring.
+- [x] Stage 4Q: add a local pointwise matching guard for `hxx - hww = O(x^2)`.
+- [x] Stage 4Q: test that a matching sample passes, a clear `O(1)` mismatch fails, and invalid/nonfinite inputs reject.
+- [x] Stage 4Q: document that the guard does not prove analytic regularity, construct finite axis limits, add RHS physics, read grid data, or wire evolution.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.

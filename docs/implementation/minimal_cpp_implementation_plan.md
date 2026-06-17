@@ -543,6 +543,25 @@ and a large finite away-axis value is not a regularity validation. A later
 regularity/matching guard must check or construct the matching behavior before
 this primitive is used in a real source block near the axis.
 
+## Stage 4Q Local Regularity Matching Guard
+
+Stage 4Q adds the first local guard for the Stage 3I matching condition needed
+by `(hxx - hww) / x^2`:
+
+- Helper: `code/BlackStringToy/CartoonRegularityChecks.hpp`.
+- Fixture: `code/BlackStringToy/tests/Stage4QRegularityMatchingTest.cpp`.
+
+The guard checks finite inputs, applies the Stage 4O away-axis policy to `x`,
+and rejects clear pointwise violations of `hxx - hww = O(x^2)` using the named
+residual tolerance `hxx_hww_matching_tolerance`. The local residual is scaled
+by `x^2` and by a simple finite metric scale, so obvious `O(1)` mismatches near
+the axis fail before future source blocks trust the Stage 4P primitive.
+
+Stage 4Q is still not Stage 3I small-axis regularization. A pointwise guard
+cannot prove analytic regularity, does not construct finite axis limits, does
+not repair mismatched data, and does not read grid data, compute finite
+differences, add a physical Ricci/RHS source term, or touch evolution.
+
 ## Implementation Stages And Gates
 
 | Stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
@@ -564,15 +583,16 @@ this primitive is used in a real source block near the axis.
 | Stage 4N guarded singular combinations | `CartoonSingularCombinations.hpp`; `Stage4NSingularCombinationsTest.cpp` | Provide guarded away-axis local combinations such as `d_x f / x` and `(f - g) / x^2` | Finite local values and reduced coordinate `x` | Singular-looking local combinations through `CartoonAxisPolicy`; no RHS writes | Stage 4M | finite-value checks, zero/negative/NaN/infinity rejection, agreement with Stage 4M inverse helpers | High |
 | Stage 4O axis-regime semantics | `CartoonAxisPolicy.hpp`; `Stage4OAxisRegimeSemanticsTest.cpp` | Lock current support as away-axis-only and prevent future clamp drift in `1/x^2` semantics | Local reduced coordinate `x` | Explicit `AwayAxisOnly` regime, no regularized/clamped mode, separately guarded `1/x^2` primitive | Stage 4N | implemented-regime check, inverse-helper checks, invalid-axis rejection, no-regularized-mode guard | High |
 | Stage 4P cartoon geometry primitives | `CartoonGeometryPrimitives.hpp`; `Stage4PCartoonGeometryPrimitivesTest.cpp` | Name first away-axis singular-geometry combinations before source-term assembly | Local `x`, `h_xx`, `h_ww`, and `d_x hww` values | `(d_x hww) / x` and `(hxx - hww) / x^2` through Stage 4N helpers; no RHS writes and no matching-condition enforcement | Stage 4O | finite-value checks, zero/negative/NaN/infinity rejection, agreement with Stage 4N helpers, no-full-RHS guard, large-finite-value limitation check | High |
+| Stage 4Q local regularity matching guard | `CartoonRegularityChecks.hpp`; `Stage4QRegularityMatchingTest.cpp` | Catch obvious local violations of `hxx - hww = O(x^2)` before near-axis source-block use | Local `x`, `h_xx`, `h_ww`, and tolerance | Pointwise matching residual and throwing guard only; no finite axis limit construction | Stage 4P | matching example passes, `O(1)` mismatch fails, zero/negative/NaN/infinity rejection, no-regularization guard | High |
 
 Deferred later stages, requiring explicit user approval after the layout and
 smoke-only scaffold stages pass:
 
 | Later stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Stage 4Q small-axis regularization interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I and Stage 4P | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
-| Stage 4R additional RHS formula implementation | Future repo-owned RHS source-block implementation | Fill selected source-block terms only after local skeleton and regularity gates pass | Stage 4K source-block input plus reviewed local formulas | Computed source terms for reviewed blocks only | Stages 3H-3J and Stage 4P | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
-| Stage 4S RHS block wiring | Future repo-owned RHS class or wrapper | Connect source blocks to evolution only after local contracts pass | Grid variables and derivatives | Time derivatives | Stages 3H-3J and Stage 4R | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
+| Stage 4R small-axis regularization interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I and Stage 4Q | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
+| Stage 4S additional RHS formula implementation | Future repo-owned RHS source-block implementation | Fill selected source-block terms only after local skeleton and regularity gates pass | Stage 4K source-block input plus reviewed local formulas | Computed source terms for reviewed blocks only | Stages 3H-3J and Stage 4Q | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
+| Stage 4T RHS block wiring | Future repo-owned RHS class or wrapper | Connect source blocks to evolution only after local contracts pass | Grid variables and derivatives | Time derivatives | Stages 3H-3J and Stage 4S | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
 
 Unknown exact class and file names should be resolved by a separate code
 inspection pass immediately before implementation. Do not invent a new
@@ -627,6 +647,7 @@ abstraction if a local GRChombo pattern already exists.
 | Singular combinations | Stage 4N fixture proving guarded `d_x f / x`, guarded `(f - g) / x^2`, finite-input checks, axis rejection, and agreement with Stage 4M inverse helpers |
 | Axis-regime semantics | Stage 4O fixture proving `AwayAxisOnly` is the only implemented regime, regularized/clamped axis support is not exposed as working, and `1/x^2` remains a separately guarded primitive |
 | Cartoon geometry primitives | Stage 4P fixture proving named `(d_x hww) / x` and `(hxx - hww) / x^2` primitives route through Stage 4N, reject invalid inputs, document that `hxx - hww = O(x^2)` is not enforced, and do not claim Ricci/RHS implementation |
+| Local regularity matching guard | Stage 4Q fixture proving a local `hxx - hww = O(x^2)`-style sample passes, an obvious `O(1)` mismatch fails, invalid inputs reject, and the guard does not claim analytic regularity |
 | Small-axis helper | Stage 3I regular and irregular Taylor fixtures; assembled `tilde_Gamma^x` / `hat_Gamma^x` limit guard |
 | Constraint damping | Not a Stage 4A task; requires Stage 3H/3J linearized constraint-violation injection milestone |
 | Gauge/Gamma driver | Not a Stage 4A task; requires ownership and convention confirmation |
