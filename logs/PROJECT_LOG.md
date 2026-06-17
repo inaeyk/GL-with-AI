@@ -220,3 +220,13 @@ Category: 🔵 Code
 - Patched Stage 4L after review so the projection uses the shared `ConformalCartoonAlgebra::trace_free_part` helper and named trace-denominator convention instead of local projection arithmetic. The Stage 4L boundary now reuses the away-axis contract guard and rejects `x = 0`; full small-axis regularization remains deferred.
 - Began Stage 4M by adding a named away-axis policy for local cartoon/RHS expressions. The policy centralizes finite `x > 0` validation and guarded `1/x` / `1/x^2` helpers, and the Stage 4J contract boundary now uses it so Stage 4K/4L inherit the same axis decision. This does not implement Stage 3I small-axis regularization, clamp `x`, substitute epsilon, add RHS physics, or wire anything into evolution.
 - Began Stage 4N by adding guarded away-axis singular-combination helpers for future cartoon source terms. The helpers route `d_x f / x` and `(f - g) / x^2` through the Stage 4M axis policy, reject nonfinite inputs, and deliberately do not implement small-axis regularization, new RHS physics, grid reads, or evolution wiring.
+
+## 2026-06-17
+
+Category: 🔵 Code
+
+- Began Stage 4O by locking the current axis-regime semantics before real singular source terms use the helper path. `CartoonAxisPolicy` now exposes `AwayAxisOnly` as the only implemented regime, records that regularized-axis support is not implemented, and keeps `1/x^2` as a separately guarded away-axis primitive rather than defining it by squaring `1/x`.
+
+Category: 🟡 Physics + Code
+
+- Stage 4O does not implement Stage 3I small-axis regularization, clamping, epsilon replacement, new RHS source terms, grid reads, or evolution wiring. Future clamped or regularized behavior must decide the `1/x` and `1/x^2` semantics independently.

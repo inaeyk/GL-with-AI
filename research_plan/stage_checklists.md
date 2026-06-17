@@ -221,6 +221,9 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4N: add guarded away-axis singular-combination helpers for future cartoon source terms.
 - [x] Stage 4N: test `d_x f / x`, `(f - g) / x^2`, nonfinite-value rejection, and zero/negative/nonfinite `x` rejection.
 - [x] Stage 4N: do not implement small-axis regularization, new physical RHS terms, grid reads, or evolution wiring.
+- [x] Stage 4O: lock current axis-regime semantics as `AwayAxisOnly`.
+- [x] Stage 4O: keep `1/x^2` as a separately guarded away-axis primitive so future clamp or regularized behavior must define it independently from `1/x`.
+- [x] Stage 4O: do not implement small-axis regularization, clamping, epsilon replacement, new source terms, grid reads, or evolution wiring.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.

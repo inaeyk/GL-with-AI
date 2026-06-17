@@ -15,7 +15,8 @@ namespace CartoonSingularCombinations
 // combinations. They are not Stage 3I small-axis regularization.
 //
 // Do not use raw 1/x or 1/x^2 in future cartoon source code; route through
-// CartoonAxisPolicy or these helpers.
+// CartoonAxisPolicy or these helpers. Future regularized/clamped behavior must
+// define 1/x and 1/x^2 semantics separately.
 inline void require_finite_value(const double value, const char *label)
 {
     if (!std::isfinite(value))

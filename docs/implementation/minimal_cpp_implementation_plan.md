@@ -496,6 +496,26 @@ does not touch evolution, and does not implement Stage 3I small-axis
 regularization. Future source code should avoid raw `1/x` and `1/x^2` and use
 the policy/helper path instead.
 
+## Stage 4O Axis-Regime Semantics
+
+Stage 4O settles the current axis-regime semantics before real singular source
+terms use the Stage 4M/4N helpers:
+
+- Policy location: `code/BlackStringToy/CartoonAxisPolicy.hpp`.
+- Fixture:
+  `code/BlackStringToy/tests/Stage4OAxisRegimeSemanticsTest.cpp`.
+
+The only implemented regime is `AwayAxisOnly`. The policy accepts finite
+positive `x` and rejects `x = 0`, negative `x`, NaN, and infinity. It does not
+clamp `x`, substitute an epsilon, or claim that evaluation on the cartoon axis
+is physically valid.
+
+The guarded `1/x^2` helper is a separately guarded away-axis primitive, not a
+future definition by squaring a possibly clamped `1/x`. If a later
+regularized or clamped regime is introduced, it must decide the `1/x` and
+`1/x^2` semantics independently. True Stage 3I finite-limit regularization
+remains a later stage.
+
 ## Implementation Stages And Gates
 
 | Stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
@@ -515,15 +535,16 @@ the policy/helper path instead.
 | Stage 4L local trace-free Ricci projection block | `CartoonRhsSourceBlock.hpp`; `Stage4LRicciTraceFreeSourceTest.cpp` | Compute only the local 4D trace-free projection of bridge-approved Ricci | Stage 4K source-block input with lower/inverse conformal metric and Ricci | `R_xx^TF`, `R_xz^TF`, `R_zz^TF`, `R_ww^TF`; no RHS writes | Stage 4K | hard-coded projection oracle, zero trace in consistent metric case, `/4` denominator and hidden `ww` sensitivity checks, `x = 0` rejection | High |
 | Stage 4M away-axis policy | `CartoonAxisPolicy.hpp`; `Stage4MAxisPolicyTest.cpp` | Centralize the finite `x > 0` decision before adding explicit `1/x` or `1/x^2` source terms | Local reduced coordinate `x` | Away-axis validation and guarded inverse helpers only; no small-axis regularization | Stage 4L | finite-positive acceptance, zero/negative/NaN/infinity rejection, guarded inverse helpers, Stage 4L boundary still rejects `x = 0` | High |
 | Stage 4N guarded singular combinations | `CartoonSingularCombinations.hpp`; `Stage4NSingularCombinationsTest.cpp` | Provide guarded away-axis local combinations such as `d_x f / x` and `(f - g) / x^2` | Finite local values and reduced coordinate `x` | Singular-looking local combinations through `CartoonAxisPolicy`; no RHS writes | Stage 4M | finite-value checks, zero/negative/NaN/infinity rejection, agreement with Stage 4M inverse helpers | High |
+| Stage 4O axis-regime semantics | `CartoonAxisPolicy.hpp`; `Stage4OAxisRegimeSemanticsTest.cpp` | Lock current support as away-axis-only and prevent future clamp drift in `1/x^2` semantics | Local reduced coordinate `x` | Explicit `AwayAxisOnly` regime, no regularized/clamped mode, separately guarded `1/x^2` primitive | Stage 4N | implemented-regime check, inverse-helper checks, invalid-axis rejection, no-regularized-mode guard | High |
 
 Deferred later stages, requiring explicit user approval after the layout and
 smoke-only scaffold stages pass:
 
 | Later stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Stage 4O small-axis regularization interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I and Stage 4N | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
-| Stage 4P additional RHS formula implementation | Future repo-owned RHS source-block implementation | Fill selected source-block terms only after local skeleton and regularity gates pass | Stage 4K source-block input plus reviewed local formulas | Computed source terms for reviewed blocks only | Stages 3H-3J and Stage 4N | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
-| Stage 4Q RHS block wiring | Future repo-owned RHS class or wrapper | Connect source blocks to evolution only after local contracts pass | Grid variables and derivatives | Time derivatives | Stages 3H-3J and Stage 4P | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
+| Stage 4P small-axis regularization interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I and Stage 4O | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
+| Stage 4Q additional RHS formula implementation | Future repo-owned RHS source-block implementation | Fill selected source-block terms only after local skeleton and regularity gates pass | Stage 4K source-block input plus reviewed local formulas | Computed source terms for reviewed blocks only | Stages 3H-3J and Stage 4O | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
+| Stage 4R RHS block wiring | Future repo-owned RHS class or wrapper | Connect source blocks to evolution only after local contracts pass | Grid variables and derivatives | Time derivatives | Stages 3H-3J and Stage 4Q | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
 
 Unknown exact class and file names should be resolved by a separate code
 inspection pass immediately before implementation. Do not invent a new
@@ -576,6 +597,7 @@ abstraction if a local GRChombo pattern already exists.
 | Cartoon Ricci implementation | Stage 4G fixture with Stage 3C flat/cartoon geometry, Stage 3D constant-`q0`, Stage 3E nonconstant `q`, and sheared-flat Stage 3G Ricci gate; round-`S^2` and additional axis-regularized fixtures remain future extensions |
 | Away-axis policy | Stage 4M fixture proving finite-positive acceptance, zero/negative/NaN/infinity rejection, guarded `1/x` and `1/x^2`, and continued Stage 4L `x = 0` rejection |
 | Singular combinations | Stage 4N fixture proving guarded `d_x f / x`, guarded `(f - g) / x^2`, finite-input checks, axis rejection, and agreement with Stage 4M inverse helpers |
+| Axis-regime semantics | Stage 4O fixture proving `AwayAxisOnly` is the only implemented regime, regularized/clamped axis support is not exposed as working, and `1/x^2` remains a separately guarded primitive |
 | Small-axis helper | Stage 3I regular and irregular Taylor fixtures; assembled `tilde_Gamma^x` / `hat_Gamma^x` limit guard |
 | Constraint damping | Not a Stage 4A task; requires Stage 3H/3J linearized constraint-violation injection milestone |
 | Gauge/Gamma driver | Not a Stage 4A task; requires ownership and convention confirmation |

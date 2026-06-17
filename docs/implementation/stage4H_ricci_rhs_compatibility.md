@@ -193,6 +193,14 @@ route through the Stage 4M axis policy, reject nonfinite inputs, and provide a
 single local path for future singular-looking source-term factors. They do not
 implement small-axis regularization or add any physical RHS term.
 
+Stage 4O locks in the current axis-regime semantics before those singular
+helpers are used by real source terms. The only implemented regime is
+away-axis-only: finite positive `x` is accepted, while `x = 0`, negative `x`,
+NaN, and infinity are rejected. No clamp, epsilon substitution, or axis
+regularization is implemented. The guarded `1/x^2` helper is a separately
+guarded away-axis primitive so any future clamped or regularized regime must
+decide the `1/x` and `1/x^2` meanings independently.
+
 ## Non-goals
 
 Stage 4H does not:

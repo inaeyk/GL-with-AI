@@ -84,6 +84,7 @@
 - [ ] Stage 4L: review the local trace-free Ricci projection block before any additional RHS source formulas, grid reads, or evolution wiring.
 - [ ] Stage 4M: review the named away-axis policy before adding explicit `1/x` or `1/x^2` RHS source terms.
 - [ ] Stage 4N: review guarded singular-combination helpers before using them in any RHS/Ricci source block.
+- [ ] Stage 4O: review the away-axis-only regime semantics and separate `1/x^2` primitive before real singular source terms are added.
 
 ## Later
 
