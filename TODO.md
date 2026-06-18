@@ -92,6 +92,10 @@
 - [ ] Stage 4T: review the guarded diagnostic consumer before adding any real Ricci/RHS source formula using the checked package.
 - [ ] Stage 4U: review the source-formula authoring gate before any real source formula uses regularity-sensitive geometry.
 - [ ] Stage 4V follow-up: derive or extract the first real source-formula sub-expression that consumes the Stage 4U authoring-gate input, including its coefficient/sign convention and a hard-coded oracle, before adding code.
+- [ ] Stage 4W review: confirm the hidden-sphere `R_ww` derivation target and the missing `h_xz = O(x)` guard before any `R_ww` implementation.
+- [ ] Stage 4W review patch: cross-check the documented `R^chi_ww` conformal Ricci correction and varying-`chi` oracle against standard BSSN/CCZ4 conformal-Ricci formulas before implementation.
+- [ ] Stage 4W review patch: pin the `A_IJ` curvature/lapse sign against the published CCZ4/BSSN formulation and the Stage 3A `K_IJ` convention caveat.
+- [ ] Stage 4X: add an off-diagonal axis/parity guard for `h_xz = O(x)` before implementing `R_ww`.
 - [ ] Future review/lint gate: mechanically flag source-formula recomputation of `(hxx - hww) / x^2` outside `RegularityGuardedGeometrySources` / the Stage 4U authoring gate.
 
 ## Later

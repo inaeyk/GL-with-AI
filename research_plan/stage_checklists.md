@@ -248,6 +248,14 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4U: do not implement full Ricci, full CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, or evolution wiring.
 - [x] Stage 4V: intentionally add no formula because no tiny authoring-gate consumer is yet derivation-locked to Stage 4G, Stage 4L, or a Stage 3/4 note.
 - [x] Stage 4V: document that the next step is to derive or extract the exact Ricci/RHS sub-expression, coefficient, sign convention, and hard-coded oracle before coding a real consumer.
+- [x] Stage 4W: add a Markdown derivation note locking the hidden-sphere CCZ4 contribution map and `R_ww` as the first serious hidden Ricci target.
+- [x] Stage 4W review patch: distinguish conformal `tilde{R}_ww[h]`, conformal-factor `R^chi_ww`, and physical `R_ww[gamma]`.
+- [x] Stage 4W review patch: document the future varying-`chi` consistency oracle and the `A_IJ` curvature/lapse sign-convention lock against the Stage 3A `K_IJ` caveat.
+- [x] Stage 4W review patch: derive `h_xz = O(x)` from first-principles reflection parity about the cartoon axis.
+- [x] Stage 4W: document the Stage 4G-compatible flat, constant-cone, and nonconstant-hidden-metric `R_ww` oracles.
+- [x] Stage 4W: block `R_ww` implementation until the missing off-diagonal `h_xz = O(x)` axis/parity guard exists.
+- [x] Stage 4W: do not add formula code, full Ricci, CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, or evolution wiring.
+- [ ] Stage 4X: add the off-diagonal axis/parity guard for `h_xz = O(x)` before implementing `R_ww`.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.

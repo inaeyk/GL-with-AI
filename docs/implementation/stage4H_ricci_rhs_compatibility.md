@@ -276,6 +276,23 @@ can be physics-bearing, the project must derive or extract the precise Ricci or
 RHS sub-expression, including coefficients and sign convention, that uses the
 checked `(hxx - hww) / x^2` ingredient.
 
+Stage 4W adds that derivation-lock target for the hidden-sphere Ricci sector in
+`docs/derivations/stage4W_hidden_sphere_CCZ4_Rww_derivation.md`. The first
+serious hidden Ricci/source target is the physical CCZ4 input
+`R_ww[gamma]`, because it feeds `A_ww` directly and also enters the scalar
+trace used by `K`, `Theta`, and trace-free projections. The note now separates
+the conformal warped-product target
+`tilde{R}_ww[h] = (1 - rho D^a D_a rho - D^a rho D_a rho) / x^2`, the
+`d = 4` conformal-factor correction `R^chi_ww`, and the physical input
+`R_ww[gamma] = tilde{R}_ww[h] + R^chi_ww`. It records a future varying-`chi`
+oracle with `chi = 1 + a x`, pins the curvature/lapse sign structure against
+the Stage 3A `K_IJ` convention caveat, and keeps the Stage 4G flat,
+constant-cone, and nonconstant-hidden-metric oracles as future code anchors.
+It also derives the missing guard from first-principles parity: reflection
+about the cartoon axis requires `h_xz = O(x)`, and the expansion exposes this
+through the `h^xz h_xz / x^2` term. Full `R_ww[gamma]` implementation is
+therefore blocked until the off-diagonal guard exists.
+
 ## Non-goals
 
 Stage 4H does not:

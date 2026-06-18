@@ -266,6 +266,19 @@ standalone source sub-expression whose only regularity-sensitive geometry
 input is the Stage 4U package. The next fixture needs an extracted derivation
 and hard-coded oracle before code is added.
 
+Stage 4W locks the first hidden-sphere Ricci target in a derivation note. It
+maps the hidden CCZ4 contributions and identifies the physical `R_ww[gamma]`
+as the first serious local Ricci/source target. After review, the note
+separates the conformal warped-product component `tilde{R}_ww[h]`, the
+`d = 4` conformal-factor correction `R^chi_ww`, and the physical input
+`R_ww[gamma]`. It records the Stage 4G-compatible flat, constant-cone, and
+nonconstant-hidden-metric oracles plus a future varying-`chi` consistency
+oracle. It also documents that the `R_ww` gradient expansion exposes a second
+regularity-sensitive path, `h^xz h_xz / x^2`. The existing Stage 4Q/4R/4U
+guard covers `hxx - hww = O(x^2)`, but there is no guard yet for
+`h_xz = O(x)`. Therefore Stage 4W adds no formula code, and the next coding
+fixture should be an off-diagonal axis/parity guard.
+
 | Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Convention / validation note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Conformal determinant enforcement | 3F/3G | C++ unit | Positive diagonal and off-diagonal metric samples, including nonzero `h_xz` | `(h_xx h_zz - h_xz^2) hww^2 = 1` after the chosen enforcement path | Exact identity to roundoff | Missing hidden `hww`, wrong block determinant, accidental spherical Jacobian factors | Ricci/source-term correctness | Yes | Define project enforcement in the GRChombo-facing variable set |
@@ -298,6 +311,7 @@ and hard-coded oracle before code is added.
 | Stage 4T guarded source-consumer fixture | 3I/3J/4T | C++ local consumer fixture | Checked Stage 4R/4S guarded geometry package from matching sample; clear mismatch before package construction | Diagnostic consumer accepts the checked package, reports `dx_hww_over_x=2`, `hxx_minus_hww_over_x2=0.25`, residual status, and cannot be invoked with raw doubles by type | Exact local identities plus exception and type-shape checks | Future consumer accepting raw unverified geometry values, bypassing checked package construction, or claiming diagnostic data is a source formula | Ricci tensor, CCZ4 RHS, finite axis limits, grid reads, evolution wiring, physical formula validation | Required before a later real source formula consumes guarded ingredients | Diagnostic/probe consumer only |
 | Stage 4U source-formula authoring-gate fixture | 3I/3J/4U | C++ local authoring-boundary fixture | Checked Stage 4R/4S guarded geometry package from matching sample; clear mismatch before gate construction | Non-aggregate authoring-gate input carries the checked package without flattening into raw doubles; dummy consumer accepts only the gate type and returns a harmless diagnostic scalar | Exact local identities plus exception and type-shape checks | Future formula signatures accepting raw `h_xx`, `h_ww`, `x` for the risky metric difference, or laundering checked geometry back into loose doubles | Ricci tensor, CCZ4 RHS, finite axis limits, grid reads, evolution wiring, physical formula validation, direct hand-written or generic-helper recomputation of `(hxx-hww)/x^2` outside the authoring gate | Required before a later real source formula consumes regularity-sensitive geometry | Authoring gate only; generic-helper bypass prevention remains a review/lint responsibility |
 | Stage 4V source-formula derivation-lock gate | 3I/3J/4G/4L/4V | Documentation gate | Existing Stage 4G metric-derivative Ricci helper, Stage 4L trace-free projection, and Stage 4U authoring gate | No speculative formula is added until a tiny source sub-expression consuming the checked Stage 4U package is derived or extracted with a named oracle | Review gate only | Prevents inventing physics coefficients or treating a diagnostic combination as Ricci/RHS physics | Future derivation itself, formula implementation, grid reads, evolution wiring, full Ricci or CCZ4 RHS correctness | Required before first real source-formula consumer of the authoring gate | Outcome B: derive or isolate the exact expression next |
+| Stage 4W hidden-sphere `R_ww` derivation-lock gate | 3D/3E/3I/3J/4G/4W | Documentation gate | Hidden-sphere metric ansatz, Stage 4G flat/cone/nonconstant `R_ww` oracles, Stage 4U checked-path context, Stage 3A sign caveat | Locks `tilde{R}_ww[h]`, `R^chi_ww`, physical `R_ww[gamma]`, the varying-`chi` oracle, and the missing `h_xz = O(x)` guard before implementation | Review gate only | Prevents adding `R_ww` code before the conformal/physical split, trace map, oracles, sign convention, and off-diagonal regularity blocker are documented | Formula implementation, off-diagonal guard implementation, finite axis limits, grid reads, evolution wiring | Required before implementing physical `R_ww[gamma]` | Stage 4X should add the off-diagonal guard first |
 | Gamma-driver ownership boundary | 3H | C++ unit/design check | Mock RHS block inputs for gauge and `hat_Gamma^A` terms | Gauge block owns lapse/shift/auxiliary evolution; `hat_Gamma^A` block owns their appearances in `partial_t hat_Gamma^A` | Structural review plus targeted unit checks | Double-counting gauge terms, split ownership drift | Physical correctness of chosen gauge | Yes as a design review gate | Yes |
 
 ## Integration, Reference, And Convergence Tests

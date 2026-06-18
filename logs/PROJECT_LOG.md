@@ -304,3 +304,25 @@ Category: 🟡 Physics + Code
   geometry package. The next step is to derive or extract that exact
   sub-expression, including coefficients, sign convention, and a hard-coded
   oracle.
+
+Category: 🟡 Physics + Code
+
+- Started Stage 4W as a derivation-lock stage for hidden-sphere CCZ4
+  contributions and the first serious `R_ww` target. Added a Markdown note
+  that maps hidden contributions to the `chi`, `h_ww`, `K`/`Theta`, and
+  trace-free `A_IJ` source blocks; records the warped-product `R_ww`
+  expression; preserves the Stage 4G flat, constant-cone, and
+  nonconstant-hidden-metric oracles; and identifies the missing
+  `h_xz = O(x)` off-diagonal axis/parity guard. No formula code, full Ricci,
+  CCZ4 RHS, grid reads, finite differences, small-axis regularization, or
+  evolution wiring was added.
+
+Category: 🟡 Physics + Code
+
+- Patched Stage 4W after review to separate the conformal hidden Ricci target
+  `tilde{R}_ww[h]`, the `d = 4` conformal-factor correction `R^chi_ww`, and
+  the physical CCZ4 input `R_ww[gamma]`. The note now records a future
+  varying-`chi` oracle, pins the curvature/lapse `A_IJ` sign against the
+  Stage 3A `K_IJ` convention caveat, and derives `h_xz = O(x)` from
+  first-principles reflection parity about the cartoon axis. No code or tests
+  were added.
