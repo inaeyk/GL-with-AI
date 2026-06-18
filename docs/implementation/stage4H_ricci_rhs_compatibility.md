@@ -266,6 +266,16 @@ current C++ code: the typed authoring path is enforced, but a future formula
 author could still hand-write the arithmetic or call the generic helper unless
 review or a later lint/CI stage catches it.
 
+Stage 4V records the derivation-lock gap before the first real authoring-gate
+consumer. No source formula was added because the existing validated pieces do
+not expose a tiny, named expression that consumes only the Stage 4U checked
+geometry package. Stage 4G validates the complete local metric-derivative Ricci
+helper from full metric/derivative inputs, while Stage 4L consumes already
+formed Ricci components for a trace-free projection. Before a Stage 4U consumer
+can be physics-bearing, the project must derive or extract the precise Ricci or
+RHS sub-expression, including coefficients and sign convention, that uses the
+checked `(hxx - hww) / x^2` ingredient.
+
 ## Non-goals
 
 Stage 4H does not:

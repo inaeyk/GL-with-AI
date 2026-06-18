@@ -246,6 +246,8 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4U: require future source formulas needing `(hxx - hww) / x^2` to consume the checked package or authoring-gate input.
 - [x] Stage 4U: document that direct source-formula use of `difference_over_x2(h_xx, h_ww, x)` for this metric difference is forbidden but remains convention-only without a later lint/CI gate.
 - [x] Stage 4U: do not implement full Ricci, full CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, or evolution wiring.
+- [x] Stage 4V: intentionally add no formula because no tiny authoring-gate consumer is yet derivation-locked to Stage 4G, Stage 4L, or a Stage 3/4 note.
+- [x] Stage 4V: document that the next step is to derive or extract the exact Ricci/RHS sub-expression, coefficient, sign convention, and hard-coded oracle before coding a real consumer.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.

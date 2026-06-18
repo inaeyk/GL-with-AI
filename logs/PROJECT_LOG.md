@@ -292,3 +292,15 @@ Category: 🟡 Physics + Code
 Category: 🟡 Physics + Code
 
 - Patched Stage 4U after review to make the remaining limitation explicit. The typed authoring path is enforced, but a future formula author could still hand-write `(hxx - hww) / x^2` or call the generic `difference_over_x2` helper unless review or a later lint/CI stage catches it. Added a warning at the generic helper and corrected the fixture-design table so it no longer claims this bypass is mechanically caught.
+
+Category: 🟡 Physics + Code
+
+- Started Stage 4V as a derivation-lock check for the first real local
+  source-formula consumer of the Stage 4U authoring gate. No formula code was
+  added: the existing Stage 4G helper validates complete metric-derivative
+  Ricci from full local metric/derivative inputs, and Stage 4L validates a
+  trace-free projection after Ricci components already exist, but neither
+  exposes a tiny named sub-expression that consumes only the checked Stage 4U
+  geometry package. The next step is to derive or extract that exact
+  sub-expression, including coefficients, sign convention, and a hard-coded
+  oracle.
