@@ -637,6 +637,34 @@ switches, or live evolution wiring. A later physics consumer must still point
 to a specific validated Stage 3/Stage 4 derivation or local expression before
 using these ingredients in a real formula.
 
+## Stage 4U Source-Formula Authoring Gate
+
+Stage 4U adds a typed authoring gate for future source formulas that need
+regularity-sensitive cartoon geometry:
+
+- Gate: `code/BlackStringToy/CartoonSourceFormulaAuthoringGate.hpp`.
+- Fixture:
+  `code/BlackStringToy/tests/Stage4USourceFormulaAuthoringGateTest.cpp`.
+
+The gate defines `RegularitySensitiveSourceInputs`, a non-aggregate input type
+that carries the checked Stage 4R geometry package. Future source formulas
+that need `(hxx - hww) / x^2` should take this type, or the checked
+`RegularityGuardedGeometrySources` package directly, rather than raw
+`h_xx`, `h_ww`, and `x` values.
+
+The authoring rule is explicit: direct use of
+`CartoonSingularCombinations::difference_over_x2(h_xx, h_ww, x)` for this
+metric matching-sensitive ingredient is forbidden in source formulas. The
+generic helper remains available for generic away-axis combinations, but not
+as the source-facing route for `(hxx - hww) / x^2`. This generic-helper bypass
+is not mechanically blocked by Stage 4U; the typed path is enforced, while
+hand-written or generic-helper recomputation remains a review responsibility
+unless a later lint/CI gate is added.
+
+Stage 4U does not implement a real Ricci formula, a CCZ4 RHS term, small-axis
+regularization, grid reads, finite differences, parameter switches, or live
+evolution wiring.
+
 ## Implementation Stages And Gates
 
 | Stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
@@ -662,15 +690,16 @@ using these ingredients in a real formula.
 | Stage 4R regularity-guarded source sub-block | `CartoonRegularityGuardedSources.hpp`; `Stage4RRegularityGuardedSourceBlockTest.cpp` | Package regularity-sensitive cartoon ingredients behind the Stage 4Q guard | Local `x`, `h_xx`, `h_ww`, and `d_x hww` values | Guarded `(d_x hww) / x`, source-facing `(hxx - hww) / x^2`, and matching residual; no RHS writes | Stage 4Q | matching case agrees with Stage 4P for low-risk primitive, mismatch rejection, invalid input rejection, no-full-RHS/no-regularization guards | High |
 | Stage 4S local RHS guarded-geometry integration | `CartoonRhsSourceBlock.hpp`; `Stage4SLocalRhsGuardedGeometryIntegrationTest.cpp` | Carry the Stage 4R guarded geometry package through the local RHS source-block skeleton | Local `x`, `h_xx`, `h_ww`, and `d_x hww` values | Non-forgeable guarded geometry package in the local source-block output; no RHS writes | Stage 4R | matching pass-through, mismatch rejection, invalid input rejection, agreement with Stage 4R guarded path, no-open-aggregate checks, no-full-RHS/no-evolution guards | High |
 | Stage 4T guarded source-consumer probe | `CartoonGuardedSourceConsumers.hpp`; `Stage4TGuardedSourceConsumerTest.cpp` | Add the first local consumer that requires the checked guarded geometry package | Non-forgeable Stage 4R guarded geometry package, possibly carried by Stage 4S | Diagnostic/probe view of checked values and Stage 4Q residual status; no RHS writes | Stage 4S | accepts checked package, rejects raw-double call shape by type, matching example oracle, mismatch fails before consumer, no-full-RHS/no-evolution guards | High |
+| Stage 4U source-formula authoring gate | `CartoonSourceFormulaAuthoringGate.hpp`; `Stage4USourceFormulaAuthoringGateTest.cpp` | Define the typed authoring entry point for future formulas needing regularity-sensitive geometry | Checked Stage 4R package or Stage 4S carried package | Non-aggregate `RegularitySensitiveSourceInputs` for future formula signatures; no RHS writes | Stage 4T | sanctioned Stage 4S/4R construction, no raw-double consumer call shape, mismatch fails before gate, no-full-RHS/no-evolution guards | High |
 
 Deferred later stages, requiring explicit user approval after the layout and
 smoke-only scaffold stages pass:
 
 | Later stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Stage 4U small-axis regularization interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I and Stage 4T | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
-| Stage 4V additional RHS formula implementation | Future repo-owned RHS source-block implementation | Fill selected source-block terms only after local skeleton and regularity gates pass | Stage 4K source-block input plus reviewed local formulas | Computed source terms for reviewed blocks only | Stages 3H-3J and Stage 4T | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
-| Stage 4W RHS block wiring | Future repo-owned RHS class or wrapper | Connect source blocks to evolution only after local contracts pass | Grid variables and derivatives | Time derivatives | Stages 3H-3J and Stage 4V | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
+| Stage 4V small-axis regularization interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I and Stage 4U | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
+| Stage 4W additional RHS formula implementation | Future repo-owned RHS source-block implementation | Fill selected source-block terms only after local skeleton and regularity gates pass | Stage 4K source-block input plus reviewed local formulas | Computed source terms for reviewed blocks only | Stages 3H-3J and Stage 4U | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
+| Stage 4X RHS block wiring | Future repo-owned RHS class or wrapper | Connect source blocks to evolution only after local contracts pass | Grid variables and derivatives | Time derivatives | Stages 3H-3J and Stage 4W | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
 
 Unknown exact class and file names should be resolved by a separate code
 inspection pass immediately before implementation. Do not invent a new

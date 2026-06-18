@@ -254,6 +254,18 @@ ingredients, and reports whether the carried matching residual is within the
 Stage 4Q tolerance. It does not derive or implement a Ricci sub-block, CCZ4 RHS
 term, grid read, finite-difference stencil, or evolution path.
 
+Stage 4U adds the source-formula authoring gate for this boundary. Future
+source formulas that need the regularity-sensitive `(hxx - hww) / x^2`
+ingredient must accept either the checked `RegularityGuardedGeometrySources`
+package or the Stage 4U authoring-gate input that carries it. Direct source
+formula use of `difference_over_x2(h_xx, h_ww, x)` for this metric
+matching-sensitive ingredient is forbidden. The generic helper remains
+available for generic away-axis combinations, but it is not the source-facing
+route for this metric difference. This last rule is convention-only in the
+current C++ code: the typed authoring path is enforced, but a future formula
+author could still hand-write the arithmetic or call the generic helper unless
+review or a later lint/CI stage catches it.
+
 ## Non-goals
 
 Stage 4H does not:

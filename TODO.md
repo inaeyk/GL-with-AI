@@ -90,6 +90,8 @@
 - [ ] Stage 4R: review the regularity-guarded local source sub-block as the required path for `(hxx - hww) / x^2` before any real Ricci/RHS formula uses it.
 - [ ] Stage 4S: review the checked-by-construction local RHS source-block integration carrying the Stage 4R guarded geometry package before any real source formula consumes it.
 - [ ] Stage 4T: review the guarded diagnostic consumer before adding any real Ricci/RHS source formula using the checked package.
+- [ ] Stage 4U: review the source-formula authoring gate before any real source formula uses regularity-sensitive geometry.
+- [ ] Future review/lint gate: mechanically flag source-formula recomputation of `(hxx - hww) / x^2` outside `RegularityGuardedGeometrySources` / the Stage 4U authoring gate.
 
 ## Later
 

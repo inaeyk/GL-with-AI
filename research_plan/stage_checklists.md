@@ -242,6 +242,10 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4T: add the first local guarded source-consumer diagnostic/probe.
 - [x] Stage 4T: require the checked Stage 4R/4S package type and reject raw-double consumer call shapes by type.
 - [x] Stage 4T: do not implement full Ricci, a Ricci sub-block, full CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, or evolution wiring.
+- [x] Stage 4U: add a source-formula authoring gate for regularity-sensitive geometry.
+- [x] Stage 4U: require future source formulas needing `(hxx - hww) / x^2` to consume the checked package or authoring-gate input.
+- [x] Stage 4U: document that direct source-formula use of `difference_over_x2(h_xx, h_ww, x)` for this metric difference is forbidden but remains convention-only without a later lint/CI gate.
+- [x] Stage 4U: do not implement full Ricci, full CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, or evolution wiring.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.

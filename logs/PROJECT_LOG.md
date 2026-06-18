@@ -280,3 +280,15 @@ Category: 🔵 Code
 Category: 🟡 Physics + Code
 
 - Stage 4T did not add a physical source formula because no isolated Ricci/RHS sub-expression was extracted in this stage. It does not implement full Ricci, a Ricci sub-block, full CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, finite differences, or evolution wiring.
+
+Category: 🔵 Code
+
+- Began Stage 4U by adding `CartoonSourceFormulaAuthoringGate.hpp`, a typed authoring gate for future source formulas needing the regularity-sensitive `(hxx - hww) / x^2` ingredient. The gate carries the checked Stage 4R package and gives future formulas a local signature shape that avoids raw `h_xx`, `h_ww`, and `x` inputs for that ingredient.
+
+Category: 🟡 Physics + Code
+
+- Stage 4U documents the authoring rule: direct source-formula use of `difference_over_x2(h_xx, h_ww, x)` for the metric matching-sensitive `(hxx - hww) / x^2` ingredient is forbidden. The generic helper remains available for generic away-axis combinations. No Ricci/RHS formula, grid read, finite-difference stencil, small-axis regularization, or evolution wiring was added.
+
+Category: 🟡 Physics + Code
+
+- Patched Stage 4U after review to make the remaining limitation explicit. The typed authoring path is enforced, but a future formula author could still hand-write `(hxx - hww) / x^2` or call the generic `difference_over_x2` helper unless review or a later lint/CI stage catches it. Added a warning at the generic helper and corrected the fixture-design table so it no longer claims this bypass is mechanically caught.

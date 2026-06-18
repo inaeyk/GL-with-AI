@@ -36,6 +36,11 @@ inline double first_derivative_over_x(const double dx_f, const double x)
 inline double difference_over_x2(const double f, const double g,
                                  const double x)
 {
+    // For regularity-sensitive metric differences of the form
+    // (h_xx - h_ww) / x^2, do not call this generic helper directly from
+    // source formulas. Use the Stage 4U authoring-gate input or the
+    // RegularityGuardedGeometrySources path so the Stage 4Q matching guard has
+    // run first.
     require_finite_value(f, "difference left value");
     require_finite_value(g, "difference right value");
     return (f - g) * CartoonAxisPolicy::inverse_x2_away_axis(x);
