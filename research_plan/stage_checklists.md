@@ -239,6 +239,9 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4S: keep the risky `(hxx - hww) / x^2` ingredient source-facing only through the Stage 4R guarded path.
 - [x] Stage 4S review patch: make the guarded package and source-block carry output checked-by-construction, not open aggregates.
 - [x] Stage 4S: do not implement full Ricci, full CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, or evolution wiring.
+- [x] Stage 4T: add the first local guarded source-consumer diagnostic/probe.
+- [x] Stage 4T: require the checked Stage 4R/4S package type and reject raw-double consumer call shapes by type.
+- [x] Stage 4T: do not implement full Ricci, a Ricci sub-block, full CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, or evolution wiring.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.

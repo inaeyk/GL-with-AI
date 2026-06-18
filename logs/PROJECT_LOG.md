@@ -272,3 +272,11 @@ Category: 🔵 Code
 Category: 🟡 Physics + Code
 
 - The patch hardens the local type boundary only. It still does not add a physical source formula, full Ricci, CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, finite differences, or evolution wiring.
+
+Category: 🔵 Code
+
+- Began Stage 4T by adding `CartoonGuardedSourceConsumers.hpp`, the first local consumer of the checked guarded geometry package. The consumer is explicitly a diagnostic/probe: it accepts only the non-forgeable Stage 4R guarded package and reports the checked geometry ingredients plus the Stage 4Q residual status.
+
+Category: 🟡 Physics + Code
+
+- Stage 4T did not add a physical source formula because no isolated Ricci/RHS sub-expression was extracted in this stage. It does not implement full Ricci, a Ricci sub-block, full CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, finite differences, or evolution wiring.

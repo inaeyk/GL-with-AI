@@ -247,6 +247,13 @@ cannot brace-initialize fake trusted values. The former public `detail` helper
 for the risky metric-difference value was removed; Stage 4R now computes that
 value internally only after calling the Stage 4Q guard.
 
+Stage 4T adds the first local consumer of that checked package. It is a
+diagnostic/probe consumer, not a physics formula: it accepts only the
+non-forgeable Stage 4R guarded geometry package, mirrors the checked
+ingredients, and reports whether the carried matching residual is within the
+Stage 4Q tolerance. It does not derive or implement a Ricci sub-block, CCZ4 RHS
+term, grid read, finite-difference stencil, or evolution path.
+
 ## Non-goals
 
 Stage 4H does not:
