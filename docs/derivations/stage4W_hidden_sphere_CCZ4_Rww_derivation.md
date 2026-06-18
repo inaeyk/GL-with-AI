@@ -315,13 +315,16 @@ and
 h_xz = O(x)
 ```
 
-near the cartoon axis. The first guard exists through Stage 4Q/4R/4U. The
-second guard does not yet exist. Therefore full `R_ww[gamma]` implementation
-should not be added in Stage 4W.
+near the cartoon axis. The first checked source-facing path exists through
+Stage 4Q/4R/4U. Stage 4X adds the local checked `h_xz / x` ingredient needed by
+future away-axis formulas. A stronger grid-level or two-sided parity validation
+of `h_xz = O(x)` remains a separate future validation task. Therefore full
+`R_ww[gamma]` implementation is still a later formula stage, not Stage 4W or
+Stage 4X.
 
 ## First-Principles h_xz Parity
 
-The missing `h_xz = O(x)` guard follows from regularity and reflection
+The needed `h_xz = O(x)` condition follows from regularity and reflection
 symmetry about the cartoon axis, not from an external code convention.
 
 Under the local reflection `x -> -x` with `z` fixed,
@@ -394,12 +397,22 @@ h_xx = h_zz = 1, h_xz = 0, h_ww = (1 + x)^2, x = 1
 
 Stage 4W locks the conformal hidden Ricci target `tilde{R}_ww[h]`, the
 required conformal-factor correction `R^chi_ww`, and the physical CCZ4 input
-`R_ww[gamma]`. It also identifies the missing `h_xz = O(x)` parity guard as
-the next implementation prerequisite. No Ricci/RHS/evolution code is added.
+`R_ww[gamma]`. It also identifies the needed local `h_xz / x` ingredient and
+the stronger unresolved `h_xz = O(x)` validation question. No
+Ricci/RHS/evolution code is added.
 
-The next coding stage should be:
+Stage 4X provides the local checked `h_xz / x` ingredient needed by future
+away-axis formulas. A stronger grid-level or two-sided parity validation of
+`h_xz = O(x)` remains a separate future validation task. Stage 4X does not
+implement the `h^xz h_xz / x^2` source expression, conformal hidden Ricci,
+conformal-factor Ricci, physical `R_ww[gamma]`, CCZ4 RHS, or evolution wiring.
+It also does not prove global parity of the numerical data.
+
+The next coding stage after Stage 4X should be a separately reviewed formula
+stage for the physical `R_ww[gamma]` target:
 
 ```text
-Stage 4X: off-diagonal axis/parity guard for h_xz = O(x), before implementing
-the physical R_ww[gamma] source target.
+Future Stage: local physical R_ww[gamma] source target, consuming both the
+Stage 4U checked (hxx - hww) / x^2 path and the Stage 4X checked h_xz / x
+path.
 ```

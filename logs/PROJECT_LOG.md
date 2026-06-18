@@ -326,3 +326,20 @@ Category: 🟡 Physics + Code
   Stage 3A `K_IJ` convention caveat, and derives `h_xz = O(x)` from
   first-principles reflection parity about the cartoon axis. No code or tests
   were added.
+
+Category: 🔵 Code
+
+- Started Stage 4X by adding `CartoonCheckedHxzOverX.hpp`, a local checked
+  `h_xz / x` package for the away-axis quotient.
+  The helper uses the existing away-axis policy, rejects invalid axis and
+  nonfinite inputs, allows finite nonzero quotients such as `h_xz = 3x`, and
+  exposes the trusted value through a non-aggregate package for future source
+  consumers.
+
+Category: 🟡 Physics + Code
+
+- Stage 4X remains a local source ingredient only. It checks only finite
+  `h_xz / x` at the supplied away-axis point. It does not implement
+  `tilde{R}_ww[h]`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS,
+  finite-axis regularization, grid reads, finite differences, or evolution
+  wiring, and it does not prove global grid parity or `h_xz = O(x)`.

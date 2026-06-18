@@ -288,10 +288,21 @@ the conformal warped-product target
 oracle with `chi = 1 + a x`, pins the curvature/lapse sign structure against
 the Stage 3A `K_IJ` convention caveat, and keeps the Stage 4G flat,
 constant-cone, and nonconstant-hidden-metric oracles as future code anchors.
-It also derives the missing guard from first-principles parity: reflection
-about the cartoon axis requires `h_xz = O(x)`, and the expansion exposes this
-through the `h^xz h_xz / x^2` term. Full `R_ww[gamma]` implementation is
-therefore blocked until the off-diagonal guard exists.
+It also derives the needed regularity condition from first-principles parity:
+reflection about the cartoon axis requires `h_xz = O(x)`, and the expansion
+exposes this through the `h^xz h_xz / x^2` term. Full `R_ww[gamma]`
+implementation is therefore blocked until a checked local `h_xz / x`
+ingredient exists. A stronger grid-level or two-sided validation of
+`h_xz = O(x)` remains separate future work.
+
+Stage 4X adds that source-facing checked quotient as a local `h_xz / x`
+ingredient. The checked package is minted through the existing away-axis
+policy, rejects invalid axis and nonfinite inputs, allows finite nonzero
+quotients such as `h_xz = 3x`, and is not an open aggregate. It is a local
+source ingredient for future formulas only: it does not implement
+`tilde{R}_ww[h]`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS,
+finite-axis regularization, grid reads, or evolution wiring, and it does not
+prove global grid parity or the analytic statement `h_xz = O(x)`.
 
 ## Non-goals
 

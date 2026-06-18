@@ -253,9 +253,13 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4W review patch: document the future varying-`chi` consistency oracle and the `A_IJ` curvature/lapse sign-convention lock against the Stage 3A `K_IJ` caveat.
 - [x] Stage 4W review patch: derive `h_xz = O(x)` from first-principles reflection parity about the cartoon axis.
 - [x] Stage 4W: document the Stage 4G-compatible flat, constant-cone, and nonconstant-hidden-metric `R_ww` oracles.
-- [x] Stage 4W: block `R_ww` implementation until the missing off-diagonal `h_xz = O(x)` axis/parity guard exists.
+- [x] Stage 4W: block `R_ww` implementation until the local checked off-diagonal `h_xz / x` ingredient exists; stronger `h_xz = O(x)` validation remains future work.
 - [x] Stage 4W: do not add formula code, full Ricci, CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, or evolution wiring.
-- [ ] Stage 4X: add the off-diagonal axis/parity guard for `h_xz = O(x)` before implementing `R_ww`.
+- [x] Stage 4X: add the checked local off-diagonal `h_xz / x` ingredient before implementing `R_ww`.
+- [x] Stage 4X: expose a local checked `h_xz / x` package through `CartoonCheckedHxzOverX.hpp`.
+- [x] Stage 4X: allow finite nonzero `h_xz / x`, reject invalid axis and nonfinite inputs, keep the package non-forgeable, and do not claim to prove global parity or `h_xz = O(x)`.
+- [x] Stage 4X: do not implement `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS, grid reads, or evolution wiring.
+- [ ] Future validation stage: add a grid-level or two-sided off-diagonal parity validation for `h_xz(-x,z) = -h_xz(x,z)`, or a documented near-axis tolerance policy, before claiming global axis regularity.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.
