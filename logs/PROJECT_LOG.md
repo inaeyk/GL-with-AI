@@ -408,3 +408,30 @@ Category: 🟡 Physics + Code
   block, full `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci,
   CCZ4 RHS, grid reads, finite-axis regularization, global parity validation,
   or evolution wiring.
+
+Category: 🟡 Physics + Docs
+
+- Stage 4AA locks the conformal hidden Ricci Hessian sub-block derivation in
+  documentation only. The roadmap and Stage 4W derivation note now record
+  `G^Hess_ww = -(sqrt(W)/x)[(C/D)H_xx - (2B/D)H_xz + (A/D)H_zz]`, the
+  `rho` derivative formulas, and the reduced-base Christoffels needed by
+  Stage 4AB.
+
+Category: 🟡 Physics + Docs
+
+- Stage 4AA records Hessian oracle values: flat data gives `0`, the constant
+  cone gives `0`, and the flat-base nonconstant hidden metric
+  `W=(1+x)^2` at `x=1` gives `G^Hess_ww=-4`. Combined with the reviewed
+  Stage 4Y and 4Z values, that fixture gives `tilde R_ww=-12`. Claude Audit
+  A verifies the fully distinct nonsymmetric derivative sample as
+  `G^Hess_ww=-8558/2883`, with the full conformal sum `-3576/961`.
+
+Category: 🟡 Physics + Docs
+
+- Checkpoint A locked the nonsymmetric Hessian oracle. The oracle exercises
+  off-diagonal Christoffels, `rho_xz`, `W_z`-dependent terms, and the
+  `(-2B/D)` contraction; the flat, cone, and `W=(1+x)^2` oracles are not
+  sufficient by themselves. Stage 4AB may now implement the Hessian block, but
+  only with this verified oracle included in the test. Stage 4AA does not add
+  code, tests, full `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full
+  Ricci, CCZ4 RHS, grid reads, or evolution wiring.

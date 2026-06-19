@@ -98,7 +98,9 @@
 - [x] Stage 4Y: review the first guarded conformal `R_ww` singular-gradient sub-block before expanding toward full `tilde R_ww`.
 - [x] Stage 4Y review patch: confirm the single-source input package closes the raw determinant / checked singular ingredient consistency hole before expanding toward more `tilde R_ww` sub-blocks.
 - [x] Stage 4Z: add checked `W_x/x` ingredient and the reviewed `G^grad_ww` conformal hidden Ricci block.
-- [ ] Stage 4AA: lock the Hessian block derivation, coefficients, sign convention, and oracle before implementation.
+- [x] Stage 4AA: lock the Hessian block derivation, coefficients, sign convention, reduced Christoffels, and primary oracles before implementation.
+- [x] Checkpoint A / Claude Audit A: lock the verified nonsymmetric Hessian oracle `G^Hess_ww=-8558/2883` and full conformal sum `-3576/961` before Stage 4AB.
+- [ ] Stage 4AB: implement the Hessian block only with the verified nonsymmetric oracle included in the test.
 - [ ] Stage 4AD: derive `R^chi_ww` and design its hidden/cartoon singular guard stack before implementation.
 - [ ] Stage 4AF: add the hard identity gate `tilde R_ww + R^chi_ww == R_ww[gamma]` against direct physical Ricci with varying `chi`.
 - [ ] Stage 4AG: add true off-diagonal parity validation for `h_xz(-x,z) = -h_xz(x,z)`, or a Taylor/grid-level near-axis policy with documented tolerance.

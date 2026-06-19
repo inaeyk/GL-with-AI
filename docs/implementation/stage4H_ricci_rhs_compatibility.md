@@ -340,6 +340,35 @@ checked `q_xz` and checked `p_W`. This still does not implement the Hessian
 block, full `tilde{R}_ww[h]`, `R^chi_ww`, physical `R_ww[gamma]`, CCZ4 RHS,
 grid reads, or evolution wiring.
 
+Stage 4AA locks the next conformal sub-block as documentation only. The
+Hessian block is
+
+```text
+G^Hess_ww =
+    -(sqrt(W) / x) [
+        (C / D) H_xx
+      - (2 B / D) H_xz
+      + (A / D) H_zz
+    ],
+```
+
+with `H_ab = rho_ab - Gamma^x_ab rho_x - Gamma^z_ab rho_z` and the reduced
+Christoffels recorded in the Stage 4W derivation note and hidden-sphere
+roadmap. The locked primary oracles are flat `0`, constant cone `0`, and
+nonconstant `W = (1 + x)^2` at `x = 1` giving `G^Hess_ww = -4`. Combined with
+the reviewed Stage 4Y and 4Z values for that fixture, the conformal target is
+`tilde R_ww = -12`.
+
+Stage 4AA still does not implement code. Claude Audit A verifies the distinct
+nonsymmetric Hessian sample with all required derivative slots nonzero:
+`G^Hess_ww = -8558 / 2883`, approximately `-2.9684356573014221`. For the same
+sample, the full conformal sum is `-3576 / 961`, approximately
+`-3.7211238293`, matching the independent Stage 4G conformal Ricci engine to
+machine precision with residual about `4.44e-16`. This oracle is required for
+Stage 4AB because it exercises off-diagonal Christoffels, `rho_xz`,
+`W_z`-dependent terms, and the `(-2B/D)` contraction; the simpler oracles are
+not sufficient by themselves.
+
 ## Non-goals
 
 Stage 4H does not:

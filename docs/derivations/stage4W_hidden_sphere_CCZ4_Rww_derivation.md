@@ -458,11 +458,89 @@ determinant data single-sourced from one local metric point. It is still not
 the Hessian block, not full `tilde{R}_ww[h]`, not `R^chi_ww`, not physical
 `R_ww[gamma]`, not full Ricci, not CCZ4 RHS, and not evolution wiring.
 
-The next coding stage after Stage 4Z should remain separately reviewed before
-expanding toward the physical `R_ww[gamma]` target:
+Stage 4AA locks the Hessian conformal sub-block before any implementation.
+Using `A = h_xx`, `B = h_xz`, `C = h_zz`, `W = h_ww`, and
+`D = A C - B^2`,
 
 ```text
-Future Stage: Hessian conformal hidden Ricci derivation lock, eventually
-assembling tilde R_ww[h] only after each singular, first-derivative, and
-Hessian piece has a reviewed formula and oracle.
+G^Hess_ww =
+    -(sqrt(W) / x) [
+        (C / D) H_xx
+      - (2 B / D) H_xz
+      + (A / D) H_zz
+    ],
+
+H_ab =
+    rho_ab
+  - Gamma^x_ab rho_x
+  - Gamma^z_ab rho_z.
 ```
+
+The locked derivatives are
+
+```text
+rho_x = sqrt(W) + x W_x / (2 sqrt(W)),
+rho_z = x W_z / (2 sqrt(W)),
+
+rho_xx =
+    W_x / sqrt(W)
+  + x W_xx / (2 sqrt(W))
+  - x W_x^2 / (4 W^(3/2)),
+
+rho_xz =
+    W_z / (2 sqrt(W))
+  + x W_xz / (2 sqrt(W))
+  - x W_x W_z / (4 W^(3/2)),
+
+rho_zz =
+    x W_zz / (2 sqrt(W))
+  - x W_z^2 / (4 W^(3/2)).
+```
+
+The reduced-base Christoffels are locked as
+
+```text
+Gamma^x_xx = [C A_x - B(2 B_x - A_z)] / (2 D),
+Gamma^z_xx = [-B A_x + A(2 B_x - A_z)] / (2 D),
+
+Gamma^x_xz = [C A_z - B C_x] / (2 D),
+Gamma^z_xz = [-B A_z + A C_x] / (2 D),
+
+Gamma^x_zz = [C(2 B_z - C_x) - B C_z] / (2 D),
+Gamma^z_zz = [-B(2 B_z - C_x) + A C_z] / (2 D).
+```
+
+Stage 4AA records Hessian oracle values `0` for flat data, `0` for the
+constant cone, and `-4` for the flat-base nonconstant hidden metric
+`W = (1 + x)^2` at `x = 1`. In that last case the reviewed previous blocks
+give `G_sing = -3` and `G_grad = -5`, so the assembled conformal target would
+give `tilde R_ww = -12` after the Hessian block is implemented and reviewed.
+A fully distinct nonsymmetric sample with all first and second derivative
+slots nonzero is listed in
+`docs/implementation/stage4_hidden_sphere_Rww_plan.md`. Claude Audit A
+verifies that sample as
+
+```text
+G^Hess_ww = -8558 / 2883 = -2.9684356573014221...
+```
+
+For the same sample, the full conformal sum is
+
+```text
+G^sing_ww + G^grad_ww + G^Hess_ww =
+    -3576 / 961 = -3.7211238293...
+```
+
+matching the independent Stage 4G conformal Ricci engine to machine precision
+with residual about `4.44e-16`.
+
+This distinct nonsymmetric oracle is required for Stage 4AB because it
+exercises the off-diagonal Christoffels, `rho_xz`, `W_z`-dependent terms, and
+the `(-2 B / D)` contraction. The flat, constant-cone, and `W=(1+x)^2`
+oracles are not sufficient by themselves. Stage 4AB may now implement the
+Hessian block, but only with this verified oracle included in the test.
+
+Stage 4AA is the Hessian block only. It is not full `tilde{R}_ww[h]`, not
+`R^chi_ww`, not physical `R_ww[gamma]`, not full Ricci, not CCZ4 RHS, and not
+evolution wiring. It is away-axis only and does not prove global parity or
+finite-axis regularity.

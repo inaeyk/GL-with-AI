@@ -178,8 +178,104 @@ G^Hess_ww =
     -(rho / x^2) H^ab (rho_ab - Gamma^c_ab[H] rho_c).
 ```
 
-This block requires its own derivation lock before implementation because it
-mixes second derivatives, reduced Christoffels, and singular-looking factors.
+Stage 4AA locks this block for later implementation. With
+
+```text
+H^xx = C / D,    H^xz = -B / D,    H^zz = A / D,
+```
+
+the source-facing Hessian form is
+
+```text
+G^Hess_ww =
+    -(sqrt(W) / x) [
+        (C / D) H_xx
+      - (2 B / D) H_xz
+      + (A / D) H_zz
+    ],
+```
+
+where
+
+```text
+H_ab =
+    rho_ab
+  - Gamma^x_ab rho_x
+  - Gamma^z_ab rho_z.
+```
+
+The needed radius derivatives are
+
+```text
+rho_x = sqrt(W) + x W_x / (2 sqrt(W)),
+
+rho_z = x W_z / (2 sqrt(W)),
+
+rho_xx =
+    W_x / sqrt(W)
+  + x W_xx / (2 sqrt(W))
+  - x W_x^2 / (4 W^(3/2)),
+
+rho_xz =
+    W_z / (2 sqrt(W))
+  + x W_xz / (2 sqrt(W))
+  - x W_x W_z / (4 W^(3/2)),
+
+rho_zz =
+    x W_zz / (2 sqrt(W))
+  - x W_z^2 / (4 W^(3/2)).
+```
+
+The reduced-base Christoffels are
+
+```text
+Gamma^x_xx = [C A_x - B(2 B_x - A_z)] / (2 D),
+Gamma^z_xx = [-B A_x + A(2 B_x - A_z)] / (2 D),
+
+Gamma^x_xz = [C A_z - B C_x] / (2 D),
+Gamma^z_xz = [-B A_z + A C_x] / (2 D),
+
+Gamma^x_zz = [C(2 B_z - C_x) - B C_z] / (2 D),
+Gamma^z_zz = [-B(2 B_z - C_x) + A C_z] / (2 D).
+```
+
+Stage 4AA locks the following Hessian oracles for Stage 4AB:
+
+- Flat: `A = C = W = 1`, `B = 0`, all derivatives zero gives
+  `G^Hess_ww = 0`.
+- Constant cone: `A = C = 1`, `B = 0`, `W = 4`, all derivatives zero gives
+  `G^Hess_ww = 0`.
+- Nonconstant hidden metric: for flat base and `W = (1 + x)^2` at `x = 1`,
+  `W = 4`, `W_x = 4`, `W_xx = 2`, and
+  `W_z = W_xz = W_zz = 0`. Then `rho = x(1 + x)`, `rho_xx = 2`, and
+  `G^Hess_ww = -(rho / x^2) rho_xx = -4`. Combined with the reviewed
+  previous sub-blocks, `G^sing_ww = -3`, `G^grad_ww = -5`, and
+  `G^Hess_ww = -4`, so `tilde{R}_ww = -12`.
+- Distinct nonsymmetric audit sample: `x = 2`, `A = 7`, `B = 2`, `C = 5`,
+  `W = 3`, `A_x = 11`, `A_z = 13`, `B_x = 17`, `B_z = 19`, `C_x = 23`,
+  `C_z = 29`, `W_x = 6`, `W_z = 4`, `W_xx = 31`, `W_xz = 37`, and
+  `W_zz = 41`, with `D = 31`. This has nonzero entries in all first and
+  second derivative slots needed by the block. Claude Audit A verifies
+  `G^Hess_ww = -8558 / 2883`, approximately `-2.9684356573014221`.
+  For the same sample, the full conformal sum is
+  `G^sing_ww + G^grad_ww + G^Hess_ww = -3576 / 961`, approximately
+  `-3.7211238293`, matching the independent Stage 4G conformal Ricci engine
+  to machine precision with residual about `4.44e-16`.
+
+The distinct nonsymmetric oracle is required for Stage 4AB. It exercises the
+off-diagonal Christoffels, `rho_xz`, `W_z`-dependent terms, and the
+`(-2 B / D)` contraction. The flat, constant-cone, and `W = (1 + x)^2`
+oracles are necessary but not sufficient by themselves.
+
+Scope: Stage 4AA is the Hessian block only. It is not full
+`tilde{R}_ww[h]`, not `R^chi_ww`, not physical `R_ww[gamma]`, not full Ricci,
+not CCZ4 RHS, and not evolution wiring. It is away-axis only and does not
+prove global parity or finite-axis regularity.
+
+Checkpoint A is complete for the nonsymmetric Hessian oracle. Stage 4AB may
+now implement the Hessian block, but only if the Stage 4AB test includes the
+verified nonsymmetric oracle above alongside the simpler flat, cone, and
+nonconstant-`W` cases.
 
 ## Conformal-Factor Ricci Correction
 
@@ -276,14 +372,16 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
   single-sourced after review.
 - Stage 4Z: checked local `W_x / x` ingredient and first-derivative conformal
   gradient sub-block, single-sourced from one local metric point.
+- Stage 4AA: Hessian conformal sub-block derivation lock, oracle list, and
+  Claude Audit A verified nonsymmetric oracle before implementation.
 
 ## Future Stage Breakdown
 
 | Stage | Ownership | Gate |
 | --- | --- | --- |
 | Stage 4Z | Checked `W_x / x` ingredient and `G^grad_ww` implementation | Complete as a local away-axis sub-block; consumes checked `p_W = W_x / x`, checked `q_xz`, and single-source metric inputs; no full `tilde R_ww` claim |
-| Stage 4AA | Hessian block derivation lock | Derive `G^Hess_ww`, coefficient/sign convention, and hard-coded oracles before code |
-| Stage 4AB | Hessian block implementation | Local checked Hessian sub-block only, with determinant and away-axis guards |
+| Stage 4AA | Hessian block derivation lock | Complete as documentation: `G^Hess_ww`, coefficient/sign convention, Christoffels, flat/cone/nonconstant oracles, and Claude Audit A's verified nonsymmetric oracle are recorded |
+| Stage 4AB | Hessian block implementation | Local checked Hessian sub-block only, with determinant and away-axis guards; must include the verified nonsymmetric oracle in its test |
 | Stage 4AC | Assemble conformal `tilde{R}_ww[h]` | Combine reviewed conformal sub-blocks only; still not physical `R_ww[gamma]` |
 | Stage 4AD | `R^chi_ww` derivation lock and guard-stack design | Design guards for `D_w D_w chi`, full conformal Laplacian, and hidden/cartoon singular terms |
 | Stage 4AE | Implement `R^chi_ww` | Local conformal-factor Ricci correction only |
@@ -329,7 +427,7 @@ evolution claims.
 | Raw/checked mismatch | Stage 4Y | Single-source input package for determinant data and checked singular ingredients |
 | False `h_xz` parity claim | Stages 4X, 4AG | Keep Stage 4X scoped to local `h_xz / x`; add true parity validation in Stage 4AG |
 | Bypassing checked `W_x / x` | Stage 4Z and later gradient consumers | Stage 4Z provides checked `p_W = W_x / x`; later formulas must consume the checked package rather than loose raw quotient values |
-| Hessian complexity | Stages 4AA-4AB | Derivation lock before implementation |
+| Hessian complexity | Stages 4AA-4AB | Stage 4AA locks the formula, Christoffels, and verified nonsymmetric oracle; Stage 4AB may proceed only with that oracle in its test |
 | `R^chi_ww` singular hidden terms | Stages 4AD-4AE | Design a dedicated guard stack for `D_w D_w chi` and full Laplacian terms |
 | Hard identity gate not yet passed | Stage 4AF | Direct physical Ricci comparison with varying `chi` |
 | `hat_Gamma^x` hidden contraction | Stages 4AL-4AM | Derive hidden contraction and hatted convention; use GL-growth/dispersion anchor |
