@@ -1068,7 +1068,13 @@ constructed physical metric jet. Six identity points are covered: constant
 with nonzero `W` first/second derivatives. One direct-engine regression also
 confirms cancellation of nonzero `A,B,C` second derivatives from `R_ww`.
 No production physical-Ricci assembler or RHS/evolution path was added.
-Stage 4AG and Checkpoint D are next.
+Stage 4AG is implemented below; Checkpoint D is next.
+
+Stage 4AG now provides a standalone local `h_xz` parity validator and fixture.
+The validator uses paired positive/negative samples plus optional axis data,
+checks odd-value and even-quotient residuals, and mints a non-forgeable
+validated token. It neither clamps nor supplies finite-axis values. Stage 4AH
+remains blocked until Checkpoint D / Claude Audit D reviews 4AF and 4AG.
 
 ## Acceptance Criteria
 

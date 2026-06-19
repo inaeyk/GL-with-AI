@@ -540,3 +540,19 @@ Category: Physics + Code
   from direct `R_ww`.
 - This is internal validation, not external validation or production physical
   assembly. Stage 4AG is next and Checkpoint D remains pending before 4AH.
+
+## 2026-06-19 - Stage 4AG Two-Sided `h_xz` Parity Gate
+
+Category: Physics + Code
+
+- Added `CartoonHxzParityValidation.hpp` with a factory-only validated stencil
+  token. The factory accepts separate positive/negative sample lists, requires
+  one-to-one opposite-radius partners, checks odd `h_xz`, checks even
+  `h_xz/x`, and checks axis zero when an axis value is supplied.
+- The standalone fixture accepts smooth odd `a x+b x^3` data at multiple
+  radii without demanding constant `h_xz/x`, and rejects even contamination,
+  nonzero axis data, partner errors, invalid coordinate signs, nonfinite data,
+  and invalid tolerance.
+- Tolerances are validation-only. No clamp, epsilon division, finite-axis
+  regularization, physical `R_ww`, RHS, or evolution path was added.
+  Checkpoint D / Claude Audit D remains required before Stage 4AH.

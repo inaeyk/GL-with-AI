@@ -431,7 +431,15 @@ product-rule terms, and supplies that already-physical jet to Stage 4G with
 `chi=1`. It covers constant `chi`, flat linear-`x` and linear-`z` `chi`, and
 three nonsymmetric varying-`chi` points with nonzero hidden-metric second
 derivatives. This gate does not place physical `R_ww` into the RHS contract.
-Stage 4AG parity validation and Checkpoint D remain required before Stage 4AH.
+Stage 4AG parity validation is implemented below; Checkpoint D remains
+required before Stage 4AH.
+
+Stage 4AG now implements the required local paired `h_xz` parity gate. It
+checks odd values, optional explicit axis zero, one-to-one opposite-radius
+partners, and even `h_xz/x`, while allowing that quotient to vary with
+radius. This is validation only and adds no finite-axis policy or Ricci/RHS
+contract input. Checkpoint D / Claude Audit D remains the next gate before
+Stage 4AH.
 
 ## Non-goals
 

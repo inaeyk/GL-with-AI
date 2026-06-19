@@ -707,5 +707,25 @@ derivatives of `A,B,C` cancel from direct `R_ww`.
 This is an internal identity gate against the project's Stage 4G engine, not
 external validation and not a production physical-`R_ww` assembler. Stage
 4AG still owns true parity/near-axis validation, Stage 4AH owns production
-physical assembly, and RHS/evolution remain unimplemented. Checkpoint D stays
-pending until Stage 4AG also passes.
+physical assembly, and RHS/evolution remain unimplemented. Stage 4AG now
+passes its local gate below; Checkpoint D remains pending for joint review.
+
+## Stage 4AG Two-Sided `h_xz` Parity Gate
+
+Stage 4X's checked local `h_xz/x` value does not prove parity. Stage 4AG adds
+the missing paired-data validation:
+
+```text
+h_xz(-x,z) = -h_xz(+x,z),
+h_xz(0,z) = 0                         when axis data is supplied,
+h_xz(+x,z)/(+x) = h_xz(-x,z)/(-x).
+```
+
+The validator requires finite one-to-one `+x/-x` partners and positive finite
+validation tolerance. Smooth odd data `h_xz=a x+b x^3` passes at several
+radii, including nonconstant even quotient `h_xz/x=a+b x^2`; adding even
+`c x^2` contamination fails. The tolerance is not a clamp or regularization
+parameter. This gate validates only the supplied `h_xz` stencil and does not
+prove full smoothness, finite-axis regularity, diagonal matching, `W_x` or
+`chi_x` parity, physical `R_ww`, RHS, or evolution. Checkpoint D / Claude
+Audit D is required before Stage 4AH.

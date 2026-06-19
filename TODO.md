@@ -107,7 +107,7 @@
 - [x] Stage 4AE: implement only the reviewed local `R^chi_ww` correction, including checked `chi_x/x`, hidden multiplicity, and linear-z/nonsymmetric oracles.
 - [x] Checkpoint C / Claude Audit C: review the Stage 4AE guard stack, multiplicity, and oracles before Stage 4AF.
 - [x] Stage 4AF: pass the internal hard identity gate `tilde R_ww + R^chi_ww == R_ww[gamma]` against a separately constructed physical metric jet and the Stage 4G direct Ricci engine.
-- [ ] Stage 4AG: add true off-diagonal parity validation for `h_xz(-x,z) = -h_xz(x,z)`, or a Taylor/grid-level near-axis policy with documented tolerance.
+- [x] Stage 4AG: add paired two-sided off-diagonal parity validation for `h_xz(-x,z) = -h_xz(x,z)` with optional explicit axis data and validation-only tolerances.
 - [ ] Checkpoint D: review the Stage 4AF identity gate and Stage 4AG parity gate before Stage 4AH physical `R_ww[gamma]` assembly.
 - [ ] Stage 4AL: derive the `hat_Gamma^x` hidden-contraction convention and define a GL-growth/dispersion anchor before serious evolution claims.
 - [ ] Stage 4AQ: remove or replace the Stage 4D smoke-only hidden freeze before real hidden-sector RHS/evolution use.

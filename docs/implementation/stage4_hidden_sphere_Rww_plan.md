@@ -542,6 +542,8 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 - Stage 4AF: internal split-vs-direct identity gate using an explicitly
   differentiated physical metric jet, three baseline cases, and three
   nonsymmetric varying-`chi` cases with nonzero `W` second derivatives.
+- Stage 4AG: paired two-sided `h_xz` odd-parity validation with optional axis
+  data, one-to-one radius matching, and even `h_xz/x` checks.
 
 ## Future Stage Breakdown
 
@@ -554,8 +556,8 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 | Stage 4AD | `R^chi_ww` derivation lock and guard-stack design | Complete as documentation: locks `D_wD_w chi`, the full Laplacian with hidden multiplicity, the gradient norm, the need for checked `chi_x/x`, and Stage 4AE oracles |
 | Stage 4AE | Implement `R^chi_ww` | Complete as a local away-axis conformal-factor correction with checked `p_chi`, single-source inputs, hidden multiplicity, simple/nonsymmetric oracles, and one test-only Stage 4G difference comparison |
 | Stage 4AF | Hard split-vs-direct physical Ricci identity gate | Complete as an internal test-only gate: explicitly construct the `gamma=h/chi` first/second derivative jet and compare the split against Stage 4G at constant `chi`, linear `chi`, and three nonsymmetric varying-`chi` points |
-| Stage 4AG | True off-diagonal parity validation gate | Require a two-sided check `h_xz(-x,z) = -h_xz(x,z)`, a Taylor/coefficient check, or a grid-level near-axis policy with documented tolerance |
-| Stage 4AH | Assemble physical `R_ww[gamma]` | Blocked until Stages 4AF and 4AG pass |
+| Stage 4AG | True off-diagonal parity validation gate | Complete as a local paired-data gate: checks odd `h_xz`, optional axis zero, one-to-one `+x/-x` partners, and even `h_xz/x` without demanding a constant quotient |
+| Stage 4AH | Assemble physical `R_ww[gamma]` | Blocked on Checkpoint D / Claude Audit D after Stages 4AF and 4AG |
 | Stage 4AI | Place `R_ww` into the local Ricci/RHS contract | Local contract only; no live RHS |
 | Stage 4AJ | Hidden lapse Hessian `D_w D_w alpha` | Guard hidden/cartoon lapse terms before curvature/lapse source use |
 | Stage 4AK | Local `A_ww` curvature/lapse block | Local source block only, with sign convention gate satisfied |
@@ -585,9 +587,19 @@ checks constant `chi`, flat linear-`x` and linear-`z` `chi`, and three
 nonsymmetric varying-`chi` jets. All nonsymmetric cases have nonzero
 `W_x,W_z,W_xx,W_xz,W_zz`; one also verifies that nonzero second derivatives
 of `A,B,C` do not affect direct `R_ww`. Stage 4G is an internal project oracle,
-not external validation. Stage 4AG is next, and Checkpoint D remains pending
-until both the identity and true parity gates have been reviewed. Physical
+not external validation. Stage 4AG is implemented below, and Checkpoint D
+remains pending until both gates have been reviewed. Physical
 `R_ww[gamma]` production assembly remains Stage 4AH.
+
+Stage 4AG now supplies the concrete parity owner that Stage 4X lacked. The
+local validator consumes positive- and negative-coordinate samples, requires
+one-to-one matching radii, checks `h_xz(+x)+h_xz(-x)` and the evenness of
+`h_xz/x`, and checks `h_xz(0,z)=0` when an axis value is supplied. Smooth odd
+data `a x + b x^3` passes at multiple radii even though
+`h_xz/x = a + b x^2` is not constant; an `x^2` contamination fails. These are
+validation tolerances only, with no clamping or epsilon division. The gate
+does not establish full smoothness, finite-axis regularization, or parity of
+other fields. Checkpoint D / Claude Audit D remains required before Stage 4AH.
 
 Stage 4AL owns the high-risk `hat_Gamma^x` derivation lock. It must cover
 
@@ -610,7 +622,7 @@ evolution claims.
 | Conformal vs physical Ricci confusion | Stages 4W, 4AC-4AF | Keep `tilde{R}_ww[h]`, `R^chi_ww`, and `R_ww[gamma]` separate until the identity gate passes |
 | Raw/checked mismatch | Stage 4Y | Single-source input package for determinant data and checked singular ingredients |
 | Inconsistent reduced determinant policy | Checkpoint B / Stage 4Y | Stage 4Y now rejects finite negative `D`; all conformal `R_ww` pieces require finite positive reduced determinant |
-| False `h_xz` parity claim | Stages 4X, 4AG | Keep Stage 4X scoped to local `h_xz / x`; add true parity validation in Stage 4AG |
+| False `h_xz` parity claim | Stages 4X, 4AG | Stage 4X remains a local quotient; Stage 4AG now requires paired odd data and optional explicit axis-zero validation, retained as a regression gate |
 | Bypassing checked `W_x / x` | Stage 4Z and later gradient consumers | Stage 4Z provides checked `p_W = W_x / x`; later formulas must consume the checked package rather than loose raw quotient values |
 | Hessian complexity | Stages 4AA-4AB | Stage 4AA locks the formula, Christoffels, and verified nonsymmetric oracle; Stage 4AB may proceed only with that oracle in its test |
 | `R^chi_ww` singular hidden terms | Stages 4AD-4AE | Stage 4AE implements the dedicated checked `chi_x/x` guard stack and retains hidden multiplicity; Checkpoint C audits it before the Stage 4AF identity gate |

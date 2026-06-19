@@ -294,9 +294,11 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AF: pass the internal hard identity gate `tilde R_ww + R^chi_ww == R_ww[gamma]` at constant-`chi`, linear-`x`, linear-`z`, and three nonsymmetric varying-`chi` points.
 - [x] Stage 4AF: construct `gamma=h/chi` and its first/second derivative jet explicitly by product rules, then feed that already-physical jet to Stage 4G with `chi=1`.
 - [x] Stage 4AF: verify nonzero conformal base-metric second derivatives cancel from direct `R_ww`, and retain invalid-input rejection through the Stage 4AC/4AE factories.
-- [ ] Stage 4AG: add true off-diagonal parity validation for `h_xz(-x,z) = -h_xz(x,z)`, or a Taylor/coefficient or grid-level near-axis policy with documented tolerance.
+- [x] Stage 4AG: validate `h_xz(-x,z) = -h_xz(x,z)` from one-to-one paired two-sided samples and validate `h_xz(0,z)=0` when explicit axis data is supplied.
+- [x] Stage 4AG: verify `h_xz/x` is even across each pair while allowing the quotient to vary with radius, and reject even contamination, missing partners, invalid coordinates, and nonfinite data.
+- [x] Stage 4AG: keep tolerances validation-only; do not clamp, replace divisions by epsilon, or claim full smoothness/finite-axis regularity.
 - [ ] Checkpoint D: review Stage 4AF and Stage 4AG together before Stage 4AH; the internal identity gate alone does not authorize physical assembly or evolution use.
-- [ ] Stage 4AH: assemble physical `R_ww[gamma]` only after Stages 4AF and 4AG pass.
+- [ ] Stage 4AH: assemble physical `R_ww[gamma]` only after Checkpoint D reviews the passed Stage 4AF and 4AG gates.
 - [ ] Stage 4AI: place physical `R_ww` into the local Ricci/RHS contract without live RHS wiring.
 - [ ] Stage 4AJ: derive and guard the hidden lapse Hessian `D_w D_w alpha`.
 - [ ] Stage 4AK: implement the local `A_ww` curvature/lapse block after the sign-convention gate is satisfied.

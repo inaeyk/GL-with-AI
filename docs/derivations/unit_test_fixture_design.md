@@ -426,7 +426,18 @@ nonzero `B`, `chi_x`, `chi_z`, base first derivatives, and
 `W_x,W_z,W_xx,W_xz,W_zz`; one case carries nonzero `A,B,C` second derivatives
 and checks their cancellation explicitly. The tolerance is `1e-10`; observed
 identity residuals are at most about `4.44e-16`. Stage 4AG parity validation
-and Checkpoint D remain pending before physical assembly in Stage 4AH.
+is implemented below; Checkpoint D remains pending before Stage 4AH.
+
+### Stage 4AG `h_xz` Parity Fixture
+
+The Stage 4AG fixture validates a small paired near-axis stencil rather than a
+single away-axis quotient. It accepts smooth odd `a x+b x^3` data at multiple
+radii, confirms that the even quotient `a+b x^2` may vary with radius, and
+rejects even `x^2` contamination, nonzero supplied axis data, missing or
+mismatched partners, invalid coordinate signs, and nonfinite inputs. The
+validated token is non-aggregate and factory-only. This fixture does not test
+diagonal matching, `W_x` parity, `chi_x` parity, full smoothness, or finite-axis
+regularization. Checkpoint D remains required before Stage 4AH.
 
 These are not substitutes for unit tests. They catch coupled failures that
 small algebra tests cannot catch, and several require the future implementation
