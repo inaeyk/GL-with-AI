@@ -1059,6 +1059,17 @@ Defer all of the following beyond Stage 4A:
 | `hat_Gamma^x` hidden contraction under-tested by flat oracles | Connection/Gamma-driver sector and evolution claims | Stage 4AL | Derive hidden contraction and hatted convention, then anchor with GL growth/dispersion rather than Pau's code |
 | Curvature/lapse sign inconsistent with initial-data `K_IJ` convention | `A_IJ` source block | Stage 3A and future sign gate | Check `partial_t gamma_IJ = -2 alpha K_IJ + L_beta gamma_IJ` against `-D_I D_J alpha + alpha R_IJ` before RHS wiring |
 
+## Stage 4AF Status
+
+The local test-only Stage 4AF gate now verifies
+`tilde R_ww[h] + R^chi_ww = R_ww[gamma]` against Stage 4G using an explicitly
+constructed physical metric jet. Six identity points are covered: constant
+`chi`, two flat linear-`chi` cases, and three nonsymmetric varying-`chi` jets
+with nonzero `W` first/second derivatives. One direct-engine regression also
+confirms cancellation of nonzero `A,B,C` second derivatives from `R_ww`.
+No production physical-Ricci assembler or RHS/evolution path was added.
+Stage 4AG and Checkpoint D are next.
+
 ## Acceptance Criteria
 
 Stage 3K is complete when:

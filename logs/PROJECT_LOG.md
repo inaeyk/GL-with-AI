@@ -524,3 +524,19 @@ Category: 🟡 Physics + Code
   Stage 4G physical-minus-Stage 4AC conformal comparison passes for the
   nonsymmetric sample. This is not the general Stage 4AF hard identity gate;
   Checkpoint C / Claude Audit C is required before 4AF.
+
+## 2026-06-19 - Stage 4AF Internal Split-Vs-Direct Identity Gate
+
+Category: Physics + Code
+
+- Added a local test-only hard gate for
+  `tilde R_ww[h] + R^chi_ww = R_ww[gamma]`. The direct side explicitly forms
+  the physical metric jet from `gamma=h/chi` through the full first/second
+  product rules, then supplies it to Stage 4G with `chi=1`.
+- The gate passes constant `chi`, flat linear-`x` and linear-`z` `chi`, and
+  three nonsymmetric varying-`chi` points with nonzero
+  `W_x,W_z,W_xx,W_xz,W_zz`. Maximum observed split/direct residual is about
+  `4.44e-16`; a separate check confirms `A,B,C` second derivatives cancel
+  from direct `R_ww`.
+- This is internal validation, not external validation or production physical
+  assembly. Stage 4AG is next and Checkpoint D remains pending before 4AH.

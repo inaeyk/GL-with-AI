@@ -415,6 +415,19 @@ and no global parity or finite-axis regularity proof.
 
 ## Integration, Reference, And Convergence Tests
 
+### Stage 4AF Split-Vs-Direct Identity Fixture
+
+The Stage 4AF fixture is an internal hard gate, not external validation. It
+compares the Stage 4AC plus Stage 4AE split with Stage 4G after independently
+constructing `gamma=h/chi`, `gamma_i`, and `gamma_ij`. Required coverage is
+now locked as constant `chi`, flat linear-`x` and linear-`z` `chi`, and three
+distinct nonsymmetric varying-`chi` points. Every nonsymmetric point has
+nonzero `B`, `chi_x`, `chi_z`, base first derivatives, and
+`W_x,W_z,W_xx,W_xz,W_zz`; one case carries nonzero `A,B,C` second derivatives
+and checks their cancellation explicitly. The tolerance is `1e-10`; observed
+identity residuals are at most about `4.44e-16`. Stage 4AG parity validation
+and Checkpoint D remain pending before physical assembly in Stage 4AH.
+
 These are not substitutes for unit tests. They catch coupled failures that
 small algebra tests cannot catch, and several require the future implementation
 or external/reference-code comparison.

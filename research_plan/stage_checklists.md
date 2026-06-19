@@ -290,9 +290,12 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AE: implement only the reviewed local away-axis `R^chi_ww` correction through a single-source non-forgeable input package.
 - [x] Stage 4AE: add checked `p_chi=chi_x/x`, reuse checked `q_xz` and `p_W`, and retain hidden multiplicity `(2/W)D_wD_w chi`.
 - [x] Stage 4AE: test constant `chi`, linear-`x`, linear-`z`, and nonsymmetric oracles plus invalid input rejection and a test-only Stage 4G difference comparison.
-- [ ] Checkpoint C / Claude Audit C: review Stage 4AE before Stage 4AF.
-- [ ] Stage 4AF: pass the hard identity gate `tilde R_ww + R^chi_ww == R_ww[gamma]` against direct physical Ricci with varying `chi`.
+- [x] Checkpoint C / Claude Audit C: review Stage 4AE before Stage 4AF; require several nonsymmetric varying-`chi` points with nonzero `W` second derivatives rather than reusing only the Stage 4AE single-point comparison.
+- [x] Stage 4AF: pass the internal hard identity gate `tilde R_ww + R^chi_ww == R_ww[gamma]` at constant-`chi`, linear-`x`, linear-`z`, and three nonsymmetric varying-`chi` points.
+- [x] Stage 4AF: construct `gamma=h/chi` and its first/second derivative jet explicitly by product rules, then feed that already-physical jet to Stage 4G with `chi=1`.
+- [x] Stage 4AF: verify nonzero conformal base-metric second derivatives cancel from direct `R_ww`, and retain invalid-input rejection through the Stage 4AC/4AE factories.
 - [ ] Stage 4AG: add true off-diagonal parity validation for `h_xz(-x,z) = -h_xz(x,z)`, or a Taylor/coefficient or grid-level near-axis policy with documented tolerance.
+- [ ] Checkpoint D: review Stage 4AF and Stage 4AG together before Stage 4AH; the internal identity gate alone does not authorize physical assembly or evolution use.
 - [ ] Stage 4AH: assemble physical `R_ww[gamma]` only after Stages 4AF and 4AG pass.
 - [ ] Stage 4AI: place physical `R_ww` into the local Ricci/RHS contract without live RHS wiring.
 - [ ] Stage 4AJ: derive and guard the hidden lapse Hessian `D_w D_w alpha`.

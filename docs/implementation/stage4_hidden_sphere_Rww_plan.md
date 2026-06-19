@@ -539,6 +539,9 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 - Stage 4AE: local away-axis `R^chi_ww` implementation with checked
   `chi_x/x`, single-source inputs, hidden multiplicity, locked simple and
   nonsymmetric oracles, and a test-only Stage 4G difference comparison.
+- Stage 4AF: internal split-vs-direct identity gate using an explicitly
+  differentiated physical metric jet, three baseline cases, and three
+  nonsymmetric varying-`chi` cases with nonzero `W` second derivatives.
 
 ## Future Stage Breakdown
 
@@ -550,7 +553,7 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 | Stage 4AC | Assemble conformal `tilde{R}_ww[h]` | Complete as a local away-axis conformal-only assembly of reviewed Stage 4Y/4Z/4AB sub-blocks; still not physical `R_ww[gamma]` |
 | Stage 4AD | `R^chi_ww` derivation lock and guard-stack design | Complete as documentation: locks `D_wD_w chi`, the full Laplacian with hidden multiplicity, the gradient norm, the need for checked `chi_x/x`, and Stage 4AE oracles |
 | Stage 4AE | Implement `R^chi_ww` | Complete as a local away-axis conformal-factor correction with checked `p_chi`, single-source inputs, hidden multiplicity, simple/nonsymmetric oracles, and one test-only Stage 4G difference comparison |
-| Stage 4AF | Hard split-vs-direct physical Ricci identity gate | Validate `tilde{R}_ww + R^chi_ww == R_ww[gamma]` against direct physical Ricci, including varying `chi` |
+| Stage 4AF | Hard split-vs-direct physical Ricci identity gate | Complete as an internal test-only gate: explicitly construct the `gamma=h/chi` first/second derivative jet and compare the split against Stage 4G at constant `chi`, linear `chi`, and three nonsymmetric varying-`chi` points |
 | Stage 4AG | True off-diagonal parity validation gate | Require a two-sided check `h_xz(-x,z) = -h_xz(x,z)`, a Taylor/coefficient check, or a grid-level near-axis policy with documented tolerance |
 | Stage 4AH | Assemble physical `R_ww[gamma]` | Blocked until Stages 4AF and 4AG pass |
 | Stage 4AI | Place `R_ww` into the local Ricci/RHS contract | Local contract only; no live RHS |
@@ -569,6 +572,22 @@ checked local `h_xz / x` ingredient; it does not prove global parity or the
 analytic statement `h_xz = O(x)`. Without Stage 4AG, the code may have correct
 away-axis local formulas while still lacking a validated global
 axis-regularity assumption for `h_xz`.
+
+Stage 4AF now passes only the internal hard identity
+
+```text
+tilde R_ww[h] + R^chi_ww = R_ww[gamma].
+```
+
+The gate constructs `gamma = h / chi` and its first and second derivatives
+explicitly, feeds that already-physical jet to Stage 4G with `chi=1`, and
+checks constant `chi`, flat linear-`x` and linear-`z` `chi`, and three
+nonsymmetric varying-`chi` jets. All nonsymmetric cases have nonzero
+`W_x,W_z,W_xx,W_xz,W_zz`; one also verifies that nonzero second derivatives
+of `A,B,C` do not affect direct `R_ww`. Stage 4G is an internal project oracle,
+not external validation. Stage 4AG is next, and Checkpoint D remains pending
+until both the identity and true parity gates have been reviewed. Physical
+`R_ww[gamma]` production assembly remains Stage 4AH.
 
 Stage 4AL owns the high-risk `hat_Gamma^x` derivation lock. It must cover
 
@@ -595,7 +614,7 @@ evolution claims.
 | Bypassing checked `W_x / x` | Stage 4Z and later gradient consumers | Stage 4Z provides checked `p_W = W_x / x`; later formulas must consume the checked package rather than loose raw quotient values |
 | Hessian complexity | Stages 4AA-4AB | Stage 4AA locks the formula, Christoffels, and verified nonsymmetric oracle; Stage 4AB may proceed only with that oracle in its test |
 | `R^chi_ww` singular hidden terms | Stages 4AD-4AE | Stage 4AE implements the dedicated checked `chi_x/x` guard stack and retains hidden multiplicity; Checkpoint C audits it before the Stage 4AF identity gate |
-| Hard identity gate not yet passed | Stage 4AF | Direct physical Ricci comparison with varying `chi` |
+| Hard identity gate regression | Stage 4AF | Keep the six-point split-vs-direct fixture, explicit physical-jet product rules, nonzero `W` second derivatives, and base-second-derivative cancellation check |
 | `hat_Gamma^x` hidden contraction | Stages 4AL-4AM | Derive hidden contraction and hatted convention; use GL-growth/dispersion anchor |
 | Sign-convention consistency between initial data and RHS | Sign gate before 4AK | Check against the Stage 3A `K_IJ` convention and CCZ4 curvature/lapse sign |
 | Smoke-only hidden freeze enters physics path | Stage 4AQ | Remove or replace `scaffold_freeze_hidden` before real hidden-sector RHS |

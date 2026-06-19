@@ -677,3 +677,35 @@ Stage 4Y now rejects `D <= 0` instead of accepting finite negative
 determinants. The singular, gradient, Hessian, and Stage 4AC assembly paths
 therefore all require finite positive `D = AC - B^2` before evaluating their
 conformal `R_ww` formulas.
+
+## Stage 4AF Internal Split-Vs-Direct Gate
+
+Stage 4AF locks the internal away-axis identity
+
+```text
+tilde R_ww[h] + R^chi_ww = R_ww[gamma],  gamma = chi^{-1} h.
+```
+
+The direct side does not ask Stage 4G to repeat the conformal split. The test
+forms the physical metric jet explicitly:
+
+```text
+gamma_i = h_i / chi - h chi_i / chi^2,
+
+gamma_ij = h_ij / chi
+         - (h_i chi_j + h_j chi_i + h chi_ij) / chi^2
+         + 2 h chi_i chi_j / chi^3.
+```
+
+It then supplies `(gamma,gamma_i,gamma_ij)` to Stage 4G as the metric with
+`chi=1`. The gate covers constant `chi`, flat conformal data with linear
+`chi(x)` and linear `chi(z)`, and three distinct nonsymmetric varying-`chi`
+jets with nonzero first derivatives of `A,B,C`, nonzero `B`, and nonzero
+`W_x,W_z,W_xx,W_xz,W_zz`. A separate regression confirms that nonzero second
+derivatives of `A,B,C` cancel from direct `R_ww`.
+
+This is an internal identity gate against the project's Stage 4G engine, not
+external validation and not a production physical-`R_ww` assembler. Stage
+4AG still owns true parity/near-axis validation, Stage 4AH owns production
+physical assembly, and RHS/evolution remain unimplemented. Checkpoint D stays
+pending until Stage 4AG also passes.

@@ -422,6 +422,17 @@ physical-minus-conformal comparison. This is not physical `R_ww[gamma]` or
 the Stage 4AF identity gate. Checkpoint C / Claude Audit C is required before
 4AF.
 
+## Stage 4AF Identity-Gate Status
+
+Stage 4AF passes the internal local identity
+`tilde R_ww[h] + R^chi_ww = R_ww[gamma]`. The test constructs the physical
+metric jet independently from `gamma=h/chi`, including all first/second
+product-rule terms, and supplies that already-physical jet to Stage 4G with
+`chi=1`. It covers constant `chi`, flat linear-`x` and linear-`z` `chi`, and
+three nonsymmetric varying-`chi` points with nonzero hidden-metric second
+derivatives. This gate does not place physical `R_ww` into the RHS contract.
+Stage 4AG parity validation and Checkpoint D remain required before Stage 4AH.
+
 ## Non-goals
 
 Stage 4H does not:
