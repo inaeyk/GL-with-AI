@@ -73,32 +73,36 @@
 - [x] Review Stage 4C hidden-variable enum placement and header-level assertions before Stage 4D planning.
 - [x] Stage 4D: add finite smoke-only scaffold support for `hww/Aww` behind the default-off `scaffold_freeze_hidden` parameter.
 - [x] Stage 4D: keep the temporary `hww/Aww` freeze narrow; do not claim physical evolution correctness or implement cartoon Ricci/RHS terms.
-- [ ] Stage 4E: review the first grid-to-helper handoff diagnostic and distinct-value mapping fixture.
-- [ ] Stage 4F: review the cartoon Ricci helper interface before any Ricci formulas are implemented.
-- [ ] Stage 4G: review the first local metric-derivative cartoon Ricci helper and standalone nonzero-oracle fixture.
-- [ ] Stage 4H: review the Ricci/RHS compatibility decision note.
-- [ ] Stage 4I: review the typed Ricci bridge contract and `451` trace-oracle fixture before any RHS wiring.
-- [ ] Stage 4I review follow-up: confirm the opaque cartoon Ricci result and bridge-only RHS-facing access pattern before any RHS wiring.
-- [ ] Stage 4J: review the local Ricci-to-RHS contract and standalone `451` trace-oracle fixture before any RHS source formulas or evolution wiring.
-- [ ] Stage 4K: review the local RHS source-block skeleton before any real source formulas, grid reads, or evolution wiring.
-- [ ] Stage 4L: review the local trace-free Ricci projection block before any additional RHS source formulas, grid reads, or evolution wiring.
-- [ ] Stage 4M: review the named away-axis policy before adding explicit `1/x` or `1/x^2` RHS source terms.
-- [ ] Stage 4N: review guarded singular-combination helpers before using them in any RHS/Ricci source block.
-- [ ] Stage 4O: review the away-axis-only regime semantics and separate `1/x^2` primitive before real singular source terms are added.
-- [ ] Stage 4P: review that raw cartoon geometry primitives expose only low-risk away-axis values before source-block use.
-- [ ] Stage 4Q: review the local `hxx - hww = O(x^2)` matching guard before using it near the axis in source blocks.
-- [ ] Stage 4R: review the regularity-guarded local source sub-block as the required path for `(hxx - hww) / x^2` before any real Ricci/RHS formula uses it.
-- [ ] Stage 4S: review the checked-by-construction local RHS source-block integration carrying the Stage 4R guarded geometry package before any real source formula consumes it.
-- [ ] Stage 4T: review the guarded diagnostic consumer before adding any real Ricci/RHS source formula using the checked package.
-- [ ] Stage 4U: review the source-formula authoring gate before any real source formula uses regularity-sensitive geometry.
-- [ ] Stage 4V follow-up: derive or extract the first real source-formula sub-expression that consumes the Stage 4U authoring-gate input, including its coefficient/sign convention and a hard-coded oracle, before adding code.
-- [ ] Stage 4W review: confirm the hidden-sphere `R_ww` derivation target and the needed local `h_xz / x` ingredient before any `R_ww` implementation.
-- [ ] Stage 4W review patch: cross-check the documented `R^chi_ww` conformal Ricci correction and varying-`chi` oracle against standard BSSN/CCZ4 conformal-Ricci formulas before implementation.
-- [ ] Stage 4W review patch: pin the `A_IJ` curvature/lapse sign against the published CCZ4/BSSN formulation and the Stage 3A `K_IJ` convention caveat.
-- [ ] Stage 4X: review the checked off-diagonal `h_xz / x` ingredient before implementing `R_ww`.
-- [ ] Stage 4Y: review the first guarded conformal `R_ww` singular-gradient sub-block before expanding toward full `tilde R_ww`.
-- [ ] Stage 4Y review patch: confirm the single-source input package closes the raw determinant / checked singular ingredient consistency hole before expanding toward more `tilde R_ww` sub-blocks.
-- [ ] Future validation stage: add a grid-level or two-sided off-diagonal parity validation for `h_xz(-x,z) = -h_xz(x,z)`, or a documented near-axis tolerance policy, before claiming global axis regularity.
+- [x] Stage 4E: review the first grid-to-helper handoff diagnostic and distinct-value mapping fixture.
+- [x] Stage 4F: review the cartoon Ricci helper interface before any Ricci formulas are implemented.
+- [x] Stage 4G: review the first local metric-derivative cartoon Ricci helper and standalone nonzero-oracle fixture.
+- [x] Stage 4H: review the Ricci/RHS compatibility decision note.
+- [x] Stage 4I: review the typed Ricci bridge contract and `451` trace-oracle fixture before any RHS wiring.
+- [x] Stage 4I review follow-up: confirm the opaque cartoon Ricci result and bridge-only RHS-facing access pattern before any RHS wiring.
+- [x] Stage 4J: review the local Ricci-to-RHS contract and standalone `451` trace-oracle fixture before any RHS source formulas or evolution wiring.
+- [x] Stage 4K: review the local RHS source-block skeleton before any real source formulas, grid reads, or evolution wiring.
+- [x] Stage 4L: review the local trace-free Ricci projection block before any additional RHS source formulas, grid reads, or evolution wiring.
+- [x] Stage 4M: review the named away-axis policy before adding explicit `1/x` or `1/x^2` RHS source terms.
+- [x] Stage 4N: review guarded singular-combination helpers before using them in any RHS/Ricci source block.
+- [x] Stage 4O: review the away-axis-only regime semantics and separate `1/x^2` primitive before real singular source terms are added.
+- [x] Stage 4P: review that raw cartoon geometry primitives expose only low-risk away-axis values before source-block use.
+- [x] Stage 4Q: review the local `hxx - hww = O(x^2)` matching guard before using it near the axis in source blocks.
+- [x] Stage 4R: review the regularity-guarded local source sub-block as the required path for `(hxx - hww) / x^2` before any real Ricci/RHS formula uses it.
+- [x] Stage 4S: review the checked-by-construction local RHS source-block integration carrying the Stage 4R guarded geometry package before any real source formula consumes it.
+- [x] Stage 4T: review the guarded diagnostic consumer before adding any real Ricci/RHS source formula using the checked package.
+- [x] Stage 4U: review the source-formula authoring gate before any real source formula uses regularity-sensitive geometry.
+- [x] Stage 4V: document that no source formula is allowed until a real sub-expression, coefficient/sign convention, and hard-coded oracle are derived.
+- [x] Stage 4W review: confirm the hidden-sphere `R_ww` derivation target and the needed local `h_xz / x` ingredient before any `R_ww` implementation.
+- [x] Stage 4W review patch: document the conformal/physical split, varying-`chi` oracle target, and internal Stage 3A sign-convention dependency.
+- [x] Stage 4X: review the checked local off-diagonal `h_xz / x` ingredient; keep it scoped as an ingredient, not a parity proof.
+- [x] Stage 4Y: review the first guarded conformal `R_ww` singular-gradient sub-block before expanding toward full `tilde R_ww`.
+- [x] Stage 4Y review patch: confirm the single-source input package closes the raw determinant / checked singular ingredient consistency hole before expanding toward more `tilde R_ww` sub-blocks.
+- [ ] Stage 4Z: add checked `W_x/x` ingredient and the reviewed `G^grad_ww` conformal hidden Ricci block.
+- [ ] Stage 4AD: derive `R^chi_ww` and design its hidden/cartoon singular guard stack before implementation.
+- [ ] Stage 4AF: add the hard identity gate `tilde R_ww + R^chi_ww == R_ww[gamma]` against direct physical Ricci with varying `chi`.
+- [ ] Stage 4AG: add true off-diagonal parity validation for `h_xz(-x,z) = -h_xz(x,z)`, or a Taylor/grid-level near-axis policy with documented tolerance.
+- [ ] Stage 4AL: derive the `hat_Gamma^x` hidden-contraction convention and define a GL-growth/dispersion anchor before serious evolution claims.
+- [ ] Stage 4AQ: remove or replace the Stage 4D smoke-only hidden freeze before real hidden-sector RHS/evolution use.
 - [ ] Future review/lint gate: mechanically flag source-formula recomputation of `(hxx - hww) / x^2` outside `RegularityGuardedGeometrySources` / the Stage 4U authoring gate.
 
 ## Later

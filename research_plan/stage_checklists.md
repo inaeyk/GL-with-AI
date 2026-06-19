@@ -264,7 +264,26 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4Y review patch: single-source checked `Delta_xw`, checked `q_xz`, and raw determinant data from one local metric point through a non-forgeable input package.
 - [x] Stage 4Y: test flat, constant-cone, and distinct-value oracles plus checked-input and determinant rejection cases.
 - [x] Stage 4Y: do not implement full `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS, grid reads, or evolution wiring.
-- [ ] Future validation stage: add a grid-level or two-sided off-diagonal parity validation for `h_xz(-x,z) = -h_xz(x,z)`, or a documented near-axis tolerance policy, before claiming global axis regularity.
+- [x] Stage 4 hidden-sphere Ricci roadmap: integrate the completed Stage 4W-4Y path and the future hard gates in `docs/implementation/stage4_hidden_sphere_Rww_plan.md`.
+- [ ] Stage 4Z: add a checked `W_x / x` ingredient and implement only the reviewed `G^grad_ww` conformal hidden Ricci gradient block.
+- [ ] Stage 4AA: lock the Hessian block derivation, coefficients, sign convention, and oracle before code.
+- [ ] Stage 4AB: implement only the reviewed conformal Hessian sub-block with local guards.
+- [ ] Stage 4AC: assemble conformal `tilde R_ww[h]` from reviewed sub-blocks; do not claim physical `R_ww[gamma]`.
+- [ ] Stage 4AD: derive `R^chi_ww` and design its own hidden/cartoon singular guard stack before implementation.
+- [ ] Stage 4AE: implement only the reviewed `R^chi_ww` local correction.
+- [ ] Stage 4AF: pass the hard identity gate `tilde R_ww + R^chi_ww == R_ww[gamma]` against direct physical Ricci with varying `chi`.
+- [ ] Stage 4AG: add true off-diagonal parity validation for `h_xz(-x,z) = -h_xz(x,z)`, or a Taylor/coefficient or grid-level near-axis policy with documented tolerance.
+- [ ] Stage 4AH: assemble physical `R_ww[gamma]` only after Stages 4AF and 4AG pass.
+- [ ] Stage 4AI: place physical `R_ww` into the local Ricci/RHS contract without live RHS wiring.
+- [ ] Stage 4AJ: derive and guard the hidden lapse Hessian `D_w D_w alpha`.
+- [ ] Stage 4AK: implement the local `A_ww` curvature/lapse block after the sign-convention gate is satisfied.
+- [ ] Stage 4AL: lock the `hat_Gamma^x` hidden-contraction derivation and define a GL-growth/dispersion anchor.
+- [ ] Stage 4AM: add local `hat_Gamma^x` implementation/contract tests.
+- [ ] Stage 4AN: build the local trace-free curvature/lapse block for all components.
+- [ ] Stage 4AO: integrate reviewed local RHS source blocks without evolution wiring.
+- [ ] Stage 4AP: add evolution-level wiring only behind an explicit default-off parameter after local gates pass.
+- [ ] Stage 4AQ: remove or replace the smoke-only hidden freeze before any real hidden-sector RHS/evolution path is used.
+- [ ] Stage 4AR: perform Stage 4 exit review before any Stage 5/Pau diagnostic reproduction.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.

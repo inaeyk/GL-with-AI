@@ -379,3 +379,14 @@ Category: 🟡 Physics + Code
   more of `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4
   RHS, grid reads, finite-axis regularization, global parity validation, or
   evolution wiring.
+
+Category: 🟡 Physics + Code
+
+- Integrated the Stage 4 hidden-sphere Ricci roadmap in
+  `docs/implementation/stage4_hidden_sphere_Rww_plan.md`. The plan records the
+  protected 4D cartoon conventions, hidden-sphere CCZ4 contribution map,
+  conformal/physical Ricci split, Stage 4Y singular block, future `W_x/x`
+  gradient block, Hessian block, `R^chi_ww` guard-stack requirement, hard
+  split-vs-direct physical Ricci identity gate, true `h_xz` parity validation
+  owner, `hat_Gamma^x` derivation/GL-growth anchor stages, and smoke-freeze
+  removal. No code, tests, RHS wiring, or evolution path was added.

@@ -320,6 +320,13 @@ finite nonzero reduced determinant `D = h_xx h_zz - h_xz^2`, but it does not
 implement full `tilde{R}_ww[h]`, `R^chi_ww`, physical
 `R_ww[gamma]`, full Ricci, CCZ4 RHS, grid reads, or evolution wiring.
 
+The integrated hidden-sphere Ricci roadmap is
+`docs/implementation/stage4_hidden_sphere_Rww_plan.md`. It keeps physical
+`R_ww[gamma]` blocked until the conformal sub-blocks, `R^chi_ww`, a
+split-vs-direct physical Ricci identity test, and true `h_xz` parity
+validation are complete. It also assigns concrete future ownership for the
+high-risk `hat_Gamma^x` hidden contraction and GL-growth/dispersion anchor.
+
 ## Non-goals
 
 Stage 4H does not:

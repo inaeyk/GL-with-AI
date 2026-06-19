@@ -438,6 +438,12 @@ checked path. Stage 4Y is still not full `tilde{R}_ww[h]`, not `R^chi_ww`,
 not physical `R_ww[gamma]`, not full Ricci, not CCZ4 RHS, and not evolution
 wiring.
 
+The integrated roadmap for the remaining hidden-sphere Ricci and CCZ4 gates is
+`docs/implementation/stage4_hidden_sphere_Rww_plan.md`. It assigns concrete
+future ownership for checked `W_x/x`, the Hessian block, `R^chi_ww`, the hard
+split-vs-direct physical Ricci identity gate, true `h_xz` parity validation,
+`hat_Gamma^x`, and smoke-freeze removal.
+
 The next coding stage after Stage 4Y should remain separately reviewed before
 expanding toward the physical `R_ww[gamma]` target:
 
