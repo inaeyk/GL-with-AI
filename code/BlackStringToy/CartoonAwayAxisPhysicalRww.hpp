@@ -31,14 +31,21 @@ class AwayAxisPhysicalRww
     double conformal_part() const { return m_conformal_part; }
     double conformal_factor_part() const { return m_conformal_factor_part; }
     double physical_rww() const { return m_physical_rww; }
+    double chi() const { return m_chi; }
+    double conformal_hww_inverse() const
+    {
+        return m_conformal_hww_inverse;
+    }
 
   private:
     AwayAxisPhysicalRww(const double conformal_part,
                         const double conformal_factor_part,
-                        const double physical_rww)
+                        const double physical_rww, const double chi,
+                        const double conformal_hww_inverse)
         : m_conformal_part(conformal_part),
           m_conformal_factor_part(conformal_factor_part),
-          m_physical_rww(physical_rww)
+          m_physical_rww(physical_rww), m_chi(chi),
+          m_conformal_hww_inverse(conformal_hww_inverse)
     {
     }
 
@@ -48,6 +55,8 @@ class AwayAxisPhysicalRww
     double m_conformal_part;
     double m_conformal_factor_part;
     double m_physical_rww;
+    double m_chi;
+    double m_conformal_hww_inverse;
 };
 
 class AwayAxisPhysicalRwwInputs
@@ -56,9 +65,11 @@ class AwayAxisPhysicalRwwInputs
     AwayAxisPhysicalRwwInputs(
         const CartoonConformalRww::ConformalRwwInputs &conformal_inputs,
         const CartoonConformalFactorRww::ConformalFactorRwwInputs
-            &conformal_factor_inputs)
+            &conformal_factor_inputs,
+        const double chi, const double conformal_hww_inverse)
         : m_conformal_inputs(conformal_inputs),
-          m_conformal_factor_inputs(conformal_factor_inputs)
+          m_conformal_factor_inputs(conformal_factor_inputs), m_chi(chi),
+          m_conformal_hww_inverse(conformal_hww_inverse)
     {
     }
 
@@ -76,6 +87,8 @@ class AwayAxisPhysicalRwwInputs
     CartoonConformalRww::ConformalRwwInputs m_conformal_inputs;
     CartoonConformalFactorRww::ConformalFactorRwwInputs
         m_conformal_factor_inputs;
+    double m_chi;
+    double m_conformal_hww_inverse;
 };
 
 inline AwayAxisPhysicalRwwInputs make_away_axis_physical_rww_inputs(
@@ -100,9 +113,16 @@ inline AwayAxisPhysicalRwwInputs make_away_axis_physical_rww_inputs(
             d_x_h_xz, d_z_h_xz, d_x_h_zz, d_z_h_zz, d_x_h_ww,
             d_z_h_ww, d_x_chi, d_z_chi, d_xx_chi, d_xz_chi,
             d_zz_chi);
+    const double conformal_hww_inverse = 1.0 / h_ww;
+    if (!std::isfinite(conformal_hww_inverse))
+    {
+        throw std::domain_error(
+            "CartoonAwayAxisPhysicalRww requires finite 1 / h_ww");
+    }
 
     return AwayAxisPhysicalRwwInputs(conformal_inputs,
-                                     conformal_factor_inputs);
+                                     conformal_factor_inputs, chi,
+                                     conformal_hww_inverse);
 }
 
 inline AwayAxisPhysicalRww compute_away_axis_physical_rww(
@@ -122,7 +142,8 @@ inline AwayAxisPhysicalRww compute_away_axis_physical_rww(
             "CartoonAwayAxisPhysicalRww produced a nonfinite local result");
     }
     return AwayAxisPhysicalRww(conformal_part, conformal_factor_part,
-                               physical_rww);
+                               physical_rww, inputs.m_chi,
+                               inputs.m_conformal_hww_inverse);
 }
 
 } // namespace CartoonAwayAxisPhysicalRww

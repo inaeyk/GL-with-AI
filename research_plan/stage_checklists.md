@@ -301,7 +301,10 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AH: assemble local away-axis physical `R_ww[gamma]` from Stage 4AC plus Stage 4AE through a factory that single-sources both packages from one metric/conformal-factor jet.
 - [x] Stage 4AH: expose conformal, conformal-factor, and physical parts while keeping finite-axis, grid parity/matching, RHS, and evolution flags false.
 - [x] Stage 4AH: test flat, constant-cone, linear-`x`/linear-`z` conformal-factor, nonsymmetric direct-Stage-4G, and invalid-input cases.
-- [ ] Stage 4AI: place physical `R_ww` into the local Ricci/RHS contract without live RHS wiring.
+- [x] Stage 4AI: place physical `R_ww[gamma]` into a typed local hidden Ricci/RHS contribution contract that accepts only the Stage 4AH result.
+- [x] Stage 4AI: compute `2 h^ww R_ww[gamma]` and `chi 2 h^ww R_ww[gamma]` with hidden multiplicity two and same-point `chi` / `1/h_ww` data.
+- [x] Stage 4AI: test flat, cone, linear-`x`, and nonsymmetric cases, non-aggregate result types, and rejection of a loose raw `R_ww` call shape.
+- [ ] Checkpoint E / Claude Audit E: review the Stage 4AI physical-object boundary, hidden multiplicity, and conformal-versus-physical contraction factors before Stage 4AJ.
 - [ ] Stage 4AJ: derive and guard the hidden lapse Hessian `D_w D_w alpha`.
 - [ ] Stage 4AK: implement the local `A_ww` curvature/lapse block after the sign-convention gate is satisfied.
 - [ ] Stage 4AL: lock the `hat_Gamma^x` hidden-contraction derivation and define a GL-growth/dispersion anchor.

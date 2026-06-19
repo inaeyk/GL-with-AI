@@ -747,4 +747,26 @@ part, conformal-factor part, and sum.
 This is local away-axis assembly only. The Stage 4AG fixture does not establish
 that actual grid data obeys `h_xz` parity. Grid `h_xx-h_ww` matching, `W_x`
 parity, `chi_x` parity, finite-axis evaluation, RHS, and evolution remain
-unimplemented. Stage 4AI owns the next local contract step.
+unimplemented.
+
+## Stage 4AI Local Physical-`R_ww` Contract
+
+Stage 4AI consumes only the non-forgeable Stage 4AH physical result and forms
+the hidden `ww` contributions
+
+```text
+hidden_conformal_trace = 2 (1 / h_ww) R_ww[gamma],
+hidden_physical_scalar_contribution =
+    chi * hidden_conformal_trace.
+```
+
+The factor `2` is the hidden-direction multiplicity. The Stage 4AH result now
+carries the same-point `chi` and conformal `h^ww = 1/h_ww`, preventing a
+caller from pairing physical `R_ww[gamma]` with metric data from another
+point. The contract does not accept conformal `tilde R_ww`, `R^chi_ww`, or a
+loose raw `R_ww` value.
+
+This remains local and away-axis only. It is not the full Ricci scalar, not a
+full CCZ4 RHS, and not grid or evolution wiring. Actual-grid parity and
+matching checks, `W_x` and `chi_x` regularity, and finite-axis evaluation
+remain open. Checkpoint E / Claude Audit E is required before Stage 4AJ.

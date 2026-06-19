@@ -570,3 +570,17 @@ Category: Physics + Code
   about `4.44e-16`.
 - This is away-axis local assembly only. Actual-grid parity/matching, finite
   axis, grid reads, RHS, and evolution remain false. Stage 4AI is next.
+
+## 2026-06-19 - Stage 4AI Local Physical-`R_ww` Contract
+
+Category: Physics + Code
+
+- Extended the Stage 4AH result with same-point `chi` and conformal
+  `h^ww=1/h_ww`, retained behind its non-forgeable factory.
+- Added `CartoonPhysicalRwwRhsContract.hpp`, which accepts only the Stage 4AH
+  physical result and computes `2 h^ww R_ww[gamma]` plus
+  `chi 2 h^ww R_ww[gamma]`.
+- The standalone fixture passes flat, cone, linear-`x`, and nonsymmetric
+  checks and compile-time type-boundary checks. This is not full Ricci, live
+  RHS, grid validation, finite-axis support, or evolution. Checkpoint E /
+  Claude Audit E is required before Stage 4AJ.

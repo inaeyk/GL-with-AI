@@ -444,9 +444,17 @@ Stage 4AH.
 Stage 4AH now provides only a local away-axis physical `R_ww[gamma]` value.
 Its single-source factory creates both the Stage 4AC and Stage 4AE inputs from
 one raw local jet and returns the named conformal part, correction part, and
-sum. It is not yet placed into this Ricci/RHS contract. Actual-grid parity and
-matching checks, finite-axis evaluation, grid reads, RHS, and evolution remain
-false. Stage 4AI owns the contract placement.
+sum.
+
+Stage 4AI places only that Stage 4AH physical result into
+`CartoonPhysicalRwwRhsContract.hpp`. The typed boundary computes
+`2 h^ww R_ww[gamma]` and `chi 2 h^ww R_ww[gamma]`, where the same-point
+`chi` and `h^ww=1/h_ww` are carried by the non-forgeable Stage 4AH result.
+A loose raw `R_ww` double, conformal `tilde R_ww`, or `R^chi_ww` cannot be
+passed directly. This is still only a local hidden contribution contract, not
+the full Ricci scalar or a live RHS. Actual-grid parity/matching checks,
+finite-axis evaluation, grid reads, RHS, and evolution remain false.
+Checkpoint E / Claude Audit E is required before Stage 4AJ.
 
 ## Non-goals
 

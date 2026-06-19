@@ -1010,6 +1010,8 @@ abstraction if a local GRChombo pattern already exists.
 | Conformal Rww Hessian sub-block | Stage 4AB fixture proving the Hessian formula, single-source metric/derivative inputs, flat/cone/nonconstant-`W`/verified nonsymmetric oracles, test-only conformal sum, rejection cases, and no full Ricci/RHS/evolution |
 | Conformal Rww assembly | Stage 4AC fixture proving `tilde R_ww[h] = G_sing + G_grad + G_Hess` through one single-source input package, flat/cone/nonconstant/nonsymmetric oracles, underlying rejection paths, and direct Stage 4G `chi=1` comparisons |
 | Conformal-factor Rww correction | Stage 4AE fixture proving checked `p_chi = chi_x/x`, single-source metric/scalar inputs, hidden multiplicity `(2/W)D_wD_w chi`, constant/linear-x/linear-z/nonsymmetric oracles, rejection cases, and one test-only Stage 4G physical-minus-conformal comparison |
+| Away-axis physical Rww assembly | Stage 4AH fixture proving the single-source Stage 4AC plus Stage 4AE assembly, named conformal/correction/physical parts, same-point `chi` and `1/h_ww` exposure, simple and nonsymmetric oracles, and retained grid/axis limitations |
+| Physical Rww Ricci/RHS contract | Stage 4AI fixture proving `2 h^ww R_ww[gamma]` and `chi 2 h^ww R_ww[gamma]`, hidden multiplicity two, Stage 4AH-only typed input, non-aggregate contract shape, and no raw-double entry point |
 | Hidden-sphere Ricci roadmap | Stage 4AD-4AR plan proving the remaining gates have concrete ownership before physical `R_ww[gamma]`, `A_ww`, `hat_Gamma^x`, RHS, or evolution claims |
 | Small-axis helper | Stage 3I regular and irregular Taylor fixtures; assembled `tilde_Gamma^x` / `hat_Gamma^x` limit guard |
 | Constraint damping | Not a Stage 4A task; requires Stage 3H/3J linearized constraint-violation injection milestone |
@@ -1080,7 +1082,16 @@ Checkpoint D now permits only the local Stage 4AH assembler. The new
 single-source package mints Stage 4AC and 4AE inputs from one local jet and
 returns `conformal_part`, `conformal_factor_part`, and `physical_rww`. All
 finite-axis, actual-grid parity/matching, RHS, and evolution claims remain
-false. Stage 4AI is the next local contract stage.
+false.
+
+Stage 4AI adds `CartoonPhysicalRwwRhsContract.hpp`. The Stage 4AH result now
+also exposes the same-point positive `chi` and conformal inverse
+`h^ww=1/h_ww`; the Stage 4AI function accepts only that result and computes
+`hidden_conformal_trace = 2 h^ww R_ww[gamma]` plus
+`hidden_physical_scalar_contribution = chi * hidden_conformal_trace`.
+No full Ricci scalar, live RHS, grid read, finite-axis evaluation, or
+evolution path is added. Checkpoint E / Claude Audit E is required before
+Stage 4AJ.
 
 ## Acceptance Criteria
 

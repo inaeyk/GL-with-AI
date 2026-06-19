@@ -218,14 +218,21 @@ void check_simple_oracles()
     require_close("flat conformal-factor part", flat.conformal_factor_part(),
                   0.0);
     require_close("flat physical R_ww", flat.physical_rww(), 0.0);
+    require_close("flat chi", flat.chi(), 1.0);
+    require_close("flat conformal hww inverse",
+                  flat.conformal_hww_inverse(), 1.0);
 
     const auto cone = compute(constant_cone_sample());
     require_close("constant cone physical R_ww", cone.physical_rww(), -0.75);
+    require_close("constant cone conformal hww inverse",
+                  cone.conformal_hww_inverse(), 0.25);
 
     auto linear_x = flat_sample(1.2);
     linear_x.chi_derivatives.first.dx = 0.1;
-    require_close("linear-x chi physical R_ww", compute(linear_x).physical_rww(),
-                  11.0 / 144.0);
+    const auto linear_x_result = compute(linear_x);
+    require_close("linear-x chi physical R_ww",
+                  linear_x_result.physical_rww(), 11.0 / 144.0);
+    require_close("linear-x chi result", linear_x_result.chi(), 1.2);
 
     auto linear_z = flat_sample(1.6);
     linear_z.chi_derivatives.first.dz = 0.2;

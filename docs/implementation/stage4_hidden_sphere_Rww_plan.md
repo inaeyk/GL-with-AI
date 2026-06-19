@@ -546,6 +546,8 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
   data, one-to-one radius matching, and even `h_xz/x` checks.
 - Stage 4AH: local away-axis physical `R_ww[gamma]` assembly from Stage 4AC
   plus Stage 4AE through one single-source metric/conformal-factor jet.
+- Stage 4AI: typed local hidden-`ww` Ricci/RHS contribution contract consuming
+  only the Stage 4AH physical result.
 
 ## Future Stage Breakdown
 
@@ -560,7 +562,7 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 | Stage 4AF | Hard split-vs-direct physical Ricci identity gate | Complete as an internal test-only gate: explicitly construct the `gamma=h/chi` first/second derivative jet and compare the split against Stage 4G at constant `chi`, linear `chi`, and three nonsymmetric varying-`chi` points |
 | Stage 4AG | True off-diagonal parity validation gate | Complete as a local paired-data gate: checks odd `h_xz`, optional axis zero, one-to-one `+x/-x` partners, and even `h_xz/x` without demanding a constant quotient |
 | Stage 4AH | Assemble physical `R_ww[gamma]` | Complete only as local away-axis assembly; one factory mints both 4AC and 4AE packages, while finite-axis and actual-grid validation remain false |
-| Stage 4AI | Place `R_ww` into the local Ricci/RHS contract | Local contract only; no live RHS |
+| Stage 4AI | Place `R_ww` into the local Ricci/RHS contract | Complete as a typed local hidden contribution contract; accepts only the Stage 4AH physical result and adds no live RHS |
 | Stage 4AJ | Hidden lapse Hessian `D_w D_w alpha` | Guard hidden/cartoon lapse terms before curvature/lapse source use |
 | Stage 4AK | Local `A_ww` curvature/lapse block | Local source block only, with sign convention gate satisfied |
 | Stage 4AL | `hat_Gamma^x` hidden-contraction derivation lock and GL-growth anchor | Derive hidden contribution to `tilde{Gamma}^x` and the hatted convention; define a nontrivial GL-growth/dispersion anchor |
@@ -615,7 +617,27 @@ packages from the same local metric/conformal-factor jet. The result exposes
 the two parts and their sum. This does not mean actual grid data passed the
 Stage 4AG parity policy, and it does not validate grid `h_xx-h_ww` matching,
 `W_x` parity, `chi_x` parity, or finite-axis behavior. No RHS, grid reads, or
-evolution wiring are present. Stage 4AI is next.
+evolution wiring are present.
+
+Stage 4AI now places that reviewed physical lower/lower component into a
+typed local contribution contract:
+
+```text
+hidden_conformal_trace = 2 h^ww R_ww[gamma]
+                       = 2 (1 / h_ww) R_ww[gamma],
+
+hidden_physical_scalar_contribution =
+    chi * hidden_conformal_trace.
+```
+
+`CartoonAwayAxisPhysicalRww.hpp` carries the same-point `chi` and
+`1 / h_ww` in its non-forgeable result. The Stage 4AI boundary accepts only
+that result type, not a loose `double`, conformal `tilde R_ww`, or
+`R^chi_ww`. This is the hidden `ww` contribution only, not the full Ricci
+scalar, full CCZ4 RHS, grid data, finite-axis support, or evolution wiring.
+Actual-grid parity/matching and `W_x`/`chi_x` regularity remain unvalidated.
+Checkpoint E / Claude Audit E is required after Stage 4AI and before Stage
+4AJ.
 
 Stage 4AL owns the high-risk `hat_Gamma^x` derivation lock. It must cover
 
@@ -643,6 +665,7 @@ evolution claims.
 | Hessian complexity | Stages 4AA-4AB | Stage 4AA locks the formula, Christoffels, and verified nonsymmetric oracle; Stage 4AB may proceed only with that oracle in its test |
 | `R^chi_ww` singular hidden terms | Stages 4AD-4AE | Stage 4AE implements the dedicated checked `chi_x/x` guard stack and retains hidden multiplicity; Checkpoint C audits it before the Stage 4AF identity gate |
 | Hard identity gate regression | Stage 4AF | Keep the six-point split-vs-direct fixture, explicit physical-jet product rules, nonzero `W` second derivatives, and base-second-derivative cancellation check |
+| Wrong Ricci object enters the hidden RHS contract | Stage 4AI | Accept only the Stage 4AH physical `R_ww[gamma]` result; keep conformal and conformal-factor pieces outside the contract boundary |
 | `hat_Gamma^x` hidden contraction | Stages 4AL-4AM | Derive hidden contraction and hatted convention; use GL-growth/dispersion anchor |
 | Sign-convention consistency between initial data and RHS | Sign gate before 4AK | Check against the Stage 3A `K_IJ` convention and CCZ4 curvature/lapse sign |
 | Smoke-only hidden freeze enters physics path | Stage 4AQ | Remove or replace `scaffold_freeze_hidden` before real hidden-sector RHS |
