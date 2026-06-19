@@ -277,6 +277,18 @@ now implement the Hessian block, but only if the Stage 4AB test includes the
 verified nonsymmetric oracle above alongside the simpler flat, cone, and
 nonconstant-`W` cases.
 
+Stage 4AB implements this Hessian sub-block in
+`code/BlackStringToy/CartoonConformalRwwHessianBlock.hpp`, with fixture
+coverage in
+`code/BlackStringToy/tests/Stage4ABConformalRwwHessianBlockTest.cpp`.
+The implementation consumes a non-forgeable single-source input package minted
+from one local point: `x`, `A`, `B`, `C`, `W`, the reduced-base first
+derivatives, and the `W` first/second derivatives. It rejects invalid axis,
+nonpositive `W`, nonfinite inputs, and nonpositive reduced determinant. It
+does not accept loose raw determinant values or precomputed Christoffels.
+Stage 4AB still does not assemble full `tilde{R}_ww[h]`; Stage 4AC owns that
+next step.
+
 ## Conformal-Factor Ricci Correction
 
 For `gamma_IJ = chi^{-1} h_IJ` in `d = 4`,
@@ -374,6 +386,9 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
   gradient sub-block, single-sourced from one local metric point.
 - Stage 4AA: Hessian conformal sub-block derivation lock, oracle list, and
   Claude Audit A verified nonsymmetric oracle before implementation.
+- Stage 4AB: local away-axis conformal Hessian sub-block implementation,
+  checked by the flat, cone, nonconstant-`W`, and verified nonsymmetric
+  oracles.
 
 ## Future Stage Breakdown
 
@@ -381,7 +396,7 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 | --- | --- | --- |
 | Stage 4Z | Checked `W_x / x` ingredient and `G^grad_ww` implementation | Complete as a local away-axis sub-block; consumes checked `p_W = W_x / x`, checked `q_xz`, and single-source metric inputs; no full `tilde R_ww` claim |
 | Stage 4AA | Hessian block derivation lock | Complete as documentation: `G^Hess_ww`, coefficient/sign convention, Christoffels, flat/cone/nonconstant oracles, and Claude Audit A's verified nonsymmetric oracle are recorded |
-| Stage 4AB | Hessian block implementation | Local checked Hessian sub-block only, with determinant and away-axis guards; must include the verified nonsymmetric oracle in its test |
+| Stage 4AB | Hessian block implementation | Complete as a local checked Hessian sub-block with determinant and away-axis guards; includes the verified nonsymmetric oracle in its test |
 | Stage 4AC | Assemble conformal `tilde{R}_ww[h]` | Combine reviewed conformal sub-blocks only; still not physical `R_ww[gamma]` |
 | Stage 4AD | `R^chi_ww` derivation lock and guard-stack design | Design guards for `D_w D_w chi`, full conformal Laplacian, and hidden/cartoon singular terms |
 | Stage 4AE | Implement `R^chi_ww` | Local conformal-factor Ricci correction only |

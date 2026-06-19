@@ -544,3 +544,22 @@ Stage 4AA is the Hessian block only. It is not full `tilde{R}_ww[h]`, not
 `R^chi_ww`, not physical `R_ww[gamma]`, not full Ricci, not CCZ4 RHS, and not
 evolution wiring. It is away-axis only and does not prove global parity or
 finite-axis regularity.
+
+Stage 4AB implements the local away-axis Hessian sub-block
+
+```text
+G^Hess_ww =
+    -(sqrt(W) / x) [
+        (C / D) H_xx
+      - (2 B / D) H_xz
+      + (A / D) H_zz
+    ],
+```
+
+in `code/BlackStringToy/CartoonConformalRwwHessianBlock.hpp`. The input
+package is non-forgeable and single-sourced from one local metric/derivative
+point, including the reduced-base first derivatives and `W` first/second
+derivatives. The Stage 4AB fixture covers the flat, constant-cone,
+nonconstant-`W`, and Claude-verified nonsymmetric oracles, plus invalid
+axis/`W`/determinant/nonfinite-derivative rejection. Stage 4AB still does not
+assemble full `tilde{R}_ww[h]`; that remains the Stage 4AC task.

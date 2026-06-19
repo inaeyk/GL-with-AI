@@ -302,11 +302,12 @@ package boundary, pre-formula ingredient rejection, and determinant rejection.
 The integrated Stage 4 hidden-sphere roadmap lives in
 `docs/implementation/stage4_hidden_sphere_Rww_plan.md`. It turns the remaining
 test ownership into concrete future gates. Stage 4Z now covers checked
-`W_x/x` and the first-derivative conformal gradient block. The remaining gates
-are the Hessian block, `R^chi_ww` guard stack, split-vs-direct physical Ricci
-identity with varying `chi`, true `h_xz` parity validation, and `hat_Gamma^x`
-hidden-contraction tests anchored by a GL-growth/dispersion check rather than
-a flat-only oracle.
+`W_x/x` and the first-derivative conformal gradient block; Stage 4AB covers
+the local Hessian sub-block. The remaining gates start with conformal
+`tilde R_ww` assembly in Stage 4AC, then `R^chi_ww` guard stack,
+split-vs-direct physical Ricci identity with varying `chi`, true `h_xz`
+parity validation, and `hat_Gamma^x` hidden-contraction tests anchored by a
+GL-growth/dispersion check rather than a flat-only oracle.
 
 Stage 4AA is a documentation-only fixture-design gate for the Hessian block.
 It locks
@@ -334,6 +335,15 @@ Ricci engine to machine precision with residual about `4.44e-16`. This
 nonsymmetric oracle is required for Stage 4AB because it exercises the
 off-diagonal Christoffels, `rho_xz`, `W_z`-dependent terms, and the
 `(-2B/D)` contraction; the simpler oracles are not sufficient by themselves.
+
+Stage 4AB implements that Hessian block in
+`CartoonConformalRwwHessianBlock.hpp`, with fixture coverage in
+`Stage4ABConformalRwwHessianBlockTest.cpp`. The fixture uses a single-source
+non-aggregate input package for `x`, reduced metric values, reduced-base first
+derivatives, and `W` first/second derivatives. It checks the flat,
+constant-cone, nonconstant-`W`, and verified nonsymmetric Hessian oracles,
+plus a test-only conformal sum with Stage 4Y/4Z. It still does not add full
+`tilde R_ww`, `R^chi_ww`, physical Ricci, RHS, grid reads, or evolution.
 
 | Test name | Stage source | Type | Input data | Expected output | Exactness | Catches | Does not catch | Required before Stage 3K/C++? | Convention / validation note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -372,7 +382,8 @@ off-diagonal Christoffels, `rho_xz`, `W_z`-dependent terms, and the
 | Stage 4Y conformal Rww singular-gradient fixture | 3I/3J/4W/4U/4X/4Y | C++ local formula fixture | Flat, constant-cone, and distinct reduced conformal metric samples passed through one local-point factory for `ConformalRwwSingularBlockInputs` | `G_sing=0` flat, `-3/4` constant cone, `4/31` distinct-value; invalid checked-ingredient construction fails before formula; zero/nonfinite determinant rejects; input package is not an open aggregate | Exact local identities plus exception and type-shape checks | Hand-rolled `(hxx-hww)/x^2` or `h_xz/x` in the formula boundary, mixing checked singular ingredients from one point with determinant data from another, determinant singularity, accidental full-Ricci/RHS claims | Full `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS, finite axis limits, grid reads, evolution wiring, global parity proof | Required before expanding toward additional conformal hidden Ricci sub-blocks | First guarded formula sub-block only; away-axis local value |
 | Stage 4Z conformal Rww first-derivative gradient fixture | 3I/3J/4W/4X/4Y/4Z | C++ local formula fixture | Flat, constant-cone, nonconstant-`W`, and distinct reduced conformal metric samples passed through one local-point factory for `ConformalRwwGradientBlockInputs` | `G_grad=0` flat, `0` constant cone, `-5` nonconstant hidden metric, `-82/93` distinct-value; checked `p_W` and input package are not open aggregates; invalid axis, `W`, determinant, and derivative inputs reject | Exact local identities plus exception and type-shape checks | Hand-rolled `W_x/x` or `h_xz/x` in the formula boundary, mixing checked quotient ingredients from one point with determinant data from another, determinant or `W` singularity, accidental full-Ricci/RHS claims | Full `tilde R_ww`, Hessian block, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS, finite axis limits, grid reads, evolution wiring, global parity/regularity proof | Required before conformal hidden Ricci assembly | First-derivative gradient sub-block only; away-axis local value |
 | Stage 4AA Hessian derivation-lock gate | 3I/3J/4W/4Z/4AA | Documentation gate | Reduced metric fields and derivatives for the Hessian block, plus reviewed Stage 4Y/4Z oracles | `G^Hess_ww` formula, `rho` derivative formulas, reduced Christoffels, flat `0`, constant-cone `0`, nonconstant-`W` `-4`, combined `tilde R_ww=-12`, verified nonsymmetric `G^Hess_ww=-8558/2883`, and verified nonsymmetric full conformal sum `-3576/961` | Review gate only; Claude Audit A verified the nonsymmetric oracle | Prevents Hessian code before signs, factors, Christoffels, and a nontrivial off-diagonal oracle are locked | Full `tilde R_ww`, `R^chi_ww`, physical Ricci, RHS/evolution, global parity/regularity proof | Required before Stage 4AB implementation | Docs-only derivation lock; Stage 4AB must include this nonsymmetric oracle in its test |
-| Stage 4AB-4AR hidden-sphere Ricci gates | 3I/3J/4W/4AA | C++ local fixtures plus derivation and identity gates | Future Hessian implementation, `R^chi_ww`, direct physical Ricci comparison, parity data, and `hat_Gamma^x` convention data | Concrete gates for conformal assembly, `R^chi_ww`, split-vs-direct identity, true `h_xz` parity, physical `R_ww`, hidden lapse, `A_ww`, `hat_Gamma^x`, RHS integration, and smoke-freeze removal | Derivation exactness, local identities, direct Ricci comparison, and later controlled evolution checks | Hidden-sphere Ricci reaching RHS/evolution before conformal-vs-physical split, parity, sign, and `hat_Gamma^x` risks are owned | Production evolution correctness or Pau reproduction by itself | Required before serious hidden-sector RHS/evolution claims | See `stage4_hidden_sphere_Rww_plan.md` |
+| Stage 4AB conformal Rww Hessian fixture | 3I/3J/4W/4AA/4AB | C++ local formula fixture | Flat, constant-cone, nonconstant-`W`, and Claude-verified nonsymmetric reduced conformal metric derivative samples passed through one local-point factory for `ConformalRwwHessianBlockInputs` | `G^Hess=0` flat, `0` constant cone, `-4` nonconstant `W`, `-8558/2883` nonsymmetric; test-only conformal sum `-3576/961`; invalid axis, `W`, determinant, and derivative inputs reject; input package is not an open aggregate | Exact local identities plus exception and type-shape checks | Wrong Hessian signs/factors, wrong reduced Christoffels, missing `rho_xz`, missing `W_z` terms, wrong `(-2B/D)` contraction, unsafe or mixed raw inputs | Full `tilde R_ww`, `R^chi_ww`, physical Ricci, RHS/evolution, global parity/regularity proof | Required before Stage 4AC conformal assembly | Hessian sub-block only; away-axis local value |
+| Stage 4AC-4AR hidden-sphere Ricci gates | 3I/3J/4W/4AB | C++ local fixtures plus derivation and identity gates | Future conformal assembly, `R^chi_ww`, direct physical Ricci comparison, parity data, and `hat_Gamma^x` convention data | Concrete gates for conformal assembly, `R^chi_ww`, split-vs-direct identity, true `h_xz` parity, physical `R_ww`, hidden lapse, `A_ww`, `hat_Gamma^x`, RHS integration, and smoke-freeze removal | Derivation exactness, local identities, direct Ricci comparison, and later controlled evolution checks | Hidden-sphere Ricci reaching RHS/evolution before conformal-vs-physical split, parity, sign, and `hat_Gamma^x` risks are owned | Production evolution correctness or Pau reproduction by itself | Required before serious hidden-sector RHS/evolution claims | See `stage4_hidden_sphere_Rww_plan.md` |
 | Gamma-driver ownership boundary | 3H | C++ unit/design check | Mock RHS block inputs for gauge and `hat_Gamma^A` terms | Gauge block owns lapse/shift/auxiliary evolution; `hat_Gamma^A` block owns their appearances in `partial_t hat_Gamma^A` | Structural review plus targeted unit checks | Double-counting gauge terms, split ownership drift | Physical correctness of chosen gauge | Yes as a design review gate | Yes |
 
 ## Integration, Reference, And Convergence Tests

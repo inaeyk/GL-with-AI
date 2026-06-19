@@ -435,3 +435,23 @@ Category: 🟡 Physics + Docs
   only with this verified oracle included in the test. Stage 4AA does not add
   code, tests, full `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full
   Ricci, CCZ4 RHS, grid reads, or evolution wiring.
+
+Category: 🟡 Physics + Code
+
+- Stage 4AB implements only the local away-axis conformal Hessian sub-block in
+  `CartoonConformalRwwHessianBlock.hpp`:
+  `G_Hess = -(sqrt(W)/x)[(C/D)H_xx - (2B/D)H_xz + (A/D)H_zz]`. The input
+  package is non-forgeable and single-sourced from one local point, including
+  reduced metric values, reduced-base first derivatives, and `W` first/second
+  derivatives. The factory rejects invalid axis values, nonpositive `W`,
+  nonfinite inputs, and nonpositive reduced determinant.
+
+Category: 🟡 Physics + Code
+
+- The Stage 4AB fixture covers flat `0`, constant cone `0`, nonconstant
+  `W=(1+x)^2` giving `-4`, and the Claude-verified nonsymmetric oracle
+  `G_Hess=-8558/2883`. It also checks a test-only conformal sub-block sum
+  `G_sing + G_grad + G_Hess = -3576/961` using the reviewed Stage 4Y/4Z
+  blocks. Stage 4AB still does not assemble full `tilde R_ww`, implement
+  `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS, grid reads, or
+  evolution wiring.

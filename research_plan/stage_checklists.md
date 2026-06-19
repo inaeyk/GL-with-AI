@@ -272,7 +272,10 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AA: record flat `0`, constant-cone `0`, nonconstant `W=(1+x)^2` Hessian `-4`, and combined conformal `tilde R_ww=-12` oracle values.
 - [x] Stage 4AA: record Claude Audit A's verified nonsymmetric derivative sample, `G^Hess_ww=-8558/2883`, and full conformal sum `-3576/961` with Stage 4G residual about `4.44e-16`.
 - [x] Stage 4AA: record that the nonsymmetric oracle exercises off-diagonal Christoffels, `rho_xz`, `W_z` terms, and the `(-2B/D)` contraction, which the simpler oracles do not cover.
-- [ ] Stage 4AB: implement only the reviewed conformal Hessian sub-block with local guards and include the verified nonsymmetric oracle in the test.
+- [x] Stage 4AB: implement only the reviewed conformal Hessian sub-block with a single-source input package and local away-axis/determinant guards.
+- [x] Stage 4AB: test flat, constant-cone, nonconstant-`W`, and verified nonsymmetric Hessian oracles plus the test-only conformal sum.
+- [x] Stage 4AB: reject invalid axis, invalid `W`, bad determinant, and nonfinite derivative inputs, and keep the input package non-aggregate.
+- [x] Stage 4AB: do not assemble full `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS, grid reads, or evolution wiring.
 - [ ] Stage 4AC: assemble conformal `tilde R_ww[h]` from reviewed sub-blocks; do not claim physical `R_ww[gamma]`.
 - [ ] Stage 4AD: derive `R^chi_ww` and design its own hidden/cartoon singular guard stack before implementation.
 - [ ] Stage 4AE: implement only the reviewed `R^chi_ww` local correction.

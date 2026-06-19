@@ -369,6 +369,15 @@ Stage 4AB because it exercises off-diagonal Christoffels, `rho_xz`,
 `W_z`-dependent terms, and the `(-2B/D)` contraction; the simpler oracles are
 not sufficient by themselves.
 
+Stage 4AB implements only that local conformal Hessian sub-block in
+`CartoonConformalRwwHessianBlock.hpp`. It uses a single-source non-forgeable
+input package for the local metric values and derivatives, rejects invalid
+axis, nonpositive `W`, bad determinant, and nonfinite derivative inputs, and
+does not accept precomputed determinant or Christoffel values. The fixture
+includes the verified nonsymmetric Hessian oracle and a test-only sum with the
+reviewed Stage 4Y/4Z sub-blocks. Full `tilde{R}_ww[h]` assembly remains
+blocked until Stage 4AC.
+
 ## Non-goals
 
 Stage 4H does not:
