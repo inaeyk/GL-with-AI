@@ -322,6 +322,23 @@ of `h_xz = O(x)` remains a separate future validation task. Therefore full
 `R_ww[gamma]` implementation is still a later formula stage, not Stage 4W or
 Stage 4X.
 
+Stage 4Y implements only the first checked singular/regularity-sensitive
+gradient sub-block of this conformal target,
+
+```text
+G_sing = (h_zz / D) Delta_xw - q_xz^2 / D,
+```
+
+with `D = h_xx h_zz - h_xz^2`, `Delta_xw` minted through the Stage 4U/4R
+checked metric-difference path, and `q_xz` minted through the Stage 4X checked
+quotient path. After review, Stage 4Y single-sources these raw determinant
+inputs and checked singular ingredients from one local metric point through a
+non-forgeable input package, so callers cannot mix checked `Delta_xw` and
+`q_xz` from one point with determinant data from another. This still does not
+implement full `tilde{R}_ww[h]`, `R^chi_ww`, physical `R_ww[gamma]`, full
+Ricci, CCZ4 RHS, grid reads, evolution wiring, finite-axis regularization, or
+global axis parity validation.
+
 ## First-Principles h_xz Parity
 
 The needed `h_xz = O(x)` condition follows from regularity and reflection
@@ -408,11 +425,24 @@ implement the `h^xz h_xz / x^2` source expression, conformal hidden Ricci,
 conformal-factor Ricci, physical `R_ww[gamma]`, CCZ4 RHS, or evolution wiring.
 It also does not prove global parity of the numerical data.
 
-The next coding stage after Stage 4X should be a separately reviewed formula
-stage for the physical `R_ww[gamma]` target:
+Stage 4Y implements only the checked singular/regularity-sensitive gradient
+sub-block
 
 ```text
-Future Stage: local physical R_ww[gamma] source target, consuming both the
-Stage 4U checked (hxx - hww) / x^2 path and the Stage 4X checked h_xz / x
-path.
+G_sing = (h_zz / D) Delta_xw - q_xz^2 / D,
+```
+
+where `Delta_xw = (h_xx - h_ww) / x^2` is consumed through the Stage
+4U/4R checked path and `q_xz = h_xz / x` is consumed through the Stage 4X
+checked path. Stage 4Y is still not full `tilde{R}_ww[h]`, not `R^chi_ww`,
+not physical `R_ww[gamma]`, not full Ricci, not CCZ4 RHS, and not evolution
+wiring.
+
+The next coding stage after Stage 4Y should remain separately reviewed before
+expanding toward the physical `R_ww[gamma]` target:
+
+```text
+Future Stage: additional local conformal hidden Ricci source sub-blocks,
+eventually assembling tilde R_ww[h] only after each singular and nonsingular
+piece has a reviewed formula and oracle.
 ```

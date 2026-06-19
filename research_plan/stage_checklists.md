@@ -259,6 +259,11 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4X: expose a local checked `h_xz / x` package through `CartoonCheckedHxzOverX.hpp`.
 - [x] Stage 4X: allow finite nonzero `h_xz / x`, reject invalid axis and nonfinite inputs, keep the package non-forgeable, and do not claim to prove global parity or `h_xz = O(x)`.
 - [x] Stage 4X: do not implement `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS, grid reads, or evolution wiring.
+- [x] Stage 4Y: add the first guarded formula sub-block for the conformal hidden Ricci target, `G_sing = (h_zz / D) Delta_xw - q_xz^2 / D`.
+- [x] Stage 4Y: consume `Delta_xw` only through the Stage 4U/4R checked path and `q_xz` only through the Stage 4X checked path.
+- [x] Stage 4Y review patch: single-source checked `Delta_xw`, checked `q_xz`, and raw determinant data from one local metric point through a non-forgeable input package.
+- [x] Stage 4Y: test flat, constant-cone, and distinct-value oracles plus checked-input and determinant rejection cases.
+- [x] Stage 4Y: do not implement full `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS, grid reads, or evolution wiring.
 - [ ] Future validation stage: add a grid-level or two-sided off-diagonal parity validation for `h_xz(-x,z) = -h_xz(x,z)`, or a documented near-axis tolerance policy, before claiming global axis regularity.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.

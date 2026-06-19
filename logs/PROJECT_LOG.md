@@ -343,3 +343,39 @@ Category: 🟡 Physics + Code
   `tilde{R}_ww[h]`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS,
   finite-axis regularization, grid reads, finite differences, or evolution
   wiring, and it does not prove global grid parity or `h_xz = O(x)`.
+
+Category: 🔵 Code
+
+- Started Stage 4Y by adding `CartoonConformalRwwSingularBlock.hpp`, the first
+  guarded formula sub-block from the conformal hidden Ricci target. It computes
+  only `G_sing = (h_zz / D) Delta_xw - q_xz^2 / D`, with `Delta_xw` consumed
+  through the Stage 4U/4R checked package and `q_xz` consumed through the
+  Stage 4X checked package. The standalone fixture passed the flat,
+  constant-cone, distinct-value, checked-input boundary, pre-formula rejection,
+  and determinant rejection checks.
+
+Category: 🟡 Physics + Code
+
+- Stage 4Y is a local away-axis conformal-Ricci sub-block only. It does not
+  implement full `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci,
+  CCZ4 RHS, finite-axis regularization, grid reads, finite differences,
+  global parity validation, or evolution wiring.
+
+Category: 🔵 Code
+
+- Patched Stage 4Y after review to close the raw/checked consistency hole.
+  `CartoonConformalRwwSingularBlock.hpp` now exposes a non-forgeable
+  `ConformalRwwSingularBlockInputs` package minted from one local metric
+  point. The factory computes the checked Stage 4U `Delta_xw`, checked Stage
+  4X `q_xz`, and reduced determinant from the same `x`, `h_xx`, `h_xz`,
+  `h_zz`, `h_ww` input set, so the formula boundary cannot mix checked
+  singular ingredients from one point with determinant data from another.
+
+Category: 🟡 Physics + Code
+
+- The Stage 4Y formula is unchanged:
+  `G_sing = (h_zz / D) Delta_xw - q_xz^2 / D`. This patch preserves checked
+  singular-input safety and same-point consistency only; it still does not add
+  more of `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4
+  RHS, grid reads, finite-axis regularization, global parity validation, or
+  evolution wiring.

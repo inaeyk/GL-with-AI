@@ -304,6 +304,22 @@ source ingredient for future formulas only: it does not implement
 finite-axis regularization, grid reads, or evolution wiring, and it does not
 prove global grid parity or the analytic statement `h_xz = O(x)`.
 
+Stage 4Y adds the first real guarded formula sub-block from the conformal
+hidden Ricci target. `CartoonConformalRwwSingularBlock.hpp` computes only
+
+```text
+G_sing = (h_zz / D) Delta_xw - q_xz^2 / D,
+```
+
+where `Delta_xw` is consumed through the Stage 4U checked metric-difference
+package and `q_xz` is consumed through the Stage 4X checked quotient package.
+After review, those checked singular ingredients and the raw determinant data
+are single-sourced by a non-forgeable input package minted from one local
+metric point, closing the raw/checked mismatch advisory. Stage 4Y validates
+finite nonzero reduced determinant `D = h_xx h_zz - h_xz^2`, but it does not
+implement full `tilde{R}_ww[h]`, `R^chi_ww`, physical
+`R_ww[gamma]`, full Ricci, CCZ4 RHS, grid reads, or evolution wiring.
+
 ## Non-goals
 
 Stage 4H does not:

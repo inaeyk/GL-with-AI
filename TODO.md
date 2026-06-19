@@ -96,6 +96,8 @@
 - [ ] Stage 4W review patch: cross-check the documented `R^chi_ww` conformal Ricci correction and varying-`chi` oracle against standard BSSN/CCZ4 conformal-Ricci formulas before implementation.
 - [ ] Stage 4W review patch: pin the `A_IJ` curvature/lapse sign against the published CCZ4/BSSN formulation and the Stage 3A `K_IJ` convention caveat.
 - [ ] Stage 4X: review the checked off-diagonal `h_xz / x` ingredient before implementing `R_ww`.
+- [ ] Stage 4Y: review the first guarded conformal `R_ww` singular-gradient sub-block before expanding toward full `tilde R_ww`.
+- [ ] Stage 4Y review patch: confirm the single-source input package closes the raw determinant / checked singular ingredient consistency hole before expanding toward more `tilde R_ww` sub-blocks.
 - [ ] Future validation stage: add a grid-level or two-sided off-diagonal parity validation for `h_xz(-x,z) = -h_xz(x,z)`, or a documented near-axis tolerance policy, before claiming global axis regularity.
 - [ ] Future review/lint gate: mechanically flag source-formula recomputation of `(hxx - hww) / x^2` outside `RegularityGuardedGeometrySources` / the Stage 4U authoring gate.
 

@@ -717,6 +717,38 @@ RHS terms, finite-axis regularization, grid reads, or evolution wiring. A true
 parity validation would require a two-sided parity check, Taylor/coefficient
 check, or grid-level near-axis policy.
 
+## Stage 4Y Conformal Rww Singular Gradient Sub-Block
+
+Stage 4Y adds the first real guarded formula sub-block from the Stage 4W
+conformal hidden Ricci target:
+
+- Formula block:
+  `code/BlackStringToy/CartoonConformalRwwSingularBlock.hpp`.
+- Fixture:
+  `code/BlackStringToy/tests/Stage4YConformalRwwSingularBlockTest.cpp`.
+
+The implemented value is
+
+```text
+G_sing = (h_zz / D) Delta_xw - q_xz^2 / D,
+```
+
+with `D = h_xx h_zz - h_xz^2`, `Delta_xw` consumed from the Stage 4U/4R
+checked metric-difference path, and `q_xz` consumed from the Stage 4X checked
+`h_xz / x` package. After review, the source-facing API now consumes a single
+non-forgeable `ConformalRwwSingularBlockInputs` package minted from one local
+metric point. Its factory accepts `x`, `h_xx`, `h_xz`, `h_zz`, and `h_ww`,
+computes the checked `Delta_xw`, checked `q_xz`, and reduced determinant from
+that same point, and prevents callers from mixing checked singular ingredients
+from one point with determinant data from another. Stage 4Y rejects nonfinite
+metric entries and zero/nonfinite reduced determinant, matching the existing
+`ConformalCartoonAlgebra::inverse` nonzero-determinant policy rather than
+adding a new positive-definiteness rule here.
+
+Stage 4Y is not full `tilde{R}_ww[h]`, not `R^chi_ww`, not physical
+`R_ww[gamma]`, not full Ricci, not CCZ4 RHS, and not evolution wiring. It is
+away-axis only and does not prove global axis parity.
+
 ## Implementation Stages And Gates
 
 | Stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
@@ -746,6 +778,7 @@ check, or grid-level near-axis policy.
 | Stage 4V source-formula derivation-lock gate | Documentation only unless a tiny expression is already derived | Decide whether the first real authoring-gate consumer is derivation-locked | Stage 4U authoring gate plus Stage 4G/4L validated helper context | Outcome B for now: no formula code until a precise sub-expression, coefficient/sign convention, and oracle are extracted | Stage 4U | docs name the derivation gap; no speculative formula, no RHS writes | High |
 | Stage 4W hidden-sphere Rww derivation lock | `docs/derivations/stage4W_hidden_sphere_CCZ4_Rww_derivation.md` | Lock hidden-sphere CCZ4 contribution map and first physical `R_ww[gamma]` target | Stage 4G-compatible Ricci oracles, Stage 4U guarded-path context, Stage 3I regularity expectations, Stage 3A sign caveat | Documentation only; blocks `R_ww[gamma]` code until a checked local `h_xz / x` ingredient exists; full `h_xz = O(x)` validation remains future work | Stage 4V | conformal/physical Ricci split, hidden trace map, varying-`chi` oracle, flat/cone/nonconstant oracles, sign lock, no code | High |
 | Stage 4X checked h_xz-over-x ingredient | `CartoonCheckedHxzOverX.hpp`; `Stage4XCheckedHxzOverXIngredientTest.cpp` | Add the local checked `h_xz / x` ingredient before implementing `R_ww[gamma]` | Local `x` and `h_xz` values | Non-aggregate checked package carrying finite `h_xz / x`; no `R_ww` code and no global parity proof | Stage 4W | finite nonzero quotient acceptance, zero/negative/NaN/infinite axis rejection, nonfinite `h_xz` rejection, no-full-Ricci/no-evolution guards, explicit no-parity-proof comments | High |
+| Stage 4Y conformal Rww singular-gradient sub-block | `CartoonConformalRwwSingularBlock.hpp`; `Stage4YConformalRwwSingularBlockTest.cpp` | Compute the checked singular/regularity-sensitive gradient sub-block of the conformal hidden Ricci target | Single-source `ConformalRwwSingularBlockInputs` minted from one local `x`, `h_xx`, `h_xz`, `h_zz`, `h_ww` point, carrying Stage 4U checked `Delta_xw`, Stage 4X checked `q_xz`, and determinant data | Named `G_sing = (h_zz / D) Delta_xw - q_xz^2 / D`; no full Ricci output | Stage 4X | flat, constant-cone, distinct-value oracle, non-aggregate single-source input package, checked-input type boundary, invalid ingredient rejection, determinant rejection, no-full-Ricci/no-evolution guards | High |
 
 Deferred later stages, requiring explicit user approval after the layout and
 smoke-only scaffold stages pass:
@@ -753,7 +786,7 @@ smoke-only scaffold stages pass:
 | Later stage | Candidate repo-owned target | Purpose | Inputs | Outputs | Prior-stage dependency | Required Stage 3J tests | Risk |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Future small-axis regularization interface/implementation | New repo-owned regularization helper | Isolate regularized small-`x` combinations and connection limits | Taylor-like local fields, `h_xx-hww`, `h_xz`, `Z^A` | Interface contract first; implementation only after approval | Stage 3I and Stage 4U | `hat_Gamma^x` assembled guard, regular/irregular Taylor data | High |
-| Future additional RHS formula implementation | Future repo-owned RHS source-block implementation | Fill selected source-block terms only after local skeleton and regularity gates pass | Stage 4K source-block input plus reviewed local formulas | Computed source terms for reviewed blocks only | Stages 3H-3J and Stage 4X | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
+| Future additional RHS formula implementation | Future repo-owned RHS source-block implementation | Fill selected source-block terms only after local skeleton and regularity gates pass | Stage 4K source-block input plus reviewed local formulas | Computed source terms for reviewed blocks only | Stages 3H-3J and Stage 4Y | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
 | Future RHS block wiring | Future repo-owned RHS class or wrapper | Connect source blocks to evolution only after local contracts pass | Grid variables and derivatives | Time derivatives | Stages 3H-3J and future formula stages | RHS block matrix, flat/sheared-flat, uniform-string, reference comparison | Very high |
 
 Unknown exact class and file names should be resolved by a separate code
@@ -814,6 +847,7 @@ abstraction if a local GRChombo pattern already exists.
 | Source-formula derivation-lock gate | Stage 4V documentation-only gate proving no formula is added until a precise Stage 3/4 sub-expression, coefficient/sign convention, and oracle are derived or extracted for the Stage 4U checked package |
 | Hidden-sphere Rww derivation lock | Stage 4W documentation-only gate locking the hidden-sphere contribution map, `tilde{R}_ww[h]`, `R^chi_ww`, physical `R_ww[gamma]`, Stage 4G-compatible oracles, the varying-`chi` oracle, sign-convention check, and need for a checked local `h_xz / x` ingredient before implementation |
 | Checked h_xz-over-x ingredient | Stage 4X fixture proving finite `h_xz / x` is available through the checked local package, invalid axis and nonfinite inputs reject, no global parity proof is claimed, and no Ricci/RHS/evolution path is implemented |
+| Conformal Rww singular-gradient sub-block | Stage 4Y fixture proving `G_sing = (h_zz / D) Delta_xw - q_xz^2 / D` consumes a single-source input package that mints checked Stage 4U/4X singular ingredients and determinant data from one local metric point, rejects invalid determinant data, and does not implement full Ricci/RHS/evolution |
 | Small-axis helper | Stage 3I regular and irregular Taylor fixtures; assembled `tilde_Gamma^x` / `hat_Gamma^x` limit guard |
 | Constraint damping | Not a Stage 4A task; requires Stage 3H/3J linearized constraint-violation injection milestone |
 | Gauge/Gamma driver | Not a Stage 4A task; requires ownership and convention confirmation |
