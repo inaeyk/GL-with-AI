@@ -440,15 +440,29 @@ wiring.
 
 The integrated roadmap for the remaining hidden-sphere Ricci and CCZ4 gates is
 `docs/implementation/stage4_hidden_sphere_Rww_plan.md`. It assigns concrete
-future ownership for checked `W_x/x`, the Hessian block, `R^chi_ww`, the hard
-split-vs-direct physical Ricci identity gate, true `h_xz` parity validation,
-`hat_Gamma^x`, and smoke-freeze removal.
+future ownership for the Hessian block, `R^chi_ww`, the hard split-vs-direct
+physical Ricci identity gate, true `h_xz` parity validation, `hat_Gamma^x`,
+and smoke-freeze removal.
 
-The next coding stage after Stage 4Y should remain separately reviewed before
+Stage 4Z implements the next conformal sub-block,
+
+```text
+G_grad =
+    -(C / D) p_W
+  +  (q_xz W_z) / D
+  -  (C W_x^2 - 2 B W_x W_z + A W_z^2) / (4 W D),
+```
+
+with checked local `p_W = W_x / x`, checked `q_xz = B / x`, and raw
+determinant data single-sourced from one local metric point. It is still not
+the Hessian block, not full `tilde{R}_ww[h]`, not `R^chi_ww`, not physical
+`R_ww[gamma]`, not full Ricci, not CCZ4 RHS, and not evolution wiring.
+
+The next coding stage after Stage 4Z should remain separately reviewed before
 expanding toward the physical `R_ww[gamma]` target:
 
 ```text
-Future Stage: additional local conformal hidden Ricci source sub-blocks,
-eventually assembling tilde R_ww[h] only after each singular and nonsingular
-piece has a reviewed formula and oracle.
+Future Stage: Hessian conformal hidden Ricci derivation lock, eventually
+assembling tilde R_ww[h] only after each singular, first-derivative, and
+Hessian piece has a reviewed formula and oracle.
 ```

@@ -6,7 +6,7 @@ evolution wiring.
 
 ## Purpose
 
-Stage 4W through Stage 4Y established the first guarded path into the
+Stage 4W through Stage 4Z established the first guarded path into the
 hidden-sphere Ricci sector. This plan records the protected conventions, the
 completed narrow stages, and the remaining hard gates before any physical
 `R_ww[gamma]` contribution is trusted downstream.
@@ -165,6 +165,12 @@ G^grad_ww =
   -  (C W_x^2 - 2 B W_x W_z + A W_z^2) / (4 W D).
 ```
 
+Stage 4Z completed this first-derivative gradient block with a checked local
+`p_W = W_x / x` ingredient and a single-source input package minted from one
+local metric point. As with Stage 4X, the checked quotient is an away-axis
+local token only; it does not prove global parity, finite-axis regularity, or
+the analytic statement `W_x = O(x)` for grid data.
+
 The Hessian block is
 
 ```text
@@ -268,12 +274,14 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 - Stage 4X: checked local `h_xz / x` ingredient, not a parity proof.
 - Stage 4Y: first guarded conformal `tilde{R}_ww` singular sub-block,
   single-sourced after review.
+- Stage 4Z: checked local `W_x / x` ingredient and first-derivative conformal
+  gradient sub-block, single-sourced from one local metric point.
 
 ## Future Stage Breakdown
 
 | Stage | Ownership | Gate |
 | --- | --- | --- |
-| Stage 4Z | Checked `W_x / x` ingredient and `G^grad_ww` implementation | Consumes checked `p_W = W_x / x`, checked `q_xz`, and single-source metric inputs; no full `tilde R_ww` claim |
+| Stage 4Z | Checked `W_x / x` ingredient and `G^grad_ww` implementation | Complete as a local away-axis sub-block; consumes checked `p_W = W_x / x`, checked `q_xz`, and single-source metric inputs; no full `tilde R_ww` claim |
 | Stage 4AA | Hessian block derivation lock | Derive `G^Hess_ww`, coefficient/sign convention, and hard-coded oracles before code |
 | Stage 4AB | Hessian block implementation | Local checked Hessian sub-block only, with determinant and away-axis guards |
 | Stage 4AC | Assemble conformal `tilde{R}_ww[h]` | Combine reviewed conformal sub-blocks only; still not physical `R_ww[gamma]` |
@@ -320,11 +328,10 @@ evolution claims.
 | Conformal vs physical Ricci confusion | Stages 4W, 4AC-4AF | Keep `tilde{R}_ww[h]`, `R^chi_ww`, and `R_ww[gamma]` separate until the identity gate passes |
 | Raw/checked mismatch | Stage 4Y | Single-source input package for determinant data and checked singular ingredients |
 | False `h_xz` parity claim | Stages 4X, 4AG | Keep Stage 4X scoped to local `h_xz / x`; add true parity validation in Stage 4AG |
-| Missing `W_x / x` guard | Stage 4Z | Add checked `p_W = W_x / x` before `G^grad_ww` |
+| Bypassing checked `W_x / x` | Stage 4Z and later gradient consumers | Stage 4Z provides checked `p_W = W_x / x`; later formulas must consume the checked package rather than loose raw quotient values |
 | Hessian complexity | Stages 4AA-4AB | Derivation lock before implementation |
 | `R^chi_ww` singular hidden terms | Stages 4AD-4AE | Design a dedicated guard stack for `D_w D_w chi` and full Laplacian terms |
 | Hard identity gate not yet passed | Stage 4AF | Direct physical Ricci comparison with varying `chi` |
 | `hat_Gamma^x` hidden contraction | Stages 4AL-4AM | Derive hidden contraction and hatted convention; use GL-growth/dispersion anchor |
 | Sign-convention consistency between initial data and RHS | Sign gate before 4AK | Check against the Stage 3A `K_IJ` convention and CCZ4 curvature/lapse sign |
 | Smoke-only hidden freeze enters physics path | Stage 4AQ | Remove or replace `scaffold_freeze_hidden` before real hidden-sector RHS |
-

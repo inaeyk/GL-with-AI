@@ -327,6 +327,19 @@ split-vs-direct physical Ricci identity test, and true `h_xz` parity
 validation are complete. It also assigns concrete future ownership for the
 high-risk `hat_Gamma^x` hidden contraction and GL-growth/dispersion anchor.
 
+Stage 4Z adds the checked local `W_x / x` ingredient and implements only the
+first-derivative gradient sub-block
+
+```text
+G_grad = -(C / D) p_W + (q_xz W_z) / D
+         - (C W_x^2 - 2 B W_x W_z + A W_z^2) / (4 W D).
+```
+
+The Stage 4Z inputs are single-sourced from one local metric point and consume
+checked `q_xz` and checked `p_W`. This still does not implement the Hessian
+block, full `tilde{R}_ww[h]`, `R^chi_ww`, physical `R_ww[gamma]`, CCZ4 RHS,
+grid reads, or evolution wiring.
+
 ## Non-goals
 
 Stage 4H does not:

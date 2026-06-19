@@ -265,7 +265,9 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4Y: test flat, constant-cone, and distinct-value oracles plus checked-input and determinant rejection cases.
 - [x] Stage 4Y: do not implement full `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS, grid reads, or evolution wiring.
 - [x] Stage 4 hidden-sphere Ricci roadmap: integrate the completed Stage 4W-4Y path and the future hard gates in `docs/implementation/stage4_hidden_sphere_Rww_plan.md`.
-- [ ] Stage 4Z: add a checked `W_x / x` ingredient and implement only the reviewed `G^grad_ww` conformal hidden Ricci gradient block.
+- [x] Stage 4Z: add a checked `W_x / x` ingredient and implement only the reviewed `G^grad_ww` conformal hidden Ricci gradient block.
+- [x] Stage 4Z: test flat, constant-cone, nonconstant-hidden-metric, and distinct-value oracles plus invalid axis, `W`, determinant, and derivative rejections.
+- [x] Stage 4Z: do not implement the Stage 4Y singular block, Hessian block, full `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS, grid reads, or evolution wiring.
 - [ ] Stage 4AA: lock the Hessian block derivation, coefficients, sign convention, and oracle before code.
 - [ ] Stage 4AB: implement only the reviewed conformal Hessian sub-block with local guards.
 - [ ] Stage 4AC: assemble conformal `tilde R_ww[h]` from reviewed sub-blocks; do not claim physical `R_ww[gamma]`.

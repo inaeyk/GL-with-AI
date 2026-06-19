@@ -390,3 +390,21 @@ Category: 🟡 Physics + Code
   split-vs-direct physical Ricci identity gate, true `h_xz` parity validation
   owner, `hat_Gamma^x` derivation/GL-growth anchor stages, and smoke-freeze
   removal. No code, tests, RHS wiring, or evolution path was added.
+
+Category: 🔵 Code
+
+- Started Stage 4Z by adding `CartoonCheckedDxhwwOverX.hpp` and
+  `CartoonConformalRwwGradientBlock.hpp`. The checked quotient package mints
+  the local away-axis `p_W = W_x / x` ingredient and does not claim global
+  parity or finite-axis regularity. The gradient block computes only
+  `G_grad = -(C/D) p_W + (q_xz W_z)/D - (C W_x^2 - 2 B W_x W_z + A W_z^2)/(4 W D)`
+  from a single-source local input package that also mints checked `q_xz`
+  through the Stage 4X path.
+
+Category: 🟡 Physics + Code
+
+- Stage 4Z is still only a conformal hidden Ricci first-derivative gradient
+  sub-block. It does not implement the Stage 4Y singular block, the Hessian
+  block, full `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci,
+  CCZ4 RHS, grid reads, finite-axis regularization, global parity validation,
+  or evolution wiring.
