@@ -276,7 +276,12 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AB: test flat, constant-cone, nonconstant-`W`, and verified nonsymmetric Hessian oracles plus the test-only conformal sum.
 - [x] Stage 4AB: reject invalid axis, invalid `W`, bad determinant, and nonfinite derivative inputs, and keep the input package non-aggregate.
 - [x] Stage 4AB: do not assemble full `tilde R_ww`, `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS, grid reads, or evolution wiring.
-- [ ] Stage 4AC: assemble conformal `tilde R_ww[h]` from reviewed sub-blocks; do not claim physical `R_ww[gamma]`.
+- [x] Stage 4AC: assemble conformal `tilde R_ww[h]` from reviewed Stage 4Y, 4Z, and 4AB sub-blocks through a single-source input package.
+- [x] Stage 4AC: test flat `0`, constant-cone `-3/4`, nonconstant-`W` `-12`, and verified nonsymmetric `-3576/961` conformal oracles.
+- [x] Stage 4AC: include direct Stage 4G `chi=1` comparisons for the nonconstant and nonsymmetric conformal samples.
+- [x] Stage 4AC: do not implement `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS, grid reads, or evolution wiring.
+- [x] Checkpoint B / Claude Audit B cleanup: unify reduced determinant policy so Stage 4Y, 4Z, 4AB, and 4AC all require finite positive `D=AC-B^2`.
+- [x] Stage 4Y Checkpoint B patch: add a negative-determinant rejection case for the singular block without changing the formula.
 - [ ] Stage 4AD: derive `R^chi_ww` and design its own hidden/cartoon singular guard stack before implementation.
 - [ ] Stage 4AE: implement only the reviewed `R^chi_ww` local correction.
 - [ ] Stage 4AF: pass the hard identity gate `tilde R_ww + R^chi_ww == R_ww[gamma]` against direct physical Ricci with varying `chi`.

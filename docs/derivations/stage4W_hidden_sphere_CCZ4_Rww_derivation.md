@@ -563,3 +563,26 @@ derivatives. The Stage 4AB fixture covers the flat, constant-cone,
 nonconstant-`W`, and Claude-verified nonsymmetric oracles, plus invalid
 axis/`W`/determinant/nonfinite-derivative rejection. Stage 4AB still does not
 assemble full `tilde{R}_ww[h]`; that remains the Stage 4AC task.
+
+Stage 4AC assembles that conformal target locally as
+
+```text
+tilde R_ww[h] = G_sing + G_grad + G_Hess.
+```
+
+The implementation lives in `code/BlackStringToy/CartoonConformalRww.hpp` and
+uses a non-forgeable single-source input package that internally mints the
+Stage 4Y singular, Stage 4Z gradient, and Stage 4AB Hessian inputs from one
+local metric/derivative point. The fixture covers flat `0`, constant-cone
+`-3/4`, nonconstant `W=(1+x)^2` giving `-12`, and the Claude-verified
+nonsymmetric value `-3576/961`; it also compares the nonconstant and
+nonsymmetric `chi=1` cases against the independent Stage 4G
+metric-derivative Ricci helper. Stage 4AC is still conformal `tilde R_ww[h]`
+only: it is not `R^chi_ww`, not physical `R_ww[gamma]`, not full Ricci, not
+CCZ4 RHS, and not evolution wiring.
+
+Checkpoint B applies one pre-4AD cleanup to the reduced determinant policy:
+Stage 4Y now rejects `D <= 0` instead of accepting finite negative
+determinants. The singular, gradient, Hessian, and Stage 4AC assembly paths
+therefore all require finite positive `D = AC - B^2` before evaluating their
+conformal `R_ww` formulas.

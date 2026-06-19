@@ -164,6 +164,14 @@ void check_determinant_rejections()
         const auto inputs = make_inputs(2.0, 1.0, 1.0, 1.0, 1.0);
         (void)compute_block(inputs);
     });
+    require_domain_error("negative reduced determinant", [&]() {
+        // Checkpoint B unifies the reduced determinant policy across the
+        // conformal Rww pieces: the Stage 4Y singular block now rejects D <= 0
+        // just like the Stage 4Z gradient, Stage 4AB Hessian, and Stage 4AC
+        // assembler paths.
+        const auto inputs = make_inputs(2.0, 1.0, 2.0, 1.0, 1.0);
+        (void)compute_block(inputs);
+    });
     require_domain_error("NaN reduced metric entry", [&]() {
         const auto inputs = make_inputs(2.0, 1.0,
                                         std::numeric_limits<double>::quiet_NaN(),

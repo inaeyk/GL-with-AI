@@ -455,3 +455,34 @@ Category: 🟡 Physics + Code
   blocks. Stage 4AB still does not assemble full `tilde R_ww`, implement
   `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS, grid reads, or
   evolution wiring.
+
+Category: 🟡 Physics + Code
+
+- Stage 4AC implements the local away-axis conformal assembly in
+  `CartoonConformalRww.hpp`:
+  `tilde R_ww[h] = G_sing + G_grad + G_Hess`. The non-forgeable
+  `ConformalRwwInputs` package is minted from one local metric/derivative
+  point and internally constructs the reviewed Stage 4Y, 4Z, and 4AB
+  sub-block input packages, so callers cannot assemble conformal `R_ww` from
+  loose precomputed block values or mixed local points.
+
+Category: 🟡 Physics + Code
+
+- The Stage 4AC fixture covers flat `0`, constant-cone `-3/4`,
+  nonconstant `W=(1+x)^2` giving `-12`, and the Claude-verified nonsymmetric
+  conformal value `-3576/961`. It also compares the nonconstant and
+  nonsymmetric `chi=1` samples against the independent Stage 4G
+  metric-derivative Ricci helper. Stage 4AC remains conformal
+  `tilde R_ww[h]` only: it does not implement `R^chi_ww`, physical
+  `R_ww[gamma]`, full Ricci, CCZ4 RHS, grid reads, finite-axis regularization,
+  or evolution wiring. Checkpoint B / Claude Audit B is required before
+  Stage 4AD begins the `R^chi_ww` guard-stack work.
+
+Category: 🟡 Physics + Code
+
+- Checkpoint B / Claude Audit B found one pre-4AD cleanup: Stage 4Y accepted
+  finite negative reduced determinants while Stage 4Z, Stage 4AB, and
+  Stage 4AC required positive `D = AC - B^2`. The Stage 4Y singular block now
+  uses the same finite-positive determinant policy as the other conformal
+  `R_ww` pieces. The formula is unchanged, and the Stage 4Y fixture now
+  includes a negative-determinant rejection case.

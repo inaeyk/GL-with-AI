@@ -378,6 +378,22 @@ includes the verified nonsymmetric Hessian oracle and a test-only sum with the
 reviewed Stage 4Y/4Z sub-blocks. Full `tilde{R}_ww[h]` assembly remains
 blocked until Stage 4AC.
 
+Stage 4AC assembles local conformal `tilde{R}_ww[h]` from the reviewed
+Stage 4Y singular, Stage 4Z gradient, and Stage 4AB Hessian sub-blocks. The
+assembler uses a single-source non-forgeable input package and does not accept
+loose block values or precomputed determinant data. Its fixture checks the
+flat, constant-cone, nonconstant-`W`, and Claude-verified nonsymmetric
+oracles, and directly compares the nonconstant and nonsymmetric `chi=1` cases
+against the Stage 4G metric-derivative Ricci helper. This is still conformal
+Ricci only; `R^chi_ww`, physical `R_ww[gamma]`, RHS, and evolution remain
+future work.
+
+Checkpoint B found one cleanup before Stage 4AD: Stage 4Y originally accepted
+finite negative reduced determinant values while Stage 4Z, Stage 4AB, and
+Stage 4AC required positive determinant. The singular block now uses the same
+policy as the rest of the conformal `R_ww` stack: finite positive
+`D = AC - B^2` is required, and `D <= 0` rejects before formula evaluation.
+
 ## Non-goals
 
 Stage 4H does not:

@@ -289,6 +289,24 @@ does not accept loose raw determinant values or precomputed Christoffels.
 Stage 4AB still does not assemble full `tilde{R}_ww[h]`; Stage 4AC owns that
 next step.
 
+Stage 4AC assembles the local away-axis conformal component
+`tilde{R}_ww[h] = G^sing_ww + G^grad_ww + G^Hess_ww` in
+`code/BlackStringToy/CartoonConformalRww.hpp`, with fixture coverage in
+`code/BlackStringToy/tests/Stage4ACConformalRwwAssemblyTest.cpp`. The input
+package is non-forgeable and single-sources the Stage 4Y, 4Z, and 4AB input
+packages from one local metric/derivative point. The fixture checks the flat,
+constant-cone, nonconstant-`W`, and Claude-verified nonsymmetric oracles,
+including direct Stage 4G comparisons for the nonconstant and nonsymmetric
+`chi=1` cases. Stage 4AC is conformal `tilde{R}_ww[h]` only: it does not
+implement `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS, grid
+reads, or evolution wiring.
+
+Checkpoint B / Claude Audit B reviewed the conformal assembly boundary and
+found one cleanup before Stage 4AD: the reduced determinant policy must be
+consistent across conformal `R_ww` pieces. The Stage 4Y singular block now
+matches Stage 4Z, Stage 4AB, and Stage 4AC by requiring finite positive
+`D = AC - B^2`; negative determinants are rejected before formula evaluation.
+
 ## Conformal-Factor Ricci Correction
 
 For `gamma_IJ = chi^{-1} h_IJ` in `d = 4`,
@@ -389,6 +407,8 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 - Stage 4AB: local away-axis conformal Hessian sub-block implementation,
   checked by the flat, cone, nonconstant-`W`, and verified nonsymmetric
   oracles.
+- Stage 4AC: local away-axis conformal `tilde{R}_ww[h]` assembly from the
+  reviewed Stage 4Y, 4Z, and 4AB sub-blocks.
 
 ## Future Stage Breakdown
 
@@ -397,8 +417,8 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 | Stage 4Z | Checked `W_x / x` ingredient and `G^grad_ww` implementation | Complete as a local away-axis sub-block; consumes checked `p_W = W_x / x`, checked `q_xz`, and single-source metric inputs; no full `tilde R_ww` claim |
 | Stage 4AA | Hessian block derivation lock | Complete as documentation: `G^Hess_ww`, coefficient/sign convention, Christoffels, flat/cone/nonconstant oracles, and Claude Audit A's verified nonsymmetric oracle are recorded |
 | Stage 4AB | Hessian block implementation | Complete as a local checked Hessian sub-block with determinant and away-axis guards; includes the verified nonsymmetric oracle in its test |
-| Stage 4AC | Assemble conformal `tilde{R}_ww[h]` | Combine reviewed conformal sub-blocks only; still not physical `R_ww[gamma]` |
-| Stage 4AD | `R^chi_ww` derivation lock and guard-stack design | Design guards for `D_w D_w chi`, full conformal Laplacian, and hidden/cartoon singular terms |
+| Stage 4AC | Assemble conformal `tilde{R}_ww[h]` | Complete as a local away-axis conformal-only assembly of reviewed Stage 4Y/4Z/4AB sub-blocks; still not physical `R_ww[gamma]` |
+| Stage 4AD | `R^chi_ww` derivation lock and guard-stack design | May start after the Checkpoint B determinant-policy cleanup; design guards for `D_w D_w chi`, full conformal Laplacian, and hidden/cartoon singular terms |
 | Stage 4AE | Implement `R^chi_ww` | Local conformal-factor Ricci correction only |
 | Stage 4AF | Hard split-vs-direct physical Ricci identity gate | Validate `tilde{R}_ww + R^chi_ww == R_ww[gamma]` against direct physical Ricci, including varying `chi` |
 | Stage 4AG | True off-diagonal parity validation gate | Require a two-sided check `h_xz(-x,z) = -h_xz(x,z)`, a Taylor/coefficient check, or a grid-level near-axis policy with documented tolerance |
@@ -440,6 +460,7 @@ evolution claims.
 | --- | --- | --- |
 | Conformal vs physical Ricci confusion | Stages 4W, 4AC-4AF | Keep `tilde{R}_ww[h]`, `R^chi_ww`, and `R_ww[gamma]` separate until the identity gate passes |
 | Raw/checked mismatch | Stage 4Y | Single-source input package for determinant data and checked singular ingredients |
+| Inconsistent reduced determinant policy | Checkpoint B / Stage 4Y | Stage 4Y now rejects finite negative `D`; all conformal `R_ww` pieces require finite positive reduced determinant |
 | False `h_xz` parity claim | Stages 4X, 4AG | Keep Stage 4X scoped to local `h_xz / x`; add true parity validation in Stage 4AG |
 | Bypassing checked `W_x / x` | Stage 4Z and later gradient consumers | Stage 4Z provides checked `p_W = W_x / x`; later formulas must consume the checked package rather than loose raw quotient values |
 | Hessian complexity | Stages 4AA-4AB | Stage 4AA locks the formula, Christoffels, and verified nonsymmetric oracle; Stage 4AB may proceed only with that oracle in its test |

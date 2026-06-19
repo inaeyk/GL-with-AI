@@ -116,11 +116,10 @@ inline double checked_reduced_determinant(const double h_xx, const double h_xz,
     const ConformalCartoonAlgebra::ConformalMetric h{h_xx, h_xz, h_zz, 1.0};
     const double determinant = ConformalCartoonAlgebra::reduced_determinant(h);
     if (!std::isfinite(determinant) ||
-        std::abs(determinant) <=
-            ConformalCartoonAlgebra::algebra_zero_tolerance)
+        determinant <= ConformalCartoonAlgebra::algebra_zero_tolerance)
     {
         throw std::domain_error(
-            "CartoonConformalRwwSingularBlock requires finite nonzero "
+            "CartoonConformalRwwSingularBlock requires finite positive "
             "reduced determinant");
     }
     return determinant;
@@ -134,9 +133,8 @@ make_conformal_rww_singular_block_inputs(const double x, const double h_xx,
     // The determinant inputs and singular checked ingredients are single-sourced
     // from the same local metric point by this factory. This prevents callers
     // from mixing checked Delta_xw and q_xz produced from one point with a
-    // determinant built from another. The determinant policy matches the
-    // existing ConformalCartoonAlgebra inverse helper: finite nonzero D is
-    // required here; positive-definite enforcement remains a separate policy.
+    // determinant built from another. After Checkpoint B, all conformal Rww
+    // sub-blocks use the same reduced-metric policy: finite positive D.
     const double determinant = checked_reduced_determinant(h_xx, h_xz, h_zz);
     const auto checked_diagonal =
         CartoonRegularityGuardedSources::
