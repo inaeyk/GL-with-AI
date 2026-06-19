@@ -584,3 +584,18 @@ Category: Physics + Code
   checks and compile-time type-boundary checks. This is not full Ricci, live
   RHS, grid validation, finite-axis support, or evolution. Checkpoint E /
   Claude Audit E is required before Stage 4AJ.
+
+## 2026-06-19 - Stage 4AJ Physical Hidden Lapse Hessian
+
+Category: Physics + Code
+
+- Added `CartoonCheckedDxalphaOverX.hpp` and
+  `CartoonPhysicalHiddenLapseHessian.hpp` for local physical
+  `D_wD_w alpha`.
+- The factory single-sources `x,A,B,C,W,chi`, first derivatives, positive
+  determinant, and checked `q`, `p_W`, `p_chi`, and `p_alpha`. The formula uses
+  `gamma=h/chi`; the varying-`chi` oracle catches conformal-hessian reuse.
+- The standalone fixture passes constant-lapse, flat linear-`x`, flat
+  linear-`z`, varying-`chi`, and nonsymmetric oracles plus direct physical
+  comparisons. The source minus sign, full `A_ww` source block, RHS, grid
+  reads, finite-axis support, and evolution remain future work.

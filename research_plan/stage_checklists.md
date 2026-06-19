@@ -304,8 +304,11 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AI: place physical `R_ww[gamma]` into a typed local hidden Ricci/RHS contribution contract that accepts only the Stage 4AH result.
 - [x] Stage 4AI: compute `2 h^ww R_ww[gamma]` and `chi 2 h^ww R_ww[gamma]` with hidden multiplicity two and same-point `chi` / `1/h_ww` data.
 - [x] Stage 4AI: test flat, cone, linear-`x`, and nonsymmetric cases, non-aggregate result types, and rejection of a loose raw `R_ww` call shape.
-- [ ] Checkpoint E / Claude Audit E: review the Stage 4AI physical-object boundary, hidden multiplicity, and conformal-versus-physical contraction factors before Stage 4AJ.
-- [ ] Stage 4AJ: derive and guard the hidden lapse Hessian `D_w D_w alpha`.
+- [x] Checkpoint E / Claude Audit E: review the Stage 4AI physical-object boundary, hidden multiplicity, and conformal-versus-physical contraction factors before Stage 4AJ.
+- [x] Stage 4AJ: implement the local physical hidden lapse Hessian `D_wD_w alpha` using `gamma=h/chi`, not the conformal metric alone.
+- [x] Stage 4AJ: add checked `p_alpha=alpha_x/x`, single-source it with checked `q`, `p_W`, `p_chi`, and positive `x`, `W`, `chi`, and determinant guards.
+- [x] Stage 4AJ: test constant-lapse, flat linear-`x`, flat linear-`z`, varying-`chi`, and nonsymmetric oracles plus direct physical-form comparisons and invalid-input rejection.
+- [x] Stage 4AJ: keep the source minus sign, full `A_ww` source block, RHS, grid reads, finite-axis support, and evolution wiring unimplemented.
 - [ ] Stage 4AK: implement the local `A_ww` curvature/lapse block after the sign-convention gate is satisfied.
 - [ ] Stage 4AL: lock the `hat_Gamma^x` hidden-contraction derivation and define a GL-growth/dispersion anchor.
 - [ ] Stage 4AM: add local `hat_Gamma^x` implementation/contract tests.

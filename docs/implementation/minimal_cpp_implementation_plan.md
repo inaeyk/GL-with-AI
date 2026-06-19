@@ -1012,6 +1012,7 @@ abstraction if a local GRChombo pattern already exists.
 | Conformal-factor Rww correction | Stage 4AE fixture proving checked `p_chi = chi_x/x`, single-source metric/scalar inputs, hidden multiplicity `(2/W)D_wD_w chi`, constant/linear-x/linear-z/nonsymmetric oracles, rejection cases, and one test-only Stage 4G physical-minus-conformal comparison |
 | Away-axis physical Rww assembly | Stage 4AH fixture proving the single-source Stage 4AC plus Stage 4AE assembly, named conformal/correction/physical parts, same-point `chi` and `1/h_ww` exposure, simple and nonsymmetric oracles, and retained grid/axis limitations |
 | Physical Rww Ricci/RHS contract | Stage 4AI fixture proving `2 h^ww R_ww[gamma]` and `chi 2 h^ww R_ww[gamma]`, hidden multiplicity two, Stage 4AH-only typed input, non-aggregate contract shape, and no raw-double entry point |
+| Physical hidden lapse Hessian | Stage 4AJ fixture proving checked `p_alpha=alpha_x/x`, physical `gamma=h/chi` use, constant/linear-x/linear-z/varying-chi/nonsymmetric oracles, direct physical-form comparison, rejection cases, and no source-sign/RHS/evolution claim |
 | Hidden-sphere Ricci roadmap | Stage 4AD-4AR plan proving the remaining gates have concrete ownership before physical `R_ww[gamma]`, `A_ww`, `hat_Gamma^x`, RHS, or evolution claims |
 | Small-axis helper | Stage 3I regular and irregular Taylor fixtures; assembled `tilde_Gamma^x` / `hat_Gamma^x` limit guard |
 | Constraint damping | Not a Stage 4A task; requires Stage 3H/3J linearized constraint-violation injection milestone |
@@ -1090,8 +1091,16 @@ also exposes the same-point positive `chi` and conformal inverse
 `hidden_conformal_trace = 2 h^ww R_ww[gamma]` plus
 `hidden_physical_scalar_contribution = chi * hidden_conformal_trace`.
 No full Ricci scalar, live RHS, grid read, finite-axis evaluation, or
-evolution path is added. Checkpoint E / Claude Audit E is required before
-Stage 4AJ.
+evolution path is added. Checkpoint E / Claude Audit E is recorded as complete
+before Stage 4AJ.
+
+Stage 4AJ adds `CartoonCheckedDxalphaOverX.hpp` and
+`CartoonPhysicalHiddenLapseHessian.hpp`. Its factory validates one local point,
+requires positive `x`, `W`, `chi`, and reduced determinant, and mints checked
+`q`, `p_W`, `p_chi`, and `p_alpha`. The implemented value is physical
+`D_wD_w alpha`, not the conformal hidden Hessian; the varying-`chi` oracle
+`11/80` differs from the conformal value `3/20`. The source minus sign and
+the full `A_ww` block remain Stage 4AK.
 
 ## Acceptance Criteria
 

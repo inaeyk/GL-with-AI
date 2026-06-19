@@ -27,7 +27,6 @@
 - [ ] Decide whether the next scaffold pass should keep inherited BinaryBH behavior untouched or trim it before later black-string initial-data work.
 - [ ] Decide how and when to resolve PETSc/AHFinder-enabled execution.
 - [ ] Decide whether a scratch-only minimal CCZ4 target is needed before reduced-cartoon evolution work.
-- [ ] Checkpoint E / Claude Audit E: review the Stage 4AI physical-`R_ww` typed boundary, hidden multiplicity, and conformal/physical contraction factors before Stage 4AJ.
 
 ## Completed
 
@@ -112,6 +111,8 @@
 - [x] Checkpoint D: review the Stage 4AF identity gate and Stage 4AG synthetic parity gate before allowing local-only Stage 4AH assembly.
 - [x] Stage 4AH: assemble local away-axis physical `R_ww[gamma] = tilde R_ww[h] + R^chi_ww` through one single-source package; retain all grid/axis validation limitations.
 - [x] Stage 4AI: place local physical `R_ww[gamma]` into a typed hidden Ricci/RHS contribution contract that computes `2 h^ww R_ww` and `chi 2 h^ww R_ww` without accepting a loose raw value.
+- [x] Checkpoint E / Claude Audit E: review the Stage 4AI physical-`R_ww` typed boundary, hidden multiplicity, and conformal/physical contraction factors before Stage 4AJ.
+- [x] Stage 4AJ: implement local physical `D_wD_w alpha` with checked `alpha_x/x`, physical `gamma=h/chi`, direct physical-form comparisons, and no source minus sign or RHS wiring.
 - [ ] Stage 4AL: derive the `hat_Gamma^x` hidden-contraction convention and define a GL-growth/dispersion anchor before serious evolution claims.
 - [ ] Stage 4AQ: remove or replace the Stage 4D smoke-only hidden freeze before real hidden-sector RHS/evolution use.
 - [ ] Future review/lint gate: mechanically flag source-formula recomputation of `(hxx - hww) / x^2` outside `RegularityGuardedGeometrySources` / the Stage 4U authoring gate.

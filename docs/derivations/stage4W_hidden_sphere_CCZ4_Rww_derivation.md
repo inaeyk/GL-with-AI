@@ -769,4 +769,46 @@ loose raw `R_ww` value.
 This remains local and away-axis only. It is not the full Ricci scalar, not a
 full CCZ4 RHS, and not grid or evolution wiring. Actual-grid parity and
 matching checks, `W_x` and `chi_x` regularity, and finite-axis evaluation
-remain open. Checkpoint E / Claude Audit E is required before Stage 4AJ.
+remain open. Checkpoint E / Claude Audit E is recorded as complete before
+Stage 4AJ.
+
+## Stage 4AJ Physical Hidden Lapse Hessian
+
+Stage 4AJ implements the local physical hidden Hessian used later in the
+curvature/lapse block:
+
+```text
+D_wD_w alpha =
+    (rho_gamma / x^2) gamma^ab (partial_a rho_gamma)(partial_b alpha),
+
+rho_gamma = x sqrt(W / chi),  gamma_IJ = chi^{-1} h_IJ.
+```
+
+Equivalently, the test checks
+
+```text
+D_wD_w alpha =
+    (1 / (2 x^2)) gamma^ab
+        partial_a(x^2 gamma_ww) partial_b alpha.
+```
+
+The guarded implementation is
+
+```text
+D_wD_w alpha =
+    (W/D)(C p_alpha - q alpha_z)
+  + (W/(2D)) [
+      x^2(C ell_x p_alpha - q ell_x alpha_z - q ell_z p_alpha)
+      + A ell_z alpha_z
+    ],
+```
+
+where `q=B/x`, `p_W=W_x/x`, `p_chi=chi_x/x`,
+`p_alpha=alpha_x/x`, `ell_x=p_W/W-p_chi/chi`, and
+`ell_z=W_z/W-chi_z/chi`. The varying-`chi` flat oracle gives `11/80`, not the
+conformal-metric value `3/20`, which guards against reusing the Stage 4AE
+hidden Hessian structure unchanged.
+
+This is still local and away-axis only. The source sign `-D_wD_w alpha` and
+the full `A_ww` curvature/lapse block are Stage 4AK work. Stage 4AJ adds no
+RHS, grid reads, finite-axis support, or evolution wiring.

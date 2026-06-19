@@ -454,7 +454,17 @@ A loose raw `R_ww` double, conformal `tilde R_ww`, or `R^chi_ww` cannot be
 passed directly. This is still only a local hidden contribution contract, not
 the full Ricci scalar or a live RHS. Actual-grid parity/matching checks,
 finite-axis evaluation, grid reads, RHS, and evolution remain false.
-Checkpoint E / Claude Audit E is required before Stage 4AJ.
+Checkpoint E / Claude Audit E is recorded as complete before Stage 4AJ.
+
+Stage 4AJ adds the local physical hidden lapse Hessian in
+`CartoonPhysicalHiddenLapseHessian.hpp`. The formula is built from
+`gamma=h/chi`, not the conformal metric alone, and consumes checked
+`q=B/x`, `p_W=W_x/x`, `p_chi=chi_x/x`, and new checked
+`p_alpha=alpha_x/x` from one local point. The result exposes only
+`dww_alpha()`. The minus sign in the curvature/lapse source,
+`-D_wD_w alpha`, is deliberately not applied here; Stage 4AK owns the local
+`A_ww` source block. This remains local away-axis data only, with no full RHS,
+grid reads, finite-axis support, or evolution wiring.
 
 ## Non-goals
 

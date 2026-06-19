@@ -411,6 +411,7 @@ and no global parity or finite-axis regularity proof.
 | Stage 4AD R^chi_ww derivation and guard-stack gate | 3I/3J/4W/4AC/4AD | Documentation gate | Conformal-factor Ricci split, scalar derivatives of `chi`, reduced metric values/derivatives, existing checked `q_xz` and `p_W` context | Locks `D_wD_w chi`, `D^KD_K chi` with hidden multiplicity `2/W`, `D^K chi D_K chi`, checked `chi_x/x` requirement, constant-`chi` oracle `0`, flat `chi=1+a x` oracle `11/144`, and z-dependent oracle `-1/64` | Review gate only | Prevents `R^chi_ww` code before the hidden Laplacian multiplicity, singular `chi_x/x` ingredient, and oracle set are documented | Implementation correctness, split-vs-direct physical Ricci identity, RHS/evolution, global parity/regularity proof | Required before Stage 4AE | Docs-only derivation and guard design |
 | Stage 4AE conformal-factor Rww fixture | 3I/3J/4W/4AC/4AD/4AE | C++ local formula fixture | Single-source local `x,A,B,C,W,chi`, base/W first derivatives, and `chi` first/second derivatives with checked `q_xz`, `p_W`, and `p_chi` | Constant `chi` gives `0`; flat `chi=1+ax` gives `11/144`; flat `chi=1+bz` gives `-1/64`; nonsymmetric sample gives `D_wD_w chi=131/62`, Laplacian `10430/2883`, norm `49/31`, and `R^chi_ww=63341/48050`; invalid inputs reject; packages are non-aggregate | Exact local identities, exception/type checks, and one test-only Stage 4G physical-minus-conformal comparison | Missing hidden multiplicity, raw quotient bypass, mixed-point inputs, Christoffel/sign errors, invalid `chi/W/D/x` acceptance | General split-vs-direct hard gate, physical `R_ww` assembly, RHS/evolution, global parity/regularity proof | Required before Checkpoint C and Stage 4AF | `R^chi_ww` only; away-axis local value |
 | Stage 4AI physical Rww Ricci/RHS contract fixture | 3J/4AH/4AI | C++ local typed-contract fixture | Non-forgeable Stage 4AH physical result carrying `R_ww[gamma]`, same-point `chi`, and conformal `h^ww=1/h_ww` | Flat contributions `0`; cone contributions `-3/8`; linear-`x` contributions `11/72` and `11/60`; nonsymmetric case matches `2 h^ww R_ww` and `chi 2 h^ww R_ww`; contract/result types are non-aggregate and raw `double` is not invocable | Exact local identities and compile-time type-shape checks | Hidden multiplicity omission, wrong inverse metric factor, missing `chi`, accepting conformal/correction/raw values at the physical contract boundary | Full Ricci scalar, full RHS, grid validation, finite-axis support, evolution | Required before Checkpoint E and Stage 4AJ | Hidden `ww` contribution contract only; away-axis local value |
+| Stage 4AJ physical hidden lapse Hessian fixture | 3J/4AE/4AJ | C++ local formula fixture | Single-source local `x,A,B,C,W,chi,W_x,W_z,chi_x,chi_z,alpha_x,alpha_z` with checked `q`, `p_W`, `p_chi`, and `p_alpha` | Constant alpha gives `0`; flat linear-`x` gives `3/20`; flat linear-`z` gives `0`; varying `chi` gives `11/80`; nonsymmetric sample gives `699/155`; varying and nonsymmetric cases match the direct physical formula | Exact local identities, direct physical-form comparison, exception checks, and type-shape checks | Accidental conformal-Hessian reuse, missing checked `alpha_x/x`, wrong `gamma=h/chi` factors, mixed-point inputs, invalid `x/W/chi/D` acceptance | Source minus sign, full `A_ww` source block, full RHS, grid reads, finite-axis support, evolution | Required before Stage 4AK | Physical hidden lapse Hessian only; away-axis local value |
 | Stage 4AF-4AR hidden-sphere Ricci gates | 3I/3J/4W/4AE | C++ local fixtures plus derivation and identity gates | Direct physical Ricci comparison, parity data, and `hat_Gamma^x` convention data | Concrete gates for split-vs-direct identity, true `h_xz` parity, physical `R_ww`, hidden lapse, `A_ww`, `hat_Gamma^x`, RHS integration, and smoke-freeze removal | Derivation exactness, local identities, direct Ricci comparison, and later controlled evolution checks | Hidden-sphere Ricci reaching RHS/evolution before conformal-vs-physical split, parity, sign, and `hat_Gamma^x` risks are owned | Production evolution correctness or Pau reproduction by itself | Required before serious hidden-sector RHS/evolution claims | See `stage4_hidden_sphere_Rww_plan.md` |
 | Gamma-driver ownership boundary | 3H | C++ unit/design check | Mock RHS block inputs for gauge and `hat_Gamma^A` terms | Gauge block owns lapse/shift/auxiliary evolution; `hat_Gamma^A` block owns their appearances in `partial_t hat_Gamma^A` | Structural review plus targeted unit checks | Double-counting gauge terms, split ownership drift | Physical correctness of chosen gauge | Yes as a design review gate | Yes |
 
@@ -459,7 +460,21 @@ hidden contributions `2 h^ww R_ww[gamma]` and
 cases are covered. Compile-time checks keep both result types non-aggregate
 and prove that a loose raw `double` is not accepted. The fixture does not test
 the full Ricci scalar, full RHS, actual grid regularity, finite-axis values, or
-evolution. Checkpoint E / Claude Audit E is required before Stage 4AJ.
+evolution. Checkpoint E / Claude Audit E is recorded as complete before
+Stage 4AJ.
+
+### Stage 4AJ Physical Hidden Lapse Hessian Fixture
+
+The Stage 4AJ fixture checks the physical-metric `D_wD_w alpha` block. It
+locks constant lapse zero, flat linear-`x` `3/20`, flat linear-`z` zero,
+varying-`chi` `11/80`, and nonsymmetric `699/155` oracles. The varying-`chi`
+case must differ from the conformal-metric value `3/20`. The varying-`chi` and
+nonsymmetric cases are independently compared against
+`(1/(2x^2)) gamma^ab partial_a(x^2 gamma_ww) partial_b alpha`; observed
+residuals are at roundoff or zero in the fixture. Invalid axis, `W`, `chi`,
+determinant, and nonfinite derivatives reject. This fixture does not apply the
+source minus sign, implement the full `A_ww` source block, read grid data,
+support finite-axis evaluation, or wire evolution.
 
 These are not substitutes for unit tests. They catch coupled failures that
 small algebra tests cannot catch, and several require the future implementation
