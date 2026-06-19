@@ -507,3 +507,20 @@ Category: 🟡 Physics + Docs
   oracle before Stage 4AE. No code, tests, physical Ricci assembly,
   split-vs-direct identity gate, RHS, grid reads, or evolution wiring was
   added.
+
+Category: 🟡 Physics + Code
+
+- Stage 4AE implements only the local away-axis conformal-factor correction
+  `R^chi_ww` in `CartoonConformalFactorRww.hpp`. Its single-source input
+  package validates positive `x`, `chi`, `W`, and determinant and mints
+  checked `q_xz`, `p_W`, and `p_chi=chi_x/x`. The implementation retains the
+  hidden multiplicity term `(2/W)D_wD_w chi`.
+
+Category: 🟡 Physics + Code
+
+- The Stage 4AE fixture locks constant-`chi` zero, linear-`x` `11/144`,
+  linear-`z` `-1/64`, and the nonsymmetric intermediates `131/62`,
+  `10430/2883`, `49/31` with final `R^chi_ww=63341/48050`. A test-only
+  Stage 4G physical-minus-Stage 4AC conformal comparison passes for the
+  nonsymmetric sample. This is not the general Stage 4AF hard identity gate;
+  Checkpoint C / Claude Audit C is required before 4AF.

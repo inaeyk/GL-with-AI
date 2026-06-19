@@ -411,6 +411,17 @@ through a single-source input package, while reusing the existing checked
 `R^chi_ww`, physical `R_ww[gamma]`, the split-vs-direct identity gate, RHS, or
 evolution.
 
+Stage 4AE implements only that local away-axis `R^chi_ww` companion in
+`CartoonConformalFactorRww.hpp`. A single-source factory validates positive
+`x`, `chi`, `W`, and reduced determinant, reuses checked `q_xz` and `p_W`,
+and mints checked `p_chi = chi_x/x`. The formula retains the hidden
+multiplicity term `(2/W)D_wD_w chi`. Its fixture locks constant-`chi` zero,
+the flat linear-`x` value `11/144`, the flat linear-`z` value `-1/64`, and
+the nonsymmetric value `63341/48050`, including a test-only Stage 4G
+physical-minus-conformal comparison. This is not physical `R_ww[gamma]` or
+the Stage 4AF identity gate. Checkpoint C / Claude Audit C is required before
+4AF.
+
 ## Non-goals
 
 Stage 4H does not:

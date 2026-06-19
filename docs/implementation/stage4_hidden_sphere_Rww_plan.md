@@ -1,8 +1,8 @@
 # Stage 4 Hidden-Sphere Rww Plan
 
-Status: roadmap and derivation integration only. This document does not add
-C++ code, tests, finite-difference stencils, full Ricci, CCZ4 RHS terms, or
-evolution wiring.
+Status: integrated roadmap through the local Stage 4AE implementation. This
+document does not claim physical Ricci assembly, finite-difference stencils,
+CCZ4 RHS terms, or evolution wiring.
 
 ## Purpose
 
@@ -330,8 +330,9 @@ R^chi_ww =
 
 Warning: `R^chi_ww` carries its own `1/x` and `1/x^2`-type
 hidden/cartoon terms through `D_w D_w chi` and the full conformal Laplacian.
-Stage 4AD must design a guard stack analogous to Stages 4P-4X before
-implementation. The Stage 4Y conformal block does not make `R^chi_ww` safe.
+Stage 4AD designed, and Stage 4AE implements, a guard stack analogous to
+Stages 4P-4X. The conformal `tilde R_ww` implementation alone does not make
+`R^chi_ww` safe.
 
 Stage 4AD locks the local away-axis derivation for this conformal-factor
 correction. With
@@ -382,8 +383,8 @@ D^K chi D_K chi =
   + (A / D) chi_z^2.
 ```
 
-The Stage 4AE guard stack must mint a single-source input package from one
-local point and reuse the established conformal `R_ww` local policies:
+The Stage 4AE guard stack mints a single-source input package from one
+local point and reuses the established conformal `R_ww` local policies:
 
 - finite positive `x` through the away-axis-only policy;
 - finite positive `chi`, because `R^chi_ww` divides by `chi` and `chi^2`;
@@ -397,8 +398,8 @@ local point and reuse the established conformal `R_ww` local policies:
   reduced-base Hessian pieces;
 - no clamp, `eps_cut`, or regularized-axis substitution.
 
-The checked `p_chi` package would be a local away-axis quotient only. Like
-Stage 4X and Stage 4Z, it would not prove global parity, finite-axis
+The checked `p_chi` package is a local away-axis quotient only. Like
+Stage 4X and Stage 4Z, it does not prove global parity, finite-axis
 regularity, or the analytic statement `chi_x = O(x)` on a numerical grid.
 True grid-level parity or near-axis regularity validation remains separate
 future work.
@@ -423,13 +424,39 @@ R^chi_ww = 11 / 144 = 0.076388888888...
   `chi = 1 + b z`: hand derivation gives `D_w D_w chi = 0`,
   `D^K D_K chi = 0`, and `D^K chi D_K chi = b^2`, hence
   `R^chi_ww = -b^2 / chi^2`. For example, at `z = 3`, `b = 0.2`,
-  `chi = 1.6`, this gives `R^chi_ww = -1 / 64 = -0.015625`.
-  This z-dependent candidate should receive independent audit before Stage
-  4AE; Stage 4AE may replace it with a stronger audited off-diagonal oracle.
+  `chi = 1.6`, this gives `R^chi_ww = -1 / 64 = -0.015625`; the Stage 4AE
+  fixture now locks this value.
+- The Stage 4AE nonsymmetric sample gives
+  `D_wD_w chi = 131/62`, `D^KD_K chi = 10430/2883`,
+  `D^K chi D_K chi = 49/31`, and
+  `R^chi_ww = 63341/48050`. The fixture also checks this value against
+  `R_ww[gamma] - tilde R_ww[h]` from the Stage 4G and Stage 4AC helpers.
 
 Stage 4AD remains derivation and guard-stack design only. It does not
 implement `R^chi_ww`, physical `R_ww[gamma]`, the split-vs-direct identity
 gate, RHS terms, grid reads, or evolution wiring.
+
+Stage 4AE implements the local away-axis conformal-factor correction in
+`code/BlackStringToy/CartoonConformalFactorRww.hpp`. Its factory
+single-sources the local metric, conformal factor, derivatives, positive
+determinant, and checked `q_xz`, `p_W`, and `p_chi` ingredients. The guarded
+hidden-Hessian form is
+
+```text
+D_wD_w chi =
+    (C / D) [W p_chi + (x^2 / 2) p_W p_chi]
+  - (q_xz / D) [
+        W chi_z
+      + (x^2 / 2) p_W chi_z
+      + (x^2 / 2) W_z p_chi
+    ]
+  + (A / D) (W_z chi_z / 2).
+```
+
+The implementation retains the hidden multiplicity `(2/W)D_wD_w chi` in the
+full conformal Laplacian. It is `R^chi_ww` only, not physical
+`R_ww[gamma]`, not the Stage 4AF hard identity gate, not RHS, and not
+evolution wiring. Checkpoint C / Claude Audit C is required before Stage 4AF.
 
 ## Hard Physical Ricci Identity Gate
 
@@ -509,6 +536,9 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
   reviewed Stage 4Y, 4Z, and 4AB sub-blocks.
 - Stage 4AD: `R^chi_ww` derivation lock and guard-stack design for Stage 4AE,
   including the required checked `chi_x / x` ingredient and oracle set.
+- Stage 4AE: local away-axis `R^chi_ww` implementation with checked
+  `chi_x/x`, single-source inputs, hidden multiplicity, locked simple and
+  nonsymmetric oracles, and a test-only Stage 4G difference comparison.
 
 ## Future Stage Breakdown
 
@@ -519,7 +549,7 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 | Stage 4AB | Hessian block implementation | Complete as a local checked Hessian sub-block with determinant and away-axis guards; includes the verified nonsymmetric oracle in its test |
 | Stage 4AC | Assemble conformal `tilde{R}_ww[h]` | Complete as a local away-axis conformal-only assembly of reviewed Stage 4Y/4Z/4AB sub-blocks; still not physical `R_ww[gamma]` |
 | Stage 4AD | `R^chi_ww` derivation lock and guard-stack design | Complete as documentation: locks `D_wD_w chi`, the full Laplacian with hidden multiplicity, the gradient norm, the need for checked `chi_x/x`, and Stage 4AE oracles |
-| Stage 4AE | Implement `R^chi_ww` | Local conformal-factor Ricci correction only; must include the constant-`chi`, `chi=1+a x`, and audited z/off-diagonal oracle |
+| Stage 4AE | Implement `R^chi_ww` | Complete as a local away-axis conformal-factor correction with checked `p_chi`, single-source inputs, hidden multiplicity, simple/nonsymmetric oracles, and one test-only Stage 4G difference comparison |
 | Stage 4AF | Hard split-vs-direct physical Ricci identity gate | Validate `tilde{R}_ww + R^chi_ww == R_ww[gamma]` against direct physical Ricci, including varying `chi` |
 | Stage 4AG | True off-diagonal parity validation gate | Require a two-sided check `h_xz(-x,z) = -h_xz(x,z)`, a Taylor/coefficient check, or a grid-level near-axis policy with documented tolerance |
 | Stage 4AH | Assemble physical `R_ww[gamma]` | Blocked until Stages 4AF and 4AG pass |
@@ -564,7 +594,7 @@ evolution claims.
 | False `h_xz` parity claim | Stages 4X, 4AG | Keep Stage 4X scoped to local `h_xz / x`; add true parity validation in Stage 4AG |
 | Bypassing checked `W_x / x` | Stage 4Z and later gradient consumers | Stage 4Z provides checked `p_W = W_x / x`; later formulas must consume the checked package rather than loose raw quotient values |
 | Hessian complexity | Stages 4AA-4AB | Stage 4AA locks the formula, Christoffels, and verified nonsymmetric oracle; Stage 4AB may proceed only with that oracle in its test |
-| `R^chi_ww` singular hidden terms | Stages 4AD-4AE | Stage 4AD designs the dedicated guard stack for `D_w D_w chi`, checked `chi_x/x`, and full Laplacian terms; Stage 4AE implements it |
+| `R^chi_ww` singular hidden terms | Stages 4AD-4AE | Stage 4AE implements the dedicated checked `chi_x/x` guard stack and retains hidden multiplicity; Checkpoint C audits it before the Stage 4AF identity gate |
 | Hard identity gate not yet passed | Stage 4AF | Direct physical Ricci comparison with varying `chi` |
 | `hat_Gamma^x` hidden contraction | Stages 4AL-4AM | Derive hidden contraction and hatted convention; use GL-growth/dispersion anchor |
 | Sign-convention consistency between initial data and RHS | Sign gate before 4AK | Check against the Stage 3A `K_IJ` convention and CCZ4 curvature/lapse sign |

@@ -294,9 +294,10 @@ R^chi_ww = 2 a / (chi x) - a^2 / chi^2
           approximately 0.0763888889.
 ```
 
-This is a proposed future oracle only. Stage 4W does not implement it.
+Stage 4W proposed this oracle without implementing it; Stage 4AE now locks it
+in the local conformal-factor correction fixture.
 
-Stage 4AD records the Stage 4AE oracle set:
+Stage 4AD records, and the Stage 4AE fixture locks, the oracle set:
 
 - Constant `chi` gives `R^chi_ww = 0`.
 - The flat conformal metric with `chi = 1 + a x` gives the value above:
@@ -304,9 +305,32 @@ Stage 4AD records the Stage 4AE oracle set:
 - A z-dependent flat conformal candidate, `chi = 1 + b z`, gives
   `D_wD_w chi = 0`, `D^KD_K chi = 0`, and
   `D^K chi D_K chi = b^2`, hence `R^chi_ww = -b^2 / chi^2`. At `z = 3`,
-  `b = 0.2`, `chi = 1.6`, this is `-1 / 64 = -0.015625`. This candidate is
-  hand-derived here and should receive independent audit before Stage 4AE, or
-  be replaced by a stronger audited off-diagonal oracle.
+  `b = 0.2`, `chi = 1.6`, this is `-1 / 64 = -0.015625`.
+- The distinct nonsymmetric local jet gives
+  `D_wD_w chi = 131/62`, `D^KD_K chi = 10430/2883`,
+  `D^K chi D_K chi = 49/31`, and
+  `R^chi_ww = 63341/48050`.
+
+Stage 4AE implements this correction in
+`code/BlackStringToy/CartoonConformalFactorRww.hpp`. The potentially
+singular hidden Hessian is evaluated in the checked form
+
+```text
+D_wD_w chi =
+    (C / D) [W p_chi + (x^2 / 2) p_W p_chi]
+  - (q_xz / D) [
+        W chi_z
+      + (x^2 / 2) p_W chi_z
+      + (x^2 / 2) W_z p_chi
+    ]
+  + (A / D) (W_z chi_z / 2),
+```
+
+with `q_xz = B/x`, `p_W = W_x/x`, and `p_chi = chi_x/x` minted by checked
+local packages from the same point. The Stage 4AE fixture confirms the
+nonsymmetric value against the test-only difference
+`R_ww[gamma] - tilde R_ww[h]`. This is not the general Stage 4AF hard
+identity gate. Checkpoint C / Claude Audit C is required before Stage 4AF.
 
 ## Sign-Convention Lock
 

@@ -285,9 +285,12 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AD: derive `R^chi_ww` and design its own hidden/cartoon singular guard stack before implementation.
 - [x] Stage 4AD: lock `D_wD_w chi`, the full conformal Laplacian with hidden multiplicity `2/W`, the reduced scalar Hessian pieces, and the conformal gradient norm.
 - [x] Stage 4AD: require Stage 4AE to add a checked local `chi_x/x` ingredient and reuse checked `q_xz`, checked `p_W`, away-axis-only semantics, and positive `chi`, `W`, and determinant guards.
-- [x] Stage 4AD: record constant-`chi` zero, flat `chi=1+a x` `11/144`, and pending z-dependent `chi=1+b z` `-1/64` oracle candidates.
+- [x] Stage 4AD: record constant-`chi` zero, flat `chi=1+a x` `11/144`, and z-dependent `chi=1+b z` `-1/64` oracle candidates; Stage 4AE locks all three and adds the nonsymmetric oracle.
 - [x] Stage 4AD: do not implement `R^chi_ww`, physical `R_ww[gamma]`, the split-vs-direct identity gate, RHS, grid reads, or evolution wiring.
-- [ ] Stage 4AE: implement only the reviewed `R^chi_ww` local correction.
+- [x] Stage 4AE: implement only the reviewed local away-axis `R^chi_ww` correction through a single-source non-forgeable input package.
+- [x] Stage 4AE: add checked `p_chi=chi_x/x`, reuse checked `q_xz` and `p_W`, and retain hidden multiplicity `(2/W)D_wD_w chi`.
+- [x] Stage 4AE: test constant `chi`, linear-`x`, linear-`z`, and nonsymmetric oracles plus invalid input rejection and a test-only Stage 4G difference comparison.
+- [ ] Checkpoint C / Claude Audit C: review Stage 4AE before Stage 4AF.
 - [ ] Stage 4AF: pass the hard identity gate `tilde R_ww + R^chi_ww == R_ww[gamma]` against direct physical Ricci with varying `chi`.
 - [ ] Stage 4AG: add true off-diagonal parity validation for `h_xz(-x,z) = -h_xz(x,z)`, or a Taylor/coefficient or grid-level near-axis policy with documented tolerance.
 - [ ] Stage 4AH: assemble physical `R_ww[gamma]` only after Stages 4AF and 4AG pass.

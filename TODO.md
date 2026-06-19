@@ -104,7 +104,8 @@
 - [x] Stage 4AC: assemble conformal `tilde R_ww[h]` from the reviewed Stage 4Y, 4Z, and 4AB sub-blocks without claiming physical `R_ww[gamma]`.
 - [x] Checkpoint B / Claude Audit B cleanup: unify the reduced determinant policy so all conformal `R_ww` blocks reject `D <= 0`.
 - [x] Stage 4AD: derive `R^chi_ww` and design its hidden/cartoon singular guard stack before implementation.
-- [ ] Stage 4AE: implement only the reviewed local `R^chi_ww` correction, including checked `chi_x/x` and an independently audited z/off-diagonal oracle.
+- [x] Stage 4AE: implement only the reviewed local `R^chi_ww` correction, including checked `chi_x/x`, hidden multiplicity, and linear-z/nonsymmetric oracles.
+- [ ] Checkpoint C / Claude Audit C: review the Stage 4AE guard stack, multiplicity, and oracles before Stage 4AF.
 - [ ] Stage 4AF: add the hard identity gate `tilde R_ww + R^chi_ww == R_ww[gamma]` against direct physical Ricci with varying `chi`.
 - [ ] Stage 4AG: add true off-diagonal parity validation for `h_xz(-x,z) = -h_xz(x,z)`, or a Taylor/grid-level near-axis policy with documented tolerance.
 - [ ] Stage 4AL: derive the `hat_Gamma^x` hidden-contraction convention and define a GL-growth/dispersion anchor before serious evolution claims.
