@@ -1073,8 +1073,14 @@ Stage 4AG is implemented below; Checkpoint D is next.
 Stage 4AG now provides a standalone local `h_xz` parity validator and fixture.
 The validator uses paired positive/negative samples plus optional axis data,
 checks odd-value and even-quotient residuals, and mints a non-forgeable
-validated token. It neither clamps nor supplies finite-axis values. Stage 4AH
-remains blocked until Checkpoint D / Claude Audit D reviews 4AF and 4AG.
+validated token. It neither clamps nor supplies finite-axis values. The narrow
+Checkpoint D review now permits only the local Stage 4AH assembly below.
+
+Checkpoint D now permits only the local Stage 4AH assembler. The new
+single-source package mints Stage 4AC and 4AE inputs from one local jet and
+returns `conformal_part`, `conformal_factor_part`, and `physical_rww`. All
+finite-axis, actual-grid parity/matching, RHS, and evolution claims remain
+false. Stage 4AI is the next local contract stage.
 
 ## Acceptance Criteria
 

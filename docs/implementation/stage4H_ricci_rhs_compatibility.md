@@ -441,6 +441,13 @@ radius. This is validation only and adds no finite-axis policy or Ricci/RHS
 contract input. Checkpoint D / Claude Audit D remains the next gate before
 Stage 4AH.
 
+Stage 4AH now provides only a local away-axis physical `R_ww[gamma]` value.
+Its single-source factory creates both the Stage 4AC and Stage 4AE inputs from
+one raw local jet and returns the named conformal part, correction part, and
+sum. It is not yet placed into this Ricci/RHS contract. Actual-grid parity and
+matching checks, finite-axis evaluation, grid reads, RHS, and evolution remain
+false. Stage 4AI owns the contract placement.
+
 ## Non-goals
 
 Stage 4H does not:

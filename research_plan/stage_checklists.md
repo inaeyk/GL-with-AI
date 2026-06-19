@@ -297,8 +297,10 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AG: validate `h_xz(-x,z) = -h_xz(x,z)` from one-to-one paired two-sided samples and validate `h_xz(0,z)=0` when explicit axis data is supplied.
 - [x] Stage 4AG: verify `h_xz/x` is even across each pair while allowing the quotient to vary with radius, and reject even contamination, missing partners, invalid coordinates, and nonfinite data.
 - [x] Stage 4AG: keep tolerances validation-only; do not clamp, replace divisions by epsilon, or claim full smoothness/finite-axis regularity.
-- [ ] Checkpoint D: review Stage 4AF and Stage 4AG together before Stage 4AH; the internal identity gate alone does not authorize physical assembly or evolution use.
-- [ ] Stage 4AH: assemble physical `R_ww[gamma]` only after Checkpoint D reviews the passed Stage 4AF and 4AG gates.
+- [x] Checkpoint D: review Stage 4AF and Stage 4AG together before permitting local-only Stage 4AH assembly; do not interpret the synthetic parity fixture as actual grid validation.
+- [x] Stage 4AH: assemble local away-axis physical `R_ww[gamma]` from Stage 4AC plus Stage 4AE through a factory that single-sources both packages from one metric/conformal-factor jet.
+- [x] Stage 4AH: expose conformal, conformal-factor, and physical parts while keeping finite-axis, grid parity/matching, RHS, and evolution flags false.
+- [x] Stage 4AH: test flat, constant-cone, linear-`x`/linear-`z` conformal-factor, nonsymmetric direct-Stage-4G, and invalid-input cases.
 - [ ] Stage 4AI: place physical `R_ww` into the local Ricci/RHS contract without live RHS wiring.
 - [ ] Stage 4AJ: derive and guard the hidden lapse Hessian `D_w D_w alpha`.
 - [ ] Stage 4AK: implement the local `A_ww` curvature/lapse block after the sign-convention gate is satisfied.

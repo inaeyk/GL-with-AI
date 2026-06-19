@@ -729,3 +729,22 @@ parameter. This gate validates only the supplied `h_xz` stencil and does not
 prove full smoothness, finite-axis regularity, diagonal matching, `W_x` or
 `chi_x` parity, physical `R_ww`, RHS, or evolution. Checkpoint D / Claude
 Audit D is required before Stage 4AH.
+
+## Stage 4AH Local Away-Axis Physical Assembly
+
+After the narrow Checkpoint D review, Stage 4AH assembles
+
+```text
+R_ww[gamma] = tilde R_ww[h] + R^chi_ww
+```
+
+through `CartoonAwayAxisPhysicalRww.hpp`. A single factory accepts one local
+metric/conformal-factor jet and internally mints both the Stage 4AC conformal
+input and Stage 4AE correction input; callers cannot provide independently
+created packages from different points. The result exposes the conformal
+part, conformal-factor part, and sum.
+
+This is local away-axis assembly only. The Stage 4AG fixture does not establish
+that actual grid data obeys `h_xz` parity. Grid `h_xx-h_ww` matching, `W_x`
+parity, `chi_x` parity, finite-axis evaluation, RHS, and evolution remain
+unimplemented. Stage 4AI owns the next local contract step.

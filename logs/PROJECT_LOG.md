@@ -556,3 +556,17 @@ Category: Physics + Code
 - Tolerances are validation-only. No clamp, epsilon division, finite-axis
   regularization, physical `R_ww`, RHS, or evolution path was added.
   Checkpoint D / Claude Audit D remains required before Stage 4AH.
+
+## 2026-06-19 - Stage 4AH Local Away-Axis Physical `R_ww`
+
+Category: Physics + Code
+
+- Added `CartoonAwayAxisPhysicalRww.hpp` with a non-forgeable single-source
+  input package. Its factory accepts one local metric/conformal-factor jet and
+  internally mints both Stage 4AC and Stage 4AE packages.
+- The result exposes `conformal_part()`, `conformal_factor_part()`, and
+  `physical_rww()`. Flat, cone, linear-`x`, linear-`z`, nonsymmetric direct
+  Stage 4G, and invalid-input checks pass; the nonsymmetric direct residual is
+  about `4.44e-16`.
+- This is away-axis local assembly only. Actual-grid parity/matching, finite
+  axis, grid reads, RHS, and evolution remain false. Stage 4AI is next.

@@ -437,7 +437,18 @@ rejects even `x^2` contamination, nonzero supplied axis data, missing or
 mismatched partners, invalid coordinate signs, and nonfinite inputs. The
 validated token is non-aggregate and factory-only. This fixture does not test
 diagonal matching, `W_x` parity, `chi_x` parity, full smoothness, or finite-axis
-regularization. Checkpoint D remains required before Stage 4AH.
+regularization. Checkpoint D now permits only the local fixture below.
+
+### Stage 4AH Away-Axis Physical `R_ww` Fixture
+
+The Stage 4AH fixture checks a single-source local assembly of Stage 4AC plus
+Stage 4AE. It covers flat zero, constant-cone `-3/4`, flat linear-`x`
+`11/144`, flat linear-`z` `-1/64`, and a fully nonsymmetric point with nonzero
+off-diagonal, conformal-factor, and hidden-metric derivatives. The
+nonsymmetric sum is also compared with Stage 4G using an independently formed
+physical metric jet. Input/result types are non-aggregate and invalid data is
+rejected by the underlying factories. This fixture does not validate actual
+grid parity or matching, finite-axis values, RHS, or evolution.
 
 These are not substitutes for unit tests. They catch coupled failures that
 small algebra tests cannot catch, and several require the future implementation

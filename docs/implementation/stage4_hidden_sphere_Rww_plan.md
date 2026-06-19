@@ -544,6 +544,8 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
   nonsymmetric varying-`chi` cases with nonzero `W` second derivatives.
 - Stage 4AG: paired two-sided `h_xz` odd-parity validation with optional axis
   data, one-to-one radius matching, and even `h_xz/x` checks.
+- Stage 4AH: local away-axis physical `R_ww[gamma]` assembly from Stage 4AC
+  plus Stage 4AE through one single-source metric/conformal-factor jet.
 
 ## Future Stage Breakdown
 
@@ -557,7 +559,7 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 | Stage 4AE | Implement `R^chi_ww` | Complete as a local away-axis conformal-factor correction with checked `p_chi`, single-source inputs, hidden multiplicity, simple/nonsymmetric oracles, and one test-only Stage 4G difference comparison |
 | Stage 4AF | Hard split-vs-direct physical Ricci identity gate | Complete as an internal test-only gate: explicitly construct the `gamma=h/chi` first/second derivative jet and compare the split against Stage 4G at constant `chi`, linear `chi`, and three nonsymmetric varying-`chi` points |
 | Stage 4AG | True off-diagonal parity validation gate | Complete as a local paired-data gate: checks odd `h_xz`, optional axis zero, one-to-one `+x/-x` partners, and even `h_xz/x` without demanding a constant quotient |
-| Stage 4AH | Assemble physical `R_ww[gamma]` | Blocked on Checkpoint D / Claude Audit D after Stages 4AF and 4AG |
+| Stage 4AH | Assemble physical `R_ww[gamma]` | Complete only as local away-axis assembly; one factory mints both 4AC and 4AE packages, while finite-axis and actual-grid validation remain false |
 | Stage 4AI | Place `R_ww` into the local Ricci/RHS contract | Local contract only; no live RHS |
 | Stage 4AJ | Hidden lapse Hessian `D_w D_w alpha` | Guard hidden/cartoon lapse terms before curvature/lapse source use |
 | Stage 4AK | Local `A_ww` curvature/lapse block | Local source block only, with sign convention gate satisfied |
@@ -599,7 +601,21 @@ data `a x + b x^3` passes at multiple radii even though
 `h_xz/x = a + b x^2` is not constant; an `x^2` contamination fails. These are
 validation tolerances only, with no clamping or epsilon division. The gate
 does not establish full smoothness, finite-axis regularization, or parity of
-other fields. Checkpoint D / Claude Audit D remains required before Stage 4AH.
+other fields. Checkpoint D is recorded below as clearing only local Stage 4AH.
+
+Checkpoint D cleared only the narrow local Stage 4AH assembly. Stage 4AH now
+computes
+
+```text
+R_ww[gamma] = tilde R_ww[h] + R^chi_ww
+```
+
+from a non-forgeable input package whose factory mints the Stage 4AC and 4AE
+packages from the same local metric/conformal-factor jet. The result exposes
+the two parts and their sum. This does not mean actual grid data passed the
+Stage 4AG parity policy, and it does not validate grid `h_xx-h_ww` matching,
+`W_x` parity, `chi_x` parity, or finite-axis behavior. No RHS, grid reads, or
+evolution wiring are present. Stage 4AI is next.
 
 Stage 4AL owns the high-risk `hat_Gamma^x` derivation lock. It must cover
 
