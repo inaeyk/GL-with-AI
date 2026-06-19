@@ -812,3 +812,22 @@ hidden Hessian structure unchanged.
 This is still local and away-axis only. The source sign `-D_wD_w alpha` and
 the full `A_ww` curvature/lapse block are Stage 4AK work. Stage 4AJ adds no
 RHS, grid reads, finite-axis support, or evolution wiring.
+
+## Stage 4AK Local Aww Curvature/Lapse Geometric Core
+
+Stage 4AK implements only the local away-axis geometric core inside the future
+hidden `A_ww` curvature/lapse source:
+
+```text
+C_ww = -D_wD_w alpha + alpha R_ww[gamma].
+```
+
+The factory mints the reviewed Stage 4AH physical `R_ww[gamma]` inputs and the
+Stage 4AJ physical `D_wD_w alpha` inputs from one local
+metric/conformal-factor/lapse jet. The result exposes `minus_dww_alpha`,
+`alpha_rww`, and `curvature_lapse_core`.
+
+This is not the full CCZ4 `A_ww` block. It deliberately omits the Z4 term
+`2 alpha D_w Z_w`, the full 4D trace-free projection, the outer `chi`
+prefactor, nonlinear A/K terms, RHS/grid/evolution wiring, and finite-axis
+support.

@@ -309,7 +309,9 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AJ: add checked `p_alpha=alpha_x/x`, single-source it with checked `q`, `p_W`, `p_chi`, and positive `x`, `W`, `chi`, and determinant guards.
 - [x] Stage 4AJ: test constant-lapse, flat linear-`x`, flat linear-`z`, varying-`chi`, and nonsymmetric oracles plus direct physical-form comparisons and invalid-input rejection.
 - [x] Stage 4AJ: keep the source minus sign, full `A_ww` source block, RHS, grid reads, finite-axis support, and evolution wiring unimplemented.
-- [ ] Stage 4AK: implement the local `A_ww` curvature/lapse block after the sign-convention gate is satisfied.
+- [x] Stage 4AK: implement the local hidden `A_ww` curvature/lapse geometric core `C_ww=-D_wD_w alpha+alpha R_ww[gamma]` from same-point Stage 4AH and Stage 4AJ packages.
+- [x] Stage 4AK: expose `minus_dww_alpha`, `alpha_rww`, and `curvature_lapse_core` while keeping Z4, trace-free projection, outer `chi`, nonlinear A/K terms, RHS, and evolution false.
+- [x] Stage 4AK: test flat, linear-alpha, constant-cone, varying-`chi`, nonsymmetric same-point composition, non-aggregate types, and invalid-input rejection.
 - [ ] Stage 4AL: lock the `hat_Gamma^x` hidden-contraction derivation and define a GL-growth/dispersion anchor.
 - [ ] Stage 4AM: add local `hat_Gamma^x` implementation/contract tests.
 - [ ] Stage 4AN: build the local trace-free curvature/lapse block for all components.

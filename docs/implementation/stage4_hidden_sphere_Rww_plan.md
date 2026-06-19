@@ -550,6 +550,9 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
   only the Stage 4AH physical result.
 - Stage 4AJ: local away-axis physical hidden lapse Hessian `D_wD_w alpha`,
   using `gamma=h/chi`, checked quotient inputs, and no source minus sign.
+- Stage 4AK: local hidden `A_ww` curvature/lapse geometric core
+  `C_ww=-D_wD_w alpha+alpha R_ww[gamma]`, before Z4, trace-free projection,
+  outer `chi`, nonlinear terms, RHS, or evolution.
 
 ## Future Stage Breakdown
 
@@ -566,7 +569,7 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 | Stage 4AH | Assemble physical `R_ww[gamma]` | Complete only as local away-axis assembly; one factory mints both 4AC and 4AE packages, while finite-axis and actual-grid validation remain false |
 | Stage 4AI | Place `R_ww` into the local Ricci/RHS contract | Complete as a typed local hidden contribution contract; accepts only the Stage 4AH physical result and adds no live RHS |
 | Stage 4AJ | Hidden lapse Hessian `D_w D_w alpha` | Complete as a local away-axis physical-metric Hessian with checked `alpha_x/x`; Stage 4AK owns the `-D_wD_w alpha` source sign |
-| Stage 4AK | Local `A_ww` curvature/lapse block | Local source block only, with sign convention gate satisfied |
+| Stage 4AK | Local `A_ww` curvature/lapse geometric core | Complete only as `-D_wD_w alpha + alpha R_ww[gamma]`; Z4, trace-free projection, outer `chi`, nonlinear A/K terms, RHS, and evolution remain future work |
 | Stage 4AL | `hat_Gamma^x` hidden-contraction derivation lock and GL-growth anchor | Derive hidden contribution to `tilde{Gamma}^x` and the hatted convention; define a nontrivial GL-growth/dispersion anchor |
 | Stage 4AM | `hat_Gamma^x` local implementation/contract tests | Local contract tests for the hidden contraction and hatted CCZ4 convention |
 | Stage 4AN | Local trace-free curvature/lapse block for all components | Include hidden trace feedback into `A_xx`, `A_xz`, `A_zz`, and `A_ww` |
@@ -664,7 +667,23 @@ nonsymmetric cases to the independent physical formula
 `(1/(2x^2)) gamma^{ab} partial_a(x^2 gamma_ww) partial_b alpha`.
 Stage 4AJ does not apply the source minus sign, does not implement the full
 `A_ww` source block, and adds no RHS, grid reads, finite-axis support, or
-evolution wiring. Stage 4AK is next.
+evolution wiring.
+
+Stage 4AK now composes the reviewed local Stage 4AH physical `R_ww[gamma]`
+and Stage 4AJ physical hidden lapse Hessian from one local
+metric/conformal-factor/lapse jet. The implemented geometric core is
+
+```text
+C_ww = -D_wD_w alpha + alpha R_ww[gamma].
+```
+
+The result exposes `minus_dww_alpha`, `alpha_rww`, and
+`curvature_lapse_core`. Its fixture locks flat zero, flat linear-lapse
+`-3/20`, constant cone `-3/2`, varying-`chi` `-11/720`, and a nonsymmetric
+same-point composition case. Stage 4AK is not the full CCZ4 `A_ww` block: the
+Z4 vector term, full 4D trace-free projection, outer `chi` prefactor,
+nonlinear A/K terms, RHS, grid reads, finite-axis support, and evolution remain
+future work. Stage 4AL is next.
 
 Stage 4AL owns the high-risk `hat_Gamma^x` derivation lock. It must cover
 
@@ -694,6 +713,7 @@ evolution claims.
 | Hard identity gate regression | Stage 4AF | Keep the six-point split-vs-direct fixture, explicit physical-jet product rules, nonzero `W` second derivatives, and base-second-derivative cancellation check |
 | Wrong Ricci object enters the hidden RHS contract | Stage 4AI | Accept only the Stage 4AH physical `R_ww[gamma]` result; keep conformal and conformal-factor pieces outside the contract boundary |
 | Reusing conformal hidden Hessian for lapse | Stage 4AJ | Use the physical metric `gamma=h/chi`; retain varying-`chi` oracle `11/80`, which differs from the conformal value `3/20` |
+| Overclaiming the `A_ww` source block | Stage 4AK | Keep the implemented object named and documented as the geometric core only; Z4, trace-free projection, outer `chi`, nonlinear terms, RHS, and evolution remain false |
 | `hat_Gamma^x` hidden contraction | Stages 4AL-4AM | Derive hidden contraction and hatted convention; use GL-growth/dispersion anchor |
-| Sign-convention consistency between initial data and RHS | Sign gate before 4AK | Check against the Stage 3A `K_IJ` convention and CCZ4 curvature/lapse sign |
+| Sign-convention consistency between initial data and RHS | Stage 4AK and later source/RHS gates | Stage 4AK applies the requested local `-D_wD_w alpha + alpha R_ww` sign; full trace-free source and RHS signs still need checks against the Stage 3A `K_IJ` convention before later wiring |
 | Smoke-only hidden freeze enters physics path | Stage 4AQ | Remove or replace `scaffold_freeze_hidden` before real hidden-sector RHS |

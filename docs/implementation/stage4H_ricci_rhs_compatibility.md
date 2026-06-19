@@ -466,6 +466,19 @@ Stage 4AJ adds the local physical hidden lapse Hessian in
 `A_ww` source block. This remains local away-axis data only, with no full RHS,
 grid reads, finite-axis support, or evolution wiring.
 
+Stage 4AK adds the local hidden curvature/lapse geometric core in
+`CartoonAwwCurvatureLapseCore.hpp`:
+
+```text
+C_ww = -D_wD_w alpha + alpha R_ww[gamma].
+```
+
+The package mints Stage 4AH physical-Ricci inputs and Stage 4AJ
+physical-lapse-Hessian inputs from one same-point local jet, then exposes the
+two signed pieces and their sum. This is still only the geometric core before
+the Z4 vector term, trace-free projection, outer `chi` prefactor, nonlinear
+A/K terms, full RHS, grid reads, finite-axis support, or evolution.
+
 ## Non-goals
 
 Stage 4H does not:

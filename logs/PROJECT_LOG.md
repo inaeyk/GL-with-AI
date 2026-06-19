@@ -599,3 +599,18 @@ Category: Physics + Code
   linear-`z`, varying-`chi`, and nonsymmetric oracles plus direct physical
   comparisons. The source minus sign, full `A_ww` source block, RHS, grid
   reads, finite-axis support, and evolution remain future work.
+
+## 2026-06-19 - Stage 4AK Aww Curvature/Lapse Geometric Core
+
+Category: Physics + Code
+
+- Added `CartoonAwwCurvatureLapseCore.hpp` for the local away-axis geometric
+  core `C_ww=-D_wD_w alpha+alpha R_ww[gamma]`.
+- The factory single-sources the reviewed Stage 4AH physical-Ricci package and
+  Stage 4AJ physical-lapse-Hessian package from one
+  metric/conformal-factor/lapse jet. The result exposes `minus_dww_alpha`,
+  `alpha_rww`, and `curvature_lapse_core`.
+- The standalone fixture passes flat, flat linear-lapse, constant-cone,
+  varying-`chi`, nonsymmetric same-point composition, and invalid-input checks.
+  Z4, trace-free projection, the outer `chi` prefactor, nonlinear A/K terms,
+  RHS, grid reads, finite-axis support, and evolution remain future work.
