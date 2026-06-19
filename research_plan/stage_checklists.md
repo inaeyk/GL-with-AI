@@ -312,9 +312,13 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AK: implement the local hidden `A_ww` curvature/lapse geometric core `C_ww=-D_wD_w alpha+alpha R_ww[gamma]` from same-point Stage 4AH and Stage 4AJ packages.
 - [x] Stage 4AK: expose `minus_dww_alpha`, `alpha_rww`, and `curvature_lapse_core` while keeping Z4, trace-free projection, outer `chi`, nonlinear A/K terms, RHS, and evolution false.
 - [x] Stage 4AK: test flat, linear-alpha, constant-cone, varying-`chi`, nonsymmetric same-point composition, non-aggregate types, and invalid-input rejection.
-- [ ] Stage 4AL: lock the `hat_Gamma^x` hidden-contraction derivation and define a GL-growth/dispersion anchor.
-- [ ] Stage 4AM: add local `hat_Gamma^x` implementation/contract tests.
-- [ ] Stage 4AN: build the local trace-free curvature/lapse block for all components.
+- [x] Stage 4AL: implement `C_IJ=-D_ID_J alpha+alpha R_IJ[gamma]` for `xx,xz,zz,ww`, then compute the full 4D trace-free projection and outer `chi` source.
+- [x] Stage 4AL: use Stage 4G/4I physical Ricci for visible components, Stage 4AH/4AK for hidden `ww`, and require Stage 4G and Stage 4AH `R_ww` agreement before assembly.
+- [x] Stage 4AL: test flat, linear-lapse, constant-cone, nonsymmetric varying-`chi`/alpha, trace-free zero-trace, non-aggregate types, and invalid-input rejection.
+- [x] Stage 4AL: keep Z4 terms, nonlinear A/K terms, full CCZ4 RHS, grid wiring, and evolution unimplemented.
+- [ ] Checkpoint F / Claude Audit F: review the Stage 4AL physical Hessian correction, `R_ww` agreement gate, trace-free projection, and nonsymmetric oracle before further source/RHS integration.
+- [ ] Stage 4AM: lock the `hat_Gamma^x` hidden-contraction derivation and define a GL-growth/dispersion anchor.
+- [ ] Stage 4AN: add local `hat_Gamma^x` implementation/contract tests.
 - [ ] Stage 4AO: integrate reviewed local RHS source blocks without evolution wiring.
 - [ ] Stage 4AP: add evolution-level wiring only behind an explicit default-off parameter after local gates pass.
 - [ ] Stage 4AQ: remove or replace the smoke-only hidden freeze before any real hidden-sector RHS/evolution path is used.

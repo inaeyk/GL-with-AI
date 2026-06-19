@@ -479,6 +479,22 @@ two signed pieces and their sum. This is still only the geometric core before
 the Z4 vector term, trace-free projection, outer `chi` prefactor, nonlinear
 A/K terms, full RHS, grid reads, finite-axis support, or evolution.
 
+Stage 4AL adds `CartoonTraceFreeCurvatureLapseBlock.hpp` for the local
+trace-free curvature/lapse geometry source:
+
+```text
+source_IJ = chi (C_IJ - h_IJ C / 4),
+C_IJ = -D_ID_J alpha + alpha R_IJ[gamma].
+```
+
+The visible `xx,xz,zz` Ricci components cross the Stage 4G/4I bridge, the
+hidden component is checked against Stage 4AH and composed through Stage 4AK,
+and the visible lapse Hessian uses the physical `gamma=h/chi` correction
+rather than a bare conformal Hessian. This remains before Z4 terms, nonlinear
+A/K terms, the full CCZ4 RHS, grid wiring, finite-axis support, or evolution.
+Checkpoint F / Claude Audit F is required before further source/RHS
+integration.
+
 ## Non-goals
 
 Stage 4H does not:

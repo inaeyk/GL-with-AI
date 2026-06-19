@@ -614,3 +614,19 @@ Category: Physics + Code
   varying-`chi`, nonsymmetric same-point composition, and invalid-input checks.
   Z4, trace-free projection, the outer `chi` prefactor, nonlinear A/K terms,
   RHS, grid reads, finite-axis support, and evolution remain future work.
+
+## 2026-06-19 - Stage 4AL Trace-Free Curvature/Lapse Block
+
+Category: Physics + Code
+
+- Added `CartoonTraceFreeCurvatureLapseBlock.hpp` for the local away-axis
+  block `source_IJ=chi(C_IJ-h_IJ C/4)` with
+  `C_IJ=-D_ID_J alpha+alpha R_IJ[gamma]`.
+- Visible Ricci components cross the Stage 4G/4I typed bridge, hidden `ww`
+  uses Stage 4AH/4AK, and the block requires Stage 4G and Stage 4AH physical
+  `R_ww` to agree before assembly. Visible lapse Hessians use the physical
+  `gamma=h/chi` correction.
+- The fixture passes flat, linear-lapse, constant-cone, nonsymmetric
+  varying-`chi`/alpha, zero trace-free trace, and invalid-input checks. Z4
+  terms, nonlinear A/K terms, full RHS, grid wiring, finite-axis support, and
+  evolution remain future work. Checkpoint F / Claude Audit F is required next.

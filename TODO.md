@@ -114,7 +114,9 @@
 - [x] Checkpoint E / Claude Audit E: review the Stage 4AI physical-`R_ww` typed boundary, hidden multiplicity, and conformal/physical contraction factors before Stage 4AJ.
 - [x] Stage 4AJ: implement local physical `D_wD_w alpha` with checked `alpha_x/x`, physical `gamma=h/chi`, direct physical-form comparisons, and no source minus sign or RHS wiring.
 - [x] Stage 4AK: implement the local away-axis hidden `A_ww` curvature/lapse geometric core `-D_wD_w alpha + alpha R_ww[gamma]`, without Z4, trace-free projection, chi prefactor, nonlinear terms, RHS, or evolution.
-- [ ] Stage 4AL: derive the `hat_Gamma^x` hidden-contraction convention and define a GL-growth/dispersion anchor before serious evolution claims.
+- [x] Stage 4AL: implement the full local trace-free curvature/lapse block `chi(C_IJ - h_IJ C/4)` for `xx,xz,zz,ww`, while keeping Z4, nonlinear terms, RHS, grid wiring, and evolution absent.
+- [ ] Checkpoint F / Claude Audit F: review the Stage 4AL physical Hessian correction, Stage 4G-vs-4AH `R_ww` agreement gate, trace-free projection, and nonsymmetric oracle before further source/RHS work.
+- [ ] Stage 4AM: derive the `hat_Gamma^x` hidden-contraction convention and define a GL-growth/dispersion anchor before serious evolution claims.
 - [ ] Stage 4AQ: remove or replace the Stage 4D smoke-only hidden freeze before real hidden-sector RHS/evolution use.
 - [ ] Future review/lint gate: mechanically flag source-formula recomputation of `(hxx - hww) / x^2` outside `RegularityGuardedGeometrySources` / the Stage 4U authoring gate.
 

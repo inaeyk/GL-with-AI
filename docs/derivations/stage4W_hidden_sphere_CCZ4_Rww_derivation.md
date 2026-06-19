@@ -831,3 +831,30 @@ This is not the full CCZ4 `A_ww` block. It deliberately omits the Z4 term
 `2 alpha D_w Z_w`, the full 4D trace-free projection, the outer `chi`
 prefactor, nonlinear A/K terms, RHS/grid/evolution wiring, and finite-axis
 support.
+
+## Stage 4AL Local Trace-Free Curvature/Lapse Block
+
+Stage 4AL implements the local away-axis trace-free geometry block
+
+```text
+C_IJ = -D_ID_J alpha + alpha R_IJ[gamma],
+C = h^xx C_xx + 2 h^xz C_xz + h^zz C_zz + 2 h^ww C_ww,
+C^TF_IJ = C_IJ - (1/4) h_IJ C,
+source_IJ = chi C^TF_IJ.
+```
+
+For visible `a,b in {x,z}`, the physical lapse Hessian is
+
+```text
+D_aD_b alpha[gamma] =
+    tilde D_a tilde D_b alpha
+  + (1/(2 chi))(chi_a alpha_b + chi_b alpha_a
+      - h_ab h^cd chi_c alpha_d).
+```
+
+The implementation uses Stage 4G/4I typed physical Ricci for visible
+components, Stage 4AH physical `R_ww`, and Stage 4AK for `C_ww`. Before the
+trace-free projection, Stage 4G physical `R_ww` must agree with Stage 4AH
+within the named tolerance. This remains local geometry only: no Z4 terms,
+nonlinear A/K terms, full CCZ4 RHS, grid wiring, finite-axis support, or
+evolution.

@@ -413,6 +413,7 @@ and no global parity or finite-axis regularity proof.
 | Stage 4AI physical Rww Ricci/RHS contract fixture | 3J/4AH/4AI | C++ local typed-contract fixture | Non-forgeable Stage 4AH physical result carrying `R_ww[gamma]`, same-point `chi`, and conformal `h^ww=1/h_ww` | Flat contributions `0`; cone contributions `-3/8`; linear-`x` contributions `11/72` and `11/60`; nonsymmetric case matches `2 h^ww R_ww` and `chi 2 h^ww R_ww`; contract/result types are non-aggregate and raw `double` is not invocable | Exact local identities and compile-time type-shape checks | Hidden multiplicity omission, wrong inverse metric factor, missing `chi`, accepting conformal/correction/raw values at the physical contract boundary | Full Ricci scalar, full RHS, grid validation, finite-axis support, evolution | Required before Checkpoint E and Stage 4AJ | Hidden `ww` contribution contract only; away-axis local value |
 | Stage 4AJ physical hidden lapse Hessian fixture | 3J/4AE/4AJ | C++ local formula fixture | Single-source local `x,A,B,C,W,chi,W_x,W_z,chi_x,chi_z,alpha_x,alpha_z` with checked `q`, `p_W`, `p_chi`, and `p_alpha` | Constant alpha gives `0`; flat linear-`x` gives `3/20`; flat linear-`z` gives `0`; varying `chi` gives `11/80`; nonsymmetric sample gives `699/155`; varying and nonsymmetric cases match the direct physical formula | Exact local identities, direct physical-form comparison, exception checks, and type-shape checks | Accidental conformal-Hessian reuse, missing checked `alpha_x/x`, wrong `gamma=h/chi` factors, mixed-point inputs, invalid `x/W/chi/D` acceptance | Source minus sign, full `A_ww` source block, full RHS, grid reads, finite-axis support, evolution | Required before Stage 4AK | Physical hidden lapse Hessian only; away-axis local value |
 | Stage 4AK Aww curvature/lapse core fixture | 3J/4AH/4AJ/4AK | C++ local composition fixture | Single-source local metric/conformal-factor/lapse jet that mints Stage 4AH physical `R_ww[gamma]` and Stage 4AJ physical `D_wD_w alpha` packages | Flat `0`; flat linear-lapse `-3/20`; constant cone `-3/2`; varying `chi` `-11/720`; nonsymmetric same-point case checks `minus_dww_alpha`, `alpha_rww`, and their sum; invalid inputs reject; packages are non-aggregate | Exact local composition, exception checks, and type-shape checks | Wrong source sign, mixed-point Ricci/Hessian packages, treating the core as full `A_ww`, accepting loose raw values | Z4 term, trace-free projection, outer `chi`, nonlinear A/K terms, full RHS, grid reads, finite-axis support, evolution | Required before Stage 4AL | Geometric core only; away-axis local value |
+| Stage 4AL trace-free curvature/lapse block fixture | 3J/4G/4I/4AH/4AK/4AL | C++ local projection fixture | Single-source local h/chi/alpha jet, Stage 4G/4I visible Ricci, Stage 4AH physical `R_ww`, Stage 4AK hidden core, and computed inverse metric | Flat all zero; linear-lapse `tf_xx=tf_zz=3/40`, `tf_ww=-3/40`; constant cone trace `-3/4`; nonsymmetric sample checks hard-coded core/TF/source components and zero 4D TF trace; invalid inputs reject; packages are non-aggregate | Exact local identities, Stage 4G-vs-4AH `R_ww` agreement, trace-free zero-trace check, exception checks, and type-shape checks | Wrong physical Hessian correction, wrong hidden multiplicity, missing outer `chi`, wrong `/4` denominator, mixed-point inputs, loose raw component path | Z4 terms, nonlinear A/K terms, full CCZ4 RHS, grid reads/wiring, finite-axis support, evolution | Required before Checkpoint F | Local trace-free geometry source only; away-axis value |
 | Stage 4AF-4AR hidden-sphere Ricci gates | 3I/3J/4W/4AE | C++ local fixtures plus derivation and identity gates | Direct physical Ricci comparison, parity data, and `hat_Gamma^x` convention data | Concrete gates for split-vs-direct identity, true `h_xz` parity, physical `R_ww`, hidden lapse, `A_ww`, `hat_Gamma^x`, RHS integration, and smoke-freeze removal | Derivation exactness, local identities, direct Ricci comparison, and later controlled evolution checks | Hidden-sphere Ricci reaching RHS/evolution before conformal-vs-physical split, parity, sign, and `hat_Gamma^x` risks are owned | Production evolution correctness or Pau reproduction by itself | Required before serious hidden-sector RHS/evolution claims | See `stage4_hidden_sphere_Rww_plan.md` |
 | Gamma-driver ownership boundary | 3H | C++ unit/design check | Mock RHS block inputs for gauge and `hat_Gamma^A` terms | Gauge block owns lapse/shift/auxiliary evolution; `hat_Gamma^A` block owns their appearances in `partial_t hat_Gamma^A` | Structural review plus targeted unit checks | Double-counting gauge terms, split ownership drift | Physical correctness of chosen gauge | Yes as a design review gate | Yes |
 
@@ -489,6 +490,24 @@ axis, `W`, `chi`, determinant, finite-lapse, and derivative failures reject
 through the underlying factories. This is not the Z4 vector term, trace-free
 projection, outer `chi` prefactor, nonlinear A/K terms, full RHS, grid read,
 finite-axis support, or evolution.
+
+### Stage 4AL Trace-Free Curvature/Lapse Block Fixture
+
+The Stage 4AL fixture checks
+`source_IJ=chi(C_IJ-h_IJ C/4)` with
+`C_IJ=-D_ID_J alpha+alpha R_IJ[gamma]`. Visible Ricci components cross the
+Stage 4G/4I bridge, the hidden component comes through Stage 4AH/4AK, and
+Stage 4G physical `R_ww` must agree with Stage 4AH before assembly. The
+nonsymmetric oracle uses nonzero `h_xz`, `alpha_xz`, `chi_x`, and `chi_z` and
+locks:
+`core=(-20.79847381200139,-26.639625390218519,-26.550102902069604,-11.562081165452653)`,
+`trace=-13.620460168805643`,
+`TF=(3.0373314834084866,-19.829395305815698,-9.524527691062552,-1.3467360388484213)`,
+and
+`chi TF=(15.186657417042433,-99.146976529078486,-47.62263845531276,-6.7336801942421065)`.
+This fixture does not implement Z4 terms, nonlinear A/K terms, full RHS, grid
+reads/wiring, finite-axis support, or evolution. Checkpoint F / Claude Audit F
+is required before further source/RHS integration.
 
 These are not substitutes for unit tests. They catch coupled failures that
 small algebra tests cannot catch, and several require the future implementation
