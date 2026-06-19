@@ -486,3 +486,24 @@ Category: 🟡 Physics + Code
   uses the same finite-positive determinant policy as the other conformal
   `R_ww` pieces. The formula is unchanged, and the Stage 4Y fixture now
   includes a negative-determinant rejection case.
+
+Category: 🟡 Physics + Docs
+
+- Stage 4AD locks the conformal-factor correction derivation for the hidden
+  Ricci split `R_ww[gamma] = tilde R_ww[h] + R^chi_ww`. The documentation now
+  records `D_wD_w chi`, the full conformal Laplacian with hidden multiplicity
+  `(2/W)D_wD_w chi`, the reduced scalar Hessian pieces, and the conformal
+  gradient norm. The Stage 4AE guard stack must add a checked local
+  `chi_x/x` ingredient, reuse checked `q_xz` and checked `p_W`, and keep the
+  away-axis-only, positive-`chi`, positive-`W`, positive-determinant policy.
+
+Category: 🟡 Physics + Docs
+
+- Stage 4AD records the `R^chi_ww` oracle set for Stage 4AE: constant `chi`
+  gives zero, flat conformal data with `chi=1+a x` gives `11/144` at
+  `x=2`, `a=0.1`, and a hand-derived z-dependent candidate
+  `chi=1+b z` gives `-1/64` at `z=3`, `b=0.2`. The z-dependent candidate
+  remains pending independent audit or replacement by a stronger off-diagonal
+  oracle before Stage 4AE. No code, tests, physical Ricci assembly,
+  split-vs-direct identity gate, RHS, grid reads, or evolution wiring was
+  added.

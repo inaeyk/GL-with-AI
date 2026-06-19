@@ -198,6 +198,61 @@ For any SO(3)-symmetric scalar `f`, the hidden second derivative is
 D_w D_w f = (rho D^a rho partial_a f) / x^2.
 ```
 
+Stage 4AD specializes this identity to the conformal factor. With
+
+```text
+A = h_xx,  B = h_xz,  C = h_zz,  W = h_ww,  D = A C - B^2,
+H^xx = C / D,  H^xz = -B / D,  H^zz = A / D,
+rho = x sqrt(W),
+```
+
+the hidden second derivative is
+
+```text
+D_w D_w chi =
+    (rho / x^2) [
+        H^xx rho_x chi_x
+      + H^xz (rho_x chi_z + rho_z chi_x)
+      + H^zz rho_z chi_z
+    ].
+```
+
+The full conformal Laplacian is
+
+```text
+D^K D_K chi =
+    (C / D) K_xx
+  - (2 B / D) K_xz
+  + (A / D) K_zz
+  + (2 / W) D_w D_w chi,
+```
+
+where `2 / W` is the hidden multiplicity contribution `N_hidden = 2`; it must
+not be dropped. The reduced-base scalar Hessian pieces are
+
+```text
+K_ab =
+    chi_ab
+  - Gamma^x_ab chi_x
+  - Gamma^z_ab chi_z.
+```
+
+The conformal gradient norm is
+
+```text
+D^K chi D_K chi =
+    (C / D) chi_x^2
+  - (2 B / D) chi_x chi_z
+  + (A / D) chi_z^2.
+```
+
+The Stage 4AD guard-stack design for Stage 4AE is: single-source all metric,
+`chi`, and derivative values from one local point; require finite positive
+`x`, `chi`, `W`, and `D`; reuse checked `q_xz = B/x` and checked
+`p_W = W_x/x`; add a checked local `p_chi = chi_x/x` ingredient for the
+leading hidden-Hessian term; and keep the policy away-axis only with no clamp,
+epsilon substitution, global parity proof, or finite-axis regularity proof.
+
 This split must be cross-checked against standard BSSN/CCZ4 conformal-Ricci
 formulas and modified-cartoon references, not against Pau's code. The internal
 anchors are the Stage 3A initial-data note for the `K_IJ` convention caveat,
@@ -240,6 +295,18 @@ R^chi_ww = 2 a / (chi x) - a^2 / chi^2
 ```
 
 This is a proposed future oracle only. Stage 4W does not implement it.
+
+Stage 4AD records the Stage 4AE oracle set:
+
+- Constant `chi` gives `R^chi_ww = 0`.
+- The flat conformal metric with `chi = 1 + a x` gives the value above:
+  `R^chi_ww = 11 / 144` at `x = 2`, `a = 0.1`, `chi = 1.2`.
+- A z-dependent flat conformal candidate, `chi = 1 + b z`, gives
+  `D_wD_w chi = 0`, `D^KD_K chi = 0`, and
+  `D^K chi D_K chi = b^2`, hence `R^chi_ww = -b^2 / chi^2`. At `z = 3`,
+  `b = 0.2`, `chi = 1.6`, this is `-1 / 64 = -0.015625`. This candidate is
+  hand-derived here and should receive independent audit before Stage 4AE, or
+  be replaced by a stronger audited off-diagonal oracle.
 
 ## Sign-Convention Lock
 

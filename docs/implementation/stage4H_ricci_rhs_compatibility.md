@@ -394,6 +394,23 @@ Stage 4AC required positive determinant. The singular block now uses the same
 policy as the rest of the conformal `R_ww` stack: finite positive
 `D = AC - B^2` is required, and `D <= 0` rejects before formula evaluation.
 
+Stage 4AD is the next documentation-only compatibility lock for the
+conformal-factor companion. It records
+
+```text
+R_ww[gamma] = tilde R_ww[h] + R^chi_ww
+```
+
+and derives `R^chi_ww` from `D_wD_w chi`, the full conformal Laplacian, and
+the conformal gradient norm. The derivation explicitly keeps the hidden
+multiplicity term `(2 / W) D_wD_w chi` in the Laplacian. The future Stage 4AE
+implementation must add a checked local `chi_x / x` ingredient and consume it
+through a single-source input package, while reusing the existing checked
+`q_xz = B/x`, checked `p_W = W_x/x`, away-axis-only policy, and positive
+`chi`, `W`, and determinant guards. Stage 4AD does not implement
+`R^chi_ww`, physical `R_ww[gamma]`, the split-vs-direct identity gate, RHS, or
+evolution.
+
 ## Non-goals
 
 Stage 4H does not:

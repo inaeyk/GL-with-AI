@@ -282,7 +282,11 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AC: do not implement `R^chi_ww`, physical `R_ww[gamma]`, full Ricci, CCZ4 RHS, grid reads, or evolution wiring.
 - [x] Checkpoint B / Claude Audit B cleanup: unify reduced determinant policy so Stage 4Y, 4Z, 4AB, and 4AC all require finite positive `D=AC-B^2`.
 - [x] Stage 4Y Checkpoint B patch: add a negative-determinant rejection case for the singular block without changing the formula.
-- [ ] Stage 4AD: derive `R^chi_ww` and design its own hidden/cartoon singular guard stack before implementation.
+- [x] Stage 4AD: derive `R^chi_ww` and design its own hidden/cartoon singular guard stack before implementation.
+- [x] Stage 4AD: lock `D_wD_w chi`, the full conformal Laplacian with hidden multiplicity `2/W`, the reduced scalar Hessian pieces, and the conformal gradient norm.
+- [x] Stage 4AD: require Stage 4AE to add a checked local `chi_x/x` ingredient and reuse checked `q_xz`, checked `p_W`, away-axis-only semantics, and positive `chi`, `W`, and determinant guards.
+- [x] Stage 4AD: record constant-`chi` zero, flat `chi=1+a x` `11/144`, and pending z-dependent `chi=1+b z` `-1/64` oracle candidates.
+- [x] Stage 4AD: do not implement `R^chi_ww`, physical `R_ww[gamma]`, the split-vs-direct identity gate, RHS, grid reads, or evolution wiring.
 - [ ] Stage 4AE: implement only the reviewed `R^chi_ww` local correction.
 - [ ] Stage 4AF: pass the hard identity gate `tilde R_ww + R^chi_ww == R_ww[gamma]` against direct physical Ricci with varying `chi`.
 - [ ] Stage 4AG: add true off-diagonal parity validation for `h_xz(-x,z) = -h_xz(x,z)`, or a Taylor/coefficient or grid-level near-axis policy with documented tolerance.
