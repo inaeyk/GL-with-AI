@@ -630,3 +630,24 @@ Category: Physics + Code
   varying-`chi`/alpha, zero trace-free trace, and invalid-input checks. Z4
   terms, nonlinear A/K terms, full RHS, grid wiring, finite-axis support, and
   evolution remain future work. Checkpoint F / Claude Audit F is required next.
+
+## 2026-06-19 - Checkpoint F Roadmap Follow-Up
+
+Category: Planning
+
+- Recorded Checkpoint F / Claude Audit F as complete for the local Stage 4AL
+  trace-free curvature/lapse block.
+- Split the remaining `hat_Gamma^x` path into Stage 4AM derivation/convention
+  mapping, Stage 4AN local implementation/contracts, and Stage 4AO hard linear
+  GL dispersion/growth-rate validation. Stage 4AO is the hard pre-evolution
+  anchor because flat checks alone are insufficient; it must match radius
+  convention, z-periodicity, gauge, perturbation sector, and measured growth
+  variable, and Pau is not the convention authority.
+- Corrected Stage 4AG status to a synthetic two-sided parity-validator
+  primitive only. Stage 4AP now owns actual grid/ghost-cell regularity
+  validation for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and
+  `chi_x=O(x)`.
+- Added Stage 4AQ as the finite-axis source evaluation and regularized-limit
+  stage, with no epsilon replacement or silent clamping. Later ownership is now
+  Stage 4AR local RHS integration, Stage 4AS default-off live wiring, Stage 4AT
+  smoke-freeze removal/replacement, and Stage 4AU final Stage 4 exit review.

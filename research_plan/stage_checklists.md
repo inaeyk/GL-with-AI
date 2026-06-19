@@ -294,6 +294,7 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AF: pass the internal hard identity gate `tilde R_ww + R^chi_ww == R_ww[gamma]` at constant-`chi`, linear-`x`, linear-`z`, and three nonsymmetric varying-`chi` points.
 - [x] Stage 4AF: construct `gamma=h/chi` and its first/second derivative jet explicitly by product rules, then feed that already-physical jet to Stage 4G with `chi=1`.
 - [x] Stage 4AF: verify nonzero conformal base-metric second derivatives cancel from direct `R_ww`, and retain invalid-input rejection through the Stage 4AC/4AE factories.
+- [x] Stage 4AG: add a synthetic paired two-sided `h_xz` parity-validator primitive using hand-built near-axis samples; this is not actual grid-data parity validation.
 - [x] Stage 4AG: validate `h_xz(-x,z) = -h_xz(x,z)` from one-to-one paired two-sided samples and validate `h_xz(0,z)=0` when explicit axis data is supplied.
 - [x] Stage 4AG: verify `h_xz/x` is even across each pair while allowing the quotient to vary with radius, and reject even contamination, missing partners, invalid coordinates, and nonfinite data.
 - [x] Stage 4AG: keep tolerances validation-only; do not clamp, replace divisions by epsilon, or claim full smoothness/finite-axis regularity.
@@ -316,13 +317,19 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AL: use Stage 4G/4I physical Ricci for visible components, Stage 4AH/4AK for hidden `ww`, and require Stage 4G and Stage 4AH `R_ww` agreement before assembly.
 - [x] Stage 4AL: test flat, linear-lapse, constant-cone, nonsymmetric varying-`chi`/alpha, trace-free zero-trace, non-aggregate types, and invalid-input rejection.
 - [x] Stage 4AL: keep Z4 terms, nonlinear A/K terms, full CCZ4 RHS, grid wiring, and evolution unimplemented.
-- [ ] Checkpoint F / Claude Audit F: review the Stage 4AL physical Hessian correction, `R_ww` agreement gate, trace-free projection, and nonsymmetric oracle before further source/RHS integration.
-- [ ] Stage 4AM: lock the `hat_Gamma^x` hidden-contraction derivation and define a GL-growth/dispersion anchor.
-- [ ] Stage 4AN: add local `hat_Gamma^x` implementation/contract tests.
-- [ ] Stage 4AO: integrate reviewed local RHS source blocks without evolution wiring.
-- [ ] Stage 4AP: add evolution-level wiring only behind an explicit default-off parameter after local gates pass.
-- [ ] Stage 4AQ: remove or replace the smoke-only hidden freeze before any real hidden-sector RHS/evolution path is used.
-- [ ] Stage 4AR: perform Stage 4 exit review before any Stage 5/Pau diagnostic reproduction.
+- [x] Checkpoint F / Claude Audit F: review the Stage 4AL physical Hessian correction, `R_ww` agreement gate, trace-free projection, and nonsymmetric oracle before further source/RHS integration.
+- [ ] Stage 4AM: lock the `hat_Gamma^x` hidden-contraction derivation and map the GRChombo hatted-conformal-connection convention used by this project.
+- [ ] Stage 4AN: add local `hat_Gamma^x` implementation and contract tests.
+- [ ] Stage 4AO: pass the hard linear GL dispersion/growth-rate validation gate for `hat_Gamma^x`; this replaces the independent oracle that protected the Ricci stages, because flat checks alone are insufficient.
+- [ ] Checkpoint G / Claude Audit G: review Stages 4AM-4AO, including the GL anchor's radius convention, z-periodicity, gauge, perturbation sector, and measured growth variable. Pau is not the convention authority. No live RHS/evolution integration may proceed until Stage 4AO and Checkpoint G pass.
+- [ ] Stage 4AP: validate actual grid-level or ghost-cell regularity for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)` using real grid or ghost data, not only hand-built polynomial fixtures.
+- [ ] Stage 4AQ: implement finite-axis source evaluation and regularized limits with explicit analytic parity/limit treatment; do not use epsilon replacement or silent clamping, and keep turduckening of the physical singularity distinct from cartoon-axis regularity.
+- [ ] Stage 4AR: integrate reviewed local RHS source blocks without live evolution wiring.
+- [ ] Checkpoint H / Claude Audit H: review Stages 4AP-4AR before live evolution; hard blockers include real grid regularity validation, finite-axis source evaluation, and no smoke-only hidden freeze in the physics mode.
+- [ ] Stage 4AS: add live evolution wiring only behind an explicit default-off parameter after Checkpoint H.
+- [ ] Stage 4AT: remove or replace the smoke-only hidden freeze before any real hidden-sector physics path is used.
+- [ ] Stage 4AU: perform the final Stage 4 exit review before any Stage 5/Pau diagnostic reproduction.
+- [ ] Checkpoint I / Claude Audit I: final review of Stages 4AS-4AU, including default-off evolution controls and removal/replacement of the smoke-only hidden freeze in physics mode.
 - [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
 - [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
 - [ ] Identify where `CCZ4RHS` needs modification.

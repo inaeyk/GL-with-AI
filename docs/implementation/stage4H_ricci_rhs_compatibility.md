@@ -492,8 +492,28 @@ hidden component is checked against Stage 4AH and composed through Stage 4AK,
 and the visible lapse Hessian uses the physical `gamma=h/chi` correction
 rather than a bare conformal Hessian. This remains before Z4 terms, nonlinear
 A/K terms, the full CCZ4 RHS, grid wiring, finite-axis support, or evolution.
-Checkpoint F / Claude Audit F is required before further source/RHS
-integration.
+Checkpoint F / Claude Audit F is recorded as complete after this local block.
+
+The next blockers are deliberately staged before live RHS/evolution:
+Stage 4AM derives the `hat_Gamma^x` hidden contraction and GRChombo convention
+map, Stage 4AN implements local `hat_Gamma^x` contracts, and Stage 4AO is the
+hard linear GL dispersion/growth-rate validation gate. Stage 4AO replaces the
+independent oracle that protected the Ricci stages: flat checks alone are
+insufficient, Pau is not the convention authority, and the GL anchor must
+match radius convention, z-periodicity, gauge, perturbation sector, and
+measured growth variable. No live RHS/evolution integration may proceed until
+4AO passes and Checkpoint G reviews 4AM-4AO.
+
+Stage 4AG remains only a synthetic two-sided parity-validator primitive. Stage
+4AP owns actual grid/ghost-cell regularity validation for `h_xz=O(x)`,
+`h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)`. Stage 4AQ owns finite-axis
+source evaluation with explicit analytic limits/parity treatment; no epsilon
+replacement or silent clamping is allowed, and turduckening the physical
+singularity is distinct from cartoon-axis regularity. Stage 4AR is controlled
+local RHS integration, followed by Checkpoint H before live evolution. Stage
+4AS is default-off live evolution wiring, Stage 4AT removes/replaces the
+smoke-only hidden freeze in the physics path, Stage 4AU is final Stage 4 exit
+review, and Checkpoint I covers 4AS-4AU.
 
 ## Non-goals
 
