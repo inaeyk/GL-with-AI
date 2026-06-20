@@ -318,10 +318,12 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AL: test flat, linear-lapse, constant-cone, nonsymmetric varying-`chi`/alpha, trace-free zero-trace, non-aggregate types, and invalid-input rejection.
 - [x] Stage 4AL: keep Z4 terms, nonlinear A/K terms, full CCZ4 RHS, grid wiring, and evolution unimplemented.
 - [x] Checkpoint F / Claude Audit F: review the Stage 4AL physical Hessian correction, `R_ww` agreement gate, trace-free projection, and nonsymmetric oracle before further source/RHS integration.
-- [ ] Stage 4AM: lock the `hat_Gamma^x` hidden-contraction derivation and map the GRChombo hatted-conformal-connection convention used by this project.
-- [ ] Stage 4AN: add local `hat_Gamma^x` implementation and contract tests.
+- [x] Stage 4AM: lock the `hat_Gamma^x` hidden-contraction derivation and map the GRChombo hatted-conformal-connection convention used by this project.
+- [x] Stage 4AM: record that GRChombo evolves `vars.Gamma = chris.contracted + 2 Z_over_chi`, not a separately stored lower-index Z variable, and require future project code to name the encoded Z convention explicitly.
+- [x] Stage 4AM: lock required Stage 4AN oracles `0`, `-3/4`, `-1`, and `-35/961`, plus the Gamma RHS term classification and GL hard-gate non-goals.
+- [ ] Stage 4AN: add local `hat_Gamma^x` implementation and contract tests using the Stage 4AM oracles.
 - [ ] Stage 4AO: pass the hard linear GL dispersion/growth-rate validation gate for `hat_Gamma^x`; this replaces the independent oracle that protected the Ricci stages, because flat checks alone are insufficient.
-- [ ] Checkpoint G / Claude Audit G: review Stages 4AM-4AO, including the GL anchor's radius convention, z-periodicity, gauge, perturbation sector, and measured growth variable. Pau is not the convention authority. No live RHS/evolution integration may proceed until Stage 4AO and Checkpoint G pass.
+- [ ] Checkpoint G / Claude Audit G: review Stages 4AM-4AO, including the GL anchor's radius convention, z-periodicity, gauge, perturbation sector, resolution, and measured growth variable. Pau is not the convention authority. No live RHS/evolution integration may proceed until Stage 4AO and Checkpoint G pass.
 - [ ] Stage 4AP: validate actual grid-level or ghost-cell regularity for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)` using real grid or ghost data, not only hand-built polynomial fixtures.
 - [ ] Stage 4AQ: implement finite-axis source evaluation and regularized limits with explicit analytic parity/limit treatment; do not use epsilon replacement or silent clamping, and keep turduckening of the physical singularity distinct from cartoon-axis regularity.
 - [ ] Stage 4AR: integrate reviewed local RHS source blocks without live evolution wiring.

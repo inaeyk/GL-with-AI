@@ -641,8 +641,8 @@ Category: Planning
   mapping, Stage 4AN local implementation/contracts, and Stage 4AO hard linear
   GL dispersion/growth-rate validation. Stage 4AO is the hard pre-evolution
   anchor because flat checks alone are insufficient; it must match radius
-  convention, z-periodicity, gauge, perturbation sector, and measured growth
-  variable, and Pau is not the convention authority.
+  convention, z-periodicity, gauge, perturbation sector, resolution, and
+  measured growth variable, and Pau is not the convention authority.
 - Corrected Stage 4AG status to a synthetic two-sided parity-validator
   primitive only. Stage 4AP now owns actual grid/ghost-cell regularity
   validation for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and
@@ -651,3 +651,21 @@ Category: Planning
   stage, with no epsilon replacement or silent clamping. Later ownership is now
   Stage 4AR local RHS integration, Stage 4AS default-off live wiring, Stage 4AT
   smoke-freeze removal/replacement, and Stage 4AU final Stage 4 exit review.
+
+## 2026-06-19 - Stage 4AM Hat Gamma X Derivation Lock
+
+Category: Physics + Planning
+
+- Added `docs/derivations/stage4AM_hatGammaX_derivation.md` to lock the
+  GRChombo-facing hatted-connection convention. GRChombo evolves
+  `vars.Gamma=chris.contracted+2 Z_over_chi`; the local source variable named
+  `Z` is `chi Z_over_chi`, so future project types must name that translation
+  explicitly.
+- Derived the local hidden contraction for `tilde_Gamma^x`, including the
+  `2 W^{-1} Gamma^x_ww` hidden multiplicity, the cartoon-plane
+  `Gamma^x_ww` formula, the determinant-reduced cross-check under
+  `D W^2=1`, and Stage 4AN oracles `0`, `-3/4`, `-1`, and `-35/961`.
+- Mapped the exact GRChombo Gamma RHS terms and classified inherited,
+  dimension-dependent, hidden/cartoon, gauge, and Z4/damping terms. Stage 4AM
+  adds no code or tests; Stage 4AN owns local contracts and Stage 4AO remains
+  the hard GL growth/dispersion gate before live RHS/evolution.

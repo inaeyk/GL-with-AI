@@ -1015,6 +1015,7 @@ abstraction if a local GRChombo pattern already exists.
 | Physical hidden lapse Hessian | Stage 4AJ fixture proving checked `p_alpha=alpha_x/x`, physical `gamma=h/chi` use, constant/linear-x/linear-z/varying-chi/nonsymmetric oracles, direct physical-form comparison, rejection cases, and no source-sign/RHS/evolution claim |
 | Hidden `A_ww` curvature/lapse geometric core | Stage 4AK fixture proving same-point Stage 4AH plus Stage 4AJ composition, `-D_wD_w alpha + alpha R_ww[gamma]`, flat/cone/varying-chi/nonsymmetric oracles, rejection cases, and no Z4/trace-free/chi-prefactor/RHS/evolution claim |
 | Trace-free curvature/lapse block | Stage 4AL fixture proving physical visible Hessians, Stage 4G/4I visible Ricci, Stage 4AH/4AK hidden core, full 4D trace-free projection, outer `chi`, flat/cone/varying nonsymmetric oracles, and no Z4/nonlinear/RHS/evolution claim |
+| `hat_Gamma^x` derivation lock | Stage 4AM documentation gate proving the GRChombo `vars.Gamma` hatted convention, `Z_over_chi` translation, hidden contraction with multiplicity two, determinant-reduced cross-check caveat, required local oracles, and Gamma RHS term classification |
 | Hidden-sphere Ricci roadmap | Stage 4AD-4AU plan proving the remaining gates have concrete ownership before physical `R_ww[gamma]`, `A_ww`, `hat_Gamma^x`, RHS, or evolution claims |
 | Small-axis helper | Stage 3I regular and irregular Taylor fixtures; assembled `tilde_Gamma^x` / `hat_Gamma^x` limit guard |
 | Constraint damping | Not a Stage 4A task; requires Stage 3H/3J linearized constraint-violation injection milestone |
@@ -1061,7 +1062,7 @@ Defer all of the following beyond Stage 4A:
 | Hessian hidden Ricci block complexity | Conformal `tilde R_ww` assembly | Stage 4AA-4AC | Stage 4AB implements the local Hessian sub-block with the verified nonsymmetric oracle; Stage 4AC assembles the conformal-only target and compares selected cases to Stage 4G |
 | `R^chi_ww` contains its own singular hidden/cartoon terms | Physical Ricci assembly | Stages 4AD-4AE | Use the implemented checked `chi_x/x`, checked `q_xz`, checked `p_W`, single-source input package, and hidden-multiplicity oracle; audit at Checkpoint C before 4AF |
 | Split-vs-direct physical Ricci identity not yet passed | Physical `R_ww[gamma]` trust boundary | Stage 4AF | Compare `tilde R_ww + R^chi_ww` with direct physical-metric Ricci for `gamma_IJ = chi^{-1} h_IJ`, including varying `chi` |
-| `hat_Gamma^x` hidden contraction under-tested by flat oracles | Connection/Gamma-driver sector and evolution claims | Stages 4AM-4AO and Checkpoint G | Derive hidden contraction and hatted convention, implement local contracts, then require the hard GL growth/dispersion gate; flat checks alone are insufficient and Pau is not the convention authority |
+| `hat_Gamma^x` hidden contraction under-tested by flat oracles | Connection/Gamma-driver sector and evolution claims | Stages 4AM-4AO and Checkpoint G | Stage 4AM locks the GRChombo hatted convention, hidden contraction, RHS map, and local oracles; Stage 4AN must implement local contracts; Stage 4AO must pass the hard GL growth/dispersion gate because flat checks alone are insufficient and Pau is not the convention authority |
 | Missing actual grid regularity validation | Axis source terms and evolution claims | Stage 4AP and Checkpoint H | Validate real grid or ghost-cell data for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)`, not only hand-built fixtures |
 | Missing finite-axis source implementation | Axis source terms and evolution claims | Stage 4AQ and Checkpoint H | Implement explicit analytic finite limits/parity treatment with no epsilon replacement and no silent clamping; keep turduckening distinct from cartoon-axis regularity |
 | Curvature/lapse sign inconsistent with initial-data `K_IJ` convention | `A_IJ` source block | Stage 3A and future sign gate | Check `partial_t gamma_IJ = -2 alpha K_IJ + L_beta gamma_IJ` against `-D_I D_J alpha + alpha R_IJ` before RHS wiring |
@@ -1126,14 +1127,19 @@ Stage 4AH physical `R_ww` values must agree before assembly. Checkpoint F /
 Claude Audit F is recorded as complete after reviewing this local block.
 
 Remaining Stage 4 source/evolution work is split into hard gates. Stage 4AM
-derives `hat_Gamma^x` hidden contraction and maps the GRChombo convention;
-Stage 4AN implements local `hat_Gamma^x` contracts; Stage 4AO is the hard
-linear GL dispersion/growth-rate validation gate. Stage 4AO replaces the
-independent oracle that protected the Ricci stages: flat checks alone are
-insufficient, Pau is not the convention authority, and the anchor must match
-radius convention, z-periodicity, gauge, perturbation sector, and measured
-growth variable. No live RHS/evolution integration may proceed until 4AO
-passes and Checkpoint G reviews 4AM-4AO.
+now locks the `hat_Gamma^x` hidden contraction and maps the GRChombo
+convention in `docs/derivations/stage4AM_hatGammaX_derivation.md`:
+GRChombo evolves `vars.Gamma=chris.contracted+2 Z_over_chi`, so the project
+shorthand `hat_Gamma^i=tilde_Gamma^i+2Z^i` must name the encoded
+`Z_over_chi` convention explicitly. Stage 4AM also locks the full hidden
+contraction, determinant-reduced cross-check caveat, required local oracles,
+and Gamma RHS term map. Stage 4AN implements local `hat_Gamma^x` contracts;
+Stage 4AO is the hard linear GL dispersion/growth-rate validation gate.
+Stage 4AO replaces the independent oracle that protected the Ricci stages:
+flat checks alone are insufficient, Pau is not the convention authority, and
+the anchor must match radius convention, z-periodicity, gauge, perturbation
+sector, resolution, and measured growth variable. No live RHS/evolution
+integration may proceed until 4AO passes and Checkpoint G reviews 4AM-4AO.
 
 Stage 4AG remains complete only as a synthetic two-sided `h_xz` parity
 validator primitive. Actual grid/ghost-data regularity moves to Stage 4AP for

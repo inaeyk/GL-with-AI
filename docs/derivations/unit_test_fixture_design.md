@@ -414,10 +414,41 @@ and no global parity or finite-axis regularity proof.
 | Stage 4AJ physical hidden lapse Hessian fixture | 3J/4AE/4AJ | C++ local formula fixture | Single-source local `x,A,B,C,W,chi,W_x,W_z,chi_x,chi_z,alpha_x,alpha_z` with checked `q`, `p_W`, `p_chi`, and `p_alpha` | Constant alpha gives `0`; flat linear-`x` gives `3/20`; flat linear-`z` gives `0`; varying `chi` gives `11/80`; nonsymmetric sample gives `699/155`; varying and nonsymmetric cases match the direct physical formula | Exact local identities, direct physical-form comparison, exception checks, and type-shape checks | Accidental conformal-Hessian reuse, missing checked `alpha_x/x`, wrong `gamma=h/chi` factors, mixed-point inputs, invalid `x/W/chi/D` acceptance | Source minus sign, full `A_ww` source block, full RHS, grid reads, finite-axis support, evolution | Required before Stage 4AK | Physical hidden lapse Hessian only; away-axis local value |
 | Stage 4AK Aww curvature/lapse core fixture | 3J/4AH/4AJ/4AK | C++ local composition fixture | Single-source local metric/conformal-factor/lapse jet that mints Stage 4AH physical `R_ww[gamma]` and Stage 4AJ physical `D_wD_w alpha` packages | Flat `0`; flat linear-lapse `-3/20`; constant cone `-3/2`; varying `chi` `-11/720`; nonsymmetric same-point case checks `minus_dww_alpha`, `alpha_rww`, and their sum; invalid inputs reject; packages are non-aggregate | Exact local composition, exception checks, and type-shape checks | Wrong source sign, mixed-point Ricci/Hessian packages, treating the core as full `A_ww`, accepting loose raw values | Z4 term, trace-free projection, outer `chi`, nonlinear A/K terms, full RHS, grid reads, finite-axis support, evolution | Required before Stage 4AL | Geometric core only; away-axis local value |
 | Stage 4AL trace-free curvature/lapse block fixture | 3J/4G/4I/4AH/4AK/4AL | C++ local projection fixture | Single-source local h/chi/alpha jet, Stage 4G/4I visible Ricci, Stage 4AH physical `R_ww`, Stage 4AK hidden core, and computed inverse metric | Flat all zero; linear-lapse `tf_xx=tf_zz=3/40`, `tf_ww=-3/40`; constant cone trace `-3/4`; nonsymmetric sample checks hard-coded core/TF/source components and zero 4D TF trace; invalid inputs reject; packages are non-aggregate | Exact local identities, Stage 4G-vs-4AH `R_ww` agreement, trace-free zero-trace check, exception checks, and type-shape checks | Wrong physical Hessian correction, wrong hidden multiplicity, missing outer `chi`, wrong `/4` denominator, mixed-point inputs, loose raw component path | Z4 terms, nonlinear A/K terms, full CCZ4 RHS, grid reads/wiring, finite-axis support, evolution | Checkpoint F complete after review | Local trace-free geometry source only; away-axis value |
+| Stage 4AM `hat_Gamma^x` derivation lock | 3I/3J/4AM | Documentation gate | Read-only GRChombo convention map plus local reduced metric derivatives `A,B,C,W,A_x,A_z,B_x,B_z,C_x,C_z,W_x,W_z` | Locks `vars.Gamma=chris.contracted+2 Z_over_chi`, the translation to project `hat_Gamma^x`, the hidden contraction with `2 W^{-1} Gamma^x_ww`, the determinant-reduced cross-check under `D W^2=1`, required oracles `0`, `-3/4`, `-1`, and `-35/961`, and the Gamma RHS term map | Review gate only | Wrong sign/factor of two in hatted convention, confusing GRChombo `Z` with `Z_over_chi`, missing hidden multiplicity, using determinant-reduced identity without determinant certification | C++ implementation, full Gamma RHS, GL validation, grid regularity, finite-axis support, evolution | Required before Stage 4AN | Docs-only; Stage 4AO remains the hard physical anchor |
 | Stage 4AF-4AU hidden-sphere Ricci/RHS gates | 3I/3J/4W/4AE | C++ local fixtures plus derivation, identity, GL, grid, and finite-axis gates | Direct physical Ricci comparison, synthetic parity primitive, actual grid/ghost regularity data, finite-axis limit data, `hat_Gamma^x` convention data, and GL anchor data | Concrete gates for split-vs-direct identity, synthetic `h_xz` parity primitive, physical `R_ww`, hidden lapse, trace-free source, `hat_Gamma^x`, GL growth/dispersion, actual grid regularity, finite-axis evaluation, RHS integration, and smoke-freeze removal | Derivation exactness, local identities, direct Ricci comparison, hard GL validation, grid/axis validation, and later controlled evolution checks | Hidden-sphere Ricci reaching RHS/evolution before conformal-vs-physical split, real grid regularity, finite-axis, smoke-freeze, and `hat_Gamma^x` risks are owned | Production evolution correctness or Pau reproduction by itself | Required before serious hidden-sector RHS/evolution claims | See `stage4_hidden_sphere_Rww_plan.md` |
 | Gamma-driver ownership boundary | 3H | C++ unit/design check | Mock RHS block inputs for gauge and `hat_Gamma^A` terms | Gauge block owns lapse/shift/auxiliary evolution; `hat_Gamma^A` block owns their appearances in `partial_t hat_Gamma^A` | Structural review plus targeted unit checks | Double-counting gauge terms, split ownership drift | Physical correctness of chosen gauge | Yes as a design review gate | Yes |
 
 ## Integration, Reference, And Convergence Tests
+
+### Stage 4AM `hat_Gamma^x` Derivation Gate
+
+Stage 4AM is documentation-only. It records that GRChombo evolves
+`vars.Gamma[i]` as the hatted connection and reconstructs
+`Z_over_chi[i]=0.5*(vars.Gamma[i]-chris.contracted[i])`; the project
+shorthand `hat_Gamma^i=tilde_Gamma^i+2Z^i` therefore uses
+`Z^i=Z_over_chi[i]` at the GRChombo-facing boundary. The locked hidden
+contraction is
+
+```text
+tilde_Gamma^x =
+    H^xx Gamma^x_xx
+  + 2 H^xz Gamma^x_xz
+  + H^zz Gamma^x_zz
+  + 2 W^{-1} Gamma^x_ww,
+```
+
+with `Gamma^x_ww` carrying `(A-W)/x`, `B/x`, and `W_x` terms. The required
+Stage 4AN local oracles are flat `0`, constant cone `-3/4`,
+determinant-one off-diagonal `-1`, and the distinct derivative sample
+`tilde_Gamma^x=-35/961`, split as base contraction `27/961` plus hidden
+contraction `-2/31`. The determinant-reduced identity is only a cross-check
+under `D W^2=1`.
+
+The future Gamma RHS map must preserve all GRChombo terms and classify
+dimension-dependent `d=4` factors, hidden/cartoon additions, gauge terms, and
+Z4/damping terms. Stage 4AO remains a hard GL dispersion/growth-rate gate:
+flat tests alone are insufficient, the physical growth observable must be
+geometric, and Pau is not the convention authority.
 
 ### Stage 4AF Split-Vs-Direct Identity Fixture
 
