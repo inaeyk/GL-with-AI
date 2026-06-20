@@ -117,7 +117,7 @@
 - [x] Stage 4AL: implement the full local trace-free curvature/lapse block `chi(C_IJ - h_IJ C/4)` for `xx,xz,zz,ww`, while keeping Z4, nonlinear terms, RHS, grid wiring, and evolution absent.
 - [x] Checkpoint F / Claude Audit F: review the Stage 4AL physical Hessian correction, Stage 4G-vs-4AH `R_ww` agreement gate, trace-free projection, and nonsymmetric oracle before further source/RHS work.
 - [x] Stage 4AM: lock the `hat_Gamma^x` hidden-contraction derivation, GRChombo `vars.Gamma` / `Z_over_chi` convention map, required Stage 4AN oracles, and Gamma RHS term classification without adding code.
-- [ ] Stage 4AN: implement local `hat_Gamma^x` contract tests using the Stage 4AM oracles.
+- [x] Stage 4AN: implement local `hat_Gamma^x` contract tests using the Stage 4AM oracles and checked `Delta_xw` / `B/x` singular ingredients.
 - [ ] Stage 4AO: pass the hard linear GL dispersion/growth-rate validation gate before any live RHS/evolution integration.
 - [ ] Checkpoint G / Claude Audit G: review Stages 4AM-4AO.
 - [ ] Stage 4AP: validate actual grid/ghost-cell regularity for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)`.

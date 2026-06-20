@@ -30,7 +30,7 @@ local variable named `Z[i]`, GRChombo stores
 vars.Gamma[i] = chris.contracted[i] + 2 Z[i] / chi.
 ```
 
-Future Stage 4AN code must make this naming explicit at its type boundary.
+Stage 4AN code makes this naming explicit at its type boundary.
 
 ## GRChombo Convention Inspection
 
@@ -137,7 +137,7 @@ tilde_Gamma^x =
     }.
 ```
 
-This is the formula Stage 4AN must implement first. It uses checked
+This is the formula implemented first by Stage 4AN. It uses checked
 regularity-sensitive ingredients from the existing stack:
 
 - `(A - W) / x^2` through the Stage 4U/4R checked path when near-axis

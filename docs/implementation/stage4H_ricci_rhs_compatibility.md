@@ -501,14 +501,16 @@ convention map in
 `vars.Gamma=chris.contracted+2 Z_over_chi`, so future project code must not
 confuse the encoded `Z_over_chi` convention with the local GRChombo variable
 named `Z=chi Z_over_chi`. Stage 4AM also records the required local oracles
-and the exact Gamma RHS term map. Stage 4AN implements local `hat_Gamma^x`
-contracts, and Stage 4AO is the hard linear GL dispersion/growth-rate
-validation gate. Stage 4AO replaces the independent oracle that protected the
-Ricci stages: flat checks alone are insufficient, Pau is not the convention
-authority, and the GL anchor must match radius convention, z-periodicity,
-gauge, perturbation sector, resolution, and measured growth variable. No live
-RHS/evolution integration may proceed until 4AO passes and Checkpoint G
-reviews 4AM-4AO.
+and the exact Gamma RHS term map. Stage 4AN now implements local
+`hat_Gamma^x` contracts in `CartoonHatGammaX.hpp`, using checked
+`Delta_xw` and checked `B/x` ingredients and retaining no Gamma RHS, grid,
+finite-axis, GL, or evolution claim. Stage 4AO is the hard linear GL
+dispersion/growth-rate validation gate. Stage 4AO replaces the independent
+oracle that protected the Ricci stages: flat checks alone are insufficient,
+Pau is not the convention authority, and the GL anchor must match radius
+convention, z-periodicity, gauge, perturbation sector, resolution, and
+measured growth variable. No live RHS/evolution integration may proceed until
+4AO passes and Checkpoint G reviews 4AM-4AO.
 
 Stage 4AG remains only a synthetic two-sided parity-validator primitive. Stage
 4AP owns actual grid/ghost-cell regularity validation for `h_xz=O(x)`,

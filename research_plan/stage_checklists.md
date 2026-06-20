@@ -321,7 +321,9 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AM: lock the `hat_Gamma^x` hidden-contraction derivation and map the GRChombo hatted-conformal-connection convention used by this project.
 - [x] Stage 4AM: record that GRChombo evolves `vars.Gamma = chris.contracted + 2 Z_over_chi`, not a separately stored lower-index Z variable, and require future project code to name the encoded Z convention explicitly.
 - [x] Stage 4AM: lock required Stage 4AN oracles `0`, `-3/4`, `-1`, and `-35/961`, plus the Gamma RHS term classification and GL hard-gate non-goals.
-- [ ] Stage 4AN: add local `hat_Gamma^x` implementation and contract tests using the Stage 4AM oracles.
+- [x] Stage 4AN: add local `hat_Gamma^x` implementation and contract tests using the Stage 4AM oracles.
+- [x] Stage 4AN: compute `tilde_Gamma^x` from the full visible plus hidden Christoffel contraction, build `(A-W)/x` as `x Delta_xw` through the checked Stage 4U/4R path, and obtain `B/x` through the checked Stage 4X package.
+- [x] Stage 4AN: expose base contraction, hidden contraction, `tilde_Gamma^x`, `Z_over_chi^x`, and `hat_Gamma^x`, and keep Gamma RHS, GL validation, grid regularity, finite-axis handling, and evolution unwired.
 - [ ] Stage 4AO: pass the hard linear GL dispersion/growth-rate validation gate for `hat_Gamma^x`; this replaces the independent oracle that protected the Ricci stages, because flat checks alone are insufficient.
 - [ ] Checkpoint G / Claude Audit G: review Stages 4AM-4AO, including the GL anchor's radius convention, z-periodicity, gauge, perturbation sector, resolution, and measured growth variable. Pau is not the convention authority. No live RHS/evolution integration may proceed until Stage 4AO and Checkpoint G pass.
 - [ ] Stage 4AP: validate actual grid-level or ghost-cell regularity for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)` using real grid or ghost data, not only hand-built polynomial fixtures.

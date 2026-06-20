@@ -669,3 +669,19 @@ Category: Physics + Planning
   dimension-dependent, hidden/cartoon, gauge, and Z4/damping terms. Stage 4AM
   adds no code or tests; Stage 4AN owns local contracts and Stage 4AO remains
   the hard GL growth/dispersion gate before live RHS/evolution.
+
+## 2026-06-19 - Stage 4AN Local Hat Gamma X Contract
+
+Category: Physics + Code
+
+- Added `CartoonHatGammaX.hpp` for the local away-axis contract
+  `hat_Gamma^x=tilde_Gamma^x+2 Z_over_chi^x` using the GRChombo hatted
+  convention.
+- The factory single-sources `x,A,B,C,W`, first derivatives, and
+  `Z_over_chi^x`; it obtains `Delta_xw=(A-W)/x^2` through the checked
+  Stage 4U/4R path and `B/x` through the checked Stage 4X package before
+  forming `Gamma^x_ww`.
+- The standalone fixture passes the flat, constant-cone, determinant-one
+  off-diagonal, distinct derivative, hatted-convention, rejection, and
+  non-aggregate type checks. Gamma RHS, GL validation, grid regularity,
+  finite-axis handling, and evolution remain future work. Stage 4AO is next.
