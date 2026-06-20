@@ -365,6 +365,30 @@ gate validates the coupled linearized system containing `hat_Gamma^x`, not
 constraint damping by itself. Flat tests are insufficient. Pau is not the
 convention authority.
 
+The current Stage 4AO assessment records Outcome B: this repository cannot yet
+run that gate honestly. Stage 4AN supplies only the local away-axis
+`hat_Gamma^x` contraction and hatted-convention package. The rest of the
+coupled system needed by a GL dispersion/growth check is not yet present:
+
+- no implemented or derivation-locked local linearized RHS for the full chosen
+  sector `h`, `hww`, `chi`, `K`, `A`, `Aww`, `Theta`, `hat_Gamma^x`,
+  `hat_Gamma^z`, lapse, shift, and gauge-driver variables;
+- no completed hidden/cartoon Gamma RHS implementation for the terms mapped
+  above, including hidden `div beta`, `Gamma^x_ww A^ww`, vector
+  second-derivative, and shift-divergence `1/x` contributions;
+- no locked uniform 5D black-string background convention for `r0`, GP branch,
+  `K_ij` sign, gauge startup, compact `z`, and perturbation sector;
+- no primary-literature or internally documented semi-analytic GL spectrum
+  table with a threshold and unstable growth-rate target in project
+  conventions;
+- no geometric growth observable fixture. `hat_Gamma^x` alone is not a
+  physical observable.
+
+Therefore Stage 4AO remains incomplete and Checkpoint G has not passed. A
+future executable Stage 4AO test must first close those prerequisites, then
+compare a threshold point and at least one unstable growth-rate point with an
+explicit tolerance. Until then, live RHS/evolution integration remains blocked.
+
 ## Non-Goals
 
 Stage 4AM does not implement:

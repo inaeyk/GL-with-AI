@@ -512,6 +512,15 @@ convention, z-periodicity, gauge, perturbation sector, resolution, and
 measured growth variable. No live RHS/evolution integration may proceed until
 4AO passes and Checkpoint G reviews 4AM-4AO.
 
+The current Stage 4AO assessment is Outcome B. No standalone GL test was added:
+the project still lacks a complete coupled linearized RHS for the selected
+sector, an implemented/locked uniform 5D black-string background with matched
+gauge and `r0` conventions, and a primary-literature or internally documented
+GL threshold/growth-rate target. Stage 4AN's local `hat_Gamma^x` contract is
+necessary but not sufficient. The missing pieces remain assigned to the Stage
+4AO prerequisites before any controlled RHS or live evolution integration can
+claim GL validation.
+
 Stage 4AG remains only a synthetic two-sided parity-validator primitive. Stage
 4AP owns actual grid/ghost-cell regularity validation for `h_xz=O(x)`,
 `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)`. Stage 4AQ owns finite-axis

@@ -119,6 +119,8 @@
 - [x] Stage 4AM: lock the `hat_Gamma^x` hidden-contraction derivation, GRChombo `vars.Gamma` / `Z_over_chi` convention map, required Stage 4AN oracles, and Gamma RHS term classification without adding code.
 - [x] Stage 4AN: implement local `hat_Gamma^x` contract tests using the Stage 4AM oracles and checked `Delta_xw` / `B/x` singular ingredients.
 - [ ] Stage 4AO: pass the hard linear GL dispersion/growth-rate validation gate before any live RHS/evolution integration.
+- [x] Stage 4AO assessment: record Outcome B, with no fake flat or `hat_Gamma^x`-only test. The coupled linearized RHS, matched uniform-string convention map, and GL spectrum target are still missing.
+- [ ] Stage 4AO prerequisite: lock the uniform-string background/gauge conventions, primary-literature or internal GL spectrum target, complete coupled linearized RHS, and geometric growth observable before adding the executable spectral gate.
 - [ ] Checkpoint G / Claude Audit G: review Stages 4AM-4AO.
 - [ ] Stage 4AP: validate actual grid/ghost-cell regularity for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)`.
 - [ ] Stage 4AQ: implement finite-axis source evaluation and regularized limits with no epsilon replacement or silent clamping.

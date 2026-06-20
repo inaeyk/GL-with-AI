@@ -468,6 +468,21 @@ The fixture also recovers `Z_over_chi^x=0.5*(hat_Gamma^x-tilde_Gamma^x)`.
 It does not implement the Gamma RHS, GL validation, grid regularity,
 finite-axis handling, or evolution wiring.
 
+### Stage 4AO GL Gate Assessment
+
+No Stage 4AO fixture exists yet. The current assessment is Outcome B: a
+genuine Gregory-Laflamme dispersion/growth gate is not implementable from the
+available local fixtures. The existing tests cover local Ricci/source pieces
+and the local `hat_Gamma^x` contraction, but they do not provide the complete
+coupled linearized system around a uniform 5D black string.
+
+The future Stage 4AO fixture must be a linear-mode or spectral test, not a flat
+check and not a `hat_Gamma^x`-only check. Before it can be written, the project
+needs a locked uniform-string background/gauge convention, a primary-literature
+or internally documented GL threshold/growth-rate target, a complete
+linearized RHS for the chosen sector, and a geometric growth observable.
+Checkpoint G is therefore not passed.
+
 ### Stage 4AF Split-Vs-Direct Identity Fixture
 
 The Stage 4AF fixture is an internal hard gate, not external validation. It
