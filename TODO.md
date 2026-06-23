@@ -1,5 +1,7 @@
 # TODO
 
+Current status and checkpoint authority: `research_plan/stage_checklists.md`.
+
 ## Immediate
 
 - [x] Create repository scaffold.
@@ -118,10 +120,14 @@
 - [x] Checkpoint F / Claude Audit F: review the Stage 4AL physical Hessian correction, Stage 4G-vs-4AH `R_ww` agreement gate, trace-free projection, and nonsymmetric oracle before further source/RHS work.
 - [x] Stage 4AM: lock the `hat_Gamma^x` hidden-contraction derivation, GRChombo `vars.Gamma` / `Z_over_chi` convention map, required Stage 4AN oracles, and Gamma RHS term classification without adding code.
 - [x] Stage 4AN: implement local `hat_Gamma^x` contract tests using the Stage 4AM oracles and checked `Delta_xw` / `B/x` singular ingredients.
-- [ ] Stage 4AO: pass the hard linear GL dispersion/growth-rate validation gate before any live RHS/evolution integration.
-- [x] Stage 4AO assessment: record Outcome B, with no fake flat or `hat_Gamma^x`-only test. The coupled linearized RHS, matched uniform-string convention map, and GL spectrum target are still missing.
-- [ ] Stage 4AO prerequisite: lock the uniform-string background/gauge conventions, primary-literature or internal GL spectrum target, complete coupled linearized RHS, and geometric growth observable before adding the executable spectral gate.
-- [ ] Checkpoint G / Claude Audit G: review Stages 4AM-4AO.
+- [x] Stage 4AO-A: background and analytic residual lock for the exact uniform ingoing-GP black string, including `r0`, compact-`z`, background slicing gauge, evolution gauge-driver and initial-gauge startup family, `K_ij` sign, perturbation sector, geometric observable, continuum residual, full `hat_Gamma^x` hidden contraction, and analytic `1/x` cancellations.
+  - [x] Add `docs/derivations/stage4AO_A_uniform_gp_background_residual.md` locking the uniform ingoing-GP background, `z~z+L`, `k_n=2 pi n/L`, GRChombo `partial_t gamma_IJ=-2 alpha K_IJ+L_beta gamma_IJ` sign, frozen-GP zero-residual targets, live moving-puncture lapse startup residual, and the background `hat_Gamma^x` hidden contraction.
+  - [x] Complete the componentwise `A_IJ` residuals, full `hat_Gamma^x` RHS residual, fixed field-independent GP-holding lapse source `S_alpha(x)=+3 sqrt(r0/x^3)`, horizon-observable lock, positive-inner-radius domain, constraints, and `1/x` cancellation ledger.
+- [x] Stage 4AO-B: discrete operator preflight harness: raw unmodified-RHS background residual convergence on the provisional `r0=1`, `x in [0.5,4.0]` domain, with target zero for verified geometric/scalar/constraint components and `-3 sqrt(r0/x^3)` for the unmodified live moving-puncture lapse equation; `S_alpha=+3 sqrt(r0/x^3)` is not used to cancel measured finite-grid residuals; the fixture also checks `delta hww` hidden-contraction isolation for `delta hat_Gamma^x`, hand-derived actual-discrete-RHS Jacobian-vector agreement, and z-coupled periodic-stencil parity-sector block diagonalization with a flipped-parity negative guard.
+- [ ] Stage 4AO-C: frozen-gauge spectral gate remains blocked/incomplete. `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md` defines the intended frozen-gauge operator and records missing prerequisites: complete coupled frozen-gauge modified-cartoon RHS linearization, actual-operator parity/JVP checks, radial spectral boundary conditions, shift-invert or equivalent targeted extraction, linearized MOTS/horizon observable map, primary-source `k_c r0` convention map, threshold zero crossing, unstable/stable points, and radial/boundary convergence.
+- [ ] Stage 4AO-D: live-gauge/full acceptance: physical GL eigenvalue agreement, physical/gauge/constraint mode separation, CCZ4 constraint-subsystem decay, inner-boundary characteristics, seeded time-evolution growth bridge, and full convergence.
+- [ ] Stage 4AO hard rules: flat tests alone are insufficient; no discrete or spectral work before 4AO-A; no eigensolver before 4AO-B; validation harnesses may exercise RHS/spectral/evolution-bridge code; production Stage 4AR/4AS integration remains blocked until 4AO-D; Pau is not the convention authority; `hat_Gamma^x` alone is not the observable.
+- [ ] Checkpoint G / Claude Audit G: review Stages 4AM-4AO-D; passes only after 4AO-D.
 - [ ] Stage 4AP: validate actual grid/ghost-cell regularity for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)`.
 - [ ] Stage 4AQ: implement finite-axis source evaluation and regularized limits with no epsilon replacement or silent clamping.
 - [ ] Stage 4AR: integrate controlled local RHS source blocks without live evolution.

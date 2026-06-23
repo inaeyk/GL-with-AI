@@ -505,21 +505,28 @@ and the exact Gamma RHS term map. Stage 4AN now implements local
 `hat_Gamma^x` contracts in `CartoonHatGammaX.hpp`, using checked
 `Delta_xw` and checked `B/x` ingredients and retaining no Gamma RHS, grid,
 finite-axis, GL, or evolution claim. Stage 4AO is the hard linear GL
-dispersion/growth-rate validation gate. Stage 4AO replaces the independent
-oracle that protected the Ricci stages: flat checks alone are insufficient,
-Pau is not the convention authority, and the GL anchor must match radius
-convention, z-periodicity, gauge, perturbation sector, resolution, and
-measured growth variable. No live RHS/evolution integration may proceed until
-4AO passes and Checkpoint G reviews 4AM-4AO.
-
-The current Stage 4AO assessment is Outcome B. No standalone GL test was added:
-the project still lacks a complete coupled linearized RHS for the selected
-sector, an implemented/locked uniform 5D black-string background with matched
-gauge and `r0` conventions, and a primary-literature or internally documented
-GL threshold/growth-rate target. Stage 4AN's local `hat_Gamma^x` contract is
-necessary but not sufficient. The missing pieces remain assigned to the Stage
-4AO prerequisites before any controlled RHS or live evolution integration can
-claim GL validation.
+dispersion/growth-rate validation path. It is now split into 4AO-A through
+4AO-D: background and analytic residual lock for the exact uniform ingoing-GP
+black string; discrete operator preflight before eigensolvers; frozen-gauge
+spectral gate; and live-gauge/full acceptance. Stage 4AO-A also locks the
+background slicing gauge plus the evolution gauge-driver and initial-gauge
+startup family used by 4AO-C and 4AO-D. Stage 4AO-B is now implemented as a
+local harness in `Stage4AOGPDiscretePreflight.hpp` with fixture
+`Stage4AOBDiscreteOperatorPreflightTest.cpp`; it checks raw unmodified-RHS
+background residual convergence on `r0=1`, `x in [0.5,4.0]`,
+`delta hww` hidden-contraction isolation, an actual-discrete-RHS
+Jacobian-vector epsilon plateau, and z-coupled periodic-stencil parity leakage
+with a flipped-parity negative guard. Stage 4AO-C is started only as the
+blocker note `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`; it
+does not yet provide the full frozen-gauge operator, shift-invert solve,
+unstable/stable points, threshold estimate, or primary-source `k_c r0`
+convention lock. Flat checks
+alone are insufficient, Pau is not the convention authority, the physical
+growth observable must be geometric, and `k_c r0 ~= 0.876` remains provisional
+until primary-source convention mapping is complete. Dedicated 4AO-C/D
+validation harnesses may exercise spectral and seeded-evolution-bridge code.
+Production Stage 4AR/4AS integration remains blocked until 4AO-D, and
+Checkpoint G passes only after 4AO-D.
 
 Stage 4AG remains only a synthetic two-sided parity-validator primitive. Stage
 4AP owns actual grid/ghost-cell regularity validation for `h_xz=O(x)`,

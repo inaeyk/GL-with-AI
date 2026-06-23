@@ -265,8 +265,7 @@ beta^x = s sqrt(r0 / x)
 ```
 
 However, the evolution gauge variables do not necessarily need to be initialized
-to the natural GP shift. If following the reproduction roadmap, initialize the
-evolution gauge as
+to the natural GP shift. The older tentative reproduction-roadmap startup was
 
 ```text
 alpha(0) = 1
@@ -276,6 +275,18 @@ beta^i(0) = 0
 while keeping `gamma_ij` and nonzero `K_ij` from the GP slice. In that case the
 data are GP-slice geometric data, not a fully stationary GP-coordinate
 evolution.
+
+Stage 4AO-A now locks the GL-validation background/startup family separately in
+`docs/derivations/stage4AO_A_uniform_gp_background_residual.md`: frozen-GP
+stationarity uses `alpha=1`, `beta^x=sqrt(r0/x)`, `beta^z=0`, and the live
+moving-puncture startup keeps that GP shift with `B^i=0`, producing a
+prescribed lapse startup residual in unmodified GRChombo. The 4AO-D validation
+harness cancels that zeroth-order drift with the fixed, field-independent
+source `S_alpha(x)=+3 sqrt(r0/x^3)`, computed from the locked analytic
+background and locked `r0`, not from evolved fields. This source is validation
+harness only and not production Stage 4AR/4AS wiring. Do not mix the tentative
+zero-shift startup with a stationarity claim unless its own analytic residual
+targets are derived.
 
 Do not set `K_ij = 0` just because the evolution shift `beta^i` is initialized
 to zero. `K_ij` is part of the geometric initial data and should not be

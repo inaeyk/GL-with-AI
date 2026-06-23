@@ -1,8 +1,9 @@
 # Stage 4 Hidden-Sphere Rww Plan
 
-Status: integrated roadmap through the Stage 4AN local `hat_Gamma^x`
-implementation. This document does not claim production physical Ricci
-assembly, finite-difference stencils, CCZ4 RHS terms, or evolution wiring.
+Status: integrated roadmap through the Stage 4AO-B local discrete-operator
+preflight harness. This document does not claim production physical Ricci
+assembly, production finite-difference stencils, CCZ4 RHS integration, GL
+eigensolvers, threshold searches, or evolution wiring.
 
 ## Purpose
 
@@ -564,6 +565,15 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 - Stage 4AN: local away-axis `hat_Gamma^x` implementation and contract tests,
   consuming checked `Delta_xw` and checked `B/x` ingredients and retaining no
   Gamma RHS, GL validation, grid regularity, finite-axis, or evolution claim.
+- Stage 4AO-A: uniform ingoing-GP background and analytic continuum residual
+  lock, including the live moving-puncture lapse startup residual, fixed
+  validation-harness lapse source, positive-inner-radius domain, horizon
+  observable, and analytic `1/x` cancellation ledger.
+- Stage 4AO-B: local discrete-operator preflight harness for the locked
+  4AO-A background: raw unmodified-RHS background residual convergence,
+  `delta hww` hidden-contraction isolation, actual-discrete-RHS Jacobian-vector
+  epsilon plateau, and a z-coupled periodic-stencil cosine/sine parity-sector
+  block check.
 
 ## Future Stage Breakdown
 
@@ -585,11 +595,14 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 | Checkpoint F | Claude Audit F after Stage 4AL | Complete: reviewed the physical Hessian correction, Stage 4G-vs-4AH `R_ww` agreement gate, trace-free projection, and nonsymmetric oracle; no new future stage is complete |
 | Stage 4AM | `hat_Gamma^x` hidden-contraction derivation lock and GRChombo convention map | Complete as documentation in `docs/derivations/stage4AM_hatGammaX_derivation.md`: locks GRChombo `vars.Gamma` as the hatted connection, the `Z_over_chi` translation, hidden contraction, determinant-reduced cross-check, required Stage 4AN oracles, and Gamma RHS term map |
 | Stage 4AN | Local `hat_Gamma^x` implementation and contract tests | Complete as local away-axis code in `code/BlackStringToy/CartoonHatGammaX.hpp`; consumes checked `Delta_xw` and checked `B/x`, exposes base/hidden/tilde/Z-over-chi/hat values, and covers the Stage 4AM oracles without Gamma RHS or evolution wiring |
-| Stage 4AO | Hard linear GL dispersion/growth-rate validation gate | Incomplete after the current assessment. The repo does not yet contain a complete coupled linearized RHS, a locked uniform black-string background/gauge convention, or a primary-literature/internal GL spectrum target. No fake flat or `hat_Gamma^x`-only test may stand in for this gate |
-| Checkpoint G | Claude Audit G after Stage 4AO | Covers Stages 4AM-4AO before grid regularity, finite-axis, or RHS integration work continues |
+| Stage 4AO-A | Background and analytic residual lock | Future hard preflight: lock the exact uniform ingoing-GP black-string background, `r0`, compact-`z` period, background slicing gauge, evolution gauge-driver and initial-gauge startup family, `K_ij` sign, perturbation sector, geometric observable, continuum background residual, full `hat_Gamma^x` hidden contraction, and analytic `1/x` cancellations; no discrete or spectral work before this passes |
+| Stage 4AO-B | Discrete operator preflight | Complete as a local validation harness in `code/BlackStringToy/Stage4AOGPDiscretePreflight.hpp` with fixture `code/BlackStringToy/tests/Stage4AOBDiscreteOperatorPreflightTest.cpp`; demonstrates raw unmodified-RHS residual convergence on `x in [0.5,4.0]` with `r0=1`, `delta hww` hidden-contraction isolation, actual-discrete-RHS JVP epsilon behavior, and a z-coupled periodic-stencil parity-sector check with a flipped-parity negative guard; no eigensolver or threshold search is included |
+| Stage 4AO-C | Frozen-gauge spectral gate | Blocked/incomplete: `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md` defines the intended frozen-gauge operator and records missing prerequisites; no eigensolver, threshold crossing, unstable/stable point, or `k_c r0` convention map is implemented yet |
+| Stage 4AO-D | Live-gauge/full acceptance | Future hard acceptance gate: physical GL eigenvalue agrees with frozen gauge, physical/gauge/constraint modes separate, constraint-subsystem decay matches the derived CCZ4 formulation, inner-boundary characteristics are checked, the eigenvector is seeded in time evolution and reproduces the spectral growth rate, and the full convergence battery passes |
+| Checkpoint G | Claude Audit G after Stage 4AO-D | Covers Stages 4AM-4AO-D; this checkpoint passes only after 4AO-D, before grid regularity, finite-axis, or RHS integration work continues |
 | Stage 4AP | Grid-level/ghost-data regularity validation | Validate actual grid or ghost-cell data, not only polynomial fixtures, for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)` |
 | Stage 4AQ | Finite-axis source evaluation and regularized-limit implementation | Implement explicit analytic finite limits/parity treatment; no epsilon replacement, no silent clamping; turduckening the physical singularity is distinct from cartoon-axis regularity |
-| Stage 4AR | Controlled local RHS integration | Integrate reviewed local blocks without live evolution wiring, after 4AO, 4AP, and 4AQ blockers pass |
+| Stage 4AR | Controlled local RHS integration | Integrate reviewed local blocks without live evolution wiring, after 4AO-D, 4AP, and 4AQ blockers pass |
 | Checkpoint H | Claude Audit H after Stage 4AR | Covers Stages 4AP-4AR before live evolution wiring |
 | Stage 4AS | Live evolution wiring behind an explicit parameter | Default-off wiring only after Checkpoint H clears |
 | Stage 4AT | Remove/replace smoke-only hidden freeze in physics path | Ensure `scaffold_freeze_hidden` cannot mask or coexist with real hidden-sector physics mode |
@@ -796,32 +809,170 @@ constant-cone `-3/4`, determinant-one off-diagonal `-1`, and distinct
 derivative `-35/961` oracles, including the hatted
 `Z_over_chi^x=1/2` value `926/961`.
 
-Stage 4AO is the hard linear GL dispersion/growth-rate validation gate. The
-current Stage 4AO assessment is Outcome B: the gate is not yet implementable.
-The repo has local geometric/Ricci/source sub-blocks and a local
-`hat_Gamma^x` contract, but it does not yet have the complete coupled
-linearized system needed for a genuine GL spectrum check. A flat test or a
-`hat_Gamma^x`-only test is explicitly insufficient.
+Stage 4AO is the hard Gregory-Laflamme growth/dispersion validation path. It
+is deliberately front-loaded so the project does not jump from local
+`hat_Gamma^x` formulas to an eigensolver or live evolution claim.
 
-Missing pieces before Stage 4AO can become an executable gate:
+Stage 4AO-A, Background and analytic residual lock, owns the exact uniform
+ingoing-GP black-string background. It must lock `r0`, compact-`z` period,
+background slicing gauge, evolution gauge-driver and initial-gauge startup
+family, `K_ij` sign, perturbation sector, and geometric observable; evaluate
+the continuum background residual; include the full `hat_Gamma^x` hidden
+contraction; and verify the `1/x` cancellations analytically. Stage 4AO-C
+frozen gauge and Stage 4AO-D live gauge must use that same pre-locked gauge
+family. No discrete or spectral work may begin before 4AO-A passes.
 
-| Missing requirement | Concrete owner before RHS/evolution |
-| --- | --- |
-| Uniform 5D black-string background with matched `r0`, GP branch, `K_ij` sign, gauge startup, compact `z` period, and perturbation sector | Stage 4AO prerequisite A: background/convention lock using `docs/implementation/black_string_initial_data.md` plus the Stage 3A sign caveats |
-| Primary-literature GL threshold/growth-rate target or internally documented semi-analytic spectrum, including `k=2 pi n/L`, radius convention, gauge, resolution expectations, and measured geometric observable | Stage 4AO prerequisite B: GL target-spectrum convention map. Pau may be a comparison source later, but is not the convention authority |
-| Complete linearized local RHS for the chosen sector, including `h`, `hww`, `chi`, `K`, `A`, `Aww`, `Theta`, `hat_Gamma^x`, `hat_Gamma^z`, lapse, shift, and any gauge-driver variables | Stage 4AO prerequisite C: coupled linearized RHS derivation from the Stage 3H block plan and the Stage 4AM Gamma RHS map |
-| Hidden/cartoon Gamma RHS terms, including `div beta` hidden pieces, `Gamma^x_ww A^ww`, hidden vector second derivatives, and shift-divergence `1/x` terms | Stage 4AO prerequisite C, with Stage 4AN providing only the local contracted-connection ingredient |
-| Z4/damping and constraint-sector linearization for `Theta` and encoded `Z_over_chi` | Stage 4AO prerequisite C plus the separate constraint-violation injection milestone from Stage 3H |
-| Finite-axis and real-grid regularity assumptions needed by any local linearized operator | Stage 4AP for real grid/ghost regularity and Stage 4AQ for finite-axis limits; these remain separate hard blockers |
-| Standalone local spectral/linear-mode fixture comparing threshold and one unstable growth point | Stage 4AO executable gate after prerequisites A-C are complete |
+Stage 4AO-A is locked in
+`docs/derivations/stage4AO_A_uniform_gp_background_residual.md`. That note
+locks the uniform ingoing-GP background
+`ds^2=-dt^2+(dx+sqrt(r0/x)dt)^2+x^2 dOmega_2^2+dz^2`, with `r0` as the
+Schwarzschild areal horizon radius, `z~z+L`, `k_n=2 pi n/L`, `alpha=1`,
+`beta^x=sqrt(r0/x)`, `chi=1`, flat conformal metric, and the GRChombo sign
+`partial_t gamma_IJ=-2 alpha K_IJ+L_beta gamma_IJ`. It separates frozen-GP
+stationarity from the live moving-puncture gauge startup: the frozen geometric
+residuals target zero, while the live lapse driver has the prescribed startup
+residual `partial_t alpha=-3 sqrt(r0/x^3)` for the locked default gauge family.
+The completed 4AO-A ledger records every evolved component, the full
+`hat_Gamma^x` hidden contraction and RHS multiplicity cancellation, constraints,
+and the positive-inner-radius domain `x in [x_in,x_out]` with `x_in>0`. The
+unmodified GP state is not a full live-gauge equilibrium because the lapse
+startup residual is nonzero. Stage 4AO-D therefore uses the same GRChombo
+moving-puncture gauge family plus the fixed, field-independent GP-holding lapse
+source `S_alpha(x)=+3 sqrt(r0/x^3)`. The source is computed from the locked
+analytic GP background and locked `r0`; it is not recomputed from the evolving
+horizon, evolved lapse, `K`, `Theta`, or any other evolved field. All other
+background-holding sources vanish on the verified GP background. Since
+`S_alpha` is field-independent, `D F_val[U_GP]=D F_GRChombo[U_GP]`: it cancels
+only the zeroth-order GP lapse drift and does not change the linearized
+GRChombo perturbation operator. The source is restricted to the 4AO validation
+harness and is not production Stage 4AR/4AS wiring.
 
-Stage 4AO therefore remains unchecked. Checkpoint G has not passed. No live
-RHS, controlled RHS integration, or evolution integration may proceed until the
-Stage 4AO prerequisites are closed, the GL spectral fixture passes, and
-Checkpoint G reviews Stages 4AM-4AO. The growth observable must be geometric
-because `hat_Gamma^x` is gauge-dependent, and the anchor must match radius
-convention, z-periodicity, gauge, perturbation sector, resolution, and measured
-growth variable.
+The 4AO-A observable lock separates lapse from horizon finding. The apparent
+horizon is not found by `alpha=0`. At selected diagnostic output times, the
+outermost `S2 x S1` MOTS connected to `x=r0` is found from
+`Theta_+=D_i s^i+K_ij s^i s^j-K=0`, using the spatial metric and extrinsic
+curvature. The coordinate surface `x=h(t,z)` gives the physical local sphere
+radius `R_H=h(t,z) sqrt(h_ww/chi)` evaluated at the surface. Spectral work uses
+the linearized MOTS response to map eigenvectors to `delta R_H`; acceptance
+compares the horizon-harmonic growth rate, not the lapse profile.
+Stage 4AO-C freezes gauge perturbations on this same locked GP background.
+Stage 4AO-D evolves gauge perturbations with the same pre-locked
+moving-puncture family plus `S_alpha`; frozen/live comparisons use the same
+slicing convention, same GP background, and same horizon-radius observable.
+
+Stage 4AO-B, Discrete operator preflight, must pass all of the following
+before any eigensolver work starts:
+
+- background residual convergence at the scheme order;
+- `delta hww`-only isolation test for `delta hat_Gamma^x`;
+- analytic or symbolic Jacobian versus finite-difference Jacobian of the
+  actual RHS;
+- cosine/sine parity-sector block-diagonalization check.
+
+Stage 4AO-B is now implemented as a local validation harness, not production
+RHS wiring. The provisional radial domain is
+
+```text
+r0 = 1,
+x in [x_in,x_out] = [0.5,4.0],
+0 < x_in < r0 < x_out.
+```
+
+The fixture uses the raw unmodified discrete RHS; it does not apply
+`S_alpha` to cancel finite-grid residuals. The raw residual test records
+errors `0.0150518`, `0.00428846`, and `0.00114621` on 256, 512, and 1024
+radial intervals, giving refinement ratios `3.50983` and `3.74144`. The
+unmodified lapse equation is checked against the continuum target
+`-3 sqrt(r0/x^3)` with zero residual in the harness. The isolated
+`delta hww` hidden-contraction check has max error `3.47146e-15` and includes
+a negative hidden-multiplicity-one check. This roundoff-floor result validates
+the local formula and hidden multiplicity, not finite-difference convergence.
+The actual-discrete-RHS
+Jacobian-vector finite-difference errors are `0.00183042`, `1.82974e-07`,
+`4.68507e-09`, and `0.000375647` for large, middle, middle, and too-small
+epsilons, respectively.
+
+Claude review found that the original parity check was insufficient because it
+multiplied a Fourier mode by a z-independent scalar and therefore only tested
+cosine/sine orthogonality. It has been replaced by a z-coupled periodic-stencil
+sub-operator using `D_z` and `D_zz` terms modeled on `h_xz` receiving
+`D_z beta^x`, `hat_Gamma^z`/momentum-z receiving `D_z K`, and a scalar output
+receiving `D_z beta^z`. The even-sector allowed norm is `7.39609` with
+forbidden/allowed leakage `2.05279e-17`; the odd-sector allowed norm is
+`5.16184` with leakage `3.93873e-17`. A flipped-`beta^z` parity negative guard
+has leakage `0.79241`.
+
+The 4AO-B raw residual and JVP checks remain a local validation harness. They
+are not production Stage 4AR/4AS RHS integration, not live evolution wiring,
+and not 4AO-C spectral work.
+
+The background residual convergence item uses the unmodified discrete RHS.
+The continuum target is zero for the verified geometric, scalar, and
+constraint components, and `-3 sqrt(r0/x^3)` for the unmodified live
+moving-puncture lapse equation. The fixed GP-holding source
+`S_alpha=+3 sqrt(r0/x^3)` is a 4AO-D validation-harness source; it must not be
+used to cancel measured finite-grid residuals before the raw 4AO-B convergence
+test. After raw residual convergence is demonstrated, the validation harness
+may use the locked source for the stationary live-gauge 4AO-D problem.
+
+Stage 4AO-C, Frozen-gauge spectral gate, must include:
+
+- a primary-source convention map for `k_c r0`;
+- a threshold zero crossing;
+- at least one unstable point and one stable point;
+- shift-invert targeting;
+- finite-difference epsilon plateau checks;
+- radial-domain and boundary-location convergence.
+
+Stage 4AO-C has been started only as a blocker/status note in
+`docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`. The note defines
+the intended frozen-gauge perturbation vector, with
+`delta alpha=delta beta^i=delta B^i=0` and coupled perturbations in `chi`,
+`h_xx,h_xz,h_zz,h_ww`, `K`, `A_xx,A_xz,A_zz,A_ww`, `Theta`,
+`hat_Gamma^x`, and `hat_Gamma^z`. It also records that the actual
+frozen-gauge operator is not yet available in the repository. The current
+local blocks do not yet assemble the full modified-cartoon CCZ4 RHS
+linearization with Z4 terms, nonlinear A/K linearization, `Theta`, `K`,
+`chi`, metric, and `hat_Gamma` equations; no radial spectral boundary
+condition, shift-invert operator, linearized MOTS map, unstable/stable point,
+or threshold estimate exists yet.
+
+The 4AO-C note also records a read-only reuse inventory. The useful pieces are
+mostly adapters: PETSc is present through the AHFinder `SNES/KSP` path but not
+as SLEPc/eigenvalue machinery; AHFinder can support a nonlinear MOTS
+diagnostic after a symmetry-reduced geometry adapter, but not the linearized
+`delta R_H` map; GRChombo derivative, boundary, interpolation, reduction, and
+logging utilities become useful only after a 4AO-C operator and boundary
+contract is defined. The next 4AO-C implementation step should therefore be
+the validation-only frozen-gauge operator wrapper plus boundary-condition
+contract, not an eigensolver adapter.
+
+The primary-source convention map for `k_c r0` is therefore still incomplete.
+The commonly quoted `k_c r0 ~= 0.876` remains provisional. GRChombo/internal
+conventions remain authoritative for project variables, and literature values
+remain comparison targets only. Checkpoint G remains pending until 4AO-D
+passes.
+
+Stage 4AO-D, Live-gauge/full acceptance, must include:
+
+- the physical GL eigenvalue agreeing with the frozen-gauge result;
+- physical, gauge, and constraint mode separation;
+- constraint-subsystem decay matching the derived CCZ4 formulation;
+- an inner-boundary characteristic check;
+- seeding the eigenvector in the time-evolution path and reproducing the
+  spectral growth rate;
+- the full convergence battery.
+
+The commonly quoted `k_c r0 ~= 0.876` value is provisional until the
+primary-source convention map is complete. Flat tests alone are insufficient.
+Pau is not the convention authority. The physical growth observable must be
+geometric; `hat_Gamma^x` alone is not the observable. No eigensolver work may
+begin before 4AO-B passes. Dedicated 4AO-B/C/D validation harnesses may
+construct and evaluate the actual RHS, perform finite-difference Jacobian
+checks, solve the frozen/live spectral systems, and run the seeded-eigenvector
+evolution bridge. Production integration remains blocked until 4AO-D passes:
+Stage 4AR controlled local RHS integration and Stage 4AS default-off live
+wiring. Checkpoint G passes only after Stage 4AO-D.
 
 After Checkpoint G, Stage 4AP owns real grid/ghost-data regularity validation,
 Stage 4AQ owns finite-axis source evaluation and explicit regularized limits,
@@ -831,9 +982,10 @@ wiring, Stage 4AT removes or replaces the smoke-only hidden freeze in the
 physics path, and Stage 4AU is the final Stage 4 exit review. Checkpoint I
 covers 4AS-4AU.
 
-The hard blockers before evolution are Stage 4AO GL growth/dispersion, Stage
-4AP real grid regularity validation, Stage 4AQ finite-axis implementation, and
-the absence of any smoke-only hidden freeze in physics mode.
+The hard blockers before evolution are Stage 4AO-D live-gauge/full GL
+acceptance, Stage 4AP real grid regularity validation, Stage 4AQ finite-axis
+implementation, and the absence of any smoke-only hidden freeze in physics
+mode.
 
 ## Risk Register
 
@@ -851,8 +1003,8 @@ the absence of any smoke-only hidden freeze in physics mode.
 | Reusing conformal hidden Hessian for lapse | Stage 4AJ | Use the physical metric `gamma=h/chi`; retain varying-`chi` oracle `11/80`, which differs from the conformal value `3/20` |
 | Overclaiming the `A_ww` source block | Stage 4AK | Keep the implemented object named and documented as the geometric core only; Z4, trace-free projection, outer `chi`, nonlinear terms, RHS, and evolution remain false |
 | Trace-free source overclaim | Stage 4AL / Checkpoint F | Stage 4AL is local geometry only; Checkpoint F must review the physical Hessian correction, `R_ww` agreement gate, and nonsymmetric oracle before further source/RHS integration |
-| `hat_Gamma^x` hidden contraction | Stages 4AM-4AO / Checkpoint G | Stage 4AM locks the GRChombo hatted convention, hidden contraction, RHS map, and local oracles; Stage 4AN implements local contracts using checked singular ingredients; Stage 4AO is currently blocked because the coupled linearized RHS and GL target spectrum are not yet present |
-| GL gate overclaim | Stage 4AO / Checkpoint G | Outcome B is recorded: do not add a flat or `hat_Gamma^x`-only test. The executable gate needs a uniform-string background, a literature/internal spectrum target, a complete coupled linearized system, and a geometric growth observable |
+| `hat_Gamma^x` hidden contraction | Stages 4AM-4AO-D / Checkpoint G | Stage 4AM locks the GRChombo hatted convention, hidden contraction, RHS map, and local oracles; Stage 4AN implements local contracts using checked singular ingredients; Stage 4AO-A and 4AO-B must protect the continuum and discrete `hat_Gamma^x` hidden-contraction behavior before the spectral gate |
+| GL gate overclaim | Stage 4AO-A through 4AO-D / Checkpoint G | Flat tests are insufficient; no eigensolver before 4AO-B; `k_c r0 ~= 0.876` is provisional until primary-source convention mapping is complete; 4AO validation harnesses may exercise RHS/spectral/evolution-bridge code, but production Stage 4AR/4AS integration waits for 4AO-D; Checkpoint G passes only after 4AO-D |
 | Actual grid regularity missing | Stage 4AP / Checkpoint H | Validate real grid or ghost-cell data for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)` |
 | Finite-axis evaluation missing | Stage 4AQ / Checkpoint H | Implement analytic finite limits/parity treatment with no epsilon replacement and no silent clamping; keep turduckening distinct from cartoon-axis regularity |
 | Sign-convention consistency between initial data and RHS | Stage 4AK and later source/RHS gates | Stage 4AK applies the requested local `-D_wD_w alpha + alpha R_ww` sign; full trace-free source and RHS signs still need checks against the Stage 3A `K_IJ` convention before later wiring |

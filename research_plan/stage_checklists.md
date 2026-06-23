@@ -1,8 +1,20 @@
 # Stage Checklists
 
-These checklists are gatekeeping tools. They do not replace the reproduction plan or project outline. Each stage should be reviewed before moving to the next. For code-generating agents, completion requires human review and approval, not just self-review.
+These checklists are gatekeeping tools and the current status/checkpoint
+authority for the project. They do not replace the reproduction plan or project
+outline. Each stage should be reviewed before moving to the next. For
+code-generating agents, completion requires human review and approval, not just
+self-review.
 
 Future physics or physics-design stages should include a polished physics-stage PDF note under `docs/physics_notes/` when they contain substantive physics reasoning. Build-only and infrastructure stages do not need full physics PDFs unless they include nontrivial physics design.
+
+Global guardrails: compilation alone is not physical validation; local
+validation harnesses are not production Stage 4AR/4AS wiring; no physical GL
+evolution correctness, Pau diagnostic reproduction, or radiation extraction is
+claimed yet. GRChombo/internal consistency is the convention authority, not
+Pau. Checkpoint G passes only after 4AO-D; Checkpoint H follows 4AP-4AR before
+live evolution; Checkpoint I follows 4AS-4AU before any Stage 5/Pau diagnostic
+reproduction.
 
 ## Stage 0 - Infrastructure and reproducibility
 
@@ -17,7 +29,17 @@ Goal: establish local/remote development, repo hygiene, logs, smoke tests, and r
 - [x] Create project logs and Codex logs.
 - [x] Add smoke-test scripts.
 - [ ] Confirm one-command smoke-test script works from a clean local state.
-- [ ] Confirm plotting workflow is either implemented or explicitly deferred.
+- [x] Confirm plotting workflow is either implemented or explicitly deferred.
+
+Evidence: `README.md`; `.gitignore`; `scripts/run_binarybh_smoke.sh`;
+`scripts/collect_binarybh_outputs.sh`; `scripts/plot_binarybh_outputs.sh`;
+`scripts/clean_binarybh_smoke.sh`; `results/BinaryBH_verycheap/metadata.md`;
+`results/BinaryBH_verycheap/plots/README.md`; `logs/PROJECT_LOG.md`;
+`logs/CODEX_LOG.md`.
+
+Open: clean-state one-command smoke-script proof remains unchecked; owner:
+future infrastructure cleanup before relying on it as a release-quality
+workflow.
 
 Gate: do not begin C++ implementation until the repo is clean, raw outputs are ignored, and smoke-test scripts are reviewed and approved by the user.
 
@@ -37,6 +59,11 @@ Goal: understand what public GRChombo already provides before editing source cod
 - [x] Verify exact `AHFunctions.hpp` enum-order assumption around `hww` access: verified from public source that under `GR_SPACEDIM != CH_SPACEDIM`, `hww` is read positionally as `c_K - 1`, while `Aww` is read via `c_Aww`.
 - [x] Decide whether to run a `CH_SPACEDIM=2`, `GR_SPACEDIM=4` compile preflight.
 
+Evidence: `external/GRChombo/`; `docs/grchombo/capability_map.md`;
+`docs/grchombo/source_map.md`; `docs/grchombo/build_notes.md`;
+`docs/implementation/ccz4_cartoon_variables.md`; `logs/PROJECT_LOG.md`;
+`logs/CODEX_LOG.md`.
+
 Gate: do not proceed to Stage 1.5 or create `BlackStringToy` until the source/capability maps and hazard notes are reviewed and approved by the user.
 
 ## Stage 1.5 - Target-dimension compile preflight
@@ -46,7 +73,7 @@ Goal: check whether the intended compile configuration `CH_SPACEDIM=2`, `GR_SPAC
 - [x] Identify the smallest public test/example suitable for compile preflight.
 - [x] Preferred first preflight target: adapt or reuse `Tests/ApparentHorizonFinderTest2D` as a controlled `DIM=2`, `GR_SPACEDIM=4` compile experiment, if build tooling allows.
 - [x] Reproduce the baseline `DIM=2` Docker build/run path for `Tests/ApparentHorizonFinderTest2D`.
-- [ ] If that target is unsuitable, choose the smallest public test/example that probes the `GR_SPACEDIM != CH_SPACEDIM` path.
+- [ ] Superseded conditional branch: if `ApparentHorizonFinderTest2D` had been unsuitable, choose the smallest public test/example that probes the `GR_SPACEDIM != CH_SPACEDIM` path. Replacement decision: use the AH-side scratch-copy preflight and separately document the CCZ4-side scratch-copy blocker.
 - [x] Attempt `DIM=2` build with `GR_SPACEDIM=4` using controlled compiler flags or minimal local copy.
 - [x] Record which files compile and which fail.
 - [x] Check whether `AHSphericalGeometry` guards or other `GR_SPACEDIM==3` assumptions trigger.
@@ -55,6 +82,10 @@ Goal: check whether the intended compile configuration `CH_SPACEDIM=2`, `GR_SPAC
 - [x] Document that public `CCZ4Test` is blocked as a clean target by 3D test-harness assumptions and unconfirmed `GR_SPACEDIM=4` flag propagation.
 - [x] Document blockers in `docs/grchombo/build_notes.md`.
 - [x] Record that a successful compile is not evidence of physical correctness.
+
+Evidence: `docs/grchombo/build_notes.md`; `docs/grchombo/source_map.md`;
+`external/GRChombo/Tests/ApparentHorizonFinderTest2D/`; ignored scratch output
+under `runs/stage1_5_preflight/`; `logs/PROJECT_LOG.md`; `logs/CODEX_LOG.md`.
 
 Gate: do not proceed to Stage 2 until this stage is reviewed and approved by the user. Do not treat any `GR_SPACEDIM=4` run as physically meaningful until the relevant equations, variables, and diagnostics are reviewed and approved by the user.
 
@@ -73,6 +104,11 @@ Goal: create an editable project-specific example while making no physics claims
 - [x] Confirm inherited parameter parsing and output writing still work for the scaffold smoke run.
 - [x] Record exactly what was inherited from public examples.
 - [x] Clearly label the skeleton as "not physical black-string evolution."
+
+Evidence: `code/BlackStringToy/`; `scripts/stage2_build_blackstringtoy_scratch.sh`;
+`docs/grchombo/build_notes.md`; `docs/implementation/black_string_initial_data.md`;
+`results/BlackStringToy/metadata.md`; `logs/PROJECT_LOG.md`;
+`logs/CODEX_LOG.md`.
 
 Gate: do not proceed to Stage 3 or add black-string initial data until the skeleton builds/runs and the diff is reviewed and approved by the user. Do not treat skeleton outputs as physically meaningful.
 
@@ -140,6 +176,31 @@ reviewed Stage 4A-4C setup work.
 - [x] Stage 3K: record that green algebra-helper fixtures do not prove integration, grid-slot wiring, cartoon evolution, or CCZ4 correctness.
 - [x] Stage 3K: document that GRChombo-facing compatibility plus internal consistency is the convention authority, while external/Pau implementations are later validation references only.
 - [x] Review Stage 3K plan enough to explicitly approve Stage 4A local C++ source edits.
+
+Evidence for checked Stage 3A-3K design/tooling items:
+`docs/implementation/black_string_initial_data.md`;
+`docs/implementation/modified_cartoon_source_terms.md`;
+`docs/derivations/modified_cartoon_geometry_notes.md`;
+`docs/derivations/modified_cartoon_geometry_sympy.py`;
+`docs/derivations/modified_cartoon_nontrivial_hww_notes.md`;
+`docs/derivations/modified_cartoon_nontrivial_hww_sympy.py`;
+`docs/derivations/modified_cartoon_nonconstant_q_notes.md`;
+`docs/derivations/modified_cartoon_nonconstant_q_sympy.py`;
+`docs/derivations/conformal_cartoon_translation_notes.md`;
+`docs/derivations/conformal_cartoon_translation_sympy.py`;
+`docs/derivations/offdiagonal_conformal_cartoon_notes.md`;
+`docs/derivations/offdiagonal_conformal_cartoon_sympy.py`;
+`docs/derivations/offdiagonal_ricci_flat_gate_notes.md`;
+`docs/derivations/offdiagonal_ricci_flat_gate_sympy.py`;
+`docs/derivations/ccz4_rhs_block_decomposition_notes.md`;
+`docs/derivations/small_x_regularization_notes.md`;
+`docs/derivations/small_x_regularization_sympy.py`;
+`docs/derivations/unit_test_fixture_design.md`;
+`docs/implementation/minimal_cpp_implementation_plan.md`;
+`docs/physics_notes/stage3A_black_string_initial_data.pdf` through
+`docs/physics_notes/stage3K_minimal_cpp_implementation_plan.pdf`;
+`logs/PROJECT_LOG.md`; `logs/CODEX_LOG.md`.
+
 - [x] Stage 4A: add local conformal-cartoon algebra helper and non-grid fixture for determinant, inverse, full 4D trace/tracelessness, `/4` guards, `K_ij` reconstruction, diagonal limit, and normalized determinant checks.
 - [x] Stage 4A: patch review items for dimension-aware `chi` power, tolerance-based floating-point guards, independent `K_ij` oracle values, and Stage 4A/4B terminology.
 - [x] Review Stage 4A helper and fixture output enough to approve Stage 4B layout-check work.
@@ -154,17 +215,17 @@ reviewed Stage 4A-4C setup work.
 - [x] Stage 4D: add finite smoke-only scaffold support for `hww/Aww` so the cheap smoke run no longer dies immediately from NaNs.
 - [x] Stage 4D: guard the temporary `hww/Aww` freeze behind the default-off `scaffold_freeze_hidden` parameter, enabled only by the cheap smoke file.
 - [x] Stage 4D: keep the freeze narrow; do not claim physical evolution correctness or implement cartoon Ricci/RHS terms.
-- [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
-- [ ] Align Stage 3I parity and axis-filling conventions with GRChombo-facing project conventions before C++ source-term work.
-- [ ] Derive and document the Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention in the GRChombo-facing cartoon extension.
+- [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together. Owner: Stage 4AT for removal/replacement before physics mode.
+- [ ] Align Stage 3I parity and axis-filling conventions with GRChombo-facing project conventions before C++ source-term work. Partially covered by Stage 4AG synthetic `h_xz` validator; actual owner is Stage 4AP grid/ghost regularity validation and Stage 4AQ finite-axis treatment.
+- [x] Derive and document the Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention in the GRChombo-facing cartoon extension. Solved later by Stage 4AM/4AN.
 - [ ] Required future RHS validation: reproduce the linear Gregory-Laflamme threshold/growth spectrum after matching radius convention, periodicity, perturbation sector, gauge, and extraction variable.
 - [ ] Required future constraint-damping validation: inject linearized constraint violations and verify `Theta` / encoded-`Z^i` damping signs, `kappa_1`, `kappa_2`, hidden multiplicity, and `/4` bookkeeping.
 - [ ] Add optional nonconstant profile with `f_zz != 0` so `R_zz` is a nonzero regression target.
 - [ ] Factor duplicated Stage 3C/3D/3E symbolic geometry helpers into a shared module.
 - [ ] Write or verify formulas for 5D black-string initial data in chosen coordinates.
 - [ ] Decide exact variables to initialize: `chi`, `h_ij`, `hww`, `K`, `A_ij`, `Aww`, lapse, shift, `B`, `Gamma`, `Theta`.
-- [ ] Verify `hww/Aww` enum placement before implementation.
-- [ ] Implement parameters: `r0`, `L`, `epsilon`, `n`, `eps_cut`.
+- [x] Verify `hww/Aww` enum placement before implementation. Solved later by Stage 4C.
+- [ ] Implement parameters: `r0`, `L`, `epsilon`, `n`; `eps_cut` is superseded by the no-clamp/no-epsilon policy in Stage 4O/4AQ.
 - [ ] Implement turduckening cutoff.
 - [ ] Implement GL perturbation in `chi`.
 - [ ] Run `t=0` or very short tests only.
@@ -172,6 +233,21 @@ reviewed Stage 4A-4C setup work.
 - [ ] Check smoothness outside cutoff.
 - [ ] Check constraints and gauge quantities qualitatively.
 - [x] Compile companion PDFs for all current physics-note LaTeX sources under `docs/physics_notes/`.
+
+Evidence for Stage 3 items solved by later Stage 4 work:
+`code/BlackStringToy/ConformalCartoonAlgebra.hpp`;
+`code/BlackStringToy/UserVariables.hpp`;
+`code/BlackStringToy/CartoonHatGammaX.hpp`;
+`code/BlackStringToy/tests/Stage4AConformalCartoonAlgebraTest.cpp`;
+`code/BlackStringToy/tests/Stage4CVariablePlacementTest.cpp`;
+`code/BlackStringToy/tests/Stage4ANHatGammaXTest.cpp`;
+`docs/derivations/stage4AM_hatGammaX_derivation.md`;
+`logs/PROJECT_LOG.md`; `logs/CODEX_LOG.md`.
+
+Remaining Stage 3 carry-forward items: actual black-string initial-data
+implementation, compact-`z` parameter plumbing, GL perturbation controls,
+turduckening, grid-level parity/axis handling, optional symbolic cleanup, and
+production constraint/gauge checks are still future work before physical runs.
 
 Gate status: Stage 3 design/tooling is complete and Stage 4A-4C setup work has
 begun under explicit approval. Do not run long GL evolutions or treat outputs
@@ -182,6 +258,13 @@ user.
 ## Stage 4 - 4+1 CCZ4 / SO(3) modified-cartoon evolution
 
 Goal: implement the actual reduced 5D dynamics on the 2D grid.
+
+Status authority summary: Stage 4A-4AL are complete as local/test-only
+building blocks and Checkpoint F has passed. Stage 4AM and 4AN are complete.
+Stage 4AO-A and 4AO-B are complete as validation locks/harnesses. Stage 4AO-C
+has started, but only the blocker/status note and reuse inventory are complete;
+the frozen-gauge operator/eigensolver gate is still incomplete. Stage 4AO-D is
+unstarted, and Checkpoint G has not passed.
 
 - [x] Stage 4A: local conformal-cartoon algebra helpers and non-grid tests.
 - [x] Stage 4B: public GRChombo CCZ4 baseline-layout check.
@@ -221,6 +304,26 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4N: add guarded away-axis singular-combination helpers for future cartoon source terms.
 - [x] Stage 4N: test `d_x f / x`, `(f - g) / x^2`, nonfinite-value rejection, and zero/negative/nonfinite `x` rejection.
 - [x] Stage 4N: do not implement small-axis regularization, new physical RHS terms, grid reads, or evolution wiring.
+
+Evidence for checked Stage 4A-4N local C++ work:
+`code/BlackStringToy/ConformalCartoonAlgebra.hpp`;
+`code/BlackStringToy/UserVariables.hpp`;
+`code/BlackStringToy/CartoonRicciInterface.hpp`;
+`code/BlackStringToy/CartoonRicciBridge.hpp`;
+`code/BlackStringToy/CartoonRhsContract.hpp`;
+`code/BlackStringToy/CartoonRhsSourceBlock.hpp`;
+`code/BlackStringToy/CartoonAxisPolicy.hpp`;
+`code/BlackStringToy/CartoonSingularCombinations.hpp`;
+`code/BlackStringToy/tests/Stage4AConformalCartoonAlgebraTest.cpp`;
+`code/BlackStringToy/tests/Stage4BVariableLayoutTest.cpp`;
+`code/BlackStringToy/tests/Stage4CVariablePlacementTest.cpp`;
+`code/BlackStringToy/tests/Stage4EGridToHelperMappingTest.cpp`;
+`code/BlackStringToy/tests/Stage4GCartoonRicciMetricDerivativeTest.cpp`;
+`code/BlackStringToy/tests/Stage4LRicciTraceFreeSourceTest.cpp`;
+`code/BlackStringToy/tests/Stage4NSingularCombinationsTest.cpp`;
+`docs/implementation/stage4H_ricci_rhs_compatibility.md`;
+`logs/PROJECT_LOG.md`; `logs/CODEX_LOG.md`.
+
 - [x] Stage 4O: lock current axis-regime semantics as `AwayAxisOnly`.
 - [x] Stage 4O: keep `1/x^2` as a separately guarded away-axis primitive so future clamp or regularized behavior must define it independently from `1/x`.
 - [x] Stage 4O: do not implement small-axis regularization, clamping, epsilon replacement, new source terms, grid reads, or evolution wiring.
@@ -246,6 +349,20 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4U: require future source formulas needing `(hxx - hww) / x^2` to consume the checked package or authoring-gate input.
 - [x] Stage 4U: document that direct source-formula use of `difference_over_x2(h_xx, h_ww, x)` for this metric difference is forbidden but remains convention-only without a later lint/CI gate.
 - [x] Stage 4U: do not implement full Ricci, full CCZ4 RHS, Stage 3I finite-axis regularization, grid reads, or evolution wiring.
+
+Evidence for checked Stage 4O-4U guarded-source path:
+`code/BlackStringToy/CartoonGeometryPrimitives.hpp`;
+`code/BlackStringToy/CartoonRegularityChecks.hpp`;
+`code/BlackStringToy/CartoonRegularityGuardedSources.hpp`;
+`code/BlackStringToy/CartoonGuardedSourceConsumers.hpp`;
+`code/BlackStringToy/CartoonSourceFormulaAuthoringGate.hpp`;
+`code/BlackStringToy/tests/Stage4OAxisRegimeSemanticsTest.cpp`;
+`code/BlackStringToy/tests/Stage4PCartoonGeometryPrimitivesTest.cpp`;
+`code/BlackStringToy/tests/Stage4QRegularityMatchingTest.cpp`;
+`code/BlackStringToy/tests/Stage4RRegularityGuardedSourceBlockTest.cpp`;
+`code/BlackStringToy/tests/Stage4USourceFormulaAuthoringGateTest.cpp`;
+`logs/PROJECT_LOG.md`; `logs/CODEX_LOG.md`.
+
 - [x] Stage 4V: intentionally add no formula because no tiny authoring-gate consumer is yet derivation-locked to Stage 4G, Stage 4L, or a Stage 3/4 note.
 - [x] Stage 4V: document that the next step is to derive or extract the exact Ricci/RHS sub-expression, coefficient, sign convention, and hard-coded oracle before coding a real consumer.
 - [x] Stage 4W: add a Markdown derivation note locking the hidden-sphere CCZ4 contribution map and `R_ww` as the first serious hidden Ricci target.
@@ -324,13 +441,37 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [x] Stage 4AN: add local `hat_Gamma^x` implementation and contract tests using the Stage 4AM oracles.
 - [x] Stage 4AN: compute `tilde_Gamma^x` from the full visible plus hidden Christoffel contraction, build `(A-W)/x` as `x Delta_xw` through the checked Stage 4U/4R path, and obtain `B/x` through the checked Stage 4X package.
 - [x] Stage 4AN: expose base contraction, hidden contraction, `tilde_Gamma^x`, `Z_over_chi^x`, and `hat_Gamma^x`, and keep Gamma RHS, GL validation, grid regularity, finite-axis handling, and evolution unwired.
-- [ ] Stage 4AO: pass the hard linear GL dispersion/growth-rate validation gate for `hat_Gamma^x`; this replaces the independent oracle that protected the Ricci stages, because flat checks alone are insufficient.
-- [x] Stage 4AO assessment: record Outcome B. The current repo cannot honestly implement the GL gate because the complete coupled linearized RHS, matched uniform-string background conventions, and project-convention GL spectrum target are not present.
-- [ ] Stage 4AO prerequisite A: lock the uniform 5D black-string background, `r0` convention, GP branch, `K_ij` sign, gauge startup, compact `z` period, and perturbation sector.
-- [ ] Stage 4AO prerequisite B: document a primary-literature or internal semi-analytic GL threshold/growth-rate target with `k=2*pi*n/L`, radius convention, gauge, resolution expectations, and a geometric measured observable.
-- [ ] Stage 4AO prerequisite C: derive the complete local linearized coupled RHS for the chosen sector, including `h`, `hww`, `chi`, `K`, `A`, `Aww`, `Theta`, `hat_Gamma^x`, `hat_Gamma^z`, lapse, shift, gauge-driver variables, and the hidden/cartoon Gamma RHS terms.
-- [ ] Stage 4AO executable gate: add a standalone linear-mode/spectral fixture comparing at least a threshold point and one unstable growth-rate point with an explicit tolerance.
-- [ ] Checkpoint G / Claude Audit G: review Stages 4AM-4AO, including the GL anchor's radius convention, z-periodicity, gauge, perturbation sector, resolution, and measured growth variable. Pau is not the convention authority. No live RHS/evolution integration may proceed until Stage 4AO and Checkpoint G pass.
+
+Evidence for checked Stage 4V-4AN hidden-sphere Ricci, physical `R_ww`,
+trace-free curvature/lapse, and `hat_Gamma^x` work:
+`docs/derivations/stage4W_hidden_sphere_CCZ4_Rww_derivation.md`;
+`docs/implementation/stage4_hidden_sphere_Rww_plan.md`;
+`docs/derivations/stage4AM_hatGammaX_derivation.md`;
+`code/BlackStringToy/CartoonCheckedHxzOverX.hpp`;
+`code/BlackStringToy/CartoonCheckedDxhwwOverX.hpp`;
+`code/BlackStringToy/CartoonConformalRww.hpp`;
+`code/BlackStringToy/CartoonConformalFactorRww.hpp`;
+`code/BlackStringToy/CartoonAwayAxisPhysicalRww.hpp`;
+`code/BlackStringToy/CartoonPhysicalRwwRhsContract.hpp`;
+`code/BlackStringToy/CartoonPhysicalHiddenLapseHessian.hpp`;
+`code/BlackStringToy/CartoonAwwCurvatureLapseCore.hpp`;
+`code/BlackStringToy/CartoonTraceFreeCurvatureLapseBlock.hpp`;
+`code/BlackStringToy/CartoonHatGammaX.hpp`;
+`code/BlackStringToy/tests/Stage4ACConformalRwwAssemblyTest.cpp`;
+`code/BlackStringToy/tests/Stage4AFSplitVsDirectPhysicalRwwGateTest.cpp`;
+`code/BlackStringToy/tests/Stage4ALTraceFreeCurvatureLapseBlockTest.cpp`;
+`code/BlackStringToy/tests/Stage4ANHatGammaXTest.cpp`;
+`logs/PROJECT_LOG.md`; `logs/CODEX_LOG.md`.
+
+- [x] Stage 4AO-A: background and analytic residual lock. Lock the exact uniform ingoing-GP black-string background, `r0`, compact-`z` period, background slicing gauge, evolution gauge-driver and initial-gauge startup family, `K_ij` sign, perturbation sector, and geometric observable; evaluate the continuum background residual; include the full `hat_Gamma^x` hidden contraction; verify `1/x` cancellations analytically; require 4AO-C frozen gauge and Stage 4AO-D live gauge to use that same pre-locked gauge family; no discrete or spectral work before this passes.
+  - [x] `docs/derivations/stage4AO_A_uniform_gp_background_residual.md` locks the uniform ingoing-GP background, `z~z+L`, `k_n=2 pi n/L`, GRChombo `K_IJ` sign, frozen-GP zero-residual targets, moving-puncture lapse startup residual, and background `hat_Gamma^x` hidden contraction.
+  - [x] Componentwise `A_IJ` residuals, full `hat_Gamma^x` RHS residual, fixed field-independent GP-holding lapse source `S_alpha(x)=+3 sqrt(r0/x^3)`, horizon-observable lock, positive-inner-radius domain, constraints, and `1/x` cancellation ledger are locked.
+- [x] Stage 4AO-B: discrete operator preflight. The local harness demonstrates raw unmodified-RHS background residual convergence on the provisional `r0=1`, `x in [0.5,4.0]` domain, with target zero for verified geometric/scalar/constraint components and `-3 sqrt(r0/x^3)` for the unmodified live moving-puncture lapse equation; it does not use `S_alpha=+3 sqrt(r0/x^3)` to cancel measured finite-grid residuals before this raw convergence test. It also checks `delta hww` hidden-contraction isolation for `delta hat_Gamma^x`, hand-derived actual-discrete-RHS Jacobian-vector agreement, and z-coupled periodic-stencil parity-sector block diagonalization with a flipped-parity negative guard. No eigensolver or threshold search was added.
+- [ ] Stage 4AO-C: frozen-gauge spectral gate. Current status is blocked/incomplete in `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`: the intended operator is defined with frozen gauge perturbations, but the repository still lacks the complete coupled frozen-gauge modified-cartoon RHS linearization, actual-operator parity/JVP checks, radial spectral boundary conditions, shift-invert or equivalent targeted extraction, linearized MOTS/horizon observable map, primary-source `k_c r0` convention map, threshold zero crossing, unstable/stable points, and radial/boundary convergence.
+- [x] Stage 4AO-C reuse inventory: inspect existing project/GRChombo/AHFinder/PETSc/stencil/diagnostic pieces before any eigensolver or operator implementation. Conclusion: PETSc exists through AHFinder `SNES/KSP`, but no ready project/SLEPc/PETSc eigensolver exists; AHFinder is adapter-useful for nonlinear MOTS diagnostics; the linearized MOTS map `delta U -> delta R_H` is missing; GRChombo derivative, boundary, interpolation, reduction, extraction, and logging utilities are adapter candidates; Stage 4AO-B stencil/projection code is validation scaffolding, not the full 4AO-C operator; next technical step is the frozen-gauge operator wrapper plus boundary-condition contract, not eigensolver work.
+- [ ] Stage 4AO-D: live-gauge/full acceptance. Confirm the physical GL eigenvalue agrees with frozen gauge, separate physical/gauge/constraint modes, check constraint-subsystem decay against the derived CCZ4 formulation, check inner-boundary characteristics, seed the eigenvector in time evolution and reproduce the spectral growth rate, and run the full convergence battery.
+- [ ] Stage 4AO hard rules: flat tests alone are insufficient; dedicated 4AO-B/C/D validation harnesses may construct and evaluate the actual RHS, perform finite-difference Jacobian checks, solve the frozen/live spectral systems, and run the seeded-eigenvector evolution bridge; production Stage 4AR/4AS integration remains blocked until 4AO-D; Checkpoint G passes only after 4AO-D; Pau is not the convention authority; the physical growth observable must be geometric and not `hat_Gamma^x` alone.
+- [ ] Checkpoint G / Claude Audit G: review Stages 4AM-4AO-D. Checkpoint G passes only after 4AO-D, and Pau is not the convention authority.
 - [ ] Stage 4AP: validate actual grid-level or ghost-cell regularity for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)` using real grid or ghost data, not only hand-built polynomial fixtures.
 - [ ] Stage 4AQ: implement finite-axis source evaluation and regularized limits with explicit analytic parity/limit treatment; do not use epsilon replacement or silent clamping, and keep turduckening of the physical singularity distinct from cartoon-axis regularity.
 - [ ] Stage 4AR: integrate reviewed local RHS source blocks without live evolution wiring.
@@ -339,16 +480,25 @@ Goal: implement the actual reduced 5D dynamics on the 2D grid.
 - [ ] Stage 4AT: remove or replace the smoke-only hidden freeze before any real hidden-sector physics path is used.
 - [ ] Stage 4AU: perform the final Stage 4 exit review before any Stage 5/Pau diagnostic reproduction.
 - [ ] Checkpoint I / Claude Audit I: final review of Stages 4AS-4AU, including default-off evolution controls and removal/replacement of the smoke-only hidden freeze in physics mode.
-- [ ] Future hidden-sector RHS work: disable or replace the Stage 4D smoke-only freeze and add a loud guard against using both paths together.
-- [ ] Derive/list required modified-cartoon source terms beyond the Stage 3B roadmap.
-- [ ] Identify where `CCZ4RHS` needs modification.
-- [ ] Implement `hww/Aww` evolution equations.
-- [ ] Ensure `K` trace and `A` tracelessness use `GR_SPACEDIM=4`.
-- [ ] Add regularity handling near the cartoon axis if needed.
-- [ ] Test stationary or near-stationary uniform black string.
-- [ ] Monitor Hamiltonian/momentum constraints.
-- [ ] Check convergence on a small non-production grid.
-- [ ] Explicitly document silent-failure checks.
+- [ ] Superseded duplicate: future hidden-sector RHS work must disable or replace the Stage 4D smoke-only freeze. Replacement owner is Stage 4AT.
+- [ ] Derive/list remaining modified-cartoon source terms beyond local Stage 4AL. Owner: Stage 4AR controlled local RHS integration after 4AO-D/4AP/4AQ blockers.
+- [ ] Identify exact production `CCZ4RHS` modification seam. Partial evidence in Stage 4H; production owner: Stage 4AR.
+- [ ] Implement `hww/Aww` evolution equations. Owner: Stage 4AR/4AS after 4AO-D, 4AP, and 4AQ.
+- [ ] Ensure production `K` trace and `A` tracelessness use `GR_SPACEDIM=4` including hidden components. Local evidence exists through Stage 4A/4L/4AL; production owner: Stage 4AR/4AS.
+- [ ] Add real grid regularity handling near the cartoon axis. Owner: Stage 4AP/4AQ.
+- [ ] Test stationary or near-stationary uniform black string with the actual coupled operator. Partial analytic/discrete evidence in 4AO-A/B; full owner: 4AO-C/4AO-D and later Stage 4AR validation.
+- [ ] Monitor Hamiltonian/momentum constraints in the modified-cartoon path. Owner: 4AO-D constraint-subsystem check and Stage 4AR/4AS diagnostics.
+- [ ] Check convergence on a small non-production grid. Owner: Stage 4AO-C/4AO-D validation harnesses, then Stage 4AR/4AS production wiring checks.
+- [ ] Explicitly document silent-failure checks for production physics mode. Partial evidence in Stage 1, Stage 4D, and Stage 4AO notes; final owner: Stage 4AU exit review.
+
+Evidence for checked Stage 4AO-A/B and 4AO-C inventory items:
+`docs/derivations/stage4AO_A_uniform_gp_background_residual.md`;
+`docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`;
+`code/BlackStringToy/Stage4AOGPDiscretePreflight.hpp`;
+`code/BlackStringToy/tests/Stage4AOBDiscreteOperatorPreflightTest.cpp`;
+`docs/derivations/stage4AM_hatGammaX_derivation.md`;
+`docs/implementation/stage4_hidden_sphere_Rww_plan.md`;
+`logs/PROJECT_LOG.md`; `logs/CODEX_LOG.md`.
 
 Gate: do not proceed to Stage 5 or start Pau diagnostic reproduction until cartoon CCZ4 implementation is verified on controlled tests and reviewed and approved by the user. Do not treat outputs as physically meaningful until the relevant equations, variables, and diagnostics are reviewed and approved by the user.
 
@@ -367,6 +517,10 @@ Goal: reproduce the diagnostic backbone of the 5D GL black-string paper.
 - [ ] Track generation formation times/properties.
 - [ ] Compare `L/r0=10` against target paper diagnostics.
 
+All unchecked Stage 5 items remain missing. Owner: Stage 5 after Stage 4AU
+exit review. Stage 4AO-C's reuse inventory confirms AHFinder/PETSc pieces are
+adapter candidates only; no Pau diagnostic reproduction is started.
+
 Gate: do not proceed to Stage 6 or run the full `L` sweep until the `L=10` medium run produces credible horizon diagnostics and is reviewed and approved by the user.
 
 ## Stage 6 - Convergence and validation
@@ -383,6 +537,9 @@ Goal: establish that the reproduced diagnostics are not numerical artifacts.
 - [ ] Track horizon finder residuals and estimator disagreements.
 - [ ] Document systematic uncertainties.
 
+All unchecked Stage 6 items remain missing. Owner: Stage 6 after credible Stage
+5 diagnostics exist.
+
 Gate: do not proceed to Stage 7 or claim reproduction complete until convergence/validation criteria are documented and reviewed and approved by the user.
 
 ## Stage 7 - Radiation/wave-extraction design
@@ -395,6 +552,9 @@ Goal: design radiation extraction after the horizon dynamics are robust.
 - [ ] Identify gauge issues and asymptotic normalization.
 - [ ] Define waveform, spectrum, energy by mode, and angular-distribution observables.
 - [ ] Decide how Pau's collaboration code enters this phase.
+
+All unchecked Stage 7 items remain missing. Owner: Stage 7 after Stage 5/6
+horizon diagnostics are validated. Radiation extraction is not started.
 
 Gate: do not proceed to Stage 8 or implement radiation extraction until the formalism and validation tests are specified and reviewed and approved by the user.
 
@@ -410,6 +570,10 @@ Goal: compute waveform/radiation diagnostics from validated simulations.
 - [ ] Estimate radiated energy.
 - [ ] Compare radiation windows to GL generation times and Fourier-mode evolution.
 
+All unchecked Stage 8 items remain missing. Owner: Stage 8 after Stage 7
+formalism and validation tests are reviewed. No radiation computation is
+started.
+
 Gate: do not proceed to Stage 9 or interpret radiation results physically until extraction is benchmarked, convergence-tested, and reviewed and approved by the user.
 
 ## Stage 9 - Physics interpretation and writeup
@@ -422,3 +586,6 @@ Goal: turn validated simulations and radiation diagnostics into scientific concl
 - [ ] Quantify numerical/systematic uncertainty.
 - [ ] Compare to PBH/higher-dimensional phenomenology motivation.
 - [ ] Draft internal note/paper/thesis section.
+
+All unchecked Stage 9 items remain missing. Owner: Stage 9 after validated
+simulation and radiation diagnostics exist.

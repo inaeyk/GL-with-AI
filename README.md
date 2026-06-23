@@ -16,6 +16,8 @@ Current milestone: reproduce Pau / Figueras-Andrade-Franca-Gu style 5D black-str
 
 ## Start Here
 
+Current status and checkpoint authority: [Stage checklists](research_plan/stage_checklists.md).
+
 - [TODO.md](TODO.md)
 - [Project log](logs/PROJECT_LOG.md)
 - [Project outline](research_plan/project_outline.md)
