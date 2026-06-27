@@ -33,7 +33,7 @@ Physics and physics-design stages also produce polished review notes under
 
 - Goal: create an editable project example that can be built and tested without modifying upstream GRChombo source unexpectedly.
 - Main deliverables: build notes, minimal `BlackStringToy` skeleton, smoke-test parameter files, run manifest template.
-- Current status: in progress. Stage 2A has produced an editable `BlackStringToy` scaffold derived from the public `Examples/BinaryBH` smoke-test path. The scratch build and one-step smoke run succeeded under `runs/stage2_blackstringtoy/`. This scaffold is only for build/run workflow validation and is not physical black-string evolution.
+- Current status: complete for the scaffold/workflow baseline. Stage 2A produced an editable `BlackStringToy` scaffold derived from the public `Examples/BinaryBH` smoke-test path, and the scratch build plus one-step smoke run succeeded under `runs/stage2_blackstringtoy/`. This scaffold is only for build/run workflow validation and is not physical black-string evolution.
 
 ## Stage 3: 5D Black-String Initial Data Plus Modified-Cartoon Geometry Derivation/Validation
 
@@ -79,14 +79,38 @@ Physics and physics-design stages also produce polished review notes under
   live evolution wiring; Stage 4AO-C remains next.
 - Stage 4AO-C status: `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`
   starts the frozen-gauge spectral gate by defining the intended operator and
-  documenting blockers. Gauge perturbations are frozen
-  (`delta alpha=delta beta^i=delta B^i=0`), while the coupled perturbation
-  vector should include `chi`, visible and hidden metric components, `K`,
-  visible and hidden `A` components, `Theta`, and `hat_Gamma^x/hat_Gamma^z`.
-  The actual complete frozen-gauge modified-cartoon RHS linearization is not
-  yet available, so no eigensolver, shift-invert solve, unstable/stable point,
-  threshold estimate, or `k_c r0` convention lock was added. The commonly
-  quoted `k_c r0 ~= 0.876` remains provisional.
+  documenting blockers. `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`
+  now adds the validation wrapper, boundary-condition contract, matrix-free
+  GP-shift advection block `beta_GP^x d_x(delta u)` for all 13 frozen-gauge
+  perturbation variables, tensor shift-stretching for the `h_IJ` and `A_IJ`
+  slots, and the algebraic metric/chi couplings
+  `delta h_IJ <- -2 delta A_IJ`, `delta chi <- +(1/2) delta K`, plus the
+  K-output algebraic `A^2/K^2` linearization with inverse-metric variation
+  and hidden `ww` multiplicity, plus the A-output non-curvature algebraic
+  linearization of `(K - 2Theta)A_IJ - 2h^KL A_IK A_LJ`, plus the
+  Theta-output non-Ricci algebraic linearization of
+  `0.5*(((d-1)/d)K^2 - A_IJ A^IJ)`, plus the Theta-output
+  `-K_GP deltaTheta` linearization from GRChombo's `-Theta K` term, plus the
+  trace-free `delta A` projector contract for the assembled operator. The
+  Ricci/curvature design preflight now records the GRChombo Ricci convention,
+  frozen-gauge lapse-Hessian simplification, oracle plan, and first
+  recommended `delta R_ww` target. Standalone raw lower/lower physical Ricci
+  helpers now validate hidden `delta R_ww[gamma]` and visible
+  `delta R_xz[gamma]`, `delta R_zz[gamma]`, and `delta R_xx[gamma]` against
+  Stage 4G finite-difference oracles. Raw Ricci trace / trace-free assembly
+  now consumes those raw component result types and computes
+  `delta R = delta R_xx + delta R_zz + 2 delta R_ww` before the `d=4`
+  trace-free projection. The Theta Ricci scalar insertion now writes only
+  `output[Theta] += 0.5 delta R` from that assembly, and the `A_IJ` Ricci
+  curvature insertion now writes only
+  `output[A_IJ] += [delta R_IJ]^TF` from the same trace-free assembly.
+  The 13-variable state vector is named, gauge perturbations are frozen
+  (`delta alpha=delta beta^i=delta B^i=0`), and per-variable RHS block status
+  is labeled. The actual complete frozen-gauge modified-cartoon RHS
+  linearization beyond these partial blocks is not yet available, so no
+  eigensolver, shift-invert solve, unstable/stable point, threshold estimate,
+  or `k_c r0` convention lock was added. The commonly quoted
+  `k_c r0 ~= 0.876` remains provisional.
 
 ## Stage 5: Pau Diagnostic Reproduction
 

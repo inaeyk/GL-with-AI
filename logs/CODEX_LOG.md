@@ -711,3 +711,572 @@
 - Files changed: `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`, `docs/implementation/stage4_hidden_sphere_Rww_plan.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
 - Validation performed: Used CodeGraph/MCP first to inspect PETSc/AHFinder, solver, derivative, interpolation, boundary, local RHS-helper, and Stage 4AO-B context, then direct read-only file reads of the relevant project and `external/GRChombo` headers/implementations. Recorded that no SLEPc/PETSc `EPS`/project eigensolver exists; PETSc is present only through AHFinder `SNES/KSP`; AHFinder can be adapted for nonlinear MOTS diagnostics but lacks the `R_H` postprocessor and linearized MOTS response; GRChombo derivative/boundary/interpolation/reduction/logging utilities are adapter candidates; the current BlackStringToy RHS is inherited public CCZ4 plus smoke-hidden behavior, not the modified-cartoon frozen-gauge GL operator. No C++ code or tests, eigensolver, shift-invert, threshold search, Python scripts, grep, ripgrep, scripts, external GRChombo changes, staging, or commits were used.
 - Review status: Stage 4AO-C remains blocked/incomplete. Next recommended work is the validation-only frozen-gauge operator wrapper plus boundary-condition contract, then actual-operator JVP/parity checks and the linearized-MOTS adapter before any eigensolver adapter.
+
+- Date: 2026-06-23
+- Goal: Add the Stage 4AO-C validation-only frozen-gauge operator wrapper and boundary-condition contract.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`, `code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp`, `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`, `docs/implementation/stage4_hidden_sphere_Rww_plan.md`, `docs/derivations/unit_test_fixture_design.md`, `docs/implementation/minimal_cpp_implementation_plan.md`, `docs/implementation/stage4H_ricci_rhs_compatibility.md`, `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect the Stage 4AO-B harness, Stage 4AN hatted-connection context, and the existing Stage 4AO-C reuse inventory. Added a contract-only wrapper for the frozen-gauge perturbation vector, explicit gauge perturbation exclusions, per-variable RHS inventory labels, the `0<x_in<r0<x_out` radial boundary contract, and TODO hooks for actual-operator JVP/parity, convergence, boundary-location, and linearized-MOTS checks. Compiled and ran `g++ -std=c++17 -Wall -Wextra -pedantic -I code/BlackStringToy code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp -o /tmp/blackstringtoy_stage4aoc_frozen_gauge_operator_contract_test` then `/tmp/blackstringtoy_stage4aoc_frozen_gauge_operator_contract_test`; it passed. No eigensolver, shift-invert, threshold search, `k_c r0` search, Python scripts, grep, ripgrep, unrelated tests, scripts, external GRChombo changes, staging, or commits were used.
+- Review status: Stage 4AO-C remains incomplete. The wrapper/boundary-contract substep is complete, but the full frozen-gauge operator, actual-operator JVP/parity tests, boundary validation, linearized MOTS map, spectral method, threshold/stable/unstable points, and convergence battery remain blockers before eigensolver work.
+
+- Date: 2026-06-23
+- Goal: Begin the next Stage 4AO-C substep by adding the first actual
+  frozen-gauge operator block, GP-shift advection, without starting
+  eigensolver work.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeAdvectionBlockTest.cpp`,
+  `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `docs/derivations/unit_test_fixture_design.md`,
+  `docs/implementation/stage4_hidden_sphere_Rww_plan.md`,
+  `docs/implementation/minimal_cpp_implementation_plan.md`,
+  `docs/implementation/stage4H_ricci_rhs_compatibility.md`,
+  `research_plan/stage_checklists.md`, `research_plan/project_outline.md`,
+  `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect the existing
+  Stage 4AO-C wrapper, contract fixture, and related 4AO-B/4AO-C context.
+  Added a validation-only matrix-free apply path for
+  `beta_GP^x d_x(delta u)`, with `beta_GP^x=sqrt(r0/x)`, on all 13
+  frozen-gauge variables. Added interior second-order centered radial `d_x`
+  and periodic second-order `D_z`/`D_zz` scaffolding; endpoints remain
+  placeholder outputs and boundary validation is still missing. Compiled and
+  ran `g++ -std=c++17 -Wall -Wextra -pedantic -I code/BlackStringToy
+  code/BlackStringToy/tests/Stage4AOCFrozenGaugeAdvectionBlockTest.cpp -o
+  /tmp/blackstringtoy_stage4aoc_frozen_gauge_advection_block_test` then
+  `/tmp/blackstringtoy_stage4aoc_frozen_gauge_advection_block_test`; it
+  passed, including wrong-beta, wrong-sign, and wrong-order negative guards.
+  Also compiled and ran `g++ -std=c++17 -Wall -Wextra -pedantic -I
+  code/BlackStringToy
+  code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp -o
+  /tmp/blackstringtoy_stage4aoc_frozen_gauge_operator_contract_test` then
+  `/tmp/blackstringtoy_stage4aoc_frozen_gauge_operator_contract_test`; it
+  passed. No Python scripts, grep, ripgrep, unrelated tests, eigensolvers,
+  shift-invert, threshold searches, `k_c r0` searches, 4AO-D work, production
+  RHS/evolution wiring, scripts, external GRChombo changes, staging, or
+  commits were used.
+- Review status: Stage 4AO-C remains incomplete. Only GP-shift advection is
+  implemented; the full frozen-gauge modified-cartoon CCZ4 operator,
+  actual-operator JVP/parity checks, boundary validation, linearized MOTS map,
+  spectral method, threshold/stable/unstable points, and convergence battery
+  remain blockers.
+
+- Date: 2026-06-23
+- Goal: Add the next Stage 4AO-C partial operator block: tensor
+  shift-stretching for conformal metric and trace-free tensor perturbations.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeTensorShiftStretchingBlockTest.cpp`,
+  `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `docs/derivations/unit_test_fixture_design.md`,
+  `docs/implementation/stage4_hidden_sphere_Rww_plan.md`,
+  `docs/implementation/minimal_cpp_implementation_plan.md`,
+  `docs/implementation/stage4H_ricci_rhs_compatibility.md`,
+  `research_plan/stage_checklists.md`, `research_plan/project_outline.md`,
+  `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect the GRChombo
+  `CCZ4RHS.impl.hpp` shift/stretching convention and the existing Stage 4AO-C
+  wrapper/tests. Added an explicit `tensor_shift_stretching` RHS inventory
+  category and a validation-only apply path for the non-advection tensor
+  stretch terms. On the locked GP background, the implemented coefficients
+  are `-7 lambda/4` for `h_xx/A_xx`, `-5 lambda/4` for `h_xz/A_xz`,
+  `-3 lambda/4` for `h_zz/A_zz`, and hidden `+5 lambda/4` for `h_ww/A_ww`.
+  Scalars and hatted-Gamma slots get zero from this block. Compiled and ran
+  `g++ -std=c++17 -Wall -Wextra -pedantic -I code/BlackStringToy
+  code/BlackStringToy/tests/Stage4AOCFrozenGaugeTensorShiftStretchingBlockTest.cpp
+  -o /tmp/blackstringtoy_stage4aoc_frozen_gauge_tensor_shift_stretching_block_test`
+  then
+  `/tmp/blackstringtoy_stage4aoc_frozen_gauge_tensor_shift_stretching_block_test`;
+  it passed, including guards for hidden stretching, d=4 trace coefficient,
+  `partial_x beta^x` sign, and scalar/hatted-Gamma exclusion. Also reran the
+  Stage 4AO-C contract and advection fixtures because shared inventory/apply
+  types changed; both passed. No Python scripts, grep, ripgrep, unrelated
+  tests, eigensolvers, shift-invert, threshold searches, `k_c r0` searches,
+  4AO-D work, production RHS/evolution wiring, scripts, external GRChombo
+  changes, staging, or commits were used.
+- Review status: Stage 4AO-C remains incomplete. Implemented pieces are now
+  GP-shift advection plus tensor shift-stretching only; metric `-2 A_IJ`
+  coupling, K/A algebraic dynamics, Ricci/curvature, Theta/constraint terms,
+  hatted-Gamma evolution, full-operator JVP/parity tests, boundary validation,
+  linearized MOTS map, spectral method, threshold/stable/unstable points, and
+  convergence battery remain blockers.
+
+- Date: 2026-06-23
+- Goal: Add the next Stage 4AO-C partial operator block: algebraic
+  metric/conformal-factor couplings.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeAlgebraicCouplingBlockTest.cpp`,
+  `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `docs/derivations/unit_test_fixture_design.md`,
+  `docs/implementation/stage4_hidden_sphere_Rww_plan.md`,
+  `docs/implementation/minimal_cpp_implementation_plan.md`,
+  `docs/implementation/stage4H_ricci_rhs_compatibility.md`,
+  `research_plan/stage_checklists.md`, `research_plan/project_outline.md`,
+  `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect the GRChombo
+  `CCZ4RHS.impl.hpp` conventions for the `-2 alpha A_ij` metric term and
+  `(2/GR_SPACEDIM) chi (alpha K - div beta)` chi term. Added an explicit
+  `algebraic_metric_chi_coupling` RHS inventory category and a
+  validation-only apply path for
+  `delta h_IJ <- -2 delta A_IJ`, `delta chi <- +(1/2) delta K`, using `d=4`,
+  `alpha_GP=1`, `chi_GP=1`, and `K_GP=div beta_GP`. Compiled and ran
+  `g++ -std=c++17 -Wall -Wextra -pedantic -I code/BlackStringToy
+  code/BlackStringToy/tests/Stage4AOCFrozenGaugeAlgebraicCouplingBlockTest.cpp
+  -o /tmp/blackstringtoy_stage4aoc_frozen_gauge_algebraic_coupling_block_test`
+  then
+  `/tmp/blackstringtoy_stage4aoc_frozen_gauge_algebraic_coupling_block_test`;
+  it passed, including negative guards for wrong metric sign/coefficient,
+  wrong `d=3` chi coefficient, reciprocal `A_IJ <- h_IJ`, and accidental
+  `K`/`Theta`/hatted-Gamma outputs. Also reran the Stage 4AO-C contract,
+  advection, and tensor shift-stretching fixtures because the shared wrapper
+  and inventory changed; all passed. No Python scripts, grep, ripgrep,
+  unrelated tests, eigensolvers, shift-invert, threshold searches, `k_c r0`
+  searches, 4AO-D work, production RHS/evolution wiring, scripts, external
+  GRChombo changes, staging, or commits were used.
+- Review status: Stage 4AO-C remains incomplete. Implemented pieces are now
+  GP-shift advection, tensor shift-stretching, and algebraic metric/chi
+  coupling only; remaining K/A algebraic dynamics, Ricci/curvature,
+  Theta/constraint terms, hatted-Gamma evolution, full-operator JVP/parity
+  tests, boundary validation, linearized MOTS map, spectral method,
+  threshold/stable/unstable points, and convergence battery remain blockers.
+
+- Date: 2026-06-23
+- Goal: Add the next Stage 4AO-C partial operator block: K-equation algebraic
+  `A^2/K^2` linearization.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeKAlgebraicBlockTest.cpp`,
+  `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `docs/derivations/unit_test_fixture_design.md`,
+  `docs/implementation/stage4_hidden_sphere_Rww_plan.md`,
+  `docs/implementation/minimal_cpp_implementation_plan.md`,
+  `docs/implementation/stage4H_ricci_rhs_compatibility.md`,
+  `research_plan/stage_checklists.md`, `research_plan/project_outline.md`,
+  `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect GRChombo
+  `CCZ4RHS.impl.hpp`, which forms `tr_A2` from
+  `A_UU=raise_all(vars.A,h_UU)` and `compute_trace(vars.A,A_UU)`, then uses
+  `lapse*(tr_A2+K^2/GR_SPACEDIM)` in the BSSN K RHS. A direct read of
+  `TensorAlgebra.hpp` confirmed `raise_all` raises both indices with the
+  conformal inverse. Added an explicit `k_equation_algebraic_a2_k2` RHS
+  inventory category and a validation-only K-output apply path for the locked
+  GP-background linearization, including inverse-metric variation and hidden
+  `ww` multiplicity. Compiled and ran `g++ -std=c++17 -Wall -Wextra
+  -pedantic -I code/BlackStringToy
+  code/BlackStringToy/tests/Stage4AOCFrozenGaugeKAlgebraicBlockTest.cpp -o
+  /tmp/blackstringtoy_stage4aoc_frozen_gauge_k_algebraic_block_test` then
+  `/tmp/blackstringtoy_stage4aoc_frozen_gauge_k_algebraic_block_test`; it
+  passed, including negative guards for missing inverse-metric variation,
+  missing hidden multiplicity, wrong `d=3` K-squared coefficient, spurious
+  `h_xz`/`A_xz` terms, and non-K outputs. Also reran the Stage 4AO-C contract
+  fixture because the shared wrapper and inventory changed; it passed. No
+  Python scripts, grep, ripgrep, unrelated tests, eigensolvers, shift-invert,
+  threshold searches, `k_c r0` searches, 4AO-D work, production RHS/evolution
+  wiring, scripts, external GRChombo changes, staging, or commits were used.
+- Review status: Stage 4AO-C remains incomplete. Implemented pieces are now
+  GP-shift advection, tensor shift-stretching, algebraic metric/chi coupling,
+  and K-output `A^2/K^2` algebraic linearization only. Ricci/curvature and
+  lapse-Hessian/frozen-lapse pieces, remaining A-equation algebraic dynamics,
+  Theta/constraint terms, hatted-Gamma evolution, full-operator JVP/parity
+  tests, boundary validation, linearized MOTS map, spectral method,
+  threshold/stable/unstable points, and convergence battery remain blockers.
+
+- Date: 2026-06-24
+- Goal: Add the next Stage 4AO-C partial operator block: A-equation
+  algebraic non-curvature linearization.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeAAlgebraicBlockTest.cpp`,
+  `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `docs/derivations/unit_test_fixture_design.md`,
+  `docs/implementation/stage4_hidden_sphere_Rww_plan.md`,
+  `docs/implementation/stage4H_ricci_rhs_compatibility.md`,
+  `research_plan/stage_checklists.md`, `research_plan/project_outline.md`,
+  `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect GRChombo
+  `CCZ4RHS.impl.hpp`, which sets
+  `rhs.A[i][j]=advec.A[i][j]+Adot_TF[i][j]+A_ij*(alpha*(K-2Theta)
+  -(2/GR_SPACEDIM)*divshift)`, then adds shift stretching and
+  `-2*alpha*h_UU[k][l]*A[i][k]*A[l][j]`. Added an explicit
+  `a_equation_algebraic_non_curvature` RHS inventory category and a
+  validation-only A-output apply path for
+  `(K - 2Theta)A_IJ - 2 h^KL A_IK A_LJ` on the locked GP background. The
+  block includes conformal inverse-metric variation, direct K/Theta
+  coefficients where `A_IJ_GP` is nonzero, zero `A_xz` K/Theta coupling, and
+  no hidden multiplicity factor on the componentwise `A_ww` equation.
+  Compiled and ran `g++ -std=c++17 -Wall -Wextra -pedantic -I
+  code/BlackStringToy
+  code/BlackStringToy/tests/Stage4AOCFrozenGaugeAAlgebraicBlockTest.cpp -o
+  /tmp/blackstringtoy_stage4aoc_frozen_gauge_a_algebraic_block_test` then
+  `/tmp/blackstringtoy_stage4aoc_frozen_gauge_a_algebraic_block_test`; it
+  passed, including negative guards for missing inverse-metric variation,
+  wrong hidden multiplicity on `A_ww`, wrong K/Theta coefficients, spurious
+  `A_xz` K/Theta couplings, and non-A outputs. Also reran the Stage 4AO-C
+  contract, K algebraic, algebraic metric/chi coupling, tensor
+  shift-stretching, and GP-shift advection fixtures because the shared wrapper
+  and inventory changed; all passed. No Python scripts, grep, ripgrep,
+  unrelated tests, eigensolvers, shift-invert, threshold searches,
+  `k_c r0` searches, 4AO-D work, production RHS/evolution wiring, scripts,
+  external GRChombo changes, staging, or commits were used.
+- Review status: Stage 4AO-C remains incomplete. Implemented pieces are now
+  GP-shift advection, tensor shift-stretching, algebraic metric/chi coupling,
+  K-output `A^2/K^2` algebraic linearization, and A-output non-curvature
+  algebraic linearization only. The trace-free Ricci/lapse-Hessian curvature
+  block for `A_IJ`, Ricci/curvature and lapse-Hessian/frozen-lapse pieces in
+  other equations, Theta/constraint terms, hatted-Gamma evolution,
+  full-operator JVP/parity tests, boundary validation, linearized MOTS map,
+  spectral method, threshold/stable/unstable points, convergence battery, and
+  `k_c r0` convention map remain blockers.
+
+- Date: 2026-06-24
+- Goal: Add the next Stage 4AO-C partial operator block: Theta-equation
+  algebraic non-Ricci linearization.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeThetaAlgebraicBlockTest.cpp`,
+  `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `docs/derivations/unit_test_fixture_design.md`,
+  `docs/implementation/stage4_hidden_sphere_Rww_plan.md`,
+  `docs/implementation/stage4H_ricci_rhs_compatibility.md`,
+  `research_plan/stage_checklists.md`, `research_plan/project_outline.md`,
+  `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect GRChombo
+  `CCZ4RHS.impl.hpp`, then directly read the Theta RHS range. The CCZ4 branch
+  uses `0.5*lapse*(ricci.scalar - tr_A2
+  + ((GR_SPACEDIM-1)/GR_SPACEDIM)*K^2 - 2*Theta*K)` plus separate damping,
+  `Z_dot_d1lapse`, and cosmological terms. Added an explicit
+  `theta_equation_algebraic_non_ricci` RHS inventory category and a
+  validation-only Theta-output apply path for
+  `0.5*(((d-1)/d)K^2 - A_IJ A^IJ)` on the locked GP background. The block
+  includes conformal inverse-metric variation, hidden `ww` trace multiplicity
+  two, zero `h_xz/A_xz` contribution, and the `d=4` K coefficient. Ricci
+  scalar, `-Theta K`, Z4 damping/constraint terms, `Z dot grad alpha`, and
+  cosmological terms remain missing. Compiled and ran `g++ -std=c++17 -Wall
+  -Wextra -pedantic -I code/BlackStringToy
+  code/BlackStringToy/tests/Stage4AOCFrozenGaugeThetaAlgebraicBlockTest.cpp
+  -o /tmp/blackstringtoy_stage4aoc_frozen_gauge_theta_algebraic_block_test`
+  then `/tmp/blackstringtoy_stage4aoc_frozen_gauge_theta_algebraic_block_test`;
+  it passed, including negative guards for missing inverse-metric variation,
+  missing hidden multiplicity, wrong `d=3` K coefficient, spurious
+  `h_xz/A_xz` terms, and non-Theta outputs. Also reran the Stage 4AO-C
+  contract, A algebraic, K algebraic, algebraic metric/chi coupling, tensor
+  shift-stretching, and GP-shift advection fixtures because the shared wrapper
+  and inventory changed; all passed. No Python scripts, grep, ripgrep,
+  unrelated tests, eigensolvers, shift-invert, threshold searches,
+  `k_c r0` searches, 4AO-D work, production RHS/evolution wiring, scripts,
+  external GRChombo changes, staging, or commits were used.
+- Review status: Stage 4AO-C remains incomplete. Implemented pieces are now
+  GP-shift advection, tensor shift-stretching, algebraic metric/chi coupling,
+  K-output `A^2/K^2` algebraic linearization, A-output non-curvature
+  algebraic linearization, and Theta-output non-Ricci algebraic linearization
+  only. Ricci scalar contribution to Theta, Z4 damping/constraint terms,
+  trace-free Ricci/lapse-Hessian curvature block for `A_IJ`, Ricci/curvature
+  and lapse-Hessian/frozen-lapse pieces in other equations, hatted-Gamma
+  evolution, trace-free `delta A` subspace enforcement/projector,
+  full-operator JVP/parity tests, boundary validation, linearized MOTS map,
+  spectral method, threshold/stable/unstable points, convergence battery, and
+  `k_c r0` convention map remain blockers.
+
+- Date: 2026-06-24
+- Goal: Add the next Stage 4AO-C partial operator block: Theta
+  `-K_GP deltaTheta` algebraic linearization.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeThetaMinusKBlockTest.cpp`,
+  `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `docs/derivations/unit_test_fixture_design.md`,
+  `docs/implementation/stage4_hidden_sphere_Rww_plan.md`,
+  `docs/implementation/stage4H_ricci_rhs_compatibility.md`,
+  `research_plan/stage_checklists.md`, `research_plan/project_outline.md`,
+  `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect the GRChombo
+  `CCZ4RHS.impl.hpp` Theta RHS convention. The CCZ4 branch contains
+  `0.5*lapse*(... - 2*Theta*K ...)` with damping and `Z_dot_d1lapse`
+  outside this simple algebraic factor. Added an explicit
+  `theta_equation_minus_k_delta_theta` RHS inventory category and a
+  validation-only Theta-output apply path for
+  `delta Theta_RHS <- -(3 lambda/2) deltaTheta`. Compiled and ran the new
+  Stage 4AO-C Theta minus-K fixture, then reran the Stage 4AO-C contract and
+  existing partial-block fixtures because the shared wrapper and inventory
+  changed; all passed.
+- Review status: Stage 4AO-C remains incomplete. Implemented pieces are now
+  GP-shift advection, tensor shift-stretching, algebraic metric/chi coupling,
+  K-output `A^2/K^2`, A-output non-curvature algebraic, Theta-output
+  non-Ricci algebraic, and Theta-output `-K_GP deltaTheta` blocks only.
+  Ricci scalar contribution to Theta, Z4 damping/constraint terms and
+  `kappa1/kappa2` convention lock, trace-free Ricci/lapse-Hessian curvature
+  block for `A_IJ`, hatted-Gamma evolution, full-operator JVP/parity tests,
+  boundary validation, linearized MOTS map, spectral method,
+  threshold/stable/unstable points, convergence battery, and the `k_c r0`
+  convention map remain blockers.
+
+- Date: 2026-06-24
+- Goal: Add the next Stage 4AO-C structural contract: trace-free `delta A`
+  subspace/projector handling before full-operator assembly.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeTraceFreeDeltaAProjectorTest.cpp`,
+  `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `docs/derivations/unit_test_fixture_design.md`,
+  `docs/implementation/minimal_cpp_implementation_plan.md`,
+  `docs/implementation/stage4_hidden_sphere_Rww_plan.md`,
+  `docs/implementation/stage4H_ricci_rhs_compatibility.md`,
+  `research_plan/stage_checklists.md`, `research_plan/project_outline.md`,
+  `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect GRChombo
+  `TensorAlgebra::make_trace_free` and the `CCZ4RHS.impl.hpp` use on
+  `Adot_TF`. Added `delta_trace_a_at_point` and a validation-only projector
+  that subtracts `delta_tr_A/4` from `A_xx`, `A_zz`, and `A_ww` while keeping
+  the 13-variable frozen-gauge state unchanged. Compiled and ran the new
+  trace-free projector fixture, then reran the Stage 4AO-C contract and
+  existing partial-block fixtures because the shared wrapper changed; all
+  passed.
+- Review status: Stage 4AO-C remains incomplete. The projector is required
+  before any assembled full-operator JVP/parity/spectral claim, but it does
+  not implement Ricci/curvature, lapse-Hessian, Theta Ricci scalar, Z4
+  damping, hatted-Gamma evolution, boundary validation, MOTS mapping,
+  eigensolvers, threshold searches, convergence batteries, or `k_c r0`
+  convention mapping.
+
+- Date: 2026-06-24
+- Goal: Begin the next Stage 4AO-C substep: linearized Ricci/curvature design
+  preflight before implementing any `delta R_IJ` component.
+- Files changed: `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `docs/derivations/unit_test_fixture_design.md`,
+  `docs/implementation/minimal_cpp_implementation_plan.md`,
+  `docs/implementation/stage4_hidden_sphere_Rww_plan.md`,
+  `docs/implementation/stage4H_ricci_rhs_compatibility.md`,
+  `research_plan/stage_checklists.md`, `research_plan/project_outline.md`,
+  `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect GRChombo
+  `CCZ4Geometry` and the repo-owned Ricci/helper layers. Directly inspected
+  the relevant GRChombo `CCZ4Geometry`, `CCZ4RHS`, Stage 4G, Stage 4AC,
+  Stage 4AE, and Stage 4AL artifacts. Documented the reuse table, frozen-gauge
+  curvature simplification, Ricci decomposition contract, oracle plan, and
+  recommended first `delta R_ww[gamma]` target.
+- Review status: Documentation/design only. No Ricci code, tests, eigensolver,
+  shift-invert, threshold search, `k_c r0` search, MOTS map, 4AO-D work,
+  production RHS/evolution wiring, scripts, external GRChombo changes,
+  staging, or commits were used. Stage 4AO-C remains incomplete.
+
+- Date: 2026-06-24
+- Goal: Begin the first Stage 4AO-C Ricci implementation substep: raw hidden
+  physical `delta R_ww[gamma]` on the locked frozen-GP background only.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeHiddenRww.hpp`,
+  `code/BlackStringToy/tests/Stage4AOCHiddenPhysicalDeltaRwwTest.cpp`,
+  `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`,
+  `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect the Stage 4G
+  metric-derivative physical Ricci path, Stage 4AC/4AE/4AH hidden `R_ww`
+  split/direct helpers, and GRChombo's lower/lower physical Ricci convention.
+  Added the frozen-GP linearized raw hidden component formula and a fixture
+  that central-differences both the Stage 4G direct oracle and Stage 4AH split
+  oracle over an epsilon sweep. Covered zero perturbation, pure
+  `delta h_ww`, pure `delta chi`, z-dependent scalar hidden data, radial
+  visible-metric data, and mixed radial/z off-diagonal data. The stable
+  `1e-5` to `1e-6` plateau passed below `1e-7` for both oracle paths.
+- Review status: Stage 4AO-C remains incomplete. This implements only raw
+  hidden `delta R_ww[gamma]`; visible Ricci components, trace-free
+  A-curvature source, Theta Ricci scalar, full operator JVP/parity tests,
+  boundary validation, MOTS map, eigensolver/shift-invert, threshold search,
+  convergence battery, `k_c r0` map, 4AO-D, and production wiring remain
+  missing.
+
+- Date: 2026-06-24
+- Goal: Begin the next Stage 4AO-C Ricci implementation substep: raw visible
+  physical `delta R_xz[gamma]` on the locked frozen-GP background only.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeVisibleRxz.hpp`,
+  `code/BlackStringToy/tests/Stage4AOCVisiblePhysicalDeltaRxzTest.cpp`,
+  `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `docs/derivations/unit_test_fixture_design.md`,
+  `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`,
+  `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect Stage 4G's
+  metric-derivative physical Ricci path, the Stage 4AO-C Ricci preflight, and
+  GRChombo's lower/lower physical Ricci convention. Added a validation-only
+  raw `delta R_xz` helper. The Stage 4G finite-difference physical Ricci
+  engine is the primary and sole independent oracle for this visible component
+  because there is no Stage 4AC/4AE split path for visible `R_xz`. The fixture
+  covers zero input, pure `delta h_xz` as a zero oracle, an even-sector
+  diagonal scalar mode, a radial/z mixed hidden mode, and a pure
+  conformal-factor mixed-derivative mode. The stable `1e-5` to `1e-6` epsilon
+  plateau passed below `1e-7`; the one-z parity projection produced allowed
+  sine amplitude `6` and forbidden/allowed leakage `3.5851e-17`.
+- Review status: Stage 4AO-C remains incomplete. This implements only raw
+  visible `delta R_xz[gamma]`; `delta R_xx`, `delta R_zz`, trace-free
+  A-curvature source, Theta Ricci scalar, full operator JVP/parity tests,
+  boundary validation, MOTS map, eigensolver/shift-invert, threshold search,
+  convergence battery, `k_c r0` map, 4AO-D, and production wiring remain
+  missing.
+
+- Date: 2026-06-24
+- Goal: Resume the Stage 4AO-C raw visible physical `delta R_zz[gamma]`
+  implementation substep after resolving the conformal-factor sign convention.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeVisibleRzz.hpp`,
+  `code/BlackStringToy/tests/Stage4AOCVisiblePhysicalDeltaRzzTest.cpp`,
+  `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `docs/derivations/unit_test_fixture_design.md`,
+  `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`,
+  `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect Stage 4G's
+  metric-derivative physical Ricci path, `CartoonRicciBridge` lower/lower
+  access, GRChombo `CCZ4Geometry::compute_ricci_Z`, and the existing raw
+  `delta R_ww` / `delta R_xz` helper styles. Implemented raw visible
+  `delta R_zz[gamma]` only. Because Stage 4G uses `gamma=h/chi`, the
+  conformal-factor terms have positive signs. The Stage 4G finite-difference
+  physical Ricci engine is the sole independent oracle for this visible
+  component. The fixture covers zero input, pure `delta h_zz`, one-z
+  `delta h_xz`, z-dependent `delta h_ww`, mixed `delta chi`, z-dependent
+  `delta h_xx`, and mixed radial/z behavior. The `1e-5` to `1e-6` epsilon
+  plateau passed below `1e-7`; even-parity checks gave forbidden/allowed
+  leakage `2.00457e-17` for scalar diagonal input and `3.85494e-17` for
+  one-z `h_xz` input.
+- Review status: Stage 4AO-C remains incomplete. This implements only raw
+  visible `delta R_zz[gamma]`; `delta R_xx`, trace-free A-curvature source,
+  Theta Ricci scalar, full operator JVP/parity tests, boundary validation,
+  MOTS map, eigensolver/shift-invert, threshold search, convergence battery,
+  `k_c r0` map, 4AO-D, and production wiring remain missing.
+
+- Date: 2026-06-24
+- Goal: Begin the next Stage 4AO-C Ricci implementation substep: raw visible
+  physical `delta R_xx[gamma]` on the locked frozen-GP background only.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeVisibleRxx.hpp`,
+  `code/BlackStringToy/tests/Stage4AOCVisiblePhysicalDeltaRxxTest.cpp`,
+  `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `docs/derivations/unit_test_fixture_design.md`,
+  `docs/implementation/minimal_cpp_implementation_plan.md`,
+  `docs/implementation/stage4_hidden_sphere_Rww_plan.md`,
+  `research_plan/project_outline.md`, `research_plan/stage_checklists.md`,
+  `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect Stage 4G's
+  metric-derivative physical Ricci path, `CartoonRicciBridge` lower/lower
+  access, GRChombo `CCZ4Geometry` lower/lower Ricci convention, and the
+  existing raw `delta R_ww`, `delta R_xz`, and `delta R_zz` helper styles.
+  Implemented raw visible `delta R_xx[gamma]` only:
+  `partial_xz(delta h_xz) - 0.5 partial_xx(delta h_zz)
+  - 0.5 partial_zz(delta h_xx) + partial_x(delta h_xx)/x
+  - 2 partial_x(delta h_ww)/x - partial_xx(delta h_ww)
+  + partial_x(delta chi)/x + 1.5 partial_xx(delta chi)
+  + 0.5 partial_zz(delta chi)`. The positive `chi` signs follow
+  `gamma=h/chi`.
+- Test result: compiled and ran
+  `code/BlackStringToy/tests/Stage4AOCVisiblePhysicalDeltaRxxTest.cpp`.
+  The Stage 4G finite-difference physical Ricci engine is the sole independent
+  oracle for this visible component. The `1e-5` to `1e-6` epsilon plateau
+  passed below `1e-7` across zero input, pure `delta h_xx`, pure
+  `delta h_zz`, pure `delta h_ww`, one-z `delta h_xz`, mixed `delta chi`,
+  z-dependent diagonal scalar input, and mixed radial/z cases. Even-parity
+  checks gave forbidden/allowed leakage `2.00457e-17` for scalar diagonal
+  input and `4.85723e-17` for one-z `h_xz` input.
+- Review status: Stage 4AO-C remains incomplete. This implements only raw
+  visible `delta R_xx[gamma]`; raw Ricci trace/trace-free assembly,
+  trace-free A-curvature source, Theta Ricci scalar, full operator JVP/parity
+  tests, boundary validation, MOTS map, eigensolver/shift-invert, threshold
+  search, convergence battery, `k_c r0` map, 4AO-D, and production wiring
+  remain missing.
+
+- Date: 2026-06-24
+- Goal: Begin the next Stage 4AO-C Ricci substep: raw Ricci trace and
+  trace-free assembly from the validated raw `delta R_xx`, `delta R_xz`,
+  `delta R_zz`, and `delta R_ww` blocks.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeRicciAssembly.hpp`,
+  `code/BlackStringToy/tests/Stage4AOCRicciTraceFreeAssemblyTest.cpp`,
+  `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `docs/derivations/unit_test_fixture_design.md`,
+  `docs/implementation/minimal_cpp_implementation_plan.md`,
+  `docs/implementation/stage4H_ricci_rhs_compatibility.md`,
+  `docs/implementation/stage4_hidden_sphere_Rww_plan.md`,
+  `research_plan/project_outline.md`, `research_plan/stage_checklists.md`,
+  `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect GRChombo
+  trace-free convention, `CartoonRicciBridge` lower/lower physical Ricci
+  access, the Stage 4AO-C trace-free `delta A` convention, and the raw
+  `delta R_ww`, `delta R_xz`, `delta R_zz`, and `delta R_xx` helpers. Added
+  the standalone trace assembly `delta R=delta R_xx+delta R_zz+2delta R_ww`
+  and `d=4` trace-free projection after full raw assembly. The fixture
+  central-differences the Stage 4G nonlinear Ricci engine over an epsilon
+  sweep and validates zero, pure component, pure `chi`, mixed scalar, and
+  parity cases. The stable middle epsilon plateau passed below `2e-7`.
+- Review status: Stage 4AO-C remains incomplete. This substep does not insert
+  `[delta R_IJ]^TF` into the `A_IJ` curvature source, does not insert
+  `0.5 delta R` into the Theta Ricci scalar term, and does not add full
+  operator JVP/parity tests, boundary validation, MOTS map, eigensolver,
+  threshold search, convergence battery, 4AO-D, or production wiring.
+
+- Date: 2026-06-24
+- Goal: Begin the next Stage 4AO-C substep: insert the Ricci scalar
+  contribution `0.5 delta R` into the validation-only frozen-gauge Theta RHS.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeThetaRicciScalarBlockTest.cpp`,
+  `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `docs/derivations/unit_test_fixture_design.md`,
+  `docs/implementation/minimal_cpp_implementation_plan.md`,
+  `docs/implementation/stage4H_ricci_rhs_compatibility.md`,
+  `docs/implementation/stage4_hidden_sphere_Rww_plan.md`,
+  `research_plan/project_outline.md`, `research_plan/stage_checklists.md`,
+  `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect the
+  GRChombo-facing Theta convention, the raw Ricci trace/free assembly helper,
+  and the existing Theta algebraic/minus-K blocks. Added a partial operator
+  block that accepts only the `TraceFreeRicciAssembly` result and writes
+  `output[Theta] += 0.5 * scalar_trace()`. The focused test verifies the
+  positive sign, factor `0.5`, hidden `ww` multiplicity inherited from the
+  trace assembly, no `R_xz` trace contribution, no non-Theta output writes,
+  and incomplete-operator/eigensolver guards. The operator contract test now
+  records the Theta Ricci insertion as implemented only for the Theta output.
+- Review status: Stage 4AO-C remains incomplete. This substep does not insert
+  `[delta R_IJ]^TF` into the `A_IJ` curvature source, does not implement Z4
+  damping/kappa terms, hatted-Gamma evolution, actual full-operator JVP/parity
+  tests, boundary validation, MOTS map, eigensolver, threshold search,
+  convergence battery, 4AO-D, or production wiring.
+
+- Date: 2026-06-24
+- Goal: Begin the next Stage 4AO-C substep: insert
+  `[delta R_IJ]^TF` into the validation-only frozen-gauge `A_IJ` curvature
+  source.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeARicciCurvatureBlockTest.cpp`,
+  `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `docs/derivations/unit_test_fixture_design.md`,
+  `docs/implementation/minimal_cpp_implementation_plan.md`,
+  `docs/implementation/stage4H_ricci_rhs_compatibility.md`,
+  `docs/implementation/stage4_hidden_sphere_Rww_plan.md`,
+  `research_plan/project_outline.md`, `research_plan/stage_checklists.md`,
+  `TODO.md`, `logs/PROJECT_LOG.md`, `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect GRChombo's
+  `CCZ4RHS` A-equation convention and the existing Stage 4AO-C Ricci assembly
+  helper. Added a partial operator block that accepts only
+  `TraceFreeRicciAssembly` and writes `tf_xx`, `tf_xz`, `tf_zz`, and `tf_ww`
+  into the corresponding `A_IJ` output slots. In frozen gauge,
+  `delta(D_I D_J alpha)=0` and `delta(chi alpha R_IJ)=delta R_IJ`, so the
+  insertion has prefactor one.
+- Test result: compiled and ran
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeARicciCurvatureBlockTest.cpp`
+  and `code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp`.
+  The focused test checks pointwise/grid insertion, no non-A output writes,
+  trace-free source residual, `A_xz` equal to raw `R_xz`, no double hidden
+  multiplicity on `A_ww`, and negative guards for wrong sign, raw-Ricci
+  insertion, `d=3` projection, double `A_ww`, and false completion.
+- Review status: Stage 4AO-C remains incomplete. This substep does not
+  implement Z4 damping/kappa terms, hatted-Gamma evolution, actual
+  full-operator JVP/parity tests, boundary validation, MOTS map, eigensolver,
+  threshold search, convergence battery, 4AO-D, or production wiring.
+
+- Date: 2026-06-25
+- Goal: Begin the Stage 4AO-C Z4 damping / kappa convention-lock pass.
+- Files changed: `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`,
+  `research_plan/stage_checklists.md`, `TODO.md`, `logs/PROJECT_LOG.md`,
+  `logs/CODEX_LOG.md`.
+- Validation performed: Used CodeGraph/MCP first to inspect
+  `external/GRChombo/Source/CCZ4/CCZ4RHS.impl.hpp`,
+  `CCZ4RHS.hpp`, `SimulationParametersBase.hpp`, `MovingPunctureGauge.hpp`,
+  `IntegratedMovingPunctureGauge.hpp`, `CCZ4Geometry.hpp`, and the local
+  Stage 2 smoke parameters. Documented the exact GRChombo kappa terms and
+  frozen-GP linearized targets.
+- Review status: Documentation/derivation only. No kappa values were chosen,
+  no code/tests were added, and Stage 4AO-C remains incomplete until the human
+  team locks the `kappa1/kappa2` convention and the remaining damping,
+  hatted-Gamma, full-operator, boundary, MOTS, spectral, convergence, and
+  `k_c r0` gates are implemented.

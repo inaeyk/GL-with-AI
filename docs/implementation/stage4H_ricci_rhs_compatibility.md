@@ -516,16 +516,33 @@ local harness in `Stage4AOGPDiscretePreflight.hpp` with fixture
 background residual convergence on `r0=1`, `x in [0.5,4.0]`,
 `delta hww` hidden-contraction isolation, an actual-discrete-RHS
 Jacobian-vector epsilon plateau, and z-coupled periodic-stencil parity leakage
-with a flipped-parity negative guard. Stage 4AO-C is started only as the
-blocker note `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`; it
-does not yet provide the full frozen-gauge operator, shift-invert solve,
-unstable/stable points, threshold estimate, or primary-source `k_c r0`
-convention lock. Flat checks
-alone are insufficient, Pau is not the convention authority, the physical
-growth observable must be geometric, and `k_c r0 ~= 0.876` remains provisional
-until primary-source convention mapping is complete. Dedicated 4AO-C/D
-validation harnesses may exercise spectral and seeded-evolution-bridge code.
-Production Stage 4AR/4AS integration remains blocked until 4AO-D, and
+with a flipped-parity negative guard. Stage 4AO-C now has the blocker note
+`docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md` plus the
+validation-only wrapper, boundary contract, GP-shift advection block, and
+tensor shift-stretching block, algebraic metric/chi coupling block, and
+K-output algebraic `A^2/K^2` block, plus the A-output non-curvature
+algebraic block and Theta-output non-Ricci algebraic block in
+`code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`, plus the Theta-output
+`-K_GP deltaTheta` linearization from GRChombo's `-Theta K` term and the
+trace-free `delta A` projector contract. The Ricci/curvature design preflight
+now records that frozen gauge makes `delta(D_I D_J alpha)=0`. Standalone raw
+lower/lower physical Ricci helpers validate hidden `delta R_ww[gamma]` and
+visible `delta R_xz[gamma]`, `delta R_zz[gamma]`, and `delta R_xx[gamma]`
+against Stage 4G finite-difference oracles. Raw Ricci trace / trace-free
+assembly now computes `delta R = delta R_xx + delta R_zz + 2 delta R_ww` and
+projects only after full raw assembly. The Theta Ricci scalar insertion now
+writes only `output[Theta] += 0.5 delta R` from that assembly. The `A_IJ`
+Ricci curvature insertion now writes only
+`output[A_IJ] += [delta R_IJ]^TF` from the same trace-free assembly, without an
+extra hidden multiplicity factor on `A_ww`. It does not yet provide the
+full frozen-gauge operator beyond those partial blocks, actual-operator
+JVP/parity checks, boundary validation, shift-invert solve, unstable/stable
+points, threshold estimate, or primary-source `k_c r0` convention lock. Flat
+checks alone are insufficient, Pau is not the convention authority, the
+physical growth observable must be geometric, and `k_c r0 ~= 0.876` remains
+provisional until primary-source convention mapping is complete. Dedicated
+4AO-C/D validation harnesses may exercise spectral and seeded-evolution-bridge
+code. Production Stage 4AR/4AS integration remains blocked until 4AO-D, and
 Checkpoint G passes only after 4AO-D.
 
 Stage 4AG remains only a synthetic two-sided parity-validator primitive. Stage

@@ -12,23 +12,25 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 ## Active
 
 - [ ] Ensure future physics-stage PDF notes accompany each physics/design stage.
-- [ ] Stage 4D review: confirm the smoke-only `scaffold_freeze_hidden` guard is acceptable before committing.
-- [ ] Future hidden-sector RHS work must disable or replace the Stage 4D smoke-only `hww/Aww` freeze and add a loud guard against using both paths together.
-- [ ] Align Stage 3I parity and axis-filling conventions with GRChombo-facing project conventions before C++ source-term work.
-- [ ] Derive and document the Stage 3I `tilde_Gamma^x` sign and full `hat_Gamma^A` contracted-connection convention in the GRChombo-facing cartoon extension.
-- [ ] Required future RHS validation: reproduce the linear Gregory-Laflamme threshold/growth spectrum after matching conventions.
-- [ ] Required future constraint-damping validation: inject linearized constraint violations and verify `Theta` / encoded-`Z^i` damping behavior.
-- [ ] Document how the project enforces cartoon/conformal determinant and trace-free constraints in the GRChombo-facing variable set, especially hidden `hww` participation.
+- [ ] Stage 4AO-C/4AO-D: complete the GL validation gate. The 4AO-C wrapper, boundary contract, GP-shift advection block, tensor shift-stretching block, algebraic metric/chi coupling block, K-output algebraic `A^2/K^2` block, A-output non-curvature algebraic block, Theta-output non-Ricci algebraic block, Theta-output `-K_GP deltaTheta` block, trace-free `delta A` projector contract, Ricci/curvature design preflight, raw hidden physical `delta R_ww[gamma]` validation block, raw visible one-z `delta R_xz[gamma]` validation block, raw visible diagonal `delta R_zz[gamma]` / `delta R_xx[gamma]` validation blocks, raw Ricci trace/trace-free assembly, Theta Ricci scalar insertion, `A_IJ` trace-free Ricci curvature insertion, and Z4 damping/kappa convention-lock derivation pass now exist; next resolve the human `kappa1/kappa2` convention decision, then build remaining frozen-gauge operator blocks, actual-operator JVP/parity checks, linearized MOTS map, convention map, spectral targets, convergence tests, and later the 4AO-D seeded-evolution bridge.
+- [ ] Stage 4AP/4AQ: align actual grid/ghost parity and finite-axis handling with GRChombo-facing conventions for `h_xz`, `h_xx-h_ww`, `W_x`, and `chi_x`.
+- [ ] Stage 4AT: remove or replace the Stage 4D smoke-only `hww/Aww` freeze in the physics path and add a loud guard against using both paths together.
+- [ ] Future constraint-damping validation: inject linearized constraint violations and verify `Theta` / encoded-`Z^i` damping behavior after the coupled Stage 4AO validation path is ready.
+- [ ] Future production wiring: document and enforce cartoon/conformal determinant and trace-free constraints in the GRChombo-facing variable set, especially hidden `hww` participation.
 - [ ] Add optional nonconstant profile with `f_zz != 0` so `R_zz` is a nonzero regression target.
 - [ ] Factor duplicated symbolic geometry helpers into a shared module.
 - [ ] Convert Stage 3C/3D symbolic checks into unit-test fixtures after review.
-- [ ] Review Stage 3A black-string initial-data design note before coding.
-- [ ] Resolve GP branch/sign, `K_ij` convention, and zero-shift gauge startup before implementation.
-- [ ] Review Stage 2B scratch workflow hardening before committing.
-- [ ] Review Stage 2A `BlackStringToy` scaffold diff and scratch build output before committing.
-- [ ] Decide whether the next scaffold pass should keep inherited BinaryBH behavior untouched or trim it before later black-string initial-data work.
-- [ ] Decide how and when to resolve PETSc/AHFinder-enabled execution.
-- [ ] Decide whether a scratch-only minimal CCZ4 target is needed before reduced-cartoon evolution work.
+- [ ] Future initial-data implementation: code black-string fields only after the Stage 4 checkpoint gates and current checklist owners allow production wiring.
+- [ ] Stage 4AO-C / horizon diagnostics: resolve PETSc/AHFinder reuse, the linearized MOTS map, and any eigensolver adapter needed for the GL gate.
+
+## Resolved or carried forward from old Active items
+
+- [x] Stage 3I / 4AM `tilde_Gamma^x` and `hat_Gamma` convention item is solved by Stage 4AM/4AN. Evidence and current status live in `research_plan/stage_checklists.md`.
+- [x] GP branch/sign, `K_ij` convention, and gauge startup are locked by Stage 4AO-A. Evidence and residual targets live in `research_plan/stage_checklists.md` and `docs/derivations/stage4AO_A_uniform_gp_background_residual.md`.
+- [x] Stage 4D smoke-only `scaffold_freeze_hidden` review is superseded by the recorded Stage 4AT removal/replacement owner in `research_plan/stage_checklists.md`.
+- [x] Stage 3A black-string initial-data design review is complete as a design-stage gate; implementation remains a separate future item above.
+- [x] Stage 2A/2B scaffold and scratch-workflow review items are complete or superseded by later Stage 4 work; see `research_plan/stage_checklists.md`.
+- [x] The scratch-only minimal CCZ4-target decision is superseded by the repo-owned `BlackStringToy` path and Stage 4AO validation harnesses.
 
 ## Completed
 

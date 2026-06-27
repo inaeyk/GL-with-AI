@@ -1155,14 +1155,33 @@ unmodified-RHS background residual convergence on `r0=1`,
 `delta hat_Gamma^x`, compares a hand-derived actual-discrete-RHS
 Jacobian-vector product against finite differences, and checks z-coupled
 periodic-stencil parity-sector leakage with a flipped-parity negative guard.
-This is still not 4AO-C eigensolver work. 4AO-C is started only as the blocker
-note `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md`: the intended
-frozen-gauge perturbation vector is defined, but the complete coupled
-modified-cartoon RHS linearization, radial spectral boundary conditions,
-shift-invert or equivalent targeted solve, linearized MOTS observable map,
-unstable/stable points, threshold estimate, and primary-source `k_c r0`
-convention map are still missing. The `k_c r0 ~= 0.876` value remains
-provisional. 4AO-D is live-gauge/full acceptance. Production integration
+This is still not eigensolver work. 4AO-C now has the blocker note
+`docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md` plus the
+validation-only wrapper, boundary contract, first matrix-free GP-shift
+advection block, tensor shift-stretching block, and algebraic metric/chi
+coupling block, K-output algebraic `A^2/K^2` block, A-output non-curvature
+algebraic block, Theta-output non-Ricci algebraic block, and Theta-output
+`-K_GP deltaTheta` block, plus the trace-free `delta A` projector contract in
+`code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`. The Ricci/curvature
+design preflight is documented, and standalone raw lower/lower physical Ricci
+validation helpers now cover hidden `delta R_ww[gamma]` and visible
+`delta R_xz[gamma]`, `delta R_zz[gamma]`, and `delta R_xx[gamma]` against
+Stage 4G finite-difference oracles. Raw Ricci trace and trace-free Ricci
+assembly now consumes those checked raw component result types and computes
+`delta R = delta R_xx + delta R_zz + 2 delta R_ww` before applying the `d=4`
+trace-free projection. The Theta Ricci scalar insertion now consumes that
+assembly and applies `output[Theta] += 0.5 delta R`; the `A_IJ` Ricci
+curvature insertion now consumes the same trace-free assembly and applies
+`output[A_IJ] += [delta R_IJ]^TF`. The intended frozen-gauge
+perturbation vector is defined, but the complete coupled modified-cartoon RHS
+linearization beyond those partial blocks, Z4 damping/constraint terms and
+`kappa1/kappa2` convention lock,
+actual-operator JVP/parity checks, boundary-condition validation, shift-invert
+or equivalent targeted solve, linearized MOTS observable map, unstable/stable
+points, threshold estimate, and primary-source `k_c r0` convention map are
+still missing. The
+`k_c r0 ~= 0.876` value remains provisional. 4AO-D is live-gauge/full
+acceptance. Production integration
 remains blocked until 4AO-D passes: Stage 4AR controlled local RHS integration
 and Stage 4AS default-off live wiring. Checkpoint G passes only after 4AO-D.
 
