@@ -1632,3 +1632,30 @@ Category: Validation Operator + Tests + Documentation
   contracted-connection helper passed. All 20 current `Stage4AOC*.cpp`
   fixtures compiled without warnings and passed. Complete Gamma evolution,
   the full operator, and eigensolver access remain false.
+
+## 2026-07-21 - Stage 4AO-C Hatted-Gamma Connection-A Block
+
+Category: Validation Operator + Tests + Documentation
+
+- Began from the clean committed Gamma-gradient checkpoint and used CodeGraph
+  before editing.
+- Added only `output[hat_Gamma^x] += C_x` and
+  `output[hat_Gamma^z] += C_z`, with
+  `C_i=2 A_GP^{IJ} delta Gamma^i_IJ`. The two hidden `ww` copies are
+  explicit. No direct `delta A_IJ`, `d1.A`, common advection, Z/kappa,
+  scalar-gradient, vector/shift-Hessian, or remaining shift contribution was
+  added.
+- Added `Stage4AOCFrozenGaugeHatGammaConnectionABlockTest.cpp`. Its analytic
+  oracle reconstructs the visible and hidden linearized conformal
+  Christoffels before contracting with `A_GP^xx=-7 lambda/8`,
+  `A_GP^zz=-3 lambda/8`, and `A_GP^ww=5 lambda/8`. Visible, hidden,
+  diagonal, parity, output-scope, and non-duplication cases pass; mutations
+  reject hidden multiplicity one and wrong derivative or `1/x` signs.
+- Pure `delta A_IJ` and test-only `d1.A` sentinels give zero direct output,
+  as required by the vanishing GP conformal Christoffels and selected
+  momentum-constraint form. Complete Gamma evolution, the full operator, and
+  eigensolver access remain false.
+- Validation: the focused connection-A test, operator contract, prior Gamma
+  gradient and Z/kappa tests, and contracted-connection helper passed. All 21
+  current `Stage4AOC*.cpp` fixtures compiled without warnings and passed;
+  `git diff --check` passed and protected-path diffs remained empty.

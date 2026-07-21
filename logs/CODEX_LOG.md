@@ -1418,3 +1418,23 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Remaining: connection-A, vector/shift-Hessian terms, remaining coupled
   terms, and final Gamma row assembly. Stage 4AO-C, 4AO-D, and Checkpoint G
   remain incomplete.
+
+- Date: 2026-07-21
+- Goal: Implement only the Stage 4AO-C hatted-Gamma connection-A block.
+- Initial state: clean committed Gamma-gradient checkpoint; CodeGraph used
+  first.
+- Implementation: added `C_x` and `C_z` only to the two hatted-Gamma outputs,
+  using the reviewed `2 A_GP^{IJ} delta Gamma^i_IJ` formulas with explicit
+  hidden multiplicity two. Direct `delta A_IJ`, `d1.A`, common advection,
+  earlier Gamma blocks, and later Hessian/shift families remain absent.
+- Tests: the independent analytic oracle builds each visible/hidden
+  linearized Christoffel before contracting with the GP A tensor. It covers
+  visible `xx/xz/zz`, both `ww` copies, pure `h_ww`, pure `h_xz`, diagonal
+  data, parity, output scope, pure/differentiated A exclusions, and no
+  duplication. Wrong hidden multiplicity, derivative signs, and `1/x`
+  coefficients are rejected.
+- Remaining: vector/shift-Hessian terms, remaining coupled terms, and final
+  Gamma row assembly. Stage 4AO-C, 4AO-D, and Checkpoint G remain incomplete.
+- Result: focused, operator-contract, prior Gamma/helper, and all 21 Stage
+  4AO-C fixtures passed without warnings. Whitespace and protected-path checks
+  passed; nothing was staged or committed.

@@ -34,6 +34,7 @@ static constexpr bool
     hat_gamma_z4_kappa_shift_gradient_block_implemented = true;
 static constexpr bool
     hat_gamma_k_theta_chi_gradient_block_implemented = true;
+static constexpr bool hat_gamma_connection_a_block_implemented = true;
 static constexpr bool hat_gamma_rhs_block_implemented = false;
 static constexpr bool k_equation_lapse_hessian_vanishes_in_frozen_gauge = true;
 static constexpr bool cosmological_constant_locked_to_zero = true;
@@ -99,6 +100,7 @@ enum class RhsPiece
     ccz4_k_theta_damping_insertion,
     hat_gamma_z4_kappa_shift_gradient_insertion,
     hat_gamma_k_theta_chi_gradient_insertion,
+    hat_gamma_connection_a_insertion,
     a_equation_algebraic_non_curvature,
     theta_equation_algebraic_non_ricci,
     theta_equation_minus_k_delta_theta,
@@ -174,7 +176,7 @@ inline constexpr std::array<const char *, 4> implemented_wrapper_pieces = {
     "RHS block inventory with implemented/reusable/missing labels",
     "radial-domain and boundary-condition contract"};
 
-inline constexpr std::array<const char *, 15> implemented_operator_pieces = {
+inline constexpr std::array<const char *, 16> implemented_operator_pieces = {
     "matrix-free GP-shift advection block beta_GP^x d_x(delta u)",
     "GP-shift tensor stretching for h_IJ and A_IJ",
     "algebraic h_IJ <- -2 A_IJ and chi <- +K/2 couplings",
@@ -184,6 +186,7 @@ inline constexpr std::array<const char *, 15> implemented_operator_pieces = {
     "hat-Gamma-output non-advection Z/kappa and kappa3 shift-gradient "
     "insertion",
     "hat-Gamma-output K/Theta/chi gradient insertion",
+    "hat-Gamma-output connection-A metric insertion",
     "A_IJ-output algebraic non-curvature linearization",
     "Theta-output algebraic non-Ricci linearization",
     "Theta-output -K_GP deltaTheta linearization",
@@ -319,6 +322,13 @@ inline bool receives_hat_gamma_k_theta_chi_gradient_insertion(
            variable == PerturbationVariable::hat_Gamma_z;
 }
 
+inline bool receives_hat_gamma_connection_a_insertion(
+    const PerturbationVariable variable)
+{
+    return variable == PerturbationVariable::hat_Gamma_x ||
+           variable == PerturbationVariable::hat_Gamma_z;
+}
+
 inline bool receives_a_equation_algebraic_non_curvature(
     const PerturbationVariable variable)
 {
@@ -396,6 +406,11 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
 
     case RhsPiece::hat_gamma_k_theta_chi_gradient_insertion:
         return receives_hat_gamma_k_theta_chi_gradient_insertion(variable)
+                   ? PieceStatus::implemented_now
+                   : PieceStatus::not_applicable;
+
+    case RhsPiece::hat_gamma_connection_a_insertion:
+        return receives_hat_gamma_connection_a_insertion(variable)
                    ? PieceStatus::implemented_now
                    : PieceStatus::not_applicable;
 
@@ -1106,6 +1121,43 @@ apply_hat_gamma_k_theta_chi_gradient_insertion_at_point(
         27.0 * lambda / (8.0 * x) *
             input.value(PerturbationVariable::h_xz) +
         3.0 * lambda / 2.0 * dz_delta_chi;
+
+    return make_frozen_gauge_perturbation_vector(values);
+}
+
+inline FrozenGaugePerturbationVector
+apply_hat_gamma_connection_a_insertion_at_point(
+    const double r0, const double x,
+    const FrozenGaugePerturbationVector &input, const double dx_delta_h_xx,
+    const double dx_delta_h_xz, const double dx_delta_h_zz,
+    const double dx_delta_h_ww, const double dz_delta_h_xx,
+    const double dz_delta_h_xz, const double dz_delta_h_zz,
+    const double dz_delta_h_ww)
+{
+    std::array<double, frozen_gauge_state_vector.size()> values = {};
+    const double lambda = lambda_gp(r0, x);
+
+    // Linearized 2 alpha A_GP^{IJ} delta Gamma^i_IJ connection-A family.
+    // The two hidden ww copies are explicit in the resulting coefficients.
+    // Since the background conformal Christoffels vanish, there is no direct
+    // delta A_IJ term. The momentum-constraint form also contains no d1.A.
+    // This block owns no advection, Z/kappa, scalar-gradient, vector/shift
+    // Hessian, grad-div, or remaining shift contribution.
+    values[variable_index(PerturbationVariable::hat_Gamma_x)] =
+        lambda * (-7.0 / 8.0 * dx_delta_h_xx -
+                  3.0 / 4.0 * dz_delta_h_xz +
+                  3.0 / 8.0 * dx_delta_h_zz -
+                  5.0 / 4.0 * dx_delta_h_ww +
+                  5.0 / (2.0 * x) *
+                      (input.value(PerturbationVariable::h_xx) -
+                       input.value(PerturbationVariable::h_ww)));
+    values[variable_index(PerturbationVariable::hat_Gamma_z)] =
+        lambda * (-7.0 / 4.0 * dx_delta_h_xz +
+                  7.0 / 8.0 * dz_delta_h_xx -
+                  3.0 / 8.0 * dz_delta_h_zz -
+                  5.0 / 4.0 * dz_delta_h_ww +
+                  5.0 / (2.0 * x) *
+                      input.value(PerturbationVariable::h_xz));
 
     return make_frozen_gauge_perturbation_vector(values);
 }

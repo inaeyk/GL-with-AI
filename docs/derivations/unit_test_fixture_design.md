@@ -712,6 +712,8 @@ operator fixtures:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeHatGammaZ4KappaBlockTest.cpp`.
 - Hatted-Gamma K/Theta/chi-gradient fixture:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeHatGammaGradientBlockTest.cpp`.
+- Hatted-Gamma connection-A fixture:
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeHatGammaConnectionABlockTest.cpp`.
 - A-equation algebraic non-curvature fixture:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeAAlgebraicBlockTest.cpp`.
 - Theta-equation algebraic non-Ricci fixture:
@@ -963,8 +965,8 @@ on a trace-certified perturbation and explicitly rejected as a general
 identity. Fourier projections require `g_x` in the scalar/even sector and
 `g_z` in the one-z/opposite-parity sector. The helper itself still writes no
 Gamma RHS. The separate K/Theta/chi-gradient block is now implemented;
-connection-A, vector/shift-Hessian, complete-RHS, and eigensolver claims
-remain false.
+the separate connection-A block is now implemented as well, while
+vector/shift-Hessian, complete-RHS, and eigensolver claims remain false.
 
 The first hatted-Gamma RHS fixture independently derives
 
@@ -989,7 +991,7 @@ Z antidamping, hidden multiplicity one inherited through `g_i`, and duplicate
 scalar/even and one-z parity sectors remain separate, and both Gamma-variable
 completion flags, the full-operator flag, and eigensolver access remain false.
 Connection-A, vector/shift-Hessian, and complete row assembly are outside this
-fixture; K/Theta/chi gradients are validated separately.
+fixture; K/Theta/chi gradients and connection-A are validated separately.
 
 The hatted-Gamma gradient fixture independently derives from the selected
 `d=4` equation
@@ -1011,6 +1013,35 @@ pass. Mutation guards reject wrong signs, omitted background-K-gradient
 metric variation, swapped chi coefficients, `h_zz/h_ww` contributions,
 parity leakage, non-Gamma writes, and duplication of the earlier Gamma or
 common-advection blocks. Completion and eigensolver gates remain false.
+
+The hatted-Gamma connection-A fixture uses an analytic oracle independent of
+the final reduced coefficients. It first constructs
+
+```text
+delta Gamma^x_xx = 0.5 dx(h_xx),
+delta Gamma^x_zz = dz(h_xz) - 0.5 dx(h_zz),
+delta Gamma^x_ww = (h_xx-h_ww)/x - 0.5 dx(h_ww),
+delta Gamma^z_xx = dx(h_xz) - 0.5 dz(h_xx),
+delta Gamma^z_zz = 0.5 dz(h_zz),
+delta Gamma^z_ww = h_xz/x - 0.5 dz(h_ww),
+```
+
+and then evaluates
+
+```text
+C_i = 2 [A0_xx delta Gamma^i_xx
+         + A0_zz delta Gamma^i_zz
+         + 2 A0_ww delta Gamma^i_ww],
+A0_xx=-7 lambda/8, A0_zz=-3 lambda/8, A0_ww=5 lambda/8.
+```
+
+Visible `xx/xz/zz`, both hidden `ww` copies, pure `h_ww`, pure `h_xz`,
+diagonal, and parity cases are covered. Mutation guards reject hidden
+multiplicity one, wrong derivative signs, wrong or omitted `1/x` terms,
+non-Gamma writes, and duplicate earlier Gamma/advection families. Pure
+`delta A_IJ` and `d1.A` sentinels produce zero direct output, matching the
+vanishing background conformal Christoffels and the selected
+momentum-constraint form. Completion and eigensolver gates remain false.
 
 The A-equation algebraic non-curvature fixture checks the GRChombo A RHS
 convention block
