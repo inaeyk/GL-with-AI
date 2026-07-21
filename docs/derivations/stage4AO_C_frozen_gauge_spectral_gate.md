@@ -35,6 +35,16 @@ oracle validates exact GP cancellation, both assembled rows, epsilon plateaus,
 parity, ownership, and hidden multiplicity. The two hatted-Gamma rows are
 therefore complete in this validation wrapper; the complete 13-variable
 operator is not.
+The subsequent documentation-only non-Gamma closure preflight traces the
+selected `USE_CCZ4` `K`, `Theta`, and four `A_IJ` rows through
+`CCZ4RHS::rhs_equation` and `CCZ4Geometry::compute_ricci_Z`. It finds one
+remaining mathematical source family shared by those rows: the encoded-Z
+completion `Q_IJ=2 D_(I Z_J)` of the already validated geometric Ricci tensor.
+No non-Gamma row is marked complete and no row assembler is added by that
+preflight.
+The next narrow validation substep now implements only that encoded-Z tensor
+map from a supplied Z-derivative jet. It does not add geometric Ricci, expand
+the reconstructed Z definition, or insert a value into any RHS row.
 This note records why the first honest frozen-gauge GL spectral validation
 harness is not yet complete. It adds no eigensolver, shift-invert solve,
 threshold search, production RHS wiring, live evolution wiring, or Stage
@@ -1924,6 +1934,397 @@ the vector-Hessian and grad-div metric-variation blocks are also implemented.
 The mathematical family inventory, complete-row assembly, and assembled-row
 validation are closed for both hatted-Gamma variables. Stage 4AO-C still may
 not claim a complete 13-variable frozen-gauge operator or a physical spectrum.
+
+## Non-Gamma RHS Closure Preflight
+
+This is a documentation/design audit only. It starts from committed checkpoint
+`8cec8c0` (`Complete Stage 4AO-C frozen-gauge Gamma rows`) with a clean
+worktree. It does not add RHS code, tests, a non-Gamma row assembler, full
+13-variable assembly, boundaries, MOTS machinery, an eigensolver, or Stage
+4AO-D work. Every non-Gamma completion flag, the complete-operator gate, and
+the eigensolver gate remain false.
+
+### Exact Selected Source Branch
+
+The convention authority is the local public GRChombo source, not the
+metric-derivative helper by itself:
+
+- `external/GRChombo/Source/CCZ4/CCZ4RHS.impl.hpp:68-85` reconstructs
+  `Z_over_chi^i=0.5*(vars.Gamma^i-chris.contracted^i)` and calls
+  `CCZ4Geometry::compute_ricci_Z`;
+- lines 131-154 use that returned tensor inside `Adot_TF` and the `A_ij` row;
+- lines 170-191 are the selected non-BSSN `Theta` and `K` branches;
+- `external/GRChombo/Source/CCZ4/CCZ4Geometry.hpp:76-109` forms
+  `ricci_hat` with `vars.Gamma` and `d1.Gamma`, adds `z_terms`, and traces the
+  completed lower/lower tensor.
+
+Consequently, GRChombo's `ricci.LL` in these source lines is not merely the
+geometric physical Ricci tensor. In covariant notation it is
+
+```text
+R^Z_IJ = R^g_IJ + Q_IJ,
+Q_IJ := D_I Z_J + D_J Z_I = 2 D_(I Z_J),
+R^Z = R^g + Q,
+Q := gamma^IJ Q_IJ = 2 D_I Z^I.
+```
+
+The superscript `g` is an ownership label for the metric-derived physical
+Ricci tensor, not a tensor index. The existing Stage 4AO-C raw Ricci helpers
+implement and validate `delta R^g_IJ`; they do not implement `delta Q_IJ`.
+Treating those raw helpers as the complete output of `compute_ricci_Z` would
+drop all hatted-Gamma/encoded-Z dependence from these rows.
+
+At the locked GP point,
+
+```text
+chi_0=alpha_0=1,  h_IJ,0=delta_IJ,
+Z_over_chi^I_0=Z^I_0=0,
+H_x=delta hat_Gamma^x,  H_z=delta hat_Gamma^z,
+g_x=delta tilde_Gamma^x, g_z=delta tilde_Gamma^z,
+z_x=delta Z_over_chi^x=0.5(H_x-g_x),
+z_z=delta Z_over_chi^z=0.5(H_z-g_z).
+```
+
+Because the background encoded Z vanishes, variations of `chi`, of the metric
+used to lower Z, and of the connection multiplying Z make no additional
+linear term. Thus `delta Z^I=delta Z_over_chi^I`, and upper/lower visible
+components agree at this one background. The implemented full
+modified-cartoon contractions are
+
+```text
+g_x =  0.5 dx(delta h_xx) - 0.5 dx(delta h_zz)
+     -      dx(delta h_ww) +      dz(delta h_xz)
+     + 2(delta h_xx-delta h_ww)/x,
+
+g_z =       dx(delta h_xz) + 2 delta h_xz/x
+     - 0.5 dz(delta h_xx) + 0.5 dz(delta h_zz)
+     -      dz(delta h_ww).
+```
+
+The independent linear modified-cartoon reduction of the missing covariant
+derivatives is
+
+```text
+q_xx := delta Q_xx = 2 dx(z_x),
+q_xz := delta Q_xz = dx(z_z) + dz(z_x),
+q_zz := delta Q_zz = 2 dz(z_z),
+q_ww := delta Q_ww = 2 z_x/x,
+
+q := delta Q = q_xx + q_zz + 2 q_ww
+   = 2 dx(z_x) + 2 dz(z_z) + 4 z_x/x.
+```
+
+The representative `ww` component is written once. The factor two in the
+trace is the two-copy hidden multiplicity; it is not an additional factor in
+the component equation. The `d=4` trace-free completion is
+
+```text
+qTF_xx = q_xx - q/4,
+qTF_xz = q_xz,
+qTF_zz = q_zz - q/4,
+qTF_ww = q_ww - q/4,
+
+qTF_xx + qTF_zz + 2 qTF_ww = 0.
+```
+
+### Complete Linearized Row Targets
+
+Use
+
+```text
+b=x lambda=sqrt(r0/x),  lambda=sqrt(r0/x^3),
+Adv[u]=b dx(u),
+r_IJ=delta R^g_IJ,
+r=r_xx+r_zz+2 r_ww,
+rTF_xx=r_xx-r/4, rTF_xz=r_xz,
+rTF_zz=r_zz-r/4, rTF_ww=r_ww-r/4.
+```
+
+The `r_IJ` symbols retain ownership of the existing raw geometric-Ricci
+helpers. They mean exactly the four formulas recorded in the first through
+fourth Ricci-block sections, including all `chi`, `h_xz`, and hidden `1/x`
+terms; they do not include any `q_IJ` term.
+
+For a self-contained row target, that helper-owned expansion is
+
+```text
+r_xx = dxz(delta h_xz)
+     - 0.5 dxx(delta h_zz) - 0.5 dzz(delta h_xx)
+     + dx(delta h_xx)/x - 2 dx(delta h_ww)/x
+     - dxx(delta h_ww)
+     + dx(delta chi)/x
+     + 1.5 dxx(delta chi) + 0.5 dzz(delta chi),
+
+r_xz = [dz(delta h_xx)-dz(delta h_ww)]/x
+     - dxz(delta h_ww) + dxz(delta chi),
+
+r_zz = dxz(delta h_xz)
+     - 0.5 dzz(delta h_xx) - 0.5 dxx(delta h_zz)
+     - dzz(delta h_ww)
+     + 2 dz(delta h_xz)/x - dx(delta h_zz)/x
+     + dx(delta chi)/x
+     + 0.5 dxx(delta chi) + 1.5 dzz(delta chi),
+
+r_ww = [delta h_xx-delta h_ww]/x^2
+     + [dx(delta h_xx)+2dz(delta h_xz)-dx(delta h_zz)]/(2x)
+     - 2dx(delta h_ww)/x
+     - [dxx(delta h_ww)+dzz(delta h_ww)]/2
+     + 2dx(delta chi)/x
+     + [dxx(delta chi)+dzz(delta chi)]/2.
+```
+
+The complete selected frozen-gauge K row is
+
+```text
+delta rhs_K =
+    Adv[delta K]                                      [common advection]
+  + r                                                 [geometric Ricci trace]
+  + q                                                 [Z completion trace]
+  + 3 lambda delta K - 3 lambda delta Theta          [K(K-2Theta)]
+  - 0.4 delta Theta                                  [kappa1/kappa2 damping]
+  + 0                                                [lapse Hessian]
+  + 0.                                               [Lambda=0]
+```
+
+The complete selected frozen-gauge Theta row is
+
+```text
+delta rhs_Theta =
+    Adv[delta Theta]                                  [common advection]
+  + 0.5 r                                             [geometric Ricci scalar]
+  + 0.5 q                                             [Z completion scalar]
+  + (49/64) lambda^2 delta h_xx
+  + ( 9/64) lambda^2 delta h_zz
+  + (25/32) lambda^2 delta h_ww
+  + ( 7/8 ) lambda   delta A_xx
+  + ( 3/8 ) lambda   delta A_zz
+  - ( 5/4 ) lambda   delta A_ww
+  + ( 9/8 ) lambda   delta K                         [K^2 and A^2]
+  - ( 3/2 ) lambda   delta Theta                     [-Theta K]
+  - ( 1/4 )          delta Theta                     [kappa damping]
+  + 0                                                [-Z dot grad(alpha)]
+  + 0.                                               [Lambda=0]
+```
+
+The `ww` coefficients in the `A^2` trace already contain the two hidden
+copies. There is no linear `delta h_xz` or `delta A_xz` contribution to that
+trace because the GP `A_IJ` is diagonal.
+
+For the A rows, keep the source owners separate. The fixed-shift
+stretching/divergence family is
+
+```text
+S_xx=-(7/4)lambda delta A_xx,
+S_xz=-(5/4)lambda delta A_xz,
+S_zz=-(3/4)lambda delta A_zz,
+S_ww=+(5/4)lambda delta A_ww.
+```
+
+The local non-curvature algebraic family is
+
+```text
+N_xx=(49/32)lambda^2 delta h_xx +5lambda delta A_xx
+     -(7/8)lambda delta K +(7/4)lambda delta Theta,
+
+N_xz=(21/32)lambda^2 delta h_xz +4lambda delta A_xz,
+
+N_zz=(9/32)lambda^2 delta h_zz +3lambda delta A_zz
+     -(3/8)lambda delta K +(3/4)lambda delta Theta,
+
+N_ww=(25/32)lambda^2 delta h_ww -lambda delta A_ww
+     +(5/8)lambda delta K -(5/4)lambda delta Theta.
+```
+
+The complete component targets, without combining those owners, are
+
+```text
+delta rhs_Axx = Adv[delta A_xx] + S_xx + N_xx
+              + rTF_xx + qTF_xx + 0[lapse Hessian],
+
+delta rhs_Axz = Adv[delta A_xz] + S_xz + N_xz
+              + rTF_xz + qTF_xz + 0[lapse Hessian],
+
+delta rhs_Azz = Adv[delta A_zz] + S_zz + N_zz
+              + rTF_zz + qTF_zz + 0[lapse Hessian],
+
+delta rhs_Aww = Adv[delta A_ww] + S_ww + N_ww
+              + rTF_ww + qTF_ww + 0[lapse Hessian].
+```
+
+GRChombo applies `make_trace_free` to the combined
+`-D_I D_J alpha + chi alpha R^Z_IJ` source. At this linear flat background the
+projector is linear, so keeping `rTF_IJ` and `qTF_IJ` as separate ownership
+blocks is algebraically equivalent to projecting `r_IJ+q_IJ` once. An
+implementation must choose exactly one route and test the equivalence; it must
+not insert the two separately and then subtract either trace a second time.
+
+The Theta-dependent A terms come only from `(K-2Theta)A_IJ`. They survive for
+`xx`, `zz`, and `ww`, vanish for `xz` because `A_xz,0=0`, and have no relation
+to the K/Theta kappa-damping block. There is no direct `kappa1`, `kappa2`, or
+`kappa3` term in any A row.
+
+### Term-Ownership Ledger
+
+The five exclusive labels are: **validated** for a dedicated implementation
+with a focused independent fixture; **unassembled** for a shared implemented
+block not yet consumed by a complete non-Gamma row; **vanishes** for a zero
+frozen-GP linearization; **missing** for an unimplemented mathematical term;
+and **helper** for a value supplied by an existing Ricci or reconstruction
+helper rather than recomputed in the row.
+
+| Row | Exact selected-source term | Frozen-GP owner/status | Duplication guard |
+| --- | --- | --- | --- |
+| `K` | `advec.K` | **unassembled**: common GP advection supplies `Adv[delta K]` | Consume it once; do not write a K-specific copy. |
+| `K` | geometric value in `ricci.scalar` | **helper**: raw Ricci/trace supplies `r` | Do not reinterpret it as completed `compute_ricci_Z`. |
+| `K` | row insertion weight on geometric `r` | **validated**: `output[K]+=r` | The row must consume the helper result, not recompute it. |
+| `K` | Z value in `ricci.scalar` | **helper**: encoded-Z completion supplies `q` | It contains no geometric Ricci. |
+| `K` | row insertion weight on Z value | **missing**: `output[K]+=q` | Adding full `R^Z` on top of `r` would duplicate geometric Ricci. |
+| `K` | `K(K-2Theta)` | **validated**: `3lambda deltaK-3lambda deltaTheta` | Rejected BSSN `A^2+K^2/d` stays absent. |
+| `K` | `-d kappa1(1+kappa2)Theta` | **validated**: `-0.4 deltaTheta` | Keep separate from `-3lambda deltaTheta`. |
+| `K` | `-D^I D_I alpha` | **vanishes**: constant frozen lapse | Connection variations multiply `grad alpha_0=0`. |
+| `K` | cosmological term | **vanishes** under locked `Lambda=0` | No placeholder coefficient. |
+| `Theta` | `advec.Theta` | **unassembled**: common GP advection | Consume once. |
+| `Theta` | geometric value in `ricci.scalar` | **helper**: raw trace supplies `r` | Hidden `2r_ww` is already in `r`. |
+| `Theta` | row insertion weight on geometric `r` | **validated**: `output[Theta]+=0.5r` | Consume the trace assembly once. |
+| `Theta` | Z value in `ricci.scalar` | **helper**: encoded-Z completion supplies `q` | This is twice `D_I delta Z^I`, not another raw trace. |
+| `Theta` | row insertion weight on Z value | **missing**: `output[Theta]+=0.5q` | Do not apply the half inside the shared tensor helper. |
+| `Theta` | `0.5[-A^2+(3/4)K^2]` | **validated** with inverse-metric and hidden-ww variations | No `xz` term at the diagonal background. |
+| `Theta` | `-Theta K` | **validated**: `-(3/2)lambda deltaTheta` | Keep distinct from kappa damping. |
+| `Theta` | Theta damping | **validated**: `-0.25 deltaTheta` | `kappa3` does not enter this row. |
+| `Theta` | `-Z^I partial_I alpha` | **vanishes**: `Z_0=0`, `grad alpha_0=0`, `delta alpha=0` | No encoded-Z algebraic term survives. |
+| `Theta` | cosmological term | **vanishes** under locked `Lambda=0` | No placeholder. |
+| every `A_IJ` | `advec.A_IJ` | **unassembled**: common GP advection | Consume once per component. |
+| every `A_IJ` | shift stretching and `-(2/d)divbeta A_IJ` | **unassembled** shared tensor-shift block supplies `S_IJ` | Do not also fold `S_IJ` into `N_IJ`. |
+| every `A_IJ` | `(K-2Theta)A_IJ-2h^KL A_IK A_LJ` | **validated**: `N_IJ` | No hidden multiplier on the representative `ww` component. |
+| every `A_IJ` | geometric tensor in `chi alpha R^g_IJ` | **helper**: raw tensor/trace-free assembly supplies `rTF_IJ` | Trace has two `ww` copies; output has one. |
+| every `A_IJ` | row insertion weight on geometric `rTF_IJ` | **validated**: unit-weight A curvature insertion | Consume the assembly once; do not recompute its trace. |
+| every `A_IJ` | Z completion value in `chi alpha R^Z_IJ` | **helper**: encoded-Z completion supplies `qTF_IJ` | Raw Ricci does not contain it; the helper projects exactly once. |
+| every `A_IJ` | row insertion weight on Z value | **missing**: `output[A_IJ]+=qTF_IJ` | Do not project before or after consuming the helper output. |
+| every `A_IJ` | `-D_I D_J alpha` in `Adot_TF` | **vanishes** in frozen gauge | Both possible linear pieces vanish. |
+| `A_xx,A_zz,A_ww` | Theta dependence | **validated** inside `N_IJ` | Coefficients are `+7lambda/4`, `+3lambda/4`, `-5lambda/4`; not damping. |
+| `A_xz` | Theta dependence | **vanishes** because `A_xz,0=0` | A nonzero coefficient is an error. |
+| all audited rows | `g_i,z_i` reconstruction | **helper**: existing contracted-connection/Z helper | It supplies Z values, not `D_I Z_J`. |
+
+No other mathematical source family survives in these selected rows. The
+`q` and `qTF_IJ` value helper is now implemented and independently
+validated. Remaining work is derivative-jet integration, the three explicit
+row insertions, one-time row assembly, and combined validation; those are not
+extra CCZ4 terms.
+
+### Trace, Projection, And Enforcement Boundary
+
+There are two distinct trace operations:
+
+1. `CCZ4RHS::rhs_equation` trace-frees only the curvature/lapse `Adot_TF`
+   source. The missing family therefore uses the full four-dimensional
+   `q=q_xx+q_zz+2q_ww` and `/4` projection above.
+2. `TraceARemoval` is algebraic state enforcement called from
+   `BlackStringToyLevel::specificUpdateODE` and `specificAdvance`; it is not an
+   extra RHS term. The validation wrapper's hidden-aware linear `delta A`
+   projector is the current Stage 4AO-C domain contract.
+
+The missing-family fixture can check its own zero trace-free residual now.
+Whether the eventual spectral operator lives strictly on the hidden-aware
+tangent trace-free subspace, or uses explicit domain/codomain projectors, must
+be locked before full assembly. That later choice must also resolve how the
+inherited visible `TraceARemoval` path is adapted to repo-owned `hww/Aww`.
+
+### Independent Oracle Plan
+
+The tensor helper is validated now by an **analytic modified-cartoon oracle**.
+The test independently constructs the hidden spherical covariant components
+`Q_theta theta=Q_phi phi=2x z_x`, converts only the representative component
+back to `q_ww=2z_x/x`, and includes both angular copies only while forming
+the scalar trace. It checks every component, the four-dimensional projection,
+`qTF_xx+qTF_zz+2qTF_ww=0`, a zero Z jet, and even/one-z Fourier parity.
+
+The **nonlinear selected-branch finite-difference oracle is deliberately
+deferred until complete K/A/Theta row assembly**. At that point one test-only
+evaluator will reconstruct nonlinear `Z_over_chi`, set
+`Z^I=chi Z_over_chi^I` and `Z_I=h_IJ Z_over_chi^J`, form physical
+`Q_IJ=2D_(I Z_J)` with modified-cartoon hidden derivatives, add it to the
+nonlinear Stage 4G physical Ricci, and evaluate the exact K, Theta, and A
+source expressions. Central differences over
+`1e-2,1e-4,1e-5,1e-6,1e-7` must exhibit a stable `1e-5/1e-6` plateau.
+Deferring this oracle validates the upper/lower-Z and conformal-factor mapping
+once at the actual selected-row boundary rather than prematurely baking that
+mapping into this jet-level helper.
+
+The eventual combined-row cases remain:
+
+- exact GP/background and `H_i=g_i` constraint-satisfying data, both giving
+  `z_i=q_IJ=0`;
+- pure `H_x`, pure `H_z`, pure metric/contracted-connection, mixed x/z, and
+  pure radial `z_x` data;
+- componentwise selected-branch background-zero checks for K, Theta, and every
+  A row, along with the epsilon plateau above.
+
+Mutation tests must reject:
+
+- omission or duplication of q, or adding complete `R^Z` on top of `r_IJ`;
+- `Z=0.5(g-H)`, wrong derivative signs, or a missing `q_xz` cross derivative;
+- hidden multiplicity one, `q_ww=z_x/x`, multiplying the representative
+  `A_ww` output by two, or adding `q_xz` to the scalar trace;
+- `/3`, projection before the full trace, or double projection;
+- wrong K/Theta weights (`q/2` in K or `q` in Theta), duplicate common
+  advection, or folding damping/Theta algebraic terms into the q block.
+
+### First Recommended Implementation Block
+
+The recommended validation-only **encoded-Z Ricci-completion tensor block** is
+now implemented in
+`code/BlackStringToy/Stage4AOFrozenGaugeZRicciCompletion.hpp`. It is shared
+in value semantics by K, Theta, and all four A rows, but is not connected to
+any row assembler. Its narrow away-axis input is
+
+```text
+(x, z_x, z_z, dx z_x, dz z_x, dx z_z, dz z_z),
+```
+
+and its opaque output is
+
+```text
+(q_xx,q_xz,q_zz,q_ww,q,qTF_xx,qTF_xz,qTF_zz,qTF_ww).
+```
+
+The focused
+`Stage4AOCFrozenGaugeZRicciCompletionTest.cpp` analytic spherical oracle
+validates this boundary, including the hidden `2z_x/x`, trace multiplicity,
+projection, parity, zero, and omission/duplication mutations. The helper does
+not consume raw Ricci, add row weights, own common advection, or open a
+non-Gamma completion flag. A later adapter may reconstruct the Z derivative
+jet from `H_i-g_i` under the actual derivative contract.
+
+The next insertion targets, still unimplemented, are deliberately separate:
+
+```text
+output[K]     += q,
+output[Theta] += q/2,
+output[A_IJ]  += qTF_IJ.
+```
+
+### Unresolved Convention Questions
+
+- The target `R^Z_IJ=R^g_IJ+2D_(I Z_J)` is fixed, but later architecture must
+  choose between a repo-owned metric-Ricci-plus-Z bridge and a direct
+  modified-cartoon Gamma-form reproduction of `compute_ricci_Z`. They need an
+  equivalence test and must never be summed as independent Ricci paths.
+- The nonlinear oracle must prove the translation
+  `Z^I=chi Z_over_chi^I`, `Z_I=h_IJ Z_over_chi^J`. Equality of upper/lower Z
+  at the flat linear background must not be generalized silently.
+- The derivative adapter must decide whether to differentiate reconstructed
+  grid Z or analytically expand derivatives of `H_i-g_i`. This is tied to the
+  still-unlocked radial boundary/derivative contract and is deferred beyond
+  the pointwise tensor block.
+- Full-operator work must lock domain/codomain trace-free projection timing
+  and hidden-aware `TraceARemoval` behavior. Source-level `Adot_TF` is already
+  fixed and is not this unresolved enforcement choice.
+- Finite-axis limits for `z_x/x` remain owned by 4AP/4AQ. Stage 4AO-C stays on
+  `x>0` and must not introduce an epsilon replacement or clamp.
+
+Although the shared q block is independently validated, these questions and
+all row insertions remain open. Every non-Gamma row completion flag, the
+complete-operator flag, and eigensolver access therefore remain false.
 
 ## Boundary-Condition Contract
 

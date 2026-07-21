@@ -3,6 +3,7 @@
 
 #include "Stage4AOFrozenGaugeContractedConnection.hpp"
 #include "Stage4AOFrozenGaugeRicciAssembly.hpp"
+#include "Stage4AOFrozenGaugeZRicciCompletion.hpp"
 
 #include <array>
 #include <cmath>
@@ -26,7 +27,13 @@ static constexpr bool algebraic_metric_chi_coupling_block_implemented = true;
 static constexpr bool k_equation_ccz4_k_theta_block_implemented = true;
 static constexpr bool k_equation_ricci_scalar_insertion_block_implemented =
     true;
+static constexpr bool encoded_z_ricci_completion_tensor_helper_implemented =
+    Stage4AOFrozenGaugeZRicciCompletion::
+        linearized_encoded_z_ricci_completion_implemented;
 static constexpr bool k_equation_z_ricci_contributions_implemented = false;
+static constexpr bool theta_equation_z_ricci_contributions_implemented =
+    false;
+static constexpr bool a_equation_z_ricci_contributions_implemented = false;
 static constexpr bool ccz4_k_theta_damping_insertion_block_implemented = true;
 static constexpr bool
     contracted_connection_and_z_reconstruction_helper_implemented = true;

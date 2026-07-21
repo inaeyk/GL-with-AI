@@ -1721,3 +1721,57 @@ Category: Validation Operator + Tests + Documentation
   contract tests passed; all 23 `Stage4AOC*.cpp` fixtures compiled without
   warnings and passed. Protected paths remained untouched and nothing was
   staged or committed.
+
+## 2026-07-22 - Stage 4AO-C Non-Gamma RHS Closure Preflight
+
+Category: Documentation + Physics Design
+
+- Began from clean committed complete-Gamma checkpoint `8cec8c0` and used
+  CodeGraph before direct source/doc inspection.
+- Traced the selected `USE_CCZ4` branches in `CCZ4RHS::rhs_equation` and the
+  exact `CCZ4Geometry::compute_ricci_Z` path. The validated raw Stage 4AO-C
+  Ricci blocks own geometric `delta R^g_IJ` only; they do not own the encoded-Z
+  completion `q_IJ=2D_(I delta Z_J)`.
+- Closed the K/Theta/A mathematical inventory without implementation. The exact
+  missing terms are `+q` in K, `+q/2` in Theta, and `[q_IJ]^TF` in every A
+  component, with `q_ww=2Z_x/x` and
+  `q=q_xx+q_zz+2q_ww`. All remaining selected terms are already validated,
+  supplied by existing helpers, implemented but unassembled, or proven zero in
+  frozen gauge.
+- Recorded full unsimplified row targets, ownership/duplication risks, hidden
+  multiplicity, trace/projection boundaries, nonlinear and analytic oracle
+  plans, parity/plateau/mutation requirements, and unresolved adapter and
+  enforcement conventions.
+- Recommended the first future code block as a validation-only shared
+  encoded-Z Ricci-completion tensor taking a Z derivative jet and returning
+  component, scalar, and trace-free outputs. No RHS code or tests were added.
+  Every non-Gamma completion flag, the complete-operator gate, and eigensolver
+  gate remain false; boundaries, MOTS, 4AO-D, and spectral work were untouched.
+
+## 2026-07-22 - Stage 4AO-C Encoded-Z Ricci-Completion Tensor Helper
+
+Category: Validation Helper + Tests + Documentation
+
+- Preserved the uncommitted non-Gamma preflight documentation and used
+  CodeGraph before direct inspection or editing.
+- Added a validation-only helper that consumes an already formed lower-Z
+  derivative jet and computes `q_xx=2dx z_x`,
+  `q_xz=dx z_z+dz z_x`, `q_zz=2dz z_z`, and the single representative
+  `q_ww=2z_x/x`. Its scalar trace alone uses the two hidden copies,
+  `q=q_xx+q_zz+2q_ww`, before the four-dimensional trace-free projection.
+- The helper deliberately contains no geometric Ricci, no expansion of
+  `Z_i=0.5(H_i-g_i)`, no common advection, and no K/Theta/A insertion.
+  Operator guards explicitly leave all three non-Gamma Z-Ricci insertion
+  families, full-operator completion, and eigensolver access false.
+- Added an independent analytic spherical modified-cartoon oracle. It checks
+  all raw/trace/trace-free outputs, representative-versus-trace hidden
+  multiplicity, weighted trace-free zero, even/one-z parity, zero Z jet, and
+  mutations for hidden count, doubled representative ww, 1/x sign and
+  coefficient, omitted projection, and double projection.
+- Deferred the nonlinear selected-branch finite-difference oracle until
+  complete K/A/Theta row assembly, where the upper/lower-Z and conformal-factor
+  mapping can be validated once. The next insertion targets remain
+  `K+=q`, `Theta+=q/2`, and `A_IJ+=qTF_IJ`.
+- Validation: the focused helper, operator contract, Ricci/Z-adjacent K,
+  Theta, A, contracted-connection, and trace-free fixtures passed. All 24
+  `Stage4AOC*.cpp` tests compiled with `-Wall -Wextra -pedantic` and passed.

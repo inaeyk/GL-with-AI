@@ -1486,3 +1486,40 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Result: focused and individual Gamma/helper/contract tests passed; all 23
   Stage 4AO-C fixtures compiled without warnings and passed. Protected paths
   remained untouched; nothing was staged or committed.
+
+- Date: 2026-07-22
+- Goal: Begin the documentation-only Stage 4AO-C non-Gamma RHS closure
+  preflight from the committed complete-Gamma checkpoint.
+- Initial state: `HEAD=8cec8c0`, worktree clean; CodeGraph used before direct
+  inspection.
+- Source audit: followed `CCZ4RHS.impl.hpp` through the selected non-BSSN K and
+  Theta branches, the A curvature/trace-free block, and
+  `CCZ4Geometry::compute_ricci_Z`. Distinguished existing metric-derived
+  `delta R^g_IJ` from the missing `q_IJ=2D_(I delta Z_J)` completion.
+- Result: documented exact remaining terms (`K:+q`, `Theta:+q/2`,
+  `A_IJ:[q_IJ]^TF`), full row formulas without combining owners, hidden `ww`
+  multiplicity, duplication hazards, oracle/mutation plan, a narrow first
+  implementation recommendation, and unresolved convention questions.
+- Scope: docs/checklist/TODO/logs only. No code, tests, flags, row assembly,
+  boundaries, MOTS, eigensolver, or 4AO-D work; all non-Gamma and global gates
+  remain false.
+
+- Date: 2026-07-22
+- Goal: Implement only the Stage 4AO-C encoded-Z Ricci-completion tensor
+  helper while preserving the uncommitted closure preflight.
+- Implementation: added an opaque checked Z-derivative jet and read-only
+  result for `q_xx`, `q_xz`, `q_zz`, representative `q_ww`, the
+  two-hidden-copy trace, and `d=4` trace-free projection. No raw/geometric
+  Ricci, Z reconstruction derivatives, row weights, or RHS writes enter the
+  helper.
+- Oracle: an independent spherical modified-cartoon construction derives both
+  hidden angular covariant components before converting one representative
+  `ww` output and using both copies in the trace. Component, trace-free,
+  parity, zero, input-guard, and omission/duplication mutation checks pass.
+- Gates: helper availability is true, but K/Theta/A Z-Ricci insertions,
+  every non-Gamma row-completion flag, the full operator, and eigensolver stay
+  false. The nonlinear selected-branch finite-difference oracle is deferred
+  to complete non-Gamma row assembly.
+- Result: the focused helper and operator contract passed, as did all 24
+  Stage 4AO-C fixtures under `-Wall -Wextra -pedantic`. No row assembler,
+  boundary, MOTS, eigensolver, 4AO-D, staging, or commit action was added.

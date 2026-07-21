@@ -888,8 +888,16 @@ void check_operator_completion_guard()
                  Operator::k_equation_ccz4_k_theta_block_implemented);
     require_true("K Ricci scalar insertion block is implemented",
                  Operator::k_equation_ricci_scalar_insertion_block_implemented);
+    require_true("encoded-Z Ricci tensor helper is implemented",
+                 Operator::
+                     encoded_z_ricci_completion_tensor_helper_implemented);
     require_true("K Z/hat-Gamma Ricci contributions remain missing",
                  !Operator::k_equation_z_ricci_contributions_implemented);
+    require_true("Theta Z/hat-Gamma Ricci contributions remain missing",
+                 !Operator::
+                     theta_equation_z_ricci_contributions_implemented);
+    require_true("A Z/hat-Gamma Ricci contributions remain missing",
+                 !Operator::a_equation_z_ricci_contributions_implemented);
     require_true("main CCZ4 damping convention is locked",
                  Operator::main_ccz4_damping_convention_locked);
     require_true("simple K/Theta damping insertion is implemented",
