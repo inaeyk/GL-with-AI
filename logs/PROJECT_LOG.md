@@ -1659,3 +1659,29 @@ Category: Validation Operator + Tests + Documentation
   gradient and Z/kappa tests, and contracted-connection helper passed. All 21
   current `Stage4AOC*.cpp` fixtures compiled without warnings and passed;
   `git diff --check` passed and protected-path diffs remained empty.
+
+## 2026-07-21 - Stage 4AO-C Hatted-Gamma Shift Metric Blocks
+
+Category: Validation Operator + Tests + Documentation
+
+- Began from the clean committed connection-A checkpoint and used CodeGraph
+  before editing.
+- Added two separately owned families from the selected GRChombo Gamma row.
+  Vector Hessian adds `-3 lambda h_xx/(4x)+3 lambda h_ww/x` only to the x
+  output and zero to z; both hidden `ww` directions are explicit in the
+  derivation. Grad-div separately adds `9 lambda h_xx/(8x)` to x and
+  `9 lambda h_xz/(8x)` to z.
+- Added `Stage4AOCFrozenGaugeHatGammaShiftMetricBlockTest.cpp`. Its independent
+  oracles derive the visible/hidden GP shift Hessians,
+  `partial_x(div beta_GP)`, and `(d-2)/d`. Pure metric, parity, output-scope,
+  and non-duplication cases pass; mutations reject one hidden copy,
+  omitted/wrong-sign `h_ww`, a spurious z vector Hessian, and incorrect
+  grad-div coefficient/sign.
+- Added a Gamma term-closure ledger: no selected mathematical Gamma RHS family
+  remains missing in the locked frozen-gauge specialization. Final one-time
+  row assembly, background-zero and combined oracle/epsilon validation,
+  assembled parity/ownership checks, and actual full-operator JVP integration
+  remain missing, so all Gamma/full-operator/eigensolver gates stay false.
+- Validation: the focused shift-metric test, operator contract, and all prior
+  Gamma/helper tests passed. All 22 current `Stage4AOC*.cpp` fixtures compiled
+  without warnings and passed.

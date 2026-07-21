@@ -24,7 +24,7 @@ constexpr std::array<Variable, 13> expected_state_order = {
     Variable::A_ww,        Variable::Theta,       Variable::hat_Gamma_x,
     Variable::hat_Gamma_z};
 
-constexpr std::array<Piece, 21> all_rhs_pieces = {
+constexpr std::array<Piece, 23> all_rhs_pieces = {
     Piece::gp_shift_advection,
     Piece::tensor_shift_stretching,
     Piece::algebraic_metric_chi_coupling,
@@ -34,6 +34,8 @@ constexpr std::array<Piece, 21> all_rhs_pieces = {
     Piece::hat_gamma_z4_kappa_shift_gradient_insertion,
     Piece::hat_gamma_k_theta_chi_gradient_insertion,
     Piece::hat_gamma_connection_a_insertion,
+    Piece::hat_gamma_vector_hessian_insertion,
+    Piece::hat_gamma_grad_div_insertion,
     Piece::a_equation_algebraic_non_curvature,
     Piece::theta_equation_algebraic_non_ricci,
     Piece::theta_equation_minus_k_delta_theta,
@@ -187,8 +189,9 @@ void check_rhs_inventory()
     // kappa damping insertion is implemented only for K and Theta outputs;
     // the first non-advection hatted-Gamma Z/kappa plus kappa3
     // shift-gradient insertion is implemented only for hatted-Gamma outputs.
-    // The separate K/Theta/chi gradient and connection-A metric insertions
-    // are likewise implemented only for hatted-Gamma outputs.
+    // The separate K/Theta/chi gradient, connection-A, vector-Hessian, and
+    // grad-div metric insertions are likewise implemented only for
+    // hatted-Gamma outputs.
     // The rejected BSSN
     // A^2+K^2/d row is absent. The A-equation non-curvature algebraic block is
     // implemented only for A_IJ outputs. The Theta-equation non-Ricci
@@ -286,6 +289,28 @@ void check_rhs_inventory()
                    Status::implemented_now);
     require_status("A_xx has no connection-A-block output", Variable::A_xx,
                    Piece::hat_gamma_connection_a_insertion,
+                   Status::not_applicable);
+    require_status("hat_Gamma^x vector Hessian implemented",
+                   Variable::hat_Gamma_x,
+                   Piece::hat_gamma_vector_hessian_insertion,
+                   Status::implemented_now);
+    require_status("hat_Gamma^z vector Hessian zero row is implemented",
+                   Variable::hat_Gamma_z,
+                   Piece::hat_gamma_vector_hessian_insertion,
+                   Status::implemented_now);
+    require_status("K has no vector-Hessian-block output", Variable::K,
+                   Piece::hat_gamma_vector_hessian_insertion,
+                   Status::not_applicable);
+    require_status("hat_Gamma^x grad-div block implemented",
+                   Variable::hat_Gamma_x,
+                   Piece::hat_gamma_grad_div_insertion,
+                   Status::implemented_now);
+    require_status("hat_Gamma^z grad-div block implemented",
+                   Variable::hat_Gamma_z,
+                   Piece::hat_gamma_grad_div_insertion,
+                   Status::implemented_now);
+    require_status("h_xz has no grad-div-block output", Variable::h_xz,
+                   Piece::hat_gamma_grad_div_insertion,
                    Status::not_applicable);
     require_status("A_xx algebraic non-curvature block is implemented",
                    Variable::A_xx,
@@ -571,6 +596,45 @@ void check_rhs_inventory()
                              " unexpectedly receives connection-A output");
                 }
             }
+            else if (piece == Piece::hat_gamma_vector_hessian_insertion)
+            {
+                const bool should_be_implemented =
+                    Operator::receives_hat_gamma_vector_hessian_insertion(
+                        variable);
+                if (should_be_implemented &&
+                    status != Status::implemented_now)
+                {
+                    fail("hat-Gamma vector-Hessian implemented guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " does not mark vector Hessian implemented");
+                }
+                if (!should_be_implemented &&
+                    status != Status::not_applicable)
+                {
+                    fail("hat-Gamma vector-Hessian scope guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " unexpectedly receives vector Hessian output");
+                }
+            }
+            else if (piece == Piece::hat_gamma_grad_div_insertion)
+            {
+                const bool should_be_implemented =
+                    Operator::receives_hat_gamma_grad_div_insertion(variable);
+                if (should_be_implemented &&
+                    status != Status::implemented_now)
+                {
+                    fail("hat-Gamma grad-div implemented guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " does not mark grad-div implemented");
+                }
+                if (!should_be_implemented &&
+                    status != Status::not_applicable)
+                {
+                    fail("hat-Gamma grad-div scope guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " unexpectedly receives grad-div output");
+                }
+            }
             else if (piece == Piece::a_equation_algebraic_non_curvature)
             {
                 const bool should_be_implemented =
@@ -693,6 +757,7 @@ void check_rhs_inventory()
                  "K/Theta damping, hat-Gamma Z/kappa/shift-gradient, "
                  "hat-Gamma K/Theta/chi gradients, "
                  "hat-Gamma connection-A metric insertion, "
+                 "hat-Gamma vector-Hessian and grad-div metric insertions, "
                  "A algebraic "
                  "non-curvature, Theta algebraic non-Ricci, Theta minus-K, "
                  "Theta Ricci scalar insertion, and A Ricci curvature "
@@ -738,6 +803,16 @@ void check_operator_completion_guard()
                      hat_gamma_k_theta_chi_gradient_block_implemented);
     require_true("hat-Gamma connection-A block implemented",
                  Operator::hat_gamma_connection_a_block_implemented);
+    require_true("hat-Gamma vector-Hessian block implemented",
+                 Operator::hat_gamma_vector_hessian_block_implemented);
+    require_true("hat-Gamma grad-div block implemented",
+                 Operator::hat_gamma_grad_div_block_implemented);
+    require_true("Gamma mathematical term-family inventory is closed",
+                 Operator::hat_gamma_surviving_term_family_inventory_closed);
+    require_true("Gamma final row assembly remains missing",
+                 !Operator::hat_gamma_final_row_assembly_implemented);
+    require_true("assembled Gamma row validation remains missing",
+                 !Operator::hat_gamma_assembled_row_validation_implemented);
     require_true("K lapse Hessian vanishes in frozen gauge",
                  Operator::k_equation_lapse_hessian_vanishes_in_frozen_gauge);
     require_true("cosmological constant remains locked to zero",

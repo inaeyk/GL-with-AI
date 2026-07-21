@@ -27,7 +27,11 @@ RHS block now consumes that helper and inserts the locked Z/kappa and
 block now inserts the K/Theta/chi-gradient family, including the background-K
 gradient metric variation. A third partial block now inserts the connection-A
 metric contraction, including both hidden `ww` copies and no direct or
-differentiated `delta A_IJ`. Complete hatted-Gamma evolution remains missing.
+differentiated `delta A_IJ`. Two further separately owned blocks now insert
+the vector-Hessian and grad-div metric variations. No surviving mathematical
+Gamma RHS family remains unimplemented under the locked frozen-gauge
+specialization, but final row assembly and assembled-row validation remain
+missing, so complete hatted-Gamma evolution is not yet claimed.
 This note records why the first honest frozen-gauge GL spectral validation
 harness is not yet complete. It adds no eigensolver, shift-invert solve,
 threshold search, production RHS wiring, live evolution wiring, or Stage
@@ -202,8 +206,8 @@ the current reuse map is:
 | hidden `A_ww` RHS | Stage 4AK implements `-D_wD_w alpha + alpha R_ww[gamma]`; Stage 4AL includes trace-free projection. Stage 4AO-C now inserts the representative `[delta R_ww]^TF` component with hidden multiplicity already accounted for in the trace assembly. | Partial. The A_ww trace-free Ricci curvature insertion is implemented, but the full operator remains incomplete because remaining Z4/kappa and hatted-Gamma terms, full-operator JVP/parity, boundary validation, MOTS, eigensolver/convergence, and the `k_c r0` map are still missing. |
 | `Theta` RHS | Public `CCZ4RHS` has visible CCZ4 formula. Stage 4AO-A locks background residual. Stage 4AO-C inserts `output[Theta] += 0.5 delta R` and the locked main-path damping term `output[Theta] += -0.25 deltaTheta`. | Partial. The Ricci scalar and simple kappa damping insertions are implemented. Remaining CCZ4/Z4 constraint terms and the complete hatted-Gamma evolution remain missing, along with full-operator JVP/parity, boundary validation, MOTS, eigensolver/convergence, and the `k_c r0` map. |
 | `hat_Gamma^x` value | Stage 4AN implements local nonlinear `tilde_Gamma^x + 2 Z_over_chi^x`; Stage 4AO-C now implements the frozen-GP linearized `g_x` and encoded-Z reconstruction helper. | Reusable helper for local contraction/JVP checks. Not a RHS. |
-| `hat_Gamma^x` RHS | Stage 4AM/4AO-A derive the hidden RHS cancellation on the GP background; Stage 4AO-B tests a representative `delta hww` contribution. Stage 4AO-C inserts `(3 lambda/4)g_x - 0.2 Z_x + (lambda/2)H_x`, the x K/Theta/chi-gradient row, and the connection-A contraction `C_x=2 A_{GP}^{IJ} delta Gamma^x_{IJ}` without duplicating common advection. | Partial. Needs hidden shift-Hessian/vector-Hessian terms, remaining couplings, and complete row assembly. |
-| `hat_Gamma^z` value/RHS | Public `CCZ4RHS` has the visible RHS formula; Stage 4AO-C implements the frozen-GP linearized full hidden-aware `g_z`, encoded-Z reconstruction, `(3 lambda/4)g_z - 0.2 Z_z`, the z K/Theta/chi-gradient row, and `C_z=2 A_{GP}^{IJ} delta Gamma^z_{IJ}`. | Partial. There is deliberately no `+(lambda/2)H_z`; vector-Hessian terms, remaining couplings, and complete row assembly remain missing. |
+| `hat_Gamma^x` RHS | Stage 4AM/4AO-A derive the hidden RHS cancellation on the GP background; Stage 4AO-B tests a representative `delta hww` contribution. Stage 4AO-C inserts `(3 lambda/4)g_x - 0.2 Z_x + (lambda/2)H_x`, the x K/Theta/chi-gradient row, `C_x=2 A_{GP}^{IJ} delta Gamma^x_{IJ}`, the vector-Hessian `-3 lambda delta h_xx/(4x)+3 lambda delta h_ww/x`, and the grad-div `+9 lambda delta h_xx/(8x)` without duplicating common advection. | Mathematical family inventory closed for the locked frozen-gauge row. Final one-time row assembly and assembled-row background/oracle/parity validation remain missing. |
+| `hat_Gamma^z` value/RHS | Public `CCZ4RHS` has the visible RHS formula; Stage 4AO-C implements the frozen-GP linearized full hidden-aware `g_z`, encoded-Z reconstruction, `(3 lambda/4)g_z - 0.2 Z_z`, the z K/Theta/chi-gradient row, `C_z=2 A_{GP}^{IJ} delta Gamma^z_{IJ}`, zero vector Hessian, and grad-div `+9 lambda delta h_xz/(8x)`. | Mathematical family inventory closed for the locked frozen-gauge row. There is deliberately no `+(lambda/2)H_z` and no z vector-Hessian term; final assembly and assembled-row validation remain missing. |
 | Physical `R_ww[gamma]` | Stage 4AH composes Stage 4AC and 4AE; Stage 4AF identity gate exists. | Reuse with adapter for hidden Ricci source terms. Local helper only, not grid/RHS operator. |
 | full physical Ricci scalar | Stage 4AI gives hidden scalar contribution `chi 2 h^ww R_ww`; Stage 4G/4I visible Ricci bridge exists; Stage 4AO-C assembles `delta R = delta R_xx + delta R_zz + 2 delta R_ww`. | Implemented for the locked-background physical linearized trace and inserted into the K and Theta rows; the trace-free projection is inserted into A. Z/hat-Gamma-dependent Ricci contributions and the complete modified-cartoon RHS remain missing. |
 
@@ -317,8 +321,8 @@ The wrapper distinguishes four categories:
   and Theta output slots and depends only on `deltaTheta`; the first
   hatted-Gamma non-advection Z/kappa plus `kappa3` shift-gradient insertion is
   implemented only for the hatted-Gamma output slots; the separate
-  K/Theta/chi-gradient and connection-A metric insertions are also implemented
-  only for those slots;
+  K/Theta/chi-gradient, connection-A, vector-Hessian, and grad-div metric
+  insertions are also implemented only for those slots;
   the rejected BSSN `A^2+K^2/d` terms are absent; the `A_IJ`-equation non-curvature algebraic
   linearization is implemented only for the `A_IJ` output slots; the
   Theta-equation non-Ricci algebraic linearization is implemented only for the
@@ -347,8 +351,8 @@ The current RHS inventory is:
 | `A_zz` | GP-shift advection, tensor stretching, and A-output non-curvature algebraic linearization implemented; other derivative terms helper/missing | requires modified-cartoon RHS | raw visible physical `delta R_zz[gamma]` validation block implemented; `[delta R_zz]^TF` curvature insertion implemented | remaining A dynamics require modified-cartoon RHS | A-output block includes direct `Theta` coefficient only; full constraint terms missing | N/A |
 | `A_ww` | GP-shift advection, hidden tensor stretching, and A-output non-curvature algebraic linearization implemented; other derivative terms helper/missing | helper only from 4AH-4AL hidden local blocks | raw hidden physical `delta R_ww[gamma]` validation block implemented; `[delta R_ww]^TF` curvature insertion implemented with no extra hidden multiplicity | remaining A dynamics require modified-cartoon RHS | A-output block includes direct `Theta` coefficient only; full constraint terms missing | N/A |
 | `Theta` | GP-shift advection, Theta-output non-Ricci algebraic linearization, and `-K_GP deltaTheta` implemented; tensor stretching N/A; other derivative terms helper/missing | requires modified-cartoon RHS | `output[Theta] += 0.5 delta R` implemented from validated raw Ricci trace assembly | N/A | simple main-path kappa damping `output[Theta] += -0.25 deltaTheta` implemented; `Z dot grad alpha` has no frozen-GP linear contribution; other selected constraint terms remain missing | N/A |
-| `hat_Gamma^x` | GP-shift advection implemented once in the common block; `(3 lambda/4)g_x - 0.2 Z_x + (lambda/2)H_x`, x-row K/Theta/chi gradients, and `C_x` are implemented in separate non-advection blocks | linearized `g_x` and `Z_x` reconstruction helper implemented and checked against 4AN; `C_x` includes both hidden `ww` copies | N/A | N/A | `2 dx(deltaTheta) - (3/2)dx(deltaK) - 27 lambda delta h_xx/(8x) + (7 lambda/2)dx(delta chi)` implemented | Z/kappa/`kappa3`, gradient, and connection-A blocks implemented; vector/shift-Hessian, remaining couplings, and complete RHS missing |
-| `hat_Gamma^z` | GP-shift advection implemented once in the common block; `(3 lambda/4)g_z - 0.2 Z_z`, z-row K/Theta/chi gradients, and `C_z` are implemented separately, with no x-only `H` coefficient | linearized full hidden-aware `g_z` and `Z_z` reconstruction helper implemented; `C_z` includes both hidden `ww` copies | N/A | N/A | `2 dz(deltaTheta) - (3/2)dz(deltaK) - 27 lambda delta h_xz/(8x) + (3 lambda/2)dz(delta chi)` implemented | Z/kappa, gradient, and connection-A blocks implemented; vector-Hessian, remaining couplings, and complete RHS missing |
+| `hat_Gamma^x` | GP-shift advection implemented once in the common block; `(3 lambda/4)g_x - 0.2 Z_x + (lambda/2)H_x`, x-row K/Theta/chi gradients, `C_x`, vector Hessian, and grad-div are separate blocks | linearized `g_x`/`Z_x` helper checked against 4AN; `C_x` and vector Hessian include both hidden `ww` copies | N/A | N/A | gradient row implemented; vector Hessian adds `-3 lambda h_xx/(4x)+3 lambda h_ww/x`; grad-div adds `+9 lambda h_xx/(8x)` | surviving mathematical families implemented; final row assembly and assembled-row validation missing |
+| `hat_Gamma^z` | GP-shift advection implemented once in the common block; `(3 lambda/4)g_z - 0.2 Z_z`, z-row K/Theta/chi gradients, `C_z`, zero vector Hessian, and grad-div are separate blocks | full hidden-aware `g_z`/`Z_z` helper implemented; `C_z` includes both hidden `ww` copies | N/A | N/A | gradient row implemented; vector Hessian is zero because `beta_GP^z=0`; grad-div adds `+9 lambda h_xz/(8x)` | surviving mathematical families implemented; final row assembly and assembled-row validation missing |
 
 No variable has a complete RHS in the wrapper. GP-shift advection, tensor
 shift-stretching, the algebraic metric/chi couplings, the K-output selected-CCZ4
@@ -358,14 +362,15 @@ linearization, the Theta-output algebraic non-Ricci linearization, the Theta
 simple K/Theta kappa damping insertion, and the A_IJ trace-free Ricci curvature
 insertion, and the first hatted-Gamma Z/kappa/shift-gradient insertion are
 implemented operator pieces, as is the hatted-Gamma K/Theta/chi-gradient
-insertion and the hatted-Gamma connection-A insertion. The
+insertion, connection-A insertion, vector-Hessian insertion, and separately
+owned grad-div insertion. The
 raw physical `delta R_ww[gamma]`, `delta R_xz[gamma]`, `delta R_zz[gamma]`,
 and `delta R_xx[gamma]` blocks are standalone Ricci validation helpers; their
 raw scalar trace and trace-free Ricci projection are assembled before those
 two insertion blocks consume them. The wrapper still cannot be used for full
 JVP, matrix assembly, spectral extraction, or threshold searches until the
-remaining hatted-Gamma vector/shift-Hessian, coupling, and
-row-assembly pieces, coupled CCZ4/Z4, boundary, MOTS, convergence, and convention-map
+remaining hatted-Gamma row assembly and assembled-row validation, coupled
+CCZ4/Z4, boundary, MOTS, convergence, and convention-map
 blockers are resolved.
 
 ## First Actual Operator Block: GP-Shift Advection
@@ -1717,10 +1722,10 @@ Term ownership is locked as follows:
 | Exact visible GRChombo `Theta`, `K`, and `chi` gradient coefficients | reusable directly from GRChombo | Survive with `d=4`; lapse-gradient pieces vanish. |
 | `delta tilde_Gamma^x` and `delta Z_over_chi^x` convention | reusable project helper | Linearized helper implemented and finite-differenced against the 4AN full contraction. |
 | `delta tilde_Gamma^z` and `delta Z_over_chi^z` | reusable project helper | Full hidden-aware linearized companion implemented and finite-differenced against an independent nonlinear test contraction; the determinant-reduced identity remains only a conditional cross-check. |
-| `divbeta`, background shift derivatives, and visible shift-Hessian pieces | reusable directly from the locked GP background | Survive through background coefficients even though `delta beta=0`. |
+| `divbeta`, background shift derivatives, and visible shift-Hessian pieces | reusable directly from the locked GP background | Implemented through separately owned vector-Hessian and grad-div metric-variation blocks even though `delta beta=0`. |
 | Hidden `divbeta=partial_x beta^x+2 beta^x/x` | requires modified-cartoon adapter | Supplies `K0=3lambda/2`; its perturbation vanishes because gauge is frozen. |
 | Hidden `delta Gamma^i_ww A0^ww` | requires modified-cartoon adapter | Implemented in the validation-only connection-A block with multiplicity two in `C_x` and `C_z`. |
-| Hidden `partial_ww beta_GP^x` in the shift Hessian | requires modified-cartoon adapter | Survives twice in the `x` row; zero in the `z` row. |
+| Hidden `partial_ww beta_GP^x` in the shift Hessian | requires modified-cartoon adapter | Implemented twice in the x vector-Hessian block; the z vector Hessian is zero because `beta_GP^z=0`. |
 | `kappa3=1` Z and shift-gradient terms | reusable directly from GRChombo after Z reconstruction | Z terms reduce to `(K0/2)g_i`; shift gradient gives `+(lambda/2)H_x`, zero for `z`. |
 | `-2 kappa1 Z_over_chi^i` | reusable directly from GRChombo | Survives as locked `-0.2 Z_i`. |
 | `partial_j delta A_IJ` | absent from selected equation | Must remain absent: GRChombo uses the momentum-constraint form. |
@@ -1759,7 +1764,7 @@ residual, and Fourier fixtures must measure allowed amplitude and forbidden
 parity leakage. The local non-advection oracle and the existing common
 advection oracle must also be tested separately before one-time assembly.
 
-The first four narrow implementation targets after this preflight are now
+The first six narrow implementation targets after this preflight are now
 complete:
 `Stage4AOFrozenGaugeContractedConnection.hpp` returns `g_x`, `g_z`, `Z_x`,
 and `Z_z` without writing any RHS output. Its fixture finite-differences the
@@ -1773,8 +1778,8 @@ x: (K0/2) g_x - 0.2 Z_x + (lambda/2) H_x,
 z: (K0/2) g_z - 0.2 Z_z,
 ```
 
-leaving hidden shift Hessians and full row assembly for
-separately validated blocks. Its focused fixture derives the
+leaving the other families and full row assembly for separately validated
+blocks. Its focused fixture derives the
 coefficients independently from `K0`, `d`, `kappa1`, and `kappa3`, checks pure
 H and pure-metric/Z paths, rejects a spurious `+(lambda/2)H_z`, wrong damping
 sign, hidden multiplicity one, and duplicate advection, and locks the two
@@ -1819,6 +1824,71 @@ form has no derivative-A term. Only the two hatted-Gamma outputs are touched,
 earlier Gamma/advection blocks are not duplicated, and completion gates remain
 false.
 
+The vector-Hessian metric-variation block is traced directly to
+`h^{jk} partial_j partial_k beta_GP^i`. Its independent background oracle uses
+
+```text
+partial_xx beta_GP^x =  3 lambda/(4x),
+partial_ww beta_GP^x = -3 lambda/(2x)  for each hidden direction,
+delta h^{IJ} = -delta h_IJ.
+```
+
+Therefore the two hidden copies are summed before reduction:
+
+```text
+x: -3 lambda delta h_xx/(4x) + 3 lambda delta h_ww/x,
+z: 0, because beta_GP^z=0.
+```
+
+The grad-div metric-variation block is separately traced to
+`(d-2)/d h^{ij} partial_j partial_k beta_GP^k`. With
+
+```text
+(d-2)/d = 1/2,
+div beta_GP = K0 = 3 lambda/2,
+partial_x(div beta_GP) = -9 lambda/(4x),
+```
+
+its metric variation is
+
+```text
+x: +9 lambda delta h_xx/(8x),
+z: +9 lambda delta h_xz/(8x).
+```
+
+The focused fixture evaluates the two oracles separately rather than checking
+only their combined x coefficient. Pure `h_xx`, `h_ww`, `h_xz`, excluded
+`h_zz`, raw parity, and output ownership pass. Mutations reject hidden
+multiplicity one, omitted or wrong-sign `h_ww`, a spurious z vector Hessian,
+wrong grad-div coefficient/sign, and duplicated earlier Gamma families.
+
+#### Gamma Term-Closure Ledger
+
+| Selected Gamma RHS family | Locked frozen-gauge disposition | Status |
+| --- | --- | --- |
+| Common `advec.Gamma[i]` | `beta_GP^x partial_x H_i`, owned once by the common advection block | Implemented separately |
+| `divbeta`, contracted connection, Z/kappa | `(K0/2)g_i-0.2Z_i` | Implemented |
+| Background shift gradient | `+(lambda/2)H_x`, zero in z | Implemented |
+| Theta, K, and chi gradients | Both d=4 rows including background-K inverse-metric variation | Implemented |
+| Lapse-gradient terms | Vanish because `delta alpha=0` and `partial_i alpha_GP=0` | Closed by frozen-gauge proof |
+| Connection-A | `2 A_GP^{IJ} delta Gamma^i_IJ`, including two hidden copies | Implemented |
+| Direct or differentiated `delta A` | Direct term vanishes with `Gamma_GP=0`; `d1.A` is absent from the selected momentum-constraint form | Closed by formulation/background proof |
+| Vector Hessian | x metric variation with two hidden copies; z vanishes because `beta_GP^z=0` | Implemented separately |
+| Grad-div | d=4 x/z inverse-metric variations | Implemented separately |
+| Perturbed gauge Hessians/divergence | Vanish because `delta beta^i=0` | Closed by frozen-gauge proof |
+
+Thus no mathematical Gamma RHS family remains missing for the selected locked
+frozen-gauge specialization. This is not yet a completion claim. Still
+missing are: a single x/z row assembler that adds every family and common
+advection exactly once; an assembled-row background-zero check; independent
+combined analytic/nonlinear finite-difference and epsilon-plateau comparison;
+assembled parity-leakage and ownership checks; and integration into the actual
+full-operator JVP. Until those pass,
+`hat_gamma_final_row_assembly_implemented`,
+`hat_gamma_assembled_row_validation_implemented`,
+`hat_gamma_rhs_block_implemented`, both Gamma variable-completion flags, the
+full-operator flag, and eigensolver access remain false.
+
 ### Other Rows
 
 No `chi`, `h_IJ`, or `A_IJ` row has a direct `kappa1/kappa2` damping term in
@@ -1836,8 +1906,9 @@ resolves the parameter-choice and Gamma-design preflight gates without
 claiming tuning or a complete operator. The non-advection hatted-Gamma
 Z/kappa/`kappa3` shift-gradient and K/Theta/chi-gradient blocks are
 implemented, as is the separate connection-A metric block;
-vector/shift-Hessian terms, remaining couplings, and complete row assembly
-remain deferred. Stage 4AO-C still
+the vector-Hessian and grad-div metric-variation blocks are also implemented.
+The mathematical family inventory is closed, but final row assembly and
+assembled-row validation remain deferred. Stage 4AO-C still
 may not claim a complete frozen-gauge operator or a physical spectrum.
 
 ## Boundary-Condition Contract
@@ -2040,11 +2111,13 @@ convention lock, simple K/Theta damping insertions, and the validation-only
 x/z contracted-connection and encoded-Z reconstruction helper, plus the first
 non-advection hatted-Gamma Z/kappa/shift-gradient insertion and the separate
 K/Theta/chi-gradient and connection-A insertions.
+The separately owned vector-Hessian and grad-div insertions are also present.
 
 Remaining missing pieces:
 
-- complete `hat_Gamma^x` and `hat_Gamma^z` evolution: vector/shift-Hessian
-  terms, remaining couplings, and complete row assembly;
+- complete `hat_Gamma^x` and `hat_Gamma^z` evolution: the mathematical family
+  inventory is closed, but final row assembly and assembled-row
+  background/oracle/parity validation remain missing;
 - remaining coupled CCZ4/Z4 RHS pieces;
 - actual full-operator JVP/parity tests;
 - boundary validation;

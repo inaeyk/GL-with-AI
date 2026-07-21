@@ -1438,3 +1438,24 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Result: focused, operator-contract, prior Gamma/helper, and all 21 Stage
   4AO-C fixtures passed without warnings. Whitespace and protected-path checks
   passed; nothing was staged or committed.
+
+- Date: 2026-07-21
+- Goal: Implement the separate Stage 4AO-C hatted-Gamma vector-Hessian and
+  grad-div metric-variation blocks.
+- Initial state: clean committed connection-A checkpoint; CodeGraph used
+  first.
+- Implementation: added the x-only vector Hessian
+  `-3 lambda h_xx/(4x)+3 lambda h_ww/x`, with two hidden directions, and the
+  separate grad-div pair `9 lambda h_xx/(8x)`,
+  `9 lambda h_xz/(8x)`. The z vector Hessian remains exactly zero because
+  `beta_GP^z=0`; previous Gamma families are unchanged and unassembled.
+- Tests: independent background-shift Hessian and grad-div oracles cover pure
+  `h_xx/h_ww/h_xz`, excluded `h_zz`, hidden multiplicity, sign/coefficient
+  mutations, raw parity, output scope, prior-family non-duplication, and
+  closed completion/eigensolver gates.
+- Closure: the locked frozen-gauge mathematical Gamma family inventory is now
+  closed. Final row assembly and combined background/oracle/epsilon/parity
+  validation remain missing, so Gamma RHS completion remains false.
+- Result: focused, operator-contract, prior Gamma/helper, and all 22 Stage
+  4AO-C fixtures passed without warnings. Final whitespace and protected-path
+  checks passed; nothing was staged or committed.

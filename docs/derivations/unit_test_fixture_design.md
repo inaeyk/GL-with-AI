@@ -714,6 +714,8 @@ operator fixtures:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeHatGammaGradientBlockTest.cpp`.
 - Hatted-Gamma connection-A fixture:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeHatGammaConnectionABlockTest.cpp`.
+- Hatted-Gamma vector-Hessian/grad-div metric-variation fixture:
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeHatGammaShiftMetricBlockTest.cpp`.
 - A-equation algebraic non-curvature fixture:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeAAlgebraicBlockTest.cpp`.
 - Theta-equation algebraic non-Ricci fixture:
@@ -966,7 +968,9 @@ identity. Fourier projections require `g_x` in the scalar/even sector and
 `g_z` in the one-z/opposite-parity sector. The helper itself still writes no
 Gamma RHS. The separate K/Theta/chi-gradient block is now implemented;
 the separate connection-A block is now implemented as well, while
-vector/shift-Hessian, complete-RHS, and eigensolver claims remain false.
+the vector-Hessian and grad-div blocks are now implemented separately. Final
+row assembly, assembled-row validation, complete-RHS, and eigensolver claims
+remain false.
 
 The first hatted-Gamma RHS fixture independently derives
 
@@ -990,8 +994,8 @@ Z antidamping, hidden multiplicity one inherited through `g_i`, and duplicate
 `beta_GP^x partial_x H_i` advection. All non-Gamma outputs stay zero, the
 scalar/even and one-z parity sectors remain separate, and both Gamma-variable
 completion flags, the full-operator flag, and eigensolver access remain false.
-Connection-A, vector/shift-Hessian, and complete row assembly are outside this
-fixture; K/Theta/chi gradients and connection-A are validated separately.
+Connection-A, vector-Hessian, grad-div, and complete row assembly are outside
+this fixture; the first three are validated separately.
 
 The hatted-Gamma gradient fixture independently derives from the selected
 `d=4` equation
@@ -1042,6 +1046,41 @@ non-Gamma writes, and duplicate earlier Gamma/advection families. Pure
 `delta A_IJ` and `d1.A` sentinels produce zero direct output, matching the
 vanishing background conformal Christoffels and the selected
 momentum-constraint form. Completion and eigensolver gates remain false.
+
+The hatted-Gamma shift metric-variation fixture keeps two selected GRChombo
+families separate. Its vector-Hessian oracle derives
+
+```text
+partial_xx beta_GP^x = 3 lambda/(4x),
+partial_ww beta_GP^x = -3 lambda/(2x) per hidden direction,
+delta h^{IJ} = -delta h_IJ,
+```
+
+then sums both hidden copies to obtain
+
+```text
+output[hat_Gamma^x] += -3 lambda delta h_xx/(4x)
+                       +3 lambda delta h_ww/x,
+output[hat_Gamma^z] += 0.
+```
+
+The z vector-Hessian oracle is exactly zero because `beta_GP^z=0`. The
+separate grad-div oracle derives `(d-2)/d=1/2` and
+`partial_x(div beta_GP)=-9 lambda/(4x)`, yielding
+
+```text
+output[hat_Gamma^x] += 9 lambda delta h_xx/(8x),
+output[hat_Gamma^z] += 9 lambda delta h_xz/(8x).
+```
+
+Pure `h_xx`, `h_ww`, `h_xz`, excluded `h_zz`, raw even/one-z parity, and
+output-scope cases pass for each family independently. Mutations reject one
+hidden copy, omitted or sign-reversed `h_ww`, a spurious z vector Hessian,
+wrong grad-div coefficient/sign, and duplication of earlier Gamma families.
+The fixture records that the selected frozen-gauge mathematical family
+inventory is closed while final row assembly and assembled-row validation,
+both Gamma completion flags, full-operator completion, and eigensolver access
+remain false.
 
 The A-equation algebraic non-curvature fixture checks the GRChombo A RHS
 convention block
