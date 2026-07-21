@@ -1159,7 +1159,8 @@ This is still not eigensolver work. 4AO-C now has the blocker note
 `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md` plus the
 validation-only wrapper, boundary contract, first matrix-free GP-shift
 advection block, tensor shift-stretching block, and algebraic metric/chi
-coupling block, K-output algebraic `A^2/K^2` block, A-output non-curvature
+coupling block, selected-CCZ4 K-output `K(K-2Theta)` and physical-`delta R`
+blocks, A-output non-curvature
 algebraic block, Theta-output non-Ricci algebraic block, and Theta-output
 `-K_GP deltaTheta` block, plus the trace-free `delta A` projector contract in
 `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`. The Ricci/curvature
@@ -1172,7 +1173,9 @@ assembly now consumes those checked raw component result types and computes
 trace-free projection. The Theta Ricci scalar insertion now consumes that
 assembly and applies `output[Theta] += 0.5 delta R`; the `A_IJ` Ricci
 curvature insertion now consumes the same trace-free assembly and applies
-`output[A_IJ] += [delta R_IJ]^TF`. The intended frozen-gauge
+`output[A_IJ] += [delta R_IJ]^TF`; the K Ricci insertion applies
+`output[K] += delta R`. The former K `A_IJ A^IJ + K^2/d` block is explicitly
+rejected as the wrong `USE_BSSN` branch. The intended frozen-gauge
 perturbation vector is defined, but the complete coupled modified-cartoon RHS
 linearization beyond those partial blocks, Z4 damping/constraint terms and
 `kappa1/kappa2` convention lock,

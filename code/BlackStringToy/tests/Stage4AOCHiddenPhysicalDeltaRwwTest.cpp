@@ -335,11 +335,11 @@ void check_scope_flags_and_validation()
 
     require_true("hidden physical delta Rww is implemented",
                  Hidden::hidden_physical_delta_rww_implemented);
-    require_true("visible Ricci remains unimplemented",
+    require_true("hidden Rww helper does not implement visible Ricci",
                  !Hidden::visible_ricci_implemented);
-    require_true("trace-free A curvature source remains unimplemented",
+    require_true("hidden Rww helper does not perform A curvature insertion",
                  !Hidden::trace_free_a_curvature_source_implemented);
-    require_true("Theta Ricci scalar remains unimplemented",
+    require_true("hidden Rww helper does not perform Theta Ricci insertion",
                  !Hidden::theta_ricci_scalar_implemented);
     require_true("full frozen-gauge operator remains unimplemented",
                  !Hidden::full_frozen_gauge_operator_implemented);

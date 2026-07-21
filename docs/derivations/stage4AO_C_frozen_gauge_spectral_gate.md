@@ -3,7 +3,8 @@
 Status: blocked/incomplete, with the validation-only operator wrapper,
 boundary-condition contract, GP-shift advection block, tensor
 shift-stretching block, algebraic metric/conformal-factor coupling block, and
-K-equation algebraic `A^2/K^2` block now present, plus the `A_IJ`-output
+the selected-CCZ4 K-equation `K(K-2Theta)` and physical-`delta R` pieces now
+present, plus the `A_IJ`-output
 non-curvature algebraic block and the Theta-output algebraic non-Ricci block.
 The simple Theta `-K_GP deltaTheta` algebraic block and trace-free
 `delta A` projector contract are also present. The first raw Ricci blocks,
@@ -185,7 +186,7 @@ the current reuse map is:
 | `chi` RHS | Public `CCZ4RHS::rhs_equation` has the visible conformal-factor equation; Stage 4AO-A/4AO-B record the GP residual target. | Reuse with adapter only. Needs modified-cartoon shift divergence and hidden multiplicity in a repo-owned operator. |
 | visible `h_xx,h_xz,h_zz` RHS | Public `CCZ4RHS` has visible metric equations for `CH_SPACEDIM` components. | Reuse with adapter. Must freeze gauge perturbations and include the locked 4D trace convention. |
 | hidden `h_ww` RHS | Stage 4AO-A/B derive and test representative GP residual behavior. Live code only freezes/zeros smoke hidden slots. | Missing as an actual nonlinear RHS block. Must be built before full JVP. |
-| `K` RHS | Public `CCZ4RHS` has a visible CCZ4 `K` equation using Ricci scalar and lapse Hessian trace. | Reuse with adapter only after physical 4D Ricci scalar, hidden trace, and cartoon terms are assembled. |
+| `K` RHS | Public `CCZ4RHS` has a visible CCZ4 `K` equation using Ricci scalar and lapse Hessian trace. Stage 4AO-C now implements only `output[K] += 3 lambda delta K - 3 lambda delta Theta` and `output[K] += delta R` from the validated physical Ricci trace. | Partial. The selected `USE_CCZ4` `K(K-2Theta)` linearization and physical-`delta R` insertion are implemented. Z/hat-Gamma-dependent Ricci contributions, kappa damping, hat-Gamma evolution, and the rest of the coupled operator remain missing. Frozen-gauge lapse-Hessian variation vanishes; cosmological terms remain absent under the locked `Lambda=0` assumption. |
 | visible `A_xx,A_xz,A_zz` RHS | Stage 4AL implements local trace-free curvature/lapse source; public `CCZ4RHS` has visible nonlinear/advection terms. Stage 4AO-C now inserts `[delta R_IJ]^TF` for the visible A outputs from the validated Ricci assembly. | Partial. The A_IJ trace-free Ricci curvature insertion is implemented, but the full operator remains incomplete because Z4/kappa terms, hat-Gamma evolution, full-operator JVP/parity, boundary validation, MOTS, eigensolver/convergence, and the `k_c r0` map are still missing. |
 | hidden `A_ww` RHS | Stage 4AK implements `-D_wD_w alpha + alpha R_ww[gamma]`; Stage 4AL includes trace-free projection. Stage 4AO-C now inserts the representative `[delta R_ww]^TF` component with hidden multiplicity already accounted for in the trace assembly. | Partial. The A_ww trace-free Ricci curvature insertion is implemented, but the full operator remains incomplete because Z4/kappa terms, hat-Gamma evolution, full-operator JVP/parity, boundary validation, MOTS, eigensolver/convergence, and the `k_c r0` map are still missing. |
 | `Theta` RHS | Public `CCZ4RHS` has visible CCZ4 formula. Stage 4AO-A locks background residual. Stage 4AO-C now inserts `output[Theta] += 0.5 delta R` from the validated raw Ricci trace assembly. | Partial. The Ricci scalar insertion is implemented; Z4 damping/constraint terms and kappa conventions remain missing, along with hat-Gamma evolution, full-operator JVP/parity, boundary validation, MOTS, eigensolver/convergence, and the `k_c r0` map. |
@@ -193,7 +194,7 @@ the current reuse map is:
 | `hat_Gamma^x` RHS | Stage 4AM/4AO-A derive the hidden RHS cancellation on the GP background; Stage 4AO-B tests a representative `delta hww` contribution. | Missing as a complete nonlinear RHS block. Needs hidden vector-Laplacian, shift-divergence, Z4/damping, A/K/chi coupling, and full 4D multiplicity. |
 | `hat_Gamma^z` RHS | Public `CCZ4RHS` has visible formula; Stage 4AO-B representative parity uses `D_z K`. | Mostly missing for modified-cartoon operator. Needs the `z` companion hidden contraction/RHS analysis and implementation. |
 | Physical `R_ww[gamma]` | Stage 4AH composes Stage 4AC and 4AE; Stage 4AF identity gate exists. | Reuse with adapter for hidden Ricci source terms. Local helper only, not grid/RHS operator. |
-| full physical Ricci scalar | Stage 4AI gives hidden scalar contribution `chi 2 h^ww R_ww`; Stage 4G/4I visible Ricci bridge exists. | Partial. Needs same-point assembly into `K/Theta/A` RHS operator. |
+| full physical Ricci scalar | Stage 4AI gives hidden scalar contribution `chi 2 h^ww R_ww`; Stage 4G/4I visible Ricci bridge exists; Stage 4AO-C assembles `delta R = delta R_xx + delta R_zz + 2 delta R_ww`. | Implemented for the locked-background physical linearized trace and inserted into the K and Theta rows; the trace-free projection is inserted into A. Z/hat-Gamma-dependent Ricci contributions and the complete modified-cartoon RHS remain missing. |
 
 Therefore a finite-difference JVP of the current live nonlinear RHS would test
 the inherited public visible CCZ4 path plus smoke-hidden behavior, not the
@@ -246,12 +247,13 @@ operator or observable for it to validate.
 The first item is now represented by
 `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp` with fixture
 `code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp`. The
-wrapper began as a contract and inventory and now also contains nine actual
+wrapper began as a contract and inventory and now also contains ten actual
 partial apply paths: `beta_GP^x d_x(delta u)` for every frozen-gauge
 perturbation variable, the non-advection tensor shift-stretching terms for
 `h_IJ` and `A_IJ`, and the algebraic couplings
 `delta h_IJ <- -2 delta A_IJ`, `delta chi <- +delta K/2`, plus the K-output
-algebraic linearization of `A_IJ A^IJ + K^2/d`, plus the `A_IJ`-output
+selected-CCZ4 linearization `3 lambda delta K - 3 lambda delta Theta` and
+physical-Ricci insertion `+delta R`, plus the `A_IJ`-output
 linearization of `(K - 2 Theta) A_IJ - 2 h^KL A_IK A_LJ`, plus the
 Theta-output algebraic linearization of
 `0.5 * (((d - 1) / d) K^2 - A_IJ A^IJ)`, plus the Theta-output
@@ -296,8 +298,9 @@ The wrapper distinguishes four categories:
   shift-stretching is implemented for the `h_IJ` and `A_IJ` slots only, and
   the algebraic couplings `delta h_IJ <- -2 delta A_IJ` and
   `delta chi <- +delta K/2` are implemented only for their named output
-  slots; the K-equation algebraic `A^2/K^2` linearization is implemented only
-  as a K-output block; the `A_IJ`-equation non-curvature algebraic
+  slots; the K-equation selected-CCZ4 `K(K-2Theta)` linearization and
+  physical-Ricci scalar insertion are implemented only as K-output blocks;
+  the rejected BSSN `A^2+K^2/d` terms are absent; the `A_IJ`-equation non-curvature algebraic
   linearization is implemented only for the `A_IJ` output slots; the
   Theta-equation non-Ricci algebraic linearization is implemented only for the
   `Theta` output slot; the frozen-GP `-K_GP deltaTheta` linearization is
@@ -319,7 +322,7 @@ The current RHS inventory is:
 | `h_xz` | GP-shift advection, tensor stretching, and `-2 delta A_xz` implemented; other derivative terms helper/missing | requires modified-cartoon RHS | N/A | remaining metric/K/A algebraic terms require modified-cartoon RHS | N/A | N/A |
 | `h_zz` | GP-shift advection, tensor stretching, and `-2 delta A_zz` implemented; other derivative terms helper/missing | requires modified-cartoon RHS | N/A | remaining metric/K/A algebraic terms require modified-cartoon RHS | N/A | N/A |
 | `h_ww` | GP-shift advection, hidden tensor stretching, and `-2 delta A_ww` implemented; other derivative terms helper/missing | helper only from 4AO-A/B hidden-contraction lessons | N/A | remaining hidden metric/K/A algebraic terms require modified-cartoon RHS | N/A | N/A |
-| `K` | GP-shift advection and K-output `A^2/K^2` algebraic linearization implemented; tensor stretching N/A; other derivative terms helper/missing | requires modified-cartoon RHS | helper only from 4G/4I/4AI local Ricci pieces, not full scalar RHS | remaining K dynamics require modified-cartoon RHS | N/A | N/A |
+| `K` | GP-shift advection and K-output selected-CCZ4 `+3 lambda delta K - 3 lambda delta Theta` implemented; tensor stretching N/A; other derivative terms helper/missing | requires modified-cartoon RHS | physical `output[K] += delta R` implemented from `delta R_xx + delta R_zz + 2 delta R_ww`; Z/hat-Gamma-dependent Ricci pieces missing | kappa damping and remaining K dynamics require modified-cartoon RHS; frozen-gauge lapse Hessian vanishes; `Lambda=0` cosmological terms remain absent | direct `delta Theta` coefficient included only in the narrow `K(K-2Theta)` block | N/A |
 | `A_xx` | GP-shift advection, tensor stretching, and A-output non-curvature algebraic linearization implemented; other derivative terms helper/missing | requires modified-cartoon RHS | raw visible physical `delta R_xx[gamma]` validation block implemented; `[delta R_xx]^TF` curvature insertion implemented | remaining A dynamics require modified-cartoon RHS | A-output block includes direct `Theta` coefficient only; full constraint terms missing | N/A |
 | `A_xz` | GP-shift advection, tensor stretching, and A-output non-curvature algebraic linearization implemented; other derivative terms helper/missing | requires modified-cartoon RHS | raw visible physical `delta R_xz[gamma]` validation block implemented; `[delta R_xz]^TF` curvature insertion implemented | remaining A dynamics require modified-cartoon RHS | no direct `Theta` coefficient because `A_xz_GP=0`; full constraint terms missing | N/A |
 | `A_zz` | GP-shift advection, tensor stretching, and A-output non-curvature algebraic linearization implemented; other derivative terms helper/missing | requires modified-cartoon RHS | raw visible physical `delta R_zz[gamma]` validation block implemented; `[delta R_zz]^TF` curvature insertion implemented | remaining A dynamics require modified-cartoon RHS | A-output block includes direct `Theta` coefficient only; full constraint terms missing | N/A |
@@ -329,8 +332,8 @@ The current RHS inventory is:
 | `hat_Gamma^z` | GP-shift advection implemented; tensor stretching N/A; other derivative terms helper/missing | missing placeholder | N/A | N/A | requires modified-cartoon RHS | missing placeholder |
 
 No variable has a complete RHS in the wrapper. GP-shift advection, tensor
-shift-stretching, the algebraic metric/chi couplings, and the K-output
-`A^2/K^2` linearization, and the `A_IJ`-output non-curvature algebraic
+shift-stretching, the algebraic metric/chi couplings, the K-output selected-CCZ4
+`K(K-2Theta)` linearization and physical-`delta R` insertion, and the `A_IJ`-output non-curvature algebraic
 linearization, the Theta-output algebraic non-Ricci linearization, the Theta
 `-K_GP deltaTheta` linearization, the Theta Ricci scalar insertion, and the
 A_IJ trace-free Ricci curvature insertion are implemented operator pieces. The
@@ -464,62 +467,65 @@ show that the wrong sign in `-2 delta A_IJ`, a `-1` metric coefficient, a
 `d=3` chi coefficient `2/3`, reciprocal `A_IJ <- h_IJ`, or accidental
 application to `K`, `Theta`, or hatted-Gamma slots would fail.
 
-## K-Equation Algebraic A^2/K^2 Block
+## Selected-CCZ4 K-Equation Pieces
 
-GRChombo provides the convention target in
-`external/GRChombo/Source/CCZ4/CCZ4RHS.impl.hpp`: the BSSN-style K RHS
-contains
+The earlier Stage 4AO-C K block followed GRChombo's `USE_BSSN` branch,
+`A_IJ A^IJ + K^2/d`. That branch was wrong for this project and is explicitly
+rejected. Its inverse-metric, `delta A_IJ`, and `K^2/d` coefficients have been
+removed from the K row; they remain historical evidence only and are not an
+implemented CCZ4 claim.
+
+The locked formulation is `USE_CCZ4`. Separating damping, lapse-Hessian,
+cosmological, advection, and Z-dependent pieces, its non-damping local target is
 
 ```text
-alpha * (A_ij A^ij + K^2 / GR_SPACEDIM),
+F_K = R + K(K - 2Theta).
 ```
 
-where `A^ij` is built by `A_UU = raise_all(vars.A, h_UU)` and then contracted
-as `compute_trace(vars.A, A_UU)`. `TensorAlgebra::raise_all` raises both
-indices with the conformal inverse metric. This Stage 4AO-C code is only a
-validation-only reduced operator block; production code should later reuse or
-adapt GRChombo infrastructure where possible.
-
-On the locked GP background,
+At
 
 ```text
-alpha_GP = 1,
-d = 4,
 K_GP = 3 lambda / 2,
-A_xx = -7 lambda / 8,
-A_zz = -3 lambda / 8,
-A_ww = +5 lambda / 8,
-A_xz = 0,
+Theta_GP = 0,
+alpha_GP = 1,
+delta alpha = 0,
 ```
 
-with hidden `ww` multiplicity two. The implemented K-output contribution is
-the full local linearization of `A_IJ A^IJ + K^2/d`:
+the implemented algebraic linearization is exactly
 
 ```text
-delta K_RHS +=
-  (-49/32) lambda^2 delta h_xx
-+ ( -9/32) lambda^2 delta h_zz
-+ (-25/16) lambda^2 delta h_ww
-+ ( -7/4 ) lambda   delta A_xx
-+ ( -3/4 ) lambda   delta A_zz
-+ ( +5/2 ) lambda   delta A_ww
-+ ( +3/4 ) lambda   delta K.
+output[K] +=  3 lambda * input[K],
+output[K] += -3 lambda * input[Theta].
 ```
 
-The `delta h_xx`, `delta h_zz`, and `delta h_ww` terms are the inverse-metric
-variation from raising indices in `A_IJ A^IJ`. No linear `delta h_xz` or
-`delta A_xz` term appears because the locked GP background has diagonal
-`A_IJ` and `A_xz=0`. No non-K output slot receives contributions from this
-block.
+There is no direct `delta A_IJ`, `delta h_IJ`, or `delta chi` contribution in
+this piece. The separate physical-Ricci insertion is
 
-The fixture
-`code/BlackStringToy/tests/Stage4AOCFrozenGaugeKAlgebraicBlockTest.cpp`
-checks every coefficient by basis vector, verifies the combined pointwise and
-grid apply paths, confirms `h_xz`/`A_xz` are zero, and keeps
-`complete_operator=false` and `eigensolver_allowed=false`. Negative guards
-show that dropping inverse-metric variation, dropping hidden `ww`
-multiplicity, using a `d=3` K-squared coefficient, adding a spurious
-`h_xz`/`A_xz` contribution, or touching non-K output slots would fail.
+```text
+output[K] += delta R,
+delta R = delta R_xx + delta R_zz + 2 delta R_ww.
+```
+
+The common GP-shift advection block already supplies
+`beta_GP^x d_x(delta K)` and is not duplicated. Still separate and missing are
+Z/hat-Gamma-dependent Ricci contributions, kappa damping, and hat-Gamma
+evolution. The lapse-Hessian variation vanishes in frozen gauge. Cosmological
+terms are absent under the still-locked `Lambda=0` assumption.
+
+`code/BlackStringToy/tests/Stage4AOCFrozenGaugeKCCZ4BlockTest.cpp` constructs
+an independent branch-sensitive oracle by central-differencing the nonlinear
+`R + K(K-2Theta)` expression. `R` comes directly from the Stage 4G nonlinear
+physical Ricci engine and its nonlinear physical inverse-metric trace; `K` and
+`Theta` are perturbed independently around the GP background. The epsilon
+sweep is `1e-2`, `1e-4`, `1e-5`, `1e-6`, and `1e-7`, with the `1e-5` to
+`1e-6` plateau required below `2e-7`.
+
+Branch-discriminating cases cover pure `delta K`, pure `delta Theta`, pure
+`delta A`, metric/chi perturbations, a pure `delta h_xz` jet, and a combined
+perturbation. The test also central-differences the rejected nonlinear BSSN
+expression as a negative branch oracle and requires every case to distinguish
+the selected CCZ4 implementation from that former row. The K RHS, coupled
+operator, and eigensolver gate remain incomplete.
 
 ## A-Equation Algebraic Non-Curvature Block
 
@@ -534,9 +540,8 @@ A_ij (alpha (K - 2 Theta) - (2 / d) div beta)
 ```
 
 The shift-stretching and `-(2/d) A_ij div beta` part is owned by the tensor
-shift-stretching block above. The trace-free Ricci/lapse-Hessian block remains
-missing. This Stage 4AO-C substep implements only the local non-curvature
-algebraic part
+shift-stretching block above. This Stage 4AO-C substep implements only the
+local non-curvature algebraic part
 
 ```text
 (K - 2 Theta) A_IJ - 2 h^KL A_IK A_LJ,
@@ -544,6 +549,9 @@ algebraic part
 
 linearized about the locked GP background. The mixed-index contraction raises
 with the conformal inverse metric, matching GRChombo's use of `h_UU`.
+The separate trace-free physical-Ricci insertion is now implemented, and the
+frozen-gauge lapse-Hessian variation vanishes; neither belongs to this
+non-curvature block.
 
 On the locked GP background,
 
@@ -940,10 +948,10 @@ The oracle set must include:
 - at least one mixed z-dependent mode with nonzero `d_z` and `d_zz`;
 - at least one trace-free projection check after all components are assembled.
 
-### First Implementation Target Recommendation
+### Historical First Implementation Target
 
-The safest next Ricci target is the hidden physical `delta R_ww[gamma]` block
-on the frozen GP background.
+The hidden physical `delta R_ww[gamma]` block on the frozen GP background was
+chosen as the first Ricci target.
 
 Reasons:
 
@@ -957,10 +965,11 @@ Reasons:
 - A finite-difference nonlinear oracle can compare Stage 4AC+4AE and Stage 4G
   around the same GP background perturbation.
 
-The first implementation is deliberately narrow: one hidden raw
-`delta R_ww[gamma]` block plus direct finite-difference oracle fixtures. It
-does not claim the visible Ricci components, trace-free curvature source, full
-operator, or eigensolver gate.
+That first implementation was deliberately narrow: one hidden raw
+`delta R_ww[gamma]` block plus direct finite-difference oracle fixtures. The
+visible components, trace/free assembly, and A/Theta/K Ricci insertions were
+implemented later as separate validation blocks. The full operator and
+eigensolver gate remain incomplete.
 
 ## First Ricci Block: Hidden Physical `delta R_ww[gamma]`
 
@@ -986,9 +995,9 @@ contribution around the flat GP spatial metric. The final two
 conformal-factor terms are the linearized Stage 4AE `R^chi_ww` correction
 around `chi=1`.
 
-This is a raw component check. It is not the visible Ricci, not the
-trace-free `A_IJ` curvature source, not the Theta Ricci scalar, not a complete
-operator row, and not a production RHS path.
+This helper is a raw component check: it does not itself compute visible
+Ricci or perform the separately implemented A/Theta/K Ricci insertions. It is
+not a complete operator row or a production RHS path.
 
 The fixture
 `code/BlackStringToy/tests/Stage4AOCHiddenPhysicalDeltaRwwTest.cpp` validates
@@ -1664,8 +1673,9 @@ stable point yet because the repository does not contain the complete
 frozen-gauge linearized operator.
 
 Implemented partial pieces include GP-shift advection, tensor
-shift-stretching, algebraic metric/chi coupling, the K-output `A^2/K^2`
-block, A-output non-curvature algebraic block, Theta non-Ricci algebraic
+shift-stretching, algebraic metric/chi coupling, the selected-CCZ4 K-output
+`+3 lambda delta K - 3 lambda delta Theta` block and physical-`delta R`
+insertion, A-output non-curvature algebraic block, Theta non-Ricci algebraic
 block, Theta `-K_GP deltaTheta`, trace-free `delta A` projector, validated raw
 Ricci components, raw Ricci trace/trace-free assembly, Theta Ricci scalar
 insertion, and A_IJ trace-free Ricci curvature insertion.
@@ -1682,8 +1692,9 @@ Remaining missing pieces:
 - convergence battery;
 - `k_c r0` convention map.
 
-Therefore no Stage 4AO-C spectral test is added in this patch. A toy operator
-or calibrated model would be misleading and is deliberately not introduced.
+Therefore no Stage 4AO-C eigensolver or spectral claim is enabled. A toy
+operator or calibrated model would be misleading and is deliberately not
+introduced.
 
 ## Required Next Work For 4AO-C
 

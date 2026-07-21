@@ -11,9 +11,10 @@ namespace BlackStringToy
 namespace Stage4AOFrozenGaugeHiddenRww
 {
 // Stage 4AO-C validation-only raw hidden physical Ricci block:
-// delta R_ww[gamma] on the locked frozen-GP background. This is not the
-// visible Ricci, not the trace-free A curvature source, not the Theta Ricci
-// scalar, not a complete frozen-gauge operator, and not production wiring.
+// delta R_ww[gamma] on the locked frozen-GP background. This helper itself
+// does not compute visible Ricci or perform the separately implemented A,
+// Theta, and K Ricci insertions. It is not a complete operator or production
+// wiring.
 static constexpr bool validation_only = true;
 static constexpr bool hidden_physical_delta_rww_implemented = true;
 static constexpr bool visible_ricci_implemented = false;

@@ -85,8 +85,8 @@ Physics and physics-design stages also produce polished review notes under
   perturbation variables, tensor shift-stretching for the `h_IJ` and `A_IJ`
   slots, and the algebraic metric/chi couplings
   `delta h_IJ <- -2 delta A_IJ`, `delta chi <- +(1/2) delta K`, plus the
-  K-output algebraic `A^2/K^2` linearization with inverse-metric variation
-  and hidden `ww` multiplicity, plus the A-output non-curvature algebraic
+  selected-CCZ4 K-output `3 lambda delta K - 3 lambda delta Theta` and
+  physical-`delta R` insertions, plus the A-output non-curvature algebraic
   linearization of `(K - 2Theta)A_IJ - 2h^KL A_IK A_LJ`, plus the
   Theta-output non-Ricci algebraic linearization of
   `0.5*(((d-1)/d)K^2 - A_IJ A^IJ)`, plus the Theta-output

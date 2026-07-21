@@ -1,5 +1,11 @@
 # Codex Log
 
+Correction notice (2026-07-20): every earlier Stage 4AO-C claim below that
+lists the K-row `A_IJ A^IJ + K^2/d` or calls it an `A^2/K^2` CCZ4 piece is
+historical and superseded. That expression is the rejected `USE_BSSN` branch;
+the current selected-CCZ4 implementation and evidence are recorded in the
+2026-07-20 entry.
+
 ## 2026-05-12
 
 - Date: 2026-05-12
@@ -840,8 +846,9 @@
   threshold/stable/unstable points, and convergence battery remain blockers.
 
 - Date: 2026-06-23
-- Goal: Add the next Stage 4AO-C partial operator block: K-equation algebraic
-  `A^2/K^2` linearization.
+- Goal: Historical, superseded attempt to add a Stage 4AO-C K-equation
+  `A^2/K^2` linearization. The 2026-07-20 correction identifies this as the
+  rejected `USE_BSSN` branch, not the locked project `USE_CCZ4` row.
 - Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`,
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp`,
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeKAlgebraicBlockTest.cpp`,
@@ -1280,3 +1287,34 @@
   team locks the `kappa1/kappa2` convention and the remaining damping,
   hatted-Gamma, full-operator, boundary, MOTS, spectral, convergence, and
   `k_c r0` gates are implemented.
+
+- Date: 2026-07-20
+- Goal: Correct the Stage 4AO-C K equation to the locked `USE_CCZ4`
+  formulation.
+- Files changed: `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`;
+  replaced `code/BlackStringToy/tests/Stage4AOCFrozenGaugeKAlgebraicBlockTest.cpp`
+  with `code/BlackStringToy/tests/Stage4AOCFrozenGaugeKCCZ4BlockTest.cpp`;
+  updated the Stage 4AO-C gate, fixture inventory, hidden-sphere roadmap,
+  checklist, TODO, and project/Codex logs.
+- Correction: removed the former BSSN K row `A_IJ A^IJ + K^2/d`, including
+  all direct `delta A_IJ` and inverse-metric coefficients. Implemented only
+  `output[K] += 3 lambda input[K] - 3 lambda input[Theta]` and the separate
+  physical-Ricci insertion
+  `output[K] += delta R_xx + delta R_zz + 2 delta R_ww`.
+- Validation performed: Used CodeGraph first. The replacement fixture
+  central-differences nonlinear Stage 4G physical Ricci plus independently
+  perturbed `K(K-2Theta)` over epsilons `1e-2`, `1e-4`, `1e-5`, `1e-6`, and
+  `1e-7`; the `1e-5`/`1e-6` plateau tolerance is `2e-7`. Pure `delta K`,
+  pure `delta Theta`, pure `delta A`, metric/chi, pure `delta h_xz`, and
+  combined cases all discriminate against a separately finite-differenced
+  nonlinear BSSN oracle.
+- Final validation: compiled and ran all 16 current `Stage4AOC*.cpp` fixtures
+  with `g++ -std=c++17 -Wall -Wextra -pedantic -I code/BlackStringToy`; all
+  passed. `git diff --check` passed, and diffs under `external/GRChombo` and
+  `scripts` were empty.
+- Review status: Only the selected-CCZ4 K/Theta and physical-`delta R` pieces
+  are implemented. Z/hat-Gamma-dependent Ricci, kappa damping, hat-Gamma
+  evolution, actual full-operator JVP/parity, boundaries, MOTS, eigensolver,
+  threshold, and convergence remain blockers. Frozen-gauge lapse-Hessian
+  variation vanishes and locked `Lambda=0` leaves no cosmological term.
+  Stage 4AO-C remains incomplete and the eigensolver remains disallowed.

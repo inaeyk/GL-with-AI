@@ -702,8 +702,8 @@ operator fixtures:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeTensorShiftStretchingBlockTest.cpp`.
 - Algebraic metric/chi coupling fixture:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeAlgebraicCouplingBlockTest.cpp`.
-- K-equation algebraic `A^2/K^2` fixture:
-  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeKAlgebraicBlockTest.cpp`.
+- Selected-CCZ4 K-equation `K(K-2Theta)` / physical-`delta R` fixture:
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeKCCZ4BlockTest.cpp`.
 - A-equation algebraic non-curvature fixture:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeAAlgebraicBlockTest.cpp`.
 - Theta-equation algebraic non-Ricci fixture:
@@ -722,15 +722,19 @@ operator fixtures:
   `code/BlackStringToy/tests/Stage4AOCVisiblePhysicalDeltaRxxTest.cpp`.
 - Raw Ricci trace / trace-free assembly fixture:
   `code/BlackStringToy/tests/Stage4AOCRicciTraceFreeAssemblyTest.cpp`.
+- Theta Ricci scalar insertion fixture:
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeThetaRicciScalarBlockTest.cpp`.
+- A-equation trace-free Ricci curvature insertion fixture:
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeARicciCurvatureBlockTest.cpp`.
 
 The contract fixture checks the 13-variable frozen-gauge perturbation vector,
 the exclusion of `delta alpha`, `delta beta^i`, and `delta B^i`, the
 per-variable RHS inventory labels, and the radial-domain contract
 `0<x_in<r0<x_out` with compact `z`. It also asserts that only GP-shift
 advection, tensor shift-stretching, the algebraic metric/chi coupling, and
-the K-equation algebraic `A^2/K^2` block, the A-equation non-curvature
+the selected-CCZ4 K-equation `K(K-2Theta)` and physical-`delta R` blocks, the A-equation non-curvature
 algebraic block, the Theta-equation non-Ricci algebraic block, and the
-Theta-equation `-K_GP deltaTheta` block have
+Theta-equation `-K_GP deltaTheta`, Theta Ricci, and A Ricci insertion blocks have
 `implemented_now` coverage, no frozen-gauge RHS variable is complete,
 boundary tests are not implemented, eigensolver and shift-invert support are
 absent, and production RHS wiring is absent. It also checks the separate
@@ -747,10 +751,11 @@ data, radial visible-metric data, and mixed radial/z off-diagonal data. It
 uses an epsilon sweep and requires the `1e-5` to `1e-6` plateau to agree with
 both oracle paths. Negative guards show that wrong hidden multiplicity,
 dropping hidden `1/x` terms, wrong off-diagonal z-derivative sign, or treating
-the raw component as already trace-free would fail. This fixture does not
-implement visible Ricci components, trace-free A-curvature source, Theta Ricci
-scalar, full-operator JVP/parity, MOTS, eigensolver work, or threshold
-searches.
+the raw component as already trace-free would fail. This component-local
+fixture does not perform the visible-component calculations or the A/Theta/K
+Ricci insertions itself; those globally completed validation pieces have their
+own fixtures. Full-operator JVP/parity, MOTS, eigensolver work, and threshold
+searches remain missing.
 
 The visible physical `delta R_xz[gamma]` fixture is the first one-z Ricci
 implementation substep. It checks only the raw lower/lower visible
@@ -764,9 +769,10 @@ derivative mode. It uses the same epsilon sweep and requires the `1e-5` to
 and near-roundoff forbidden cosine leakage. Negative guards show that wrong
 mixed-derivative sign, dropped conformal-factor mixed derivative, hidden
 multiplicity applied to visible `R_xz`, spurious `h_xz` contribution, or wrong
-parity assignment would fail. This fixture does not implement `delta R_xx`,
-`delta R_zz`, trace-free A-curvature source, Theta Ricci scalar, full-operator
-JVP/parity, MOTS, eigensolver work, or threshold searches.
+parity assignment would fail. This component-local fixture does not itself
+implement `delta R_xx`, `delta R_zz`, the globally completed A/Theta Ricci
+insertions, full-operator JVP/parity, MOTS, eigensolver work, or threshold
+searches.
 
 The visible physical `delta R_zz[gamma]` fixture is the next raw diagonal
 Ricci implementation substep. It checks only the raw lower/lower visible
@@ -784,9 +790,10 @@ that wrong `partial_xz(delta h_xz)` sign, dropping
 `2 partial_z(delta h_xz)/x`, dropping `-partial_x(delta h_zz)/x`, dropping
 `-partial_zz(delta h_ww)`, flipping the positive `chi` signs, hidden
 multiplicity applied to visible `R_zz`, wrong parity, or treating raw `R_zz`
-as already trace-free would fail. This fixture does not implement
-`delta R_xx`, trace-free A-curvature source, Theta Ricci scalar, full-operator
-JVP/parity, MOTS, eigensolver work, or threshold searches.
+as already trace-free would fail. This component-local fixture does not itself
+implement `delta R_xx` or the globally completed A/Theta Ricci insertions;
+full-operator JVP/parity, MOTS, eigensolver work, and threshold searches remain
+missing.
 
 The visible physical `delta R_xx[gamma]` fixture is the raw radial Ricci
 implementation substep. It checks only the raw lower/lower visible `xx`
@@ -802,9 +809,10 @@ plateau. Even-sector parity checks show scalar/diagonal inputs and one-z
 sine leakage. Negative guards show that wrong `partial_xz(delta h_xz)` sign,
 dropping a radial `1/x` term, dropping conformal-factor terms, hidden
 multiplicity applied to visible `R_xx`, wrong parity, or treating raw `R_xx`
-as already trace-free would fail. This fixture does not implement raw Ricci
-trace/trace-free assembly, trace-free A-curvature source, Theta Ricci scalar,
-full-operator JVP/parity, MOTS, eigensolver work, or threshold searches.
+as already trace-free would fail. This component-local fixture does not itself
+perform the globally completed raw trace/free assembly or A/Theta Ricci
+insertions; full-operator JVP/parity, MOTS, eigensolver work, and threshold
+searches remain missing.
 
 The raw Ricci trace / trace-free assembly fixture consumes the validated raw
 `delta R_xx`, `delta R_xz`, `delta R_zz`, and `delta R_ww` result types and
@@ -818,10 +826,10 @@ input, pure `delta h_xx`, pure `delta h_zz`, pure `delta h_ww`, pure
 `delta h_xz`, pure `delta chi`, mixed radial/z scalar data, and parity cases.
 Negative guards show that dropping hidden multiplicity two, adding `R_xz` to
 the trace, using `d=3`, projecting `R_xx` before full assembly, or treating
-the result as an A-curvature or Theta RHS insertion would fail. This fixture
-does not insert `[delta R_IJ]^TF` into the `A_IJ` curvature source, does not
-insert `0.5 delta R` into the Theta equation, and does not implement the full
-operator or eigensolver gate.
+the result as an A-curvature or Theta RHS insertion would fail. This assembly
+fixture does not itself perform those insertions; the separate A and Theta
+insertion fixtures now do. It does not implement the full operator or
+eigensolver gate.
 
 The GP-shift advection fixture checks the first actual matrix-free partial
 operator block:
@@ -878,36 +886,32 @@ fail. This fixture still does not include remaining K/A algebraic dynamics,
 Ricci, constraints, hatted-Gamma evolution, MOTS, eigensolver work, or
 threshold searches.
 
-The K-equation algebraic `A^2/K^2` fixture checks the BSSN-style GRChombo K
-RHS block
+The selected-CCZ4 K fixture supersedes the earlier BSSN-style fixture. The
+former `A_IJ A^IJ + K^2/d` row, including its inverse-metric and `delta A_IJ`
+coefficients, is rejected historical evidence and no longer exists in the K
+operator. The fixture checks only
 
 ```text
-alpha * (A_IJ A^IJ + K^2/d)
+F_K = R + K(K - 2Theta),
+output[K] += 3 lambda input[K],
+output[K] += -3 lambda input[Theta],
+output[K] += delta R_xx + delta R_zz + 2 delta R_ww.
 ```
 
-linearized about the locked GP background, with `A^IJ` raised using the
-conformal inverse metric and hidden `ww` multiplicity two. The fixture locks
-the K-output coefficients
+Its oracle central-differences the nonlinear Stage 4G physical Ricci scalar
+plus independently perturbed nonlinear `K(K-2Theta)` about
+`K_GP=3 lambda/2`, `Theta_GP=0`. The epsilon sweep is `1e-2`, `1e-4`, `1e-5`,
+`1e-6`, and `1e-7`; the `1e-5` to `1e-6` plateau must be below `2e-7`.
 
-```text
-(-49/32) lambda^2 delta h_xx,
-(-9/32)  lambda^2 delta h_zz,
-(-25/16) lambda^2 delta h_ww,
-(-7/4)   lambda   delta A_xx,
-(-3/4)   lambda   delta A_zz,
-(+5/2)   lambda   delta A_ww,
-(+3/4)   lambda   delta K.
-```
-
-It confirms the inverse-metric variation terms are present, `delta h_xz` and
-`delta A_xz` give zero on the diagonal GP background, and no non-K output slot
-is touched. Negative guards show that dropping inverse-metric variation,
-dropping hidden `ww` multiplicity, using a `d=3` K-squared coefficient, adding
-spurious `xz` couplings, or touching non-K outputs would fail. This fixture
-still does not include Ricci/curvature, lapse-Hessian/frozen-lapse pieces,
-Theta/constraint terms, A-equation dynamics beyond the separate
-non-curvature algebraic fixture, hatted-Gamma evolution, MOTS, eigensolver
-work, or threshold searches.
+Branch cases require pure `delta K` to give `+3 lambda delta K`, pure
+`delta Theta` to give `-3 lambda delta Theta`, pure `delta A` to give zero,
+metric/chi and pure `delta h_xz` jets to enter only through the Ricci scalar,
+and a combined perturbation to agree with the nonlinear CCZ4 finite
+difference. A separately central-differenced nonlinear BSSN expression is a
+negative oracle, and every case must distinguish the selected branch from it.
+Z/hat-Gamma-dependent Ricci terms, kappa damping, hat-Gamma evolution, the full
+operator, MOTS, and spectral work remain missing. Frozen-gauge lapse-Hessian
+variation vanishes; locked `Lambda=0` leaves no cosmological term.
 
 The A-equation algebraic non-curvature fixture checks the GRChombo A RHS
 convention block
@@ -1101,7 +1105,7 @@ multiplicity, touching non-A slots, or claiming a complete A RHS would fail.
 No actual spectral fixture is added yet because the full modified-cartoon CCZ4
 frozen-gauge RHS linearization is still missing beyond GP-shift advection,
 tensor shift-stretching, the local algebraic metric/chi coupling, and the
-K-output algebraic `A^2/K^2` block, plus the A-output non-curvature algebraic
+selected-CCZ4 K-output `K(K-2Theta)` and physical-`delta R` blocks, plus the A-output non-curvature algebraic
 block, Theta-output algebraic non-Ricci block, Theta-output
 `-K_GP deltaTheta` block, trace-free `delta A` projector contract, raw Ricci
 component blocks, raw trace/free assembly, and the Theta Ricci scalar

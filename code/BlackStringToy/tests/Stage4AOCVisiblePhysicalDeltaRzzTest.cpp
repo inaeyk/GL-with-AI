@@ -369,11 +369,11 @@ void check_scope_flags_and_validation()
 
     require_true("visible physical delta R_zz is implemented",
                  Visible::visible_physical_delta_rzz_implemented);
-    require_true("delta R_xx remains unimplemented",
+    require_true("visible Rzz helper does not implement delta R_xx",
                  !Visible::visible_delta_rxx_implemented);
-    require_true("trace-free A curvature source remains unimplemented",
+    require_true("visible Rzz helper does not perform A curvature insertion",
                  !Visible::trace_free_a_curvature_source_implemented);
-    require_true("Theta Ricci scalar remains unimplemented",
+    require_true("visible Rzz helper does not perform Theta Ricci insertion",
                  !Visible::theta_ricci_scalar_implemented);
     require_true("full frozen-gauge operator remains unimplemented",
                  !Visible::full_frozen_gauge_operator_implemented);

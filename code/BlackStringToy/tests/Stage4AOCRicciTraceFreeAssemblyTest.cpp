@@ -486,9 +486,9 @@ void check_negative_guards()
                  std::abs(assembly.tf_xx() -
                           premature_rxx_only_projection) > 1.0e-3);
 
-    require_true("trace-free A-curvature source remains unimplemented",
+    require_true("assembly helper does not perform A curvature insertion",
                  !RicciAssembly::trace_free_a_curvature_source_implemented);
-    require_true("Theta Ricci scalar RHS remains unimplemented",
+    require_true("assembly helper does not perform Theta Ricci insertion",
                  !RicciAssembly::theta_ricci_scalar_rhs_implemented);
     require_true("complete frozen-gauge operator remains unimplemented",
                  !RicciAssembly::full_frozen_gauge_operator_implemented);
@@ -505,9 +505,9 @@ void check_scope_flags_and_validation()
                  RicciAssembly::raw_ricci_trace_implemented);
     require_true("trace-free Ricci assembly is implemented",
                  RicciAssembly::trace_free_ricci_assembly_implemented);
-    require_true("trace-free A-curvature source remains unimplemented",
+    require_true("assembly namespace leaves A insertion to operator",
                  !RicciAssembly::trace_free_a_curvature_source_implemented);
-    require_true("Theta Ricci scalar RHS remains unimplemented",
+    require_true("assembly namespace leaves Theta insertion to operator",
                  !RicciAssembly::theta_ricci_scalar_rhs_implemented);
     require_true("eigensolver remains unimplemented",
                  !RicciAssembly::eigensolver_implemented);

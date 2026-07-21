@@ -520,7 +520,7 @@ with a flipped-parity negative guard. Stage 4AO-C now has the blocker note
 `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md` plus the
 validation-only wrapper, boundary contract, GP-shift advection block, and
 tensor shift-stretching block, algebraic metric/chi coupling block, and
-K-output algebraic `A^2/K^2` block, plus the A-output non-curvature
+selected-CCZ4 K-output `K(K-2Theta)` and physical-`delta R` blocks, plus the A-output non-curvature
 algebraic block and Theta-output non-Ricci algebraic block in
 `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`, plus the Theta-output
 `-K_GP deltaTheta` linearization from GRChombo's `-Theta K` term and the
@@ -534,7 +534,9 @@ projects only after full raw assembly. The Theta Ricci scalar insertion now
 writes only `output[Theta] += 0.5 delta R` from that assembly. The `A_IJ`
 Ricci curvature insertion now writes only
 `output[A_IJ] += [delta R_IJ]^TF` from the same trace-free assembly, without an
-extra hidden multiplicity factor on `A_ww`. It does not yet provide the
+extra hidden multiplicity factor on `A_ww`. The K insertion now writes only
+`output[K] += delta R`, and the former `A_IJ A^IJ + K^2/d` K row is rejected
+as the wrong `USE_BSSN` branch. It does not yet provide the
 full frozen-gauge operator beyond those partial blocks, actual-operator
 JVP/parity checks, boundary validation, shift-invert solve, unstable/stable
 points, threshold estimate, or primary-source `k_c r0` convention lock. Flat

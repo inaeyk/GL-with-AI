@@ -24,11 +24,12 @@ constexpr std::array<Variable, 13> expected_state_order = {
     Variable::A_ww,        Variable::Theta,       Variable::hat_Gamma_x,
     Variable::hat_Gamma_z};
 
-constexpr std::array<Piece, 16> all_rhs_pieces = {
+constexpr std::array<Piece, 17> all_rhs_pieces = {
     Piece::gp_shift_advection,
     Piece::tensor_shift_stretching,
     Piece::algebraic_metric_chi_coupling,
-    Piece::k_equation_algebraic_a2_k2,
+    Piece::k_equation_ccz4_k_theta,
+    Piece::k_equation_ricci_scalar_insertion,
     Piece::a_equation_algebraic_non_curvature,
     Piece::theta_equation_algebraic_non_ricci,
     Piece::theta_equation_minus_k_delta_theta,
@@ -177,8 +178,9 @@ void check_rhs_inventory()
     // The GP-shift advection piece is now a real partial operator block.
     // Tensor shift-stretching is implemented for h_IJ and A_IJ slots, and the
     // local algebraic h<-A / chi<-K block is implemented for h_IJ and chi
-    // outputs. The K-equation A^2/K^2 algebraic block is implemented only as a
-    // K-output block. The A-equation non-curvature algebraic block is
+    // outputs. The K-equation CCZ4 K/Theta and physical-Ricci scalar pieces
+    // are implemented only as K-output blocks. The rejected BSSN A^2+K^2/d
+    // row is absent. The A-equation non-curvature algebraic block is
     // implemented only for A_IJ outputs. The Theta-equation non-Ricci
     // algebraic block and the -K_GP deltaTheta block are implemented only for
     // the Theta output. The Theta Ricci scalar insertion is also implemented
@@ -216,14 +218,20 @@ void check_rhs_inventory()
                    Variable::hat_Gamma_z,
                    Piece::algebraic_metric_chi_coupling,
                    Status::not_applicable);
-    require_status("K A^2/K^2 algebraic block is implemented", Variable::K,
-                   Piece::k_equation_algebraic_a2_k2,
+    require_status("K CCZ4 K/Theta block is implemented", Variable::K,
+                   Piece::k_equation_ccz4_k_theta,
                    Status::implemented_now);
-    require_status("chi has no K A^2/K^2 output", Variable::chi,
-                   Piece::k_equation_algebraic_a2_k2,
+    require_status("chi has no K CCZ4 K/Theta output", Variable::chi,
+                   Piece::k_equation_ccz4_k_theta,
                    Status::not_applicable);
-    require_status("A_ww has no K A^2/K^2 output", Variable::A_ww,
-                   Piece::k_equation_algebraic_a2_k2,
+    require_status("A_ww has no K CCZ4 K/Theta output", Variable::A_ww,
+                   Piece::k_equation_ccz4_k_theta,
+                   Status::not_applicable);
+    require_status("K Ricci scalar insertion is implemented", Variable::K,
+                   Piece::k_equation_ricci_scalar_insertion,
+                   Status::implemented_now);
+    require_status("Theta has no K Ricci scalar output", Variable::Theta,
+                   Piece::k_equation_ricci_scalar_insertion,
                    Status::not_applicable);
     require_status("A_xx algebraic non-curvature block is implemented",
                    Variable::A_xx,
@@ -303,7 +311,7 @@ void check_rhs_inventory()
     require_status("A_ww curvature terms have helper coverage only",
                    Variable::A_ww, Piece::ricci_curvature_terms,
                    Status::reusable_helper);
-    require_status("K Ricci scalar path has helper coverage only",
+    require_status("remaining K Ricci/Z path has helper coverage only",
                    Variable::K, Piece::ricci_curvature_terms,
                    Status::reusable_helper);
     require_status("hat_Gamma^x hidden evolution has helper coverage only",
@@ -375,24 +383,45 @@ void check_rhs_inventory()
                              "implemented");
                 }
             }
-            else if (piece == Piece::k_equation_algebraic_a2_k2)
+            else if (piece == Piece::k_equation_ccz4_k_theta)
             {
                 const bool should_be_implemented =
-                    Operator::receives_k_equation_algebraic_a2_k2(variable);
+                    Operator::receives_k_equation_ccz4_k_theta(variable);
                 if (should_be_implemented &&
                     status != Status::implemented_now)
                 {
-                    fail("K A^2/K^2 implemented_now guard",
+                    fail("K CCZ4 K/Theta implemented_now guard",
                          std::string(Operator::variable_name(variable)) +
-                             " does not mark K algebraic coupling "
+                             " does not mark K/Theta coupling "
                              "implemented");
                 }
                 if (!should_be_implemented &&
                     status == Status::implemented_now)
                 {
-                    fail("K A^2/K^2 scope guard",
+                    fail("K CCZ4 K/Theta scope guard",
                          std::string(Operator::variable_name(variable)) +
-                             " unexpectedly marks K algebraic coupling "
+                             " unexpectedly marks K/Theta coupling "
+                             "implemented");
+                }
+            }
+            else if (piece == Piece::k_equation_ricci_scalar_insertion)
+            {
+                const bool should_be_implemented =
+                    Operator::receives_k_equation_ricci_scalar_insertion(
+                        variable);
+                if (should_be_implemented &&
+                    status != Status::implemented_now)
+                {
+                    fail("K Ricci insertion implemented_now guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " does not mark K Ricci insertion implemented");
+                }
+                if (!should_be_implemented &&
+                    status == Status::implemented_now)
+                {
+                    fail("K Ricci insertion scope guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " unexpectedly marks K Ricci insertion "
                              "implemented");
                 }
             }
@@ -514,7 +543,7 @@ void check_rhs_inventory()
         }
     }
     std::cout << "PASS only GP-shift advection, tensor stretching, "
-                 "algebraic metric/chi, K A^2/K^2, A algebraic "
+                 "algebraic metric/chi, K CCZ4 K/Theta, K Ricci scalar, A algebraic "
                  "non-curvature, Theta algebraic non-Ricci, Theta minus-K, "
                  "Theta Ricci scalar insertion, and A Ricci curvature "
                  "insertion blocks are "
@@ -535,8 +564,20 @@ void check_operator_completion_guard()
                  Operator::tensor_shift_stretching_block_implemented);
     require_true("algebraic metric/chi coupling block is implemented",
                  Operator::algebraic_metric_chi_coupling_block_implemented);
-    require_true("K A^2/K^2 algebraic block is implemented",
-                 Operator::k_equation_algebraic_a2_k2_block_implemented);
+    require_true("K CCZ4 K/Theta block is implemented",
+                 Operator::k_equation_ccz4_k_theta_block_implemented);
+    require_true("K Ricci scalar insertion block is implemented",
+                 Operator::k_equation_ricci_scalar_insertion_block_implemented);
+    require_true("K Z/hat-Gamma Ricci contributions remain missing",
+                 !Operator::k_equation_z_ricci_contributions_implemented);
+    require_true("K kappa damping remains missing",
+                 !Operator::k_equation_kappa_damping_block_implemented);
+    require_true("K lapse Hessian vanishes in frozen gauge",
+                 Operator::k_equation_lapse_hessian_vanishes_in_frozen_gauge);
+    require_true("cosmological constant remains locked to zero",
+                 Operator::cosmological_constant_locked_to_zero);
+    require_true("no cosmological K block is implemented",
+                 !Operator::k_equation_cosmological_terms_implemented);
     require_true("A algebraic non-curvature block is implemented",
                  Operator::a_equation_algebraic_non_curvature_block_implemented);
     require_true(

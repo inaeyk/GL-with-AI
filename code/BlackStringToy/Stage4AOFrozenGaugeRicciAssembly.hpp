@@ -16,9 +16,9 @@ namespace Stage4AOFrozenGaugeRicciAssembly
 {
 // Stage 4AO-C validation-only Ricci assembly from already validated raw
 // lower/lower physical component helpers. This assembles the scalar trace and
-// trace-free Ricci tensor at the locked flat frozen-GP background. It is not
-// the A_IJ curvature source, not the Theta Ricci scalar RHS term, not a
-// complete frozen-gauge operator, and not production wiring.
+// trace-free Ricci tensor at the locked flat frozen-GP background. This helper
+// does not itself perform the separately implemented A, Theta, and K Ricci
+// insertions. It is not a complete frozen-gauge operator or production wiring.
 static constexpr bool validation_only = true;
 static constexpr bool raw_ricci_trace_implemented = true;
 static constexpr bool trace_free_ricci_assembly_implemented = true;

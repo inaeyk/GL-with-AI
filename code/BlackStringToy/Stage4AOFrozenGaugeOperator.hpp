@@ -22,7 +22,14 @@ static constexpr bool validation_only = true;
 static constexpr bool gp_shift_advection_block_implemented = true;
 static constexpr bool tensor_shift_stretching_block_implemented = true;
 static constexpr bool algebraic_metric_chi_coupling_block_implemented = true;
-static constexpr bool k_equation_algebraic_a2_k2_block_implemented = true;
+static constexpr bool k_equation_ccz4_k_theta_block_implemented = true;
+static constexpr bool k_equation_ricci_scalar_insertion_block_implemented =
+    true;
+static constexpr bool k_equation_z_ricci_contributions_implemented = false;
+static constexpr bool k_equation_kappa_damping_block_implemented = false;
+static constexpr bool k_equation_lapse_hessian_vanishes_in_frozen_gauge = true;
+static constexpr bool cosmological_constant_locked_to_zero = true;
+static constexpr bool k_equation_cosmological_terms_implemented = false;
 static constexpr bool a_equation_algebraic_non_curvature_block_implemented =
     true;
 static constexpr bool theta_equation_algebraic_non_ricci_block_implemented =
@@ -72,7 +79,8 @@ enum class RhsPiece
     gp_shift_advection,
     tensor_shift_stretching,
     algebraic_metric_chi_coupling,
-    k_equation_algebraic_a2_k2,
+    k_equation_ccz4_k_theta,
+    k_equation_ricci_scalar_insertion,
     a_equation_algebraic_non_curvature,
     theta_equation_algebraic_non_ricci,
     theta_equation_minus_k_delta_theta,
@@ -148,11 +156,12 @@ inline constexpr std::array<const char *, 4> implemented_wrapper_pieces = {
     "RHS block inventory with implemented/reusable/missing labels",
     "radial-domain and boundary-condition contract"};
 
-inline constexpr std::array<const char *, 11> implemented_operator_pieces = {
+inline constexpr std::array<const char *, 12> implemented_operator_pieces = {
     "matrix-free GP-shift advection block beta_GP^x d_x(delta u)",
     "GP-shift tensor stretching for h_IJ and A_IJ",
     "algebraic h_IJ <- -2 A_IJ and chi <- +K/2 couplings",
-    "K-output algebraic A^2/K^2 linearization",
+    "K-output CCZ4 K(K-2Theta) linearization",
+    "K-output physical Ricci scalar insertion +delta R",
     "A_IJ-output algebraic non-curvature linearization",
     "Theta-output algebraic non-Ricci linearization",
     "Theta-output -K_GP deltaTheta linearization",
@@ -255,7 +264,13 @@ inline bool receives_algebraic_metric_chi_coupling(
     return variable == PerturbationVariable::chi || is_metric_variable(variable);
 }
 
-inline bool receives_k_equation_algebraic_a2_k2(
+inline bool receives_k_equation_ccz4_k_theta(
+    const PerturbationVariable variable)
+{
+    return variable == PerturbationVariable::K;
+}
+
+inline bool receives_k_equation_ricci_scalar_insertion(
     const PerturbationVariable variable)
 {
     return variable == PerturbationVariable::K;
@@ -316,8 +331,13 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
                    ? PieceStatus::implemented_now
                    : PieceStatus::not_applicable;
 
-    case RhsPiece::k_equation_algebraic_a2_k2:
-        return receives_k_equation_algebraic_a2_k2(variable)
+    case RhsPiece::k_equation_ccz4_k_theta:
+        return receives_k_equation_ccz4_k_theta(variable)
+                   ? PieceStatus::implemented_now
+                   : PieceStatus::not_applicable;
+
+    case RhsPiece::k_equation_ricci_scalar_insertion:
+        return receives_k_equation_ricci_scalar_insertion(variable)
                    ? PieceStatus::implemented_now
                    : PieceStatus::not_applicable;
 
@@ -784,9 +804,15 @@ class FrozenGaugeApplyResult
         const RadialGrid &grid,
         const std::vector<FrozenGaugePerturbationVector> &input);
 
-    friend FrozenGaugeApplyResult apply_k_equation_algebraic_a2_k2_block(
+    friend FrozenGaugeApplyResult apply_k_equation_ccz4_k_theta_block(
         const RadialGrid &grid,
         const std::vector<FrozenGaugePerturbationVector> &input);
+
+    friend FrozenGaugeApplyResult apply_k_equation_ricci_scalar_insertion_block(
+        const RadialGrid &grid,
+        const std::vector<
+            Stage4AOFrozenGaugeRicciAssembly::TraceFreeRicciAssembly>
+            &ricci_assemblies);
 
     friend FrozenGaugeApplyResult
     apply_a_equation_algebraic_non_curvature_block(
@@ -859,32 +885,26 @@ apply_algebraic_metric_chi_coupling_at_point(
     return make_frozen_gauge_perturbation_vector(values);
 }
 
-inline double k_equation_algebraic_a2_k2_coefficient(
+inline double k_equation_ccz4_k_theta_coefficient(
     const PerturbationVariable variable, const double r0, const double x)
 {
     const double lambda = lambda_gp(r0, x);
-    const double lambda_squared = lambda * lambda;
 
     switch (variable)
     {
-    case PerturbationVariable::h_xx:
-        return -49.0 * lambda_squared / 32.0;
-    case PerturbationVariable::h_zz:
-        return -9.0 * lambda_squared / 32.0;
-    case PerturbationVariable::h_ww:
-        return -25.0 * lambda_squared / 16.0;
-    case PerturbationVariable::A_xx:
-        return -7.0 * lambda / 4.0;
-    case PerturbationVariable::A_zz:
-        return -3.0 * lambda / 4.0;
-    case PerturbationVariable::A_ww:
-        return 5.0 * lambda / 2.0;
     case PerturbationVariable::K:
-        return 3.0 * lambda / 4.0;
-    case PerturbationVariable::chi:
-    case PerturbationVariable::h_xz:
-    case PerturbationVariable::A_xz:
+        return 3.0 * lambda;
     case PerturbationVariable::Theta:
+        return -3.0 * lambda;
+    case PerturbationVariable::chi:
+    case PerturbationVariable::h_xx:
+    case PerturbationVariable::h_xz:
+    case PerturbationVariable::h_zz:
+    case PerturbationVariable::h_ww:
+    case PerturbationVariable::A_xx:
+    case PerturbationVariable::A_xz:
+    case PerturbationVariable::A_zz:
+    case PerturbationVariable::A_ww:
     case PerturbationVariable::hat_Gamma_x:
     case PerturbationVariable::hat_Gamma_z:
         return 0.0;
@@ -892,22 +912,23 @@ inline double k_equation_algebraic_a2_k2_coefficient(
     return 0.0;
 }
 
-inline FrozenGaugePerturbationVector apply_k_equation_algebraic_a2_k2_at_point(
+inline FrozenGaugePerturbationVector apply_k_equation_ccz4_k_theta_at_point(
     const double r0, const double x,
     const FrozenGaugePerturbationVector &input)
 {
     std::array<double, frozen_gauge_state_vector.size()> values = {};
 
-    // Linearized from GRChombo's BSSN-style K algebraic term
-    // alpha * (A_IJ A^IJ + K^2/d), where A^IJ is raised with the conformal
-    // inverse h^IJ. This validation block uses the locked diagonal GP
-    // background, d=4, alpha_GP=1, and hidden ww multiplicity two.
-    double k_output = 0.0;
-    for (const auto variable : frozen_gauge_state_vector)
-    {
-        k_output += k_equation_algebraic_a2_k2_coefficient(variable, r0, x) *
-                    input.value(variable);
-    }
+    // Selected USE_CCZ4 branch: alpha * K * (K - 2 Theta). With
+    // K_GP=3 lambda/2, Theta_GP=0, alpha_GP=1, and delta alpha=0, the
+    // linearization is +3 lambda delta K - 3 lambda delta Theta. The former
+    // A_IJ A^IJ + K^2/d block belongs to the rejected USE_BSSN branch and is
+    // intentionally absent from this row.
+    const double k_output =
+        k_equation_ccz4_k_theta_coefficient(PerturbationVariable::K, r0, x) *
+            input.value(PerturbationVariable::K) +
+        k_equation_ccz4_k_theta_coefficient(PerturbationVariable::Theta, r0,
+                                             x) *
+            input.value(PerturbationVariable::Theta);
 
     values[variable_index(PerturbationVariable::K)] = k_output;
     return make_frozen_gauge_perturbation_vector(values);
@@ -1107,6 +1128,24 @@ apply_theta_equation_minus_k_delta_theta_at_point(
 }
 
 inline FrozenGaugePerturbationVector
+apply_k_equation_ricci_scalar_insertion_at_point(
+    const Stage4AOFrozenGaugeRicciAssembly::TraceFreeRicciAssembly
+        &ricci_assembly)
+{
+    std::array<double, frozen_gauge_state_vector.size()> values = {};
+
+    // Selected USE_CCZ4 K RHS contains +alpha R. Frozen gauge has
+    // alpha_GP=1 and delta alpha=0, while R_GP=0, so the physical-Ricci
+    // contribution is exactly +delta R. The reviewed assembly supplies
+    // delta R_xx + delta R_zz + 2 delta R_ww. Z/hat_Gamma-dependent Ricci
+    // contributions remain separate and unimplemented.
+    values[variable_index(PerturbationVariable::K)] =
+        ricci_assembly.scalar_trace();
+
+    return make_frozen_gauge_perturbation_vector(values);
+}
+
+inline FrozenGaugePerturbationVector
 apply_theta_ricci_scalar_insertion_at_point(
     const Stage4AOFrozenGaugeRicciAssembly::TraceFreeRicciAssembly
         &ricci_assembly)
@@ -1231,22 +1270,44 @@ inline FrozenGaugeApplyResult apply_algebraic_metric_chi_coupling_block(
     return FrozenGaugeApplyResult(output, 0, grid.points() - 1, false);
 }
 
-inline FrozenGaugeApplyResult apply_k_equation_algebraic_a2_k2_block(
+inline FrozenGaugeApplyResult apply_k_equation_ccz4_k_theta_block(
     const RadialGrid &grid,
     const std::vector<FrozenGaugePerturbationVector> &input)
 {
     if (input.size() != grid.points())
     {
         throw std::domain_error(
-            "Stage 4AO-C K algebraic input must have one vector per radial grid point");
+            "Stage 4AO-C K CCZ4 K/Theta input must have one vector per radial grid point");
     }
 
     std::vector<FrozenGaugePerturbationVector> output;
     output.reserve(input.size());
     for (std::size_t i = 0; i < input.size(); ++i)
     {
-        output.push_back(apply_k_equation_algebraic_a2_k2_at_point(
+        output.push_back(apply_k_equation_ccz4_k_theta_at_point(
             grid.domain().r0(), grid.x(i), input[i]));
+    }
+
+    return FrozenGaugeApplyResult(output, 0, grid.points() - 1, false);
+}
+
+inline FrozenGaugeApplyResult apply_k_equation_ricci_scalar_insertion_block(
+    const RadialGrid &grid,
+    const std::vector<Stage4AOFrozenGaugeRicciAssembly::TraceFreeRicciAssembly>
+        &ricci_assemblies)
+{
+    if (ricci_assemblies.size() != grid.points())
+    {
+        throw std::domain_error(
+            "Stage 4AO-C K Ricci-scalar input must have one assembly per radial grid point");
+    }
+
+    std::vector<FrozenGaugePerturbationVector> output;
+    output.reserve(ricci_assemblies.size());
+    for (const auto &assembly : ricci_assemblies)
+    {
+        output.push_back(
+            apply_k_equation_ricci_scalar_insertion_at_point(assembly));
     }
 
     return FrozenGaugeApplyResult(output, 0, grid.points() - 1, false);

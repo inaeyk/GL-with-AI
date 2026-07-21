@@ -12,9 +12,9 @@ namespace Stage4AOFrozenGaugeVisibleRxz
 {
 // Stage 4AO-C validation-only raw visible physical Ricci block:
 // delta R_xz[gamma] on the locked frozen-GP background. This is the first
-// one-z Ricci target. It is not delta R_xx, not delta R_zz, not the trace-free
-// A curvature source, not the Theta Ricci scalar, not a complete frozen-gauge
-// operator, and not production wiring.
+// one-z Ricci target. This helper itself does not compute delta R_xx or
+// delta R_zz or perform the separately implemented A, Theta, and K Ricci
+// insertions. It is not a complete operator or production wiring.
 static constexpr bool validation_only = true;
 static constexpr bool visible_physical_delta_rxz_implemented = true;
 static constexpr bool visible_delta_rxx_implemented = false;

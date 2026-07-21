@@ -2,6 +2,11 @@
 
 Chronological lab notebook.
 
+Correction notice (2026-07-20): all earlier Stage 4AO-C K-row entries using
+`A_IJ A^IJ + K^2/d` are retained only as historical records of the rejected
+`USE_BSSN` branch. The current selected-CCZ4 implementation and evidence are
+recorded in the 2026-07-20 correction entry.
+
 Categories: 🔴 Physics, 🔵 Code, 🟡 Physics + Code
 
 ## 2026-05-12
@@ -980,7 +985,7 @@ Category: Code + Validation Planning
   convergence battery, and the `k_c r0` convention map. Stage 4AO-C remains
   incomplete.
 
-## 2026-06-23 - Stage 4AO-C K Algebraic A2/K2 Block
+## 2026-06-23 - Historical Stage 4AO-C K A2/K2 Block (Rejected BSSN Branch)
 
 Category: Code + Validation Planning
 
@@ -1453,3 +1458,35 @@ Category: Documentation / Validation Planning
 - No kappa values were chosen and no code/tests were added. The human
   `kappa1/kappa2` convention choice and Z4 damping implementation remain
   blockers before a complete 4AO-C operator or spectrum.
+
+## 2026-07-20 - Stage 4AO-C Selected-CCZ4 K Equation Correction
+
+Category: Code + Validation + Documentation Reconciliation
+
+- Superseded the 2026-06-23 K block after the committed-range audit showed
+  that `A_IJ A^IJ + K^2/d` is GRChombo's `USE_BSSN` branch. Its direct
+  `delta A_IJ`, inverse-metric, and `K^2/d` coefficients were removed from
+  the Stage 4AO-C K row.
+- Implemented the locked `USE_CCZ4` non-damping pieces only:
+  `output[K] += 3 lambda input[K] - 3 lambda input[Theta]` and, through the
+  validated Ricci trace assembly,
+  `output[K] += delta R_xx + delta R_zz + 2 delta R_ww`.
+- Replaced the old K fixture with
+  `Stage4AOCFrozenGaugeKCCZ4BlockTest.cpp`. Its independent oracle
+  central-differences nonlinear Stage 4G physical Ricci plus
+  `K(K-2Theta)`, perturbs K and Theta independently, requires an epsilon
+  plateau, and tests pure K, pure Theta, pure A, metric/chi, pure h_xz, and
+  combined perturbations against both selected-CCZ4 and rejected-BSSN
+  nonlinear branch oracles.
+- Compiled and ran all 16 current `Stage4AOC*.cpp` fixtures with the locked
+  C++17 warning flags; all passed. `git diff --check` passed, with no
+  `external/GRChombo` or `scripts` diffs.
+- Reconciled the Stage 4 summary, 4AO-C gate, hidden-sphere roadmap, fixture
+  inventory, checklist, TODO, and logs. Theta Ricci and A trace-free Ricci
+  insertions remain recorded as completed validation pieces.
+- Still missing: Z/hat-Gamma-dependent Ricci, kappa damping and convention
+  choice, hat-Gamma evolution, remaining coupled RHS pieces, actual-operator
+  JVP/parity, boundary validation, linearized MOTS, eigensolver/shift-invert,
+  threshold/stable/unstable points, convergence, and the `k_c r0` map.
+  Frozen-gauge lapse-Hessian variation vanishes and locked `Lambda=0` leaves
+  no cosmological K term. Stage 4AO-C remains incomplete.
