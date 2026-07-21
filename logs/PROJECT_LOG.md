@@ -1610,3 +1610,25 @@ Category: Validation Operator + Tests + Documentation
   connection test passed; all 19 current `Stage4AOC*.cpp` fixtures compiled
   without warnings and passed. `git diff --check` passed, and diffs under
   `external/GRChombo`, `scripts`, and `params_stage2_smoke.txt` were empty.
+
+## 2026-07-21 - Stage 4AO-C Hatted-Gamma Gradient Block
+
+Category: Validation Operator + Tests + Documentation
+
+- Began from the clean committed Gamma checkpoint and used CodeGraph before
+  editing.
+- Added only the two hatted-Gamma K/Theta/chi-gradient rows:
+  `2 dx(deltaTheta) - (3/2)dx(deltaK) - 27 lambda delta h_xx/(8x) +
+  (7 lambda/2)dx(delta chi)` and the z companion with `h_xz` and
+  `(3 lambda/2)dz(delta chi)`. The prior connection/Z block and common
+  advection remain separate and unchanged.
+- Added `Stage4AOCFrozenGaugeHatGammaGradientBlockTest.cpp`. Its oracle derives
+  `-2(d-1)/d`, varies `h^{ij} partial_j K_GP` using
+  `partial_x K_GP=-9 lambda/(4x)`, and derives the chi coefficients from the
+  d=4 GP A background. Pure-gradient, metric-variation, parity, scope, and
+  non-duplication cases pass; wrong signs, omitted metric variation, swapped
+  chi coefficients, and forbidden `h_zz/h_ww` writes are rejected.
+- Validation: the focused test, operator contract, prior Gamma block, and
+  contracted-connection helper passed. All 20 current `Stage4AOC*.cpp`
+  fixtures compiled without warnings and passed. Complete Gamma evolution,
+  the full operator, and eigensolver access remain false.

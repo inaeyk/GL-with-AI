@@ -1401,3 +1401,20 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   all 19 current Stage 4AO-C fixtures passed with the required warning flags.
   Whitespace and protected-path checks passed, and the Stage 2 smoke parameter
   file remains unchanged.
+
+- Date: 2026-07-21
+- Goal: Implement only the Stage 4AO-C hatted-Gamma K/Theta/chi-gradient
+  block.
+- Initial state: clean committed Gamma checkpoint; CodeGraph used first.
+- Implementation: added the selected d=4 x/z gradient rows, including the
+  `-27 lambda delta h_xx/(8x)` and `-27 lambda delta h_xz/(8x)` inverse-metric
+  variations of the GP K gradient and the distinct `7 lambda/2` versus
+  `3 lambda/2` chi coefficients. Only hatted-Gamma outputs are written.
+- Tests: the independent focused oracle covers pure K, Theta, chi, `h_xx`,
+  `h_xz`, excluded `h_zz/h_ww`, wrong signs, omitted metric variation,
+  distinct chi coefficients, parity, output scope, and no duplication of
+  prior Gamma/advection blocks. Focused and prior Gamma/helper/contract tests
+  passed; all 20 Stage 4AO-C fixtures passed without warnings.
+- Remaining: connection-A, vector/shift-Hessian terms, remaining coupled
+  terms, and final Gamma row assembly. Stage 4AO-C, 4AO-D, and Checkpoint G
+  remain incomplete.

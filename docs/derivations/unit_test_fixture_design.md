@@ -710,6 +710,8 @@ operator fixtures:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeContractedConnectionTest.cpp`.
 - First non-advection hatted-Gamma Z/kappa and `kappa3` shift-gradient fixture:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeHatGammaZ4KappaBlockTest.cpp`.
+- Hatted-Gamma K/Theta/chi-gradient fixture:
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeHatGammaGradientBlockTest.cpp`.
 - A-equation algebraic non-curvature fixture:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeAAlgebraicBlockTest.cpp`.
 - Theta-equation algebraic non-Ricci fixture:
@@ -960,8 +962,9 @@ wrong derivative signs. The determinant-reduced identities are checked only
 on a trace-certified perturbation and explicitly rejected as a general
 identity. Fourier projections require `g_x` in the scalar/even sector and
 `g_z` in the one-z/opposite-parity sector. The helper itself still writes no
-Gamma RHS. Connection-A, vector-Hessian, K/Theta/chi-gradient, complete-RHS,
-and eigensolver claims remain false.
+Gamma RHS. The separate K/Theta/chi-gradient block is now implemented;
+connection-A, vector/shift-Hessian, complete-RHS, and eigensolver claims
+remain false.
 
 The first hatted-Gamma RHS fixture independently derives
 
@@ -985,8 +988,29 @@ Z antidamping, hidden multiplicity one inherited through `g_i`, and duplicate
 `beta_GP^x partial_x H_i` advection. All non-Gamma outputs stay zero, the
 scalar/even and one-z parity sectors remain separate, and both Gamma-variable
 completion flags, the full-operator flag, and eigensolver access remain false.
-Connection-A, vector/shift-Hessian, K/Theta/chi-gradient, and complete row
-assembly are outside this fixture.
+Connection-A, vector/shift-Hessian, and complete row assembly are outside this
+fixture; K/Theta/chi gradients are validated separately.
+
+The hatted-Gamma gradient fixture independently derives from the selected
+`d=4` equation
+
+```text
+output[hat_Gamma^x] += 2 dx(deltaTheta) - (3/2) dx(deltaK)
+                        - 27 lambda delta h_xx/(8x)
+                        + (7 lambda/2) dx(delta chi),
+output[hat_Gamma^z] += 2 dz(deltaTheta) - (3/2) dz(deltaK)
+                        - 27 lambda delta h_xz/(8x)
+                        + (3 lambda/2) dz(delta chi).
+```
+
+The `-3/2` coefficient comes from `-2(d-1)/d`; the metric coefficient is
+derived by varying `h^{ij} partial_j K_GP` with
+`partial_x K_GP=-9 lambda/(4x)`; and the distinct chi coefficients are
+`-d A_GP^xx` and `-d A_GP^zz`. Pure K, Theta, chi, `h_xx`, and `h_xz` cases
+pass. Mutation guards reject wrong signs, omitted background-K-gradient
+metric variation, swapped chi coefficients, `h_zz/h_ww` contributions,
+parity leakage, non-Gamma writes, and duplication of the earlier Gamma or
+common-advection blocks. Completion and eigensolver gates remain false.
 
 The A-equation algebraic non-curvature fixture checks the GRChombo A RHS
 convention block

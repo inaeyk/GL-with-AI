@@ -24,7 +24,7 @@ constexpr std::array<Variable, 13> expected_state_order = {
     Variable::A_ww,        Variable::Theta,       Variable::hat_Gamma_x,
     Variable::hat_Gamma_z};
 
-constexpr std::array<Piece, 19> all_rhs_pieces = {
+constexpr std::array<Piece, 20> all_rhs_pieces = {
     Piece::gp_shift_advection,
     Piece::tensor_shift_stretching,
     Piece::algebraic_metric_chi_coupling,
@@ -32,6 +32,7 @@ constexpr std::array<Piece, 19> all_rhs_pieces = {
     Piece::k_equation_ricci_scalar_insertion,
     Piece::ccz4_k_theta_damping_insertion,
     Piece::hat_gamma_z4_kappa_shift_gradient_insertion,
+    Piece::hat_gamma_k_theta_chi_gradient_insertion,
     Piece::a_equation_algebraic_non_curvature,
     Piece::theta_equation_algebraic_non_ricci,
     Piece::theta_equation_minus_k_delta_theta,
@@ -185,6 +186,8 @@ void check_rhs_inventory()
     // kappa damping insertion is implemented only for K and Theta outputs;
     // the first non-advection hatted-Gamma Z/kappa plus kappa3
     // shift-gradient insertion is implemented only for hatted-Gamma outputs.
+    // The separate K/Theta/chi gradient insertion is likewise implemented
+    // only for hatted-Gamma outputs.
     // The rejected BSSN
     // A^2+K^2/d row is absent. The A-equation non-curvature algebraic block is
     // implemented only for A_IJ outputs. The Theta-equation non-Ricci
@@ -259,6 +262,18 @@ void check_rhs_inventory()
                    Status::implemented_now);
     require_status("K has no hatted-Gamma partial-block output", Variable::K,
                    Piece::hat_gamma_z4_kappa_shift_gradient_insertion,
+                   Status::not_applicable);
+    require_status("hat_Gamma^x K/Theta/chi gradients implemented",
+                   Variable::hat_Gamma_x,
+                   Piece::hat_gamma_k_theta_chi_gradient_insertion,
+                   Status::implemented_now);
+    require_status("hat_Gamma^z K/Theta/chi gradients implemented",
+                   Variable::hat_Gamma_z,
+                   Piece::hat_gamma_k_theta_chi_gradient_insertion,
+                   Status::implemented_now);
+    require_status("Theta has no hatted-Gamma gradient-block output",
+                   Variable::Theta,
+                   Piece::hat_gamma_k_theta_chi_gradient_insertion,
                    Status::not_applicable);
     require_status("A_xx algebraic non-curvature block is implemented",
                    Variable::A_xx,
@@ -499,6 +514,30 @@ void check_rhs_inventory()
                              " unexpectedly receives hatted-Gamma output");
                 }
             }
+            else if (
+                piece ==
+                Piece::hat_gamma_k_theta_chi_gradient_insertion)
+            {
+                const bool should_be_implemented =
+                    Operator::
+                        receives_hat_gamma_k_theta_chi_gradient_insertion(
+                            variable);
+                if (should_be_implemented &&
+                    status != Status::implemented_now)
+                {
+                    fail("hat-Gamma gradient block implemented guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " does not mark K/Theta/chi gradients "
+                             "implemented");
+                }
+                if (!should_be_implemented &&
+                    status != Status::not_applicable)
+                {
+                    fail("hat-Gamma gradient block scope guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " unexpectedly receives hatted-Gamma gradients");
+                }
+            }
             else if (piece == Piece::a_equation_algebraic_non_curvature)
             {
                 const bool should_be_implemented =
@@ -619,6 +658,7 @@ void check_rhs_inventory()
     std::cout << "PASS only GP-shift advection, tensor stretching, "
                  "algebraic metric/chi, K CCZ4 K/Theta, K Ricci scalar, "
                  "K/Theta damping, hat-Gamma Z/kappa/shift-gradient, "
+                 "hat-Gamma K/Theta/chi gradients, "
                  "A algebraic "
                  "non-curvature, Theta algebraic non-Ricci, Theta minus-K, "
                  "Theta Ricci scalar insertion, and A Ricci curvature "
@@ -659,6 +699,9 @@ void check_operator_completion_guard()
     require_true("first hat-Gamma Z/kappa/shift-gradient block implemented",
                  Operator::
                      hat_gamma_z4_kappa_shift_gradient_block_implemented);
+    require_true("hat-Gamma K/Theta/chi gradient block implemented",
+                 Operator::
+                     hat_gamma_k_theta_chi_gradient_block_implemented);
     require_true("K lapse Hessian vanishes in frozen gauge",
                  Operator::k_equation_lapse_hessian_vanishes_in_frozen_gauge);
     require_true("cosmological constant remains locked to zero",
