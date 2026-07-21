@@ -453,8 +453,11 @@ void check_completion_guards()
                  !Operator::k_equation_z_ricci_contributions_implemented);
     require_true("simple K/Theta damping is a separate implemented block",
                  Operator::ccz4_k_theta_damping_insertion_block_implemented);
-    require_true("hat-Gamma Z/kappa damping remains missing",
-                 !Operator::hat_gamma_z4_kappa_damping_block_implemented);
+    require_true("first hat-Gamma Z/kappa block is implemented",
+                 Operator::
+                     hat_gamma_z4_kappa_shift_gradient_block_implemented);
+    require_true("complete hat-Gamma RHS remains missing",
+                 !Operator::hat_gamma_rhs_block_implemented);
     require_true("K lapse Hessian vanishes in frozen gauge",
                  Operator::k_equation_lapse_hessian_vanishes_in_frozen_gauge);
     require_true("Lambda remains locked to zero",

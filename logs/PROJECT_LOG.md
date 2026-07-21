@@ -1518,8 +1518,8 @@ Category: Planning Decision + Code + Validation
   actual coefficients must match independently derived negative damping and
   remain meaningfully separated from the corresponding positive-sign
   antidamping mutations. Further guards cover `d=3`, wrong nonzero-`kappa2`
-  dependence, spurious `deltaK`, premature hatted-Gamma damping, non-K/Theta
-  writes, and false completion claims.
+  dependence, spurious `deltaK`, spurious hatted-Gamma writes from the
+  K/Theta insertion, non-K/Theta writes, and false completion claims.
 - Validation: the focused damping and operator-contract tests passed; all 17
   `Stage4AOC*.cpp` fixtures compiled with the required C++17 warning flags and
   passed. Protected-path diffs remained empty.
@@ -1528,3 +1528,85 @@ Category: Planning Decision + Code + Validation
   convergence, MOTS, eigensolver/shift-invert, stable/unstable threshold
   points, the full convergence battery, and the primary-source `k_c r0` map
   remain blockers. Stage 4AO-D is unstarted and Checkpoint G has not passed.
+
+## 2026-07-21 - Stage 4AO-C Hatted-Gamma Evolution Design Preflight
+
+Category: Documentation + Physics Design
+
+- Began from clean damping checkpoint `62e5e9e`; used CodeGraph first and
+  inspected the selected `USE_CCZ4` `CCZ4RHS::rhs.Gamma[i]` source read-only.
+- Derived the complete frozen-GP `x` and `z` linearized term inventories,
+  including the existing common advection ownership, metric-dependent
+  background shift Hessians, K/Theta/chi gradients, connection-A terms with
+  two hidden `ww` copies, `kappa3=1` shift-gradient coupling, and locked
+  `-0.2 delta Z_over_chi^i` damping.
+- Locked `delta Z_over_chi^i=0.5(delta hat_Gamma^i-delta tilde_Gamma^i)`.
+  Reused the 4AM/4AN full `x` convention and derived the still-missing `z`
+  companion, including `2 delta h_xz/x-partial_z delta h_ww` from the two
+  hidden contractions.
+- Recorded that the exact selected GRChombo momentum-constraint form contains
+  no `d1.A`: derivatives of `delta A_IJ` are absent, and direct `delta A_IJ`
+  also vanishes on the flat conformal GP background. The surviving A-sector
+  dependence is `A_GP^IJ delta Gamma^i_IJ`.
+- Locked `hat_Gamma^x` to the scalar/even sector and `hat_Gamma^z` to the
+  one-z/opposite-parity sector. Defined nonlinear visible/4AN finite-difference
+  and independent analytic hidden-block oracles with epsilon plateau,
+  multiplicity mutations, parity leakage, and zero-background-residual gates.
+- Recommended the first narrow implementation as a validation-only x/z
+  contracted-connection and Z reconstruction helper, followed by a separate
+  non-advection Z/kappa plus `kappa3` shift-gradient RHS block. No Gamma RHS,
+  eigensolver, JVP assembly, boundary, MOTS, 4AO-D, or production code was
+  added. Stage 4AO-C and Checkpoint G remain incomplete.
+
+## 2026-07-21 - Stage 4AO-C Contracted Connection And Z Reconstruction
+
+Category: Validation Helper + Tests + Documentation
+
+- Added `Stage4AOFrozenGaugeContractedConnection.hpp`, returning only `g_x`,
+  full hidden-aware `g_z`, and `Z_i=0.5(H_i-g_i)`. Hidden multiplicity two is
+  explicit, and no determinant constraint is assumed.
+- Added `Stage4AOCFrozenGaugeContractedConnectionTest.cpp`. It independently
+  central-differences the Stage 4AN nonlinear x contraction and a test-only
+  nonlinear full z contraction. The `1e-5` results differ from the analytic
+  helper by about `4.1e-11` for x and `5.8e-12` for z, with stable middle
+  plateaus.
+- Pure `h_ww`, `h_xz`, diagonal metric, nonzero hatted-Gamma/Z, zero, and
+  Fourier parity cases pass. Negative guards reject hidden multiplicity one,
+  wrong derivative signs, and use of the determinant-reduced identity without
+  trace certification.
+- Updated the operator inventory to mark both x and z contracted-connection
+  paths as reusable helpers only. Gamma damping, connection-A,
+  vector-Hessian, K/Theta/chi gradients, full Gamma evolution, all completion
+  gates, eigensolver access, and production wiring remain false/missing.
+- Validation: the focused helper, affected operator-contract, and Stage 4AN
+  full-x tests passed with the required warning flags; all 18 current
+  `Stage4AOC*.cpp` fixtures compiled and passed without warnings.
+  `git diff --check` passed, and protected-path plus Stage 2 smoke-parameter
+  diffs remained empty.
+
+## 2026-07-21 - Stage 4AO-C First Hatted-Gamma RHS Block
+
+Category: Validation Operator + Tests + Documentation
+
+- Used CodeGraph first and recovered the current uncommitted 4AO-C
+  contracted-connection patch without rewriting it; no unrelated worktree
+  changes were present.
+- Added only the non-advection partial rows
+  `delta rhs_Hx += (3 lambda/4)g_x - 0.2 Z_x + (lambda/2)H_x` and
+  `delta rhs_Hz += (3 lambda/4)g_z - 0.2 Z_z`, consuming the validated
+  `g_i,Z_i` helper. The common GP-shift advection block remains unchanged and
+  is not duplicated.
+- Added `Stage4AOCFrozenGaugeHatGammaZ4KappaBlockTest.cpp`. Its oracle derives
+  `2K0/d`, `(4K0/d)(kappa3-1)-2kappa1`, and the x shift-gradient coefficient
+  independently from `K0=3lambda/2`, `d=4`, `kappa1=0.1`, and `kappa3=1`.
+  Pure H, pure metric/Z, parity, and output-scope cases pass; mutation guards
+  reject an extra `lambda H_z/2`, positive damping sign, hidden multiplicity
+  one, and duplicate advection.
+- The first Gamma partial-block inventory row is implemented, but both Gamma
+  variable RHS-complete flags, the full-operator flag, and eigensolver access
+  remain false. Connection-A, vector/shift-Hessian, K/Theta/chi-gradient,
+  remaining coupled terms, and complete row assembly are still missing.
+- Validation: the focused Gamma test, operator contract, and contracted-
+  connection test passed; all 19 current `Stage4AOC*.cpp` fixtures compiled
+  without warnings and passed. `git diff --check` passed, and diffs under
+  `external/GRChombo`, `scripts`, and `params_stage2_smoke.txt` were empty.

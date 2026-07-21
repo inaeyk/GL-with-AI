@@ -706,6 +706,10 @@ operator fixtures:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeKCCZ4BlockTest.cpp`.
 - CCZ4 simple K/Theta damping insertion fixture:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeCCZ4DampingInsertionTest.cpp`.
+- Frozen-GP contracted-connection and Z-reconstruction helper fixture:
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeContractedConnectionTest.cpp`.
+- First non-advection hatted-Gamma Z/kappa and `kappa3` shift-gradient fixture:
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeHatGammaZ4KappaBlockTest.cpp`.
 - A-equation algebraic non-curvature fixture:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeAAlgebraicBlockTest.cpp`.
 - Theta-equation algebraic non-Ricci fixture:
@@ -931,10 +935,58 @@ also confirms the corrected CCZ4 K block remains separate and unchanged.
 Genuine wrong-sign mutation guards compare the actual coefficients with the
 independently derived negative damping values and reject their positive-sign
 antidamping mutations. Further guards cover `d=3`, wrong nonzero-`kappa2`
-dependence, spurious `deltaK`, premature hatted-Gamma damping, non-K/Theta
-output writes, and false K/Theta/full-operator completion. The main path
+dependence, spurious `deltaK`, spurious hatted-Gamma writes from the K/Theta
+block, non-K/Theta output writes, and false K/Theta/full-operator completion.
+The main path
 deliberately locks `kappa3=1`, `covariantZ4=true`; zero damping remains a later
 diagnostic.
+
+The contracted-connection fixture checks the validation-only helper
+
+```text
+g_x = 0.5 dx(h_xx) - 0.5 dx(h_zz) - dx(h_ww)
+      + dz(h_xz) + 2(h_xx-h_ww)/x,
+g_z = dx(h_xz) + 2 h_xz/x
+      - 0.5 dz(h_xx) + 0.5 dz(h_zz) - dz(h_ww),
+Z_i = 0.5(H_i-g_i).
+```
+
+It does not assume the determinant constraint and produces no Gamma RHS
+output. A central epsilon sweep finite-differences the Stage 4AN nonlinear
+full `x` contraction and an independently coded nonlinear full `z`
+contraction. Pure `h_ww`, `h_xz`, diagonal metric, nonzero hatted-Gamma, and
+zero cases are covered. Negative guards reject hidden multiplicity one and
+wrong derivative signs. The determinant-reduced identities are checked only
+on a trace-certified perturbation and explicitly rejected as a general
+identity. Fourier projections require `g_x` in the scalar/even sector and
+`g_z` in the one-z/opposite-parity sector. The helper itself still writes no
+Gamma RHS. Connection-A, vector-Hessian, K/Theta/chi-gradient, complete-RHS,
+and eigensolver claims remain false.
+
+The first hatted-Gamma RHS fixture independently derives
+
+```text
+K0 = 3 lambda/2,
+c_g = 2 K0/d = 3 lambda/4,
+c_Z = (4 K0/d)(kappa3-1) - 2 kappa1 = -0.2,
+c_Hx = lambda/2,
+```
+
+from `d=4`, `kappa1=0.1`, and `kappa3=1`, then validates only
+
+```text
+output[hat_Gamma^x] += c_g g_x + c_Z Z_x + c_Hx H_x,
+output[hat_Gamma^z] += c_g g_z + c_Z Z_z.
+```
+
+Pure `H_x/H_z`, pure metric through `g_x/g_z`, and explicit Z reconstruction
+cases are covered. Mutation guards reject an extra `+(lambda/2)H_z`, positive
+Z antidamping, hidden multiplicity one inherited through `g_i`, and duplicate
+`beta_GP^x partial_x H_i` advection. All non-Gamma outputs stay zero, the
+scalar/even and one-z parity sectors remain separate, and both Gamma-variable
+completion flags, the full-operator flag, and eigensolver access remain false.
+Connection-A, vector/shift-Hessian, K/Theta/chi-gradient, and complete row
+assembly are outside this fixture.
 
 The A-equation algebraic non-curvature fixture checks the GRChombo A RHS
 convention block

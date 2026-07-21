@@ -1345,3 +1345,59 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Review status: K, Theta, and the full frozen-gauge operator remain
   incomplete; the eigensolver remains disallowed. Stage 4AO-C, 4AO-D, and
   Checkpoint G remain incomplete.
+
+- Date: 2026-07-21
+- Goal: Begin the Stage 4AO-C hatted-Gamma evolution design preflight.
+- Initial state: clean committed damping checkpoint `62e5e9e`; CodeGraph used
+  before direct source inspection.
+- Result: mapped the exact selected GRChombo Gamma equation and derived both
+  frozen-GP linearized rows, including hidden multiplicity two, Z reconstruction,
+  locked damping, `kappa3` shift-gradient coupling, parity, and one-time common
+  advection ownership. The selected momentum-constraint form contains no
+  derivative-`A_IJ` term; the design records this explicitly.
+- Validation design: independent nonlinear visible/4AN finite differences plus
+  analytic hidden connection-A/vector-Hessian oracles, epsilon plateau, parity
+  leakage, mutation guards, and zero background residual.
+- Next narrow target: x/z contracted-connection and Z reconstruction helper,
+  then the non-advection Z/kappa plus `kappa3` shift-gradient block. No code,
+  tests, eigensolver/JVP/boundary/MOTS/4AO-D/production wiring was added.
+
+- Date: 2026-07-21
+- Goal: Implement the Stage 4AO-C contracted-connection/Z reconstruction
+  helper without adding Gamma RHS output.
+- Implementation: added explicit hidden-multiplicity-two `g_x`, full `g_z`,
+  and `Z_i=0.5(H_i-g_i)` in a validation-only non-RHS helper. No determinant
+  constraint is assumed.
+- Validation: the focused fixture checks nonlinear central-difference x/z
+  oracles, stable epsilon plateaus, pure metric and Z cases, parity, hidden
+  multiplicity, derivative signs, optional determinant-reduced identities,
+  zero input, and closed completion/eigensolver gates.
+- Test result: focused helper, operator contract, and Stage 4AN tests passed;
+  all 18 current Stage 4AO-C fixtures compiled and passed without warnings.
+  Diff and protected-path checks passed.
+- Remaining Gamma work: non-advection Z/kappa and `kappa3` shift-gradient,
+  connection-A, vector-Hessian, K/Theta/chi gradients, complete row assembly,
+  and full-operator validation.
+
+- Date: 2026-07-21
+- Goal: Implement the first Stage 4AO-C hatted-Gamma RHS block without
+  duplicating common advection or adding later Gamma families.
+- Recovery: CodeGraph was used first. The worktree contained only the current
+  4AO-C design/helper patch and related documentation; it was preserved.
+- Implementation: added
+  `output[hat_Gamma^x] += (3 lambda/4)g_x - 0.2 Z_x + (lambda/2)H_x` and
+  `output[hat_Gamma^z] += (3 lambda/4)g_z - 0.2 Z_z`, consuming the validated
+  contracted-connection/Z helper. No K/Theta/chi gradients, connection-A,
+  vector/shift-Hessian, remaining shift terms, or duplicate GP advection were
+  added.
+- Validation design: the focused fixture independently derives the
+  coefficients from `K0`, `d`, `kappa1`, and `kappa3`; checks pure H, pure
+  metric/Z, output scope, and even/one-z parity; and rejects positive-sign
+  antidamping, hidden multiplicity one, spurious `lambda H_z/2`, duplicate
+  advection, and premature completion/eigensolver claims.
+- Status: this is an implemented partial Gamma block, not complete Gamma
+  evolution. Stage 4AO-C, 4AO-D, and Checkpoint G remain incomplete.
+- Result: focused, operator-contract, and contracted-connection tests passed;
+  all 19 current Stage 4AO-C fixtures passed with the required warning flags.
+  Whitespace and protected-path checks passed, and the Stage 2 smoke parameter
+  file remains unchanged.

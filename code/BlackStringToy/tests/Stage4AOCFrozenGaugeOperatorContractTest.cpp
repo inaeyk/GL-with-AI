@@ -31,7 +31,7 @@ constexpr std::array<Piece, 19> all_rhs_pieces = {
     Piece::k_equation_ccz4_k_theta,
     Piece::k_equation_ricci_scalar_insertion,
     Piece::ccz4_k_theta_damping_insertion,
-    Piece::hat_gamma_z4_kappa_damping,
+    Piece::hat_gamma_z4_kappa_shift_gradient_insertion,
     Piece::a_equation_algebraic_non_curvature,
     Piece::theta_equation_algebraic_non_ricci,
     Piece::theta_equation_minus_k_delta_theta,
@@ -183,7 +183,9 @@ void check_rhs_inventory()
     // outputs. The K-equation CCZ4 K/Theta and physical-Ricci scalar pieces
     // are implemented only as K-output blocks. The simple locked-convention
     // kappa damping insertion is implemented only for K and Theta outputs;
-    // hatted-Gamma Z/kappa damping remains missing. The rejected BSSN
+    // the first non-advection hatted-Gamma Z/kappa plus kappa3
+    // shift-gradient insertion is implemented only for hatted-Gamma outputs.
+    // The rejected BSSN
     // A^2+K^2/d row is absent. The A-equation non-curvature algebraic block is
     // implemented only for A_IJ outputs. The Theta-equation non-Ricci
     // algebraic block and the -K_GP deltaTheta block are implemented only for
@@ -247,16 +249,16 @@ void check_rhs_inventory()
     require_status("A_ww has no K/Theta damping output", Variable::A_ww,
                    Piece::ccz4_k_theta_damping_insertion,
                    Status::not_applicable);
-    require_status("hat_Gamma^x Z/kappa damping remains missing",
+    require_status("hat_Gamma^x Z/kappa/shift-gradient insertion implemented",
                    Variable::hat_Gamma_x,
-                   Piece::hat_gamma_z4_kappa_damping,
-                   Status::missing_placeholder);
-    require_status("hat_Gamma^z Z/kappa damping remains missing",
+                   Piece::hat_gamma_z4_kappa_shift_gradient_insertion,
+                   Status::implemented_now);
+    require_status("hat_Gamma^z Z/kappa insertion implemented",
                    Variable::hat_Gamma_z,
-                   Piece::hat_gamma_z4_kappa_damping,
-                   Status::missing_placeholder);
-    require_status("K has no hatted-Gamma damping output", Variable::K,
-                   Piece::hat_gamma_z4_kappa_damping,
+                   Piece::hat_gamma_z4_kappa_shift_gradient_insertion,
+                   Status::implemented_now);
+    require_status("K has no hatted-Gamma partial-block output", Variable::K,
+                   Piece::hat_gamma_z4_kappa_shift_gradient_insertion,
                    Status::not_applicable);
     require_status("A_xx algebraic non-curvature block is implemented",
                    Variable::A_xx,
@@ -343,10 +345,13 @@ void check_rhs_inventory()
                    Variable::hat_Gamma_x,
                    Piece::hat_gamma_hidden_evolution_terms,
                    Status::reusable_helper);
-    require_status("hat_Gamma^z hidden evolution is missing",
+    require_status("hat_Gamma^z hidden terms have helper coverage only",
+                   Variable::hat_Gamma_z, Piece::hidden_sphere_terms,
+                   Status::reusable_helper);
+    require_status("hat_Gamma^z contracted-connection helper is reusable",
                    Variable::hat_Gamma_z,
                    Piece::hat_gamma_hidden_evolution_terms,
-                   Status::missing_placeholder);
+                   Status::reusable_helper);
     require_status("Theta constraint terms need actual RHS", Variable::Theta,
                    Piece::theta_constraint_terms,
                    Status::requires_modified_cartoon_rhs);
@@ -470,23 +475,28 @@ void check_rhs_inventory()
                              " unexpectedly marks K/Theta damping implemented");
                 }
             }
-            else if (piece == Piece::hat_gamma_z4_kappa_damping)
+            else if (
+                piece ==
+                Piece::hat_gamma_z4_kappa_shift_gradient_insertion)
             {
-                const bool should_be_missing =
-                    Operator::receives_hat_gamma_z4_kappa_damping(variable);
-                if (should_be_missing &&
-                    status != Status::missing_placeholder)
+                const bool should_be_implemented =
+                    Operator::
+                        receives_hat_gamma_z4_kappa_shift_gradient_insertion(
+                            variable);
+                if (should_be_implemented &&
+                    status != Status::implemented_now)
                 {
-                    fail("hat-Gamma damping missing guard",
+                    fail("hat-Gamma partial block implemented guard",
                          std::string(Operator::variable_name(variable)) +
-                             " does not keep Z/kappa damping missing");
+                             " does not mark the Z/kappa/shift-gradient "
+                             "insertion implemented");
                 }
-                if (!should_be_missing &&
+                if (!should_be_implemented &&
                     status != Status::not_applicable)
                 {
-                    fail("hat-Gamma damping scope guard",
+                    fail("hat-Gamma partial block scope guard",
                          std::string(Operator::variable_name(variable)) +
-                             " unexpectedly receives hatted-Gamma damping");
+                             " unexpectedly receives hatted-Gamma output");
                 }
             }
             else if (piece == Piece::a_equation_algebraic_non_curvature)
@@ -608,7 +618,8 @@ void check_rhs_inventory()
     }
     std::cout << "PASS only GP-shift advection, tensor stretching, "
                  "algebraic metric/chi, K CCZ4 K/Theta, K Ricci scalar, "
-                 "K/Theta damping, A algebraic "
+                 "K/Theta damping, hat-Gamma Z/kappa/shift-gradient, "
+                 "A algebraic "
                  "non-curvature, Theta algebraic non-Ricci, Theta minus-K, "
                  "Theta Ricci scalar insertion, and A Ricci curvature "
                  "insertion blocks are "
@@ -639,8 +650,15 @@ void check_operator_completion_guard()
                  Operator::main_ccz4_damping_convention_locked);
     require_true("simple K/Theta damping insertion is implemented",
                  Operator::ccz4_k_theta_damping_insertion_block_implemented);
-    require_true("hat-Gamma Z/kappa damping remains missing",
-                 !Operator::hat_gamma_z4_kappa_damping_block_implemented);
+    require_true(
+        "contracted-connection and Z reconstruction helper is implemented",
+        Operator::
+            contracted_connection_and_z_reconstruction_helper_implemented);
+    require_true("complete hatted-Gamma RHS remains missing",
+                 !Operator::hat_gamma_rhs_block_implemented);
+    require_true("first hat-Gamma Z/kappa/shift-gradient block implemented",
+                 Operator::
+                     hat_gamma_z4_kappa_shift_gradient_block_implemented);
     require_true("K lapse Hessian vanishes in frozen gauge",
                  Operator::k_equation_lapse_hessian_vanishes_in_frozen_gauge);
     require_true("cosmological constant remains locked to zero",

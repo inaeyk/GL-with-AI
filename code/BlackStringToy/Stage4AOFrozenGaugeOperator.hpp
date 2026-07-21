@@ -1,6 +1,7 @@
 #ifndef BLACKSTRINGTOY_STAGE4AO_FROZEN_GAUGE_OPERATOR_HPP
 #define BLACKSTRINGTOY_STAGE4AO_FROZEN_GAUGE_OPERATOR_HPP
 
+#include "Stage4AOFrozenGaugeContractedConnection.hpp"
 #include "Stage4AOFrozenGaugeRicciAssembly.hpp"
 
 #include <array>
@@ -27,7 +28,11 @@ static constexpr bool k_equation_ricci_scalar_insertion_block_implemented =
     true;
 static constexpr bool k_equation_z_ricci_contributions_implemented = false;
 static constexpr bool ccz4_k_theta_damping_insertion_block_implemented = true;
-static constexpr bool hat_gamma_z4_kappa_damping_block_implemented = false;
+static constexpr bool
+    contracted_connection_and_z_reconstruction_helper_implemented = true;
+static constexpr bool
+    hat_gamma_z4_kappa_shift_gradient_block_implemented = true;
+static constexpr bool hat_gamma_rhs_block_implemented = false;
 static constexpr bool k_equation_lapse_hessian_vanishes_in_frozen_gauge = true;
 static constexpr bool cosmological_constant_locked_to_zero = true;
 static constexpr bool k_equation_cosmological_terms_implemented = false;
@@ -90,7 +95,7 @@ enum class RhsPiece
     k_equation_ccz4_k_theta,
     k_equation_ricci_scalar_insertion,
     ccz4_k_theta_damping_insertion,
-    hat_gamma_z4_kappa_damping,
+    hat_gamma_z4_kappa_shift_gradient_insertion,
     a_equation_algebraic_non_curvature,
     theta_equation_algebraic_non_ricci,
     theta_equation_minus_k_delta_theta,
@@ -166,13 +171,15 @@ inline constexpr std::array<const char *, 4> implemented_wrapper_pieces = {
     "RHS block inventory with implemented/reusable/missing labels",
     "radial-domain and boundary-condition contract"};
 
-inline constexpr std::array<const char *, 13> implemented_operator_pieces = {
+inline constexpr std::array<const char *, 14> implemented_operator_pieces = {
     "matrix-free GP-shift advection block beta_GP^x d_x(delta u)",
     "GP-shift tensor stretching for h_IJ and A_IJ",
     "algebraic h_IJ <- -2 A_IJ and chi <- +K/2 couplings",
     "K-output CCZ4 K(K-2Theta) linearization",
     "K-output physical Ricci scalar insertion +delta R",
     "K/Theta-output CCZ4 kappa damping insertion",
+    "hat-Gamma-output non-advection Z/kappa and kappa3 shift-gradient "
+    "insertion",
     "A_IJ-output algebraic non-curvature linearization",
     "Theta-output algebraic non-Ricci linearization",
     "Theta-output -K_GP deltaTheta linearization",
@@ -294,7 +301,7 @@ inline bool receives_ccz4_k_theta_damping_insertion(
            variable == PerturbationVariable::Theta;
 }
 
-inline bool receives_hat_gamma_z4_kappa_damping(
+inline bool receives_hat_gamma_z4_kappa_shift_gradient_insertion(
     const PerturbationVariable variable)
 {
     return variable == PerturbationVariable::hat_Gamma_x ||
@@ -371,9 +378,9 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
                    ? PieceStatus::implemented_now
                    : PieceStatus::not_applicable;
 
-    case RhsPiece::hat_gamma_z4_kappa_damping:
-        return receives_hat_gamma_z4_kappa_damping(variable)
-                   ? PieceStatus::missing_placeholder
+    case RhsPiece::hat_gamma_z4_kappa_shift_gradient_insertion:
+        return receives_hat_gamma_z4_kappa_shift_gradient_insertion(variable)
+                   ? PieceStatus::implemented_now
                    : PieceStatus::not_applicable;
 
     case RhsPiece::a_equation_algebraic_non_curvature:
@@ -408,13 +415,10 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
     case RhsPiece::hidden_sphere_terms:
         if (variable == PerturbationVariable::h_ww ||
             variable == PerturbationVariable::A_ww ||
-            variable == PerturbationVariable::hat_Gamma_x)
+            variable == PerturbationVariable::hat_Gamma_x ||
+            variable == PerturbationVariable::hat_Gamma_z)
         {
             return PieceStatus::reusable_helper;
-        }
-        if (variable == PerturbationVariable::hat_Gamma_z)
-        {
-            return PieceStatus::missing_placeholder;
         }
         return PieceStatus::requires_modified_cartoon_rhs;
 
@@ -437,13 +441,10 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
                    : PieceStatus::not_applicable;
 
     case RhsPiece::hat_gamma_hidden_evolution_terms:
-        if (variable == PerturbationVariable::hat_Gamma_x)
+        if (variable == PerturbationVariable::hat_Gamma_x ||
+            variable == PerturbationVariable::hat_Gamma_z)
         {
             return PieceStatus::reusable_helper;
-        }
-        if (variable == PerturbationVariable::hat_Gamma_z)
-        {
-            return PieceStatus::missing_placeholder;
         }
         return PieceStatus::not_applicable;
     }
@@ -1008,8 +1009,57 @@ apply_ccz4_k_theta_damping_insertion_at_point(
                                     ccz4_spatial_dimension) *
         delta_theta;
 
-    // Hat-Gamma damping acts on delta Z_over_chi^i and remains deferred to the
-    // future complete hatted-Gamma evolution block.
+    // Hat-Gamma damping acts on delta Z_over_chi^i and is owned by its
+    // separate partial hatted-Gamma block.
+    return make_frozen_gauge_perturbation_vector(values);
+}
+
+inline constexpr double hat_gamma_contracted_connection_coefficient(
+    const double k0, const int spatial_dimension)
+{
+    return 2.0 * k0 / static_cast<double>(spatial_dimension);
+}
+
+inline constexpr double hat_gamma_z_coefficient(
+    const double k0, const double kappa1, const double kappa3,
+    const int spatial_dimension)
+{
+    return 4.0 * k0 / static_cast<double>(spatial_dimension) *
+               (kappa3 - 1.0) -
+           2.0 * kappa1;
+}
+
+inline FrozenGaugePerturbationVector
+apply_hat_gamma_z4_kappa_shift_gradient_insertion_at_point(
+    const double r0,
+    const Stage4AOFrozenGaugeContractedConnection::PerturbationJet &input)
+{
+    std::array<double, frozen_gauge_state_vector.size()> values = {};
+    const auto connection_and_z =
+        Stage4AOFrozenGaugeContractedConnection::
+            compute_contracted_connection_and_z(input);
+    const double k0 = div_beta_gp(r0, input.x());
+    const double g_coefficient = hat_gamma_contracted_connection_coefficient(
+        k0, ccz4_spatial_dimension);
+    const double z_coefficient = hat_gamma_z_coefficient(
+        k0, main_ccz4_kappa1, main_ccz4_kappa3,
+        ccz4_spatial_dimension);
+    static_assert(main_ccz4_kappa3 == 1.0,
+                  "H_i shift-gradient reduction requires kappa3=1");
+
+    // First validation-only non-advection Gamma block for the locked d=4,
+    // kappa1=0.1, kappa3=1 convention. The x background shift-gradient term
+    // reduces to -H_x partial_x beta_GP^x = +(lambda/2) H_x. There is no
+    // corresponding z term because partial_z beta_GP^j=0. The common
+    // beta_GP^x partial_x(delta H_i) advection block is deliberately absent.
+    values[variable_index(PerturbationVariable::hat_Gamma_x)] =
+        g_coefficient * connection_and_z.g_x() +
+        z_coefficient * connection_and_z.z_x() -
+        dx_beta_gp_x(r0, input.x()) * input.hat_gamma_x();
+    values[variable_index(PerturbationVariable::hat_Gamma_z)] =
+        g_coefficient * connection_and_z.g_z() +
+        z_coefficient * connection_and_z.z_z();
+
     return make_frozen_gauge_perturbation_vector(values);
 }
 

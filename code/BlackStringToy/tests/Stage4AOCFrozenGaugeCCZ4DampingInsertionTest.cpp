@@ -277,8 +277,11 @@ void check_grid_and_completion_guards()
     const auto contract = Operator::make_default_frozen_gauge_operator_contract();
     require_true("simple K/Theta damping insertion is implemented",
                  Operator::ccz4_k_theta_damping_insertion_block_implemented);
-    require_true("hat_Gamma Z/kappa damping remains missing",
-                 !Operator::hat_gamma_z4_kappa_damping_block_implemented);
+    require_true("first hat_Gamma Z/kappa/shift-gradient block is implemented",
+                 Operator::
+                     hat_gamma_z4_kappa_shift_gradient_block_implemented);
+    require_true("complete hat_Gamma RHS remains missing",
+                 !Operator::hat_gamma_rhs_block_implemented);
     require_true("K RHS remains incomplete",
                  !Operator::variable_rhs_complete(Variable::K));
     require_true("Theta RHS remains incomplete",
