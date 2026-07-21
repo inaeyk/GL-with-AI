@@ -24,7 +24,7 @@ constexpr std::array<Variable, 13> expected_state_order = {
     Variable::A_ww,        Variable::Theta,       Variable::hat_Gamma_x,
     Variable::hat_Gamma_z};
 
-constexpr std::array<Piece, 23> all_rhs_pieces = {
+constexpr std::array<Piece, 24> all_rhs_pieces = {
     Piece::gp_shift_advection,
     Piece::tensor_shift_stretching,
     Piece::algebraic_metric_chi_coupling,
@@ -36,6 +36,7 @@ constexpr std::array<Piece, 23> all_rhs_pieces = {
     Piece::hat_gamma_connection_a_insertion,
     Piece::hat_gamma_vector_hessian_insertion,
     Piece::hat_gamma_grad_div_insertion,
+    Piece::hat_gamma_complete_row_assembly,
     Piece::a_equation_algebraic_non_curvature,
     Piece::theta_equation_algebraic_non_ricci,
     Piece::theta_equation_minus_k_delta_theta,
@@ -190,8 +191,8 @@ void check_rhs_inventory()
     // the first non-advection hatted-Gamma Z/kappa plus kappa3
     // shift-gradient insertion is implemented only for hatted-Gamma outputs.
     // The separate K/Theta/chi gradient, connection-A, vector-Hessian, and
-    // grad-div metric insertions are likewise implemented only for
-    // hatted-Gamma outputs.
+    // grad-div metric insertions and their complete row assembly are likewise
+    // implemented only for hatted-Gamma outputs.
     // The rejected BSSN
     // A^2+K^2/d row is absent. The A-equation non-curvature algebraic block is
     // implemented only for A_IJ outputs. The Theta-equation non-Ricci
@@ -312,6 +313,17 @@ void check_rhs_inventory()
     require_status("h_xz has no grad-div-block output", Variable::h_xz,
                    Piece::hat_gamma_grad_div_insertion,
                    Status::not_applicable);
+    require_status("hat_Gamma^x complete row assembly implemented",
+                   Variable::hat_Gamma_x,
+                   Piece::hat_gamma_complete_row_assembly,
+                   Status::implemented_now);
+    require_status("hat_Gamma^z complete row assembly implemented",
+                   Variable::hat_Gamma_z,
+                   Piece::hat_gamma_complete_row_assembly,
+                   Status::implemented_now);
+    require_status("Theta has no Gamma-row assembly output", Variable::Theta,
+                   Piece::hat_gamma_complete_row_assembly,
+                   Status::not_applicable);
     require_status("A_xx algebraic non-curvature block is implemented",
                    Variable::A_xx,
                    Piece::a_equation_algebraic_non_curvature,
@@ -393,23 +405,42 @@ void check_rhs_inventory()
     require_status("remaining K Ricci/Z path has helper coverage only",
                    Variable::K, Piece::ricci_curvature_terms,
                    Status::reusable_helper);
-    require_status("hat_Gamma^x hidden evolution has helper coverage only",
+    require_status("hat_Gamma^x hidden evolution is owned by complete row",
                    Variable::hat_Gamma_x,
                    Piece::hat_gamma_hidden_evolution_terms,
-                   Status::reusable_helper);
-    require_status("hat_Gamma^z hidden terms have helper coverage only",
+                   Status::implemented_now);
+    require_status("hat_Gamma^z hidden sphere terms are owned by complete row",
                    Variable::hat_Gamma_z, Piece::hidden_sphere_terms,
-                   Status::reusable_helper);
-    require_status("hat_Gamma^z contracted-connection helper is reusable",
+                   Status::implemented_now);
+    require_status("hat_Gamma^x hidden sphere terms are owned by complete row",
+                   Variable::hat_Gamma_x, Piece::hidden_sphere_terms,
+                   Status::implemented_now);
+    require_status("hat_Gamma^z hidden evolution is owned by complete row",
                    Variable::hat_Gamma_z,
                    Piece::hat_gamma_hidden_evolution_terms,
-                   Status::reusable_helper);
+                   Status::implemented_now);
     require_status("Theta constraint terms need actual RHS", Variable::Theta,
                    Piece::theta_constraint_terms,
                    Status::requires_modified_cartoon_rhs);
+    require_status("hat_Gamma^x Theta/Z terms are owned by complete row",
+                   Variable::hat_Gamma_x, Piece::theta_constraint_terms,
+                   Status::implemented_now);
+    require_status("hat_Gamma^z Theta/Z terms are owned by complete row",
+                   Variable::hat_Gamma_z, Piece::theta_constraint_terms,
+                   Status::implemented_now);
 
-    require_true("no frozen-gauge RHS variable is complete",
-                 !Operator::any_variable_rhs_complete());
+    require_true("at least one frozen-gauge RHS variable is now complete",
+                 Operator::any_variable_rhs_complete());
+    for (const auto variable : Operator::frozen_gauge_state_vector)
+    {
+        const bool should_be_complete =
+            variable == Variable::hat_Gamma_x ||
+            variable == Variable::hat_Gamma_z;
+        require_true(std::string(Operator::variable_name(variable)) +
+                         " exact RHS-completion scope",
+                     Operator::variable_rhs_complete(variable) ==
+                         should_be_complete);
+    }
 
     for (const auto variable : Operator::frozen_gauge_state_vector)
     {
@@ -635,6 +666,26 @@ void check_rhs_inventory()
                              " unexpectedly receives grad-div output");
                 }
             }
+            else if (piece == Piece::hat_gamma_complete_row_assembly)
+            {
+                const bool should_be_implemented =
+                    Operator::receives_hat_gamma_complete_row_assembly(
+                        variable);
+                if (should_be_implemented &&
+                    status != Status::implemented_now)
+                {
+                    fail("complete Gamma row assembly implemented guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " does not mark row assembly implemented");
+                }
+                if (!should_be_implemented &&
+                    status != Status::not_applicable)
+                {
+                    fail("complete Gamma row assembly scope guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " unexpectedly receives Gamma row output");
+                }
+            }
             else if (piece == Piece::a_equation_algebraic_non_curvature)
             {
                 const bool should_be_implemented =
@@ -743,6 +794,58 @@ void check_rhs_inventory()
                              "implemented");
                 }
             }
+            else if (piece == Piece::hidden_sphere_terms)
+            {
+                const bool is_gamma = variable == Variable::hat_Gamma_x ||
+                                      variable == Variable::hat_Gamma_z;
+                if (is_gamma && status != Status::implemented_now)
+                {
+                    fail("Gamma hidden-sphere ownership guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " does not mark hidden terms implemented");
+                }
+                if (!is_gamma && status == Status::implemented_now)
+                {
+                    fail("non-Gamma hidden-sphere completion guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " prematurely marks hidden terms implemented");
+                }
+            }
+            else if (piece == Piece::theta_constraint_terms)
+            {
+                const bool is_gamma = variable == Variable::hat_Gamma_x ||
+                                      variable == Variable::hat_Gamma_z;
+                if (is_gamma && status != Status::implemented_now)
+                {
+                    fail("Gamma Theta/Z ownership guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " does not mark Theta/Z terms implemented");
+                }
+                if (!is_gamma && status == Status::implemented_now)
+                {
+                    fail("non-Gamma constraint completion guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " prematurely marks constraint terms "
+                             "implemented");
+                }
+            }
+            else if (piece == Piece::hat_gamma_hidden_evolution_terms)
+            {
+                const bool is_gamma = variable == Variable::hat_Gamma_x ||
+                                      variable == Variable::hat_Gamma_z;
+                if (is_gamma && status != Status::implemented_now)
+                {
+                    fail("Gamma hidden-evolution ownership guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " does not mark hidden evolution implemented");
+                }
+                if (!is_gamma && status != Status::not_applicable)
+                {
+                    fail("Gamma hidden-evolution scope guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " unexpectedly receives Gamma evolution");
+                }
+            }
             else if (status == Status::implemented_now)
             {
                 fail("full RHS inventory implemented_now guard",
@@ -758,6 +861,8 @@ void check_rhs_inventory()
                  "hat-Gamma K/Theta/chi gradients, "
                  "hat-Gamma connection-A metric insertion, "
                  "hat-Gamma vector-Hessian and grad-div metric insertions, "
+                 "complete hat-Gamma x/z row assembly, "
+                 "Gamma Theta/Z and hidden modified-cartoon ownership, "
                  "A algebraic "
                  "non-curvature, Theta algebraic non-Ricci, Theta minus-K, "
                  "Theta Ricci scalar insertion, and A Ricci curvature "
@@ -793,8 +898,8 @@ void check_operator_completion_guard()
         "contracted-connection and Z reconstruction helper is implemented",
         Operator::
             contracted_connection_and_z_reconstruction_helper_implemented);
-    require_true("complete hatted-Gamma RHS remains missing",
-                 !Operator::hat_gamma_rhs_block_implemented);
+    require_true("complete hatted-Gamma RHS is implemented",
+                 Operator::hat_gamma_rhs_block_implemented);
     require_true("first hat-Gamma Z/kappa/shift-gradient block implemented",
                  Operator::
                      hat_gamma_z4_kappa_shift_gradient_block_implemented);
@@ -809,10 +914,14 @@ void check_operator_completion_guard()
                  Operator::hat_gamma_grad_div_block_implemented);
     require_true("Gamma mathematical term-family inventory is closed",
                  Operator::hat_gamma_surviving_term_family_inventory_closed);
-    require_true("Gamma final row assembly remains missing",
-                 !Operator::hat_gamma_final_row_assembly_implemented);
-    require_true("assembled Gamma row validation remains missing",
-                 !Operator::hat_gamma_assembled_row_validation_implemented);
+    require_true("Gamma final row assembly is implemented",
+                 Operator::hat_gamma_final_row_assembly_implemented);
+    require_true("assembled Gamma row validation is implemented",
+                 Operator::hat_gamma_assembled_row_validation_implemented);
+    require_true("hat_Gamma^x RHS is complete",
+                 Operator::variable_rhs_complete(Variable::hat_Gamma_x));
+    require_true("hat_Gamma^z RHS is complete",
+                 Operator::variable_rhs_complete(Variable::hat_Gamma_z));
     require_true("K lapse Hessian vanishes in frozen gauge",
                  Operator::k_equation_lapse_hessian_vanishes_in_frozen_gauge);
     require_true("cosmological constant remains locked to zero",

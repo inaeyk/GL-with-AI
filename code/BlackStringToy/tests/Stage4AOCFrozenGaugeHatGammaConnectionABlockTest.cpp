@@ -357,12 +357,12 @@ void check_parity_and_completion_guards()
                  Operator::hat_gamma_z4_kappa_shift_gradient_block_implemented);
     require_true("Gamma gradient block remains implemented",
                  Operator::hat_gamma_k_theta_chi_gradient_block_implemented);
-    require_true("complete Gamma RHS remains false",
-                 !Operator::hat_gamma_rhs_block_implemented);
-    require_true("hat_Gamma^x RHS remains incomplete",
-                 !Operator::variable_rhs_complete(Variable::hat_Gamma_x));
-    require_true("hat_Gamma^z RHS remains incomplete",
-                 !Operator::variable_rhs_complete(Variable::hat_Gamma_z));
+    require_true("assembled Gamma RHS is now complete",
+                 Operator::hat_gamma_rhs_block_implemented);
+    require_true("hat_Gamma^x RHS is now complete",
+                 Operator::variable_rhs_complete(Variable::hat_Gamma_x));
+    require_true("hat_Gamma^z RHS is now complete",
+                 Operator::variable_rhs_complete(Variable::hat_Gamma_z));
     require_true("full operator remains incomplete",
                  !contract.complete_operator_implemented());
     require_true("eigensolver remains disallowed",

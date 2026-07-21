@@ -371,16 +371,16 @@ void check_parity_closure_and_completion_gates()
                  Operator::hat_gamma_grad_div_block_implemented);
     require_true("surviving mathematical Gamma family inventory is closed",
                  Operator::hat_gamma_surviving_term_family_inventory_closed);
-    require_true("final Gamma row assembly remains missing",
-                 !Operator::hat_gamma_final_row_assembly_implemented);
-    require_true("assembled Gamma row validation remains missing",
-                 !Operator::hat_gamma_assembled_row_validation_implemented);
-    require_true("complete Gamma RHS remains false",
-                 !Operator::hat_gamma_rhs_block_implemented);
-    require_true("hat_Gamma^x RHS remains incomplete",
-                 !Operator::variable_rhs_complete(Variable::hat_Gamma_x));
-    require_true("hat_Gamma^z RHS remains incomplete",
-                 !Operator::variable_rhs_complete(Variable::hat_Gamma_z));
+    require_true("final Gamma row assembly is now implemented",
+                 Operator::hat_gamma_final_row_assembly_implemented);
+    require_true("assembled Gamma row validation is now implemented",
+                 Operator::hat_gamma_assembled_row_validation_implemented);
+    require_true("complete Gamma RHS is now true",
+                 Operator::hat_gamma_rhs_block_implemented);
+    require_true("hat_Gamma^x RHS is now complete",
+                 Operator::variable_rhs_complete(Variable::hat_Gamma_x));
+    require_true("hat_Gamma^z RHS is now complete",
+                 Operator::variable_rhs_complete(Variable::hat_Gamma_z));
     require_true("full operator remains incomplete",
                  !contract.complete_operator_implemented());
     require_true("eigensolver remains disallowed",

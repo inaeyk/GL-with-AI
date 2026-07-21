@@ -280,8 +280,12 @@ void check_grid_and_completion_guards()
     require_true("first hat_Gamma Z/kappa/shift-gradient block is implemented",
                  Operator::
                      hat_gamma_z4_kappa_shift_gradient_block_implemented);
-    require_true("complete hat_Gamma RHS remains missing",
-                 !Operator::hat_gamma_rhs_block_implemented);
+    require_true("complete hat_Gamma RHS is implemented separately",
+                 Operator::hat_gamma_rhs_block_implemented);
+    require_true("hat_Gamma^x RHS is complete",
+                 Operator::variable_rhs_complete(Variable::hat_Gamma_x));
+    require_true("hat_Gamma^z RHS is complete",
+                 Operator::variable_rhs_complete(Variable::hat_Gamma_z));
     require_true("K RHS remains incomplete",
                  !Operator::variable_rhs_complete(Variable::K));
     require_true("Theta RHS remains incomplete",

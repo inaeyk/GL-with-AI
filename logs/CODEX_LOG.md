@@ -1459,3 +1459,30 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Result: focused, operator-contract, prior Gamma/helper, and all 22 Stage
   4AO-C fixtures passed without warnings. Final whitespace and protected-path
   checks passed; nothing was staged or committed.
+
+- Date: 2026-07-21
+- Goal: Assemble and independently validate the complete frozen-gauge
+  hatted-Gamma x/z rows.
+- Initial state: clean committed shift-metric checkpoint; CodeGraph used
+  first.
+- Implementation: added an assembler that consumes the existing common
+  advection output and the five existing non-advection partial functions once
+  each. No advection or family formula was reimplemented in the assembler.
+- Oracle: added a direct nonlinear selected-CCZ4/modified-cartoon test oracle
+  with nonlinear inverse metric, visible/hidden Christoffels, contracted
+  connection/Z reconstruction, raised A, GP shift derivatives, and two hidden
+  directions. The GP residual is `(-2.775557561563e-17,0)`; directed-family
+  and mixed cases pass the five-epsilon sweep and stable `1e-5/1e-6` plateau.
+  Isolated vector-Hessian x and grad-div z cases make every other family zero
+  before checking their nonzero targets.
+- Mutations: every-family omission/duplication, duplicate common advection,
+  spurious `lambda H_z/2`, hidden multiplicity one, parity leakage, and output
+  leakage are rejected.
+- Flags: complete Gamma family/assembly/validation and only the two Gamma
+  variable-completion flags are true. The full 13-variable operator and
+  eigensolver remain false. Generic Gamma Theta/Z and hidden modified-cartoon
+  inventory entries are classified `implemented_now`; non-Gamma rows are
+  unchanged.
+- Result: focused and individual Gamma/helper/contract tests passed; all 23
+  Stage 4AO-C fixtures compiled without warnings and passed. Protected paths
+  remained untouched; nothing was staged or committed.

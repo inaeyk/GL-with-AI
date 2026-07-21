@@ -1685,3 +1685,39 @@ Category: Validation Operator + Tests + Documentation
 - Validation: the focused shift-metric test, operator contract, and all prior
   Gamma/helper tests passed. All 22 current `Stage4AOC*.cpp` fixtures compiled
   without warnings and passed.
+
+## 2026-07-21 - Stage 4AO-C Complete Frozen-Gauge Hatted-Gamma Rows
+
+Category: Validation Operator + Tests + Documentation
+
+- Began from the clean committed shift-metric checkpoint and used CodeGraph
+  before editing.
+- Added one complete-row assembler that takes the existing common GP-advection
+  output as a dependency, then calls the Z/kappa/shift-gradient,
+  K/Theta/chi-gradient, connection-A, vector-Hessian, and grad-div partial
+  functions exactly once. The individual family functions remain intact and
+  separately testable.
+- Added `Stage4AOCFrozenGaugeCompleteHatGammaRowsTest.cpp`. Its independent
+  test-only nonlinear oracle constructs the visible inverse conformal metric,
+  visible and modified-cartoon hidden Christoffels, contracted connection/Z,
+  raised A tensor, and GP shift derivatives before evaluating the selected
+  CCZ4 Gamma equation. It does not call the production partial-Gamma
+  functions or copy their final reduced coefficients.
+- The exact nonlinear GP residual is `x=-2.775557561563e-17`, `z=0`.
+  Directed-family cases and two mixed perturbations pass the
+  `1e-2,1e-4,1e-5,1e-6,1e-7` sweep with a stable `1e-5/1e-6` plateau.
+  Genuinely isolated vector-Hessian x and grad-div z fixtures separately
+  prove every other family is zero before checking `3 lambda a/x` and
+  `9 lambda a/(8x)`, respectively.
+  Omission and duplication mutations for every family, duplicate advection,
+  forbidden `lambda H_z/2`, hidden multiplicity one, parity leakage, and
+  non-Gamma writes are rejected.
+- Opened only the complete Gamma family/assembly/validation flags and
+  `variable_rhs_complete(hat_Gamma^x/z)`. Every other variable remains
+  incomplete; the complete 13-variable operator and eigensolver gates remain
+  false. Generic Theta/Z constraint, hidden-sphere, and hidden-evolution
+  inventory entries are now `implemented_now` only for the Gamma rows.
+- Validation: focused assembled-row, all individual Gamma/helper, and operator
+  contract tests passed; all 23 `Stage4AOC*.cpp` fixtures compiled without
+  warnings and passed. Protected paths remained untouched and nothing was
+  staged or committed.

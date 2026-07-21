@@ -716,6 +716,8 @@ operator fixtures:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeHatGammaConnectionABlockTest.cpp`.
 - Hatted-Gamma vector-Hessian/grad-div metric-variation fixture:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeHatGammaShiftMetricBlockTest.cpp`.
+- Complete frozen-gauge hatted-Gamma row fixture:
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeCompleteHatGammaRowsTest.cpp`.
 - A-equation algebraic non-curvature fixture:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeAAlgebraicBlockTest.cpp`.
 - Theta-equation algebraic non-Ricci fixture:
@@ -747,8 +749,10 @@ advection, tensor shift-stretching, the algebraic metric/chi coupling, and
 the selected-CCZ4 K-equation `K(K-2Theta)` and physical-`delta R` blocks, the
 simple K/Theta damping insertion, the A-equation non-curvature
 algebraic block, the Theta-equation non-Ricci algebraic block, and the
-Theta-equation `-K_GP deltaTheta`, Theta Ricci, and A Ricci insertion blocks have
-`implemented_now` coverage, no frozen-gauge RHS variable is complete,
+Theta-equation `-K_GP deltaTheta`, Theta Ricci, A Ricci, the five partial
+hatted-Gamma families, and the complete Gamma row assembler have
+`implemented_now` coverage. Exactly the two hatted-Gamma variables have
+complete wrapper rows; every other variable remains incomplete,
 boundary tests are not implemented, eigensolver and shift-invert support are
 absent, and production RHS wiring is absent. It also checks the separate
 trace-free `delta A` projector contract flag. It is a guard against stale
@@ -922,10 +926,14 @@ metric/chi and pure `delta h_xz` jets to enter only through the Ricci scalar,
 and a combined perturbation to agree with the nonlinear CCZ4 finite
 difference. A separately central-differenced nonlinear BSSN expression is a
 negative oracle, and every case must distinguish the selected branch from it.
-Z/hat-Gamma-dependent Ricci terms, hat-Gamma evolution, the full operator,
-MOTS, and spectral work remain missing. The simple K/Theta damping insertion
-is tested separately. Frozen-gauge lapse-Hessian variation vanishes; locked
-`Lambda=0` leaves no cosmological term.
+Z/hat-Gamma-dependent Ricci terms and other non-Gamma K/A/Theta and coupled
+CCZ4/Z4 rows remain missing. The complete frozen-gauge hatted-Gamma x/z rows
+are implemented and independently validated, and both Gamma variable
+RHS-completion flags are true. Full 13-variable assembly/JVP/parity,
+boundaries, MOTS, and the spectral gate remain incomplete; neither the
+complete operator nor the eigensolver is ready. The simple K/Theta damping
+insertion is tested separately. Frozen-gauge lapse-Hessian variation vanishes;
+locked `Lambda=0` leaves no cosmological term.
 
 The CCZ4 damping fixture independently derives the coefficients from
 `kappa1=0.1`, `kappa2=0`, and `d=4`:
@@ -966,11 +974,11 @@ wrong derivative signs. The determinant-reduced identities are checked only
 on a trace-certified perturbation and explicitly rejected as a general
 identity. Fourier projections require `g_x` in the scalar/even sector and
 `g_z` in the one-z/opposite-parity sector. The helper itself still writes no
-Gamma RHS. The separate K/Theta/chi-gradient block is now implemented;
-the separate connection-A block is now implemented as well, while
-the vector-Hessian and grad-div blocks are now implemented separately. Final
-row assembly, assembled-row validation, complete-RHS, and eigensolver claims
-remain false.
+Gamma RHS. The K/Theta/chi-gradient, connection-A, vector-Hessian, and
+grad-div blocks remain separate and testable. The complete assembler now
+consumes their downstream results and common advection once; only the two
+Gamma row-completion flags are true, while full-operator and eigensolver
+claims remain false.
 
 The first hatted-Gamma RHS fixture independently derives
 
@@ -992,10 +1000,11 @@ Pure `H_x/H_z`, pure metric through `g_x/g_z`, and explicit Z reconstruction
 cases are covered. Mutation guards reject an extra `+(lambda/2)H_z`, positive
 Z antidamping, hidden multiplicity one inherited through `g_i`, and duplicate
 `beta_GP^x partial_x H_i` advection. All non-Gamma outputs stay zero, the
-scalar/even and one-z parity sectors remain separate, and both Gamma-variable
-completion flags, the full-operator flag, and eigensolver access remain false.
-Connection-A, vector-Hessian, grad-div, and complete row assembly are outside
-this fixture; the first three are validated separately.
+scalar/even and one-z parity sectors remain separate. Connection-A,
+vector-Hessian, grad-div, and complete row assembly are outside this narrow
+fixture and validated separately. Global Gamma row-completion flags are now
+true because the later complete-row fixture passes; the full-operator flag and
+eigensolver access remain false.
 
 The hatted-Gamma gradient fixture independently derives from the selected
 `d=4` equation
@@ -1016,7 +1025,8 @@ derived by varying `h^{ij} partial_j K_GP` with
 pass. Mutation guards reject wrong signs, omitted background-K-gradient
 metric variation, swapped chi coefficients, `h_zz/h_ww` contributions,
 parity leakage, non-Gamma writes, and duplication of the earlier Gamma or
-common-advection blocks. Completion and eigensolver gates remain false.
+common-advection blocks. The later combined fixture makes only the Gamma rows
+complete; full-operator and eigensolver gates remain false.
 
 The hatted-Gamma connection-A fixture uses an analytic oracle independent of
 the final reduced coefficients. It first constructs
@@ -1045,7 +1055,8 @@ multiplicity one, wrong derivative signs, wrong or omitted `1/x` terms,
 non-Gamma writes, and duplicate earlier Gamma/advection families. Pure
 `delta A_IJ` and `d1.A` sentinels produce zero direct output, matching the
 vanishing background conformal Christoffels and the selected
-momentum-constraint form. Completion and eigensolver gates remain false.
+momentum-constraint form. The later combined fixture makes only the Gamma rows
+complete; full-operator and eigensolver gates remain false.
 
 The hatted-Gamma shift metric-variation fixture keeps two selected GRChombo
 families separate. Its vector-Hessian oracle derives
@@ -1078,9 +1089,48 @@ output-scope cases pass for each family independently. Mutations reject one
 hidden copy, omitted or sign-reversed `h_ww`, a spurious z vector Hessian,
 wrong grad-div coefficient/sign, and duplication of earlier Gamma families.
 The fixture records that the selected frozen-gauge mathematical family
-inventory is closed while final row assembly and assembled-row validation,
-both Gamma completion flags, full-operator completion, and eigensolver access
-remain false.
+inventory is closed. The later complete-row fixture validates the assembler
+and permits only the two Gamma completion flags; full-operator completion and
+eigensolver access remain false.
+
+The complete hatted-Gamma row fixture supplies the output of the existing
+common GP-advection block as an explicit assembler dependency and adds the
+Z/kappa/shift-gradient, K/Theta/chi-gradient, connection-A, vector-Hessian,
+and grad-div outputs exactly once. The assembler calls the existing partial
+functions and does not replace them with a simplified row.
+
+Its independent test-only nonlinear oracle does not call those production
+partial functions or copy their final linear coefficients. It builds the
+nonlinear visible inverse conformal metric, visible and modified-cartoon
+hidden Christoffels, contracted connection and encoded Z, raised A tensor,
+and GP shift derivatives, then evaluates the selected frozen-gauge CCZ4 Gamma
+families before central differencing. At the exact GP background the separate
+x-row gradient, vector-Hessian, and grad-div terms cancel to
+`-2.775557561563e-17`; the z residual is exactly zero. Directed-family cases
+and two mixed cases pass the sweep
+`epsilon={1e-2,1e-4,1e-5,1e-6,1e-7}` with a stable `1e-5/1e-6` plateau. For
+the first mixed case the x errors are
+`4.56e-5, 4.56e-9, 5.31e-11, 3.23e-12, 4.43e-10`, and the z errors are
+`1.33e-5, 1.33e-9, 1.33e-11, 1.33e-13, 1.33e-15`.
+
+Two additional family-isolation fixtures close the ownership gap left by the
+directed inputs. The vector-Hessian x case uses
+`delta h_ww=a`, `dx(delta h_ww)=-2a/x`, which makes `g_x=Z_x=C_x=0` and
+leaves only `3 lambda a/x`. The grad-div z case uses `delta h_xz=a`,
+`dz(delta h_ww)=2a/x`, and
+`dz(deltaTheta)=27 lambda a/(16x)`, which makes `g_z=Z_z=C_z=0` and cancels
+the complete gradient family, leaving only `9 lambda a/(8x)`. Each partial
+family is asserted separately before the assembled total. The generic Gamma
+inventory consequently classifies Theta/Z constraint dependence and hidden
+modified-cartoon evolution as `implemented_now` for both Gamma rows; the
+corresponding non-Gamma rows keep their incomplete classifications.
+
+Ownership mutations omit and duplicate every family independently, duplicate
+common advection, add the forbidden `lambda H_z/2`, and reduce the hidden
+multiplicity. Raw even/one-z parity, forbidden leakage, zero perturbation,
+and two-slot-only writes are also checked. After these pass, only the two
+hatted-Gamma variable-completion flags are true; the complete 13-variable
+operator and eigensolver gates remain false.
 
 The A-equation algebraic non-curvature fixture checks the GRChombo A RHS
 convention block
@@ -1120,8 +1170,11 @@ hidden multiplicity to the `A_ww` component equation, using wrong `K` or
 `Theta` coefficients, adding spurious `A_xz` couplings, or touching non-A
 outputs would fail. This fixture itself does not include the separately
 implemented trace-free Ricci insertion or the frozen-gauge-vanishing lapse
-Hessian; remaining A dynamics, Theta/constraint terms, hatted-Gamma evolution,
-MOTS, eigensolver work, and threshold searches remain missing.
+Hessian. The complete frozen-gauge hatted-Gamma x/z rows are implemented and
+independently validated, and both Gamma variable RHS-completion flags are true.
+Remaining work concerns the non-Gamma K/A/Theta and coupled CCZ4/Z4 rows, full
+13-variable assembly/JVP/parity, boundaries, MOTS, and the spectral gate;
+neither the complete operator nor the eigensolver is ready.
 
 The Theta-equation algebraic non-Ricci fixture checks only
 
@@ -1150,9 +1203,12 @@ diagonal GP background, and no non-Theta output slot is touched. Negative
 guards show that dropping inverse-metric variation, dropping hidden `ww`
 multiplicity, using a `d=3` K coefficient, adding spurious `xz` couplings, or
 touching non-Theta outputs would fail. The Ricci scalar and simple kappa
-damping contributions are implemented in separate fixtures; remaining
-constraint terms, hatted-Gamma evolution, MOTS, eigensolver work, and
-threshold searches remain missing.
+damping contributions are implemented in separate fixtures. The complete
+frozen-gauge hatted-Gamma x/z rows are implemented and independently
+validated, and both Gamma variable RHS-completion flags are true. Remaining
+work concerns the non-Gamma K/A/Theta and coupled CCZ4/Z4 rows, full
+13-variable assembly/JVP/parity, boundaries, MOTS, and the spectral gate;
+neither the complete operator nor the eigensolver is ready.
 
 The Theta minus-K fixture checks the remaining simple non-damping algebraic
 Theta factor in the GRChombo convention,

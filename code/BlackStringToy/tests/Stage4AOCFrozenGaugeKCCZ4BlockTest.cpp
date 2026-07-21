@@ -456,8 +456,12 @@ void check_completion_guards()
     require_true("first hat-Gamma Z/kappa block is implemented",
                  Operator::
                      hat_gamma_z4_kappa_shift_gradient_block_implemented);
-    require_true("complete hat-Gamma RHS remains missing",
-                 !Operator::hat_gamma_rhs_block_implemented);
+    require_true("complete hat-Gamma RHS is implemented separately",
+                 Operator::hat_gamma_rhs_block_implemented);
+    require_true("hat_Gamma^x RHS is complete",
+                 Operator::variable_rhs_complete(Variable::hat_Gamma_x));
+    require_true("hat_Gamma^z RHS is complete",
+                 Operator::variable_rhs_complete(Variable::hat_Gamma_z));
     require_true("K lapse Hessian vanishes in frozen gauge",
                  Operator::k_equation_lapse_hessian_vanishes_in_frozen_gauge);
     require_true("Lambda remains locked to zero",

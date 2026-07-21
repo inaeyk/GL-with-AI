@@ -38,9 +38,9 @@ static constexpr bool hat_gamma_connection_a_block_implemented = true;
 static constexpr bool hat_gamma_vector_hessian_block_implemented = true;
 static constexpr bool hat_gamma_grad_div_block_implemented = true;
 static constexpr bool hat_gamma_surviving_term_family_inventory_closed = true;
-static constexpr bool hat_gamma_final_row_assembly_implemented = false;
-static constexpr bool hat_gamma_assembled_row_validation_implemented = false;
-static constexpr bool hat_gamma_rhs_block_implemented = false;
+static constexpr bool hat_gamma_final_row_assembly_implemented = true;
+static constexpr bool hat_gamma_assembled_row_validation_implemented = true;
+static constexpr bool hat_gamma_rhs_block_implemented = true;
 static constexpr bool k_equation_lapse_hessian_vanishes_in_frozen_gauge = true;
 static constexpr bool cosmological_constant_locked_to_zero = true;
 static constexpr bool k_equation_cosmological_terms_implemented = false;
@@ -108,6 +108,7 @@ enum class RhsPiece
     hat_gamma_connection_a_insertion,
     hat_gamma_vector_hessian_insertion,
     hat_gamma_grad_div_insertion,
+    hat_gamma_complete_row_assembly,
     a_equation_algebraic_non_curvature,
     theta_equation_algebraic_non_ricci,
     theta_equation_minus_k_delta_theta,
@@ -183,7 +184,7 @@ inline constexpr std::array<const char *, 4> implemented_wrapper_pieces = {
     "RHS block inventory with implemented/reusable/missing labels",
     "radial-domain and boundary-condition contract"};
 
-inline constexpr std::array<const char *, 18> implemented_operator_pieces = {
+inline constexpr std::array<const char *, 19> implemented_operator_pieces = {
     "matrix-free GP-shift advection block beta_GP^x d_x(delta u)",
     "GP-shift tensor stretching for h_IJ and A_IJ",
     "algebraic h_IJ <- -2 A_IJ and chi <- +K/2 couplings",
@@ -196,6 +197,7 @@ inline constexpr std::array<const char *, 18> implemented_operator_pieces = {
     "hat-Gamma-output connection-A metric insertion",
     "hat-Gamma-output vector-Hessian metric-variation insertion",
     "hat-Gamma-output grad-div metric-variation insertion",
+    "complete frozen-gauge hat-Gamma x/z row assembly and validation",
     "A_IJ-output algebraic non-curvature linearization",
     "Theta-output algebraic non-Ricci linearization",
     "Theta-output -K_GP deltaTheta linearization",
@@ -352,6 +354,13 @@ inline bool receives_hat_gamma_grad_div_insertion(
            variable == PerturbationVariable::hat_Gamma_z;
 }
 
+inline bool receives_hat_gamma_complete_row_assembly(
+    const PerturbationVariable variable)
+{
+    return variable == PerturbationVariable::hat_Gamma_x ||
+           variable == PerturbationVariable::hat_Gamma_z;
+}
+
 inline bool receives_a_equation_algebraic_non_curvature(
     const PerturbationVariable variable)
 {
@@ -447,6 +456,11 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
                    ? PieceStatus::implemented_now
                    : PieceStatus::not_applicable;
 
+    case RhsPiece::hat_gamma_complete_row_assembly:
+        return receives_hat_gamma_complete_row_assembly(variable)
+                   ? PieceStatus::implemented_now
+                   : PieceStatus::not_applicable;
+
     case RhsPiece::a_equation_algebraic_non_curvature:
         return receives_a_equation_algebraic_non_curvature(variable)
                    ? PieceStatus::implemented_now
@@ -477,10 +491,13 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
         return PieceStatus::reusable_helper;
 
     case RhsPiece::hidden_sphere_terms:
-        if (variable == PerturbationVariable::h_ww ||
-            variable == PerturbationVariable::A_ww ||
-            variable == PerturbationVariable::hat_Gamma_x ||
+        if (variable == PerturbationVariable::hat_Gamma_x ||
             variable == PerturbationVariable::hat_Gamma_z)
+        {
+            return PieceStatus::implemented_now;
+        }
+        if (variable == PerturbationVariable::h_ww ||
+            variable == PerturbationVariable::A_ww)
         {
             return PieceStatus::reusable_helper;
         }
@@ -498,9 +515,12 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
                    : PieceStatus::not_applicable;
 
     case RhsPiece::theta_constraint_terms:
-        return variable == PerturbationVariable::Theta ||
-                       variable == PerturbationVariable::hat_Gamma_x ||
-                       variable == PerturbationVariable::hat_Gamma_z
+        if (variable == PerturbationVariable::hat_Gamma_x ||
+            variable == PerturbationVariable::hat_Gamma_z)
+        {
+            return PieceStatus::implemented_now;
+        }
+        return variable == PerturbationVariable::Theta
                    ? PieceStatus::requires_modified_cartoon_rhs
                    : PieceStatus::not_applicable;
 
@@ -508,16 +528,17 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
         if (variable == PerturbationVariable::hat_Gamma_x ||
             variable == PerturbationVariable::hat_Gamma_z)
         {
-            return PieceStatus::reusable_helper;
+            return PieceStatus::implemented_now;
         }
         return PieceStatus::not_applicable;
     }
     return PieceStatus::missing_placeholder;
 }
 
-inline bool variable_rhs_complete(const PerturbationVariable)
+inline bool variable_rhs_complete(const PerturbationVariable variable)
 {
-    return false;
+    return variable == PerturbationVariable::hat_Gamma_x ||
+           variable == PerturbationVariable::hat_Gamma_z;
 }
 
 inline bool any_variable_rhs_complete()
@@ -1234,6 +1255,53 @@ apply_hat_gamma_grad_div_insertion_at_point(
         9.0 * lambda / (8.0 * x) *
         input.value(PerturbationVariable::h_xz);
 
+    return make_frozen_gauge_perturbation_vector(values);
+}
+
+inline FrozenGaugePerturbationVector apply_complete_hat_gamma_rows_at_point(
+    const double r0, const FrozenGaugePerturbationVector &input,
+    const FrozenGaugePerturbationVector &common_advection_output,
+    const Stage4AOFrozenGaugeContractedConnection::PerturbationJet
+        &connection_input,
+    const double dx_delta_k, const double dz_delta_k,
+    const double dx_delta_theta, const double dz_delta_theta,
+    const double dx_delta_chi, const double dz_delta_chi)
+{
+    const double x = connection_input.x();
+    const auto z4_kappa_shift_gradient =
+        apply_hat_gamma_z4_kappa_shift_gradient_insertion_at_point(
+            r0, connection_input);
+    const auto k_theta_chi_gradient =
+        apply_hat_gamma_k_theta_chi_gradient_insertion_at_point(
+            r0, x, input, dx_delta_k, dz_delta_k, dx_delta_theta,
+            dz_delta_theta, dx_delta_chi, dz_delta_chi);
+    const auto connection_a = apply_hat_gamma_connection_a_insertion_at_point(
+        r0, x, input, connection_input.dx_h_xx(),
+        connection_input.dx_h_xz(), connection_input.dx_h_zz(),
+        connection_input.dx_h_ww(), connection_input.dz_h_xx(),
+        connection_input.dz_h_xz(), connection_input.dz_h_zz(),
+        connection_input.dz_h_ww());
+    const auto vector_hessian =
+        apply_hat_gamma_vector_hessian_insertion_at_point(r0, x, input);
+    const auto grad_div =
+        apply_hat_gamma_grad_div_insertion_at_point(r0, x, input);
+
+    std::array<double, frozen_gauge_state_vector.size()> values = {};
+    for (const auto gamma_variable : {PerturbationVariable::hat_Gamma_x,
+                                      PerturbationVariable::hat_Gamma_z})
+    {
+        values[variable_index(gamma_variable)] =
+            common_advection_output.value(gamma_variable) +
+            z4_kappa_shift_gradient.value(gamma_variable) +
+            k_theta_chi_gradient.value(gamma_variable) +
+            connection_a.value(gamma_variable) +
+            vector_hessian.value(gamma_variable) +
+            grad_div.value(gamma_variable);
+    }
+
+    // This assembler owns addition only. Common advection is supplied by the
+    // existing block, each non-advection family is called exactly once, and
+    // no simplified replacement formula is introduced here.
     return make_frozen_gauge_perturbation_vector(values);
 }
 

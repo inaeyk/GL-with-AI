@@ -442,16 +442,16 @@ void check_invalid_inputs_and_completion_gates()
     require_true("operator records contracted-connection helper",
                  Operator::
                      contracted_connection_and_z_reconstruction_helper_implemented);
-    require_true("complete operator Gamma RHS remains unimplemented",
-                 !Operator::hat_gamma_rhs_block_implemented);
+    require_true("complete operator Gamma RHS is now implemented",
+                 Operator::hat_gamma_rhs_block_implemented);
     require_true("first Gamma Z/kappa/shift-gradient block is implemented",
                  Operator::
                      hat_gamma_z4_kappa_shift_gradient_block_implemented);
-    require_true("hat_Gamma^x RHS remains incomplete",
-                 !Operator::variable_rhs_complete(
+    require_true("hat_Gamma^x RHS is now complete",
+                 Operator::variable_rhs_complete(
                      Operator::PerturbationVariable::hat_Gamma_x));
-    require_true("hat_Gamma^z RHS remains incomplete",
-                 !Operator::variable_rhs_complete(
+    require_true("hat_Gamma^z RHS is now complete",
+                 Operator::variable_rhs_complete(
                      Operator::PerturbationVariable::hat_Gamma_z));
     const auto contract = Operator::make_default_frozen_gauge_operator_contract();
     require_true("full operator remains incomplete",
