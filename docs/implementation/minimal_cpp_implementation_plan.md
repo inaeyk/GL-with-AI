@@ -1160,7 +1160,9 @@ This is still not eigensolver work. 4AO-C now has the blocker note
 validation-only wrapper, boundary contract, first matrix-free GP-shift
 advection block, tensor shift-stretching block, and algebraic metric/chi
 coupling block, selected-CCZ4 K-output `K(K-2Theta)` and physical-`delta R`
-blocks, A-output non-curvature
+blocks, main-path `kappa1=0.1`, `kappa2=0`, `kappa3=1`,
+`covariantZ4=true` convention lock and simple K/Theta damping insertions,
+A-output non-curvature
 algebraic block, Theta-output non-Ricci algebraic block, and Theta-output
 `-K_GP deltaTheta` block, plus the trace-free `delta A` projector contract in
 `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`. The Ricci/curvature
@@ -1177,8 +1179,8 @@ curvature insertion now consumes the same trace-free assembly and applies
 `output[K] += delta R`. The former K `A_IJ A^IJ + K^2/d` block is explicitly
 rejected as the wrong `USE_BSSN` branch. The intended frozen-gauge
 perturbation vector is defined, but the complete coupled modified-cartoon RHS
-linearization beyond those partial blocks, Z4 damping/constraint terms and
-`kappa1/kappa2` convention lock,
+linearization beyond those partial blocks, hatted-Gamma Z/kappa and `kappa3`
+shift-gradient terms, remaining coupled CCZ4/Z4 constraint terms,
 actual-operator JVP/parity checks, boundary-condition validation, shift-invert
 or equivalent targeted solve, linearized MOTS observable map, unstable/stable
 points, threshold estimate, and primary-source `k_c r0` convention map are

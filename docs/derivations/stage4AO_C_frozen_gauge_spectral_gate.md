@@ -15,12 +15,14 @@ validated as standalone components. Raw Ricci trace and trace-free Ricci
 assembly are also implemented as a standalone validation block. The Theta Ricci
 scalar insertion `output[Theta] += 0.5 delta R` and the `A_IJ` curvature
 insertion `output[A_IJ] += [delta R_IJ]^TF` now consume that assembly. This note
-also documents the GRChombo Z4 damping/kappa convention pass, but it does not
-choose `kappa1` or `kappa2` values and does not implement damping rows. This
-note records why the first honest frozen-gauge GL spectral validation harness
-is not yet complete. It adds no Z4 damping code, no eigensolver, no
-shift-invert solve, no threshold search, no production RHS wiring, no live
-evolution wiring, and no Stage 4AO-D work.
+now locks the inherited GRChombo-facing main-path convention
+`kappa1=0.1`, `kappa2=0`, `kappa3=1`, `covariantZ4=true` and implements only
+the simple K/Theta damping insertions. Zero damping is reserved for a later
+diagnostic comparison. Complete hatted-Gamma Z/kappa damping remains missing.
+This note records why the first honest frozen-gauge GL spectral validation
+harness is not yet complete. It adds no eigensolver, shift-invert solve,
+threshold search, production RHS wiring, live evolution wiring, or Stage
+4AO-D work.
 
 ## Read-Only Reuse Inventory
 
@@ -186,10 +188,10 @@ the current reuse map is:
 | `chi` RHS | Public `CCZ4RHS::rhs_equation` has the visible conformal-factor equation; Stage 4AO-A/4AO-B record the GP residual target. | Reuse with adapter only. Needs modified-cartoon shift divergence and hidden multiplicity in a repo-owned operator. |
 | visible `h_xx,h_xz,h_zz` RHS | Public `CCZ4RHS` has visible metric equations for `CH_SPACEDIM` components. | Reuse with adapter. Must freeze gauge perturbations and include the locked 4D trace convention. |
 | hidden `h_ww` RHS | Stage 4AO-A/B derive and test representative GP residual behavior. Live code only freezes/zeros smoke hidden slots. | Missing as an actual nonlinear RHS block. Must be built before full JVP. |
-| `K` RHS | Public `CCZ4RHS` has a visible CCZ4 `K` equation using Ricci scalar and lapse Hessian trace. Stage 4AO-C now implements only `output[K] += 3 lambda delta K - 3 lambda delta Theta` and `output[K] += delta R` from the validated physical Ricci trace. | Partial. The selected `USE_CCZ4` `K(K-2Theta)` linearization and physical-`delta R` insertion are implemented. Z/hat-Gamma-dependent Ricci contributions, kappa damping, hat-Gamma evolution, and the rest of the coupled operator remain missing. Frozen-gauge lapse-Hessian variation vanishes; cosmological terms remain absent under the locked `Lambda=0` assumption. |
+| `K` RHS | Public `CCZ4RHS` has a visible CCZ4 `K` equation using Ricci scalar and lapse Hessian trace. Stage 4AO-C implements `output[K] += 3 lambda delta K - 3 lambda delta Theta`, `output[K] += delta R`, and the locked main-path damping insertion `output[K] += -0.4 deltaTheta`. | Partial. The selected `USE_CCZ4` `K(K-2Theta)` linearization, physical-`delta R`, and simple kappa damping insertion are implemented. Z/hat-Gamma-dependent Ricci contributions, remaining constraint terms, hat-Gamma evolution, and the rest of the coupled operator remain missing. Frozen-gauge lapse-Hessian variation vanishes; cosmological terms remain absent under the locked `Lambda=0` assumption. |
 | visible `A_xx,A_xz,A_zz` RHS | Stage 4AL implements local trace-free curvature/lapse source; public `CCZ4RHS` has visible nonlinear/advection terms. Stage 4AO-C now inserts `[delta R_IJ]^TF` for the visible A outputs from the validated Ricci assembly. | Partial. The A_IJ trace-free Ricci curvature insertion is implemented, but the full operator remains incomplete because Z4/kappa terms, hat-Gamma evolution, full-operator JVP/parity, boundary validation, MOTS, eigensolver/convergence, and the `k_c r0` map are still missing. |
 | hidden `A_ww` RHS | Stage 4AK implements `-D_wD_w alpha + alpha R_ww[gamma]`; Stage 4AL includes trace-free projection. Stage 4AO-C now inserts the representative `[delta R_ww]^TF` component with hidden multiplicity already accounted for in the trace assembly. | Partial. The A_ww trace-free Ricci curvature insertion is implemented, but the full operator remains incomplete because Z4/kappa terms, hat-Gamma evolution, full-operator JVP/parity, boundary validation, MOTS, eigensolver/convergence, and the `k_c r0` map are still missing. |
-| `Theta` RHS | Public `CCZ4RHS` has visible CCZ4 formula. Stage 4AO-A locks background residual. Stage 4AO-C now inserts `output[Theta] += 0.5 delta R` from the validated raw Ricci trace assembly. | Partial. The Ricci scalar insertion is implemented; Z4 damping/constraint terms and kappa conventions remain missing, along with hat-Gamma evolution, full-operator JVP/parity, boundary validation, MOTS, eigensolver/convergence, and the `k_c r0` map. |
+| `Theta` RHS | Public `CCZ4RHS` has visible CCZ4 formula. Stage 4AO-A locks background residual. Stage 4AO-C inserts `output[Theta] += 0.5 delta R` and the locked main-path damping term `output[Theta] += -0.25 deltaTheta`. | Partial. The Ricci scalar and simple kappa damping insertions are implemented. Remaining CCZ4/Z4 constraint terms and the complete hatted-Gamma evolution remain missing, along with full-operator JVP/parity, boundary validation, MOTS, eigensolver/convergence, and the `k_c r0` map. |
 | `hat_Gamma^x` value | Stage 4AN implements local `tilde_Gamma^x + 2 Z_over_chi^x` and hidden contraction with checked singular ingredients. | Reuse with adapter for local contraction/JVP checks. Not a RHS. |
 | `hat_Gamma^x` RHS | Stage 4AM/4AO-A derive the hidden RHS cancellation on the GP background; Stage 4AO-B tests a representative `delta hww` contribution. | Missing as a complete nonlinear RHS block. Needs hidden vector-Laplacian, shift-divergence, Z4/damping, A/K/chi coupling, and full 4D multiplicity. |
 | `hat_Gamma^z` RHS | Public `CCZ4RHS` has visible formula; Stage 4AO-B representative parity uses `D_z K`. | Mostly missing for modified-cartoon operator. Needs the `z` companion hidden contraction/RHS analysis and implementation. |
@@ -247,13 +249,15 @@ operator or observable for it to validate.
 The first item is now represented by
 `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp` with fixture
 `code/BlackStringToy/tests/Stage4AOCFrozenGaugeOperatorContractTest.cpp`. The
-wrapper began as a contract and inventory and now also contains ten actual
+wrapper began as a contract and inventory and now also contains eleven actual
 partial apply paths: `beta_GP^x d_x(delta u)` for every frozen-gauge
 perturbation variable, the non-advection tensor shift-stretching terms for
 `h_IJ` and `A_IJ`, and the algebraic couplings
 `delta h_IJ <- -2 delta A_IJ`, `delta chi <- +delta K/2`, plus the K-output
 selected-CCZ4 linearization `3 lambda delta K - 3 lambda delta Theta` and
-physical-Ricci insertion `+delta R`, plus the `A_IJ`-output
+physical-Ricci insertion `+delta R`, plus the K/Theta-output simple
+locked-convention damping insertion `output[K] += -0.4 deltaTheta`,
+`output[Theta] += -0.25 deltaTheta`, plus the `A_IJ`-output
 linearization of `(K - 2 Theta) A_IJ - 2 h^KL A_IK A_LJ`, plus the
 Theta-output algebraic linearization of
 `0.5 * (((d - 1) / d) K^2 - A_IJ A^IJ)`, plus the Theta-output
@@ -300,6 +304,9 @@ The wrapper distinguishes four categories:
   `delta chi <- +delta K/2` are implemented only for their named output
   slots; the K-equation selected-CCZ4 `K(K-2Theta)` linearization and
   physical-Ricci scalar insertion are implemented only as K-output blocks;
+  the locked main-path CCZ4 damping insertion is implemented only for the K
+  and Theta output slots and depends only on `deltaTheta`; hatted-Gamma
+  Z/kappa damping is a separate missing inventory row;
   the rejected BSSN `A^2+K^2/d` terms are absent; the `A_IJ`-equation non-curvature algebraic
   linearization is implemented only for the `A_IJ` output slots; the
   Theta-equation non-Ricci algebraic linearization is implemented only for the
@@ -322,27 +329,29 @@ The current RHS inventory is:
 | `h_xz` | GP-shift advection, tensor stretching, and `-2 delta A_xz` implemented; other derivative terms helper/missing | requires modified-cartoon RHS | N/A | remaining metric/K/A algebraic terms require modified-cartoon RHS | N/A | N/A |
 | `h_zz` | GP-shift advection, tensor stretching, and `-2 delta A_zz` implemented; other derivative terms helper/missing | requires modified-cartoon RHS | N/A | remaining metric/K/A algebraic terms require modified-cartoon RHS | N/A | N/A |
 | `h_ww` | GP-shift advection, hidden tensor stretching, and `-2 delta A_ww` implemented; other derivative terms helper/missing | helper only from 4AO-A/B hidden-contraction lessons | N/A | remaining hidden metric/K/A algebraic terms require modified-cartoon RHS | N/A | N/A |
-| `K` | GP-shift advection and K-output selected-CCZ4 `+3 lambda delta K - 3 lambda delta Theta` implemented; tensor stretching N/A; other derivative terms helper/missing | requires modified-cartoon RHS | physical `output[K] += delta R` implemented from `delta R_xx + delta R_zz + 2 delta R_ww`; Z/hat-Gamma-dependent Ricci pieces missing | kappa damping and remaining K dynamics require modified-cartoon RHS; frozen-gauge lapse Hessian vanishes; `Lambda=0` cosmological terms remain absent | direct `delta Theta` coefficient included only in the narrow `K(K-2Theta)` block | N/A |
+| `K` | GP-shift advection and K-output selected-CCZ4 `+3 lambda delta K - 3 lambda delta Theta` implemented; tensor stretching N/A; other derivative terms helper/missing | requires modified-cartoon RHS | physical `output[K] += delta R` implemented from `delta R_xx + delta R_zz + 2 delta R_ww`; Z/hat-Gamma-dependent Ricci pieces missing | simple main-path kappa damping `output[K] += -0.4 deltaTheta` implemented; remaining K dynamics require modified-cartoon RHS; frozen-gauge lapse Hessian vanishes; `Lambda=0` cosmological terms remain absent | direct `delta Theta` coefficients are split between `K(K-2Theta)` and the simple damping insertion; remaining selected constraint terms are missing | N/A |
 | `A_xx` | GP-shift advection, tensor stretching, and A-output non-curvature algebraic linearization implemented; other derivative terms helper/missing | requires modified-cartoon RHS | raw visible physical `delta R_xx[gamma]` validation block implemented; `[delta R_xx]^TF` curvature insertion implemented | remaining A dynamics require modified-cartoon RHS | A-output block includes direct `Theta` coefficient only; full constraint terms missing | N/A |
 | `A_xz` | GP-shift advection, tensor stretching, and A-output non-curvature algebraic linearization implemented; other derivative terms helper/missing | requires modified-cartoon RHS | raw visible physical `delta R_xz[gamma]` validation block implemented; `[delta R_xz]^TF` curvature insertion implemented | remaining A dynamics require modified-cartoon RHS | no direct `Theta` coefficient because `A_xz_GP=0`; full constraint terms missing | N/A |
 | `A_zz` | GP-shift advection, tensor stretching, and A-output non-curvature algebraic linearization implemented; other derivative terms helper/missing | requires modified-cartoon RHS | raw visible physical `delta R_zz[gamma]` validation block implemented; `[delta R_zz]^TF` curvature insertion implemented | remaining A dynamics require modified-cartoon RHS | A-output block includes direct `Theta` coefficient only; full constraint terms missing | N/A |
 | `A_ww` | GP-shift advection, hidden tensor stretching, and A-output non-curvature algebraic linearization implemented; other derivative terms helper/missing | helper only from 4AH-4AL hidden local blocks | raw hidden physical `delta R_ww[gamma]` validation block implemented; `[delta R_ww]^TF` curvature insertion implemented with no extra hidden multiplicity | remaining A dynamics require modified-cartoon RHS | A-output block includes direct `Theta` coefficient only; full constraint terms missing | N/A |
-| `Theta` | GP-shift advection, Theta-output non-Ricci algebraic linearization, and `-K_GP deltaTheta` implemented; tensor stretching N/A; other derivative terms helper/missing | requires modified-cartoon RHS | `output[Theta] += 0.5 delta R` implemented from validated raw Ricci trace assembly | N/A | Z4 damping, `Z dot grad alpha`, and other constraint terms require modified-cartoon RHS | N/A |
-| `hat_Gamma^x` | GP-shift advection implemented; tensor stretching N/A; other derivative terms helper/missing | helper only from 4AM/4AN and 4AO-B `delta hww` isolation | N/A | N/A | requires modified-cartoon RHS | helper only for local contraction; complete RHS missing |
-| `hat_Gamma^z` | GP-shift advection implemented; tensor stretching N/A; other derivative terms helper/missing | missing placeholder | N/A | N/A | requires modified-cartoon RHS | missing placeholder |
+| `Theta` | GP-shift advection, Theta-output non-Ricci algebraic linearization, and `-K_GP deltaTheta` implemented; tensor stretching N/A; other derivative terms helper/missing | requires modified-cartoon RHS | `output[Theta] += 0.5 delta R` implemented from validated raw Ricci trace assembly | N/A | simple main-path kappa damping `output[Theta] += -0.25 deltaTheta` implemented; `Z dot grad alpha` has no frozen-GP linear contribution; other selected constraint terms remain missing | N/A |
+| `hat_Gamma^x` | GP-shift advection implemented; tensor stretching N/A; other derivative terms helper/missing | helper only from 4AM/4AN and 4AO-B `delta hww` isolation | N/A | N/A | requires modified-cartoon RHS | helper only for local contraction; Z/kappa damping and complete RHS missing |
+| `hat_Gamma^z` | GP-shift advection implemented; tensor stretching N/A; other derivative terms helper/missing | missing placeholder | N/A | N/A | requires modified-cartoon RHS | Z/kappa damping and complete RHS missing placeholders |
 
 No variable has a complete RHS in the wrapper. GP-shift advection, tensor
 shift-stretching, the algebraic metric/chi couplings, the K-output selected-CCZ4
 `K(K-2Theta)` linearization and physical-`delta R` insertion, and the `A_IJ`-output non-curvature algebraic
 linearization, the Theta-output algebraic non-Ricci linearization, the Theta
 `-K_GP deltaTheta` linearization, the Theta Ricci scalar insertion, and the
-A_IJ trace-free Ricci curvature insertion are implemented operator pieces. The
+simple K/Theta kappa damping insertion, and the A_IJ trace-free Ricci curvature
+insertion are implemented operator pieces. The
 raw physical `delta R_ww[gamma]`, `delta R_xz[gamma]`, `delta R_zz[gamma]`,
 and `delta R_xx[gamma]` blocks are standalone Ricci validation helpers; their
 raw scalar trace and trace-free Ricci projection are assembled before those
 two insertion blocks consume them. The wrapper still cannot be used for full
 JVP, matrix assembly, spectral extraction, or threshold searches until the
-remaining Z4/kappa, hat-Gamma, boundary, MOTS, convergence, and convention-map
+remaining hatted-Gamma Z/kappa, coupled CCZ4/Z4, boundary, MOTS, convergence,
+and convention-map
 blockers are resolved.
 
 ## First Actual Operator Block: GP-Shift Advection
@@ -632,10 +641,12 @@ only the non-Ricci algebraic part
 0.5 * (((d - 1) / d) K^2 - A_IJ A^IJ),
 ```
 
-linearized about the locked GP background. The Ricci scalar, Z4/damping,
-`Z dot grad alpha`, and cosmological pieces are deliberately not included here
-because their parameters and full operator context are not yet locked for
-4AO-C. The simple `-Theta K` term is implemented separately below.
+linearized about the locked GP background. The Ricci scalar, simple kappa
+damping, `Z dot grad alpha`, and cosmological pieces are not included in this
+algebraic block: Ricci and damping are separate implemented insertions,
+`Z dot grad alpha` has no frozen-GP linear contribution, and locked
+`Lambda=0` leaves no cosmological term. The simple `-Theta K` term is
+implemented separately below.
 
 On the locked GP background,
 
@@ -702,10 +713,9 @@ delta(-Theta K) =
   = -(3 lambda / 2) deltaTheta.
 ```
 
-No `delta K` contribution is present in this block because `Theta_GP=0`. Z4
-damping terms involving `kappa1` and `kappa2` remain deferred until their
-4AO-C conventions are explicitly locked; they are not bundled into this
-simple algebraic block.
+No `delta K` contribution is present in this block because `Theta_GP=0`. The
+now-locked kappa damping terms remain a separate insertion and are not bundled
+into this simple algebraic block.
 
 The fixture
 `code/BlackStringToy/tests/Stage4AOCFrozenGaugeThetaMinusKBlockTest.cpp`
@@ -1313,9 +1323,19 @@ tests, boundary validation, MOTS, and spectral work remain separate.
 
 ## Z4 Damping And Kappa Convention Lock
 
-This is a documentation/derivation pass only. It records the GRChombo
-convention and the frozen-GP linearized targets, but it does not choose
-`kappa1`, `kappa2`, or `kappa3`, and it does not add damping code.
+The planning-layer convention decision for the main frozen-gauge spectral
+gate deliberately adopts the inherited GRChombo-facing values
+
+```text
+kappa1 = 0.1,
+kappa2 = 0.0,
+kappa3 = 1.0,
+covariantZ4 = true.
+```
+
+Codex implements this recorded decision; it does not tune the parameters.
+Zero damping is reserved for a later diagnostic comparison and is not the
+main Stage 4AO-C path.
 
 GRChombo defines the damping parameters in
 `external/GRChombo/Source/CCZ4/CCZ4RHS.hpp`:
@@ -1336,13 +1356,10 @@ covariantZ4 = true.
 ```
 
 The inherited smoke parameter file
-`code/BlackStringToy/params_stage2_smoke.txt` repeats those values, but that
-file is a smoke scaffold and is not a GL validation convention lock.
-Therefore the human team must still decide the `kappa1/kappa2` convention for
-the Stage 4AO-C/4AO-D validation harness. Codex must not tune or select these
-values. The full frozen-gauge operator and spectrum remain blocked until the
-human team either locks nonzero values or explicitly documents a choice such
-as `kappa1=kappa2=0`.
+`code/BlackStringToy/params_stage2_smoke.txt` repeats those values, but it
+remains an unchanged smoke scaffold rather than the authority for this lock.
+The authority is the planning-layer decision recorded here and in the Stage
+4AO-C checklist.
 
 GRChombo computes
 
@@ -1420,6 +1437,27 @@ delta rhs_K|kappa =
 
 This is also algebraic once `kappa1/kappa2` are fixed.
 
+With the main-path values, the implemented validation-only insertion is
+
+```text
+output[Theta] += -0.25 * input[Theta],
+output[K]     += -0.4  * input[Theta].
+```
+
+No `deltaK` input contributes, no other output is touched, and the corrected
+CCZ4 K pieces `+delta R`, `+3 lambda deltaK`, and
+`-3 lambda deltaTheta` remain separate and unchanged.
+
+`code/BlackStringToy/tests/Stage4AOCFrozenGaugeCCZ4DampingInsertionTest.cpp`
+independently derives both coefficients from `kappa1`, `kappa2`, and `d`
+rather than copying `-0.25` and `-0.4` as unexplained constants. It checks
+pointwise and grid apply paths, the unchanged corrected K block, and closed
+K/Theta/full-operator/eigensolver gates. Genuine wrong-sign mutation guards
+compare the actual coefficients with independently derived negative damping
+and reject their positive-sign antidamping mutations. Further guards cover
+`d=3`, wrong nonzero-`kappa2` dependence, spurious `deltaK`, premature
+hatted-Gamma damping, non-K/Theta output writes, and false completion claims.
+
 The Theta row also contains `-Z dot grad(alpha)`. This has no frozen-GP
 linear contribution because `grad(alpha_GP)=0` and `delta alpha=0`.
 
@@ -1441,12 +1479,21 @@ delta rhs_hat_Gamma^i|Z/kappa =
     (K_GP * (kappa3 - 1) - 2 kappa1) * delta Z_over_chi^i.
 ```
 
-If the human team keeps the inherited/default `kappa3=1`, this reduces to
+With the locked main-path `kappa3=1`, this reduces to the future target
 
 ```text
 delta rhs_hat_Gamma^i|Z/kappa =
-    -2 kappa1 * delta Z_over_chi^i.
+    -2 kappa1 * delta Z_over_chi^i
+  = -0.2 * delta Z_over_chi^i.
 ```
+
+In addition, `kappa3` appears in the shift-gradient term
+
+```text
+-(chris.contracted + 2 kappa3 Z_over_chi) * d1.shift.
+```
+
+That term belongs to the future complete hatted-Gamma evolution block.
 
 However this must not be implemented as a raw `hat_Gamma` damping term. The
 state variable is hatted, while the damping acts on
@@ -1470,18 +1517,14 @@ the Gamma RHS through the gauge driver, but gauge perturbations are excluded
 from the frozen-gauge 4AO-C state. Stage 4AO-D must revisit that inheritance
 for live gauge.
 
-### Decision Gate
+### Recorded Decision And Remaining Gate
 
-The documented GRChombo targets are now known. The remaining gate is a human
-convention decision:
-
-- lock the `kappa1/kappa2` values, and record whether the inherited defaults
-  are intentionally adopted; or
-- explicitly choose a documented zero-damping validation run; and
-- decide whether `kappa3=1` is locked for the GL validation harness.
-
-Until that decision is recorded, Stage 4AO-C may not claim a complete
-frozen-gauge operator or a physical spectrum.
+The inherited values are now intentionally locked for the main validation
+path, and the simple K/Theta damping insertion is implemented. This resolves
+the parameter-choice gate without claiming tuning or a complete operator.
+Hatted-Gamma Z/kappa damping, the `kappa3` shift-gradient term, and the rest
+of the complete hatted-Gamma evolution remain deferred. Stage 4AO-C still may
+not claim a complete frozen-gauge operator or a physical spectrum.
 
 ## Boundary-Condition Contract
 
@@ -1678,12 +1721,14 @@ shift-stretching, algebraic metric/chi coupling, the selected-CCZ4 K-output
 insertion, A-output non-curvature algebraic block, Theta non-Ricci algebraic
 block, Theta `-K_GP deltaTheta`, trace-free `delta A` projector, validated raw
 Ricci components, raw Ricci trace/trace-free assembly, Theta Ricci scalar
-insertion, and A_IJ trace-free Ricci curvature insertion.
+insertion, A_IJ trace-free Ricci curvature insertion, the main kappa
+convention lock, and simple K/Theta damping insertions.
 
 Remaining missing pieces:
 
-- human `kappa1/kappa2` convention choice and Z4 damping implementation;
-- hat-Gamma evolution;
+- complete `hat_Gamma^x` and `hat_Gamma^z` evolution, including Z/kappa
+  damping and `kappa3` shift-gradient terms;
+- remaining coupled CCZ4/Z4 RHS pieces;
 - actual full-operator JVP/parity tests;
 - boundary validation;
 - linearized MOTS map;

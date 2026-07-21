@@ -250,11 +250,16 @@ void check_negative_guards()
 
     require_true("pretending full Theta RHS complete would fail",
                  !Operator::variable_rhs_complete(Variable::Theta));
-    require_true("Theta constraint/damping terms remain deferred",
+    require_true("remaining Theta constraint terms remain deferred",
                  Operator::rhs_piece_status(
                      Variable::Theta,
                      Operator::RhsPiece::theta_constraint_terms) ==
                      Operator::PieceStatus::requires_modified_cartoon_rhs);
+    require_true("simple Theta damping is implemented separately",
+                 Operator::rhs_piece_status(
+                     Variable::Theta,
+                     Operator::RhsPiece::ccz4_k_theta_damping_insertion) ==
+                     Operator::PieceStatus::implemented_now);
 }
 
 void check_completion_guards()

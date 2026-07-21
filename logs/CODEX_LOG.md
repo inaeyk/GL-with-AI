@@ -1318,3 +1318,30 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   threshold, and convergence remain blockers. Frozen-gauge lapse-Hessian
   variation vanishes and locked `Lambda=0` leaves no cosmological term.
   Stage 4AO-C remains incomplete and the eigensolver remains disallowed.
+
+- Date: 2026-07-21
+- Goal: Begin the Stage 4AO-C selected-CCZ4 damping insertion substep.
+- Initial state: clean `HEAD` at `6c0b306`, containing the audited CCZ4 K
+  correction; no unrelated changes.
+- Convention decision: implement the planning-layer lock
+  `kappa1=0.1`, `kappa2=0`, `kappa3=1`, `covariantZ4=true` for the main
+  frozen-gauge validation path. Zero damping is reserved for a later
+  diagnostic comparison; no tuning was performed and the Stage 2 smoke
+  parameter file was not modified.
+- Implementation: added only the simple K/Theta damping insertion
+  `output[Theta] += -0.25 input[Theta]` and
+  `output[K] += -0.4 input[Theta]`, derived from the general `d=4` GRChombo
+  coefficients. No `deltaK`, hatted-Gamma, or other output contribution was
+  added. The corrected `+delta R + 3 lambda deltaK - 3 lambda deltaTheta` K
+  pieces remain unchanged.
+- Deferred target: complete hatted-Gamma evolution, including
+  `delta rhs_hat_Gamma^i|Z/kappa = -0.2 delta Z_over_chi^i` at `kappa3=1`
+  and the `kappa3` shift-gradient term
+  `-(chris.contracted + 2 kappa3 Z_over_chi) * d1.shift`.
+- Tests: added an independent coefficient/negative-guard fixture, updated the
+  operator inventory contract, and compiled/reran all 17 Stage 4AO-C tests;
+  all passed with the requested warning flags. `git diff --check` and the
+  protected-path checks passed.
+- Review status: K, Theta, and the full frozen-gauge operator remain
+  incomplete; the eigensolver remains disallowed. Stage 4AO-C, 4AO-D, and
+  Checkpoint G remain incomplete.

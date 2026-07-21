@@ -524,7 +524,9 @@ selected-CCZ4 K-output `K(K-2Theta)` and physical-`delta R` blocks, plus the A-o
 algebraic block and Theta-output non-Ricci algebraic block in
 `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`, plus the Theta-output
 `-K_GP deltaTheta` linearization from GRChombo's `-Theta K` term and the
-trace-free `delta A` projector contract. The Ricci/curvature design preflight
+main-path `kappa1=0.1`, `kappa2=0`, `kappa3=1`, `covariantZ4=true` lock with
+simple K/Theta damping insertions, plus the trace-free `delta A` projector
+contract. The Ricci/curvature design preflight
 now records that frozen gauge makes `delta(D_I D_J alpha)=0`. Standalone raw
 lower/lower physical Ricci helpers validate hidden `delta R_ww[gamma]` and
 visible `delta R_xz[gamma]`, `delta R_zz[gamma]`, and `delta R_xx[gamma]`
@@ -537,7 +539,9 @@ Ricci curvature insertion now writes only
 extra hidden multiplicity factor on `A_ww`. The K insertion now writes only
 `output[K] += delta R`, and the former `A_IJ A^IJ + K^2/d` K row is rejected
 as the wrong `USE_BSSN` branch. It does not yet provide the
-full frozen-gauge operator beyond those partial blocks, actual-operator
+full hatted-Gamma evolution including Z/kappa and `kappa3` shift-gradient
+terms, remaining coupled CCZ4/Z4 pieces, or the full frozen-gauge operator
+beyond those partial blocks, actual-operator
 JVP/parity checks, boundary validation, shift-invert solve, unstable/stable
 points, threshold estimate, or primary-source `k_c r0` convention lock. Flat
 checks alone are insufficient, Pau is not the convention authority, the

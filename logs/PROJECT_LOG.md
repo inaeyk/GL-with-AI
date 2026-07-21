@@ -1490,3 +1490,41 @@ Category: Code + Validation + Documentation Reconciliation
   threshold/stable/unstable points, convergence, and the `k_c r0` map.
   Frozen-gauge lapse-Hessian variation vanishes and locked `Lambda=0` leaves
   no cosmological K term. Stage 4AO-C remains incomplete.
+
+## 2026-07-21 - Stage 4AO-C Main-Path CCZ4 K/Theta Damping Insertion
+
+Category: Planning Decision + Code + Validation
+
+- Began from clean commit `6c0b306`, which contains the audited selected-CCZ4
+  K correction.
+- Recorded the planning-layer decision to deliberately adopt the inherited
+  GRChombo-facing main-path values `kappa1=0.1`, `kappa2=0`, `kappa3=1`, and
+  `covariantZ4=true`. Codex implemented that decision without tuning the
+  parameters. Zero damping is reserved for a later diagnostic comparison.
+  `code/BlackStringToy/params_stage2_smoke.txt` was not changed and is not the
+  convention authority.
+- Added the validation-only simple damping insertion
+  `output[Theta] += -0.5*kappa1*(5+3*kappa2)*input[Theta] = -0.25 input[Theta]`
+  and `output[K] += -4*kappa1*(1+kappa2)*input[Theta] = -0.4 input[Theta]`.
+  No `deltaK` input or other output participates. The corrected K pieces
+  `+delta R + 3 lambda deltaK - 3 lambda deltaTheta` remain unchanged.
+- Kept hatted-Gamma damping deferred. For `kappa3=1`, the future target is
+  `delta rhs_hat_Gamma^i|Z/kappa = -0.2 delta Z_over_chi^i`; the separate
+  `-(chris.contracted + 2 kappa3 Z_over_chi) * d1.shift` term belongs to the
+  future complete hatted-Gamma evolution block.
+- Added `Stage4AOCFrozenGaugeCCZ4DampingInsertionTest.cpp`, deriving expected
+  coefficients independently from `kappa1`, `kappa2`, and `d`. The initial
+  nonzero sign sentinels were replaced after audit by genuine mutation guards:
+  actual coefficients must match independently derived negative damping and
+  remain meaningfully separated from the corresponding positive-sign
+  antidamping mutations. Further guards cover `d=3`, wrong nonzero-`kappa2`
+  dependence, spurious `deltaK`, premature hatted-Gamma damping, non-K/Theta
+  writes, and false completion claims.
+- Validation: the focused damping and operator-contract tests passed; all 17
+  `Stage4AOC*.cpp` fixtures compiled with the required C++17 warning flags and
+  passed. Protected-path diffs remained empty.
+- Stage 4AO-C remains incomplete. Complete hatted-Gamma evolution, remaining
+  coupled CCZ4/Z4 pieces, assembled-operator JVP/parity, boundaries and
+  convergence, MOTS, eigensolver/shift-invert, stable/unstable threshold
+  points, the full convergence battery, and the primary-source `k_c r0` map
+  remain blockers. Stage 4AO-D is unstarted and Checkpoint G has not passed.

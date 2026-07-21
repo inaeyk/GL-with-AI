@@ -86,7 +86,10 @@ Physics and physics-design stages also produce polished review notes under
   slots, and the algebraic metric/chi couplings
   `delta h_IJ <- -2 delta A_IJ`, `delta chi <- +(1/2) delta K`, plus the
   selected-CCZ4 K-output `3 lambda delta K - 3 lambda delta Theta` and
-  physical-`delta R` insertions, plus the A-output non-curvature algebraic
+  physical-`delta R` insertions, plus the main-path convention lock
+  `kappa1=0.1`, `kappa2=0`, `kappa3=1`, `covariantZ4=true` and simple damping
+  insertions `output[K] += -0.4 deltaTheta`,
+  `output[Theta] += -0.25 deltaTheta`, plus the A-output non-curvature algebraic
   linearization of `(K - 2Theta)A_IJ - 2h^KL A_IK A_LJ`, plus the
   Theta-output non-Ricci algebraic linearization of
   `0.5*(((d-1)/d)K^2 - A_IJ A^IJ)`, plus the Theta-output

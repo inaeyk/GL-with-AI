@@ -5,7 +5,8 @@ frozen-gauge operator-wrapper, boundary-contract, GP-shift advection,
 tensor-stretching, algebraic metric/chi coupling, K-output algebraic
 selected-CCZ4 `K(K-2Theta)` and physical-`delta R` pieces, A-output
 non-curvature algebraic, Theta-output non-Ricci algebraic,
-Theta-output `-K_GP deltaTheta`, and trace-free `delta A` projector substeps.
+Theta-output `-K_GP deltaTheta`, main-path CCZ4 kappa convention lock, simple
+K/Theta damping insertion, and trace-free `delta A` projector substeps.
 The Ricci/curvature design preflight is documented, and standalone raw
 lower/lower physical `delta R_ww`, `delta R_xz`, `delta R_zz`, and
 `delta R_xx` validation blocks now exist, and raw Ricci trace / trace-free
@@ -590,7 +591,8 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 - Stage 4AO-C substeps: validation-only frozen-gauge operator wrapper,
   boundary-condition contract, GP-shift advection apply path, tensor
   shift-stretching block, algebraic metric/chi coupling block, K-output
-  selected-CCZ4 `K(K-2Theta)` and physical-`delta R` blocks, A-output non-curvature algebraic block,
+  selected-CCZ4 `K(K-2Theta)` and physical-`delta R` blocks, simple K/Theta
+  damping insertion, A-output non-curvature algebraic block,
   Theta-output non-Ricci algebraic block, and Theta-output
   `-K_GP deltaTheta` block, plus the trace-free `delta A` projector contract
   in
@@ -602,6 +604,7 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeTensorShiftStretchingBlockTest.cpp`,
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeAlgebraicCouplingBlockTest.cpp`,
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeKCCZ4BlockTest.cpp`,
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeCCZ4DampingInsertionTest.cpp`,
   and
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeAAlgebraicBlockTest.cpp`,
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeThetaAlgebraicBlockTest.cpp`,
@@ -614,7 +617,8 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
   radial points, and the non-advection tensor stretch coefficients for
   `h_IJ` and `A_IJ`; it also records the local algebraic
   `delta h_IJ <- -2 delta A_IJ`, `delta chi <- delta K/2`, K-output
-  `3 lambda delta K - 3 lambda delta Theta` and `+delta R`, and A-output
+  `3 lambda delta K - 3 lambda delta Theta`, `+delta R`, and
+  `-0.4 deltaTheta`, Theta-output `-0.25 deltaTheta`, and A-output
   `(K - 2Theta)A_IJ - 2h^KL A_IK A_LJ`
   linearizations, plus the Theta-output
   `0.5*(((d-1)/d)K^2 - A_IJ A^IJ)` linearization and the Theta-output
@@ -649,7 +653,7 @@ reworked, the corresponding sign gate must be updated before RHS wiring.
 | Stage 4AN | Local `hat_Gamma^x` implementation and contract tests | Complete as local away-axis code in `code/BlackStringToy/CartoonHatGammaX.hpp`; consumes checked `Delta_xw` and checked `B/x`, exposes base/hidden/tilde/Z-over-chi/hat values, and covers the Stage 4AM oracles without Gamma RHS or evolution wiring |
 | Stage 4AO-A | Background and analytic residual lock | Complete: locks the exact uniform ingoing-GP black-string background, `r0`, compact-`z` period, background slicing gauge, evolution gauge-driver and initial-gauge startup family, `K_ij` sign, perturbation sector, geometric observable, continuum background residual, full `hat_Gamma^x` hidden contraction, and analytic `1/x` cancellations |
 | Stage 4AO-B | Discrete operator preflight | Complete as a local validation harness in `code/BlackStringToy/Stage4AOGPDiscretePreflight.hpp` with fixture `code/BlackStringToy/tests/Stage4AOBDiscreteOperatorPreflightTest.cpp`; demonstrates raw unmodified-RHS residual convergence on `x in [0.5,4.0]` with `r0=1`, `delta hww` hidden-contraction isolation, actual-discrete-RHS JVP epsilon behavior, and a z-coupled periodic-stencil parity-sector check with a flipped-parity negative guard; no eigensolver or threshold search is included |
-| Stage 4AO-C | Frozen-gauge spectral gate | Blocked/incomplete: `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md` defines the intended frozen-gauge operator; `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp` provides the validation wrapper, boundary contract, GP-shift advection, tensor shift-stretching, algebraic metric/chi couplings, selected-CCZ4 K-row `+3 lambda delta K - 3 lambda delta Theta`, K-row physical `+delta R`, A-output non-curvature algebraic, Theta-output non-Ricci and `-K_GP deltaTheta`, and trace-free `delta A` projector pieces. All four raw physical `delta R_IJ` components, the scalar/trace-free assembly, `output[Theta] += 0.5 delta R`, and `output[A_IJ] += [delta R_IJ]^TF` are implemented validation pieces. The former K `A^2+K^2/d` block is rejected as the wrong `USE_BSSN` branch. Still missing are Z/hat-Gamma-dependent Ricci contributions, kappa damping and the human `kappa1/kappa2` choice, hat-Gamma evolution, remaining coupled RHS pieces, actual-operator JVP/parity, boundary validation, linearized MOTS, eigensolver/shift-invert, threshold/stable/unstable points, convergence, and the `k_c r0` map. Frozen-gauge lapse-Hessian variation vanishes and locked `Lambda=0` leaves no cosmological K term. |
+| Stage 4AO-C | Frozen-gauge spectral gate | Blocked/incomplete: `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md` defines the intended frozen-gauge operator; `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp` provides the validation wrapper, boundary contract, GP-shift advection, tensor shift-stretching, algebraic metric/chi couplings, selected-CCZ4 K-row `+3 lambda delta K - 3 lambda delta Theta`, K-row physical `+delta R`, A-output non-curvature algebraic, Theta-output non-Ricci and `-K_GP deltaTheta`, and trace-free `delta A` projector pieces. All four raw physical `delta R_IJ` components, the scalar/trace-free assembly, `output[Theta] += 0.5 delta R`, and `output[A_IJ] += [delta R_IJ]^TF` are implemented validation pieces. The main path deliberately locks `kappa1=0.1`, `kappa2=0`, `kappa3=1`, `covariantZ4=true` and implements simple `output[K] += -0.4 deltaTheta`, `output[Theta] += -0.25 deltaTheta`; zero damping is reserved for a later diagnostic. The former K `A^2+K^2/d` block is rejected as the wrong `USE_BSSN` branch. Still missing are Z/hat-Gamma-dependent Ricci contributions, complete hatted-Gamma evolution including Z/kappa and `kappa3` shift-gradient terms, remaining coupled CCZ4/Z4 pieces, actual assembled-operator JVP/parity, boundary validation/convergence, linearized MOTS, eigensolver/shift-invert, threshold/stable/unstable points, the full convergence battery, and the primary-source `k_c r0` map. Frozen-gauge lapse-Hessian variation vanishes and locked `Lambda=0` leaves no cosmological K term. |
 | Stage 4AO-D | Live-gauge/full acceptance | Future hard acceptance gate: physical GL eigenvalue agrees with frozen gauge, physical/gauge/constraint modes separate, constraint-subsystem decay matches the derived CCZ4 formulation, inner-boundary characteristics are checked, the eigenvector is seeded in time evolution and reproduces the spectral growth rate, and the full convergence battery passes |
 | Checkpoint G | Claude Audit G after Stage 4AO-D | Covers Stages 4AM-4AO-D; this checkpoint passes only after 4AO-D, before grid regularity, finite-axis, or RHS integration work continues |
 | Stage 4AP | Grid-level/ghost-data regularity validation | Validate actual grid or ghost-cell data, not only polynomial fixtures, for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)` |

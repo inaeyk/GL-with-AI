@@ -704,6 +704,8 @@ operator fixtures:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeAlgebraicCouplingBlockTest.cpp`.
 - Selected-CCZ4 K-equation `K(K-2Theta)` / physical-`delta R` fixture:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeKCCZ4BlockTest.cpp`.
+- CCZ4 simple K/Theta damping insertion fixture:
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeCCZ4DampingInsertionTest.cpp`.
 - A-equation algebraic non-curvature fixture:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeAAlgebraicBlockTest.cpp`.
 - Theta-equation algebraic non-Ricci fixture:
@@ -732,7 +734,8 @@ the exclusion of `delta alpha`, `delta beta^i`, and `delta B^i`, the
 per-variable RHS inventory labels, and the radial-domain contract
 `0<x_in<r0<x_out` with compact `z`. It also asserts that only GP-shift
 advection, tensor shift-stretching, the algebraic metric/chi coupling, and
-the selected-CCZ4 K-equation `K(K-2Theta)` and physical-`delta R` blocks, the A-equation non-curvature
+the selected-CCZ4 K-equation `K(K-2Theta)` and physical-`delta R` blocks, the
+simple K/Theta damping insertion, the A-equation non-curvature
 algebraic block, the Theta-equation non-Ricci algebraic block, and the
 Theta-equation `-K_GP deltaTheta`, Theta Ricci, and A Ricci insertion blocks have
 `implemented_now` coverage, no frozen-gauge RHS variable is complete,
@@ -909,9 +912,29 @@ metric/chi and pure `delta h_xz` jets to enter only through the Ricci scalar,
 and a combined perturbation to agree with the nonlinear CCZ4 finite
 difference. A separately central-differenced nonlinear BSSN expression is a
 negative oracle, and every case must distinguish the selected branch from it.
-Z/hat-Gamma-dependent Ricci terms, kappa damping, hat-Gamma evolution, the full
-operator, MOTS, and spectral work remain missing. Frozen-gauge lapse-Hessian
-variation vanishes; locked `Lambda=0` leaves no cosmological term.
+Z/hat-Gamma-dependent Ricci terms, hat-Gamma evolution, the full operator,
+MOTS, and spectral work remain missing. The simple K/Theta damping insertion
+is tested separately. Frozen-gauge lapse-Hessian variation vanishes; locked
+`Lambda=0` leaves no cosmological term.
+
+The CCZ4 damping fixture independently derives the coefficients from
+`kappa1=0.1`, `kappa2=0`, and `d=4`:
+
+```text
+delta rhs_Theta|kappa = -0.5*kappa1*(5+3*kappa2)*deltaTheta,
+delta rhs_K|kappa     = -4*kappa1*(1+kappa2)*deltaTheta.
+```
+
+It checks `-0.25 deltaTheta` in the Theta output and `-0.4 deltaTheta` in the
+K output, with no `deltaK`, hatted-Gamma, or other output contribution. It
+also confirms the corrected CCZ4 K block remains separate and unchanged.
+Genuine wrong-sign mutation guards compare the actual coefficients with the
+independently derived negative damping values and reject their positive-sign
+antidamping mutations. Further guards cover `d=3`, wrong nonzero-`kappa2`
+dependence, spurious `deltaK`, premature hatted-Gamma damping, non-K/Theta
+output writes, and false K/Theta/full-operator completion. The main path
+deliberately locks `kappa3=1`, `covariantZ4=true`; zero damping remains a later
+diagnostic.
 
 The A-equation algebraic non-curvature fixture checks the GRChombo A RHS
 convention block
@@ -949,9 +972,10 @@ does not get an extra hidden-multiplicity factor, and no non-A output slot is
 touched. Negative guards show that dropping inverse-metric variation, adding
 hidden multiplicity to the `A_ww` component equation, using wrong `K` or
 `Theta` coefficients, adding spurious `A_xz` couplings, or touching non-A
-outputs would fail. This fixture still does not include the trace-free
-Ricci/lapse-Hessian curvature block, remaining A dynamics, Theta/constraint
-terms, hatted-Gamma evolution, MOTS, eigensolver work, or threshold searches.
+outputs would fail. This fixture itself does not include the separately
+implemented trace-free Ricci insertion or the frozen-gauge-vanishing lapse
+Hessian; remaining A dynamics, Theta/constraint terms, hatted-Gamma evolution,
+MOTS, eigensolver work, and threshold searches remain missing.
 
 The Theta-equation algebraic non-Ricci fixture checks only
 
@@ -960,7 +984,7 @@ The Theta-equation algebraic non-Ricci fixture checks only
 ```
 
 from the GRChombo CCZ4 Theta RHS, linearized about the locked GP background.
-It deliberately excludes Ricci scalar terms, `-Theta K`, Z4 damping,
+It deliberately excludes Ricci scalar terms, `-Theta K`, simple kappa damping,
 `Z dot grad alpha`, and cosmological terms. The fixture locks the Theta-output
 coefficients
 
@@ -979,10 +1003,10 @@ multiplicity two is included, `delta h_xz` and `delta A_xz` give zero on the
 diagonal GP background, and no non-Theta output slot is touched. Negative
 guards show that dropping inverse-metric variation, dropping hidden `ww`
 multiplicity, using a `d=3` K coefficient, adding spurious `xz` couplings, or
-touching non-Theta outputs would fail. This fixture still does not include
-the Ricci scalar contribution to Theta, Z4 damping/constraint terms, the
-trace-free A curvature block, hatted-Gamma evolution, MOTS, eigensolver work,
-or threshold searches.
+touching non-Theta outputs would fail. The Ricci scalar and simple kappa
+damping contributions are implemented in separate fixtures; remaining
+constraint terms, hatted-Gamma evolution, MOTS, eigensolver work, and
+threshold searches remain missing.
 
 The Theta minus-K fixture checks the remaining simple non-damping algebraic
 Theta factor in the GRChombo convention,
@@ -1002,8 +1026,9 @@ There is no `delta K` term from this block because `Theta_GP=0`. The fixture
 checks the pointwise and grid apply paths, confirms no non-Theta output is
 touched, and keeps `complete_operator=false` and `eigensolver_allowed=false`.
 Negative guards show that the wrong sign, a `-lambda` coefficient, a spurious
-`delta K` contribution, or touching non-Theta outputs would fail. Z4 damping
-and `kappa1/kappa2` conventions remain deferred.
+`delta K` contribution, or touching non-Theta outputs would fail. The locked
+simple kappa damping insertion remains separate and is checked by its own
+fixture.
 
 The trace-free `delta A` projector fixture locks the structural subspace used
 by the future assembled frozen-gauge operator. On the locked GP background it
@@ -1106,7 +1131,7 @@ No actual spectral fixture is added yet because the full modified-cartoon CCZ4
 frozen-gauge RHS linearization is still missing beyond GP-shift advection,
 tensor shift-stretching, the local algebraic metric/chi coupling, and the
 selected-CCZ4 K-output `K(K-2Theta)` and physical-`delta R` blocks, plus the A-output non-curvature algebraic
-block, Theta-output algebraic non-Ricci block, Theta-output
+block, the simple K/Theta damping insertion, Theta-output algebraic non-Ricci block, Theta-output
 `-K_GP deltaTheta` block, trace-free `delta A` projector contract, raw Ricci
 component blocks, raw trace/free assembly, and the Theta Ricci scalar
 insertion, plus the A-output trace-free Ricci curvature insertion. A toy or

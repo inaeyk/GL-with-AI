@@ -26,7 +26,8 @@ static constexpr bool k_equation_ccz4_k_theta_block_implemented = true;
 static constexpr bool k_equation_ricci_scalar_insertion_block_implemented =
     true;
 static constexpr bool k_equation_z_ricci_contributions_implemented = false;
-static constexpr bool k_equation_kappa_damping_block_implemented = false;
+static constexpr bool ccz4_k_theta_damping_insertion_block_implemented = true;
+static constexpr bool hat_gamma_z4_kappa_damping_block_implemented = false;
 static constexpr bool k_equation_lapse_hessian_vanishes_in_frozen_gauge = true;
 static constexpr bool cosmological_constant_locked_to_zero = true;
 static constexpr bool k_equation_cosmological_terms_implemented = false;
@@ -47,6 +48,13 @@ static constexpr bool shift_invert_implemented = false;
 static constexpr bool threshold_search_implemented = false;
 static constexpr bool live_gauge_stage_4ao_d_implemented = false;
 static constexpr bool production_rhs_wiring_implemented = false;
+static constexpr int ccz4_spatial_dimension = 4;
+static constexpr double main_ccz4_kappa1 = 0.1;
+static constexpr double main_ccz4_kappa2 = 0.0;
+static constexpr double main_ccz4_kappa3 = 1.0;
+static constexpr bool main_ccz4_covariant_z4 = true;
+static constexpr bool main_ccz4_damping_convention_locked = true;
+static constexpr bool zero_damping_reserved_for_diagnostic_comparison = true;
 
 enum class PerturbationVariable
 {
@@ -81,6 +89,8 @@ enum class RhsPiece
     algebraic_metric_chi_coupling,
     k_equation_ccz4_k_theta,
     k_equation_ricci_scalar_insertion,
+    ccz4_k_theta_damping_insertion,
+    hat_gamma_z4_kappa_damping,
     a_equation_algebraic_non_curvature,
     theta_equation_algebraic_non_ricci,
     theta_equation_minus_k_delta_theta,
@@ -156,12 +166,13 @@ inline constexpr std::array<const char *, 4> implemented_wrapper_pieces = {
     "RHS block inventory with implemented/reusable/missing labels",
     "radial-domain and boundary-condition contract"};
 
-inline constexpr std::array<const char *, 12> implemented_operator_pieces = {
+inline constexpr std::array<const char *, 13> implemented_operator_pieces = {
     "matrix-free GP-shift advection block beta_GP^x d_x(delta u)",
     "GP-shift tensor stretching for h_IJ and A_IJ",
     "algebraic h_IJ <- -2 A_IJ and chi <- +K/2 couplings",
     "K-output CCZ4 K(K-2Theta) linearization",
     "K-output physical Ricci scalar insertion +delta R",
+    "K/Theta-output CCZ4 kappa damping insertion",
     "A_IJ-output algebraic non-curvature linearization",
     "Theta-output algebraic non-Ricci linearization",
     "Theta-output -K_GP deltaTheta linearization",
@@ -276,6 +287,20 @@ inline bool receives_k_equation_ricci_scalar_insertion(
     return variable == PerturbationVariable::K;
 }
 
+inline bool receives_ccz4_k_theta_damping_insertion(
+    const PerturbationVariable variable)
+{
+    return variable == PerturbationVariable::K ||
+           variable == PerturbationVariable::Theta;
+}
+
+inline bool receives_hat_gamma_z4_kappa_damping(
+    const PerturbationVariable variable)
+{
+    return variable == PerturbationVariable::hat_Gamma_x ||
+           variable == PerturbationVariable::hat_Gamma_z;
+}
+
 inline bool receives_a_equation_algebraic_non_curvature(
     const PerturbationVariable variable)
 {
@@ -339,6 +364,16 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
     case RhsPiece::k_equation_ricci_scalar_insertion:
         return receives_k_equation_ricci_scalar_insertion(variable)
                    ? PieceStatus::implemented_now
+                   : PieceStatus::not_applicable;
+
+    case RhsPiece::ccz4_k_theta_damping_insertion:
+        return receives_ccz4_k_theta_damping_insertion(variable)
+                   ? PieceStatus::implemented_now
+                   : PieceStatus::not_applicable;
+
+    case RhsPiece::hat_gamma_z4_kappa_damping:
+        return receives_hat_gamma_z4_kappa_damping(variable)
+                   ? PieceStatus::missing_placeholder
                    : PieceStatus::not_applicable;
 
     case RhsPiece::a_equation_algebraic_non_curvature:
@@ -814,6 +849,10 @@ class FrozenGaugeApplyResult
             Stage4AOFrozenGaugeRicciAssembly::TraceFreeRicciAssembly>
             &ricci_assemblies);
 
+    friend FrozenGaugeApplyResult apply_ccz4_k_theta_damping_insertion_block(
+        const RadialGrid &grid,
+        const std::vector<FrozenGaugePerturbationVector> &input);
+
     friend FrozenGaugeApplyResult
     apply_a_equation_algebraic_non_curvature_block(
         const RadialGrid &grid,
@@ -931,6 +970,46 @@ inline FrozenGaugePerturbationVector apply_k_equation_ccz4_k_theta_at_point(
             input.value(PerturbationVariable::Theta);
 
     values[variable_index(PerturbationVariable::K)] = k_output;
+    return make_frozen_gauge_perturbation_vector(values);
+}
+
+inline constexpr double ccz4_theta_damping_coefficient(
+    const double kappa1, const double kappa2, const int spatial_dimension)
+{
+    return -0.5 * kappa1 *
+           (static_cast<double>(spatial_dimension + 1) +
+            kappa2 * static_cast<double>(spatial_dimension - 1));
+}
+
+inline constexpr double ccz4_k_damping_coefficient(
+    const double kappa1, const double kappa2, const int spatial_dimension)
+{
+    return -static_cast<double>(spatial_dimension) * kappa1 *
+           (1.0 + kappa2);
+}
+
+inline FrozenGaugePerturbationVector
+apply_ccz4_k_theta_damping_insertion_at_point(
+    const FrozenGaugePerturbationVector &input)
+{
+    std::array<double, frozen_gauge_state_vector.size()> values = {};
+    const double delta_theta = input.value(PerturbationVariable::Theta);
+
+    // Planning-layer convention lock for the main Stage 4AO-C validation
+    // path: kappa1=0.1, kappa2=0, d=4, and covariantZ4=true. This implements
+    // only the simple GRChombo K/Theta damping rows. Zero damping is reserved
+    // for a later diagnostic comparison; no parameter tuning occurs here.
+    values[variable_index(PerturbationVariable::Theta)] =
+        ccz4_theta_damping_coefficient(main_ccz4_kappa1, main_ccz4_kappa2,
+                                        ccz4_spatial_dimension) *
+        delta_theta;
+    values[variable_index(PerturbationVariable::K)] =
+        ccz4_k_damping_coefficient(main_ccz4_kappa1, main_ccz4_kappa2,
+                                    ccz4_spatial_dimension) *
+        delta_theta;
+
+    // Hat-Gamma damping acts on delta Z_over_chi^i and remains deferred to the
+    // future complete hatted-Gamma evolution block.
     return make_frozen_gauge_perturbation_vector(values);
 }
 
@@ -1118,7 +1197,7 @@ apply_theta_equation_minus_k_delta_theta_at_point(
 
     // Linearized from GRChombo's 0.5 * (-2 Theta K) = -Theta K on the locked
     // GP background. Since Theta_GP=0, only -K_GP deltaTheta contributes, with
-    // K_GP = 3 lambda / 2. Z4 damping remains a separate, unimplemented block.
+    // K_GP = 3 lambda / 2. Z4 damping is owned by a separate insertion block.
     values[variable_index(PerturbationVariable::Theta)] =
         theta_equation_minus_k_delta_theta_coefficient(
             PerturbationVariable::Theta, r0, x) *
@@ -1308,6 +1387,27 @@ inline FrozenGaugeApplyResult apply_k_equation_ricci_scalar_insertion_block(
     {
         output.push_back(
             apply_k_equation_ricci_scalar_insertion_at_point(assembly));
+    }
+
+    return FrozenGaugeApplyResult(output, 0, grid.points() - 1, false);
+}
+
+inline FrozenGaugeApplyResult apply_ccz4_k_theta_damping_insertion_block(
+    const RadialGrid &grid,
+    const std::vector<FrozenGaugePerturbationVector> &input)
+{
+    if (input.size() != grid.points())
+    {
+        throw std::domain_error(
+            "Stage 4AO-C K/Theta damping input must have one vector per radial grid point");
+    }
+
+    std::vector<FrozenGaugePerturbationVector> output;
+    output.reserve(input.size());
+    for (const auto &state : input)
+    {
+        output.push_back(
+            apply_ccz4_k_theta_damping_insertion_at_point(state));
     }
 
     return FrozenGaugeApplyResult(output, 0, grid.points() - 1, false);
