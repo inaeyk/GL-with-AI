@@ -688,13 +688,13 @@ convergence; JVP errors `0.00183042`, `1.82974e-07`, `4.68507e-09`, and
 
 ### Stage 4AO-C Frozen-Gauge Spectral Fixture
 
-Stage 4AO-C is not yet an executable spectral fixture. The status note
+Stage 4AO-C now has an executable, validation-only complete 13-variable
+interior fixture, but not a boundary-bearing spectral fixture. The status note
 `docs/derivations/stage4AO_C_frozen_gauge_spectral_gate.md` records the
-intended frozen-gauge operator and the blockers that prevent an honest
-spectral test.
+implemented interior operator, the radial-boundary design preflight, and the
+remaining blockers that prevent an honest spectral test.
 
-The first Stage 4AO-C substeps are now validation-only contract and partial
-operator fixtures:
+The Stage 4AO-C contract, family, complete-row, and full-interior fixtures are:
 
 - Contract:
   `code/BlackStringToy/Stage4AOFrozenGaugeOperator.hpp`.
@@ -1546,3 +1546,56 @@ with a zero reflection commutator and zero forbidden-sector leakage. These
 fixtures open all 13 variable RHS-completion flags and the full-interior
 assembly/JVP/parity flags only. The boundary-bearing complete operator,
 radial-boundary acceptance, MOTS, eigensolver, and 4AO-D remain incomplete.
+
+## Stage 4AO-C Radial-Boundary Fixture Design
+
+This is a design contract only; no boundary C++ fixture exists yet. The first
+fixture will isolate the inner pure-outflow endpoint closure from every outer
+condition. It will test the second-order one-sided formulas
+
+```text
+D_x u_0  = (-3u_0+4u_1-u_2)/(2 dx),
+D_xx u_0 = (2u_0-5u_1+4u_2-u_3)/dx^2,
+D_xz u   = D_x(D_z u),
+```
+
+on all 13 slots without replacing any inner PDE row. Polynomial exactness,
+smooth-profile convergence with observed order at least `1.8`, commutation of
+`D_x` and periodic `D_z` to `100 epsilon_machine`, parity-block preservation,
+and omission/sign/coefficient mutations are required. A blockwise principal-
+packet test covers the physical, Z4 constraint, advected, and frozen-gauge
+Jordan sectors. For `x_in/r0<1`, no resolved packet may return toward larger
+`x`; the finest returned/incident norm must be below `10^-6` and converge at
+order at least `1.8`.
+
+The later outer fixture will construct the boundary-local principal/asymptotic
+block transform independently from the production boundary helper. For each
+fixed `k>0` it will test the decaying profile `exp(-kx)/x` and reject the
+growing profile `exp(+kx)/x`. Incoming physical amplitudes receive the static
+decaying-subspace Robin condition; incoming Z4 amplitudes receive homogeneous
+constraint-preserving decay; outgoing light blocks retain their PDE rows;
+shift-advected and algebraic blocks receive explicit decay/charge-fixing data.
+Homogeneous Dirichlet is a separate systematic-error fixture, never the
+primary accuracy oracle. The `k=0` diagnostic requires its own asymptotic
+series and is excluded from GL-threshold acceptance.
+
+The assembled boundary fixture will assert exactly one owner for every
+transformed endpoint row, no representative-ww duplication, hidden
+multiplicity only in trace/block definitions, determinant and metric/A tangent
+preservation, and no leakage between the full Fourier `P+` and `P-` sectors.
+The correct `E*cos+O*sin` or `E*sin+O*cos` coupling within one sector remains
+allowed. Deleting or duplicating any incoming equation must change the
+declared boundary-block rank and fail. Constraint
+residuals must converge at order at least `1.8` and fall below `10^-8` on the
+finest unit-normalized fixture. Candidate threshold acceptance additionally
+requires Richardson relative uncertainty at most `10^-3`, the declared
+`x_in/r0={0.35,0.50,0.65,0.80}` sweep, and outer comparisons at
+`k x_out={8,10,12}` with Robin/Dirichlet extrapolations agreeing within
+`10^-3` in `k_c r0`.
+
+Fixture gate sequencing is explicit: implementation does not imply validation;
+validated boundary blocks do not imply the boundary-bearing complete operator;
+and that complete-operator gate must pass before any eigensolver fixture is
+allowed. The frozen-gauge longitudinal Jordan block, exact conformal outer
+block normalization, `k=0` charge fixing, and generalized-versus-eliminated
+matrix form remain decisions, not hidden fixture assumptions.

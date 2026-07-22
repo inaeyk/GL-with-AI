@@ -1624,3 +1624,30 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   prior family/helper fixture are included. `git diff --check`, protected
   paths, smoke parameters, and the empty staged diff pass; nothing was staged
   or committed.
+
+- Date: 2026-07-22
+- Goal: Begin the Stage 4AO-C radial-boundary design preflight from the clean
+  committed full-interior checkpoint `554de1c`; documentation/design only.
+- Source trace: CodeGraph was used first. The selected external GRChombo
+  `CCZ4RHS::rhs_equation` and `CCZ4Geometry::compute_ricci_Z` branch was then
+  traced at external commit `37e6595`. Physical and Z4 radial light blocks
+  have fixed-boundary speeds `1-sqrt(r0/x)` and `-1-sqrt(r0/x)`; advected and
+  algebraic blocks have speed `-sqrt(r0/x)`. The frozen longitudinal block is
+  Jordan rather than a complete characteristic pair.
+- Inner contract: every principal sector exits at decreasing x whenever
+  `0<x_in<r0`; impose no continuum data. Retain all 13 PDE rows with matching
+  second-order one-sided radial derivatives. Only local determinant and
+  metric/A tangent projection is allowed. Packet reflection, discrete-symbol,
+  parity, and stencil convergence criteria are fixed.
+- Outer contract: for static `exp(ikz)`, `k>0`, use the independently derived
+  decaying asymptotic block with leading `f~exp(-kx)/x` and
+  `f_x+(k+1/x)f=0`, together with homogeneous incoming Z4 constraint data.
+  Homogeneous Dirichlet is only a boundary-systematic alternative. The `k=0`
+  charge/gauge sector remains a separate diagnostic.
+- Discrete/gate contract: boundary-local rows remain block diagonal in P+/P-,
+  representative ww is written once, and continuum boundary rows form a
+  sparse generalized pencil. Implementation, independent validation,
+  boundary-bearing completion, and eigensolver permission remain distinct.
+  All boundary, MOTS, eigensolver, threshold, production, 4AO-D, and
+  Checkpoint G gates stay false. The first implementation target is the inner
+  pure-outflow endpoint derivative/packet-reflection helper.

@@ -6,7 +6,9 @@ assembler is implemented in the locked state order. Its independent analytic
 nonlinear selected-CCZ4/modified-cartoon JVP validation passes, as does the
 explicit full-interior parity/block-diagonal validation.
 
-Radial boundary operators are not yet implemented or validated. Therefore the
+The radial-boundary continuum, discrete-ownership, and validation contract is
+now designed. Radial boundary operators are not yet implemented or validated.
+Therefore the
 boundary-bearing complete-operator gate remains false, and eigensolver,
 shift-invert, linearized MOTS, threshold, and production-wiring work remain
 closed. Stage 4AO-D and Checkpoint G also remain closed. The next Stage 4AO-C
@@ -2438,40 +2440,301 @@ z periodic.
 
 The wrapper includes the provisional Stage 4AO-B local validation values
 `r0 = 1`, `x_in = 0.5`, and `x_out = 4.0` only as a default contract instance.
-They are not a final spectral-domain choice. Stage 4AO-C must still vary
-`x_in` and/or `x_out` for boundary-location convergence.
+They are not a final spectral-domain choice. This preflight fixes the continuum
+and discrete boundary design, but implements and validates none of it.
 
-Boundary ownership:
+### Radial principal symbol
 
-- Inner boundary: `x_in` lies inside the GP horizon and outside the physical
-  singularity at `x=0`. The future operator must use a characteristic/outflow
-  compatible or otherwise justified radial condition and test convergence with
-  `x_in`.
-- Outer boundary: the future operator must choose a documented asymptotic,
-  radiative, or frozen-background condition and test convergence with `x_out`.
-- Physical GL sector: compact `z` is periodic; the physical mode must have a
-  nonzero linearized horizon-radius response `delta R_H`. Radial conditions
-  remain a contract, not validation.
-- Constraint-related variables: boundary treatment must be compatible with the
-  derived CCZ4 constraint subsystem and checked in the actual-operator JVP and
-  parity tests.
-- Hatted Gamma variables: boundary treatment must preserve the GRChombo
-  hatted convention, hidden multiplicity, and parity sector before any
-  spectral use.
+The source branch is `CCZ4RHS::rhs_equation` together with
+`CCZ4Geometry::compute_ricci_Z` at external GRChombo commit `37e6595`, with
+`USE_CCZ4`, frozen `alpha=1`, `beta^x=v=sqrt(r0/x)`, flat GP spatial metric,
+and the project hatted-Gamma/Z map. Kappa damping, GP curvature, all explicit
+`1/x` cartoon terms, and a fixed Fourier wavenumber `k` are lower order in the
+frozen-coefficient radial principal symbol. They do not change the radial
+speeds.
 
-No boundary validation test exists yet. The contract only prevents future
-work from starting an eigensolver without naming the boundary rules it is
-using.
+It is safest to state the principal result in physical Z4 variables rather
+than pretend that the second-order conformal system has a unique first-order
+characteristic normalization. Set
+
+```text
+partial_0 = partial_t - v partial_x,
+d_IJ = partial_x delta gamma_IJ,
+p_IJ = delta K_IJ,
+z_I = delta Z_I,
+d_T = d_zz + 2 d_ww,
+p_T = p_zz + 2 p_ww.
+```
+
+The two hidden directions enter `d_T` and `p_T` exactly twice. The reduced
+radial principal equations are
+
+```text
+partial_0 d_IJ = -2 partial_x p_IJ,
+partial_0 p_xx = -1/2 partial_x d_T + 2 partial_x z_x,
+partial_0 p_xz = partial_x z_z,
+partial_0 p_AB = -1/2 partial_x d_AB,
+partial_0 Theta = -1/2 partial_x d_T + partial_x z_x,
+partial_0 z_x = partial_x(Theta-p_T),
+partial_0 z_z = partial_x p_xz,
+```
+
+where `A,B` are transverse to `x` and the displayed `ww` is one
+representative component. A blockwise characteristic substitute is then:
+
+| block | fields | fixed-boundary coordinate speeds |
+|---|---|---|
+| transverse trace | `p_T + d_T/2`, `p_T - d_T/2` | `1-v`, `-1-v` |
+| transverse trace-free/physical | `(p_zz-p_ww)+(d_zz-d_ww)/2`, `(p_zz-p_ww)-(d_zz-d_ww)/2` | `1-v`, `-1-v` |
+| radial-vector/Z4 | `p_xz-z_z`, `p_xz+z_z` | `1-v`, `-1-v` |
+| scalar/Z4 | `(Theta-p_T)-z_x`, `(Theta-p_T)+z_x` | `1-v`, `-1-v` |
+| advected companion | `d_xz+2z_z` | `-v` |
+| longitudinal frozen-gauge block | `F=p_xx+p_T-2Theta`, `G=d_xx-d_T+4z_x`, with `partial_0 F=0`, `partial_0 G=-2 partial_x F` | repeated `-v` |
+
+The last block is a Jordan block, not two independent characteristic fields.
+The determinant and trace conformal constraints add algebraic/advected
+companions with speed `-v`. Thus this frozen-gauge system has physical and Z4
+constraint light cones, plus shift-advected zero-normal-speed sectors, but no
+complete strongly-hyperbolic characteristic basis in the frozen longitudinal
+gauge block. This is why the table is explicitly a blockwise substitute. The
+covariant Z4 equations establish light-speed constraint propagation at
+principal order; the locked kappa values change damping, not these speeds.
+
+The sign convention is `partial_t u + c partial_x u = lower order`. At the
+inner boundary write `rho=x_in/r0`; then
+
+```text
+c_+ = 1-rho^(-1/2),
+c_- = -1-rho^(-1/2),
+c_0 = -rho^(-1/2).
+```
+
+For every allowed `0<rho<1`, all three are negative and every principal block
+leaves the computational domain through decreasing `x`. The inner boundary is
+therefore pure outflow/excision for the locked GP slicing, including the
+physical and constraint sectors, not merely because the shift has one sign.
+At `rho=1`, `c_+` is glancing. If an exploratory domain ever used `rho>1`,
+the four displayed `c_+` light combinations would enter from the inner
+boundary and would require physical/constraint data. Such a domain is outside
+the locked contract. The outflow margin `|c_+|=rho^(-1/2)-1` becomes small as
+`rho` approaches one, so the implementation sweep must not use only
+near-horizon inner boundaries.
+
+### Inner continuum and discrete contract
+
+No physical continuum boundary condition is imposed at `x_in`. In
+particular, no Dirichlet, Robin, Sommerfeld, `Z_I=0`, or hatted-Gamma reset is
+allowed there. The endpoint retains all 13 PDE rows and evaluates radial
+derivatives with inward-looking, second-order one-sided stencils:
+
+```text
+D_x u_0  = (-3u_0+4u_1-u_2)/(2 dx),
+D_xx u_0 = (2u_0-5u_1+4u_2-u_3)/dx^2.
+```
+
+`D_xz` is the composition of this `D_x` with the already periodic `D_z`; the
+two applications must commute to roundoff on tensor-product data. No inner
+ghost value carries continuum data. A later higher-order operator may replace
+these coefficients only together with matching interior and convergence
+contracts.
+
+Algebraic cleanup remains allowed because it is not incoming continuum data:
+
+```text
+C_h = delta h_xx + delta h_zz + 2 delta h_ww = 0,
+C_A = delta A_xx + delta A_zz + 2 delta A_ww
+      + 7 lambda delta h_xx/8 + 3 lambda delta h_zz/8
+      - 5 lambda delta h_ww/4 = 0.
+```
+
+Cleanup must be a local projection onto the same determinant/tangent subspace
+used by the interior fixtures. It must not be counted as a boundary equation,
+must not double the representative `ww` slot, and must not reset encoded Z.
+
+The inner validation injects resolved packets separately into every light
+block and the advected/Jordan blocks. At an interior probe it measures the
+amplitude returning toward increasing `x`. For modes with `|k_x dx|<=pi/2`,
+the returned-to-incident norm must converge with order at least `1.8` and be
+below `10^-6` on the finest declared grid. A mutation that imposes a zero
+endpoint value, flips the one-sided stencil, or creates a positive-speed
+discrete branch must fail either this reflection test or the discrete-symbol
+test.
+
+### Outer continuum contract
+
+At `x_out>r0`, `0<v<1`. The `1-v` light fields leave through increasing `x`,
+while the `-1-v` light fields and all `-v` advected sectors enter the domain.
+Outer data must therefore cover both physical and Z4-constraint incoming
+sectors and the shift-advected algebraic/longitudinal sectors. Outgoing light
+fields receive numerical extrapolation only; they are not independently
+prescribed.
+
+For a static Fourier mode `exp(ikz)` with `k>0`, the asymptotically flat
+radial equation has the leading form
+
+```text
+f_xx + 2 f_x/x - k^2 f = lower-order GP/CCZ4 terms,
+f = (C_decay exp(-kx) + C_grow exp(+kx))/x + subleading terms.
+```
+
+Normalizability sets `C_grow=0` and gives the leading Robin operator
+
+```text
+B_k[f] = f_x + (k+1/x)f = 0.
+```
+
+This formula is applied to independently derived asymptotic block amplitudes,
+not blindly to thirteen unrelated components. The hatted-Gamma and
+extrinsic-curvature amplitudes are reconstructed consistently from the same
+decaying asymptotic eigenvectors. Incoming Z4 constraint amplitudes are set to
+their homogeneous decaying values, and the determinant/weighted-trace
+subspace is preserved. This asymptotic decaying-subspace plus
+constraint-preserving Robin condition is the primary spectral-gate outer
+condition.
+
+A generic time-domain Sommerfeld condition is not the primary choice. At zero
+frequency its usual `partial_t+partial_x` form does not contain the `k>0`
+Yukawa exponent and can select the wrong static branch. Homogeneous Dirichlet
+on all perturbations is retained only as the alternative boundary-systematic
+measurement. A candidate result must agree after independent `x_out`
+extrapolation; Dirichlet is not the accuracy reference.
+
+For `k=0`, the leading equation instead gives `f=C_0+C_1/x`. Asymptotic
+flatness normally removes `C_0` and gives `f_x+f/x=0` for metric-like
+amplitudes, but parameter and gauge zero modes and derivative variables can
+have different leading powers. The `k=0` sector is diagnostic only until a
+componentwise asymptotic series and charge-fixing convention are derived. It
+must not reuse the `k>0` Robin matrix by substituting `k=0` and must not enter
+the GL threshold acceptance.
+
+### Boundary-row and matrix ownership
+
+The boundary operator preserves the locked 13-slot order. Its ownership is:
+
+| location/family | row ownership |
+|---|---|
+| `x_in`, all 13 slots | retain the complete PDE owner once; use the one-sided derivative closure; impose no continuum row |
+| `x_out`, outgoing light blocks | retain the transformed PDE row with one-sided derivatives; extrapolate only data needed by its closure |
+| `x_out`, incoming physical light blocks | replace the corresponding transformed endpoint row by the decaying asymptotic condition |
+| `x_out`, incoming Z4 blocks | replace the corresponding transformed endpoint row by the homogeneous constraint-preserving decaying condition |
+| `x_out`, shift-advected/Jordan/algebraic blocks | supply asymptotic decay/charge-fixing data; do not leave an inflow mode unspecified |
+| determinant and weighted trace-free constraints | project within the boundary state space; never add duplicate rows |
+
+Every slot is covered by that block ownership; no component silently receives
+a separate scalar condition:
+
+| slots | boundary-adapted owner |
+|---|---|
+| `chi,h_xx,h_zz,h_ww,K,A_xx,A_zz,A_ww,Theta,hat_Gamma^x` | scalar, transverse-trace/trace-free, longitudinal, Z4-scalar, and algebraic blocks after the physical/conformal map |
+| `h_xz,A_xz,hat_Gamma^z` | radial-vector/Z4 and its advected companion |
+
+The physical extrinsic variables in the principal table are reconstructed at
+principal order from `p_IJ=delta A_IJ+delta_IJ delta K/4`; encoded `z_I` is
+reconstructed from hatted Gamma and the contracted conformal connection.
+Background-extrinsic corrections to this map are lower order but remain part
+of the eventual boundary matrix.
+
+The first implementation uses second-order one-sided formulas at both radial
+endpoints, matching the current second-order interior validation scaffolding:
+
+```text
+D_x u_N  = (3u_N-4u_{N-1}+u_{N-2})/(2 dx),
+D_xx u_N = (2u_N-5u_{N-1}+4u_{N-2}-u_{N-3})/dx^2.
+```
+
+There are no stored radial ghost unknowns in the validation matrix. Boundary
+rows replace only the incoming block rows after a boundary-local linear
+change of basis; the other endpoint rows remain PDE rows. This produces a
+sparse generalized pencil with zero mass entries on continuum boundary rows.
+If a later solver requires a standard rather than generalized problem, those
+rows may be eliminated algebraically without changing the continuum contract.
+That choice belongs to the later eigensolver adapter, not this preflight.
+
+The component reflection signatures are
+
+```text
+E = {chi,hxx,hzz,hww,K,Axx,Azz,Aww,Theta,hat_Gamma^x},
+O = {hxz,Axz,hat_Gamma^z}.
+```
+
+The actual Fourier parity blocks are
+
+```text
+P+ = E*cos(kz) plus O*sin(kz),
+P- = E*sin(kz) plus O*cos(kz).
+```
+
+`D_x` preserves each phase. `D_xz` is closed as `D_x(D_z u)`; `D_z` may couple
+`E` and `O` amplitudes with the required Fourier phase inside one `P+` or `P-`
+block, but no boundary term may couple the two full parity blocks. Hidden
+multiplicity two appears only in traces and transverse block definitions; a
+representative `ww` matrix row is written once.
+
+### Validation and numerical acceptance
+
+Acceptance is fixed before implementation:
+
+| test | acceptance |
+|---|---|
+| analytic endpoint profiles | `D_x` is exact for radial polynomials through degree two; `D_xx` through degree three; smooth non-polynomial errors show order `p>=1.8` over two refinements before roundoff |
+| mixed derivative | `D_x D_z` and `D_z D_x` agree within `100 epsilon_machine` times the operator/data scale and converge at `p>=1.8` |
+| parity blocks | normalized leakage between the two full Fourier `P+`/`P-` sectors and the boundary reflection commutator are each at most `100 epsilon_machine` |
+| inner outflow | every resolved principal packet has returned/incident norm below `10^-6` on the finest grid and converges at `p>=1.8`; no positive group-velocity branch for `|k_x dx|<=pi/2` |
+| outer Robin | manufactured `exp(-kx)/x` data have a roundoff residual; asymptotic-series data converge at `p>=1.8`; an `exp(+kx)/x` mutation is rejected |
+| constraints | normalized boundary Hamiltonian, momentum, Z4, determinant, and weighted-trace residuals converge at `p>=1.8` and are below `10^-8` on the finest unit-normalized fixture |
+| row ownership | the boundary block has exactly its declared rank; deletion and duplication of every incoming equation, either hidden copy, and every representative `ww` row are rejected |
+| radial resolution | each candidate growth rate and threshold shows `p>=1.8` before saturation; the Richardson relative uncertainty in `k_c r0` is at most `10^-3` |
+| inner location | repeat at `x_in/r0=0.35,0.50,0.65,0.80`; extrapolated `k_c r0` changes by at most `10^-3` between the central three, with the `0.80` case retained as the small-outflow-margin stress test |
+| outer location | for the candidate `k`, use at least `k x_out=8,10,12`; the last two Robin results and the independently extrapolated Dirichlet result agree within `10^-3` in `k_c r0` |
+
+Threshold stability is assessed only after both radial-resolution and boundary-
+location extrapolations. Passing at one `(x_in,x_out)` is not evidence. Any
+criterion that reaches roundoff before three useful resolutions must report
+the saturation and use the preceding convergence range.
+
+### Gate semantics and next implementation
+
+The gates are deliberately distinct:
+
+1. complete interior operator: all 13 continuum interior rows and their
+   analytic nonlinear JVP/parity validation pass; this is already true;
+2. boundary operators implemented: the inner closure and outer block rows
+   exist, but may still be untrusted;
+3. boundary operators independently validated: every stencil, characteristic,
+   asymptotic, constraint, parity, ownership, and location test above passes;
+4. boundary-bearing complete-operator gate: the validated interior and
+   validated boundary operators are composed once and their joint convergence
+   contract passes;
+5. eigensolver allowed: only the preceding boundary-bearing gate plus the
+   later solver-specific contract may permit spectral extraction.
+
+This preflight changes none of those false boundary/downstream gates. The
+first narrow implementation target is the inner pure-outflow endpoint closure:
+a separately testable second-order `D_x`, `D_xx`, and `D_xz` boundary helper,
+followed by the 13 retained PDE rows and the packet-reflection/discrete-symbol
+fixture. It has exact polynomial and manufactured-profile oracles and does not
+require choosing the outer asymptotic basis.
+
+Unresolved physics/numerical decisions are explicit: whether the frozen-gauge
+longitudinal Jordan block is acceptable for the spectral gate or requires a
+constraint-reduced/strongly-hyperbolic reformulation; the exact conformal-
+variable normalization of the outer decaying and incoming-constraint blocks;
+the charge/gauge convention for `k=0`; whether nonzero-growth diagnostic modes
+need a growth-rate-dependent outer asymptotic operator rather than the static
+threshold Robin rule; and whether a later eigensolver consumes the generalized
+boundary-row pencil or an algebraically eliminated standard matrix. None may
+be resolved implicitly while implementing stencils.
 
 ## Actual-Operator Validation Hooks
 
 The complete 13-variable interior assembler has passed an independent
 analytic-jet nonlinear JVP, ownership mutations, tangent identities, and
-explicit parity-sector block-diagonalization. The remaining Stage 4AO-C hooks
-are:
+explicit parity-sector block-diagonalization. The radial-boundary contract is
+now designed but unimplemented. The remaining Stage 4AO-C hooks are:
 
-- radial-resolution convergence;
-- boundary-location convergence;
+- inner/outer boundary implementation and independent validation;
+- radial-resolution and boundary-location convergence under the acceptance
+  criteria above;
 - linearized MOTS map `delta U -> delta h(z) -> delta R_H`.
 
 These hooks must pass before eigensolver work, shift-invert, threshold
@@ -2538,10 +2801,13 @@ x in [x_in,x_out],
 z periodic.
 ```
 
-Stage 4AO-C has not yet locked the spectral radial boundary conditions. Before
-an eigensolver is meaningful, the harness must specify the boundary treatment
-for every included perturbation and must demonstrate boundary-location
-convergence by varying `x_in` and/or `x_out`.
+The Stage 4AO-C radial-boundary preflight now locks the design contract above:
+pure outflow with no continuum data at `x_in`; second-order one-sided endpoint
+closure; a `k>0` asymptotic decaying-subspace/constraint-preserving Robin
+condition at `x_out`; homogeneous Dirichlet only as a boundary-systematic
+alternative; and independent radial/boundary-location convergence. None of
+those boundary operators or tests is implemented yet, so the boundary-bearing
+complete-operator and eigensolver gates remain closed.
 
 The growth observable is not `hat_Gamma^x`. The candidate physical mode must
 have a nonzero horizon-radius harmonic under the Stage 4AO-A observable:

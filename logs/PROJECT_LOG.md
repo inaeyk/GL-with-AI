@@ -1881,3 +1881,32 @@ Category: Validation Operator + Independent Analytic-Jet Oracles + Documentation
 - All 29 `Stage4AOC*.cpp` fixtures compile with warnings promoted to errors and
   pass. `git diff --check`, protected paths, smoke parameters, and the empty
   staged diff pass; no staging or commit was performed.
+
+## 2026-07-22 - Stage 4AO-C Radial-Boundary Design Preflight
+
+Category: Boundary Physics + Discrete Contract + Documentation
+
+- Began from clean committed full-interior checkpoint `554de1c` and used
+  CodeGraph before direct source inspection.
+- Derived the selected frozen-CCZ4 radial principal blocks from the GRChombo
+  source. Physical and constraint light speeds are `-beta^x +/- 1`, and the
+  zero-normal-speed sectors are advected at `-beta^x`. The frozen longitudinal
+  sector has a Jordan block, so the contract uses an explicit blockwise
+  substitute rather than claiming a complete characteristic basis.
+- For every locked `0<x_in<r0`, all sectors are pure outflow through the inner
+  boundary. The contract imposes no continuum inner data, retains all 13 PDE
+  rows with second-order one-sided closure, and permits only algebraic
+  determinant/weighted-trace cleanup.
+- For static `k>0` modes, the primary outer condition is the
+  constraint-preserving asymptotic decaying subspace, whose leading radial
+  profile is `exp(-kx)/x` and Robin operator is `D_x+k+1/x`. Homogeneous
+  Dirichlet is reserved for boundary-systematic comparison. The `k=0` sector
+  needs a separate charge/gauge asymptotic convention.
+- Locked boundary-row ownership, endpoint stencil order, mixed-derivative
+  closure, P+/P- separation, hidden-ww normalization, sparse generalized
+  matrix layout, mutation guards, and quantitative radial/boundary-location
+  acceptance criteria. No code or tests were added.
+- All boundary implementation/validation, boundary-bearing complete-operator,
+  MOTS, eigensolver, threshold, production, Stage 4AO-D, and Checkpoint G gates
+  remain false. The next narrow target is the independently testable inner
+  pure-outflow endpoint closure and reflection fixture.
