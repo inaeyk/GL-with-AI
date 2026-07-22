@@ -1939,3 +1939,30 @@ Category: Validation Boundary Operator + Focused Numerical Oracle
   complete radial-boundary work, the boundary-bearing operator, MOTS,
   eigensolver/shift-invert, threshold work, production wiring, Stage 4AO-D,
   and Checkpoint G remain closed.
+
+## 2026-07-22 - Stage 4AO-C Outer k>0 Asymptotic Normalization Lock
+
+Category: Boundary Physics + Projector/Matrix Design
+
+- Began from clean committed inner-boundary checkpoint `7ceec6f` and used
+  CodeGraph before direct source inspection.
+- The actual stationary 13-row symbol has four physical/Z4 light pairs and
+  five zero-exponential advected/algebraic/Jordan amplitudes in each complete
+  Fourier sector. The admissible decaying dimension is four, hence exactly
+  nine outer equations per sector; thirteen componentwise Robin or Dirichlet
+  equations are rejected.
+- GP advection changes the asymptotics. Physical blocks have no `sqrt(x)`
+  exponent but acquire `p=1+k r0/2`. Vector/scalar Z4 damping adds
+  `exp[-0.1 sqrt(r0*x)]` and `exp[-0.5 sqrt(r0*x)]` plus the declared
+  damping-dependent power. The asymptotic projector is retained through
+  `x^-3/2`, where `lambda` and tensor/cartoon mixing first enter.
+- Locked a scale-invariant orthogonal-projector normalization, four growing-
+  light rejection rows, and five `J,F,G,C_h,C_A` rows. `F=G=0` removes both
+  members of the frozen longitudinal Jordan chain without claiming a full
+  dynamical characteristic diagonalization.
+- Recommended explicit zero-mass boundary rows in a sparse quadratic
+  polynomial pencil. Rank-matched transformed Dirichlet is only the outer-
+  systematic alternative after independent `x_out` extrapolation.
+- This was documentation/design only. All outer implementation/validation,
+  aggregate boundary, boundary-bearing operator, eigensolver, MOTS,
+  threshold, production, Stage 4AO-D, and Checkpoint G gates remain closed.

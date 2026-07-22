@@ -8,11 +8,14 @@ explicit full-interior parity/block-diagonal validation.
 
 The radial-boundary continuum, discrete-ownership, and validation contract is
 designed. The inner no-data pure-outflow endpoint helper, full 13-row wrapper,
-and focused validation are implemented; the outer boundary is not. Therefore the
-boundary-bearing complete-operator gate remains false, and eigensolver,
+and focused validation are implemented. The outer `k>0` rank-nine WKB/
+projector normalization is design-locked, but no outer boundary row is
+implemented. Therefore the boundary-bearing complete-operator gate remains
+false, and eigensolver,
 shift-invert, linearized MOTS, threshold, and production-wiring work remain
 closed. Stage 4AO-D and Checkpoint G also remain closed. The next Stage 4AO-C
-task is the outer asymptotic/constraint-preserving boundary, followed by the
+task is the narrow outer transformed-amplitude/projector helper and analytic-
+series/rank fixture, followed by the outer endpoint rows and the
 joint radial-resolution and boundary-location convergence battery.
 
 ## Read-Only Reuse Inventory
@@ -2570,38 +2573,102 @@ At `x_out>r0`, `0<v<1`. The `1-v` light fields leave through increasing `x`,
 while the `-1-v` light fields and all `-v` advected sectors enter the domain.
 Outer data must therefore cover both physical and Z4-constraint incoming
 sectors and the shift-advected algebraic/longitudinal sectors. Outgoing light
-fields receive numerical extrapolation only; they are not independently
-prescribed.
+fields retain their PDE rows with the declared outward one-sided closure;
+they are not independently prescribed or reset.
 
-For a static Fourier mode `exp(ikz)` with `k>0`, the asymptotically flat
-radial equation has the leading form
-
-```text
-f_xx + 2 f_x/x - k^2 f = lower-order GP/CCZ4 terms,
-f = (C_decay exp(-kx) + C_grow exp(+kx))/x + subleading terms.
-```
-
-Normalizability sets `C_grow=0` and gives the leading Robin operator
+For a static Fourier mode with `k>0`, direct expansion of the complete
+13-variable stationary symbol gives, in either full Fourier sector,
 
 ```text
-B_k[f] = f_x + (k+1/x)f = 0.
+det L(s;k,x) / v^5 -> const * s^5 (s^2-k^2)^4,
+v=sqrt(r0/x).
 ```
 
-This formula is applied to independently derived asymptotic block amplitudes,
-not blindly to thirteen unrelated components. The hatted-Gamma and
-extrinsic-curvature amplitudes are reconstructed consistently from the same
-decaying asymptotic eigenvectors. Incoming Z4 constraint amplitudes are set to
-their homogeneous decaying values, and the determinant/weighted-trace
-subspace is preserved. This asymptotic decaying-subspace plus
-constraint-preserving Robin condition is the primary spectral-gate outer
-condition.
+Thus there are four light pairs and five zero-exponential
+advected/algebraic/Jordan amplitudes. The earlier provisional assumption that
+all thirteen components obey one `exp(-kx)/x` Robin law is false. The four
+light blocks have damping transport rates
+
+```text
+gamma_T=0, gamma_TF=0, gamma_V=kappa1=0.1,
+gamma_S=(d+1)kappa1=0.5  (d=4, kappa2=0).
+```
+
+Here `T` and `TF` are the physical transverse trace and trace-free blocks,
+`V` is the radial-vector Z4 block, and `S` is the scalar Z4 block. For each
+block `b`, the stationary master equation through the first two scalar WKB
+transport orders is
+
+```text
+(1-v^2) Phi_b,xx
+ + (2/x-r0/x^2+gamma_b v) Phi_b,x - k^2 Phi_b
+ = block mixing beginning at x^(-3/2).
+```
+
+Writing `t=x^(-1/2)`, the decaying and growing logarithmic derivatives are
+
+```text
+s_b^- = -k - gamma_b sqrt(r0)/(2 sqrt(x)) - p_b^-/x
+        + c_b^-/x^(3/2) + O(x^-2),
+s_b^+ = +k - gamma_b sqrt(r0)/(2 sqrt(x)) - p_b^+/x
+        + c_b^+/x^(3/2) + O(x^-2),
+p_b^- = 1 + k r0/2 + gamma_b^2 r0/(8k),
+p_b^+ = 1 - k r0/2 - gamma_b^2 r0/(8k).
+```
+
+Consequently
+
+```text
+Phi_b^- = exp(-kx-gamma_b sqrt(r0*x)) x^(-p_b^-)
+          (phi_b0+phi_b1/sqrt(x)+phi_b2/x+...),
+Phi_b^+ = exp(+kx-gamma_b sqrt(r0*x)) x^(-p_b^+)
+          (psi_b0+psi_b1/sqrt(x)+psi_b2/x+...).
+```
+
+The GP advection therefore produces no `sqrt(x)` exponent in the two physical
+blocks, but it does produce the displayed nonzero correction in both Z4
+blocks. The old `f_x+(k+1/x)f=0` law is recovered only when `r0=0` and
+`gamma_b=0`; even the physical GP blocks instead have `p=1+k r0/2`.
+Spherical `1/x` terms determine the common `1` in `p`, `v^2=r0/x` supplies
+`k r0/2`, and damping supplies the mode-dependent last term. The
+`lambda=O(x^-3/2)` and tensor/cartoon mixing enter `c_b` and the block
+eigenvectors. The implementation must retain the projector/eigenvector
+recursion through `t^3=x^-3/2`, leaving an `O(x^-2)` continuum asymptotic
+residual; a scalar Robin coefficient truncated at `1/x` is not the locked
+second-order boundary contract.
+
+Normalizability excludes all four growing light amplitudes. The remaining
+five leading `s=0` amplitudes are
+
+```text
+J=d_xz+2 z_z,
+F=p_xx+p_T-2 Theta,
+G=d_xx-d_T+4 z_x,
+C_h=delta h_xx+delta h_zz+2 delta h_ww,
+C_A=the locked weighted trace of delta A.
+```
+
+`J` is the shift-advected companion, `(F,G)` is the frozen longitudinal
+Jordan chain, and `(C_h,C_A)` are determinant/weighted-trace algebraic
+companions. Their Frobenius continuations are charge-like,
+non-normalizable, or constraint-violating rather than extra physical Yukawa
+branches. The homogeneous primary contract sets all five to zero. There are
+therefore four admissible decaying amplitudes and codimension nine in each of
+`P+` and `P-`: four rows remove growing light amplitudes and five rows remove
+`J,F,G,C_h,C_A`. This rank-nine decaying-subspace/constraint-preserving
+condition is the primary spectral-gate outer condition. It is never replaced
+by thirteen componentwise Robin equations.
 
 A generic time-domain Sommerfeld condition is not the primary choice. At zero
 frequency its usual `partial_t+partial_x` form does not contain the `k>0`
-Yukawa exponent and can select the wrong static branch. Homogeneous Dirichlet
-on all perturbations is retained only as the alternative boundary-systematic
-measurement. A candidate result must agree after independent `x_out`
-extrapolation; Dirichlet is not the accuracy reference.
+Yukawa exponent and can select the wrong static branch. The systematic
+alternative is rank-matched homogeneous Dirichlet on the same nine
+transformed boundary-owned amplitudes. Thirteen componentwise Dirichlet rows
+would have the wrong rank and are forbidden. A candidate result must agree
+after independent `x_out` extrapolation; Dirichlet is not the accuracy
+reference. Concretely, the five `J,F,G,C_h,C_A` rows are identical in both
+systems; only the four light projector rows are replaced by homogeneous
+Dirichlet master-amplitude rows.
 
 For `k=0`, the leading equation instead gives `f=C_0+C_1/x`. Asymptotic
 flatness normally removes `C_0` and gives `f_x+f/x=0` for metric-like
@@ -2618,11 +2685,11 @@ The boundary operator preserves the locked 13-slot order. Its ownership is:
 | location/family | row ownership |
 |---|---|
 | `x_in`, all 13 slots | retain the complete PDE owner once; use the one-sided derivative closure; impose no continuum row |
-| `x_out`, outgoing light blocks | retain the transformed PDE row with one-sided derivatives; extrapolate only data needed by its closure |
-| `x_out`, incoming physical light blocks | replace the corresponding transformed endpoint row by the decaying asymptotic condition |
-| `x_out`, incoming Z4 blocks | replace the corresponding transformed endpoint row by the homogeneous constraint-preserving decaying condition |
-| `x_out`, shift-advected/Jordan/algebraic blocks | supply asymptotic decay/charge-fixing data; do not leave an inflow mode unspecified |
-| determinant and weighted trace-free constraints | project within the boundary state space; never add duplicate rows |
+| `x_out`, four outgoing light blocks | retain four transformed PDE rows with one-sided derivatives; extrapolate only data needed by their closure |
+| `x_out`, two physical growing amplitudes | replace two transformed endpoint rows by the physical decaying-projector conditions |
+| `x_out`, two Z4 growing amplitudes | replace two transformed endpoint rows by the homogeneous constraint-preserving decaying-projector conditions |
+| `x_out`, `J,F,G,C_h,C_A` | replace five transformed rows by zero advected/Jordan/algebraic amplitudes |
+| determinant and weighted trace-free constraints | `C_h,C_A` are already two of the five homogeneous rank-nine rows; optional local cleanup may project within that same null space but never adds rows |
 
 Every slot is covered by that block ownership; no component silently receives
 a separate scalar condition:
@@ -2632,11 +2699,79 @@ a separate scalar condition:
 | `chi,h_xx,h_zz,h_ww,K,A_xx,A_zz,A_ww,Theta,hat_Gamma^x` | scalar, transverse-trace/trace-free, longitudinal, Z4-scalar, and algebraic blocks after the physical/conformal map |
 | `h_xz,A_xz,hat_Gamma^z` | radial-vector/Z4 and its advected companion |
 
-The physical extrinsic variables in the principal table are reconstructed at
-principal order from `p_IJ=delta A_IJ+delta_IJ delta K/4`; encoded `z_I` is
-reconstructed from hatted Gamma and the contracted conformal connection.
-Background-extrinsic corrections to this map are lower order but remain part
-of the eventual boundary matrix.
+The boundary-local transformation is fixed on `Y=(U,D_x U)`. First form
+
+```text
+delta gamma_IJ = delta h_IJ-delta_IJ delta chi,
+d_IJ = D_x(delta gamma_IJ),
+p_IJ = delta A_IJ + delta_IJ delta K/4
+       + (K_GP/4) delta h_IJ
+       - delta chi (A_IJ^GP+delta_IJ K_GP/4),
+z_I = (hat_Gamma_I-g_I)/2.
+```
+
+For `xz`, the terms proportional to `delta_IJ` vanish but
+`(K_GP/4)delta h_xz` remains. The contracted `g_I` is the already validated
+hidden-aware expression. Define `d_T=d_zz+2d_ww` and
+`p_T=p_zz+2p_ww`, and transform to the thirteen amplitudes
+
+```text
+W_T^out/in  = p_T +/- d_T/2,
+W_TF^out/in = (p_zz-p_ww) +/- (d_zz-d_ww)/2,
+W_V^out/in  = p_xz -/+ z_z,
+W_S^out/in  = (Theta-p_T) -/+ z_x,
+J, F, G, C_h, C_A.
+```
+
+The first sign in each pair is the `1-v` outgoing field and the second is the
+`-1-v` incoming field. Hidden multiplicity occurs in `d_T`, `p_T`, `C_h`, and
+`C_A`, never as a second representative `ww` row. Dimensionful zero-sector
+amplitudes `J,F,G,C_A` are divided by `k` before basis conditioning; this is
+nonsingular on the locked `k>0`, `k x_out>=8` domain.
+
+Let `R_-(k,x)` be the four-column decaying WKB basis obtained by inserting the
+series above into the exact transformed stationary symbol through `x^-3/2`.
+The imposed light rows are not tied to arbitrary eigenvector scales. Form the
+orthonormal annihilator `E_-(k,x)` of `R_-` with a rank-revealing QR/SVD in the
+declared weighted norm and fix its orientation by positive leading pivot.
+Together with the normalized `J,F,G,C_h,C_A` rows this gives a rank-nine
+matrix acting on `Y`. Equivalently, for a scalar master block one may use the
+scale-invariant growing-amplitude projector
+
+```text
+A_b^grow = (D_x Phi_b-s_b^- Phi_b)/(s_b^+-s_b^-),
+```
+
+whose denominator tends to `2k` and cannot become singular in the accepted
+domain. Projector equality, not equality of individually rescaled
+eigenvectors, is the normalization contract.
+
+The frozen longitudinal Jordan block is removed by the two independent rows
+`F=0` and `G=0`. These annihilate both the eigenvector and its generalized
+partner. It supplies no admissible `k>0` decaying amplitude, needs no tenth
+condition, and does not block the spectral gate; deleting either row changes
+the rank and must fail validation. This resolves only the static outer
+contract and does not claim a complete dynamical characteristic
+diagonalization.
+
+The outer residual therefore has the locked form
+
+```text
+B0(k,x_out) U_N + B1(k,x_out) D_x U_N = 0,
+rank(B0,B1)=9 in P+ and rank(B0,B1)=9 in P-.
+```
+
+Exactly nine transformed endpoint PDE rows are replaced; the four outgoing
+light rows retain their PDE owners and outward one-sided derivative closure.
+Fourier reduction and the interior operator contain `k` and `k^2`. The WKB
+rows add `k`, while `p_b` contains `1/k`; multiplying each affected row by
+the nonsingular factor `k` clears that denominator without changing its null
+space. No `exp(+-kx_out)` factor is stored in the residual. Consequently the
+explicit-row formulation remains a sparse quadratic polynomial pencil in
+`k`. Algebraic elimination would introduce rational functions of `k`, denser
+couplings, and avoidable conditioning, so the first implementation must use
+explicit zero-mass boundary rows in the sparse quadratic pencil. This choice
+does not enable an eigensolver.
 
 The first implementation uses second-order one-sided formulas at both radial
 endpoints, matching the current second-order interior validation scaffolding:
@@ -2649,10 +2784,10 @@ D_xx u_N = (2u_N-5u_{N-1}+4u_{N-2}-u_{N-3})/dx^2.
 There are no stored radial ghost unknowns in the validation matrix. Boundary
 rows replace only the incoming block rows after a boundary-local linear
 change of basis; the other endpoint rows remain PDE rows. This produces a
-sparse generalized pencil with zero mass entries on continuum boundary rows.
-If a later solver requires a standard rather than generalized problem, those
-rows may be eliminated algebraically without changing the continuum contract.
-That choice belongs to the later eigensolver adapter, not this preflight.
+sparse quadratic polynomial pencil with zero time-mass entries on continuum
+boundary rows. Algebraic elimination is a comparison construction only; it
+must reproduce the same rank-nine null space before any later solver adapter
+may use it.
 
 The component reflection signatures are
 
@@ -2684,9 +2819,10 @@ Acceptance is fixed before implementation:
 | mixed derivative | `D_x D_z` and `D_z D_x` agree within `100 epsilon_machine` times the operator/data scale and converge at `p>=1.8` |
 | parity blocks | normalized leakage between the two full Fourier `P+`/`P-` sectors and the boundary reflection commutator are each at most `100 epsilon_machine` |
 | inner outflow | every resolved principal packet has returned/incident norm below `10^-6` on the finest grid and converges at `p>=1.8`; no positive group-velocity branch for `|k_x dx|<=pi/2` |
-| outer Robin | manufactured `exp(-kx)/x` data have a roundoff residual; asymptotic-series data converge at `p>=1.8`; an `exp(+kx)/x` mutation is rejected |
+| outer projector | all four analytic decaying series through `x^-3/2` have residual `O(x^-2)` before radial discretization; all four growing series and nonzero `J,F,G,C_h,C_A` are rejected; the discrete endpoint residual converges at `p>=1.8` |
+| basis conditioning | arbitrary nonzero column rescalings and nonsingular mixing within a degenerate decaying block leave the orthogonal projector within `100 epsilon_machine`; the normalized rank-nine row condition number stays below `10^6` for `k x_out={8,10,12}` |
 | constraints | normalized boundary Hamiltonian, momentum, Z4, determinant, and weighted-trace residuals converge at `p>=1.8` and are below `10^-8` on the finest unit-normalized fixture |
-| row ownership | the boundary block has exactly its declared rank; deletion and duplication of every incoming equation, either hidden copy, and every representative `ww` row are rejected |
+| row ownership | each parity block has rank exactly nine, replaces exactly nine endpoint PDE rows, and retains four outgoing PDE rows; deletion and duplication of every boundary row, either hidden copy, and every representative `ww` row are rejected |
 | radial resolution | each candidate growth rate and threshold shows `p>=1.8` before saturation; the Richardson relative uncertainty in `k_c r0` is at most `10^-3` |
 | inner location | repeat at `x_in/r0=0.35,0.50,0.65,0.80`; extrapolated `k_c r0` changes by at most `10^-3` between the central three, with the `0.80` case retained as the small-outflow-margin stress test |
 | outer location | for the candidate `k`, use at least `k x_out=8,10,12`; the last two Robin results and the independently extrapolated Dirichlet result agree within `10^-3` in `k_c r0` |
@@ -2695,6 +2831,30 @@ Threshold stability is assessed only after both radial-resolution and boundary-
 location extrapolations. Passing at one `(x_in,x_out)` is not evidence. Any
 criterion that reaches roundoff before three useful resolutions must report
 the saturation and use the preceding convergence range.
+
+Robin and Dirichlet results are extrapolated independently, never with a
+shared intercept. For block `b`, use the WKB reflection scale
+
+```text
+q_b(x_out)=exp(-2 k x_out)
+            x_out^[-(p_b^- - p_b^+)]
+```
+
+including its generated series correction. The Dirichlet fit is
+`k_c(x_out)=k_c(infinity)+a_D max_b q_b+...`; the truncated projector fit uses
+`k_c(x_out)=k_c(infinity)+a_R x_out^-2 max_b q_b+...`. Fit the
+`k x_out={8,10,12}` sequences separately, repeat after dropping the `8`
+point, and require both intercept shifts and the final Robin-versus-Dirichlet
+intercept difference to be at most `10^-3` in `k_c r0`. A fit that cannot
+resolve its own intercept uncertainty below `10^-3` does not pass.
+
+The analytic-series, growing/constraint rejection, exact rank/equation count,
+row mutation, basis-rescaling, parity, endpoint convergence, and normalized
+constraint-residual tests require no eigensolver and must all pass first. The
+`k x_out={8,10,12}` local residual sweep also precedes eigensolver work.
+Radial eigenvalue convergence, boundary-location extrapolation, and the final
+Robin-versus-Dirichlet `10^-3` agreement require the later boundary-bearing
+operator and eigensolver and remain closed.
 
 ### Gate semantics and next implementation
 
@@ -2784,15 +2944,14 @@ cross-sector leakage and the reflection commutator are exactly zero. Optional
 determinant/weighted-trace cleanup is algebraically idempotent and changes
 neither the 13-PDE-row count nor the zero boundary-equation count.
 
-Unresolved physics/numerical decisions are explicit: whether the frozen-gauge
-longitudinal Jordan block is acceptable for the spectral gate or requires a
-constraint-reduced/strongly-hyperbolic reformulation; the exact conformal-
-variable normalization of the outer decaying and incoming-constraint blocks;
-the charge/gauge convention for `k=0`; whether nonzero-growth diagnostic modes
-need a growth-rate-dependent outer asymptotic operator rather than the static
-threshold Robin rule; and whether a later eigensolver consumes the generalized
-boundary-row pencil or an algebraically eliminated standard matrix. None may
-be resolved implicitly while implementing stencils.
+The `k>0` normalization decisions are now locked: the longitudinal Jordan
+chain is excluded by `F=G=0`, the decaying basis is defined by its orthogonal
+projector rather than eigenvector scale, and explicit rank-nine rows in a
+sparse quadratic pencil are the implementation path. Remaining decisions are
+outside this lock: the charge/gauge convention for `k=0`, whether nonzero-
+growth diagnostic modes need a growth-rate-dependent outer operator, and the
+later solver library/linearization used for the quadratic pencil. None may be
+resolved implicitly while implementing the static `k>0` rows.
 
 ## Actual-Operator Validation Hooks
 
@@ -2801,7 +2960,7 @@ analytic-jet nonlinear JVP, ownership mutations, tangent identities, and
 explicit parity-sector block-diagonalization. The inner endpoint is now
 implemented and independently validated. The remaining Stage 4AO-C hooks are:
 
-- outer-boundary implementation and independent validation;
+- rank-nine `k>0` outer-projector implementation and independent validation;
 - joint boundary-bearing operator validation;
 - radial-resolution and boundary-location convergence under the acceptance
   criteria above;

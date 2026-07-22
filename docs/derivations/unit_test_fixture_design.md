@@ -3,7 +3,9 @@
 Status: this document began as the Stage 3J fixture design and now also records
 implemented Stage 4AO-C C++ fixtures. Those fixtures include complete
 13-variable frozen-gauge interior assembly, independent analytic nonlinear JVP
-validation, and full-interior parity/block-diagonal validation. Radial-boundary,
+validation, and full-interior parity/block-diagonal validation. The inner
+pure-outflow radial fixture also passes, and the outer `k>0` rank-nine
+asymptotic fixture is now designed but not implemented. Outer/joint-boundary,
 MOTS, and spectral/eigensolver fixtures remain pending; no production RHS
 wiring or production tolerance policy is introduced here.
 
@@ -1612,23 +1614,38 @@ determinant/weighted-trace cleanup reaches roundoff, is idempotent, and never
 changes the PDE-row or boundary-equation count.
 
 The later outer fixture will construct the boundary-local principal/asymptotic
-block transform independently from the production boundary helper. For each
-fixed `k>0` it will test the decaying profile `exp(-kx)/x` and reject the
-growing profile `exp(+kx)/x`. Incoming physical amplitudes receive the static
-decaying-subspace Robin condition; incoming Z4 amplitudes receive homogeneous
-constraint-preserving decay; outgoing light blocks retain their PDE rows;
-shift-advected and algebraic blocks receive explicit decay/charge-fixing data.
-Homogeneous Dirichlet is a separate systematic-error fixture, never the
-primary accuracy oracle. The `k=0` diagnostic requires its own asymptotic
-series and is excluded from GL-threshold acceptance.
+block transform independently from the production boundary helper. The exact
+stationary-symbol lock has four decaying light amplitudes and codimension nine
+in each full parity sector. The physical transverse trace/trace-free blocks
+have `gamma=0`; the vector and scalar Z4 blocks have `gamma=0.1` and `0.5`.
+Their analytic profiles are
 
-The assembled boundary fixture will assert exactly one owner for every
-transformed endpoint row, no representative-ww duplication, hidden
+```text
+exp(-kx-gamma sqrt(r0*x)) x^[-1-k r0/2-gamma^2 r0/(8k)]
+```
+
+times the independently generated series through `x^-3/2`. The fixture will
+accept all four decaying series, reject all four growing series, and reject
+nonzero `J,F,G,C_h,C_A`. The asymptotic residual must be `O(x^-2)` before
+radial discretization and the endpoint residual must converge at `p>=1.8`.
+Rank-matched homogeneous Dirichlet on the same nine transformed amplitudes is
+the systematic-error alternative; thirteen componentwise Dirichlet or Robin
+rows are invalid. The `k=0` diagnostic remains separate and excluded from GL-
+threshold acceptance.
+
+The assembled boundary fixture will assert rank exactly nine, replacement of
+exactly nine endpoint PDE rows, retention of the four outgoing light PDE
+rows, exactly one owner for every transformed endpoint row, no representative-
+ww duplication, hidden
 multiplicity only in trace/block definitions, determinant and metric/A tangent
 preservation, and no leakage between the full Fourier `P+` and `P-` sectors.
 The correct `E*cos+O*sin` or `E*sin+O*cos` coupling within one sector remains
-allowed. Deleting or duplicating any incoming equation must change the
-declared boundary-block rank and fail. Constraint
+allowed. Deleting or duplicating any of the four growing-mode or five
+advected/Jordan/algebraic equations must change the declared boundary-block
+rank and fail. Rescaling or nonsingularly mixing a degenerate decaying basis
+must leave its orthogonal projector invariant within `100 epsilon_machine`,
+and the normalized row condition number must stay below `10^6` over the
+declared outer-location sweep. Constraint
 residuals must converge at order at least `1.8` and fall below `10^-8` on the
 finest unit-normalized fixture. Candidate threshold acceptance additionally
 requires Richardson relative uncertainty at most `10^-3`, the declared
@@ -1639,7 +1656,7 @@ requires Richardson relative uncertainty at most `10^-3`, the declared
 Only the inner endpoint helper and inner pure-outflow validation flags are now
 true. Outer implementation/validation, aggregate radial-boundary completion,
 the boundary-bearing complete operator, and eigensolver permission remain
-false. The frozen-gauge longitudinal Jordan block, exact conformal outer block
-normalization, `k=0` charge fixing, growth-rate-dependent asymptotics, and
-generalized-versus-eliminated matrix form remain decisions, not hidden fixture
-assumptions.
+false. For `k>0`, the Jordan chain is excluded by `F=G=0`, projector
+normalization is locked, and explicit rows in a sparse quadratic pencil are
+required. `k=0` charge fixing, growth-rate-dependent asymptotics, and the later
+quadratic-pencil solver linearization remain separate decisions.

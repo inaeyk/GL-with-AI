@@ -1677,3 +1677,29 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   flags are newly true. Outer, aggregate radial-boundary, boundary-bearing
   complete-operator, MOTS, eigensolver/shift-invert, threshold, production,
   4AO-D, and Checkpoint G gates remain false.
+
+- Date: 2026-07-22
+- Goal: Complete the Stage 4AO-C outer `k>0` asymptotic-boundary
+  normalization lock from clean inner-boundary checkpoint `7ceec6f`;
+  documentation/design only.
+- Symbol result: CodeGraph was used first. Expanding the actual complete
+  stationary 13-row symbol in either full Fourier sector gives the finite
+  factor `s^5(s^2-k^2)^4`. There are four light pairs and five
+  advected/algebraic/Jordan amplitudes, so the admissible decaying subspace
+  has dimension four and codimension nine per sector.
+- WKB lock: physical trace/trace-free blocks have `gamma=0`; vector/scalar
+  Z4 blocks have `gamma=0.1/0.5`. Their decaying profiles are
+  `exp(-kx-gamma sqrt(r0*x)) x^[-1-k r0/2-gamma^2 r0/(8k)]` times a series.
+  Projector/eigenvector transport is retained through `x^-3/2`, including
+  the first `lambda` order, for an `O(x^-2)` continuum residual.
+- Rows/representation: four projector rows reject growing light amplitudes;
+  five homogeneous rows remove `J,F,G,C_h,C_A`. The two `F,G` rows remove
+  the longitudinal Jordan eigenvector/generalized partner. Nine endpoint PDE
+  rows are replaced and four outgoing PDE rows remain. Orthogonal-projector
+  normalization removes eigenvector-scale ambiguity. Clearing harmless
+  `1/k` row factors leaves a sparse quadratic polynomial pencil; algebraic
+  elimination is not the primary representation.
+- Status: no boundary code or tests were added. Outer implementation and
+  validation, aggregate radial-boundary completion, boundary-bearing
+  complete operator, eigensolver/shift-invert, MOTS, threshold, production,
+  4AO-D, and Checkpoint G gates remain false.
