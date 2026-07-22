@@ -33,7 +33,21 @@ Durable physics decisions only. Use [PROJECT_LOG.md](PROJECT_LOG.md) for day-to-
 - Reason: This boundary has an independent analytic spherical
   modified-cartoon oracle and isolates the hidden-direction and projection
   conventions without duplicating geometric Ricci.
-- Consequences: K `+=q`, Theta `+=q/2`, and A `+=qTF_IJ` remain separate
-  insertion targets. The nonlinear selected-branch finite-difference oracle
-  is deferred until complete row assembly, where upper/lower-Z and conformal
-  mapping are validated once. No non-Gamma completion gate opens.
+- Consequences: K `+=q`, Theta `+=q/2`, and A `+=qTF_IJ` are implemented as
+  separate typed insertion blocks. The nonlinear selected-branch
+  finite-difference oracle remains deferred until complete row assembly,
+  where upper/lower-Z and conformal mapping are validated once. No non-Gamma
+  completion gate opens.
+
+### 2026-07-22: Keep encoded-Z row weights separate from Ricci construction
+
+- Decision: Apply `q`, `q/2`, and `qTF_IJ` only in separate K, Theta, and A
+  insertion blocks that accept the opaque encoded-Z completion and no
+  geometric-Ricci argument.
+- Reason: Row-specific weights and output ownership are independently testable
+  at this boundary, while the helper remains the sole owner of hidden trace
+  multiplicity and the four-dimensional projection.
+- Consequences: Geometric Ricci remains in its existing insertion blocks,
+  representative `A_ww` is written once, and complete row assemblers must
+  consume both families exactly once. The insertion flags may be true while
+  every non-Gamma variable-completion and global spectral gate stays false.

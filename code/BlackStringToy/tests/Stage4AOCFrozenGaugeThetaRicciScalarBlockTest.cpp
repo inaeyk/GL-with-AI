@@ -267,6 +267,9 @@ void check_completion_guards()
     const auto contract = Operator::make_default_frozen_gauge_operator_contract();
     require_true("Theta Ricci scalar insertion block implemented",
                  Operator::theta_ricci_scalar_insertion_block_implemented);
+    require_true("Theta encoded-Z Ricci insertion implemented separately",
+                 Operator::
+                     theta_equation_z_ricci_contributions_implemented);
     require_true("complete frozen-gauge operator remains false",
                  !contract.complete_operator_implemented());
     require_true("eigensolver remains disallowed",

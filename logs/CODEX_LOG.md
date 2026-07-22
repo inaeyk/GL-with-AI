@@ -1523,3 +1523,23 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Result: the focused helper and operator contract passed, as did all 24
   Stage 4AO-C fixtures under `-Wall -Wextra -pedantic`. No row assembler,
   boundary, MOTS, eigensolver, 4AO-D, staging, or commit action was added.
+
+- Date: 2026-07-22
+- Goal: Insert the validated encoded-Z Ricci completion into only the K,
+  Theta, and A output slots.
+- Initial state: clean `HEAD=903455c` encoded-Z helper checkpoint; CodeGraph
+  used first.
+- Implementation: added three typed point/grid partial blocks consuming
+  `CompletionTensor` and writing `K=q`, `Theta=q/2`, and
+  `A_IJ=qTF_IJ`. The representative ww output is written once. No geometric
+  Ricci input, second projection, or complete-row summation is available at
+  this interface.
+- Tests: isolated ownership, all six values, weighted A trace, parity, grid
+  coverage, invalid sizes, and coefficient/raw-q/double-projection/
+  geometric-Ricci/ww/output-scope mutations pass in the focused fixture.
+- Gates: K/Theta/A encoded-Z insertion availability is true, but all
+  non-Gamma variable completion, full-operator, and eigensolver gates stay
+  false.
+- Result: focused, helper, contract, affected K/Theta/A, and all 25 Stage
+  4AO-C fixtures passed under `-Wall -Wextra -pedantic`. No complete row,
+  boundary, MOTS, eigensolver, 4AO-D, staging, or commit action was added.

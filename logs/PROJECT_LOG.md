@@ -1775,3 +1775,29 @@ Category: Validation Helper + Tests + Documentation
 - Validation: the focused helper, operator contract, Ricci/Z-adjacent K,
   Theta, A, contracted-connection, and trace-free fixtures passed. All 24
   `Stage4AOC*.cpp` tests compiled with `-Wall -Wextra -pedantic` and passed.
+
+## 2026-07-22 - Stage 4AO-C Encoded-Z Ricci Row Insertions
+
+Category: Validation Operator + Tests + Documentation
+
+- Began from clean committed encoded-Z helper checkpoint `903455c` and used
+  CodeGraph before direct inspection or editing.
+- Added separate partial point/grid insertion blocks that consume only the
+  opaque encoded-Z completion: K receives `+q`, Theta receives `+q/2`, and
+  `A_xx/A_xz/A_zz/A_ww` receive the already projected `qTF_IJ` values.
+- The insertion interfaces cannot accept the geometric Ricci assembly. They
+  do not recompute `q_IJ`, apply a second projection, multiply representative
+  `ww` by the hidden count, or write outside their owned slots. Existing
+  Ricci, curvature, algebraic, damping, advection, and shift blocks are
+  unchanged and unassembled with these new pieces.
+- Added a focused insertion fixture covering isolated K/Theta/A ownership,
+  all coefficients, weighted trace-free A output, grid application and size
+  guards, scalar/even and xz/one-z parity, and mutations for wrong scalar
+  weights, raw q, double projection, duplicate geometric Ricci, representative
+  ww doubling, and output leakage.
+- The operator inventory now marks only the encoded-Z insertion piece and its
+  K/Theta/A applicability implemented. Every non-Gamma variable-completion
+  flag, complete-operator gate, and eigensolver gate remains false.
+- Validation: the focused insertion fixture, encoded-Z helper, operator
+  contract, and affected K/Theta/A fixtures passed. All 25
+  `Stage4AOC*.cpp` tests compiled with `-Wall -Wextra -pedantic` and passed.

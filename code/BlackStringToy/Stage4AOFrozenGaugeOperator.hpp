@@ -30,10 +30,12 @@ static constexpr bool k_equation_ricci_scalar_insertion_block_implemented =
 static constexpr bool encoded_z_ricci_completion_tensor_helper_implemented =
     Stage4AOFrozenGaugeZRicciCompletion::
         linearized_encoded_z_ricci_completion_implemented;
-static constexpr bool k_equation_z_ricci_contributions_implemented = false;
+static constexpr bool
+    encoded_z_ricci_completion_insertion_block_implemented = true;
+static constexpr bool k_equation_z_ricci_contributions_implemented = true;
 static constexpr bool theta_equation_z_ricci_contributions_implemented =
-    false;
-static constexpr bool a_equation_z_ricci_contributions_implemented = false;
+    true;
+static constexpr bool a_equation_z_ricci_contributions_implemented = true;
 static constexpr bool ccz4_k_theta_damping_insertion_block_implemented = true;
 static constexpr bool
     contracted_connection_and_z_reconstruction_helper_implemented = true;
@@ -121,6 +123,7 @@ enum class RhsPiece
     theta_equation_minus_k_delta_theta,
     theta_ricci_scalar_insertion,
     a_equation_ricci_curvature_insertion,
+    encoded_z_ricci_completion_insertion,
     radial_derivatives,
     z_derivatives,
     hidden_sphere_terms,
@@ -191,7 +194,7 @@ inline constexpr std::array<const char *, 4> implemented_wrapper_pieces = {
     "RHS block inventory with implemented/reusable/missing labels",
     "radial-domain and boundary-condition contract"};
 
-inline constexpr std::array<const char *, 19> implemented_operator_pieces = {
+inline constexpr std::array<const char *, 20> implemented_operator_pieces = {
     "matrix-free GP-shift advection block beta_GP^x d_x(delta u)",
     "GP-shift tensor stretching for h_IJ and A_IJ",
     "algebraic h_IJ <- -2 A_IJ and chi <- +K/2 couplings",
@@ -210,6 +213,7 @@ inline constexpr std::array<const char *, 19> implemented_operator_pieces = {
     "Theta-output -K_GP deltaTheta linearization",
     "Theta-output Ricci scalar insertion +0.5 delta R",
     "A_IJ-output Ricci curvature insertion [delta R_IJ]^TF",
+    "K/Theta/A_IJ encoded-Z Ricci completion insertions",
     "trace-free delta A subspace and projector contract",
     "validation-only radial and periodic-z derivative scaffolding"};
 
@@ -398,6 +402,14 @@ inline bool receives_a_equation_ricci_curvature_insertion(
     return is_a_variable(variable);
 }
 
+inline bool receives_encoded_z_ricci_completion_insertion(
+    const PerturbationVariable variable)
+{
+    return variable == PerturbationVariable::K ||
+           variable == PerturbationVariable::Theta ||
+           is_a_variable(variable);
+}
+
 inline bool uses_ricci_or_curvature(const PerturbationVariable variable)
 {
     return variable == PerturbationVariable::K ||
@@ -490,6 +502,11 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
 
     case RhsPiece::a_equation_ricci_curvature_insertion:
         return receives_a_equation_ricci_curvature_insertion(variable)
+                   ? PieceStatus::implemented_now
+                   : PieceStatus::not_applicable;
+
+    case RhsPiece::encoded_z_ricci_completion_insertion:
+        return receives_encoded_z_ricci_completion_insertion(variable)
                    ? PieceStatus::implemented_now
                    : PieceStatus::not_applicable;
 
@@ -972,6 +989,27 @@ class FrozenGaugeApplyResult
         const std::vector<
             Stage4AOFrozenGaugeRicciAssembly::TraceFreeRicciAssembly>
             &ricci_assemblies);
+
+    friend FrozenGaugeApplyResult
+    apply_k_equation_encoded_z_ricci_insertion_block(
+        const RadialGrid &grid,
+        const std::vector<
+            Stage4AOFrozenGaugeZRicciCompletion::CompletionTensor>
+            &completions);
+
+    friend FrozenGaugeApplyResult
+    apply_theta_equation_encoded_z_ricci_insertion_block(
+        const RadialGrid &grid,
+        const std::vector<
+            Stage4AOFrozenGaugeZRicciCompletion::CompletionTensor>
+            &completions);
+
+    friend FrozenGaugeApplyResult
+    apply_a_equation_encoded_z_ricci_insertion_block(
+        const RadialGrid &grid,
+        const std::vector<
+            Stage4AOFrozenGaugeZRicciCompletion::CompletionTensor>
+            &completions);
 
     std::vector<FrozenGaugePerturbationVector> m_values;
     std::size_t m_first_valid_index;
@@ -1568,6 +1606,52 @@ apply_a_equation_ricci_curvature_insertion_at_point(
     return make_frozen_gauge_perturbation_vector(values);
 }
 
+inline FrozenGaugePerturbationVector
+apply_k_equation_encoded_z_ricci_insertion_at_point(
+    const Stage4AOFrozenGaugeZRicciCompletion::CompletionTensor &completion)
+{
+    std::array<double, frozen_gauge_state_vector.size()> values = {};
+
+    // This consumes only the validated encoded-Z scalar completion. Geometric
+    // Ricci remains owned by apply_k_equation_ricci_scalar_insertion_at_point.
+    values[variable_index(PerturbationVariable::K)] =
+        completion.scalar_trace();
+
+    return make_frozen_gauge_perturbation_vector(values);
+}
+
+inline FrozenGaugePerturbationVector
+apply_theta_equation_encoded_z_ricci_insertion_at_point(
+    const Stage4AOFrozenGaugeZRicciCompletion::CompletionTensor &completion)
+{
+    std::array<double, frozen_gauge_state_vector.size()> values = {};
+
+    // The selected USE_CCZ4 Theta row receives one half of the completed
+    // encoded-Z scalar. No geometric-Ricci scalar enters this block.
+    values[variable_index(PerturbationVariable::Theta)] =
+        0.5 * completion.scalar_trace();
+
+    return make_frozen_gauge_perturbation_vector(values);
+}
+
+inline FrozenGaugePerturbationVector
+apply_a_equation_encoded_z_ricci_insertion_at_point(
+    const Stage4AOFrozenGaugeZRicciCompletion::CompletionTensor &completion)
+{
+    std::array<double, frozen_gauge_state_vector.size()> values = {};
+
+    // CompletionTensor already owns the four-dimensional trace-free
+    // projection. Consume each representative component exactly once: do not
+    // project again and do not multiply the representative ww output by the
+    // hidden multiplicity used in the scalar trace.
+    values[variable_index(PerturbationVariable::A_xx)] = completion.tf_xx();
+    values[variable_index(PerturbationVariable::A_xz)] = completion.tf_xz();
+    values[variable_index(PerturbationVariable::A_zz)] = completion.tf_zz();
+    values[variable_index(PerturbationVariable::A_ww)] = completion.tf_ww();
+
+    return make_frozen_gauge_perturbation_vector(values);
+}
+
 inline FrozenGaugeApplyResult apply_gp_shift_advection_block(
     const RadialGrid &grid,
     const std::vector<FrozenGaugePerturbationVector> &input)
@@ -1817,6 +1901,72 @@ apply_a_equation_ricci_curvature_insertion_block(
             apply_a_equation_ricci_curvature_insertion_at_point(assembly));
     }
 
+    return FrozenGaugeApplyResult(output, 0, grid.points() - 1, false);
+}
+
+inline FrozenGaugeApplyResult
+apply_k_equation_encoded_z_ricci_insertion_block(
+    const RadialGrid &grid,
+    const std::vector<
+        Stage4AOFrozenGaugeZRicciCompletion::CompletionTensor> &completions)
+{
+    if (completions.size() != grid.points())
+    {
+        throw std::domain_error(
+            "Stage 4AO-C K encoded-Z Ricci input must have one completion per radial grid point");
+    }
+
+    std::vector<FrozenGaugePerturbationVector> output;
+    output.reserve(completions.size());
+    for (const auto &completion : completions)
+    {
+        output.push_back(
+            apply_k_equation_encoded_z_ricci_insertion_at_point(completion));
+    }
+    return FrozenGaugeApplyResult(output, 0, grid.points() - 1, false);
+}
+
+inline FrozenGaugeApplyResult
+apply_theta_equation_encoded_z_ricci_insertion_block(
+    const RadialGrid &grid,
+    const std::vector<
+        Stage4AOFrozenGaugeZRicciCompletion::CompletionTensor> &completions)
+{
+    if (completions.size() != grid.points())
+    {
+        throw std::domain_error(
+            "Stage 4AO-C Theta encoded-Z Ricci input must have one completion per radial grid point");
+    }
+
+    std::vector<FrozenGaugePerturbationVector> output;
+    output.reserve(completions.size());
+    for (const auto &completion : completions)
+    {
+        output.push_back(apply_theta_equation_encoded_z_ricci_insertion_at_point(
+            completion));
+    }
+    return FrozenGaugeApplyResult(output, 0, grid.points() - 1, false);
+}
+
+inline FrozenGaugeApplyResult
+apply_a_equation_encoded_z_ricci_insertion_block(
+    const RadialGrid &grid,
+    const std::vector<
+        Stage4AOFrozenGaugeZRicciCompletion::CompletionTensor> &completions)
+{
+    if (completions.size() != grid.points())
+    {
+        throw std::domain_error(
+            "Stage 4AO-C A encoded-Z Ricci input must have one completion per radial grid point");
+    }
+
+    std::vector<FrozenGaugePerturbationVector> output;
+    output.reserve(completions.size());
+    for (const auto &completion : completions)
+    {
+        output.push_back(
+            apply_a_equation_encoded_z_ricci_insertion_at_point(completion));
+    }
     return FrozenGaugeApplyResult(output, 0, grid.points() - 1, false);
 }
 

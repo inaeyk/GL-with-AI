@@ -291,6 +291,8 @@ void check_completion_guards()
 {
     require_true("A Ricci curvature insertion block implemented",
                  Operator::a_equation_ricci_curvature_insertion_block_implemented);
+    require_true("A encoded-Z Ricci insertion implemented separately",
+                 Operator::a_equation_z_ricci_contributions_implemented);
     require_true("Theta Ricci scalar insertion remains implemented",
                  Operator::theta_ricci_scalar_insertion_block_implemented);
     require_true("complete frozen-gauge operator remains false",

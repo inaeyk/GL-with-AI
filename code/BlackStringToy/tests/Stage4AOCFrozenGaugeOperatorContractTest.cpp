@@ -24,7 +24,7 @@ constexpr std::array<Variable, 13> expected_state_order = {
     Variable::A_ww,        Variable::Theta,       Variable::hat_Gamma_x,
     Variable::hat_Gamma_z};
 
-constexpr std::array<Piece, 24> all_rhs_pieces = {
+constexpr std::array<Piece, 25> all_rhs_pieces = {
     Piece::gp_shift_advection,
     Piece::tensor_shift_stretching,
     Piece::algebraic_metric_chi_coupling,
@@ -42,6 +42,7 @@ constexpr std::array<Piece, 24> all_rhs_pieces = {
     Piece::theta_equation_minus_k_delta_theta,
     Piece::theta_ricci_scalar_insertion,
     Piece::a_equation_ricci_curvature_insertion,
+    Piece::encoded_z_ricci_completion_insertion,
     Piece::radial_derivatives,
     Piece::z_derivatives,
     Piece::hidden_sphere_terms,
@@ -390,6 +391,28 @@ void check_rhs_inventory()
     require_status("h_xx has no A Ricci curvature output", Variable::h_xx,
                    Piece::a_equation_ricci_curvature_insertion,
                    Status::not_applicable);
+    require_status("K encoded-Z Ricci insertion is implemented", Variable::K,
+                   Piece::encoded_z_ricci_completion_insertion,
+                   Status::implemented_now);
+    require_status("Theta encoded-Z Ricci insertion is implemented",
+                   Variable::Theta,
+                   Piece::encoded_z_ricci_completion_insertion,
+                   Status::implemented_now);
+    require_status("A_xx encoded-Z Ricci insertion is implemented",
+                   Variable::A_xx,
+                   Piece::encoded_z_ricci_completion_insertion,
+                   Status::implemented_now);
+    require_status("A_ww encoded-Z Ricci insertion is implemented",
+                   Variable::A_ww,
+                   Piece::encoded_z_ricci_completion_insertion,
+                   Status::implemented_now);
+    require_status("chi has no encoded-Z Ricci insertion", Variable::chi,
+                   Piece::encoded_z_ricci_completion_insertion,
+                   Status::not_applicable);
+    require_status("hat_Gamma has no encoded-Z Ricci insertion",
+                   Variable::hat_Gamma_x,
+                   Piece::encoded_z_ricci_completion_insertion,
+                   Status::not_applicable);
     require_status("chi radial derivatives are helper-only scaffolding",
                    Variable::chi, Piece::radial_derivatives,
                    Status::reusable_helper);
@@ -402,7 +425,7 @@ void check_rhs_inventory()
     require_status("A_ww curvature terms have helper coverage only",
                    Variable::A_ww, Piece::ricci_curvature_terms,
                    Status::reusable_helper);
-    require_status("remaining K Ricci/Z path has helper coverage only",
+    require_status("K Ricci inputs retain reusable-helper coverage",
                    Variable::K, Piece::ricci_curvature_terms,
                    Status::reusable_helper);
     require_status("hat_Gamma^x hidden evolution is owned by complete row",
@@ -794,6 +817,27 @@ void check_rhs_inventory()
                              "implemented");
                 }
             }
+            else if (
+                piece == Piece::encoded_z_ricci_completion_insertion)
+            {
+                const bool should_be_implemented =
+                    Operator::receives_encoded_z_ricci_completion_insertion(
+                        variable);
+                if (should_be_implemented &&
+                    status != Status::implemented_now)
+                {
+                    fail("encoded-Z Ricci insertion implemented_now guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " does not mark encoded-Z insertion implemented");
+                }
+                if (!should_be_implemented &&
+                    status != Status::not_applicable)
+                {
+                    fail("encoded-Z Ricci insertion scope guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " unexpectedly receives encoded-Z output");
+                }
+            }
             else if (piece == Piece::hidden_sphere_terms)
             {
                 const bool is_gamma = variable == Variable::hat_Gamma_x ||
@@ -866,7 +910,7 @@ void check_rhs_inventory()
                  "A algebraic "
                  "non-curvature, Theta algebraic non-Ricci, Theta minus-K, "
                  "Theta Ricci scalar insertion, and A Ricci curvature "
-                 "insertion blocks are "
+                 "insertion, and encoded-Z K/Theta/A insertion blocks are "
                  "implemented_now\n";
 }
 
@@ -891,13 +935,16 @@ void check_operator_completion_guard()
     require_true("encoded-Z Ricci tensor helper is implemented",
                  Operator::
                      encoded_z_ricci_completion_tensor_helper_implemented);
-    require_true("K Z/hat-Gamma Ricci contributions remain missing",
-                 !Operator::k_equation_z_ricci_contributions_implemented);
-    require_true("Theta Z/hat-Gamma Ricci contributions remain missing",
-                 !Operator::
+    require_true("encoded-Z Ricci insertion block is implemented",
+                 Operator::
+                     encoded_z_ricci_completion_insertion_block_implemented);
+    require_true("K Z/hat-Gamma Ricci insertion is implemented",
+                 Operator::k_equation_z_ricci_contributions_implemented);
+    require_true("Theta Z/hat-Gamma Ricci insertion is implemented",
+                 Operator::
                      theta_equation_z_ricci_contributions_implemented);
-    require_true("A Z/hat-Gamma Ricci contributions remain missing",
-                 !Operator::a_equation_z_ricci_contributions_implemented);
+    require_true("A Z/hat-Gamma Ricci insertion is implemented",
+                 Operator::a_equation_z_ricci_contributions_implemented);
     require_true("main CCZ4 damping convention is locked",
                  Operator::main_ccz4_damping_convention_locked);
     require_true("simple K/Theta damping insertion is implemented",

@@ -143,18 +143,15 @@ void check_scope_contract()
                  !Completion::geometric_ricci_implemented);
     require_true("Z definition derivatives are not expanded",
                  !Completion::z_definition_derivative_expansion_implemented);
-    require_true("K insertion remains absent",
-                 !Completion::k_row_insertion_implemented &&
-                     !Operator::
-                         k_equation_z_ricci_contributions_implemented);
-    require_true("Theta insertion remains absent",
-                 !Completion::theta_row_insertion_implemented &&
-                     !Operator::
-                         theta_equation_z_ricci_contributions_implemented);
-    require_true("A insertion remains absent",
-                 !Completion::a_row_insertion_implemented &&
-                     !Operator::
-                         a_equation_z_ricci_contributions_implemented);
+    require_true("helper itself performs no K insertion",
+                 !Completion::k_row_insertion_implemented);
+    require_true("helper itself performs no Theta insertion",
+                 !Completion::theta_row_insertion_implemented);
+    require_true("helper itself performs no A insertion",
+                 !Completion::a_row_insertion_implemented);
+    require_true("separate operator insertion block is implemented",
+                 Operator::
+                     encoded_z_ricci_completion_insertion_block_implemented);
     require_true("non-Gamma completion remains false",
                  !Completion::complete_non_gamma_rhs_implemented);
     require_true("full operator gate remains false",
