@@ -24,7 +24,7 @@ constexpr std::array<Variable, 13> expected_state_order = {
     Variable::A_ww,        Variable::Theta,       Variable::hat_Gamma_x,
     Variable::hat_Gamma_z};
 
-constexpr std::array<Piece, 26> all_rhs_pieces = {
+constexpr std::array<Piece, 28> all_rhs_pieces = {
     Piece::gp_shift_advection,
     Piece::tensor_shift_stretching,
     Piece::algebraic_metric_chi_coupling,
@@ -44,6 +44,8 @@ constexpr std::array<Piece, 26> all_rhs_pieces = {
     Piece::a_equation_ricci_curvature_insertion,
     Piece::encoded_z_ricci_completion_insertion,
     Piece::k_theta_a_complete_row_assembly,
+    Piece::chi_metric_complete_row_assembly,
+    Piece::complete_frozen_gauge_interior_assembly,
     Piece::radial_derivatives,
     Piece::z_derivatives,
     Piece::hidden_sphere_terms,
@@ -203,8 +205,9 @@ void check_rhs_inventory()
     // only for the Theta output, through the separate Ricci assembly helper.
     // The A-equation Ricci curvature insertion is implemented only for A_IJ
     // outputs through the same reviewed Ricci trace-free assembly.
-    // Everything else remains inventory or helper coverage, not a complete
-    // coupled modified-cartoon RHS.
+    // The chi/metric complete-row owner and the validation-only 13-variable
+    // interior composition are implemented. Radial-boundary work remains
+    // inventory/helper coverage and is not part of this interior contract.
     require_status("chi advection block is implemented", Variable::chi,
                    Piece::gp_shift_advection, Status::implemented_now);
     require_status("h_xx tensor stretching block is implemented",
@@ -426,15 +429,31 @@ void check_rhs_inventory()
     require_status("chi has no K/Theta/A complete row assembly",
                    Variable::chi, Piece::k_theta_a_complete_row_assembly,
                    Status::not_applicable);
+    require_status("chi complete row assembly is implemented", Variable::chi,
+                   Piece::chi_metric_complete_row_assembly,
+                   Status::implemented_now);
+    require_status("h_ww complete row assembly is implemented",
+                   Variable::h_ww, Piece::chi_metric_complete_row_assembly,
+                   Status::implemented_now);
+    require_status("K has no chi/metric complete row output", Variable::K,
+                   Piece::chi_metric_complete_row_assembly,
+                   Status::not_applicable);
+    require_status("all slots receive full interior assembly", Variable::chi,
+                   Piece::complete_frozen_gauge_interior_assembly,
+                   Status::implemented_now);
+    require_status("Gamma_z receives full interior assembly",
+                   Variable::hat_Gamma_z,
+                   Piece::complete_frozen_gauge_interior_assembly,
+                   Status::implemented_now);
     require_status("chi radial derivatives are helper-only scaffolding",
                    Variable::chi, Piece::radial_derivatives,
                    Status::reusable_helper);
     require_status("chi z derivatives are helper-only scaffolding",
                    Variable::chi, Piece::z_derivatives,
                    Status::reusable_helper);
-    require_status("h_ww hidden terms have helper coverage only",
+    require_status("h_ww hidden terms are owned by complete row",
                    Variable::h_ww, Piece::hidden_sphere_terms,
-                   Status::reusable_helper);
+                   Status::implemented_now);
     require_status("A_ww curvature terms have helper coverage only",
                    Variable::A_ww, Piece::ricci_curvature_terms,
                    Status::reusable_helper);
@@ -470,11 +489,7 @@ void check_rhs_inventory()
                  Operator::any_variable_rhs_complete());
     for (const auto variable : Operator::frozen_gauge_state_vector)
     {
-        const bool should_be_complete =
-            variable == Variable::K || variable == Variable::Theta ||
-            Operator::is_a_variable(variable) ||
-            variable == Variable::hat_Gamma_x ||
-            variable == Variable::hat_Gamma_z;
+        const bool should_be_complete = true;
         require_true(std::string(Operator::variable_name(variable)) +
                          " exact RHS-completion scope",
                      Operator::variable_rhs_complete(variable) ==
@@ -874,9 +889,30 @@ void check_rhs_inventory()
                              " unexpectedly receives complete-row output");
                 }
             }
+            else if (piece == Piece::chi_metric_complete_row_assembly)
+            {
+                const bool should_be_implemented =
+                    Operator::receives_chi_metric_complete_row_assembly(
+                        variable);
+                if ((status == Status::implemented_now) !=
+                    should_be_implemented)
+                {
+                    fail("chi/metric complete row scope guard",
+                         Operator::variable_name(variable));
+                }
+            }
+            else if (piece == Piece::complete_frozen_gauge_interior_assembly)
+            {
+                if (status != Status::implemented_now)
+                {
+                    fail("full interior assembly scope guard",
+                         Operator::variable_name(variable));
+                }
+            }
             else if (piece == Piece::k_a_trace_trace_free_terms)
             {
                 const bool completed_here =
+                    Operator::is_metric_variable(variable) ||
                     variable == Variable::K || Operator::is_a_variable(variable);
                 if (completed_here && status != Status::implemented_now)
                 {
@@ -965,7 +1001,8 @@ void check_rhs_inventory()
                  "A algebraic "
                  "non-curvature, Theta algebraic non-Ricci, Theta minus-K, "
                  "Theta Ricci scalar insertion, and A Ricci curvature "
-                 "insertion, and encoded-Z K/Theta/A insertion blocks are "
+                 "insertion, encoded-Z K/Theta/A insertion, complete "
+                 "chi/metric rows, and full interior composition are "
                  "implemented_now\n";
 }
 
@@ -1069,6 +1106,25 @@ void check_operator_completion_guard()
                      Operator::variable_rhs_complete(Variable::A_xz) &&
                      Operator::variable_rhs_complete(Variable::A_zz) &&
                      Operator::variable_rhs_complete(Variable::A_ww));
+    require_true("chi/metric term-family inventory is closed",
+                 Operator::chi_metric_surviving_term_family_inventory_closed);
+    require_true("chi/metric final rows are assembled",
+                 Operator::chi_metric_final_row_assembly_implemented);
+    require_true("chi/metric combined validation is implemented",
+                 Operator::chi_metric_assembled_row_validation_implemented);
+    require_true("chi RHS is complete",
+                 Operator::variable_rhs_complete(Variable::chi));
+    require_true("all conformal-metric RHS rows are complete",
+                 Operator::variable_rhs_complete(Variable::h_xx) &&
+                     Operator::variable_rhs_complete(Variable::h_xz) &&
+                     Operator::variable_rhs_complete(Variable::h_zz) &&
+                     Operator::variable_rhs_complete(Variable::h_ww));
+    require_true("complete 13-variable interior assembly is implemented",
+                 contract.complete_interior_operator_implemented());
+    require_true("full interior nonlinear JVP is validated",
+                 contract.full_interior_jvp_validated());
+    require_true("full interior parity sectors are validated",
+                 contract.full_interior_parity_validated());
     require_true("trace-free delta A projector contract is implemented",
                  Operator::trace_free_delta_a_projector_contract_implemented);
     require_true("boundary derivative validation remains missing",
@@ -1086,7 +1142,7 @@ void check_operator_completion_guard()
     require_true("eigensolver is not allowed by this contract",
                  !contract.eigensolver_allowed());
     require_true("next validation hooks are explicit",
-                 Operator::next_validation_hooks.size() == 7);
+                 Operator::next_validation_hooks.size() == 3);
 }
 
 } // namespace

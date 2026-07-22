@@ -1466,13 +1466,13 @@ void check_trace_free_parity_scope_and_flags()
                                 Variable::h_xz, Variable::h_zz,
                                 Variable::h_ww})
     {
-        require_true(std::string("row remains incomplete ") +
+        require_true(std::string("later chi/metric row is complete ") +
                          Operator::variable_name(variable),
-                     !Operator::variable_rhs_complete(variable));
+                     Operator::variable_rhs_complete(variable));
     }
     const auto contract =
         Operator::make_default_frozen_gauge_operator_contract();
-    require_true("complete 13-variable operator remains false",
+    require_true("boundary-bearing complete operator remains false",
                  !contract.complete_operator_implemented());
     require_true("full-operator eigensolver gate remains false",
                  !contract.eigensolver_allowed());

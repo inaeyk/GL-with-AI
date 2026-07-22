@@ -1588,3 +1588,39 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   suite. `git diff --check` passes; protected production paths and smoke
   parameters are clean; the staged diff is empty. No staging or commit was
   performed.
+
+- Date: 2026-07-22
+- Goal: Complete the remaining Stage 4AO-C frozen-gauge chi/metric rows and
+  assemble and validate the full 13-variable interior operator.
+- Initial state: clean committed complete-K/Theta/A checkpoint `b0ef512`;
+  CodeGraph used first.
+- Chi/metric rows: assembled common advection, existing tensor shift
+  stretching, and existing algebraic coupling exactly once. The final rows
+  are `chi=Adv+deltaK/2` and
+  `hxx/hxz/hzz/hww=Adv+(-7,-5,-3,+5)lambda delta h/4-2delta A`.
+  `K_GP=div beta_GP` removes the possible delta-chi coefficient, and the
+  representative ww output is written once.
+- Oracles: added an independent analytic-jet nonlinear chi/metric evaluator
+  and a full selected-branch evaluator for all 13 rows. The latter constructs
+  a four-dimensional modified-cartoon metric, physical Ricci, encoded Z and
+  its covariant derivatives, algebraic/damping families, GP advection,
+  shift stretching, and Gamma shift-Hessian terms without calling production
+  partial/full rows or encoding final linear coefficients.
+- Evidence: all 13 GP residuals are zero or below `5.42e-20`. Two mixed
+  directions cover `1e-2` through `1e-7`; nonlinear rows show approximately
+  100-fold error reduction through `1e-4` followed by roundoff saturation,
+  while the straight-path chi/metric equations are exact-linear at roundoff.
+  Pure/mixed, family/owner omission and duplication, common-advection,
+  hidden/representative-ww, output ownership, determinant and metric/A
+  tangent, and parity mutations pass. The explicit parity blocks have zero
+  forbidden leakage and zero reflection commutator.
+- Gates: all 13 variable RHS-completion flags and only the full frozen-gauge
+  interior assembly/JVP/parity flags are true. The boundary-bearing complete
+  operator, radial-boundary acceptance, MOTS, eigensolver/shift-invert,
+  threshold results, 4AO-D, and production wiring remain false.
+- Validation: all 29 `Stage4AOC*.cpp` fixtures compile under
+  `-Wall -Wextra -Wpedantic -Werror` without warnings and pass. The focused
+  chi/metric and full-interior tests, operator contract, and every affected
+  prior family/helper fixture are included. `git diff --check`, protected
+  paths, smoke parameters, and the empty staged diff pass; nothing was staged
+  or committed.

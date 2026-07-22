@@ -394,16 +394,11 @@ void check_completion_guards()
 
     for (const auto variable : Operator::frozen_gauge_state_vector)
     {
-        const bool complete = variable == Variable::K ||
-                              variable == Variable::Theta ||
-                              Operator::is_a_variable(variable) ||
-                              variable == Variable::hat_Gamma_x ||
-                              variable == Variable::hat_Gamma_z;
         require_true(std::string(Operator::variable_name(variable)) +
-                         " exact completion scope",
-                     Operator::variable_rhs_complete(variable) == complete);
+                         " later complete-row scope",
+                     Operator::variable_rhs_complete(variable));
     }
-    require_true("complete operator remains false",
+    require_true("boundary-bearing complete operator remains false",
                  !Operator::complete_frozen_gauge_operator_implemented);
     require_true("eigensolver remains false",
                  !Operator::eigensolver_implemented);

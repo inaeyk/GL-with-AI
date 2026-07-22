@@ -18,9 +18,10 @@ namespace Stage4AOFrozenGaugeOperator
 {
 // Stage 4AO-C validation-only contract for the future frozen-gauge GL
 // operator. This file defines the state vector, gauge exclusions, RHS block
-// inventory, and radial boundary contract. It deliberately does not implement
-// the coupled operator, an eigensolver, shift-invert, threshold search,
-// production RHS wiring, or live evolution.
+// inventory, and radial boundary contract. It now implements the complete
+// coupled interior linearized operator for validation, but deliberately does
+// not implement radial boundary operators, an eigensolver, shift-invert,
+// threshold search, production RHS wiring, or live evolution.
 static constexpr bool validation_only = true;
 static constexpr bool gp_shift_advection_block_implemented = true;
 static constexpr bool tensor_shift_stretching_block_implemented = true;
@@ -72,8 +73,20 @@ static constexpr bool k_theta_a_assembled_row_validation_implemented = true;
 static constexpr bool k_equation_rhs_block_implemented = true;
 static constexpr bool theta_equation_rhs_block_implemented = true;
 static constexpr bool a_equation_rhs_block_implemented = true;
+static constexpr bool chi_metric_surviving_term_family_inventory_closed = true;
+static constexpr bool chi_metric_final_row_assembly_implemented = true;
+static constexpr bool chi_metric_assembled_row_validation_implemented = true;
+static constexpr bool chi_equation_rhs_block_implemented = true;
+static constexpr bool metric_equation_rhs_block_implemented = true;
+static constexpr bool complete_frozen_gauge_interior_assembly_implemented =
+    true;
+static constexpr bool full_interior_jvp_validation_implemented = true;
+static constexpr bool full_interior_parity_validation_implemented = true;
 static constexpr bool trace_free_delta_a_projector_contract_implemented = true;
 static constexpr bool boundary_derivative_validation_implemented = false;
+// The boundary-bearing operator gate remains closed until the radial
+// boundary and convergence contract is validated. Interior completion alone
+// must not open eigensolver access.
 static constexpr bool complete_frozen_gauge_operator_implemented = false;
 static constexpr bool eigensolver_implemented = false;
 static constexpr bool shift_invert_implemented = false;
@@ -135,6 +148,8 @@ enum class RhsPiece
     a_equation_ricci_curvature_insertion,
     encoded_z_ricci_completion_insertion,
     k_theta_a_complete_row_assembly,
+    chi_metric_complete_row_assembly,
+    complete_frozen_gauge_interior_assembly,
     radial_derivatives,
     z_derivatives,
     hidden_sphere_terms,
@@ -205,7 +220,7 @@ inline constexpr std::array<const char *, 4> implemented_wrapper_pieces = {
     "RHS block inventory with implemented/reusable/missing labels",
     "radial-domain and boundary-condition contract"};
 
-inline constexpr std::array<const char *, 22> implemented_operator_pieces = {
+inline constexpr std::array<const char *, 24> implemented_operator_pieces = {
     "matrix-free GP-shift advection block beta_GP^x d_x(delta u)",
     "GP-shift tensor stretching for h_IJ and A_IJ",
     "algebraic h_IJ <- -2 A_IJ and chi <- +K/2 couplings",
@@ -227,14 +242,12 @@ inline constexpr std::array<const char *, 22> implemented_operator_pieces = {
     "K/Theta/A_IJ encoded-Z Ricci completion insertions",
     "analytic hidden-aware encoded-Z derivative adapter",
     "complete frozen-gauge K/Theta/A_IJ row assembly and validation",
+    "complete frozen-gauge chi/conformal-metric row assembly and validation",
+    "complete 13-variable frozen-gauge interior assembly/JVP/parity validation",
     "trace-free delta A subspace and projector contract",
     "validation-only radial and periodic-z derivative scaffolding"};
 
-inline constexpr std::array<const char *, 7> next_validation_hooks = {
-    "finite-difference JVP of the actual frozen-gauge operator",
-    "independent block-derived JVP for the same operator",
-    "epsilon plateau for the actual operator or matrix assembly",
-    "actual-operator parity leakage test",
+inline constexpr std::array<const char *, 3> next_validation_hooks = {
     "radial-resolution convergence",
     "boundary-location convergence",
     "linearized MOTS map from delta U to delta R_H"};
@@ -430,6 +443,26 @@ inline bool receives_k_theta_a_complete_row_assembly(
            variable == PerturbationVariable::Theta || is_a_variable(variable);
 }
 
+inline bool receives_chi_metric_complete_row_assembly(
+    const PerturbationVariable variable)
+{
+    return variable == PerturbationVariable::chi ||
+           is_metric_variable(variable);
+}
+
+inline bool receives_complete_frozen_gauge_interior_assembly(
+    const PerturbationVariable variable)
+{
+    for (const auto candidate : frozen_gauge_state_vector)
+    {
+        if (candidate == variable)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 inline bool uses_ricci_or_curvature(const PerturbationVariable variable)
 {
     return variable == PerturbationVariable::K ||
@@ -535,12 +568,23 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
                    ? PieceStatus::implemented_now
                    : PieceStatus::not_applicable;
 
+    case RhsPiece::chi_metric_complete_row_assembly:
+        return receives_chi_metric_complete_row_assembly(variable)
+                   ? PieceStatus::implemented_now
+                   : PieceStatus::not_applicable;
+
+    case RhsPiece::complete_frozen_gauge_interior_assembly:
+        return receives_complete_frozen_gauge_interior_assembly(variable)
+                   ? PieceStatus::implemented_now
+                   : PieceStatus::not_applicable;
+
     case RhsPiece::radial_derivatives:
     case RhsPiece::z_derivatives:
         return PieceStatus::reusable_helper;
 
     case RhsPiece::hidden_sphere_terms:
-        if (receives_k_theta_a_complete_row_assembly(variable) ||
+        if (receives_chi_metric_complete_row_assembly(variable) ||
+            receives_k_theta_a_complete_row_assembly(variable) ||
             receives_hat_gamma_complete_row_assembly(variable))
         {
             return PieceStatus::implemented_now;
@@ -558,7 +602,8 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
                    : PieceStatus::not_applicable;
 
     case RhsPiece::k_a_trace_trace_free_terms:
-        if (variable == PerturbationVariable::K || is_a_variable(variable))
+        if (is_metric_variable(variable) ||
+            variable == PerturbationVariable::K || is_a_variable(variable))
         {
             return PieceStatus::implemented_now;
         }
@@ -589,7 +634,13 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
 
 inline bool variable_rhs_complete(const PerturbationVariable variable)
 {
-    return (k_theta_a_assembled_row_validation_implemented &&
+    return (chi_metric_assembled_row_validation_implemented &&
+            chi_equation_rhs_block_implemented &&
+            variable == PerturbationVariable::chi) ||
+           (chi_metric_assembled_row_validation_implemented &&
+            metric_equation_rhs_block_implemented &&
+            is_metric_variable(variable)) ||
+           (k_theta_a_assembled_row_validation_implemented &&
             k_equation_rhs_block_implemented &&
             variable == PerturbationVariable::K) ||
            (k_theta_a_assembled_row_validation_implemented &&
@@ -1689,6 +1740,39 @@ apply_a_equation_encoded_z_ricci_insertion_at_point(
     return make_frozen_gauge_perturbation_vector(values);
 }
 
+inline FrozenGaugePerturbationVector
+apply_complete_chi_metric_rows_at_point(
+    const double r0, const double x,
+    const FrozenGaugePerturbationVector &input,
+    const FrozenGaugePerturbationVector &common_advection_output)
+{
+    const auto shift_stretching =
+        apply_tensor_shift_stretching_at_point(r0, x, input);
+    const auto algebraic =
+        apply_algebraic_metric_chi_coupling_at_point(input);
+
+    std::array<double, frozen_gauge_state_vector.size()> values = {};
+    values[variable_index(PerturbationVariable::chi)] =
+        common_advection_output.value(PerturbationVariable::chi) +
+        algebraic.value(PerturbationVariable::chi);
+    for (const auto variable : {PerturbationVariable::h_xx,
+                                PerturbationVariable::h_xz,
+                                PerturbationVariable::h_zz,
+                                PerturbationVariable::h_ww})
+    {
+        values[variable_index(variable)] =
+            common_advection_output.value(variable) +
+            shift_stretching.value(variable) + algebraic.value(variable);
+    }
+
+    // Selected d=4 USE_CCZ4 equations. The locked GP identity
+    // K_GP=div(beta_GP) removes the potential delta-chi coefficient, leaving
+    // only +delta K/2 in the chi algebraic family. The representative h_ww
+    // row is one component equation; hidden multiplicity is already present
+    // in div(beta_GP) and is never applied to the output slot.
+    return make_frozen_gauge_perturbation_vector(values);
+}
+
 inline FrozenGaugePerturbationVector apply_complete_k_theta_a_rows_at_point(
     const double r0, const double x,
     const FrozenGaugePerturbationVector &input,
@@ -1759,6 +1843,55 @@ inline FrozenGaugePerturbationVector apply_complete_k_theta_a_rows_at_point(
     // curvature tensors arrive separately and already trace-free; neither is
     // recomputed or projected here. TraceARemoval remains a state-domain
     // enforcement operation and is not an additional RHS family.
+    return make_frozen_gauge_perturbation_vector(values);
+}
+
+inline FrozenGaugePerturbationVector
+apply_complete_frozen_gauge_interior_operator_at_point(
+    const double r0, const FrozenGaugePerturbationVector &input,
+    const FrozenGaugePerturbationVector &common_advection_output,
+    const Stage4AOFrozenGaugeRicciAssembly::TraceFreeRicciAssembly
+        &geometric_ricci,
+    const Stage4AOFrozenGaugeZRicciCompletion::CompletionTensor
+        &encoded_z_completion,
+    const Stage4AOFrozenGaugeContractedConnection::PerturbationJet
+        &connection_input,
+    const double dx_delta_k, const double dz_delta_k,
+    const double dx_delta_theta, const double dz_delta_theta,
+    const double dx_delta_chi, const double dz_delta_chi)
+{
+    const double x = connection_input.x();
+    const auto chi_metric = apply_complete_chi_metric_rows_at_point(
+        r0, x, input, common_advection_output);
+    const auto k_theta_a = apply_complete_k_theta_a_rows_at_point(
+        r0, x, input, common_advection_output, geometric_ricci,
+        encoded_z_completion);
+    const auto hat_gamma = apply_complete_hat_gamma_rows_at_point(
+        r0, input, common_advection_output, connection_input, dx_delta_k,
+        dz_delta_k, dx_delta_theta, dz_delta_theta, dx_delta_chi,
+        dz_delta_chi);
+
+    std::array<double, frozen_gauge_state_vector.size()> values = {};
+    for (const auto variable : frozen_gauge_state_vector)
+    {
+        if (receives_chi_metric_complete_row_assembly(variable))
+        {
+            values[variable_index(variable)] = chi_metric.value(variable);
+        }
+        else if (receives_k_theta_a_complete_row_assembly(variable))
+        {
+            values[variable_index(variable)] = k_theta_a.value(variable);
+        }
+        else
+        {
+            values[variable_index(variable)] = hat_gamma.value(variable);
+        }
+    }
+
+    // The full interior assembler is only a slot-preserving composition of
+    // the three independently validated complete-row owners. In particular,
+    // their common advection dependency is computed elsewhere and supplied
+    // once; it is never reimplemented here.
     return make_frozen_gauge_perturbation_vector(values);
 }
 
@@ -2114,6 +2247,21 @@ class FrozenGaugeOperatorContract
     bool complete_operator_implemented() const
     {
         return complete_frozen_gauge_operator_implemented;
+    }
+
+    bool complete_interior_operator_implemented() const
+    {
+        return complete_frozen_gauge_interior_assembly_implemented;
+    }
+
+    bool full_interior_jvp_validated() const
+    {
+        return full_interior_jvp_validation_implemented;
+    }
+
+    bool full_interior_parity_validated() const
+    {
+        return full_interior_parity_validation_implemented;
     }
 
     bool eigensolver_allowed() const

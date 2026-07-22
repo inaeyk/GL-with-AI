@@ -1,7 +1,11 @@
 # Stage 3J Unit-Test Fixture Design
 
-Status: design only. No C++ tests, source terms, finite-difference
-implementation, or production tolerances are introduced here.
+Status: this document began as the Stage 3J fixture design and now also records
+implemented Stage 4AO-C C++ fixtures. Those fixtures include complete
+13-variable frozen-gauge interior assembly, independent analytic nonlinear JVP
+validation, and full-interior parity/block-diagonal validation. Radial-boundary,
+MOTS, and spectral/eigensolver fixtures remain pending; no production RHS
+wiring or production tolerance policy is introduced here.
 
 Stage 3J defines the fixture layer that should exist before project-specific
 modified-cartoon CCZ4 source terms are implemented. The purpose is to keep the
@@ -740,23 +744,23 @@ operator fixtures:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeThetaRicciScalarBlockTest.cpp`.
 - A-equation trace-free Ricci curvature insertion fixture:
   `code/BlackStringToy/tests/Stage4AOCFrozenGaugeARicciCurvatureBlockTest.cpp`.
+- Complete chi/conformal-metric row fixture:
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeCompleteChiMetricRowsTest.cpp`.
+- Complete 13-variable interior assembly/JVP/parity fixture:
+  `code/BlackStringToy/tests/Stage4AOCFrozenGaugeFullInteriorOperatorTest.cpp`.
 
 The contract fixture checks the 13-variable frozen-gauge perturbation vector,
 the exclusion of `delta alpha`, `delta beta^i`, and `delta B^i`, the
 per-variable RHS inventory labels, and the radial-domain contract
-`0<x_in<r0<x_out` with compact `z`. It also asserts that only GP-shift
-advection, tensor shift-stretching, the algebraic metric/chi coupling, and
-the selected-CCZ4 K-equation `K(K-2Theta)` and physical-`delta R` blocks, the
-simple K/Theta damping insertion, the A-equation non-curvature
-algebraic block, the Theta-equation non-Ricci algebraic block, and the
-Theta-equation `-K_GP deltaTheta`, Theta Ricci, A Ricci, the five partial
-hatted-Gamma families, and the complete Gamma row assembler have
-`implemented_now` coverage. Exactly the two hatted-Gamma variables have
-complete wrapper rows; every other variable remains incomplete,
-boundary tests are not implemented, eigensolver and shift-invert support are
-absent, and production RHS wiring is absent. It also checks the separate
-trace-free `delta A` projector contract flag. It is a guard against stale
-status confusion, not the GL spectral gate.
+`0<x_in<r0<x_out` with compact `z`. It now asserts that every variable has a
+complete interior RHS row, all 13 variable-completion flags are true, and the
+full interior assembly/JVP/parity flags are true. The independent full fixture
+checks the analytic nonlinear JVP and explicit parity blocks. Radial-boundary
+tests are not implemented, so the boundary-bearing complete-operator gate,
+MOTS, eigensolver/shift-invert, threshold work, and production RHS wiring
+remain absent. It also checks the separate trace-free `delta A` projector
+contract flag. It is a guard against stale status confusion, not the completed
+GL spectral gate.
 
 The hidden physical `delta R_ww[gamma]` fixture is the first Ricci
 implementation substep. It checks only the raw lower/lower hidden component on
@@ -926,14 +930,13 @@ metric/chi and pure `delta h_xz` jets to enter only through the Ricci scalar,
 and a combined perturbation to agree with the nonlinear CCZ4 finite
 difference. A separately central-differenced nonlinear BSSN expression is a
 negative oracle, and every case must distinguish the selected branch from it.
-Z/hat-Gamma-dependent Ricci terms and other non-Gamma K/A/Theta and coupled
-CCZ4/Z4 rows remain missing. The complete frozen-gauge hatted-Gamma x/z rows
-are implemented and independently validated, and both Gamma variable
-RHS-completion flags are true. Full 13-variable assembly/JVP/parity,
-boundaries, MOTS, and the spectral gate remain incomplete; neither the
-complete operator nor the eigensolver is ready. The simple K/Theta damping
-insertion is tested separately. Frozen-gauge lapse-Hessian variation vanishes;
-locked `Lambda=0` leaves no cosmological term.
+At that narrow K-block checkpoint, Z-dependent and other coupled rows were
+missing. The later K/Theta/A, chi/metric, Gamma, and full-interior fixtures now
+close all 13 interior rows and JVP/parity. Boundaries, MOTS, and the spectral
+gate remain incomplete; neither the boundary-bearing complete operator nor
+the eigensolver is ready. The simple K/Theta damping insertion remains tested
+separately. Frozen-gauge lapse-Hessian variation vanishes; locked `Lambda=0`
+leaves no cosmological term.
 
 The CCZ4 damping fixture independently derives the coefficients from
 `kappa1=0.1`, `kappa2=0`, and `d=4`:
@@ -1334,11 +1337,10 @@ insertion would fail. The later combined fixture now validates all four
 complete frozen-gauge A rows successfully.
 
 The complete frozen-gauge K, Theta, and four A rows and their combined
-analytic-jet validation now pass. No actual spectral fixture is added yet
-because chi and all four metric rows remain incomplete, so complete
-13-variable assembly, full-operator JVP/parity, radial boundaries, MOTS,
-eigensolver work, and 4AO-D are still unavailable. A toy or calibrated
-spectral operator would not be an honest GL gate.
+analytic-jet validation pass. The later chi/metric and full-interior fixtures
+also pass, so all 13 interior rows and JVP/parity are available. Radial
+boundaries, MOTS, eigensolver work, and 4AO-D remain unavailable. A toy or
+calibrated spectral operator would not be an honest GL gate.
 
 These are not substitutes for unit tests. They catch coupled failures that
 small algebra tests cannot catch, and several require the future implementation
@@ -1487,5 +1489,60 @@ nonlinear perturbation epsilon.
 This oracle validates the chosen geometric-Ricci-plus-Z split path. The
 source-level convention map, rather than a second direct Gamma-form Ricci
 implementation in the fixture, identifies that path with selected CCZ4.
-This closes only K, Theta, and the four A rows. Chi, metric rows, complete
-operator JVP/parity, boundaries, MOTS, and eigensolver work remain separate.
+This fixture closes only K, Theta, and the four A rows. The subsequent
+chi/metric and full-interior fixtures close the other five variable rows and
+the 13-variable interior JVP/parity gates. Boundaries, MOTS, and eigensolver
+work remain separate.
+
+## Stage 4AO-C Complete Chi/Metric Row Fixture
+
+`Stage4AOCFrozenGaugeCompleteChiMetricRowsTest.cpp` independently evaluates
+the selected nonlinear chi and conformal-metric equations from analytic field
+jets. It checks the final rows
+
+```text
+chi: Adv + delta K/2,
+hxx: Adv - 7 lambda delta hxx/4 - 2 delta Axx,
+hxz: Adv - 5 lambda delta hxz/4 - 2 delta Axz,
+hzz: Adv - 3 lambda delta hzz/4 - 2 delta Azz,
+hww: Adv + 5 lambda delta hww/4 - 2 delta Aww.
+```
+
+The fixture proves the locked `K_GP-div beta_GP` cancellation leaves no
+additional `delta chi` coefficient, keeps the representative ww row
+single-copy, and enforces determinant/tangent consistency. Background,
+pure-family, two mixed, epsilon, parity, ownership, omission/duplication, and
+illegal-output cases pass without calling production partial-row functions.
+
+## Stage 4AO-C Full 13-Variable Interior Fixture
+
+`Stage4AOCFrozenGaugeFullInteriorOperatorTest.cpp` compares the slot-preserving
+composition of the chi/metric, K/Theta/A, and hatted-Gamma complete-row owners
+against a test-only nonlinear selected-branch evaluator. The evaluator uses
+exact analytic value/first/second jets, a full four-dimensional
+modified-cartoon lift, nonlinear physical Ricci and encoded Z covariant
+derivatives, selected algebraic/damping terms, GP advection, shift stretching,
+and hatted-Gamma shift Hessians. It does not call production partial/full rows
+or encode their final linear coefficients.
+
+All 13 background residuals are zero or at roundoff. Two mixed directions
+activate every row and major family and cover `epsilon=1e-2` through `1e-7`.
+The nonlinear K/Theta/A/Gamma rows show second-order central-difference
+convergence through `1e-4` followed by roundoff saturation. The chi/metric
+rows are exactly linear along the straight perturbation path and therefore
+remain at roundoff throughout rather than acquiring an artificial slope.
+
+The fixture rejects omission/duplication of every complete-row owner,
+missing/duplicated common advection, wrong hidden multiplicity, duplicated
+representative hww/Aww, and output-slot leakage. It checks the weighted
+metric/A tangent identities and explicitly verifies the two parity blocks
+
+```text
+P+ = {chi,hxx,hzz,hww,K,Axx,Azz,Aww,Theta,hat_Gamma^x},
+P- = {hxz,Axz,hat_Gamma^z},
+```
+
+with a zero reflection commutator and zero forbidden-sector leakage. These
+fixtures open all 13 variable RHS-completion flags and the full-interior
+assembly/JVP/parity flags only. The boundary-bearing complete operator,
+radial-boundary acceptance, MOTS, eigensolver, and 4AO-D remain incomplete.
