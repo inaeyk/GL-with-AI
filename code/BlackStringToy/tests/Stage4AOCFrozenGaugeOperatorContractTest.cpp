@@ -188,6 +188,10 @@ void check_domain_and_boundary_contract()
                  Operator::inner_endpoint_derivative_helper_implemented);
     require_true("inner pure-outflow validation is implemented",
                  Operator::inner_pure_outflow_validation_implemented);
+    require_true("outer transformed-amplitude helper is implemented",
+                 Operator::outer_transformed_amplitude_helper_implemented);
+    require_true("outer rank-nine projector helper is implemented",
+                 Operator::outer_rank_nine_projector_helper_implemented);
     require_true("outer boundary implementation remains false",
                  !Operator::outer_boundary_implementation_implemented);
     require_true("outer boundary validation remains false",

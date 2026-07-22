@@ -1966,3 +1966,29 @@ Category: Boundary Physics + Projector/Matrix Design
 - This was documentation/design only. All outer implementation/validation,
   aggregate boundary, boundary-bearing operator, eigensolver, MOTS,
   threshold, production, Stage 4AO-D, and Checkpoint G gates remain closed.
+
+## 2026-07-22 - Stage 4AO-C Outer Transformed-Amplitude Projector Helper
+
+Category: Validation Boundary Basis + Analytic Asymptotic Oracle
+
+- Began from clean committed outer-asymptotic checkpoint `c69eaac` and used
+  CodeGraph before direct source inspection.
+- Implemented the finite-`k>0` boundary-local map from `(U,D_xU)` to the
+  physical/Z4 characteristic pairs and `J,F,G,C_h,C_A`, preserving the two
+  hidden trace copies and writing each representative `ww` amplitude once.
+- Implemented four decaying WKB columns with the locked physical/vector/scalar
+  damping rates, corrected powers, and scalar stationary recursion through
+  `x^-3/2`. The analytic residual decreases faster than the required
+  `O(x^-2)` contract over `x=10,20,40,80,160`.
+- The orthogonal complement has rank nine and nullity four. Its condition
+  diagnostic is `5.529886614793`; nonsingular basis mixing changes the
+  projector by `9.853229343548e-16`. Growing profiles and every separate
+  `J,F,G,C_h,C_A` direction reject, including independent Jordan-row guards.
+  The `k x_out={8,10,12}` condition sweep stays between `4.44` and `7.00`.
+- Both full parity sectors preserve rank/nullity with zero cross-sector
+  leakage and reflection commutator. WKB, hidden/ww, normalization, rank,
+  row-count, and componentwise-boundary mutations reject.
+- Only the two validation-helper flags opened. Actual outer endpoint rows,
+  aggregate boundary completion, the boundary-bearing operator, eigensolver,
+  MOTS, threshold, production wiring, Stage 4AO-D, and Checkpoint G remain
+  closed.

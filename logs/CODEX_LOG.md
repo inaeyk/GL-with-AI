@@ -1703,3 +1703,30 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   validation, aggregate radial-boundary completion, boundary-bearing
   complete operator, eigensolver/shift-invert, MOTS, threshold, production,
   4AO-D, and Checkpoint G gates remain false.
+
+- Date: 2026-07-22
+- Goal: Implement the Stage 4AO-C validation-only outer `k>0` transformed-
+  amplitude and decaying-subspace projector helper from clean checkpoint
+  `c69eaac`; CodeGraph used first.
+- Transformation: maps `Y=(U,D_xU)` to the locked four `W^{out/in}` pairs and
+  `J,F,G,C_h,C_A` through physical `delta gamma`, `d`, `p`, and reconstructed
+  lower `z`. Hidden multiplicity two occurs only in traces; representative
+  `ww` is read once. Zero/nonfinite `k` and invalid/nonfinite boundary inputs
+  reject.
+- WKB/projector: four columns use `gamma={0,0,0.1,0.5}`, corrected
+  `p^-=1+k r0/2+gamma^2 r0/(8k)`, and explicit recursion through
+  `x^-3/2`. Modified Gram-Schmidt builds the scale/mixing-invariant
+  orthogonal excluded projector. `F` and `G` remain independent, with no
+  tenth Jordan row.
+- Evidence: rank `9`, nullity `4`, condition estimate `5.529886614793`, and
+  basis-mixing projector difference `9.853229343548e-16`. The maximum
+  analytic residual decreases from `3.604577077373e-3` at `x=10` to
+  `7.816769473923e-7` at `x=160`, faster than `O(x^-2)`. Growing, Jordan,
+  charge/constraint, WKB, normalization, hidden/ww, rank, row-count, and
+  parity mutations reject; both parity sectors have zero leakage/commutator.
+  The `k x_out={8,10,12}` condition sweep remains between `4.44` and `7.00`.
+- Gates: only the transformed-amplitude and rank-nine-projector helper flags
+  are newly true. No endpoint PDE row or pencil row exists. Outer endpoint
+  implementation/validation, aggregate boundary, boundary-bearing operator,
+  eigensolver, MOTS, threshold, production, 4AO-D, and Checkpoint G remain
+  false.

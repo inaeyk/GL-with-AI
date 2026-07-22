@@ -4,9 +4,10 @@ Status: this document began as the Stage 3J fixture design and now also records
 implemented Stage 4AO-C C++ fixtures. Those fixtures include complete
 13-variable frozen-gauge interior assembly, independent analytic nonlinear JVP
 validation, and full-interior parity/block-diagonal validation. The inner
-pure-outflow radial fixture also passes, and the outer `k>0` rank-nine
-asymptotic fixture is now designed but not implemented. Outer/joint-boundary,
-MOTS, and spectral/eigensolver fixtures remain pending; no production RHS
+pure-outflow radial fixture and the outer `k>0` transformed-amplitude/WKB/
+rank-nine-projector fixture also pass. Actual outer endpoint rows, the joint
+boundary-bearing fixture, MOTS, and spectral/eigensolver fixtures remain
+pending; no production RHS
 wiring or production tolerance policy is introduced here.
 
 Stage 3J defines the fixture layer that should exist before project-specific
@@ -1613,10 +1614,10 @@ reflection commutator are zero, below `100 epsilon_machine`. Separately invoked
 determinant/weighted-trace cleanup reaches roundoff, is idempotent, and never
 changes the PDE-row or boundary-equation count.
 
-The later outer fixture will construct the boundary-local principal/asymptotic
-block transform independently from the production boundary helper. The exact
-stationary-symbol lock has four decaying light amplitudes and codimension nine
-in each full parity sector. The physical transverse trace/trace-free blocks
+The implemented outer fixture constructs the boundary-local
+principal/asymptotic block transform independently of endpoint PDE rows. The
+exact stationary-symbol lock has four decaying light amplitudes and codimension
+nine in each full parity sector. The physical transverse trace/trace-free blocks
 have `gamma=0`; the vector and scalar Z4 blocks have `gamma=0.1` and `0.5`.
 Their analytic profiles are
 
@@ -1624,16 +1625,25 @@ Their analytic profiles are
 exp(-kx-gamma sqrt(r0*x)) x^[-1-k r0/2-gamma^2 r0/(8k)]
 ```
 
-times the independently generated series through `x^-3/2`. The fixture will
-accept all four decaying series, reject all four growing series, and reject
-nonzero `J,F,G,C_h,C_A`. The asymptotic residual must be `O(x^-2)` before
-radial discretization and the endpoint residual must converge at `p>=1.8`.
+times the independently generated series through `x^-3/2`. The fixture accepts
+all four decaying series, rejects all four growing series, and rejects nonzero
+`J,F,G,C_h,C_A`. Its continuum residual decreases faster than `O(x^-2)` from
+`3.604577077373e-3` at `x=10` to `7.816769473923e-7` at `x=160`.
+Endpoint-residual convergence remains pending until endpoint rows exist.
 Rank-matched homogeneous Dirichlet on the same nine transformed amplitudes is
 the systematic-error alternative; thirteen componentwise Dirichlet or Robin
 rows are invalid. The `k=0` diagnostic remains separate and excluded from GL-
 threshold acceptance.
 
-The assembled boundary fixture will assert rank exactly nine, replacement of
+The helper fixture already asserts rank exactly nine, nullity four, independent
+`F=0` and `G=0`, no tenth condition, hidden and representative-`ww` ownership,
+and projector invariance under nonsingular basis changes. Its raw-column
+condition estimate is `5.529886614793`; its projector change under the locked
+mixing/rescaling mutation is `9.853229343548e-16`. Both parity sectors have
+zero leakage and zero reflection commutator. The condition estimates over
+`k x_out={8,10,12}` are `4.441258097371`, `5.656796369041`, and
+`6.996308114122`. The later assembled boundary
+fixture will additionally assert replacement of
 exactly nine endpoint PDE rows, retention of the four outgoing light PDE
 rows, exactly one owner for every transformed endpoint row, no representative-
 ww duplication, hidden
@@ -1653,8 +1663,9 @@ requires Richardson relative uncertainty at most `10^-3`, the declared
 `k x_out={8,10,12}` with Robin/Dirichlet extrapolations agreeing within
 `10^-3` in `k_c r0`.
 
-Only the inner endpoint helper and inner pure-outflow validation flags are now
-true. Outer implementation/validation, aggregate radial-boundary completion,
+The inner endpoint/pure-outflow flags and the outer transformed-amplitude and
+rank-nine-projector helper flags are now true. Outer endpoint
+implementation/validation, aggregate radial-boundary completion,
 the boundary-bearing complete operator, and eigensolver permission remain
 false. For `k>0`, the Jordan chain is excluded by `F=G=0`, projector
 normalization is locked, and explicit rows in a sparse quadratic pencil are

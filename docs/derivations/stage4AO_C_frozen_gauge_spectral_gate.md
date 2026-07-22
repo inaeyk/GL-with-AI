@@ -8,14 +8,14 @@ explicit full-interior parity/block-diagonal validation.
 
 The radial-boundary continuum, discrete-ownership, and validation contract is
 designed. The inner no-data pure-outflow endpoint helper, full 13-row wrapper,
-and focused validation are implemented. The outer `k>0` rank-nine WKB/
-projector normalization is design-locked, but no outer boundary row is
-implemented. Therefore the boundary-bearing complete-operator gate remains
-false, and eigensolver,
+and focused validation are implemented. The outer `k>0` transformed-amplitude
+helper, four-column WKB basis, and rank-nine projector helper are also
+implemented and independently validated, but they replace no endpoint PDE row
+and create no boundary equation. Therefore the boundary-bearing complete
+operator gate remains false, and eigensolver,
 shift-invert, linearized MOTS, threshold, and production-wiring work remain
 closed. Stage 4AO-D and Checkpoint G also remain closed. The next Stage 4AO-C
-task is the narrow outer transformed-amplitude/projector helper and analytic-
-series/rank fixture, followed by the outer endpoint rows and the
+task is the actual rank-nine outer endpoint-row operator, followed by the
 joint radial-resolution and boundary-location convergence battery.
 
 ## Read-Only Reuse Inventory
@@ -2872,14 +2872,17 @@ The gates are deliberately distinct:
 5. eigensolver allowed: only the preceding boundary-bearing gate plus the
    later solver-specific contract may permit spectral extraction.
 
-The inner-only implementation now sets
+The inner implementation sets
 `inner_endpoint_derivative_helper_implemented=true` and
-`inner_pure_outflow_validation_implemented=true`. It does not set the legacy
-aggregate boundary-derivative flag, outer implementation/validation flags,
-radial-boundary-system completion, or any downstream gate. The next narrow
-implementation target is the independently derived `k>0` outer decaying-
-subspace/constraint-preserving block; it must not turn the leading Robin
-formula into thirteen blind componentwise conditions.
+`inner_pure_outflow_validation_implemented=true`. The validation-only outer
+basis work now also sets
+`outer_transformed_amplitude_helper_implemented=true` and
+`outer_rank_nine_projector_helper_implemented=true`. These helper flags do not
+set the legacy aggregate boundary-derivative flag, outer endpoint
+implementation/validation flags, radial-boundary-system completion, or any
+downstream gate. The next narrow implementation target is the actual `k>0`
+rank-nine endpoint residual application; it must consume the validated helper
+without turning it into thirteen blind componentwise conditions.
 
 ### Implemented inner-endpoint evidence
 
@@ -2953,14 +2956,98 @@ growth diagnostic modes need a growth-rate-dependent outer operator, and the
 later solver library/linearization used for the quadratic pencil. None may be
 resolved implicitly while implementing the static `k>0` rows.
 
+### Implemented outer transformed-amplitude/projector evidence
+
+`Stage4AOFrozenGaugeOuterProjector.hpp` is a validation-only boundary-basis
+helper. For finite `r0>0`, `x_out>r0`, and `k>0`, it maps `Y=(U,D_xU)` to the
+locked thirteen amplitudes by first forming
+
+```text
+delta gamma_IJ = delta h_IJ-delta_IJ delta chi,
+d_IJ = D_x delta gamma_IJ,
+p_IJ = delta A_IJ + delta_IJ delta K/4 + K_GP delta h_IJ/4
+       - delta chi(A_IJ^GP+delta_IJ K_GP/4),
+z_I = (hat_Gamma_I-g_I)/2,
+```
+
+then the four `out/in` pairs and `J,F,G,C_h,C_A` exactly as defined above.
+The hidden copies occur in `d_T`, `p_T`, `C_h`, and `C_A`; each representative
+`ww` input is read once. The canonical excluded residual normalization divides
+the dimensionful `J,F,G,C_A` amplitudes by finite `k` and leaves `C_h` and the
+four incoming light amplitudes unchanged. Both full Fourier sectors use the
+existing locked `D_z` phase convention. Zero `k`, nonfinite data, and invalid
+`r0/x_out` are rejected.
+
+For each block let `ell=-k`,
+`a=-gamma_b sqrt(r0)/2`, `b=-p_b^-`, and define the stationary-symbol
+recursion
+
+```text
+c = a(r0-3/(4 ell)),
+q = b^2+b-r0 a^2-2 r0 ell b-r0 ell,
+d = -q/(2 ell),
+e = -(2bc+c/2-2r0 ell c-2r0 ab-r0 a/2)/(2 ell),
+u1 = -2c,
+u2 = u1^2/2-d,
+u3 = u1 u2-u1^3/3-2e/3.
+```
+
+The four stored columns use
+
+```text
+Phi_b^- = exp(-kx-gamma_b sqrt(r0*x)) x^(-p_b^-)
+          (1+u1/sqrt(x)+u2/x+u3/x^(3/2)),
+p_b^- = 1+k r0/2+gamma_b^2 r0/(8k),
+gamma_b = {0,0,0.1,0.5}.
+```
+
+Thus the physical `T/TF` columns have no square-root exponential, while the
+`V/S` columns retain their distinct `0.1/0.5` corrections. The analytic master-
+equation residual (normalized by `Phi_b^-`) converges as follows; its decrease
+is faster than the required `O(x^-2)` contract:
+
+| `x` | maximum four-block residual | `x^2` times residual |
+|---:|---:|---:|
+| `10` | `3.604577077373e-3` | `3.604577077373e-1` |
+| `20` | `4.259595394185e-4` | `1.703838157674e-1` |
+| `40` | `5.151899190325e-5` | `8.243038704521e-2` |
+| `80` | `6.320249837044e-6` | `4.044959895708e-2` |
+| `160` | `7.816769473923e-7` | `2.001092985324e-2` |
+
+Modified Gram-Schmidt constructs the scale-independent orthogonal complement
+of the four columns. The focused fixture reports decaying rank `4`, nullity
+`4`, excluded rank `9`, and raw-column condition estimate
+`5.529886614793`. A fixed nonsingular mixing and rescaling changes the
+excluded projector by only `9.853229343548e-16`. Each individual and mixed
+decaying profile is annihilated; each analytic growing-light profile and each
+of `J,F,G,C_h,C_A` is rejected. `F` and `G` are distinct rows, deletion or
+duplication of either fails, and a tenth condition or thirteen componentwise
+rows is rejected.
+
+The declared outer sweep gives condition estimates `4.441258097371`,
+`5.656796369041`, and `6.996308114122` at `k x_out=8,10,12`, respectively,
+all far below `10^6`.
+
+Both `P+` and `P-` separately retain rank nine/nullity four and nonzero allowed
+data. Cross-sector leakage and the reflection commutator are exactly zero,
+below the measured `100 epsilon_machine` bound `1.059397690560e-13`.
+Mutations of `p=1`, `k r0/2`, either Z4 square-root exponent, the `0.1/0.5`
+assignment, the retained recursion, hidden multiplicity, representative `ww`
+normalization, basis scaling, rank, and row count are rejected. This evidence
+validates only the transformation and projector helpers: endpoint PDE rows,
+`B0 U_N+B1 D_xU_N`, and the quadratic pencil are still unimplemented.
+
 ## Actual-Operator Validation Hooks
 
 The complete 13-variable interior assembler has passed an independent
 analytic-jet nonlinear JVP, ownership mutations, tangent identities, and
 explicit parity-sector block-diagonalization. The inner endpoint is now
-implemented and independently validated. The remaining Stage 4AO-C hooks are:
+implemented and independently validated. The outer transformed-amplitude/WKB
+basis and rank-nine projector helpers are also independently validated. The
+remaining Stage 4AO-C hooks are:
 
-- rank-nine `k>0` outer-projector implementation and independent validation;
+- rank-nine `k>0` outer endpoint-row implementation and independent
+  validation;
 - joint boundary-bearing operator validation;
 - radial-resolution and boundary-location convergence under the acceptance
   criteria above;
@@ -3034,9 +3121,10 @@ The Stage 4AO-C radial-boundary preflight now locks the design contract above:
 pure outflow with no continuum data at `x_in`; second-order one-sided endpoint
 closure; a `k>0` asymptotic decaying-subspace/constraint-preserving Robin
 condition at `x_out`; homogeneous Dirichlet only as a boundary-systematic
-alternative; and independent radial/boundary-location convergence. None of
-those boundary operators or tests is implemented yet, so the boundary-bearing
-complete-operator and eigensolver gates remain closed.
+alternative; and independent radial/boundary-location convergence. The inner
+endpoint and outer basis/projector helpers are implemented, but no actual outer
+row exists and no joint boundary-bearing operator is assembled. The complete
+operator and eigensolver gates therefore remain closed.
 
 The growth observable is not `hat_Gamma^x`. The candidate physical mode must
 have a nonzero horizon-radius harmonic under the Stage 4AO-A observable:

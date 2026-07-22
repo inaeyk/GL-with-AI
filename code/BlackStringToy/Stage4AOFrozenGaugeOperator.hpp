@@ -86,6 +86,8 @@ static constexpr bool full_interior_parity_validation_implemented = true;
 static constexpr bool trace_free_delta_a_projector_contract_implemented = true;
 static constexpr bool inner_endpoint_derivative_helper_implemented = true;
 static constexpr bool inner_pure_outflow_validation_implemented = true;
+static constexpr bool outer_transformed_amplitude_helper_implemented = true;
+static constexpr bool outer_rank_nine_projector_helper_implemented = true;
 static constexpr bool outer_boundary_implementation_implemented = false;
 static constexpr bool outer_boundary_validation_implemented = false;
 static constexpr bool radial_boundary_system_complete = false;
@@ -2248,8 +2250,9 @@ inline std::array<BoundaryConditionContract, 5> boundary_contracts()
          "equation replaces any of the 13 rows",
          true},
         {BoundaryRegion::outer_boundary,
-         "outer boundary must use a documented asymptotic/radiative or "
-         "frozen-background condition and show x_out convergence",
+         "outer endpoint must consume the validated k>0 rank-nine "
+         "decaying-subspace projector; no endpoint row or x_out convergence "
+         "validation exists yet",
          false},
         {BoundaryRegion::physical_gl_sector,
          "physical GL sector uses compact-z periodicity and the locked "
