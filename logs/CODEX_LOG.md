@@ -1543,3 +1543,48 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Result: focused, helper, contract, affected K/Theta/A, and all 25 Stage
   4AO-C fixtures passed under `-Wall -Wextra -pedantic`. No complete row,
   boundary, MOTS, eigensolver, 4AO-D, staging, or commit action was added.
+
+- Date: 2026-07-22
+- Goal: Complete and independently validate the Stage 4AO-C frozen-gauge K,
+  Theta, and four A rows from the clean encoded-Z insertion checkpoint.
+- Adapter: analytically differentiated the unreduced hidden-aware `g_x/g_z`
+  formulas, including mixed second derivatives, two hidden copies, and every
+  `1/x^2` term, then formed `partial_a Z_i=(partial_a H_i-partial_a g_i)/2`.
+  The adapter is separately testable, assumes no determinant constraint, and
+  does not numerically differentiate production code.
+- Assembly: added each named family once: common advection; geometric Ricci;
+  encoded-Z Ricci; selected K/Theta/A algebraic terms; locked K/Theta damping;
+  and A shift stretching. Existing curvature projections are consumed without
+  re-projection; representative ww is written once; direct A damping is absent.
+- Oracle repair: supplies exact analytic value/first/second jets at each
+  nonlinear `U_GP +/- epsilon delta U` state, then lifts them to a
+  four-dimensional Cartesian metric and constructs physical Ricci,
+  `Z_over_chi`, lower Z, covariant Z derivatives, trace-free curvature, GP
+  advection, tensor shift stretching, and selected CCZ4 algebraic terms.
+  There is no internal spatial differencing and epsilon changes no unrelated
+  resolution. Analytic-jet GP residuals are zero except
+  `Theta=-6.78e-21`. Both mixed directions show approximately 100-fold error
+  reduction from `1e-2` to `1e-3` and from `1e-3` to `1e-4`, followed by
+  roundoff saturation through `1e-7`; no plateau is claimed.
+- Isolation/trace repair: a nonzero geometric-Ricci direction with
+  `H=g` and `partial H=partial g` has zero encoded Z and zero unrelated
+  families. The metric-inclusive tangent case has `T=3.47e-18`,
+  `partial_x T=0`, nonzero metric contribution `-1.354838562373e-1`, and
+  `T(delta rhs)=-2.78e-17`; metric rows remain incomplete.
+- Mutations: rejected omission and duplication of every family, encoded-Z
+  omission/double insertion, hidden multiplicity one, doubled representative
+  ww, parity leakage, and illegal writes. Adapter guards now independently
+  reject representative mixed/second-derivative omissions in every row,
+  both required inverse-square terms, and hidden multiplicity.
+- Claim boundary: the oracle validates the geometric-Ricci-plus-Z split path;
+  source mapping identifies it with selected CCZ4. It does not independently
+  implement the direct Gamma-form Ricci.
+- Gates: K, Theta, and all four A rows are complete. Chi and metric rows,
+  complete operator/JVP, boundaries, MOTS, eigensolver, and 4AO-D stay false.
+  All 27 `Stage4AOC*.cpp` fixtures compile under
+  `-Wall -Wextra -Wpedantic -Werror` with no warnings and pass. The focused
+  adapter and complete-row fixtures, helper/insertion fixtures, all relevant
+  family/projector/Ricci fixtures, and operator contract are included in that
+  suite. `git diff --check` passes; protected production paths and smoke
+  parameters are clean; the staged diff is empty. No staging or commit was
+  performed.

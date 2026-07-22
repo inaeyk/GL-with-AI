@@ -942,8 +942,8 @@ void check_parity_scope_and_flags()
                  Operator::variable_rhs_complete(Variable::hat_Gamma_x));
     require_true("hat_Gamma^z variable RHS is complete",
                  Operator::variable_rhs_complete(Variable::hat_Gamma_z));
-    require_true("K variable RHS remains incomplete",
-                 !Operator::variable_rhs_complete(Variable::K));
+    require_true("K variable RHS is complete through its separate assembler",
+                 Operator::variable_rhs_complete(Variable::K));
     require_true("complete 13-variable operator remains false",
                  !contract.complete_operator_implemented());
     require_true("eigensolver remains disallowed",

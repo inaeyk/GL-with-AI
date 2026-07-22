@@ -1801,3 +1801,48 @@ Category: Validation Operator + Tests + Documentation
 - Validation: the focused insertion fixture, encoded-Z helper, operator
   contract, and affected K/Theta/A fixtures passed. All 25
   `Stage4AOC*.cpp` tests compiled with `-Wall -Wextra -pedantic` and passed.
+
+## 2026-07-22 - Stage 4AO-C Complete Frozen-Gauge K/Theta/A Rows
+
+Category: Validation Operator + Independent Nonlinear Oracle + Documentation
+
+- Began from clean committed encoded-Z insertion checkpoint `e819381` and
+  used CodeGraph before direct source inspection or editing.
+- Added the analytic hidden-aware Z-derivative adapter. It retains all four
+  derivatives of the unreduced contracted connection, including the radial
+  `1/x^2` terms, hidden multiplicity two, mixed derivatives, and no conformal
+  determinant assumption. Production code is not numerically differentiated.
+- Added a one-time K/Theta/A assembler that consumes common advection,
+  geometric Ricci, encoded-Z completion, selected algebraic terms, locked
+  K/Theta damping, and A tensor shift stretching exactly once. It performs no
+  second trace-free projection, writes representative `A_ww` once, and adds no
+  direct A damping.
+- Repaired the test-only nonlinear selected-`USE_CCZ4` split-path oracle to
+  use exact analytic value/first/second jets at each nonlinear state before a
+  full four-dimensional Cartesian SO(3) lift. It independently constructs physical
+  Ricci, contracted conformal connection, lower Z and its covariant
+  derivatives, curvature projection, algebraic terms, GP advection, and shift
+  stretching without calling production partial-row functions or using
+  internal spatial differences. This validates geometric Ricci plus encoded Z;
+  source mapping identifies that split with selected CCZ4, but the fixture is
+  not a second direct Gamma-form Ricci implementation.
+- Analytic-jet GP residuals are zero except `Theta=-6.78e-21`. Both mixed
+  directions pass the six-epsilon sweep `1e-2` through `1e-7`: maximum errors
+  decrease by approximately 100 at each of the first two decades and then
+  saturate from roundoff. No epsilon plateau is claimed.
+- A genuinely isolated nonzero geometric-Ricci direction enforces
+  `H=g`, `partial H=partial g`; all encoded-Z and unrelated families vanish.
+  The full metric-inclusive tangent case enforces both `T=0` and
+  `partial_x T=0`, has a nonzero metric RHS contribution, and gives
+  `T(delta rhs)=-2.78e-17` without completing the metric rows. Curvature weighted traces,
+  parity, every-family omission/duplication, hidden multiplicity, encoded-Z
+  omission/doubling, representative-ww duplication, and illegal writes pass.
+- The adapter fixture independently guards representative mixed and second
+  derivatives in all four derivative rows, both inverse-square families, and
+  hidden multiplicity with active-term mutations.
+- K, Theta, and all four A completion/inventory/validation flags are true.
+  Chi and metric rows, the complete operator/JVP gate, boundaries, MOTS,
+  eigensolver, and 4AO-D remain false. All 27 Stage 4AO-C fixtures compile with
+  warnings promoted to errors and pass. `git diff --check`, protected paths,
+  smoke parameters, and the empty staged diff pass; no staging or commit was
+  performed.

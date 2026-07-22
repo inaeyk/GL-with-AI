@@ -1308,7 +1308,9 @@ The fixture confirms the positive sign, hidden `ww` multiplicity two,
 absence of `R_xz` in the scalar trace, no non-Theta output writes, and the
 same incomplete-operator/eigensolver guards. Negative guards show that wrong
 sign, missing `0.5`, dropped hidden multiplicity, spurious `R_xz`, touching
-non-Theta slots, or claiming a complete Theta RHS would fail.
+non-Theta slots, or mixing another family into this narrow insertion would
+fail. The later combined fixture now validates the complete frozen-gauge Theta
+row successfully.
 
 `code/BlackStringToy/tests/Stage4AOCFrozenGaugeARicciCurvatureBlockTest.cpp`
 checks the next narrow A-equation curvature insertion. It consumes the validated
@@ -1327,17 +1329,16 @@ The fixture confirms the GRChombo frozen-gauge simplification
 multiplicity on representative `A_ww`, and the trace-free source condition
 `A_xx + A_zz + 2 A_ww = 0`. Negative guards show that wrong sign, raw Ricci
 instead of trace-free Ricci, a `d=3` projection, double-counted hidden
-multiplicity, touching non-A slots, or claiming a complete A RHS would fail.
+multiplicity, touching non-A slots, or mixing another family into this narrow
+insertion would fail. The later combined fixture now validates all four
+complete frozen-gauge A rows successfully.
 
-No actual spectral fixture is added yet because the full modified-cartoon CCZ4
-frozen-gauge RHS linearization is still missing beyond GP-shift advection,
-tensor shift-stretching, the local algebraic metric/chi coupling, and the
-selected-CCZ4 K-output `K(K-2Theta)` and physical-`delta R` blocks, plus the A-output non-curvature algebraic
-block, the simple K/Theta damping insertion, Theta-output algebraic non-Ricci block, Theta-output
-`-K_GP deltaTheta` block, trace-free `delta A` projector contract, raw Ricci
-component blocks, raw trace/free assembly, and the Theta Ricci scalar
-insertion, plus the A-output trace-free Ricci curvature insertion. A toy or
-calibrated spectral operator would not be an honest GL gate.
+The complete frozen-gauge K, Theta, and four A rows and their combined
+analytic-jet validation now pass. No actual spectral fixture is added yet
+because chi and all four metric rows remain incomplete, so complete
+13-variable assembly, full-operator JVP/parity, radial boundaries, MOTS,
+eigensolver work, and 4AO-D are still unavailable. A toy or calibrated
+spectral operator would not be an honest GL gate.
 
 These are not substitutes for unit tests. They catch coupled failures that
 small algebra tests cannot catch, and several require the future implementation
@@ -1452,3 +1453,39 @@ Stage 3J is complete when:
   are clearly separated;
 - unresolved convention confirmations are tracked;
 - no implementation code has changed.
+
+## Stage 4AO-C Combined Non-Gamma Row Fixture
+
+The K, Theta, and four A rows now use a stronger validation fixture than the
+original Stage 3J block plan. A test-only nonlinear selected-`USE_CCZ4`
+evaluator supplies exact analytic values/first/second jets for each nonlinear
+state, lifts them to four Cartesian spatial dimensions, and independently
+constructs physical Ricci, contracted conformal connection,
+lower encoded Z, covariant Z derivatives, trace-free curvature, GP advection,
+tensor shift stretching, selected algebraic terms, and locked damping. It
+does not call production partial-row functions or encode final linear
+coefficients.
+
+Acceptance checks include near-roundoff analytic-jet GP background residuals,
+a genuinely isolated nonzero geometric-Ricci direction with `Z=partial Z=0`,
+pure and two mixed directions, and the six-point `1e-2` through `1e-7`
+epsilon sweep. The sweep must show the approximately 100-fold error reduction
+of a second-order central difference before roundoff saturation; closeness of
+two arbitrary epsilon points is not convergence evidence. The fixture also
+checks the full metric-inclusive tangent trace and its x derivative,
+four-dimensional weighted trace identities, parity, illegal-output guards,
+and omission/duplication mutations for every family.
+
+The adapter fixture maps executed guards as follows: each of `dx_g_x`,
+`dz_g_x`, `dx_g_z`, and `dz_g_z` has independent active-term omissions for a
+representative mixed and second derivative; `dx_g_x` separately guards
+`-2(h_xx-h_ww)/x^2`; `dx_g_z` separately guards `-2h_xz/x^2`; and hidden
+multiplicity has an independent coefficient mutation. The fixed-step
+finite-difference contraction oracle is supplemental and never varies with the
+nonlinear perturbation epsilon.
+
+This oracle validates the chosen geometric-Ricci-plus-Z split path. The
+source-level convention map, rather than a second direct Gamma-form Ricci
+implementation in the fixture, identifies that path with selected CCZ4.
+This closes only K, Theta, and the four A rows. Chi, metric rows, complete
+operator JVP/parity, boundaries, MOTS, and eigensolver work remain separate.

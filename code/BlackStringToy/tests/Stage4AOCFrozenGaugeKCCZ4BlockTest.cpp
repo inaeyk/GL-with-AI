@@ -467,8 +467,8 @@ void check_completion_guards()
     require_true("Lambda remains locked to zero",
                  Operator::cosmological_constant_locked_to_zero &&
                      !Operator::k_equation_cosmological_terms_implemented);
-    require_true("K RHS remains incomplete",
-                 !Operator::variable_rhs_complete(Variable::K));
+    require_true("K RHS is complete through the combined assembler",
+                 Operator::variable_rhs_complete(Variable::K));
     require_true("complete frozen-gauge operator remains false",
                  !contract.complete_operator_implemented());
     require_true("eigensolver remains disallowed",

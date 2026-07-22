@@ -278,8 +278,9 @@ void check_negative_guards()
 
     require_only_a_outputs(output, 0.0);
 
-    require_true("pretending complete A RHS would fail",
-                 !Operator::variable_rhs_complete(Variable::A_xx));
+    require_true("A RHS is complete only through the combined assembler",
+                 Operator::variable_rhs_complete(Variable::A_xx) &&
+                     Operator::k_theta_a_final_row_assembly_implemented);
     require_true("complete frozen-gauge operator remains false",
                  !Operator::complete_frozen_gauge_operator_implemented);
     require_true("eigensolver remains disallowed",

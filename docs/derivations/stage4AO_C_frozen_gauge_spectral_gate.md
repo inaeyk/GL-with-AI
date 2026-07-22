@@ -216,20 +216,21 @@ the current reuse map is:
 | `chi` RHS | Public `CCZ4RHS::rhs_equation` has the visible conformal-factor equation; Stage 4AO-A/4AO-B record the GP residual target. | Reuse with adapter only. Needs modified-cartoon shift divergence and hidden multiplicity in a repo-owned operator. |
 | visible `h_xx,h_xz,h_zz` RHS | Public `CCZ4RHS` has visible metric equations for `CH_SPACEDIM` components. | Reuse with adapter. Must freeze gauge perturbations and include the locked 4D trace convention. |
 | hidden `h_ww` RHS | Stage 4AO-A/B derive and test representative GP residual behavior. Live code only freezes/zeros smoke hidden slots. | Missing as an actual nonlinear RHS block. Must be built before full JVP. |
-| `K` RHS | Public `CCZ4RHS` has a visible CCZ4 `K` equation using Ricci scalar and lapse Hessian trace. Stage 4AO-C implements `output[K] += 3 lambda delta K - 3 lambda delta Theta`, `output[K] += delta R`, and the locked main-path damping insertion `output[K] += -0.4 deltaTheta`. | Partial. The selected `USE_CCZ4` `K(K-2Theta)` linearization, physical-`delta R`, and simple kappa damping insertion are implemented. Z/hat-Gamma-dependent Ricci contributions, remaining constraint terms, and the rest of the coupled operator remain missing. The hatted-Gamma rows are complete separately. Frozen-gauge lapse-Hessian variation vanishes; cosmological terms remain absent under the locked `Lambda=0` assumption. |
-| visible `A_xx,A_xz,A_zz` RHS | Stage 4AL implements local trace-free curvature/lapse source; public `CCZ4RHS` has visible nonlinear/advection terms. Stage 4AO-C now inserts `[delta R_IJ]^TF` for the visible A outputs from the validated Ricci assembly. | Partial. The A_IJ trace-free Ricci curvature insertion is implemented, but the full operator remains incomplete because remaining coupled Z4/constraint terms, full-operator JVP/parity, boundary validation, MOTS, eigensolver/convergence, and the `k_c r0` map are still missing. The hatted-Gamma rows are complete separately. |
-| hidden `A_ww` RHS | Stage 4AK implements `-D_wD_w alpha + alpha R_ww[gamma]`; Stage 4AL includes trace-free projection. Stage 4AO-C now inserts the representative `[delta R_ww]^TF` component with hidden multiplicity already accounted for in the trace assembly. | Partial. The A_ww trace-free Ricci curvature insertion is implemented, but the full operator remains incomplete because remaining coupled Z4/constraint terms, full-operator JVP/parity, boundary validation, MOTS, eigensolver/convergence, and the `k_c r0` map are still missing. The hatted-Gamma rows are complete separately. |
-| `Theta` RHS | Public `CCZ4RHS` has visible CCZ4 formula. Stage 4AO-A locks background residual. Stage 4AO-C inserts `output[Theta] += 0.5 delta R` and the locked main-path damping term `output[Theta] += -0.25 deltaTheta`. | Partial. The Ricci scalar and simple kappa damping insertions are implemented. Remaining CCZ4/Z4 constraint terms remain missing, along with full-operator JVP/parity, boundary validation, MOTS, eigensolver/convergence, and the `k_c r0` map. The hatted-Gamma rows are complete separately. |
+| `K` RHS | Public `CCZ4RHS` has a visible CCZ4 `K` equation using Ricci scalar and lapse Hessian trace. Stage 4AO-C implements `output[K] += 3 lambda delta K - 3 lambda delta Theta`, `output[K] += delta R`, and the locked main-path damping insertion `output[K] += -0.4 deltaTheta`. | Complete in the frozen-gauge validation wrapper and independently validated. The one-time assembler includes common advection, geometric Ricci, encoded-Z completion, selected algebraic terms, and locked damping exactly once. The K variable RHS-completion flag is true. Frozen-gauge lapse-Hessian variation vanishes and cosmological terms remain absent under locked `Lambda=0`. |
+| visible `A_xx,A_xz,A_zz` RHS | Stage 4AL implements local trace-free curvature/lapse source; public `CCZ4RHS` has visible nonlinear/advection terms. Stage 4AO-C now inserts `[delta R_IJ]^TF` for the visible A outputs from the validated Ricci assembly. | Complete in the frozen-gauge validation wrapper and independently validated. Each visible A assembler includes common advection, tensor shift stretching, geometric Ricci trace-free curvature, encoded-Z trace-free completion, and the non-curvature algebraic family exactly once, without a second projection. The three visible A variable RHS-completion flags are true. |
+| hidden `A_ww` RHS | Stage 4AK implements `-D_wD_w alpha + alpha R_ww[gamma]`; Stage 4AL includes trace-free projection. Stage 4AO-C now inserts the representative `[delta R_ww]^TF` component with hidden multiplicity already accounted for in the trace assembly. | Complete in the frozen-gauge validation wrapper and independently validated. The representative A_ww row consumes the same five families exactly once, writes the representative ww output once, and keeps hidden multiplicity only in trace contractions. Its variable RHS-completion flag is true. |
+| `Theta` RHS | Public `CCZ4RHS` has visible CCZ4 formula. Stage 4AO-A locks background residual. Stage 4AO-C inserts `output[Theta] += 0.5 delta R` and the locked main-path damping term `output[Theta] += -0.25 deltaTheta`. | Complete in the frozen-gauge validation wrapper and independently validated. The one-time assembler includes common advection, one half of geometric Ricci plus encoded-Z scalar completion, the selected non-Ricci algebraic contribution, `-K_GP deltaTheta`, and locked damping exactly once. The Theta variable RHS-completion flag is true. |
 | `hat_Gamma^x` value | Stage 4AN implements local nonlinear `tilde_Gamma^x + 2 Z_over_chi^x`; Stage 4AO-C now implements the frozen-GP linearized `g_x` and encoded-Z reconstruction helper. | Reusable helper for local contraction/JVP checks. Not a RHS. |
 | `hat_Gamma^x` RHS | Stage 4AM/4AO-A derive the hidden RHS cancellation on the GP background; Stage 4AO-B tests a representative `delta hww` contribution. Stage 4AO-C inserts `(3 lambda/4)g_x - 0.2 Z_x + (lambda/2)H_x`, the x K/Theta/chi-gradient row, `C_x=2 A_{GP}^{IJ} delta Gamma^x_{IJ}`, the vector-Hessian `-3 lambda delta h_xx/(4x)+3 lambda delta h_ww/x`, and the grad-div `+9 lambda delta h_xx/(8x)` without duplicating common advection. | Complete in the validation wrapper. A one-time assembler consumes common advection and each non-advection family exactly once; independent nonlinear finite differences validate background cancellation, epsilon plateau, parity, and ownership. |
 | `hat_Gamma^z` value/RHS | Public `CCZ4RHS` has the visible RHS formula; Stage 4AO-C implements the frozen-GP linearized full hidden-aware `g_z`, encoded-Z reconstruction, `(3 lambda/4)g_z - 0.2 Z_z`, the z K/Theta/chi-gradient row, `C_z=2 A_{GP}^{IJ} delta Gamma^z_{IJ}`, zero vector Hessian, and grad-div `+9 lambda delta h_xz/(8x)`. | Complete in the validation wrapper. There is deliberately no `+(lambda/2)H_z` and no z vector-Hessian term; assembled nonlinear-oracle, parity, mutation, and ownership checks pass. |
 | Physical `R_ww[gamma]` | Stage 4AH composes Stage 4AC and 4AE; Stage 4AF identity gate exists. | Reuse with adapter for hidden Ricci source terms. Local helper only, not grid/RHS operator. |
-| full physical Ricci scalar | Stage 4AI gives hidden scalar contribution `chi 2 h^ww R_ww`; Stage 4G/4I visible Ricci bridge exists; Stage 4AO-C assembles `delta R = delta R_xx + delta R_zz + 2 delta R_ww`. | Implemented for the locked-background physical linearized trace and inserted into the K and Theta rows; the trace-free projection is inserted into A. Z/hat-Gamma-dependent Ricci contributions and the complete modified-cartoon RHS remain missing. |
+| full physical Ricci scalar | Stage 4AI gives hidden scalar contribution `chi 2 h^ww R_ww`; Stage 4G/4I visible Ricci bridge exists; Stage 4AO-C assembles `delta R = delta R_xx + delta R_zz + 2 delta R_ww`. | Implemented for the locked-background physical linearized trace and inserted into K and Theta; its trace-free tensor is inserted into A. The separately owned encoded-Z completion is also inserted exactly once in all six rows. K, Theta, and all four A variable RHS-completion flags are true; chi, the four metric rows, and full-operator work remain incomplete. |
 
 Therefore a finite-difference JVP of the current live nonlinear RHS would test
 the inherited public visible CCZ4 path plus smoke-hidden behavior, not the
-frozen-gauge modified-cartoon GL operator. Stage 4AO-C must first build a
-validation-only operator wrapper for the complete state vector.
+frozen-gauge modified-cartoon GL operator. The validation wrapper now has
+complete K, Theta, A, and hatted-Gamma rows, but chi and all four metric rows
+must still be completed before full 13-variable assembly and JVP/parity work.
 
 ### Diagnostics
 
@@ -955,7 +956,7 @@ Required term classes:
   `delta R_IJ`; it must not project individual Ricci subpieces in a way that
   hides cancellation errors unless a test explicitly proves equivalence.
 
-### Independent Oracle Plan
+### Independent Oracle Validation
 
 The first implementation of any `delta R_IJ` block must be validated against
 an oracle that is independent enough to catch signs, hidden multiplicities,
@@ -2241,36 +2242,31 @@ back to `q_ww=2z_x/x`, and includes both angular copies only while forming
 the scalar trace. It checks every component, the four-dimensional projection,
 `qTF_xx+qTF_zz+2qTF_ww=0`, a zero Z jet, and even/one-z Fourier parity.
 
-The **nonlinear selected-branch finite-difference oracle is deliberately
-deferred until complete K/A/Theta row assembly**. At that point one test-only
-evaluator will reconstruct nonlinear `Z_over_chi`, set
-`Z^I=chi Z_over_chi^I` and `Z_I=h_IJ Z_over_chi^J`, form physical
-`Q_IJ=2D_(I Z_J)` with modified-cartoon hidden derivatives, add it to the
-nonlinear Stage 4G physical Ricci, and evaluate the exact K, Theta, and A
-source expressions. Central differences over
-`1e-2,1e-4,1e-5,1e-6,1e-7` must exhibit a stable `1e-5/1e-6` plateau.
-Deferring this oracle validates the upper/lower-Z and conformal-factor mapping
-once at the actual selected-row boundary rather than prematurely baking that
-mapping into this jet-level helper.
+The combined nonlinear selected-branch validation is complete. Its test-only
+evaluator supplies analytic field values, first derivatives, and second
+derivatives for each `U_GP +/- epsilon delta U` state and constructs nonlinear
+geometric Ricci and `D_I Z_J+D_J Z_I` directly from those jets. There is no
+internal spatial finite differencing, so varying perturbation epsilon changes
+no unrelated resolution. GP background residuals are zero or at roundoff.
 
-The eventual combined-row cases remain:
+Both mixed directions exercise every K, Theta, and A row over
+`epsilon=1e-2,1e-3,1e-4,1e-5,1e-6,1e-7`. The errors show second-order
+central-difference convergence through `1e-4`, followed by roundoff
+saturation. A genuinely isolated nonzero geometric-Ricci direction enforces
+`H_i=g_i` and `partial_a H_i=partial_a g_i`; every encoded-Z component and
+every unrelated algebraic, damping, advection, and shift-stretching family is
+zero in that case.
 
-- exact GP/background and `H_i=g_i` constraint-satisfying data, both giving
-  `z_i=q_IJ=0`;
-- pure `H_x`, pure `H_z`, pure metric/contracted-connection, mixed x/z, and
-  pure radial `z_x` data;
-- componentwise selected-branch background-zero checks for K, Theta, and every
-  A row, along with the epsilon plateau above.
-
-Mutation tests must reject:
-
-- omission or duplication of q, or adding complete `R^Z` on top of `r_IJ`;
-- `Z=0.5(g-H)`, wrong derivative signs, or a missing `q_xz` cross derivative;
-- hidden multiplicity one, `q_ww=z_x/x`, multiplying the representative
-  `A_ww` output by two, or adding `q_xz` to the scalar trace;
-- `/3`, projection before the full trace, or double projection;
-- wrong K/Theta weights (`q/2` in K or `q` in Theta), duplicate common
-  advection, or folding damping/Theta algebraic terms into the q block.
+The completed fixture also checks the full metric-inclusive tangent-trace
+identity, including its x-derivative condition and a nonzero metric
+contribution, without marking metric rows complete. It rejects omission or
+duplication of every family, encoded-Z omission or double insertion, wrong
+hidden multiplicity, representative-ww duplication, wrong coefficients,
+double projection, and illegal output writes. Scalar/even versus xz/one-z
+parity, family ownership, and four-dimensional weighted trace-free identities
+all pass. Consequently the K, Theta, A_xx, A_xz, A_zz, and A_ww RHS-completion
+flags are true. Chi, all four metric rows, complete 13-variable assembly and
+JVP/parity, boundaries, MOTS, eigensolver work, and 4AO-D remain incomplete.
 
 ### Encoded-Z Helper And Row Insertions
 
@@ -2313,54 +2309,99 @@ scalar weights, raw `q_IJ`, double projection, duplicate geometric Ricci,
 hidden-output doubling, parity leakage, and every write outside those slots.
 These are still partial blocks and are not a K/Theta/A row assembler.
 
-### Remaining Complete-Row Assembly Ingredients
+### Completed K/Theta/A Assembly
 
-Complete K/Theta/A assembly still requires:
+The derivative adapter now analytically differentiates the unreduced
+contracted-connection formulas and supplies the encoded-Z helper with
 
-- a reviewed derivative adapter that constructs the helper's `z_i` derivative
-  jet from the existing `Z_i=0.5(H_i-g_i)` reconstruction under the actual
-  radial and periodic-z derivative contract;
-- a K assembler that consumes common advection, geometric `+r`, encoded-Z
-  `+q`, the selected `K(K-2Theta)` block, and locked kappa damping exactly
-  once;
-- a Theta assembler that consumes common advection, geometric `+r/2`,
-  encoded-Z `+q/2`, the non-Ricci algebraic, `-K_GP deltaTheta`, and damping
-  blocks exactly once;
-- four A assemblers that consume common advection, tensor shift stretching,
-  non-curvature algebraic `N_IJ`, geometric `rTF_IJ`, and encoded-Z
-  `qTF_IJ` exactly once;
-- the deferred nonlinear selected-branch finite-difference oracle, including
-  upper/lower-Z and conformal-factor mapping, GP background-zero checks,
-  epsilon plateau, weighted trace-free/parity consistency, and omission or
-  duplication mutations for every consumed family.
+```text
+dx Z_x = (dx H_x - dx g_x)/2,  dz Z_x = (dz H_x - dz g_x)/2,
+dx Z_z = (dx H_z - dx g_z)/2,  dz Z_z = (dz H_z - dz g_z)/2.
+```
 
+No determinant constraint is assumed. The hidden multiplicity remains two,
+and the radial derivatives retain both `1/x` and `1/x^2` terms. Production
+code is not numerically differentiated.
+
+The one-time assembler now owns addition, not recomputation:
+
+```text
+rhs_K     = Adv_K + r + q + [3 lambda deltaK - 3 lambda deltaTheta]
+            - 0.4 deltaTheta,
+rhs_Theta = Adv_Theta + (r+q)/2 + delta[-A^2/2 + 3 K^2/8]
+            - K_GP deltaTheta - 0.25 deltaTheta,
+rhs_A_IJ  = Adv_A_IJ + ShiftStretch_A_IJ + rTF_IJ + qTF_IJ + N_IJ.
+```
+
+Each displayed family is consumed exactly once. The geometric and encoded-Z
+curvature owners perform their own four-dimensional trace-free projections;
+the complete assembler does not project either tensor again. The
+representative `ww` output is written once, and no direct A damping exists.
 Frozen-lapse Hessians, `-Z dot grad(alpha)`, locked-`Lambda=0` terms, and the
-`A_xz` background-Theta coupling remain proven zeros rather than missing
-assembly blocks.
+`A_xz` background-Theta coupling remain proven zeros rather than assembly
+blocks.
+
+The independent nonlinear selected-branch oracle supplies exact analytic
+field values, first derivatives, and second derivatives for each
+`U_GP +/- epsilon delta U` state. It lifts those jets to a full
+four-dimensional Cartesian SO(3) metric, constructs nonlinear physical Ricci
+without internal spatial differencing, reconstructs
+`Z_over_chi^i=(hatGamma^i-tildeGamma^i)/2`, lowers it as
+`Z_i=h_ij Z_over_chi^j`, forms `D_i Z_j+D_j Z_i`, and then evaluates the exact
+geometric-Ricci-plus-Z split used by the selected K, Theta, and A equations.
+It independently owns GP advection,
+tensor shift stretching, nonlinear A contractions, locked damping, and the
+curvature trace-free projection. It calls no production partial-row function
+and encodes no final linear coefficient.
+
+The analytic-jet GP residuals are `K=0`, `Theta=-6.78e-21`, and all four A
+components zero. A genuinely isolated metric-curvature direction sets
+`H_i=g_i` and `partial_a H_i=partial_a g_i`: its geometric-Ricci amplitude is
+`1.02`, every raw/scalar/trace-free encoded-Z component is zero, and every
+unrelated family is zero. Pure K, pure hatted-Gamma/Z, this isolated direction,
+and two directed mixed cases pass.
+
+For mixed direction 1, maximum central-difference errors at epsilon
+`(1e-2,1e-3,1e-4,1e-5,1e-6,1e-7)` are
+`(1.4853e-5,1.4853e-7,1.4853e-9,1.5005e-11,2.9484e-11,3.5905e-10)`.
+For direction 2 they are
+`(1.6978e-5,1.6978e-7,1.6977e-9,1.5195e-11,8.4973e-12,1.9868e-10)`.
+The first two reduction ratios are approximately 100 in both directions,
+demonstrating the central-difference second-order regime; the later increase
+at `1e-7` records roundoff saturation, not a claimed plateau. Every table row
+reports K, Theta, Axx, Axz, Azz, and Aww errors separately.
+
+Curvature families have zero weighted A trace. The full metric-inclusive
+tangent case has `T=3.47e-18`, `partial_x T=0`, a nonzero metric-RHS
+contribution `-1.354838562373e-1`, the opposite complete-A contribution, and
+`T(delta rhs)=-2.78e-17`. This uses the existing metric families without
+marking any metric row complete.
 
 ### Unresolved Convention Questions
 
-- The target `R^Z_IJ=R^g_IJ+2D_(I Z_J)` is fixed, but later architecture must
-  choose between a repo-owned metric-Ricci-plus-Z bridge and a direct
-  modified-cartoon Gamma-form reproduction of `compute_ricci_Z`. They need an
-  equivalence test and must never be summed as independent Ricci paths.
-- The nonlinear oracle must prove the translation
-  `Z^I=chi Z_over_chi^I`, `Z_I=h_IJ Z_over_chi^J`. Equality of upper/lower Z
-  at the flat linear background must not be generalized silently.
-- The derivative adapter must decide whether to differentiate reconstructed
-  grid Z or analytically expand derivatives of `H_i-g_i`. This is tied to the
-  still-unlocked radial boundary/derivative contract and is deferred beyond
-  the pointwise tensor block.
-- Full-operator work must lock domain/codomain trace-free projection timing
-  and hidden-aware `TraceARemoval` behavior. Source-level `Adot_TF` is already
-  fixed and is not this unresolved enforcement choice.
+- The validation architecture is now fixed to repo-owned geometric Ricci plus
+  one encoded-Z completion. The nonlinear oracle validates that chosen split
+  path; source-level convention mapping identifies it with the selected CCZ4
+  `R_IJ + D_I Z_J + D_J Z_I` content. It is not an independent implementation
+  of GRChombo's direct Gamma-form Ricci. A future production bridge must choose
+  one path and must never sum both paths.
+- The translation `Z^I=chi Z_over_chi^I` and
+  `Z_I=h_IJ Z_over_chi^J` is now exercised nonlinearly by the combined oracle.
+  This convention is resolved for these rows.
+- The adapter choice is resolved in favor of analytic derivatives of
+  `H_i-g_i`; production numerical differentiation is forbidden. The later
+  grid derivative/boundary stencil contract remains unresolved.
+- Source-level trace-free timing is resolved: only the curvature/lapse source
+  is projected in the selected GRChombo RHS. Full-operator work must still
+  lock the domain/codomain treatment and hidden-aware live `TraceARemoval`
+  behavior after the metric rows exist.
 - Finite-axis limits for `z_x/x` remain owned by 4AP/4AQ. Stage 4AO-C stays on
   `x>0` and must not introduce an epsilon replacement or clamp.
 
-Although the shared q block and its row-specific insertions are independently
-validated, these questions, derivative integration, and complete row assembly
-remain open. Every non-Gamma row completion flag, the complete-operator flag,
-and eigensolver access therefore remain false.
+K, Theta, all four A rows, and both hatted-Gamma rows are now complete. Chi and
+the four metric rows remain incomplete, so the complete-operator flag,
+full-operator JVP/parity gate, boundaries, MOTS, and eigensolver access remain
+false.
 
 ## Boundary-Condition Contract
 
@@ -2551,7 +2592,7 @@ Stage 4AO-C cannot honestly produce a threshold crossing, unstable point, or
 stable point yet because the repository does not contain the complete
 frozen-gauge linearized operator.
 
-Implemented partial pieces include GP-shift advection, tensor
+Implemented pieces include GP-shift advection, tensor
 shift-stretching, algebraic metric/chi coupling, the selected-CCZ4 K-output
 `+3 lambda delta K - 3 lambda delta Theta` block and physical-`delta R`
 insertion, A-output non-curvature algebraic block, Theta non-Ricci algebraic
@@ -2563,13 +2604,14 @@ x/z contracted-connection and encoded-Z reconstruction helper, plus the first
 non-advection hatted-Gamma Z/kappa/shift-gradient insertion and the separate
 K/Theta/chi-gradient and connection-A insertions.
 The separately owned vector-Hessian and grad-div insertions are also present,
-and the complete assembler consumes common advection and all five
-non-advection families exactly once. Both Gamma rows pass the independent
-nonlinear combined oracle and are marked variable-complete.
+and the Gamma assembler consumes common advection and all five non-advection
+families exactly once. A second complete assembler consumes every surviving K,
+Theta, and A family exactly once. All eight of these rows pass independent
+nonlinear combined oracles and are marked variable-complete.
 
 Remaining missing pieces:
 
-- remaining coupled CCZ4/Z4 RHS pieces;
+- complete frozen-gauge `chi` and `h_xx/h_xz/h_zz/h_ww` rows;
 - actual full-operator JVP/parity tests;
 - boundary validation;
 - linearized MOTS map;
@@ -2584,24 +2626,18 @@ introduced.
 
 ## Required Next Work For 4AO-C
 
-Before Stage 4AO-C can be marked complete, the project needs a local
-validation-only frozen-gauge operator harness that:
+Before Stage 4AO-C can be marked complete, the validation-only harness must:
 
-1. extends the current advection/tensor-stretching/algebraic-coupling/K-block,
-   A/Theta-algebraic blocks, Theta `-K_GP deltaTheta` block, trace-free
-   `delta A` projector contract, raw Ricci component validation blocks, raw
-   trace/trace-free Ricci assembly, Theta Ricci scalar insertion, and `A_IJ`
-   Ricci curvature insertion by consuming the now-validated x/z
-   contracted-connection/Z reconstruction helper and then adding separately
-   validated hatted-Gamma RHS blocks before the full coupled
-   `D F_frozen[U_GP]` for the variables listed above;
-2. verifies raw residual and JVP/matrix assembly without using `S_alpha` to
+1. complete the chi and four conformal-metric rows, preserving the already
+   validated K, Theta, A, and hatted-Gamma row ownership;
+2. assemble and verify the full coupled `D F_frozen[U_GP]`, including raw
+   residual and JVP/matrix checks without using `S_alpha` to
    hide errors;
-3. checks parity-sector block diagonalization on the actual operator;
-4. validates the documented radial boundary conditions;
-5. implements a targeted spectral method such as shift-invert;
-6. maps candidate eigenvectors to the linearized horizon-radius observable;
-7. demonstrates at least one unstable point, one stable point, a threshold
+3. check parity-sector block diagonalization on the actual operator;
+4. validate the documented radial boundary conditions;
+5. implement a targeted spectral method such as shift-invert;
+6. map candidate eigenvectors to the linearized horizon-radius observable;
+7. demonstrate at least one unstable point, one stable point, a threshold
    estimate, radial convergence, and boundary-location convergence.
 
 Checkpoint G remains pending until Stage 4AO-D passes.

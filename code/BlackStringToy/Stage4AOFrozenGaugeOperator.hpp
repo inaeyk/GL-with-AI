@@ -3,6 +3,7 @@
 
 #include "Stage4AOFrozenGaugeContractedConnection.hpp"
 #include "Stage4AOFrozenGaugeRicciAssembly.hpp"
+#include "Stage4AOFrozenGaugeZDerivativeAdapter.hpp"
 #include "Stage4AOFrozenGaugeZRicciCompletion.hpp"
 
 #include <array>
@@ -62,6 +63,15 @@ static constexpr bool theta_equation_minus_k_delta_theta_block_implemented =
 static constexpr bool theta_ricci_scalar_insertion_block_implemented = true;
 static constexpr bool a_equation_ricci_curvature_insertion_block_implemented =
     true;
+static constexpr bool z_derivative_adapter_implemented =
+    Stage4AOFrozenGaugeZDerivativeAdapter::
+        modified_cartoon_derivative_adapter_implemented;
+static constexpr bool k_theta_a_surviving_term_family_inventory_closed = true;
+static constexpr bool k_theta_a_final_row_assembly_implemented = true;
+static constexpr bool k_theta_a_assembled_row_validation_implemented = true;
+static constexpr bool k_equation_rhs_block_implemented = true;
+static constexpr bool theta_equation_rhs_block_implemented = true;
+static constexpr bool a_equation_rhs_block_implemented = true;
 static constexpr bool trace_free_delta_a_projector_contract_implemented = true;
 static constexpr bool boundary_derivative_validation_implemented = false;
 static constexpr bool complete_frozen_gauge_operator_implemented = false;
@@ -124,6 +134,7 @@ enum class RhsPiece
     theta_ricci_scalar_insertion,
     a_equation_ricci_curvature_insertion,
     encoded_z_ricci_completion_insertion,
+    k_theta_a_complete_row_assembly,
     radial_derivatives,
     z_derivatives,
     hidden_sphere_terms,
@@ -194,7 +205,7 @@ inline constexpr std::array<const char *, 4> implemented_wrapper_pieces = {
     "RHS block inventory with implemented/reusable/missing labels",
     "radial-domain and boundary-condition contract"};
 
-inline constexpr std::array<const char *, 20> implemented_operator_pieces = {
+inline constexpr std::array<const char *, 22> implemented_operator_pieces = {
     "matrix-free GP-shift advection block beta_GP^x d_x(delta u)",
     "GP-shift tensor stretching for h_IJ and A_IJ",
     "algebraic h_IJ <- -2 A_IJ and chi <- +K/2 couplings",
@@ -214,6 +225,8 @@ inline constexpr std::array<const char *, 20> implemented_operator_pieces = {
     "Theta-output Ricci scalar insertion +0.5 delta R",
     "A_IJ-output Ricci curvature insertion [delta R_IJ]^TF",
     "K/Theta/A_IJ encoded-Z Ricci completion insertions",
+    "analytic hidden-aware encoded-Z derivative adapter",
+    "complete frozen-gauge K/Theta/A_IJ row assembly and validation",
     "trace-free delta A subspace and projector contract",
     "validation-only radial and periodic-z derivative scaffolding"};
 
@@ -410,6 +423,13 @@ inline bool receives_encoded_z_ricci_completion_insertion(
            is_a_variable(variable);
 }
 
+inline bool receives_k_theta_a_complete_row_assembly(
+    const PerturbationVariable variable)
+{
+    return variable == PerturbationVariable::K ||
+           variable == PerturbationVariable::Theta || is_a_variable(variable);
+}
+
 inline bool uses_ricci_or_curvature(const PerturbationVariable variable)
 {
     return variable == PerturbationVariable::K ||
@@ -510,13 +530,18 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
                    ? PieceStatus::implemented_now
                    : PieceStatus::not_applicable;
 
+    case RhsPiece::k_theta_a_complete_row_assembly:
+        return receives_k_theta_a_complete_row_assembly(variable)
+                   ? PieceStatus::implemented_now
+                   : PieceStatus::not_applicable;
+
     case RhsPiece::radial_derivatives:
     case RhsPiece::z_derivatives:
         return PieceStatus::reusable_helper;
 
     case RhsPiece::hidden_sphere_terms:
-        if (variable == PerturbationVariable::hat_Gamma_x ||
-            variable == PerturbationVariable::hat_Gamma_z)
+        if (receives_k_theta_a_complete_row_assembly(variable) ||
+            receives_hat_gamma_complete_row_assembly(variable))
         {
             return PieceStatus::implemented_now;
         }
@@ -533,8 +558,11 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
                    : PieceStatus::not_applicable;
 
     case RhsPiece::k_a_trace_trace_free_terms:
-        return is_metric_variable(variable) || variable == PerturbationVariable::K ||
-                       is_a_variable(variable)
+        if (variable == PerturbationVariable::K || is_a_variable(variable))
+        {
+            return PieceStatus::implemented_now;
+        }
+        return is_metric_variable(variable)
                    ? PieceStatus::requires_modified_cartoon_rhs
                    : PieceStatus::not_applicable;
 
@@ -545,7 +573,7 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
             return PieceStatus::implemented_now;
         }
         return variable == PerturbationVariable::Theta
-                   ? PieceStatus::requires_modified_cartoon_rhs
+                   ? PieceStatus::implemented_now
                    : PieceStatus::not_applicable;
 
     case RhsPiece::hat_gamma_hidden_evolution_terms:
@@ -561,8 +589,17 @@ inline PieceStatus rhs_piece_status(const PerturbationVariable variable,
 
 inline bool variable_rhs_complete(const PerturbationVariable variable)
 {
-    return variable == PerturbationVariable::hat_Gamma_x ||
-           variable == PerturbationVariable::hat_Gamma_z;
+    return (k_theta_a_assembled_row_validation_implemented &&
+            k_equation_rhs_block_implemented &&
+            variable == PerturbationVariable::K) ||
+           (k_theta_a_assembled_row_validation_implemented &&
+            theta_equation_rhs_block_implemented &&
+            variable == PerturbationVariable::Theta) ||
+           (k_theta_a_assembled_row_validation_implemented &&
+            a_equation_rhs_block_implemented && is_a_variable(variable)) ||
+           (hat_gamma_rhs_block_implemented &&
+            (variable == PerturbationVariable::hat_Gamma_x ||
+             variable == PerturbationVariable::hat_Gamma_z));
 }
 
 inline bool any_variable_rhs_complete()
@@ -1554,7 +1591,7 @@ apply_k_equation_ricci_scalar_insertion_at_point(
     // alpha_GP=1 and delta alpha=0, while R_GP=0, so the physical-Ricci
     // contribution is exactly +delta R. The reviewed assembly supplies
     // delta R_xx + delta R_zz + 2 delta R_ww. Z/hat_Gamma-dependent Ricci
-    // contributions remain separate and unimplemented.
+    // contributions remain separately owned by the encoded-Z insertion.
     values[variable_index(PerturbationVariable::K)] =
         ricci_assembly.scalar_trace();
 
@@ -1649,6 +1686,79 @@ apply_a_equation_encoded_z_ricci_insertion_at_point(
     values[variable_index(PerturbationVariable::A_zz)] = completion.tf_zz();
     values[variable_index(PerturbationVariable::A_ww)] = completion.tf_ww();
 
+    return make_frozen_gauge_perturbation_vector(values);
+}
+
+inline FrozenGaugePerturbationVector apply_complete_k_theta_a_rows_at_point(
+    const double r0, const double x,
+    const FrozenGaugePerturbationVector &input,
+    const FrozenGaugePerturbationVector &common_advection_output,
+    const Stage4AOFrozenGaugeRicciAssembly::TraceFreeRicciAssembly
+        &geometric_ricci,
+    const Stage4AOFrozenGaugeZRicciCompletion::CompletionTensor
+        &encoded_z_completion)
+{
+    const auto k_algebraic =
+        apply_k_equation_ccz4_k_theta_at_point(r0, x, input);
+    const auto damping =
+        apply_ccz4_k_theta_damping_insertion_at_point(input);
+    const auto k_geometric =
+        apply_k_equation_ricci_scalar_insertion_at_point(geometric_ricci);
+    const auto k_encoded_z =
+        apply_k_equation_encoded_z_ricci_insertion_at_point(
+            encoded_z_completion);
+
+    const auto theta_algebraic =
+        apply_theta_equation_algebraic_non_ricci_at_point(r0, x, input);
+    const auto theta_minus_k =
+        apply_theta_equation_minus_k_delta_theta_at_point(r0, x, input);
+    const auto theta_geometric =
+        apply_theta_ricci_scalar_insertion_at_point(geometric_ricci);
+    const auto theta_encoded_z =
+        apply_theta_equation_encoded_z_ricci_insertion_at_point(
+            encoded_z_completion);
+
+    const auto shift_stretching =
+        apply_tensor_shift_stretching_at_point(r0, x, input);
+    const auto a_algebraic =
+        apply_a_equation_algebraic_non_curvature_at_point(r0, x, input);
+    const auto a_geometric =
+        apply_a_equation_ricci_curvature_insertion_at_point(geometric_ricci);
+    const auto a_encoded_z =
+        apply_a_equation_encoded_z_ricci_insertion_at_point(
+            encoded_z_completion);
+
+    std::array<double, frozen_gauge_state_vector.size()> values = {};
+    values[variable_index(PerturbationVariable::K)] =
+        common_advection_output.value(PerturbationVariable::K) +
+        k_geometric.value(PerturbationVariable::K) +
+        k_encoded_z.value(PerturbationVariable::K) +
+        k_algebraic.value(PerturbationVariable::K) +
+        damping.value(PerturbationVariable::K);
+    values[variable_index(PerturbationVariable::Theta)] =
+        common_advection_output.value(PerturbationVariable::Theta) +
+        theta_geometric.value(PerturbationVariable::Theta) +
+        theta_encoded_z.value(PerturbationVariable::Theta) +
+        theta_algebraic.value(PerturbationVariable::Theta) +
+        theta_minus_k.value(PerturbationVariable::Theta) +
+        damping.value(PerturbationVariable::Theta);
+
+    for (const auto variable : {PerturbationVariable::A_xx,
+                                PerturbationVariable::A_xz,
+                                PerturbationVariable::A_zz,
+                                PerturbationVariable::A_ww})
+    {
+        values[variable_index(variable)] =
+            common_advection_output.value(variable) +
+            shift_stretching.value(variable) +
+            a_geometric.value(variable) + a_encoded_z.value(variable) +
+            a_algebraic.value(variable);
+    }
+
+    // This is a one-time family assembler. The geometric and encoded-Z
+    // curvature tensors arrive separately and already trace-free; neither is
+    // recomputed or projected here. TraceARemoval remains a state-domain
+    // enforcement operation and is not an additional RHS family.
     return make_frozen_gauge_perturbation_vector(values);
 }
 

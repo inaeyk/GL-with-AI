@@ -248,13 +248,14 @@ void check_negative_guards()
         }
     }
 
-    require_true("pretending full Theta RHS complete would fail",
-                 !Operator::variable_rhs_complete(Variable::Theta));
-    require_true("remaining Theta constraint terms remain deferred",
+    require_true("Theta RHS is complete only through the combined assembler",
+                 Operator::variable_rhs_complete(Variable::Theta) &&
+                     Operator::k_theta_a_final_row_assembly_implemented);
+    require_true("Theta constraint terms are owned by the complete assembler",
                  Operator::rhs_piece_status(
                      Variable::Theta,
                      Operator::RhsPiece::theta_constraint_terms) ==
-                     Operator::PieceStatus::requires_modified_cartoon_rhs);
+                     Operator::PieceStatus::implemented_now);
     require_true("simple Theta damping is implemented separately",
                  Operator::rhs_piece_status(
                      Variable::Theta,

@@ -24,7 +24,7 @@ constexpr std::array<Variable, 13> expected_state_order = {
     Variable::A_ww,        Variable::Theta,       Variable::hat_Gamma_x,
     Variable::hat_Gamma_z};
 
-constexpr std::array<Piece, 25> all_rhs_pieces = {
+constexpr std::array<Piece, 26> all_rhs_pieces = {
     Piece::gp_shift_advection,
     Piece::tensor_shift_stretching,
     Piece::algebraic_metric_chi_coupling,
@@ -43,6 +43,7 @@ constexpr std::array<Piece, 25> all_rhs_pieces = {
     Piece::theta_ricci_scalar_insertion,
     Piece::a_equation_ricci_curvature_insertion,
     Piece::encoded_z_ricci_completion_insertion,
+    Piece::k_theta_a_complete_row_assembly,
     Piece::radial_derivatives,
     Piece::z_derivatives,
     Piece::hidden_sphere_terms,
@@ -413,6 +414,18 @@ void check_rhs_inventory()
                    Variable::hat_Gamma_x,
                    Piece::encoded_z_ricci_completion_insertion,
                    Status::not_applicable);
+    require_status("K complete row assembly is implemented", Variable::K,
+                   Piece::k_theta_a_complete_row_assembly,
+                   Status::implemented_now);
+    require_status("Theta complete row assembly is implemented",
+                   Variable::Theta, Piece::k_theta_a_complete_row_assembly,
+                   Status::implemented_now);
+    require_status("A_ww complete row assembly is implemented",
+                   Variable::A_ww, Piece::k_theta_a_complete_row_assembly,
+                   Status::implemented_now);
+    require_status("chi has no K/Theta/A complete row assembly",
+                   Variable::chi, Piece::k_theta_a_complete_row_assembly,
+                   Status::not_applicable);
     require_status("chi radial derivatives are helper-only scaffolding",
                    Variable::chi, Piece::radial_derivatives,
                    Status::reusable_helper);
@@ -442,9 +455,10 @@ void check_rhs_inventory()
                    Variable::hat_Gamma_z,
                    Piece::hat_gamma_hidden_evolution_terms,
                    Status::implemented_now);
-    require_status("Theta constraint terms need actual RHS", Variable::Theta,
+    require_status("Theta constraint terms are owned by complete row",
+                   Variable::Theta,
                    Piece::theta_constraint_terms,
-                   Status::requires_modified_cartoon_rhs);
+                   Status::implemented_now);
     require_status("hat_Gamma^x Theta/Z terms are owned by complete row",
                    Variable::hat_Gamma_x, Piece::theta_constraint_terms,
                    Status::implemented_now);
@@ -457,6 +471,8 @@ void check_rhs_inventory()
     for (const auto variable : Operator::frozen_gauge_state_vector)
     {
         const bool should_be_complete =
+            variable == Variable::K || variable == Variable::Theta ||
+            Operator::is_a_variable(variable) ||
             variable == Variable::hat_Gamma_x ||
             variable == Variable::hat_Gamma_z;
         require_true(std::string(Operator::variable_name(variable)) +
@@ -838,17 +854,54 @@ void check_rhs_inventory()
                              " unexpectedly receives encoded-Z output");
                 }
             }
+            else if (piece == Piece::k_theta_a_complete_row_assembly)
+            {
+                const bool should_be_implemented =
+                    Operator::receives_k_theta_a_complete_row_assembly(
+                        variable);
+                if (should_be_implemented &&
+                    status != Status::implemented_now)
+                {
+                    fail("K/Theta/A complete row implemented guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " does not mark complete-row assembly implemented");
+                }
+                if (!should_be_implemented &&
+                    status != Status::not_applicable)
+                {
+                    fail("K/Theta/A complete row scope guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " unexpectedly receives complete-row output");
+                }
+            }
+            else if (piece == Piece::k_a_trace_trace_free_terms)
+            {
+                const bool completed_here =
+                    variable == Variable::K || Operator::is_a_variable(variable);
+                if (completed_here && status != Status::implemented_now)
+                {
+                    fail("K/A trace-family completion guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " does not mark its trace family implemented");
+                }
+                if (!completed_here && status == Status::implemented_now)
+                {
+                    fail("K/A trace-family scope guard",
+                         std::string(Operator::variable_name(variable)) +
+                             " unexpectedly marks the family implemented");
+                }
+            }
             else if (piece == Piece::hidden_sphere_terms)
             {
-                const bool is_gamma = variable == Variable::hat_Gamma_x ||
-                                      variable == Variable::hat_Gamma_z;
-                if (is_gamma && status != Status::implemented_now)
+                const bool is_complete =
+                    Operator::variable_rhs_complete(variable);
+                if (is_complete && status != Status::implemented_now)
                 {
-                    fail("Gamma hidden-sphere ownership guard",
+                    fail("complete-row hidden-sphere ownership guard",
                          std::string(Operator::variable_name(variable)) +
                              " does not mark hidden terms implemented");
                 }
-                if (!is_gamma && status == Status::implemented_now)
+                if (!is_complete && status == Status::implemented_now)
                 {
                     fail("non-Gamma hidden-sphere completion guard",
                          std::string(Operator::variable_name(variable)) +
@@ -857,15 +910,17 @@ void check_rhs_inventory()
             }
             else if (piece == Piece::theta_constraint_terms)
             {
-                const bool is_gamma = variable == Variable::hat_Gamma_x ||
-                                      variable == Variable::hat_Gamma_z;
-                if (is_gamma && status != Status::implemented_now)
+                const bool owns_theta_terms =
+                    variable == Variable::Theta ||
+                    variable == Variable::hat_Gamma_x ||
+                    variable == Variable::hat_Gamma_z;
+                if (owns_theta_terms && status != Status::implemented_now)
                 {
                     fail("Gamma Theta/Z ownership guard",
                          std::string(Operator::variable_name(variable)) +
                              " does not mark Theta/Z terms implemented");
                 }
-                if (!is_gamma && status == Status::implemented_now)
+                if (!owns_theta_terms && status == Status::implemented_now)
                 {
                     fail("non-Gamma constraint completion guard",
                          std::string(Operator::variable_name(variable)) +
@@ -997,6 +1052,23 @@ void check_operator_completion_guard()
     require_true(
         "A Ricci curvature insertion block is implemented",
         Operator::a_equation_ricci_curvature_insertion_block_implemented);
+    require_true("Z derivative adapter is implemented",
+                 Operator::z_derivative_adapter_implemented);
+    require_true("K/Theta/A term-family inventory is closed",
+                 Operator::k_theta_a_surviving_term_family_inventory_closed);
+    require_true("K/Theta/A final rows are assembled",
+                 Operator::k_theta_a_final_row_assembly_implemented);
+    require_true("K/Theta/A combined validation is implemented",
+                 Operator::k_theta_a_assembled_row_validation_implemented);
+    require_true("K RHS is complete",
+                 Operator::variable_rhs_complete(Variable::K));
+    require_true("Theta RHS is complete",
+                 Operator::variable_rhs_complete(Variable::Theta));
+    require_true("all A RHS rows are complete",
+                 Operator::variable_rhs_complete(Variable::A_xx) &&
+                     Operator::variable_rhs_complete(Variable::A_xz) &&
+                     Operator::variable_rhs_complete(Variable::A_zz) &&
+                     Operator::variable_rhs_complete(Variable::A_ww));
     require_true("trace-free delta A projector contract is implemented",
                  Operator::trace_free_delta_a_projector_contract_implemented);
     require_true("boundary derivative validation remains missing",

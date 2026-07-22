@@ -286,10 +286,10 @@ void check_grid_and_completion_guards()
                  Operator::variable_rhs_complete(Variable::hat_Gamma_x));
     require_true("hat_Gamma^z RHS is complete",
                  Operator::variable_rhs_complete(Variable::hat_Gamma_z));
-    require_true("K RHS remains incomplete",
-                 !Operator::variable_rhs_complete(Variable::K));
-    require_true("Theta RHS remains incomplete",
-                 !Operator::variable_rhs_complete(Variable::Theta));
+    require_true("K RHS is complete through the combined assembler",
+                 Operator::variable_rhs_complete(Variable::K));
+    require_true("Theta RHS is complete through the combined assembler",
+                 Operator::variable_rhs_complete(Variable::Theta));
     require_true("full operator remains incomplete",
                  !contract.complete_operator_implemented());
     require_true("eigensolver remains disallowed",

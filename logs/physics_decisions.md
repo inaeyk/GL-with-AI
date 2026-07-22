@@ -51,3 +51,34 @@ Durable physics decisions only. Use [PROJECT_LOG.md](PROJECT_LOG.md) for day-to-
   representative `A_ww` is written once, and complete row assemblers must
   consume both families exactly once. The insertion flags may be true while
   every non-Gamma variable-completion and global spectral gate stays false.
+
+### 2026-07-22: Differentiate encoded Z analytically and project curvature only once
+
+- Decision: Form `partial_a Z_i=(partial_a H_i-partial_a g_i)/2` by analytic
+  differentiation of the unreduced hidden-aware `g_i` formulas. Retain all
+  `1/x^2` derivatives and hidden multiplicity two. In the complete A rows,
+  trace-free projection remains owned only by the geometric-Ricci and
+  encoded-Z curvature families.
+- Reason: This matches the selected GRChombo source boundary, avoids numerical
+  differentiation of production helpers, and prevents both geometric-Ricci
+  duplication and a second projection of `qTF_IJ`.
+- Consequences: K, Theta, and all four A rows can be assembled from named
+  families exactly once. The full A RHS obeys the coupled tangent trace
+  identity with the metric row; it is not independently projected again.
+
+### 2026-07-22: Validate upper/lower Z mapping at the complete-row boundary
+
+- Decision: Use an independent nonlinear four-dimensional Cartesian
+  analytic-jet oracle to
+  reconstruct `Z_over_chi^i`, set `Z^i=chi Z_over_chi^i`, lower it as
+  `Z_i=h_ij Z_over_chi^j`, and form `D_i Z_j+D_j Z_i` before evaluating the
+  geometric-Ricci-plus-Z split used by the selected K, Theta, and A equations.
+- Reason: This validates the conformal-factor and index mapping once at the
+  same boundary that consumes geometric Ricci, encoded Z, algebraic terms,
+  advection, stretching, and damping.
+- Consequences: K, Theta, and `A_xx/A_xz/A_zz/A_ww` are now row-complete.
+  The oracle does not claim an independent direct Gamma-form Ricci
+  implementation; source-level convention mapping identifies the validated
+  split with the selected CCZ4 Ricci-Z content.
+  Chi and metric rows, the complete 13-variable/JVP gate, boundaries, MOTS,
+  eigensolver, and 4AO-D remain incomplete.
