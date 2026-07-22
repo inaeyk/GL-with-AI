@@ -7,14 +7,13 @@ nonlinear selected-CCZ4/modified-cartoon JVP validation passes, as does the
 explicit full-interior parity/block-diagonal validation.
 
 The radial-boundary continuum, discrete-ownership, and validation contract is
-now designed. Radial boundary operators are not yet implemented or validated.
-Therefore the
+designed. The inner no-data pure-outflow endpoint helper, full 13-row wrapper,
+and focused validation are implemented; the outer boundary is not. Therefore the
 boundary-bearing complete-operator gate remains false, and eigensolver,
 shift-invert, linearized MOTS, threshold, and production-wiring work remain
 closed. Stage 4AO-D and Checkpoint G also remain closed. The next Stage 4AO-C
-task is radial-boundary implementation followed by radial-resolution and
-boundary-location convergence, not construction of another interior operator
-or interior JVP/parity fixture.
+task is the outer asymptotic/constraint-preserving boundary, followed by the
+joint radial-resolution and boundary-location convergence battery.
 
 ## Read-Only Reuse Inventory
 
@@ -331,10 +330,11 @@ analytic nonlinear JVP validation and explicit parity-sector block-diagonal
 validation both pass.
 
 The wrapper still cannot be used for boundary-bearing matrix assembly,
-spectral extraction, or threshold searches. Radial boundary operators and
-their convergence validation remain missing, so the boundary-bearing
-complete-operator gate, eigensolver, MOTS, threshold work, production wiring,
-4AO-D, and Checkpoint G remain closed.
+spectral extraction, or threshold searches. The inner no-data pure-outflow
+endpoint operator and its focused validation now pass, but the outer operator
+and joint radial-boundary convergence validation remain missing. Therefore the
+boundary-bearing complete-operator gate, eigensolver, MOTS, threshold work,
+production wiring, 4AO-D, and Checkpoint G remain closed.
 
 ## First Actual Operator Block: GP-Shift Advection
 
@@ -1858,9 +1858,10 @@ mutations pass. Consequently
 `hat_gamma_assembled_row_validation_implemented`,
 `hat_gamma_rhs_block_implemented`, and both Gamma variable-completion flags
 are true. The later full-interior assembler integrates these rows and passes
-the analytic nonlinear JVP and parity validation. Radial boundaries remain
-missing, so the boundary-bearing complete-operator flag and eigensolver access
-remain false.
+the analytic nonlinear JVP and parity validation. The inner pure-outflow
+endpoint closure also passes; the outer boundary and aggregate radial
+convergence remain missing, so the boundary-bearing complete-operator flag
+and eigensolver access remain false.
 
 ### Other Rows
 
@@ -2415,8 +2416,10 @@ true. The boundary-bearing complete-operator gate stays false.
   `Z_I=h_IJ Z_over_chi^J` is now exercised nonlinearly by the combined oracle.
   This convention is resolved for these rows.
 - The adapter choice is resolved in favor of analytic derivatives of
-  `H_i-g_i`; production numerical differentiation is forbidden. The later
-  grid derivative/boundary stencil contract remains unresolved.
+  `H_i-g_i`; production numerical differentiation is forbidden. The inner
+  no-ghost one-sided stencil contract is implemented and validated. The outer
+  transformed-row closure and joint boundary-convergence contract remain
+  unresolved in code.
 - Source-level trace-free timing is resolved: only the curvature/lapse source
   is projected in the selected GRChombo RHS. Full-operator work must still
   lock the domain/codomain treatment and hidden-aware live `TraceARemoval`
@@ -2440,8 +2443,9 @@ z periodic.
 
 The wrapper includes the provisional Stage 4AO-B local validation values
 `r0 = 1`, `x_in = 0.5`, and `x_out = 4.0` only as a default contract instance.
-They are not a final spectral-domain choice. This preflight fixes the continuum
-and discrete boundary design, but implements and validates none of it.
+They are not a final spectral-domain choice. The continuum and discrete design
+is fixed, and the inner-only portion is now implemented and validated. The
+outer and joint boundary system remain absent.
 
 ### Radial principal symbol
 
@@ -2708,12 +2712,77 @@ The gates are deliberately distinct:
 5. eigensolver allowed: only the preceding boundary-bearing gate plus the
    later solver-specific contract may permit spectral extraction.
 
-This preflight changes none of those false boundary/downstream gates. The
-first narrow implementation target is the inner pure-outflow endpoint closure:
-a separately testable second-order `D_x`, `D_xx`, and `D_xz` boundary helper,
-followed by the 13 retained PDE rows and the packet-reflection/discrete-symbol
-fixture. It has exact polynomial and manufactured-profile oracles and does not
-require choosing the outer asymptotic basis.
+The inner-only implementation now sets
+`inner_endpoint_derivative_helper_implemented=true` and
+`inner_pure_outflow_validation_implemented=true`. It does not set the legacy
+aggregate boundary-derivative flag, outer implementation/validation flags,
+radial-boundary-system completion, or any downstream gate. The next narrow
+implementation target is the independently derived `k>0` outer decaying-
+subspace/constraint-preserving block; it must not turn the leading Robin
+formula into thirteen blind componentwise conditions.
+
+### Implemented inner-endpoint evidence
+
+`Stage4AOFrozenGaugeInnerBoundary.hpp` exposes the exact coefficient arrays,
+three-point `D_x` reach, four-point `D_xx`/full-row reach, and maximum offsets
+two and three. It stores no ghost unknowns. A Fourier-amplitude jet uses
+
+```text
+D_z amplitude = -s p k amplitude,
+D_xz amplitude = -s p k D_x amplitude,
+```
+
+where `s=+1/-1` labels `P+`/`P-` and `p=+1/-1` is the component reflection
+signature. This is the existing `E cos + O sin` / `E sin + O cos` convention
+without two phase-anchor evaluations. The endpoint wrapper builds the Ricci,
+encoded-Z, and connection inputs from that jet, routes the one-sided radial
+derivative vector through the existing pointwise common-advection owner, and
+invokes the existing complete interior assembler exactly once. It retains 13
+PDE rows, adds zero continuum boundary equations, performs no reset or
+extrapolation, and leaves algebraic cleanup separately callable.
+
+The focused manufactured-profile results are:
+
+| `dx` | `D_x` error | `D_xx` error |
+|---:|---:|---:|
+| `1.6e-1` | `3.626944834446e-3` | `7.583149405197e-3` |
+| `8.0e-2` | `8.672643573986e-4` | `1.776410253192e-3` |
+| `4.0e-2` | `2.120820189354e-4` | `4.300362098613e-4` |
+| `2.0e-2` | `5.244078815902e-5` | `1.058015343640e-4` |
+| `1.0e-2` | `1.303847141632e-5` | `2.624004030438e-5` |
+
+Every adjacent observed order is at least `2.00`. Constants through
+quadratics are exact for `D_x`; constants through cubics are exact for
+`D_xx`. Wrong sign/coefficient, shortened reach, and a centered-at-`i=1`
+mutation are rejected.
+
+The local reflection diagnostic uses one outgoing radial normal mode
+`exp(i k_x x)`. It takes the maximum normalized defect of the one-sided
+`D_x` and `D_xx` symbols and divides by the two-way radial phase separation.
+Only endpoint stencil symbols enter, so it contains no physical interior
+potential or scattering. For `k_x=0.7`:
+
+| `dx` | equivalent reflected amplitude |
+|---:|---:|
+| `1/64` | `5.482906556595e-5` |
+| `1/128` | `1.370743325593e-5` |
+| `1/256` | `3.426855563705e-6` |
+| `1/512` | `8.566834878787e-7` |
+| `1/1024` | `2.144085717273e-7` |
+| `1/2048` | `5.107069272296e-8` |
+
+It decreases at observed order at least `1.8` and clears the predeclared
+`10^-6` finest-grid target. All three speeds are negative at
+`x_in/r0={0.35,0.50,0.65,0.80}`; the horizon case is reported as glancing and
+rejected, and `x_in>r0` is invalid for this no-data wrapper. The test makes no
+complete-diagonalization claim for the longitudinal Jordan block.
+
+All 13 slots match their existing complete-row owners exactly, every slot is
+active, owner omission/duplication and representative `h_ww/A_ww` doubling
+are rejected, and inputs remain unchanged. Both Fourier sectors are invariant;
+cross-sector leakage and the reflection commutator are exactly zero. Optional
+determinant/weighted-trace cleanup is algebraically idempotent and changes
+neither the 13-PDE-row count nor the zero boundary-equation count.
 
 Unresolved physics/numerical decisions are explicit: whether the frozen-gauge
 longitudinal Jordan block is acceptable for the spectral gate or requires a
@@ -2729,10 +2798,11 @@ be resolved implicitly while implementing stencils.
 
 The complete 13-variable interior assembler has passed an independent
 analytic-jet nonlinear JVP, ownership mutations, tangent identities, and
-explicit parity-sector block-diagonalization. The radial-boundary contract is
-now designed but unimplemented. The remaining Stage 4AO-C hooks are:
+explicit parity-sector block-diagonalization. The inner endpoint is now
+implemented and independently validated. The remaining Stage 4AO-C hooks are:
 
-- inner/outer boundary implementation and independent validation;
+- outer-boundary implementation and independent validation;
+- joint boundary-bearing operator validation;
 - radial-resolution and boundary-location convergence under the acceptance
   criteria above;
 - linearized MOTS map `delta U -> delta h(z) -> delta R_H`.

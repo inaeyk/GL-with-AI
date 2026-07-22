@@ -1910,3 +1910,32 @@ Category: Boundary Physics + Discrete Contract + Documentation
   MOTS, eigensolver, threshold, production, Stage 4AO-D, and Checkpoint G gates
   remain false. The next narrow target is the independently testable inner
   pure-outflow endpoint closure and reflection fixture.
+
+## 2026-07-22 - Stage 4AO-C Inner Pure-Outflow Endpoint Operator
+
+Category: Validation Boundary Operator + Focused Numerical Oracle
+
+- Began from clean committed radial-boundary preflight checkpoint `6809d99`
+  and used CodeGraph before direct source inspection.
+- Implemented explicit second-order one-sided first/second radial derivatives
+  with exposed coefficients and reach, plus Fourier-amplitude
+  `D_xz=D_xD_z` in both complete parity sectors. Short grids, invalid spacing,
+  and invalid Fourier inputs reject. No stored radial ghost unknown or
+  extrapolated physical boundary data is present.
+- Added a validation-only inner wrapper that constructs endpoint derivative
+  jets and consumes the existing full 13-variable interior assembler exactly
+  once. All PDE rows remain active, zero continuum boundary equations are
+  added, no field is reset, representative ww outputs remain single-copy, and
+  determinant/weighted-trace cleanup remains a separate idempotent operation.
+- The focused fixture proves polynomial exactness and observed second-order
+  convergence, rejects stencil/owner/slot/ww/row-count mutations, and gives
+  zero full-sector parity leakage and reflection commutator. Its local
+  endpoint-symbol reflection measure converges from `5.48e-5` to `5.11e-8`,
+  below the predeclared `1e-6` target.
+- All principal speeds are outward for the declared four inner-location
+  ratios. Glancing and exterior-inner-boundary cases are rejected without
+  claiming a complete characteristic basis for the longitudinal Jordan block.
+- Only inner endpoint implementation/validation flags are true. Outer and
+  complete radial-boundary work, the boundary-bearing operator, MOTS,
+  eigensolver/shift-invert, threshold work, production wiring, Stage 4AO-D,
+  and Checkpoint G remain closed.

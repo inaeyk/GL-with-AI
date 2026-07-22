@@ -1651,3 +1651,29 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   All boundary, MOTS, eigensolver, threshold, production, 4AO-D, and
   Checkpoint G gates stay false. The first implementation target is the inner
   pure-outflow endpoint derivative/packet-reflection helper.
+
+- Date: 2026-07-22
+- Goal: Implement and independently validate the Stage 4AO-C inner no-data
+  pure-outflow endpoint operator from clean checkpoint `6809d99`.
+- Implementation: added explicit `(-3,4,-1)/(2dx)` and
+  `(2,-5,4,-1)/dx^2` coefficient/reach helpers, the two-sector Fourier-
+  amplitude rule `D_z=-s p k`, and `D_xz=D_xD_z`. No radial ghost unknown,
+  physical extrapolation, reset, or continuum boundary equation exists.
+- Full rows: the endpoint wrapper constructs the Ricci, encoded-Z,
+  connection, and common-advection inputs from the one-sided jet and calls the
+  existing complete interior assembler once. All 13 PDE rows remain active;
+  representative hww/Aww are written once; algebraic cleanup is separate.
+- Evidence: polynomial exactness and smooth manufactured second-order
+  convergence pass. The local outgoing-normal-mode endpoint-symbol reflection
+  measure decreases from `5.482906556595e-5` at `dx=1/64` to
+  `5.107069272296e-8` at `dx=1/2048`. Both Fourier sectors have zero leakage
+  and zero reflection commutator. Owner omission/duplication, stencil, reach,
+  centered-stencil, reset, ww, and grid-size mutations are rejected.
+- Causality: `x_in/r0={0.35,0.50,0.65,0.80}` gives negative `c_+`, `c_-`, and
+  `c_0`; the horizon is glancing and rejected, and `x_in>r0` is invalid for
+  the no-data contract. No complete diagonalization of the longitudinal
+  Jordan block is claimed.
+- Gates: only the inner endpoint helper and inner pure-outflow validation
+  flags are newly true. Outer, aggregate radial-boundary, boundary-bearing
+  complete-operator, MOTS, eigensolver/shift-invert, threshold, production,
+  4AO-D, and Checkpoint G gates remain false.

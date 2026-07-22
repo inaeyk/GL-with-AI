@@ -177,11 +177,25 @@ void check_domain_and_boundary_contract()
     const auto boundary_contracts = Operator::boundary_contracts();
     require_true("boundary contract has inner/outer/sector entries",
                  boundary_contracts.size() == 5);
-    for (const auto &boundary : boundary_contracts)
+    for (std::size_t i = 0; i < boundary_contracts.size(); ++i)
     {
-        require_true("boundary tests are not yet implemented",
-                     !boundary.validation_test_implemented);
+        require_true(i == 0 ? "inner pure-outflow boundary validation exists"
+                            : "non-inner boundary validation remains absent",
+                     boundary_contracts[i].validation_test_implemented ==
+                         (i == 0));
     }
+    require_true("inner endpoint derivative helper is implemented",
+                 Operator::inner_endpoint_derivative_helper_implemented);
+    require_true("inner pure-outflow validation is implemented",
+                 Operator::inner_pure_outflow_validation_implemented);
+    require_true("outer boundary implementation remains false",
+                 !Operator::outer_boundary_implementation_implemented);
+    require_true("outer boundary validation remains false",
+                 !Operator::outer_boundary_validation_implemented);
+    require_true("aggregate radial boundary system remains incomplete",
+                 !Operator::radial_boundary_system_complete);
+    require_true("boundary-bearing complete operator remains false",
+                 !Operator::complete_frozen_gauge_operator_implemented);
 }
 
 void check_rhs_inventory()

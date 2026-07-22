@@ -755,12 +755,14 @@ per-variable RHS inventory labels, and the radial-domain contract
 `0<x_in<r0<x_out` with compact `z`. It now asserts that every variable has a
 complete interior RHS row, all 13 variable-completion flags are true, and the
 full interior assembly/JVP/parity flags are true. The independent full fixture
-checks the analytic nonlinear JVP and explicit parity blocks. Radial-boundary
-tests are not implemented, so the boundary-bearing complete-operator gate,
-MOTS, eigensolver/shift-invert, threshold work, and production RHS wiring
-remain absent. It also checks the separate trace-free `delta A` projector
-contract flag. It is a guard against stale status confusion, not the completed
-GL spectral gate.
+checks the analytic nonlinear JVP and explicit parity blocks. The focused
+inner pure-outflow endpoint fixture is now implemented and passing; the outer
+boundary fixture and joint radial-boundary convergence validation are not.
+Consequently the boundary-bearing complete-operator gate, MOTS,
+eigensolver/shift-invert, threshold work, and production RHS wiring remain
+absent. The contract fixture also checks the separate trace-free `delta A`
+projector contract flag. It is a guard against stale status confusion, not the
+completed GL spectral gate.
 
 The hidden physical `delta R_ww[gamma]` fixture is the first Ricci
 implementation substep. It checks only the raw lower/lower hidden component on
@@ -1547,11 +1549,11 @@ fixtures open all 13 variable RHS-completion flags and the full-interior
 assembly/JVP/parity flags only. The boundary-bearing complete operator,
 radial-boundary acceptance, MOTS, eigensolver, and 4AO-D remain incomplete.
 
-## Stage 4AO-C Radial-Boundary Fixture Design
+## Stage 4AO-C Inner Radial-Boundary Fixture
 
-This is a design contract only; no boundary C++ fixture exists yet. The first
-fixture will isolate the inner pure-outflow endpoint closure from every outer
-condition. It will test the second-order one-sided formulas
+`Stage4AOCFrozenGaugeInnerBoundaryTest.cpp` now isolates the implemented inner
+pure-outflow endpoint closure from every outer condition. It tests
+`Stage4AOFrozenGaugeInnerBoundary.hpp` and the second-order one-sided formulas
 
 ```text
 D_x u_0  = (-3u_0+4u_1-u_2)/(2 dx),
@@ -1559,14 +1561,55 @@ D_xx u_0 = (2u_0-5u_1+4u_2-u_3)/dx^2,
 D_xz u   = D_x(D_z u),
 ```
 
-on all 13 slots without replacing any inner PDE row. Polynomial exactness,
-smooth-profile convergence with observed order at least `1.8`, commutation of
-`D_x` and periodic `D_z` to `100 epsilon_machine`, parity-block preservation,
-and omission/sign/coefficient mutations are required. A blockwise principal-
-packet test covers the physical, Z4 constraint, advected, and frozen-gauge
-Jordan sectors. For `x_in/r0<1`, no resolved packet may return toward larger
-`x`; the finest returned/incident norm must be below `10^-6` and converge at
-order at least `1.8`.
+on all 13 slots without replacing any inner PDE row. The helper exposes the
+coefficient arrays and reach, rejects fewer than three points for `D_x`, fewer
+than four for `D_xx` or a full endpoint jet, and stores no radial ghost
+unknown. Its Fourier-amplitude rule `D_z=-s p k` implements both complete
+parity sectors and makes `D_xz=D_xD_z` with the same one-sided closure.
+
+Constants through quadratics are exact for `D_x`, and constants through cubics
+are exact for `D_xx`. The smooth exponential profile gives:
+
+| `dx` | `D_x` error | `D_xx` error |
+|---:|---:|---:|
+| `0.16` | `3.626944834446e-3` | `7.583149405197e-3` |
+| `0.08` | `8.672643573986e-4` | `1.776410253192e-3` |
+| `0.04` | `2.120820189354e-4` | `4.300362098613e-4` |
+| `0.02` | `5.244078815902e-5` | `1.058015343640e-4` |
+| `0.01` | `1.303847141632e-5` | `2.624004030438e-5` |
+
+Every adjacent observed order exceeds `1.8`. Wrong sign/coefficient,
+shortened reach, accidental centered-at-`i=1`, and grid-size mutations fail.
+
+The wrapper constructs the endpoint Ricci, encoded-Z, and connection inputs
+from that jet, routes its one-sided derivative vector through the existing
+pointwise common-advection owner, then calls the existing complete interior
+assembler once. Every one of the 13 output slots is active and agrees exactly
+with its chi/metric, K/Theta/A, or Gamma complete-row owner. Owner omission or
+duplication, foreign-slot writes, and representative `h_ww/A_ww` doubling are
+rejected. The result records 13 retained PDE rows, zero continuum boundary
+equations, zero resets/extrapolations, no ghost unknown, and no implicit
+algebraic cleanup.
+
+The local reflection diagnostic is the maximum normalized `D_x/D_xx` symbol
+defect for an outgoing `exp(i k_x x)` mode, divided by the two-way radial phase
+separation. Because only endpoint symbols enter, it excludes physical interior
+scattering. At `k_x=0.7`, refinement from `dx=1/64` through `1/2048` gives
+
+```text
+5.482906556595e-5, 1.370743325593e-5, 3.426855563705e-6,
+8.566834878787e-7, 2.144085717273e-7, 5.107069272296e-8.
+```
+
+The measure decreases at order at least `1.8` and clears `10^-6`. The speed
+table is outward at `x_in/r0={0.35,0.50,0.65,0.80}`; `x_in=r0` is glancing and
+rejected, while `x_in>r0` is invalid. No complete longitudinal characteristic
+diagonalization is claimed.
+
+Both full Fourier sectors remain invariant. Cross-sector leakage and the
+reflection commutator are zero, below `100 epsilon_machine`. Separately invoked
+determinant/weighted-trace cleanup reaches roundoff, is idempotent, and never
+changes the PDE-row or boundary-equation count.
 
 The later outer fixture will construct the boundary-local principal/asymptotic
 block transform independently from the production boundary helper. For each
@@ -1593,9 +1636,10 @@ requires Richardson relative uncertainty at most `10^-3`, the declared
 `k x_out={8,10,12}` with Robin/Dirichlet extrapolations agreeing within
 `10^-3` in `k_c r0`.
 
-Fixture gate sequencing is explicit: implementation does not imply validation;
-validated boundary blocks do not imply the boundary-bearing complete operator;
-and that complete-operator gate must pass before any eigensolver fixture is
-allowed. The frozen-gauge longitudinal Jordan block, exact conformal outer
-block normalization, `k=0` charge fixing, and generalized-versus-eliminated
-matrix form remain decisions, not hidden fixture assumptions.
+Only the inner endpoint helper and inner pure-outflow validation flags are now
+true. Outer implementation/validation, aggregate radial-boundary completion,
+the boundary-bearing complete operator, and eigensolver permission remain
+false. The frozen-gauge longitudinal Jordan block, exact conformal outer block
+normalization, `k=0` charge fixing, growth-rate-dependent asymptotics, and
+generalized-versus-eliminated matrix form remain decisions, not hidden fixture
+assumptions.

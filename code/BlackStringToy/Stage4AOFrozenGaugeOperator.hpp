@@ -19,9 +19,10 @@ namespace Stage4AOFrozenGaugeOperator
 // Stage 4AO-C validation-only contract for the future frozen-gauge GL
 // operator. This file defines the state vector, gauge exclusions, RHS block
 // inventory, and radial boundary contract. It now implements the complete
-// coupled interior linearized operator for validation, but deliberately does
-// not implement radial boundary operators, an eigensolver, shift-invert,
-// threshold search, production RHS wiring, or live evolution.
+// coupled interior linearized operator and the inner no-data pure-outflow
+// endpoint for validation, but deliberately does not implement the outer or
+// complete radial-boundary system, an eigensolver, shift-invert, threshold
+// search, production RHS wiring, or live evolution.
 static constexpr bool validation_only = true;
 static constexpr bool gp_shift_advection_block_implemented = true;
 static constexpr bool tensor_shift_stretching_block_implemented = true;
@@ -83,6 +84,14 @@ static constexpr bool complete_frozen_gauge_interior_assembly_implemented =
 static constexpr bool full_interior_jvp_validation_implemented = true;
 static constexpr bool full_interior_parity_validation_implemented = true;
 static constexpr bool trace_free_delta_a_projector_contract_implemented = true;
+static constexpr bool inner_endpoint_derivative_helper_implemented = true;
+static constexpr bool inner_pure_outflow_validation_implemented = true;
+static constexpr bool outer_boundary_implementation_implemented = false;
+static constexpr bool outer_boundary_validation_implemented = false;
+static constexpr bool radial_boundary_system_complete = false;
+// This legacy aggregate remains false until both radial endpoints and their
+// joint convergence contract are independently validated. The inner-only
+// flags above must not be mistaken for complete radial-boundary validation.
 static constexpr bool boundary_derivative_validation_implemented = false;
 // The boundary-bearing operator gate remains closed until the radial
 // boundary and convergence contract is validated. Interior completion alone
@@ -214,13 +223,14 @@ inline constexpr std::array<FrozenGaugeVariable, 5>
         FrozenGaugeVariable::B_x,
         FrozenGaugeVariable::B_z};
 
-inline constexpr std::array<const char *, 4> implemented_wrapper_pieces = {
+inline constexpr std::array<const char *, 5> implemented_wrapper_pieces = {
     "frozen-gauge perturbation state-vector layout",
     "delta alpha, delta beta^i, and delta B^i exclusion contract",
     "RHS block inventory with implemented/reusable/missing labels",
-    "radial-domain and boundary-condition contract"};
+    "radial-domain and boundary-condition contract",
+    "inner no-data pure-outflow endpoint derivative/full-row wrapper"};
 
-inline constexpr std::array<const char *, 24> implemented_operator_pieces = {
+inline constexpr std::array<const char *, 25> implemented_operator_pieces = {
     "matrix-free GP-shift advection block beta_GP^x d_x(delta u)",
     "GP-shift tensor stretching for h_IJ and A_IJ",
     "algebraic h_IJ <- -2 A_IJ and chi <- +K/2 couplings",
@@ -244,12 +254,13 @@ inline constexpr std::array<const char *, 24> implemented_operator_pieces = {
     "complete frozen-gauge K/Theta/A_IJ row assembly and validation",
     "complete frozen-gauge chi/conformal-metric row assembly and validation",
     "complete 13-variable frozen-gauge interior assembly/JVP/parity validation",
+    "inner pure-outflow one-sided endpoint application/validation",
     "trace-free delta A subspace and projector contract",
     "validation-only radial and periodic-z derivative scaffolding"};
 
 inline constexpr std::array<const char *, 3> next_validation_hooks = {
-    "radial-resolution convergence",
-    "boundary-location convergence",
+    "outer static-decay and constraint-preserving boundary operator",
+    "joint radial-resolution and boundary-location convergence",
     "linearized MOTS map from delta U to delta R_H"};
 
 inline const char *variable_name(const PerturbationVariable variable)
@@ -1741,6 +1752,21 @@ apply_a_equation_encoded_z_ricci_insertion_at_point(
 }
 
 inline FrozenGaugePerturbationVector
+apply_gp_shift_advection_at_point(
+    const double r0, const double x,
+    const FrozenGaugePerturbationVector &radial_derivative)
+{
+    std::array<double, frozen_gauge_state_vector.size()> values = {};
+    const double beta = beta_gp_x(r0, x);
+    for (const auto variable : frozen_gauge_state_vector)
+    {
+        values[variable_index(variable)] =
+            beta * radial_derivative.value(variable);
+    }
+    return make_frozen_gauge_perturbation_vector(values);
+}
+
+inline FrozenGaugePerturbationVector
 apply_complete_chi_metric_rows_at_point(
     const double r0, const double x,
     const FrozenGaugePerturbationVector &input,
@@ -1916,18 +1942,18 @@ inline FrozenGaugeApplyResult apply_gp_shift_advection_block(
     for (std::size_t i = grid.first_interior_index();
          i <= grid.last_interior_index(); ++i)
     {
-        std::array<double, frozen_gauge_state_vector.size()> values = {};
-        const double beta = beta_gp_x(grid.domain().r0(), grid.x(i));
+        std::array<double, frozen_gauge_state_vector.size()> derivatives = {};
         for (std::size_t slot = 0; slot < frozen_gauge_state_vector.size();
              ++slot)
         {
-            const double derivative =
+            derivatives[slot] =
                 (input[i + 1].value_at_index(slot) -
                  input[i - 1].value_at_index(slot)) /
                 (2.0 * grid.dx());
-            values[slot] = beta * derivative;
         }
-        output[i] = make_frozen_gauge_perturbation_vector(values);
+        output[i] = apply_gp_shift_advection_at_point(
+            grid.domain().r0(), grid.x(i),
+            make_frozen_gauge_perturbation_vector(derivatives));
     }
 
     return FrozenGaugeApplyResult(output, grid.first_interior_index(),
@@ -2217,10 +2243,10 @@ inline std::array<BoundaryConditionContract, 5> boundary_contracts()
 {
     return {{
         {BoundaryRegion::inner_boundary,
-         "inner boundary is inside the GP horizon; the future operator must "
-         "use a characteristic/outflow-compatible or otherwise justified "
-         "radial condition and show x_in convergence",
-         false},
+         "inner boundary is inside the GP horizon and uses the validated "
+         "no-data pure-outflow endpoint PDE closure; no continuum boundary "
+         "equation replaces any of the 13 rows",
+         true},
         {BoundaryRegion::outer_boundary,
          "outer boundary must use a documented asymptotic/radiative or "
          "frozen-background condition and show x_out convergence",
