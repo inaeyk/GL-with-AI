@@ -2080,3 +2080,35 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   `Cell`/`FArrayBox` GP storage wrapper is now authorized; no production
   physics, `BoxLoop`, evolution, dependency source, smoke parameter, staging,
   or commit changed.
+
+- Date: 2026-07-24
+- Goal: Reconcile the roadmap, authoritative checklist, TODO, GRChombo
+  adaptation backlog, comparison plan, scorecard, dependency/preflight notes,
+  and current logs after Chombo qualification.
+- Start state: Used CodeGraph/MCP first and confirmed a clean worktree at
+  committed qualification checkpoint `816a555`. Both official dependency
+  checkouts were detached, clean, and at GRChombo
+  `37e659523830418b210acea1661dac0e00bb1b75` and Chombo
+  `8684f2e000106f1abadb72642e1d15351867f98f`.
+- Dependency disposition: Historical Chombo provenance remains unavailable
+  and inferred. The project core tuple is qualified; former container,
+  PETSc/AHFinder, MPI, and full black-string runtime status remain separate.
+- Roadmap disposition: Retained the custom solver as the validated reference
+  oracle and capability benchmark, selected GRChombo as production owner, and
+  froze unresolved outer spectral work as deferred and nonblocking without
+  marking the original gate passed. Stage 4AO-D and Checkpoint G remain
+  incomplete.
+- Production lock: Recorded the ten-step active sequence and five substantive
+  audit checkpoints. The exact next implementation substage is only the thin
+  `Cell`/`FArrayBox` storage wrapper around the validated 18-slot reduced Vars
+  and GP point initializer.
+- Scope: Documentation/status only. No Cell/FArrayBox wrapper, BoxLoop, RHS,
+  gauge source, periodicity, evolution, diagnostics, AHFinder, code, tests,
+  production source parameters, smoke parameters, staging, or commit was
+  changed.
+- Validation: Ran the strict dependency verifier and real target-header
+  probe. Because this shell lacked the already-qualified Fortran/csh/link
+  tools, downloaded and extracted them under `/tmp` only; no system package
+  was installed. The verifier returned `CORE_DEPENDENCY_BUILD=VERIFIED`, the
+  probe returned `TARGET_HEADER_PROBE=PASS`, and probe-generated artifacts
+  were cleaned before the final status check.

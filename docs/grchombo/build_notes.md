@@ -338,3 +338,24 @@ Interpretation: Stage 4C now passes the real GRChombo compile context with the
 a later, explicitly approved stage initializes or hands off the new hidden
 components. This follow-up does not prove cartoon evolution, CCZ4 source terms,
 or physical black-string behavior.
+
+## Qualified Core Dependency State
+
+The current production dependency tuple is official GRChombo
+`37e659523830418b210acea1661dac0e00bb1b75` plus official Chombo
+`8684f2e000106f1abadb72642e1d15351867f98f`. Both checkouts are detached and
+clean. The four serial DIM2 core Chombo libraries build; the real
+`CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4` target-header probe
+passes; and stock `VariableStoreTest` plus `CCZ4GeometryUnitTest` pass.
+
+This is the project-qualified production tuple, not a recovered historical
+tuple. The GRChombo-era Chombo SHA is unavailable, historical status is
+inferred, and no `HISTORICAL_EXACT` claim is made. Former container
+provenance and PETSc/AHFinder reproducibility remain unresolved. MPI and the
+full black-string runtime are not yet qualified.
+
+These unresolved items do not block the exact next implementation substage:
+the thin `Cell`/`FArrayBox` storage seam around the validated 18-slot reduced
+Vars and GP point initializer. They do block any PETSc/AHFinder claim, and
+this build note does not authorize `BoxLoop`, RHS physics, periodicity,
+evolution, diagnostics, or AHFinder.

@@ -12,9 +12,92 @@ Global guardrails: compilation alone is not physical validation; local
 validation harnesses are not production Stage 4AR/4AS wiring; no physical GL
 evolution correctness, Pau diagnostic reproduction, or radiation extraction is
 claimed yet. GRChombo/internal consistency is the convention authority, not
-Pau. Checkpoint G passes only after 4AO-D; Checkpoint H follows 4AP-4AR before
-live evolution; Checkpoint I follows 4AS-4AU before any Stage 5/Pau diagnostic
-reproduction.
+Pau. Stage 4AO-D and Checkpoint G remain incomplete, but the custom spectral
+branch is no longer a prerequisite for the GRChombo production adaptation.
+
+## Roadmap authority after dependency qualification
+
+Historical dependency provenance and the production lock are separate:
+
+- Historical GRChombo Chombo SHA: unavailable. The historical dependency
+  status is inferred, not exact, and no `HISTORICAL_EXACT` claim is made.
+- Project-qualified production tuple: official GRChombo
+  `37e659523830418b210acea1661dac0e00bb1b75` and official Chombo
+  `8684f2e000106f1abadb72642e1d15351867f98f`, both detached and clean.
+  The four core serial DIM2 Chombo libraries build; the real
+  `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4` probe passes; and
+  stock GRChombo `VariableStoreTest` and `CCZ4GeometryUnitTest` pass.
+- Core dependency build: verified. Former container provenance and
+  PETSc/AHFinder reproducibility: unresolved. MPI and a full black-string
+  runtime: not yet qualified. These gaps do not block the next storage
+  integration; PETSc/AHFinder work remains blocked.
+
+Stage 4AO-C is split without changing its original objective:
+
+- [x] **Completed reference-oracle work:** the validated complete 13-variable
+  frozen-gauge interior operator; independent analytic nonlinear JVP;
+  complete parity/block validation; validated inner pure-outflow endpoint;
+  endpoint-stencil and radial-layout scaffolding; stationary asymptotic
+  matrix extraction; and comparison batches 1-4 against GRChombo.
+- [ ] **Deferred custom spectral research:** an accepted outer WKB boundary,
+  rank-four decaying basis, rank-nine physical annihilator,
+  boundary-bearing spectral operator, eigensolver/shift-invert, custom
+  threshold and `k_cr_0`, and custom spectral MOTS map.
+
+The original full custom spectral gate did not pass. Its branch is frozen as
+deferred research and is superseded only as a prerequisite for the active
+production path. Stage 4AO-D and Checkpoint G remain incomplete.
+
+Completed production-adaptation foundations are the GRChombo source lock,
+project-qualified Chombo lock, dependency verifier and target-header probe,
+18-slot production-variable contract, exact registration/name metadata
+contract, dedicated reduced `(2+2)` Vars seam, exact GP pointwise initializer,
+and analytic GP derivative metadata. None is live production wiring.
+
+Still incomplete are the `Cell`/`FArrayBox` wrapper, GP `BoxLoop`, live
+application registration, hidden/cartoon RHS, hidden-aware cleanup and
+constraints, production fixed lapse-source hook, periodic-`z` ownership and
+ghost exchange, unperturbed and perturbed production evolution,
+growth/decay diagnostics, horizon/`R_H` diagnostics, MPI qualification, and
+PETSc/AHFinder qualification.
+
+### Locked active production sequence
+
+1. `Cell`/`FArrayBox` storage seam: a thin wrapper around the validated
+   18-slot reduced Vars and GP point initializer, with no physics duplication.
+2. GP `BoxLoop` initializer and live application wiring, compared pointwise
+   with the existing initializer.
+3. Hidden/cartoon RHS adaptation: retain GRChombo ownership of shared visible
+   CCZ4 families and add only missing hidden contributions.
+4. Pointwise complete 13-row equivalence, reporting stock-visible,
+   adapted-hidden, and total contributions separately against the frozen
+   custom analytic oracle.
+5. Hidden-aware cleanup and constraints.
+6. Production fixed lapse-source hook.
+7. Periodic `z` and ghost ownership.
+8. Unperturbed GP evolution: stationarity, constraint convergence, and
+   gauge-source validation.
+9. Perturbed Fourier-mode evolution: growth/decay extraction and the first GL
+   threshold estimate.
+10. Horizon and nonlinear diagnostics only after PETSc/AHFinder and observable
+    conventions are qualified.
+
+Do not add replacements for GRChombo RK, AMR, MPI/OpenMP, checkpointing,
+reductions, interpolation, ghost exchange, or generic grid infrastructure.
+
+### Substantive audit checkpoints
+
+Fold documentation consistency into independent technical audits only after:
+
+1. the first real `Cell`/`FArrayBox` plus `BoxLoop` GP initializer is
+   assembled;
+2. the complete adapted hidden/cartoon 13-row pointwise RHS passes;
+3. hidden cleanup/constraints and the fixed source are integrated;
+4. the first unperturbed production evolution passes; and
+5. the first perturbed GL growth-rate run passes.
+
+Do not add per-substep audits. Decision record:
+`docs/grchombo/roadmap_decision_after_dependency_qualification.md`.
 
 ## Stage 0 - Infrastructure and reproducibility
 
@@ -550,7 +633,14 @@ trace-free curvature/lapse, and `hat_Gamma^x` work:
 - [x] Stage 4AO-C diagnostic outer transform/projector helper: implement the validation-only `Y=(U,D_xU)` characteristic map with hidden multiplicity two and single representative `ww` ownership, plus scalar profile diagnostics. The stored four columns are explicitly one-hot in the nominal outgoing amplitudes; their orthogonal complement tests only the selector-coordinate algebra. It does not validate decaying/growing WKB jets, Jordan exclusion, parity, constraints, or endpoint ownership. Diagnostic helper flags alone are true; all accepted outer and downstream gates remain false.
 - [ ] Stage 4AO-C corrected `k>0` outer boundary: frozen as deferred research. The rejected patch added valid mirrored second-order outer derivatives and useful `13+0/13+0/4+9` radial row-layout scaffolding, but its one-hot scalar-profile columns do not define a physical WKB boundary. No accepted determinant factorization, branch classification, rank-four decaying basis, nine-row physical annihilator, or retained-PDE dual exists. Higher-order solvability or an independently justified regularized first-order radial system would be required before reconsidering the boundary. The nine direct characteristic selectors and four amplitude-coordinate PDE projections remain diagnostic only. No polynomial or nonlinear eigensolver work is authorized.
 - [ ] Stage 4AO-D: live-gauge/full acceptance. Confirm the physical GL eigenvalue agrees with frozen gauge, separate physical/gauge/constraint modes, check constraint-subsystem decay against the derived CCZ4 formulation, check inner-boundary characteristics, seed the eigenvector in time evolution and reproduce the spectral growth rate, and run the full convergence battery.
-- [ ] Stage 4AO hard rules: flat tests alone are insufficient; dedicated 4AO-B/C/D validation harnesses may construct and evaluate the actual RHS, perform finite-difference Jacobian checks, solve the frozen/live spectral systems, and run the seeded-eigenvector evolution bridge; production Stage 4AR/4AS integration remains blocked until 4AO-D; Checkpoint G passes only after 4AO-D; Pau is not the convention authority; the physical growth observable must be geometric and not `hat_Gamma^x` alone.
+- [ ] Stage 4AO hard rules for the deferred custom branch: flat tests alone
+  are insufficient; dedicated 4AO-B/C/D validation harnesses may construct
+  and evaluate the actual RHS, perform finite-difference Jacobian checks,
+  solve the frozen/live spectral systems, and run the seeded-eigenvector
+  evolution bridge. Checkpoint G still passes only after 4AO-D; Pau is not the
+  convention authority; the physical growth observable must be geometric and
+  not `hat_Gamma^x` alone. The former rule making 4AO-D a prerequisite for
+  production adaptation is superseded by the locked GRChombo sequence above.
 - [ ] Checkpoint G / Claude Audit G: review Stages 4AM-4AO-D. Checkpoint G passes only after 4AO-D, and Pau is not the convention authority.
 - [ ] Stage 4AP: validate actual grid-level or ghost-cell regularity for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)` using real grid or ghost data, not only hand-built polynomial fixtures.
 - [ ] Stage 4AQ: implement finite-axis source evaluation and regularized limits with explicit analytic parity/limit treatment; do not use epsilon replacement or silent clamping, and keep turduckening of the physical singularity distinct from cartoon-axis regularity.
@@ -715,15 +805,13 @@ simulation and radiation diagnostics exist.
   `gamma_theta_theta=x^2` from stored `hww=1`; verify raw `-3 lambda`, a real
   lapse-only test adapter with zero 20-field Jacobian, setup convergence,
   mutation sensitivity, and the frozen-gauge Fourier/parity convention.
-- [ ] Resolve the container digest and execute the actual Chombo
-  periodic-domain/ghost-fill path. The batch-3 local analytic ghost patch is
-  direct kernel evidence only.
+- [ ] Recover the former container recipe/image digests. This provenance gap
+  does not block the storage seam; actual Chombo periodic-domain/ghost-fill
+  ownership remains a later unqualified production step.
 - [ ] Adapt and compare hidden-aware `d=4` determinant/A-trace cleanup; stock
   visible cleanup has no `hww/Aww` or multiplicity-two owner.
-- [ ] Begin the first production adaptation seam only after provenance is
-  pinned: target `d=4/2` state ownership, GP `BoxLoop` initial data,
-  hidden/cartoon completion, lapse-only fixed source, hidden-aware cleanup and
-  constraints, and compact-z ghost ownership before unperturbed evolution.
+- [ ] Execute the locked production sequence above. The exact next substage is
+  only the thin `Cell`/`FArrayBox` storage seam; `BoxLoop` follows separately.
 - [x] Production-adaptation preflight: lock the inspected GRChombo
   origin/commit in a tracked manifest; add a read-only wrong-commit/dirty-state
   verifier; lock the target 18-slot `d=4/2` state with no visible-`y` slots;
@@ -740,18 +828,19 @@ simulation and radiation diagnostics exist.
   exact GP values, and analytic `beta^x/lambda/K/A_IJ` radial jets. Focused
   round-trip, ownership, determinant, trace, reconstruction, derivative, and
   mutation checks pass. No Chombo or live application path is wired.
-- [ ] Chombo GP integration substage: using the project-qualified Chombo build,
-  add only the thin `Cell`/`FArrayBox` storage wrapper and GP initial-data
-  compute class around the reduced seam. Do not start CCZ4 RHS, hidden
-  geometry, cleanup/constraints, lapse source, periodic ownership, evolution,
-  or diagnostics.
+- [ ] Cell/FArrayBox storage substage: using the project-qualified Chombo
+  build, add only a thin load/store wrapper around the reduced 18-slot seam
+  and GP point initializer. Do not add `BoxLoop`, live registration, RHS,
+  hidden geometry, cleanup/constraints, lapse source, periodic ownership,
+  evolution, or diagnostics.
+- [ ] GP BoxLoop initializer substage: after the storage seam, add production
+  application wiring and compare every point with the existing GP initializer.
 - [x] Qualify and pin official `GRChombo/Chombo`
   `8684f2e000106f1abadb72642e1d15351867f98f` as the project dependency;
   build four required serial DIM2 libraries; pass the real
   `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`
   `parstream.H`/`FArrayBox.H`/`Cell.hpp` probe and stock compile/smoke checks.
   This is `PROJECT_QUALIFIED`; historical exact provenance remains inferred.
-- [ ] Resolve and execute the complete compiler/Chombo/container build tuple.
-  Resolve PETSc separately before enabling `USE_AHFINDER`. Full evolution and
-  historical-container reproducibility remain separate from the qualified
-  core dependency.
+- [ ] Qualify MPI and a full black-string runtime separately. Recover former
+  container provenance when possible, and qualify PETSc before enabling
+  `USE_AHFINDER`; none blocks the next storage seam.

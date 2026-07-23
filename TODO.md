@@ -12,7 +12,12 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 ## Active
 
 - [ ] Ensure future physics-stage PDF notes accompany each physics/design stage.
-- [ ] Stage 4AO-C/4AO-D: frozen pending future research. All 13 frozen-gauge interior rows and the inner no-data pure-outflow endpoint pass. The documented sparse stationary matrices match the source operator, but the former fourfold light determinant factor is false and the nullity-three leading kernel does not classify the asymptotic branches. No rank-four decaying basis, nine-row physical annihilator, or accepted outer condition exists. Outer implementation/validation, aggregate radial validation, boundary-bearing completion, pencil representation, eigensolver/shift-invert, `k=0`, nonzero-growth asymptotics, MOTS, threshold results, production wiring, 4AO-D, and Checkpoint G remain blocked.
+- [ ] Stage 4AO-C custom spectral research is frozen and superseded only as a
+  prerequisite for the active GRChombo production path. The complete
+  13-variable frozen-gauge interior/JVP/parity oracle and inner pure-outflow
+  endpoint pass; the original outer WKB/boundary-bearing/eigensolver/MOTS/
+  threshold objective did not pass. Stage 4AO-D and Checkpoint G remain
+  incomplete.
 - [x] Inventory custom-solver/GRChombo overlap and gaps; define production ownership, the four-level comparison hierarchy, prioritized adaptation backlog, and agent-capability evidence template. No overall agent score is assigned yet.
 - [x] Qualify the core GRChombo/Chombo/compiler tuple. GRChombo is pinned;
   official Chombo `8684f2e000106f1abadb72642e1d15351867f98f` builds the
@@ -25,7 +30,19 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [x] Execute comparison batch 1: record available dependency manifest fields, prove the shared thirteen-slot/dimension map, and directly compile GRChombo conformal algebra, contracted-connection/Z, and visible physical-Ricci comparisons. All numerical families pass the fixed tolerance and dimension/sign mutations fail. Chombo/container digests remain unresolved; hidden/cartoon terms remain custom-only. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch1_results.md`.
 - [x] Execute comparison batch 2: separate raw and encoded-Z Ricci, then directly compare visible chi/metric/K/Theta/A RHS families at identical analytic jets in stock `d=3`. All families and combined rows pass the unchanged tolerance; ten active mutations fail. This is not target-`d=4` evidence. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch2_results.md`.
 - [x] Execute comparison batch 3: actual custom order-two and GRChombo order-four derivative kernels converge on periodic manufactured profiles; all 15 visible advection rows and the complete `chi`, `h_ij`, and `A_ij` shift RHS families now have independent finite-grid monitors; visible algebraic cleanup passes. Production Chombo periodic ownership/ghost exchange remains unimplemented and untested, hidden-`ww` adaptation remains pending, and batch 4 is complete.
-- [ ] Adapt production functionality in backlog order: exact GP initial data, fixed GP-holding lapse source, hidden-sphere CCZ4 path and cleanup, compact periodic z, background evolution, Fourier perturbations/growth diagnostics, then string MOTS and `R_H` observables.
+- [ ] Exact next substage: add only the thin `Cell`/`FArrayBox` load/store
+  wrapper around the validated 18-slot reduced Vars and GP point initializer.
+  No `BoxLoop`, physics, live registration, source, periodicity, evolution,
+  diagnostics, or AHFinder.
+- [ ] Then execute the locked production order: GP `BoxLoop`; hidden/cartoon
+  RHS; separately reported complete 13-row equivalence; hidden cleanup and
+  constraints; fixed lapse source; periodic `z`/ghost ownership; unperturbed
+  GP evolution; perturbed Fourier growth/threshold; horizon/nonlinear
+  diagnostics after PETSc/AHFinder qualification.
+- [ ] Run substantive audits only after: assembled storage plus `BoxLoop`;
+  complete hidden/cartoon 13-row equivalence; integrated cleanup/constraints
+  plus fixed source; first unperturbed evolution; first perturbed growth-rate
+  run.
 - [ ] Stage 4AP/4AQ: align actual grid/ghost parity and finite-axis handling with GRChombo-facing conventions for `h_xz`, `h_xx-h_ww`, `W_x`, and `chi_x`.
 - [ ] Stage 4AT: remove or replace the Stage 4D smoke-only `hww/Aww` freeze in the physics path and add a loud guard against using both paths together.
 - [ ] Future constraint-damping validation: inject linearized constraint violations and verify `Theta` / encoded-`Z^i` damping behavior after the coupled Stage 4AO validation path is ready.
@@ -141,7 +158,11 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [x] Stage 4AO-B: discrete operator preflight harness: raw unmodified-RHS background residual convergence on the provisional `r0=1`, `x in [0.5,4.0]` domain, with target zero for verified geometric/scalar/constraint components and `-3 sqrt(r0/x^3)` for the unmodified live moving-puncture lapse equation; `S_alpha=+3 sqrt(r0/x^3)` is not used to cancel measured finite-grid residuals; the fixture also checks `delta hww` hidden-contraction isolation for `delta hat_Gamma^x`, hand-derived actual-discrete-RHS Jacobian-vector agreement, and z-coupled periodic-stencil parity-sector block diagonalization with a flipped-parity negative guard.
 - [ ] Stage 4AO-C: custom stationary outer-boundary research is deferred. The complete coupled interior linearization/JVP/parity and inner endpoint pass. The current outer characteristic selectors and row layout are diagnostic only. The singular leading kernel has nullity three, but no generalized-chain obstruction or complete branch classification is established; coincident leading vectors with distinct subleading series remain possible. Outer, aggregate boundary, boundary-bearing, and pencil gates are false; all solver, MOTS, threshold, production, and downstream work remains blocked.
 - [ ] Stage 4AO-D: live-gauge/full acceptance: physical GL eigenvalue agreement, physical/gauge/constraint mode separation, CCZ4 constraint-subsystem decay, inner-boundary characteristics, seeded time-evolution growth bridge, and full convergence.
-- [ ] Stage 4AO hard rules: flat tests alone are insufficient; no discrete or spectral work before 4AO-A; no eigensolver before 4AO-B; validation harnesses may exercise RHS/spectral/evolution-bridge code; production Stage 4AR/4AS integration remains blocked until 4AO-D; Pau is not the convention authority; `hat_Gamma^x` alone is not the observable.
+- [ ] Stage 4AO deferred-branch hard rules: flat tests alone are insufficient;
+  no eigensolver before its prerequisite gates; Pau is not the convention
+  authority; and `hat_Gamma^x` alone is not the observable. The former
+  production block through 4AO-D is superseded by the active GRChombo
+  adaptation sequence.
 - [ ] Checkpoint G / Claude Audit G: review Stages 4AM-4AO-D; passes only after 4AO-D.
 - [ ] Stage 4AP: validate actual grid/ghost-cell regularity for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)`.
 - [ ] Stage 4AQ: implement finite-axis source evaluation and regularized limits with no epsilon replacement or silent clamping.
@@ -195,9 +216,8 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   pointwise initializer, and analytic `beta^x/lambda/K/A_IJ` radial metadata.
   Exact mapping, reconstruction, convergence, and mutation fixtures pass.
 - [ ] Using the project-qualified Chombo lock, wrap the reduced seam in a
-  black-string `Cell`/`FArrayBox` adapter and GP initial-data compute class.
-  Keep RHS, hidden geometry, cleanup, sources, periodic ownership, evolution,
-  and diagnostics out of that integration substage.
+  black-string `Cell`/`FArrayBox` storage adapter only. The GP `BoxLoop`
+  compute class is the following substage.
 
 ## Later
 

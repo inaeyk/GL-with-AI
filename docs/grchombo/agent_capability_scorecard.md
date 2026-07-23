@@ -19,6 +19,35 @@ partial match; mismatch; invalid validation; blocked; direct adaptation chosen.
 
 No weighted total or overall grade is defined yet.
 
+## Post-qualification evidence disposition
+
+Comparison batches 1-4 are complete and provide substantial capability
+evidence:
+
+- Batch 1: exact state correspondence, conformal algebra, contracted
+  connection, and visible physical Ricci.
+- Batch 2: selected visible stock-`d=3` CCZ4 Ricci-Z and
+  `chi,h,K,Theta,A` family/combined-row equivalence, including a CCZ4-versus-
+  BSSN branch discriminator.
+- Batch 3: order-two custom versus order-four GRChombo derivative
+  convergence, manufactured visible-RHS convergence, Richardson continuum
+  agreement, and visible cleanup.
+- Batch 4: the GP storage convention, independently decomposed stock-`d=3`
+  versus target-`d=4` families, complete custom GP residual/constraints,
+  fixed lapse-source seam, and Fourier/parity initialization convention.
+
+Completed production-adaptation foundations add source/dependency locks, the
+verifier and real target probe, the 18-slot variable and exact metadata
+contracts, the reduced `(2+2)` Vars seam, exact GP point initializer, and
+analytic GP derivative metadata. They are contract and oracle evidence, not
+live production wiring.
+
+No final overall score is assigned before hidden-sector production
+equivalence and actual evolution runs. The custom outer WKB/boundary-bearing
+spectral branch remains a recorded research-level unresolved problem; its
+completed interior/JVP/parity/inner-endpoint work remains credited as
+reference-oracle evidence.
+
 ## Component evidence table
 
 | Component | Reconstruction origin | Independence from GRChombo implementation | Formula/convention result | Pointwise result | Discrete result | Physical-run result | Mutations / negative controls | Human intervention | Recommended disposition | Evidence links |
@@ -131,13 +160,14 @@ componentwise, with maximum custom-versus-GRChombo difference
 
 Actual stock `TraceARemoval` and `PositiveChiAndAlpha` also pass direct
 same-dimension comparisons. No stock runtime determinant normalization or
-hidden-aware cleanup owner was found. Full Chombo periodic ghost exchange is
-not executable without the missing Chombo installation/digest, so the local
-analytic ghost patch is classified only as direct derivative-kernel evidence.
-No custom-production or GRChombo defect was established. The later reviewed
-repair records one documentation/gate error and one human intervention for
-the incomplete family coverage and direct-path description. No final overall
-score is assigned.
+hidden-aware cleanup owner was found. At the batch-3 checkpoint the Chombo
+periodic path was unavailable; the later project-qualified dependency resolves
+the core build blocker but does not implement or qualify periodic ghost
+ownership. The local analytic ghost patch remains direct derivative-kernel
+evidence only. No custom-production or GRChombo defect was established. The
+later reviewed repair records one documentation/gate error and one human
+intervention for the incomplete family coverage and direct-path description.
+No final overall score is assigned.
 
 ## Batch-4 evidence note
 

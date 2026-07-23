@@ -16,24 +16,77 @@ reductions, interpolation, or generic parameter parsing.
 Every item requires the applicable comparison-plan levels before production
 acceptance. The frozen custom outer-boundary research is excluded.
 
+## Post-qualification production lock
+
+The historical Chombo SHA used by GRChombo is unavailable; its provenance is
+inferred and must not be labeled `HISTORICAL_EXACT`. The production authority
+is instead the project-qualified official tuple:
+
+```text
+GRChombo 37e659523830418b210acea1661dac0e00bb1b75
+Chombo    8684f2e000106f1abadb72642e1d15351867f98f
+```
+
+Both checkouts are detached and clean. The four core serial DIM2 Chombo
+libraries, the real `2/4/4` target probe, `VariableStoreTest`, and
+`CCZ4GeometryUnitTest` pass. The core dependency build is verified. Former
+container provenance and PETSc/AHFinder reproducibility remain unresolved;
+MPI and the full black-string runtime are not yet qualified. Those gaps do not
+block the next storage integration, while PETSc/AHFinder work remains blocked.
+
+The custom solver is retained as a validated reference oracle and
+agent-capability benchmark. Its complete 13-row frozen-gauge interior,
+nonlinear JVP, parity/block gates, inner endpoint, stencil/layout scaffolding,
+stationary matrix extraction, and comparison batches 1-4 are completed
+reference work. The accepted outer WKB boundary, rank-four decaying basis,
+rank-nine annihilator, boundary-bearing operator, eigensolver/shift-invert,
+custom `k_cr_0`, and spectral MOTS map are deferred research. The original
+spectral objective did not pass; it is simply nonblocking for production.
+
+The locked production order is:
+
+1. thin `Cell`/`FArrayBox` storage seam around the reduced 18-slot Vars and GP
+   point initializer;
+2. GP `BoxLoop` initializer and live application wiring, with pointwise
+   comparison to the existing initializer;
+3. hidden/cartoon RHS adaptation, preserving GRChombo ownership of shared
+   visible CCZ4 families;
+4. complete 13-row pointwise equivalence with stock-visible, adapted-hidden,
+   and total contributions reported separately;
+5. hidden-aware cleanup and constraints;
+6. production fixed lapse-source hook;
+7. periodic `z` and ghost ownership;
+8. unperturbed GP evolution;
+9. perturbed Fourier-mode evolution and the first growth/threshold estimate;
+10. horizon and nonlinear diagnostics after PETSc/AHFinder and observable
+    conventions are qualified.
+
+Substantive independent audits occur only after the assembled storage plus
+`BoxLoop` initializer, the passing complete adapted 13-row RHS, integrated
+cleanup/constraints plus fixed source, the first passing unperturbed
+evolution, and the first passing perturbed growth-rate run. Documentation
+consistency is folded into those audits; no per-substep audit is added.
+
 | Priority / order | Adaptation item | GRChombo source to reuse | Project-specific work | Dependency | Acceptance / exit criterion |
 |---|---|---|---|---|---|
 | P0-1 | Reproducible GRChombo/Chombo core lock | Current origin, locked CI, Chombo Make infrastructure | Keep the tracked GRChombo commit and qualified official Chombo commit; disclose that historical SHA/container provenance is unresolved; keep PETSc separate until AHFinder | None | Project lock is detached/clean; four serial DIM2 libraries, real `2/4/4` target probe, and stock compile/smoke checks pass |
 | P0-2 | Convention and slot adapter | `CCZ4Vars.hpp`, `ADMConformalVars.hpp`, `UserVariables.inc.hpp`, Tensor/VarsTools | Explicit `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`; reviewed 18-slot black-string map with no visible-`y` slots and one multiplicity-two hidden representative | P0-1 source verification | Level 1 macro/slot/name/parity/permutation tests pass exactly |
 | P0-3 | Formula comparison harness | `CCZ4RHS::rhs_equation`, `CCZ4Geometry`, gauge classes | Test-only adapter accepting supplied analytic jets and emitting per-family rows | P0-1, P0-2 | First five comparison tests execute without production evolution |
-| P1-4 | Exact black-string GP initial data | GRChombo initial-data `BoxLoops` pattern and project parameter parser | Implement `alpha=1`, `beta^x=sqrt(r0/x)`, flat GP spatial metric, target K/A/Gamma/Theta, hidden slots | P0-2 | Cellwise analytic comparison, determinant/trace, and constraints pass |
-| P1-5 | Fixed GP-holding lapse source | `MovingPunctureGauge` adapter pattern | Add field-independent `S_alpha=3 sqrt(r0/x^3)` with explicit validation/production policy | P1-4 | Raw lapse residual remains visible; source-adjusted GP residual vanishes; JVP unchanged |
-| P1-6 | Modified-cartoon hidden-sphere production path | GRChombo CCZ4 orchestration, derivatives, BoxLoops | Adapt validated custom hidden Ricci, lapse Hessian, Gamma, algebraic, shift, and Z terms; remove smoke freeze | P0-3, P1-4 | All Level 1/2 hidden-family comparisons and ownership mutations pass |
+| P1-4a | Cell/FArrayBox storage seam | Chombo storage plus locked GRChombo `Cell` | Thin load/store wrapper around the validated 18-slot reduced Vars and GP point initializer; no physics duplication | P0-2 | Exact round trip through real storage; no `BoxLoop` or physics path |
+| P1-4b | GP BoxLoop initializer | GRChombo initial-data `BoxLoops` pattern and project parameter parser | Wire the exact GP point initializer into the application | P1-4a | Pointwise equality with the existing initializer; determinant/trace checks pass |
+| P1-5 | Modified-cartoon hidden-sphere production path | GRChombo CCZ4 orchestration, derivatives, BoxLoops | Adapt only missing hidden Ricci, lapse Hessian, Gamma, algebraic, shift, and Z terms; remove smoke freeze | P0-3, P1-4b | All Level 1/2 hidden-family comparisons and ownership mutations pass |
+| P1-6 | Complete pointwise 13-row equivalence | Stock visible RHS plus hidden adapter and custom oracle | Report stock-visible, adapted-hidden, and total rows separately | P1-5 | Every family and all 13 totals pass the fixed tolerance and mutations |
 | P1-7 | Hidden-aware algebraic cleanup and constraints | `TraceARemoval`, `PositiveChiAndAlpha`, `Constraints`, `AMRReductions` | Extend determinant/A-trace cleanup and Hamiltonian/momentum constraints with multiplicity two | P1-6 | Weighted residuals and pointwise constraints match oracle; convergence passes |
-| P1-8 | Compact periodic `z` production domain | GRChombo periodic boundary/domain parameters and derivative classes | Lock `L`, `k_n=2 pi n/L`, parity conventions, radial/compact direction mapping | P0-2 | Periodic wrap and Fourier derivative tests pass at production order |
-| P1-9 | Unperturbed background evolution | `GRAMR`, RK4, ghost fill, boundaries, checkpointing | Configure target grid, source, hidden RHS, diagnostics, and conservative validation window | P1-5 through P1-8 | L4-01 stationarity and constraint convergence pass; restart smoke succeeds |
-| P2-10 | Fourier perturbation initialization | Initial-data BoxLoop plus periodic grid | Add normalized even/odd SO(3)-scalar perturbation families with amplitude guard | P1-9 | Linear amplitude scaling and mode/parity leakage tests pass |
-| P2-11 | Fourier amplitude diagnostics | `AMRInterpolator`, reductions, `SmallDataIO` | Adapt custom cosine/sine projections to AMR-consistent sampled/integrated output | P2-10 | Synthetic and production single-mode recovery tests pass |
-| P2-12 | Growth-rate extraction | `SmallDataIOReader`/project analysis output contract | Implement fit-window, uncertainty, resolution, and observable-consistency reporting | P2-11 | Synthetic exponent tests and window mutations pass before physical rates |
-| P2-13 | Production convergence workflow | GRChombo AMR/restart/output machinery | Reproducible multi-resolution parameter sets and comparison tables | P1-9, P2-12 | Background, constraints, perturbations, and rate show documented convergence |
-| P3-14 | String MOTS/horizon adapter | `AHFinder`, `PETScAHSolver`, `AHStringGeometry`, interpolation | Supply target variables, `S2 x S1` geometry, hidden expansion terms, PETSc configuration | P1-7, PETSc source lock | Uniform `x=r0` MOTS recovered with convergent residual; restart supported |
-| P3-15 | `R_H`, minimum radius, and horizon area | AH surface data, interpolation, reductions, `SmallDataIO` | Evaluate `R_H=h sqrt(hww/chi)`, minimum over z, correct string area | P3-14 | Uniform analytic values and perturbed manufactured profiles converge |
-| P3-16 | Nonlinear GL production workflow | All mature GRChombo runtime infrastructure | Parameter families, perturbation sweep, constraints/horizon monitoring, failure criteria, archival metadata | P2-13, P3-15 | Reviewed end-to-end runbook; unperturbed and small-perturbation gates pass first |
+| P1-8 | Fixed GP-holding lapse source | `MovingPunctureGauge` adapter pattern | Add field-independent `S_alpha=3 sqrt(r0/x^3)` with explicit validation/production policy | P1-7 | Raw lapse residual remains visible; source-adjusted GP residual vanishes; JVP unchanged |
+| P1-9 | Compact periodic `z` production domain | GRChombo periodic boundary/domain parameters and derivative classes | Lock `L`, `k_n=2 pi n/L`, parity conventions, radial/compact direction mapping | P1-4b | Periodic wrap, ghost ownership, and Fourier derivative tests pass at production order |
+| P1-10 | Unperturbed background evolution | `GRAMR`, RK4, ghost fill, boundaries, checkpointing | Configure target grid, source, hidden RHS, diagnostics, and conservative validation window | P1-7 through P1-9 | L4-01 stationarity, constraint convergence, gauge-source validation, and restart smoke pass |
+| P2-11 | Fourier perturbation initialization | Initial-data BoxLoop plus periodic grid | Add normalized even/odd SO(3)-scalar perturbation families with amplitude guard | P1-10 | Linear amplitude scaling and mode/parity leakage tests pass |
+| P2-12 | Fourier amplitude diagnostics | `AMRInterpolator`, reductions, `SmallDataIO` | Adapt custom cosine/sine projections to AMR-consistent sampled/integrated output | P2-11 | Synthetic and production single-mode recovery tests pass |
+| P2-13 | Growth-rate extraction | `SmallDataIOReader`/project analysis output contract | Implement fit-window, uncertainty, resolution, and observable-consistency reporting | P2-12 | Synthetic exponent tests and window mutations pass before physical rates |
+| P2-14 | Production convergence workflow | GRChombo AMR/restart/output machinery | Reproducible multi-resolution parameter sets and comparison tables | P1-10, P2-13 | Background, constraints, perturbations, and rate show documented convergence |
+| P3-15 | String MOTS/horizon adapter | `AHFinder`, `PETScAHSolver`, `AHStringGeometry`, interpolation | Supply target variables, `S2 x S1` geometry, hidden expansion terms, PETSc configuration | P1-7, PETSc source lock | Uniform `x=r0` MOTS recovered with convergent residual; restart supported |
+| P3-16 | `R_H`, minimum radius, and horizon area | AH surface data, interpolation, reductions, `SmallDataIO` | Evaluate `R_H=h sqrt(hww/chi)`, minimum over z, correct string area | P3-15 | Uniform analytic values and perturbed manufactured profiles converge |
+| P3-17 | Nonlinear GL production workflow | All mature GRChombo runtime infrastructure | Parameter families, perturbation sweep, constraints/horizon monitoring, failure criteria, archival metadata | P2-14, P3-16 | Reviewed end-to-end runbook; unperturbed and small-perturbation gates pass first |
 | Deferred | Custom stationary outer boundary | None accepted | Preserve documentation/scaffolding only | Not on production path | Reopen only through a separate research decision |
 
 ## Batch-1 backlog update
@@ -226,11 +279,11 @@ reduce the requirement to resolve those digests before production adaptation.
   values, input rejection, and derivative formulas pass focused tests.
 - P1-4 is not production-complete: no Chombo `Cell`, `FArrayBox`, `BoxLoop`,
   live registration, ghost, or checkpoint path calls the new seam.
-- The exact remaining integration blocker is the unresolved Chombo
-  source/build tuple (`parstream.H` is unavailable locally), followed by a
-  thin black-string `Cell`/`FArrayBox` wrapper and initial-data compute class.
-  The wrapper must call the reduced load/store seam; it must not use stock
-  `ADMConformalVars`/`VarsTools` mapping.
+- The Chombo source/build blocker is resolved by the project-qualified tuple.
+  The exact next substage is the thin black-string `Cell`/`FArrayBox`
+  load/store wrapper. It must call the reduced seam and must not use stock
+  `ADMConformalVars`/`VarsTools` mapping. The GP `BoxLoop` compute class is the
+  following substage, not part of the storage seam.
 - Hidden/cartoon RHS, cleanup, constraints, fixed lapse source, periodic
   ownership, evolution, and diagnostics remain later backlog items.
 
@@ -252,9 +305,10 @@ reduce the requirement to resolve those digests before production adaptation.
   PETSc/AHFinder remain explicit separate gaps; neither blocks the
   initializer storage wrapper.
 - The next authorized substage is only the thin black-string
-  `Cell`/`FArrayBox` adapter and GP initial-data compute class. `BoxLoop`
-  execution, hidden RHS, cleanup/constraints, source, periodic ownership,
-  evolution, and diagnostics remain open.
+  `Cell`/`FArrayBox` storage adapter around the existing reduced Vars and GP
+  point initializer. The GP `BoxLoop` compute class follows separately;
+  hidden RHS, cleanup/constraints, source, periodic ownership, evolution, and
+  diagnostics remain open.
 
 ## Explicit non-goals
 

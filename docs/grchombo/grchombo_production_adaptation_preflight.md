@@ -216,46 +216,46 @@ The adapter design allows the already direct stock-visible evidence to remain
 visible while the new hidden terms are assessed independently. It is not
 implemented in this preflight.
 
-## First adaptation sequence and audit checkpoints
+## Locked production sequence and audit checkpoints
 
-1. **Dependency verification.** Run the source-lock verifier. The core
-   GRChombo/Chombo tuple is project-qualified; disclose the still-unresolved
-   historical container and PETSc/AHFinder tuples separately.
-2. **Target enumeration and registration.** Implement only the 18-slot enum,
-   names, compile-time dimension assertions, and exact permutation/parity
-   fixture.
-   **Audit checkpoint A:** verify source tuple, macro values, slots, names,
-   absence of visible-`y`, and no physics path before initial data.
-3. **GP initializer.** Add cellwise GP values and analytic setup checks.
-   **Audit checkpoint B:** compare every initialized value with the batch-4
-   convention lock before any RHS adaptation.
-4. **Hidden/cartoon geometry adapter.** Add derivative and geometric hidden
-   families around GRChombo infrastructure.
-   **Audit checkpoint C:** compare every hidden family independently with the
-   frozen oracle.
-5. **Hidden-aware cleanup and constraints.** Add multiplicity-two determinant,
-   trace, Hamiltonian, and momentum ownership.
-   **Audit checkpoint D:** execute algebraic and constraint mutations before
-   adding a gauge source.
-6. **Fixed lapse-source adapter.** Add the field-independent lapse-only hook.
-7. **Pointwise 13-row comparison.** Exercise the complete seam specified
-   above.
-   **Audit checkpoint E:** require all families and final rows to pass before
-   grid ownership or evolution.
-8. **Periodic-`z` grid ownership.** Configure and execute the real Chombo
-   periodic/ghost path.
-   **Audit checkpoint F:** verify wrap, ghost exchange, refinement, and
-   restart ownership.
-9. **Unperturbed background evolution.** Reuse GRChombo time integration and
-   AMR with the accepted adapters.
-   **Audit checkpoint G:** require stationarity, constraint convergence, raw
-   versus held lapse reporting, and restart agreement before perturbations.
+The source locks, 18-slot contract, exact metadata, reduced Vars seam, GP point
+initializer, and analytic GP derivative metadata are already complete. The
+active implementation sequence is now:
 
-This design-only preflight is not assigned a separate audit. Its checkpoints
-are implementation stop points. The first implementation substage after
-preflight is dependency verification followed by the isolated target
-enumeration/registration change; GP data and all RHS work remain out of that
-substage.
+1. **Cell/FArrayBox storage seam.** Add only a thin wrapper around the
+   validated 18-slot reduced Vars and GP point initializer. Duplicate no
+   physics.
+2. **GP BoxLoop initializer.** Add production application wiring and compare
+   every point with the existing GP initializer.
+3. **Hidden/cartoon RHS adaptation.** Extend the stock visible GRChombo RHS
+   only with missing hidden contributions; GRChombo remains owner of shared
+   CCZ4 families.
+4. **Pointwise complete 13-row equivalence.** Report stock-visible,
+   adapted-hidden, and total contributions separately and compare with the
+   frozen custom analytic oracle.
+5. **Hidden-aware cleanup and constraints.**
+6. **Production fixed lapse-source hook.**
+7. **Periodic `z` and ghost ownership.**
+8. **Unperturbed GP evolution.** Require background stationarity, constraint
+   convergence, and gauge-source validation.
+9. **Perturbed Fourier-mode evolution.** Extract growth/decay and the first GL
+   threshold estimate.
+10. **Horizon and nonlinear diagnostics.** Begin only after PETSc/AHFinder and
+    observable conventions are qualified.
+
+Avoid per-substep audits. Require substantive independent audits only after:
+
+- the first real `Cell`/`FArrayBox` plus `BoxLoop` GP initializer is
+  assembled;
+- the complete adapted hidden/cartoon 13-row pointwise RHS passes;
+- hidden cleanup/constraints and the fixed source are integrated;
+- the first unperturbed production evolution passes; and
+- the first perturbed GL growth-rate run passes.
+
+Fold documentation consistency into those technical audits. The exact next
+implementation substage is item 1 only; it excludes `BoxLoop`, live
+registration, RHS physics, cleanup, source, periodicity, evolution,
+diagnostics, and AHFinder.
 
 ## Enumeration/registration substage result
 

@@ -2349,3 +2349,39 @@ Category: Dependency Recovery + Core Build Qualification
   provenance. The next authorized implementation is only the thin
   `Cell`/`FArrayBox` GP initializer wrapper; production physics and evolution
   remain untouched.
+
+## 2026-07-24 - Post-Qualification Roadmap Reconciliation
+
+Category: Documentation Status + Production Sequence
+
+- Began from clean committed Chombo-qualification checkpoint `816a555`; used
+  CodeGraph/MCP first. Official GRChombo
+  `37e659523830418b210acea1661dac0e00bb1b75` and official Chombo
+  `8684f2e000106f1abadb72642e1d15351867f98f` were detached and clean.
+- Kept historical provenance separate: the historical Chombo SHA is
+  unavailable, status remains inferred, and no `HISTORICAL_EXACT` claim was
+  made.
+- Reclassified Stage 4AO-C without claiming success: its complete
+  13-variable frozen-gauge interior/JVP/parity oracle, inner endpoint,
+  stencil/layout scaffolding, stationary matrices, and comparison batches
+  1-4 are completed reference work; the outer WKB basis/annihilator,
+  boundary-bearing operator, eigensolver, custom threshold, and spectral MOTS
+  map are frozen deferred research. Stage 4AO-D and Checkpoint G remain
+  incomplete.
+- Locked GRChombo as production owner and the custom solver as reference
+  oracle/agent benchmark. Missing production physics will be adapted directly;
+  mature GRChombo runtime and grid infrastructure will not be rebuilt.
+- Locked the production order from the `Cell`/`FArrayBox` storage seam through
+  GP `BoxLoop`, hidden RHS and complete 13-row equivalence, cleanup/source,
+  periodic ownership, unperturbed/perturbed evolution, and qualified horizon
+  diagnostics.
+- Reduced audits to five substantive technical checkpoints. The exact next
+  implementation substage is only the thin `Cell`/`FArrayBox` storage seam;
+  no code, tests, source parameters, or smoke parameters were changed by this
+  reconciliation.
+- Validation: the strict dependency verifier reported
+  `CORE_DEPENDENCY_BUILD=VERIFIED`; the real target probe compiled, linked,
+  ran, and reported `TARGET_HEADER_PROBE=PASS`; and `git diff --check` passed.
+  Missing shell-local `gfortran`, `csh`, and BLAS/LAPACK development links
+  were supplied by packages extracted only under `/tmp`, without a system
+  install or repository/dependency modification.

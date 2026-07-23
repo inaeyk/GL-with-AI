@@ -202,7 +202,9 @@ The target probe must compile and execute; a Make usage banner is not a pass.
 
 The core source/build dependency is project-qualified. These remain separate:
 
-- the exact Chombo SHA used by the former successful CI run;
+- the exact Chombo SHA used by the former successful CI run, which is
+  unavailable; historical status is inferred and no `HISTORICAL_EXACT` claim
+  is permitted;
 - the historical `grchombo/grchombo` image tag and digest;
 - the container recipe and recipe digest;
 - PETSc source/version/options/artifact provenance;
@@ -210,5 +212,7 @@ The core source/build dependency is project-qualified. These remain separate:
 - MPI production configuration and a full black-string evolution build.
 
 Consequently, the project may begin the thin `Cell`/`FArrayBox` GP initializer
-wrapper. This does not authorize `BoxLoop` execution, RHS/cartoon physics,
-cleanup, lapse source, periodic ownership, evolution, or AHFinder work.
+storage wrapper. This does not authorize `BoxLoop` execution, RHS/cartoon
+physics, cleanup, lapse source, periodic ownership, evolution, or AHFinder
+work. The former container, MPI, and full-runtime gaps do not block this
+storage seam; PETSc/AHFinder remains blocked.

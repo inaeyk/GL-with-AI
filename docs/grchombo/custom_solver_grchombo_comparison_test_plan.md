@@ -5,6 +5,37 @@ test-only bridges are authorized evidence, not production wiring. The custom
 Stage 4AO-C operator is the independent oracle; GRChombo is the convention
 and production authority.
 
+## Comparison-phase disposition after dependency qualification
+
+Comparison batches 1-4 are complete:
+
+- Batch 1 establishes exact production/custom state correspondence,
+  conformal algebra, contracted connection, and visible physical Ricci.
+- Batch 2 establishes selected visible stock-`d=3` CCZ4 Ricci-Z,
+  `chi,h,K,Theta,A` family and combined-row equivalence, and distinguishes the
+  selected CCZ4 branch from BSSN.
+- Batch 3 establishes custom second-order versus GRChombo fourth-order
+  derivative convergence, manufactured visible-RHS convergence, Richardson
+  continuum agreement, and visible cleanup comparison.
+- Batch 4 locks
+  `gamma_theta_theta=x^2`, `gamma_ww=hww/chi`, and GP `hww=1`; independently
+  decomposes stock-`d=3` and target-`d=4` GP families; validates the complete
+  custom analytic GP residual and constraints; and locks the fixed
+  lapse-source seam plus Fourier/parity initialization convention.
+
+This is substantial agent-capability evidence, but no final overall score is
+assigned before hidden-sector production equivalence and actual evolution
+runs. The next comparison target is not more custom spectral work: it is the
+production-adapted hidden/cartoon 13-row pointwise seam, with stock-visible,
+adapted-hidden, and total contributions reported separately.
+
+Historical provenance remains inferred because the GRChombo-era Chombo SHA is
+unavailable. The project-qualified comparison/production tuple is official
+GRChombo `37e659523830418b210acea1661dac0e00bb1b75` plus official Chombo
+`8684f2e000106f1abadb72642e1d15351867f98f`, detached and clean. Core DIM2
+libraries, the target `2/4/4` probe, and the two stock tests pass. Container,
+PETSc/AHFinder, MPI, and full-runtime qualification remain separate.
+
 ## Fixed comparison contract
 
 Every result record must contain:
@@ -224,8 +255,8 @@ and `Stage4AOCGRChomboComparisonBatch4GaugeTest.cpp`. Full evidence is in
 | L3-07 full custom GP preflight | custom second-order stencil study only | pairwise orders `1.81140,1.90359,1.95125` through `N=2048`; worst component/location retained | not used as analytic all-row evidence | pass |
 | L1-08 perturbation convention | test-only convention gate | `k_n=2 pi n/L`, all frozen slots and both phase assignments checked; gauge perturbations zero | radial profile remains deliberately unlocked | pass |
 
-The next comparison work should begin the reviewed target-dimension adaptation
-seam, not another custom runtime: lock Chombo/container provenance, implement
-the `d=4/2` state/hidden owner in isolation, and exercise production
-`BoxLoop`/periodic ghost ownership. GRChombo time integration should be
-invoked only after the adapted Level-1--3 background gates pass.
+The next comparison work begins at the reviewed target-dimension adaptation
+seam, not another custom runtime. First add only the thin
+`Cell`/`FArrayBox` storage wrapper; then assemble the GP `BoxLoop`. Hidden RHS
+adaptation and the separately reported complete 13-row comparison follow.
+Periodic ghost ownership and GRChombo time integration remain later gates.

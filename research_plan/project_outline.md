@@ -60,10 +60,22 @@ Physics and physics-design stages also produce polished review notes under
 - Stage 4AJ update: `CartoonPhysicalHiddenLapseHessian.hpp` now implements local physical `D_wD_w alpha` with `gamma=h/chi` and checked `p_alpha=alpha_x/x`, alongside checked `q`, `p_W`, and `p_chi`. The fixture locks simple, varying-`chi`, and nonsymmetric oracles and compares against the compact physical formula. The source sign and full `A_ww` block remain Stage 4AK.
 - Stage 4AK update: `CartoonAwwCurvatureLapseCore.hpp` now composes the reviewed Stage 4AH physical `R_ww[gamma]` and Stage 4AJ physical `D_wD_w alpha` packages from one local jet and exposes `-D_wD_w alpha`, `alpha R_ww`, and their sum. This is only the local geometric core before the Z4 term, trace-free projection, outer `chi` factor, nonlinear A/K terms, RHS, grid reads, finite-axis support, and evolution.
 - Stage 4AL update: `CartoonTraceFreeCurvatureLapseBlock.hpp` now computes local `source_IJ=chi(C_IJ-h_IJ C/4)` for `xx,xz,zz,ww` from one h/chi/alpha jet. Visible Ricci crosses Stage 4G/4I, hidden `ww` crosses Stage 4AH/4AK, Stage 4G and Stage 4AH `R_ww` must agree, and the visible lapse Hessian uses the physical `gamma=h/chi` correction. Checkpoint F / Claude Audit F is complete for the local trace-free curvature/lapse block only.
-- Checkpoint F roadmap update: remaining Stage 4 ownership is now split into `hat_Gamma^x` derivation/convention mapping in Stage 4AM, local `hat_Gamma^x` implementation/contracts in Stage 4AN, and the front-loaded GL validation sequence in Stages 4AO-A through 4AO-D. Flat checks alone are insufficient, Pau is not the convention authority, and no eigensolver work may begin before 4AO-B. Dedicated 4AO-B/C/D validation harnesses may exercise RHS, spectral, and seeded-evolution-bridge code; production Stage 4AR/4AS integration remains blocked until 4AO-D. Checkpoint G covers Stages 4AM-4AO-D and passes only after 4AO-D. Stage 4AP owns actual grid/ghost-cell regularity validation for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)`. Stage 4AQ owns finite-axis source evaluation and explicit regularized limits with no epsilon replacement or silent clamping; turduckening of the physical singularity remains distinct from cartoon-axis regularity. Stage 4AR owns controlled local RHS integration and Checkpoint H reviews Stages 4AP-4AR before live evolution. Stage 4AS owns default-off live evolution wiring, Stage 4AT removes or replaces the smoke-only hidden freeze in physics mode, Stage 4AU is the final Stage 4 exit review, and Checkpoint I covers Stages 4AS-4AU.
+- Historical Checkpoint F roadmap update: remaining Stage 4 ownership was split
+  into `hat_Gamma^x` derivation/convention mapping in Stage 4AM, local
+  `hat_Gamma^x` implementation/contracts in Stage 4AN, and the front-loaded GL
+  validation sequence in Stages 4AO-A through 4AO-D. Its custom-branch
+  validation requirements and incomplete Checkpoint G remain recorded. Its
+  former requirement that 4AO-D precede production integration is superseded
+  by the post-qualification GRChombo production pivot below.
 - Stage 4AM update: `docs/derivations/stage4AM_hatGammaX_derivation.md` now locks the GRChombo-facing `hat_Gamma^x` convention. GRChombo evolves `vars.Gamma[i]` as the hatted connection and reconstructs `Z_over_chi[i]=0.5*(vars.Gamma[i]-chris.contracted[i])`; project shorthand `hat_Gamma^i=tilde_Gamma^i+2Z^i` therefore uses the encoded `Z_over_chi` object at this boundary. The note derives the hidden contraction with `2 W^{-1} Gamma^x_ww`, records the determinant-reduced cross-check only under `D W^2=1`, locks Stage 4AN oracles `0`, `-3/4`, `-1`, and `-35/961`, and maps the GRChombo Gamma RHS terms. Stage 4AO GL validation remains future work.
 - Stage 4AN update: `CartoonHatGammaX.hpp` now implements the local away-axis `hat_Gamma^x` contract from the Stage 4AM derivation. It single-sources one local point, builds `(A-W)/x` from checked `Delta_xw`, obtains `B/x` from the checked Stage 4X package, computes the reduced Christoffels internally, and exposes base, hidden, tilde, `Z_over_chi`, and hatted values. The fixture locks the Stage 4AM oracles and the `Z_over_chi=0.5(hat-tilde)` convention. Gamma RHS, Stage 4AO GL validation, grid regularity, finite-axis handling, and evolution remain future work.
-- Stage 4AO roadmap update: the GL gate is now front-loaded into 4AO-A through 4AO-D. 4AO-A is the background and analytic residual lock for the exact uniform ingoing-GP black string, including `r0`, compact-`z` period, background slicing gauge, evolution gauge-driver and initial-gauge startup family, `K_ij` sign, perturbation sector, geometric observable, continuum residual, full `hat_Gamma^x` hidden contraction, and analytic `1/x` cancellations. 4AO-B is the discrete operator preflight: expected-order background residual convergence, `delta hww` isolation for `delta hat_Gamma^x`, analytic/symbolic Jacobian versus finite-difference Jacobian of the actual RHS, and z-coupled periodic-stencil cosine/sine parity-sector block diagonalization. No eigensolver work may begin before 4AO-B passes. 4AO-C is the frozen-gauge spectral gate with primary-source `k_c r0` convention map, provisional `k_c r0 ~= 0.876`, threshold zero crossing, unstable/stable points, shift-invert targeting, epsilon plateau, and radial/boundary convergence. 4AO-D is live-gauge/full acceptance: physical GL eigenvalue agreement, physical/gauge/constraint mode separation, constraint-subsystem decay, inner-boundary characteristic check, seeded time-evolution growth bridge, and full convergence battery. Flat tests alone are insufficient; Pau is not the convention authority; `hat_Gamma^x` alone is not the physical growth observable. Dedicated 4AO-B/C/D validation harnesses may exercise RHS, spectral, and seeded-evolution-bridge code. Production Stage 4AR/4AS integration remains blocked until 4AO-D, and Checkpoint G passes only after 4AO-D.
+- Historical Stage 4AO roadmap update: the custom GL gate was front-loaded
+  into 4AO-A through 4AO-D, with the full outer spectral, threshold,
+  live-gauge, and seeded-evolution objectives retained. The interior-oracle
+  portion is complete, the original full spectral objective is not, and
+  4AO-D/Checkpoint G remain incomplete. The former production prerequisite is
+  superseded by the GRChombo adaptation decision; the custom requirements
+  remain applicable if that deferred research branch is reopened.
 - Stage 4AO-A update: `docs/derivations/stage4AO_A_uniform_gp_background_residual.md` now locks the uniform ingoing-GP background `ds^2=-dt^2+(dx+sqrt(r0/x)dt)^2+x^2 dOmega_2^2+dz^2`, `r0` as the Schwarzschild areal horizon radius, `z~z+L`, `k_n=2 pi n/L`, `alpha=1`, `beta^x=sqrt(r0/x)`, flat conformal metric with `chi=1`, and the GRChombo sign `partial_t gamma_IJ=-2 alpha K_IJ+L_beta gamma_IJ`. It records the full continuum residual ledger for `chi`, `h_IJ`, `K`, `A_IJ`, `Theta`, `hat_Gamma^x`, `hat_Gamma^z`, live gauge variables, and constraints. The full `hat_Gamma^x` RHS cancellation includes the hidden vector-Laplacian multiplicity. The radial domain is locked to `x in [x_in,x_out]` with `x_in>0`, excluding the physical GP singularity at `x=0`. The unmodified GP state is not a full live moving-puncture gauge equilibrium, so Stage 4AO-D uses the same GRChombo moving-puncture family plus the fixed, field-independent validation source `S_alpha(x)=+3 sqrt(r0/x^3)`, computed from the locked analytic GP background and not from evolved fields. Since the source is field-independent, it cancels only the zeroth-order lapse drift and does not change the linearized GRChombo perturbation operator; it is validation-harness-only and not production Stage 4AR/4AS wiring.
 - Stage 4AO-A horizon-observable clarification: the apparent horizon is not found from the lapse or an `alpha=0` condition. Diagnostic output solves the outermost `S2 x S1` MOTS connected to `x=r0`, records `x=h(t,z)`, and measures `R_H=h(t,z)sqrt(h_ww/chi)`; spectral work uses the linearized MOTS response, and acceptance compares the horizon-harmonic growth rate rather than the lapse profile.
 - Stage 4AO-B raw-residual guard: the background residual convergence preflight must use the unmodified discrete RHS. The target is zero for verified geometric/scalar/constraint components and `-3 sqrt(r0/x^3)` for the unmodified live moving-puncture lapse equation. The fixed source `S_alpha=+3 sqrt(r0/x^3)` is only a 4AO-D validation-harness source and must not cancel measured finite-grid residuals before the raw convergence test.
@@ -125,25 +137,55 @@ Physics and physics-design stages also produce polished review notes under
   levels and pre-run tolerances; `grchombo_adaptation_backlog.md` prioritizes
   production adaptations; `agent_capability_scorecard.md` defines evidence
   metrics without assigning an overall score.
-- Current decision: the custom stationary outer-boundary problem remains
-  frozen as deferred research. Do not add an eigensolver, MOTS implementation,
-  or production evolution as part of the comparison-inventory phase.
-- Immediate sequence: recover the authoritative revision/patch tuple for the
-  CI-verified `GRChombo/Chombo` fork, run the real `2/4/4`
-  `parstream.H`/`FArrayBox.H`/`Cell.hpp` probe, and lock the resulting
-  compiler/container provenance. The slot/dimension adapter and exact
-  pointwise GP initializer are already isolated and validated; after the
-  dependency probe, add only their thin Chombo storage wrapper before hidden
-  physics work.
+- Roadmap decision: the custom solver remains a validated reference oracle
+  and agent-capability benchmark; GRChombo is the production framework.
+  Missing functionality will be adapted directly. The unresolved custom outer
+  spectral boundary is deferred and nonblocking. This supersedes that gate
+  only for the active production path; it does not claim the original
+  Stage 4AO-C spectral objective passed. Stage 4AO-D and Checkpoint G remain
+  incomplete. See
+  `docs/grchombo/roadmap_decision_after_dependency_qualification.md`.
+- Dependency state: the historical Chombo SHA is unavailable and only
+  inferred. The project-qualified official tuple is GRChombo
+  `37e659523830418b210acea1661dac0e00bb1b75` plus Chombo
+  `8684f2e000106f1abadb72642e1d15351867f98f`, detached and clean. Core DIM2
+  libraries, the real target `2/4/4` probe, `VariableStoreTest`, and
+  `CCZ4GeometryUnitTest` pass. Former container provenance, PETSc/AHFinder,
+  MPI, and a full black-string runtime remain unqualified.
+- Completed comparison evidence: batches 1-4 cover exact state correspondence
+  and conformal/connection/visible-Ricci algebra; selected visible CCZ4
+  Ricci-Z and RHS families; second- versus fourth-order convergence,
+  Richardson agreement, and visible cleanup; and the GP storage convention,
+  stock-`d=3` versus target-`d=4` families, full custom GP residuals, fixed
+  lapse-source seam, and Fourier/parity convention. This is substantial
+  capability evidence, but no final overall score is assigned before
+  hidden-sector production equivalence and real evolution runs.
+- Completed adaptation foundations: source locks, verifier and target probe,
+  the 18-slot variable and exact registration/name metadata contracts, the
+  reduced `(2+2)` Vars seam, exact GP point initializer, and analytic GP
+  derivative metadata. These are not live production wiring.
+- Active sequence: `Cell`/`FArrayBox` storage seam; GP `BoxLoop` initializer;
+  hidden/cartoon RHS; separately reported complete 13-row equivalence;
+  hidden-aware cleanup/constraints; fixed lapse source; periodic `z`/ghost
+  ownership; unperturbed GP evolution; perturbed Fourier-mode evolution and a
+  first threshold estimate; then horizon/nonlinear diagnostics after
+  PETSc/AHFinder qualification.
+- Audit policy: substantive independent audits follow the assembled
+  storage-plus-`BoxLoop` initializer, complete hidden/cartoon 13-row
+  equivalence, integrated cleanup/constraints/fixed source, first unperturbed
+  evolution, and first perturbed growth-rate run. Avoid per-substep audits.
+- Exact next implementation substage: only the thin `Cell`/`FArrayBox`
+  load/store wrapper around the validated 18-slot reduced Vars and GP point
+  initializer. It must not duplicate physics or add `BoxLoop`, RHS, source,
+  periodicity, evolution, diagnostics, or AHFinder.
 - Infrastructure policy: reuse GRChombo RK4, AMR, MPI/OpenMP,
   checkpoint/restart, ghost exchange, parameter parsing, interpolation,
   reductions, and AH framework. Do not independently rebuild them.
-- Known source blocker: inspected GRChombo commit `37e6595` contains no
+- Known source boundary: inspected GRChombo commit `37e6595` contains no
   black-string or modified-cartoon production implementation. An authoritative
   collaboration branch/source for those terms, if one exists, has not been
-  supplied. Locked CI verifies the `GRChombo/Chombo` fork and
-  `<checkout>/lib` layout but omits a Chombo `ref`; the authoritative Chombo
-  commit/patch set, container digest, and PETSc-enabled AH tuple remain
+  supplied. The project lock is qualified independently of the unrecoverable
+  historical Chombo SHA. Container and PETSc-enabled AH provenance remain
   unresolved.
 - Production-adaptation preflight: the inspected GRChombo origin and full
   commit are now locked in a tracked manifest with a read-only detached/clean
@@ -152,10 +194,10 @@ Physics and physics-design stages also produce polished review notes under
   slots, and one stored `ww` representative carrying hidden multiplicity two.
   The isolated enum/name/metadata contract and focused mutation fixture now
   pass; the old 27-slot live smoke scaffold is unchanged. The dedicated
-  reduced Vars adapter and pointwise GP initializer now pass storage-agnostic
-  tests, but their real Chombo storage wrapper is blocked by the missing
-  revision/probe. PETSc/container provenance remains unresolved, and no
-  production RHS, cleanup, source, grid, or evolution path has been added.
+  reduced Vars adapter and pointwise GP initializer pass storage-agnostic
+  tests. The real Chombo storage wrapper is now the authorized next substage.
+  PETSc/container provenance remains unresolved, and no production RHS,
+  cleanup, source, grid, or evolution path has been added.
 
 ## Stage 5: Pau Diagnostic Reproduction
 

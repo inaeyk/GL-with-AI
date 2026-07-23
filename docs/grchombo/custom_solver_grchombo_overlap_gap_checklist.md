@@ -242,11 +242,12 @@ within `0.25`.
 | Determinant normalization | source-only/absent | no runtime stock compute class found; local exponent controls are not direct evidence |
 | Hidden-aware cleanup | adaptation gap | stock path has no `hww/Aww` or multiplicity-two owner |
 
-The direct derivative kernels compile without Chombo, but full Chombo periodic
-domain and ghost exchange remain blocked by the missing local installation and
-unresolved Chombo/container digest. The locally populated analytic ghost patch
-is direct-kernel evidence only, not production-domain evidence. Detailed
-tables and mutations are in
+At the batch-3 checkpoint, the direct derivative kernels compiled without
+Chombo and the full periodic-domain/ghost path was blocked. The later
+project-qualified Chombo lock resolves the core installation/build blocker,
+but periodic-domain and ghost ownership remain unimplemented and unqualified.
+The locally populated analytic ghost patch is direct-kernel evidence only,
+not production-domain evidence. Detailed tables and mutations are in
 `docs/grchombo/custom_solver_grchombo_comparison_batch3_results.md`.
 
 ## Executed comparison batch 4
@@ -280,12 +281,14 @@ and classifications are in
 
 ## Production-adaptation preflight
 
-The inspected GRChombo source authority is now represented by
+The inspected GRChombo source authority is represented by
 `run_manifests/grchombo_dependency_lock.yaml` and checked by
 `scripts/verify_grchombo_dependency.sh`. The verified lock covers the origin,
 commit `37e659523830418b210acea1661dac0e00bb1b75`, and detached-clean checkout.
-It does not cover Chombo, PETSc, Docker-image, or container-recipe digests;
-production build reproducibility therefore remains unresolved.
+The later project-qualified lock also covers official Chombo
+`8684f2e000106f1abadb72642e1d15351867f98f`, its core DIM2 libraries, and the
+real target probe. Historical Chombo, PETSc/AHFinder, Docker-image,
+container-recipe, MPI, and full-runtime provenance remain separate.
 
 The approved future production ownership differs from the batch-1 27-slot
 comparison map. It is a compact 18-slot black-string state under
@@ -331,9 +334,8 @@ and is not imported by the focused fixture. Stock `Tensor.hpp` accepts the
 `ADMConformalVars`/`VarsTools` mapping is not compatible: the selected visible
 symmetric interval has three slots while the default physical tensor requires
 ten, and the selected vector interval has two slots while the default vector
-has four components. A black-string Vars/mapping adapter remains required;
-the full stock-header probe is additionally blocked by missing Chombo
-`parstream.H`.
+has four components. The dedicated black-string reduced Vars adapter now owns
+this translation, and the real Chombo/GRChombo target-header probe passes.
 
 ### Reduced Vars and GP pointwise seam
 
@@ -352,7 +354,7 @@ unit conformal determinant, zero weighted `A` trace, and reconstructed
 central-difference checks pass; fine epsilon data exhibit the expected
 roundoff turnover.
 
-This adds no direct compiled Chombo storage evidence. The next Chombo-facing
-step remains blocked by the missing Chombo source/build tuple and must wrap
-the reduced seam at the `Cell`/`FArrayBox` boundary rather than reintroducing
-stock enum mapping.
+The target-header probe now supplies compiled Chombo/GRChombo boundary
+evidence, but no live storage wrapper exists. The exact next Chombo-facing
+step is the thin `Cell`/`FArrayBox` load/store seam around the reduced adapter;
+it must not reintroduce stock enum mapping or begin `BoxLoop`/physics work.
