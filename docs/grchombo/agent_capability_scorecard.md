@@ -23,10 +23,11 @@ No weighted total or overall grade is defined yet.
 
 | Component | Reconstruction origin | Independence from GRChombo implementation | Formula/convention result | Pointwise result | Discrete result | Physical-run result | Mutations / negative controls | Human intervention | Recommended disposition | Evidence links |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Conformal algebra | Custom Stage 4A derivation | High | TBD | TBD | N/A | N/A | Existing determinant/inverse/trace mutations | TBD | retain custom oracle | TBD |
-| Hidden Ricci/cartoon geometry | Custom Stage 4AC-4AI | High; no stock counterpart found | TBD | TBD | TBD | TBD | Existing multiplicity/parity/axis mutations | TBD | retain oracle; adapt to production | TBD |
+| Custom/stock state layout | Real custom `UserVariables.hpp`, frozen-state header, and namespaced stock `CCZ4UserVariables.hpp` | Direct inspection of both actual enums | exact custom 27-slot layout; eleven documented shared correspondences; hidden/visible-y/gauge separation | N/A | N/A | N/A | swapped `h11/h13`, hidden-to-visible-y, duplicate, and omission mutations rejected | original executable gate omitted the custom layout header and required repair | retain focused regression | batch-1 results |
+| Conformal algebra | Custom Stage 4A derivation plus test-only `d=3` oracle | High | same formula family; explicit `d=3` versus `d=4` denominator translation | tolerance match: max absolute `4.441e-16`, normalized `6.808e-05` for direct executable identities | N/A | N/A | wrong-dimension trace mutation detected | no batch-1 intervention | retain custom oracle | batch-1 results |
+| Hidden Ricci/cartoon geometry | Custom Stage 4AC-4AI | High; no stock counterpart found | custom-only; excluded from stock comparison | not assessed; visible same-dimension Ricci passed separately | TBD | TBD | Existing multiplicity/parity/axis mutations | no batch-1 intervention | retain oracle; adapt to production | batch-1 results |
 | Hidden lapse/Aww curvature | Custom Stage 4AJ-4AL | High | TBD | TBD | TBD | TBD | Existing trace/projection mutations | TBD | retain oracle; adapt to production | TBD |
-| Hatted-Gamma/Z reconstruction | Custom Stage 4AN/4AO-C | Medium-high; GRChombo convention inspected | TBD | TBD | TBD | TBD | Existing sign/hidden/ownership mutations | TBD | retain custom oracle | TBD |
+| Hatted-Gamma/Z reconstruction | Custom Stage 4AN/4AO-C | Medium-high; direct GRChombo Christoffel path compiled | visible convention match; hidden increment custom-only | tolerance match: max absolute `1.837e-14`, normalized `1.036e-02` | N/A | N/A | connection-sign mutation detected; hidden increment separated | no batch-1 intervention | retain custom oracle | batch-1 results |
 | Complete 13-row frozen interior | Custom Stage 4AO-C | High at analytic-oracle layer | TBD | TBD | N/A | N/A | Full family omission/duplication battery | TBD | retain trusted oracle | TBD |
 | Nonlinear analytic JVP oracle | Independent test evaluator | High | N/A | TBD | N/A | N/A | Epsilon sweep and family mutations | TBD | retain trusted oracle | TBD |
 | GP background residual | Custom analytic/discrete derivation | High | TBD | TBD | TBD | TBD | Raw-versus-source separation | TBD | retain oracle | TBD |
@@ -34,23 +35,24 @@ No weighted total or overall grade is defined yet.
 | Stationary matrix extraction | Derived from validated custom rows | Low independence from custom source; high representation fidelity | Source/matrix match `2.44e-16` | N/A | N/A | Determinant audit exposed bad inference | Required correction | focused regression only | stationary audit |
 | Diagnostic outer row layout | Custom scaffold | N/A | no accepted physics | invalid for boundary validation | stencil only | N/A | Some ownership checks | Multiple corrections | freeze deferred | boundary audit |
 | One-hot WKB projector | Custom failed attempt | N/A | invalid abstraction | invalid validation | N/A | N/A | Replacement-subspace test exposed failure | Human correction required | quarantine | boundary audit |
-| GRChombo production infrastructure | Direct reuse | N/A | authority | TBD adapter checks | TBD | TBD | Framework tests plus project smoke | TBD | direct adaptation/reuse | TBD |
+| GRChombo production infrastructure | Direct reuse | N/A | authority; stock comparison compiled at `d=3` | direct header geometry paths execute; Chombo-grid path remains blocked | TBD | TBD | wrong-dimension and sign controls | no batch-1 intervention | direct adaptation/reuse | batch-1 results |
+| Visible physical Ricci | Independent test-only differential-geometry oracle | High; does not call/copy GRChombo Ricci | same-dimension convention match with `det(h)=1` jets | tolerance match: max absolute `2.220e-16`, normalized `1.530e-04` | N/A | N/A | `Rxz` sign mutation detected | no batch-1 intervention | retain custom oracle; adapt hidden path separately | batch-1 results |
 
 ## Required scorecard metrics
 
 | Metric | Definition | Evidence required | Count/value |
 |---|---|---|---|
-| Components independently reproduced | Formula implemented without calling/copying production execution path | Source provenance plus independent oracle | TBD |
-| Exact matches | Discrete conventions, integers, signs, rational coefficients, or slot maps match exactly | Level-1 result record | TBD |
-| Tolerance-level matches | Floating outputs meet declared pre-run tolerances | Level-2/3 result record | TBD |
-| Convention errors found | Wrong dimension, sign, formulation branch, normalization, parity, or multiplicity | Before/after formula and failing mutation | TBD |
-| Implementation errors found by audit | Code behavior contradicted intended capability | Reproducer and corrected disposition | TBD |
-| Documentation/gate errors | Claim or true gate exceeded evidence | Historical claim, correction, and present gate | TBD |
-| Wrong-abstraction tests | Test passed but exercised a proxy rather than target physics | Test name, proxy, missing target, corrective test | TBD |
-| Human interventions | User/reviewer correction materially changed interpretation or gate | Date, intervention, affected component | TBD |
-| Successful independent reconstructions | Independent component later matches GRChombo or analytic authority | Reviewed comparison record | TBD |
-| Direct adaptation preferred | Rebuilding would duplicate mature infrastructure or reduce reliability | Ownership decision and source location | TBD |
-| Research-level unresolved problems | No accepted formulation or validation path | Blocker and deferred owner | TBD |
+| Components independently reproduced | Formula implemented without calling/copying production execution path | Source provenance plus independent oracle | 3 batch-1 families: conformal algebra, contracted connection/Z, visible physical Ricci |
+| Exact matches | Discrete conventions, integers, signs, rational coefficients, or slot maps match exactly | Level-1 result record | repaired custom 27-slot permutation, eleven shared correspondences, and explicit compile-time dimension identities |
+| Tolerance-level matches | Floating outputs meet declared pre-run tolerances | Level-2/3 result record | 3 batch-1 families |
+| Convention errors found | Wrong dimension, sign, formulation branch, normalization, parity, or multiplicity | Before/after formula and failing mutation | 0 new errors; 1 required dimension translation was made explicit before comparison |
+| Implementation errors found by audit | Code behavior contradicted intended capability | Reproducer and corrected disposition | 0 in batch 1 |
+| Documentation/gate errors | Claim or true gate exceeded evidence | Historical claim, correction, and present gate | 1 batch-1 state-map evidence overclaim repaired |
+| Wrong-abstraction tests | Test passed but exercised a proxy rather than target physics | Test name, proxy, missing target, corrective test | 1 batch-1 gate checked frozen order plus stock enum instead of the actual custom 27-slot enum |
+| Human interventions | User/reviewer correction materially changed interpretation or gate | Date, intervention, affected component | 1 batch-1 layout-gate repair; historical entries remain separately countable |
+| Successful independent reconstructions | Independent component later matches GRChombo or analytic authority | Reviewed comparison record | 3 batch-1 families |
+| Direct adaptation preferred | Rebuilding would duplicate mature infrastructure or reduce reliability | Ownership decision and source location | GRChombo tensor/geometry production paths; no new runtime infrastructure rebuilt |
+| Research-level unresolved problems | No accepted formulation or validation path | Blocker and deferred owner | custom stationary outer boundary remains one explicit unresolved research area |
 
 ## Known audit events to carry into later scoring
 
@@ -70,10 +72,23 @@ These entries are evidence categories, not scores:
 
 | Date | Component | Intervention | Why autonomous result was insufficient | Resulting gate/disposition | Evidence |
 |---|---|---|---|---|---|
-| TBD | TBD | TBD | TBD | TBD | TBD |
+| 2026-07-23 | Batch-1 state mapping | Require the executable fixture to include and validate the real custom 27-slot enum | The original passing gate checked frozen order and stock classification but not numeric custom slots; an `h11/h13` swap was not discriminated | Original exact-map evidence retracted and replaced by the repaired 27-slot, eleven-shared, ownership-separated gate | batch-1 results |
 
 Populate one row per material intervention; do not collapse several corrections
 into a single count.
+
+## Batch-1 evidence note
+
+Batch 1 began from clean committed inventory checkpoint
+`661468ade479cf003dc5336e665dc7b70edf48c6`. The direct bridge invokes the
+inspected GRChombo headers. It establishes three tolerance matches and one
+repaired exact custom-layout result: the 27 custom slots form the expected
+complete permutation, eleven frozen variables have the documented stock
+correspondence, and hidden, visible-y, and gauge ownership are separate. It
+does not claim identical complete custom and stock state arrays. It does not
+assess the complete thirteen-row RHS, discrete stencils, physical runs, hidden
+production geometry, or any boundary condition. No final overall score is
+assigned.
 
 ## Final-score prerequisites
 

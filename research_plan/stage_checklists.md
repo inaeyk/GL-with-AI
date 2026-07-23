@@ -287,11 +287,12 @@ compares overlapping formulas and numerical outputs, uses the comparison to
 assess AI-agent capability, and adapts missing production functionality
 directly from GRChombo. This decision does not reopen any Stage 4AO-C gate.
 
-The overlap/gap inventory is now complete as a documentation contract. Four
-companion documents define the master capability matrix, four-level comparison
-hierarchy with predeclared tolerances, prioritized GRChombo adaptation backlog,
-and scorecard evidence schema. No comparison code or production adaptation has
-started.
+The overlap/gap inventory is complete as a documentation contract. Comparison
+batch 1 now supplies an exact state map and direct compiled stock-`d=3`
+evidence for conformal algebra, visible contracted connection/Z, and visible
+physical Ricci. The custom production oracle remains `d=4/2` with hidden
+multiplicity two; no production adaptation has started. Chombo and container
+digests remain unresolved.
 
 - [x] Stage 4A: local conformal-cartoon algebra helpers and non-grid tests.
 - [x] Stage 4B: public GRChombo CCZ4 baseline-layout check.
@@ -300,7 +301,8 @@ started.
 - [x] Custom-solver/GRChombo overlap-and-gap inventory: classify variables/conventions, all thirteen frozen interior rows, gauge/background, numerical infrastructure, diagnostics, direct-comparison opportunities, production ownership, and custom-code disposition. GRChombo is the production authority; the custom interior/JVP/hidden helpers remain independent oracles; the outer boundary remains deferred. Evidence: `docs/grchombo/custom_solver_grchombo_overlap_gap_checklist.md`.
 - [x] Comparison/adaptation planning: define Level 1 formula/convention, Level 2 analytic-jet RHS, Level 3 manufactured-profile, and Level 4 physical-run tests with pre-run tolerances; prioritize source locking, GP initial data/source, hidden production terms, periodic z, background evolution, perturbations, growth, horizon observables, and nonlinear workflow; define the agent scorecard without an overall score. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_test_plan.md`, `docs/grchombo/grchombo_adaptation_backlog.md`, `docs/grchombo/agent_capability_scorecard.md`.
 - [ ] GRChombo production-adaptation P0: pin the exact GRChombo, Chombo, container, compiler, dimension, and formulation manifest. The ignored local GRChombo checkout is currently at `37e6595`; the current shell cannot inspect the Docker digest, and no authoritative modified-cartoon/black-string upstream branch has been supplied.
-- [ ] First executable comparison tranche: implement only the dependency manifest, slot/dimension map, conformal-algebra comparison, contracted-connection/Z comparison, and visible-Ricci analytic-jet comparison. Do not begin production evolution or physical diagnostics before review.
+- [x] First executable comparison tranche: exact dependency/source fields available in the shell, slot/dimension map, conformal algebra, contracted-connection/Z, and visible-Ricci analytic jets. The focused bridge calls GRChombo `TensorAlgebra` and `CCZ4Geometry` directly at stock `d=3`; all three numerical families pass the predeclared Level-2 tolerance and all dimension/sign mutations fail. Chombo/container digests remain a P0 gap, hidden terms remain custom-only, and no production evolution or physical diagnostic was started. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch1_results.md`.
+- [ ] Comparison batch 2: compare raw versus encoded-Z Ricci and the visible chi/metric/K/Theta/A RHS families on identical analytic jets. Keep stock-`d=3` evidence separate from the future reviewed `d=4/2` adapter.
 - [x] Stage 4C: cheap inherited smoke run result recorded accurately; it reaches runtime but fails because `hww/Aww` are not initialized or handed off yet.
 - [x] Stage 4D: finite smoke-only scaffold support for `hww/Aww` so the cheap smoke run no longer dies immediately from NaNs.
 - [x] Stage 4D: guard the temporary freeze with the default-off `scaffold_freeze_hidden` parameter, enabled only in the cheap smoke parameter file.

@@ -1,10 +1,10 @@
 # GRChombo Adaptation Backlog for GL Production
 
-Status: prioritized design backlog only. Production must reuse mature
-GRChombo infrastructure and adapt only black-string-specific physics,
-configuration, and diagnostics. Do not independently rebuild RK4, AMR,
-MPI/OpenMP, checkpoint/restart, ghost exchange, reductions, interpolation, or
-generic parameter parsing.
+Status: prioritized design backlog with batch-1 comparison evidence.
+Production must reuse mature GRChombo infrastructure and adapt only
+black-string-specific physics, configuration, and diagnostics. Do not
+independently rebuild RK4, AMR, MPI/OpenMP, checkpoint/restart, ghost exchange,
+reductions, interpolation, or generic parameter parsing.
 
 ## Priority rules
 
@@ -35,6 +35,26 @@ acceptance. The frozen custom outer-boundary research is excluded.
 | P3-15 | `R_H`, minimum radius, and horizon area | AH surface data, interpolation, reductions, `SmallDataIO` | Evaluate `R_H=h sqrt(hww/chi)`, minimum over z, correct string area | P3-14 | Uniform analytic values and perturbed manufactured profiles converge |
 | P3-16 | Nonlinear GL production workflow | All mature GRChombo runtime infrastructure | Parameter families, perturbation sweep, constraints/horizon monitoring, failure criteria, archival metadata | P2-13, P3-15 | Reviewed end-to-end runbook; unperturbed and small-perturbation gates pass first |
 | Deferred | Custom stationary outer boundary | None accepted | Preserve documentation/scaffolding only | Not on production path | Reopen only through a separate research decision |
+
+## Batch-1 backlog update
+
+- P0-1 is partially evidenced, not complete. The exact custom and GRChombo
+  commits, detached-clean GRChombo status, compiler, comparison flags, and
+  dimensions are recorded. The ignored checkout is not a reproducible
+  top-level source lock, and the Chombo/container digests remain unresolved.
+- P0-2 has an exact shared-slot map and an explicit stock-`d=3` versus
+  custom-`d=4/2` distinction. It is not complete because no reviewed
+  `CH_SPACEDIM=2`, `GR_SPACEDIM=4` production adapter exists.
+- P0-3 now has a focused header-only direct bridge for GRChombo tensor algebra,
+  contracted connection, and physical Ricci. It is deliberately test-only.
+  A full analytic-jet CCZ4 RHS bridge remains future work.
+- No P1, P2, or P3 production item was started. Hidden/cartoon terms remain
+  custom-only pending P1-6, and the custom stationary outer boundary remains
+  deferred.
+
+The direct header bridge proves that missing Chombo/container digests need not
+block source-level and directly compilable geometry comparisons. It does not
+reduce the requirement to resolve those digests before production adaptation.
 
 ## Explicit non-goals
 

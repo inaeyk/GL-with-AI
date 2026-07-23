@@ -1,7 +1,9 @@
 # Custom Solver versus GRChombo Overlap-and-Gap Checklist
 
-Status: inventory and comparison contract only. The inventory starts from the
-clean frozen-outer-boundary checkpoint `015a035`. GRChombo is the production
+Status: inventory contract with comparison batch 1 evidence. The inventory
+starts from the clean frozen-outer-boundary checkpoint `015a035`; batch 1
+starts from the clean committed inventory checkpoint
+`661468ade479cf003dc5336e665dc7b70edf48c6`. GRChombo is the production
 framework and convention authority; the Stage 4AO-C custom implementation is
 an independent reference/oracle. The unresolved stationary outer boundary is
 deferred research and is not on the production critical path.
@@ -33,7 +35,7 @@ Production-owner values are exactly: **reuse GRChombo**, **adapt GRChombo**,
 
 | Capability | Custom implementation and status | GRChombo implementation and status | Formula or convention | Match / mismatch | Existing evidence | Required comparison and acceptance | Production owner |
 |---|---|---|---|---|---|---|---|
-| State variables and ordering | `Stage4AOFrozenGaugeOperator.hpp`: validated 13-slot frozen state; `UserVariables.hpp`: 27-slot scaffold including `hww/Aww` | `Source/CCZ4/CCZ4UserVariables.hpp`, `CCZ4Vars.hpp`, `BSSNVars.hpp`: stock 25-slot 3D CCZ4 mapping | Custom oracle order is `chi,hxx,hxz,hzz,hww,K,Axx,Axz,Azz,Aww,Theta,Gx,Gz`; production also needs lapse, shift, and B | Visible names align; hidden slots and reduced ordering do not directly align | Stage 4B/4C layout and Stage 4AO-C contract fixtures | Generate an explicit bidirectional slot map; distinct-value round trip must be exact and cover every representative `ww` slot once | adapt GRChombo |
+| State variables and ordering | `Stage4AOFrozenGaugeOperator.hpp`: validated 13-slot frozen state; `UserVariables.hpp`: actual 27-slot scaffold including `hww/Aww` | `Source/CCZ4/CCZ4UserVariables.hpp`, `CCZ4Vars.hpp`, `BSSNVars.hpp`: stock 25-slot 3D CCZ4 mapping | Custom oracle order is `chi,hxx,hxz,hzz,hww,K,Axx,Axz,Azz,Aww,Theta,Gx,Gz`; production also needs lapse, shift, and B | Eleven frozen variables have documented stock correspondences; hidden, visible-y, and gauge ownership remains distinct; complete arrays are not identical | Repaired batch-1 fixture includes both real enum headers, proves the custom `[0,27)` permutation, and rejects slot-swap/hidden/duplicate/omission mutations | Preserve the exact 27-slot gate and ownership separation; any future adapter round trip must cover each shared and hidden owner once | adapt GRChombo |
 | Spacetime/spatial dimensions | `ConformalCartoonAlgebra.hpp`: spacetime 5D, physical spatial `d=4`, gridded `CH_SPACEDIM=2`, hidden multiplicity 2 | `DimensionDefinitions.hpp`: `GR_SPACEDIM` defaults 3 and tensor loops default to `CH_SPACEDIM`; stock examples are 3D | Project target is `GR_SPACEDIM=4`, `CH_SPACEDIM=2` | Target convention is not the stock production instantiation | Stage 1.5 scratch compile notes; custom dimension assertions | Compile a pinned minimal production target with both dimensions visible in emitted flags and runtime manifest; all tensor intervals must map without static-assert failures | adapt GRChombo |
 | Conformal metric/factor | `ConformalCartoonAlgebra.hpp`, Stage 4AO-A note: `gamma_IJ=chi^-1 h_IJ`, `chi=det(gamma)^(-1/4)` | `ADMConformalVars.hpp`, `CCZ4RHS.impl.hpp` | Same conformal decomposition, with dimension-dependent exponent/trace | Formula family matches; dimension must be explicit | Stage 4A algebra fixture and nonlinear JVP oracle | Random positive-definite metric comparison after dimension adapter; determinant, inverse, and reconstructed physical metric within `5e-13 + 5e-12 scale` | retain custom oracle |
 | `K` definition/sign | Stage 4AO-A: `partial_t gamma=-2 alpha K+L_beta gamma`; GP `K=3 lambda/2` | `ADMConformalVars.hpp`, `CCZ4RHS.impl.hpp` use the same evolution sign | `K=gamma^IJ K_IJ` | Known match for selected branch | GP analytic residual and K-row fixtures | Formula manifest plus GP pointwise test; exact coefficients and pointwise tolerance must pass | retain custom oracle |
@@ -142,3 +144,38 @@ been supplied.
 | Rejected one-hot WKB projector | **quarantine because validation failed** | Must not feed production or gates; eventually remove after archival needs and GRChombo equivalence review |
 | Stationary asymptotic matrix extraction | **retain as focused regression test** | Faithfully reproduces the validated interior operator; it is not a boundary derivation |
 | BinaryBH-derived smoke scaffold | **eventually remove after GRChombo equivalence is established** | Retain only until the real black-string production path supersedes smoke-only hidden freezing |
+
+## Executed comparison batch 1
+
+The dependency manifest, repaired custom 27-slot/shared-variable map,
+same-dimension conformal algebra, visible contracted connection/encoded-Z
+reconstruction, and visible physical Ricci comparisons were executed in
+`Stage4AOCGRChomboComparisonBatch1Test.cpp`. The bridge directly includes the
+inspected GRChombo `TensorAlgebra` and `CCZ4Geometry` headers; it does not copy
+their formulas into a second object labeled as GRChombo.
+
+The original layout gate did not include the real custom `UserVariables.hpp`
+and could not prove numeric custom slots. Its exact-map claim is retracted.
+The repaired compiled gate checks the actual 27-slot custom enum, the
+namespaced stock 25-slot enum, and the frozen thirteen-variable order.
+
+| Capability | Updated status | Batch-1 evidence |
+|---|---|---|
+| Dependency/source manifest | partial | custom and GRChombo commits, detached clean GRChombo status, compiler, flags, and dimensions recorded; Chombo and container digests unresolved |
+| State/order map | repaired exact custom layout and correspondence | all 27 custom slots form the unique complete `[0,27)` permutation; eleven frozen variables have the documented stock correspondence; `hww/Aww` are hidden-only; seven visible-y and seven gauge slots remain separate |
+| Dimension map | explicit translation | direct fixture is stock `d=3`; custom production stays physical `d=4`, gridded `d=2`, hidden multiplicity two |
+| Conformal algebra | direct compiled tolerance match for executable identities | maximum absolute error `4.441e-16`; maximum normalized error `6.808e-05` |
+| `gamma=h/chi`, `Kij` reconstruction | source/convention match only | no standalone inspected GRChombo production function exists for a direct call |
+| Visible contracted connection/Z | direct compiled tolerance match for connection; source-locked Z reconstruction | maximum absolute error `1.837e-14`; maximum normalized error `1.036e-02` |
+| Hidden connection/Z | custom-only | separated analytic increment; no stock GRChombo owner |
+| Visible physical Ricci | direct compiled tolerance match | maximum absolute error `2.220e-16`; maximum normalized error `1.530e-04` |
+| Hidden Ricci/cartoon | custom-only pending adaptation | deliberately excluded from the direct stock comparison |
+
+The repaired mapping gate rejects swapped `h11/h13`, hidden-to-visible-y
+assignments for both `hww` and `Aww`, a duplicated shared slot, and an omitted
+shared slot. Wrong trace dimension, contracted-connection sign, and Ricci
+off-diagonal sign mutations also fail. This proves the custom layout and the
+eleven documented correspondences, not identical complete custom and stock
+state arrays. Full evidence, cases, directness classifications, and blockers
+are in
+`docs/grchombo/custom_solver_grchombo_comparison_batch1_results.md`.

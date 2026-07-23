@@ -2070,3 +2070,40 @@ Category: Production Ownership + Comparison Design
   missing string-horizon data conventions.
 - No technical source, test, boundary, eigensolver, MOTS, production evolution,
   protected path, smoke parameter, staging, or commit change was made.
+
+## 2026-07-23 - Custom Solver / GRChombo Comparison Batch 1
+
+Category: Direct Source Bridge + Level-2 Geometry Comparison
+
+- Began from clean committed comparison-inventory checkpoint
+  `661468ade479cf003dc5336e665dc7b70edf48c6` and used CodeGraph before direct
+  source inspection.
+- Inspected GRChombo at clean detached commit
+  `37e659523830418b210acea1661dac0e00bb1b75`. The focused bridge compiled the
+  actual `TensorAlgebra` and `CCZ4Geometry` headers with
+  `CH_SPACEDIM=GR_SPACEDIM=DEFAULT_TENSOR_DIM=3`; it did not copy GRChombo
+  formulas into a comparison oracle.
+- Recorded the exact thirteen-state map. Shared visible variables map
+  one-to-one after layout shifts; `hww/Aww` are the only frozen custom slots
+  absent from stock GRChombo. The custom production oracle remains physical
+  `d=4`, gridded `d=2`, hidden multiplicity two.
+- Direct conformal algebra passed with maximum absolute error `4.441e-16` and
+  maximum normalized error `6.808e-05`. `gamma=h/chi` and `Kij`
+  reconstruction are source/convention comparisons because no standalone
+  inspected GRChombo production helper exposes them.
+- The visible contracted connection/Z comparison passed over diagonal,
+  off-diagonal, pure-hatted-Gamma, and mixed cases with maximum absolute error
+  `1.837e-14` and maximum normalized error `1.036e-02`. The hidden `ww`
+  increment was separated and remains custom-only.
+- Direct visible physical Ricci passed flat, diagonal-curved, off-diagonal,
+  conformal-factor, and mixed determinant-one jets with maximum absolute error
+  `2.220e-16` and maximum normalized error `1.530e-04`.
+- Wrong trace dimension, contracted-connection sign, and `Rxz` sign mutations
+  all failed as required.
+- The compiler/source manifest is usable for direct header comparisons.
+  Chombo and container digests remain unresolved because neither a local
+  Chombo installation nor Docker is available in this shell.
+- No production code, external GRChombo source, boundary condition,
+  eigensolver, MOTS, production evolution, protected path, smoke parameter,
+  staging, or commit was changed. The custom stationary outer boundary remains
+  deferred research.

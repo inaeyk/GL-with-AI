@@ -1805,3 +1805,42 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Scope: no code, tests, boundary work, eigensolver, MOTS, or production
   evolution was implemented. The custom outer-boundary problem remains
   deferred and every associated gate remains false.
+
+- Date: 2026-07-23
+- Goal: Execute custom Stage 4AO-C versus GRChombo comparison batch 1 from the
+  committed inventory checkpoint; no production adaptation or boundary work.
+- Start state: Used CodeGraph/MCP first. The worktree and index were clean at
+  `661468ade479cf003dc5336e665dc7b70edf48c6`. The ignored GRChombo checkout
+  was clean, detached, and exactly at
+  `37e659523830418b210acea1661dac0e00bb1b75`.
+- Bridge: Added one focused test-only fixture that directly includes and calls
+  GRChombo `TensorAlgebra::compute_inverse_sym`,
+  `compute_determinant_sym`, `compute_trace`, `make_trace_free`,
+  `compute_christoffel`, and `CCZ4Geometry::compute_ricci`. The independent
+  Ricci side uses the general metric/Christoffel definition and does not call
+  or copy the GRChombo Ricci path.
+- Dimensions: Compiled the inspected stock source explicitly at
+  `CH_SPACEDIM=3`, `GR_SPACEDIM=3`, `DEFAULT_TENSOR_DIM=3`. Kept the custom
+  production assertions at physical `d=4`, gridded `d=2`, hidden
+  multiplicity two; no cross-dimension coefficient was labeled a match.
+- State map: All thirteen frozen slots map exactly to stock variables except
+  the custom hidden representatives `hww/Aww`. Stock visible-y and gauge slots
+  are explicitly classified.
+- Results: conformal algebra maximum absolute/normalized errors are
+  `4.441e-16` / `6.808e-05`; contracted connection/Z are
+  `1.837e-14` / `1.036e-02`; visible physical Ricci are
+  `2.220e-16` / `1.530e-04`. All meet the unchanged
+  `5e-13 + 5e-12*scale` rule.
+- Negative controls: wrong trace dimension, connection sign, and Ricci
+  off-diagonal sign were all detected.
+- Directness: executable tensor algebra, contracted connection, and Ricci are
+  direct compiled GRChombo comparisons. `gamma=h/chi` and `Kij`
+  reconstruction are source/convention only. Hidden `ww` connection/Ricci
+  terms are custom-only pending production adaptation.
+- Reproducibility gap: compiler, flags, commits, status, and dimensions are
+  recorded. Docker is unavailable and no local Chombo installation is
+  present, so their exact digests remain unresolved without blocking the
+  header-only comparisons.
+- Scope: no production solver source, external GRChombo, outer-boundary work,
+  eigensolver, MOTS, smoke parameter, staging, or commit was changed. No final
+  agent score was assigned.

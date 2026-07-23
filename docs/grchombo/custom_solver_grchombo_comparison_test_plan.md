@@ -1,8 +1,9 @@
 # Custom Solver versus GRChombo Comparison-Test Plan
 
-Status: executable-test design only. No comparison code or production wiring
-is authorized by this document. The custom Stage 4AO-C operator is the
-independent oracle; GRChombo is the convention and production authority.
+Status: executable-test contract with batch 1 completed. The batch-1
+test-only bridge is authorized evidence, not production wiring. The custom
+Stage 4AO-C operator is the independent oracle; GRChombo is the convention
+and production authority.
 
 ## Fixed comparison contract
 
@@ -138,3 +139,31 @@ infrastructure can obscure a mismatch.
 | Outcome | not run / pass / fail / blocked |
 | Evidence artifact | TBD |
 | Follow-up owner | TBD |
+
+## Batch 1 result records
+
+The fixed tolerance above was used without modification. The focused fixture
+is `code/BlackStringToy/tests/Stage4AOCGRChomboComparisonBatch1Test.cpp`; the
+detailed manifest and case definitions are in
+`docs/grchombo/custom_solver_grchombo_comparison_batch1_results.md`.
+
+| Test ID | Directness | Maximum absolute error | Maximum normalized error | Mutations | Outcome |
+|---|---|---:|---:|---|---|
+| L1-01 | source/environment manifest | N/A | N/A | N/A | partial: commits/compiler/dimensions pass; Chombo/container digests unresolved |
+| L1-02 | compiled custom-state and stock-enum headers | exact | exact | stock-only and hidden-slot classifications | pass |
+| L1-03 | compile-time assertions | exact | exact | `/4` trace denominator used against compiled `d=3` | pass; production target `d=4/2` remains a separate adapter task |
+| L2-01 | direct `TensorAlgebra` | `4.441e-16` | `6.808e-05` | wrong trace dimension | pass |
+| L2-02 | direct `compute_christoffel`; source-locked Z formula | `1.837e-14` | `1.036e-02` | connection sign | pass for visible terms; hidden increment custom-only |
+| L2-03 | direct `CCZ4Geometry::compute_ricci` | `2.220e-16` | `1.530e-04` | `Rxz` sign | pass for same-dimension visible geometry |
+
+For L2-03, the independent side is a test-only dimension-general
+differential-geometry oracle evaluated at the compiled GRChombo dimension.
+The production `d=4` custom operator was not changed. For L2-01,
+`gamma=h/chi` and `Kij` reconstruction remain source/convention comparisons
+because the inspected GRChombo headers expose the data convention but no
+standalone callable reconstruction path.
+
+The next executable tranche should compare the raw and encoded-Z Ricci pieces,
+then the visible `chi`, metric, `K`, `Theta`, and `A` RHS families. It must
+continue to separate stock `d=3` evidence from any future reviewed target
+`d=4` adapter and must not begin production evolution.
