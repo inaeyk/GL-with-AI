@@ -1,7 +1,10 @@
 # GRChombo Production-Adaptation Preflight
 
-Status: dependency-source lock and isolated production variable contract
-implemented. The contract is not yet imported by the live 27-slot smoke
+Status: dependency source/contract audit, isolated production variable
+contract, reduced Vars seam, and pointwise GP initializer implemented. The
+GRChombo source and Chombo fork/layout are verified; the exact Chombo
+revision, patch/container provenance, and target header compile remain
+unresolved. The contract is not imported by the live 27-slot smoke
 application. No GP initial-data `BoxLoop`, hidden RHS, cleanup, constraint,
 gauge-source, periodic grid, diagnostic, or evolution path is implemented.
 
@@ -23,15 +26,22 @@ The authoritative inspected source tuple is:
 | Comparison compile contract | C++17, `-O2 -Wall -Wextra -Wpedantic -Werror` | verified for focused comparison fixtures |
 | Direct-comparison dimensions | `CH_SPACEDIM=3`, `GR_SPACEDIM=3`, `DEFAULT_TENSOR_DIM=3` | verified comparison configuration |
 | Target production dimensions | `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4` | required design, compilation/runtime still unresolved |
-| Chombo source/revision | not available in the inspected checkout | unresolved |
-| PETSc source/build tuple | not available | unresolved |
+| Chombo repository | `https://github.com/GRChombo/Chombo.git` | verified from locked CI |
+| Chombo layout | checkout root with `CHOMBO_HOME=<root>/lib`; `mk/Make.test` | verified from locked CI/GNUmakefiles |
+| Chombo revision/patch set | CI checkout omits `ref`; no local tuple found | unresolved |
+| PETSc role | optional for core/GP wrapper; required by `USE_AHFINDER` | verified |
+| PETSc source/build tuple | Ubuntu CI uses unpinned `petsc-dev` and `pkg-config petsc` | unresolved |
 | Docker image | historical name `grchombo/grchombo`; digest unavailable | unresolved |
 | Container recipe digest | unavailable | unresolved |
 
-The machine-readable source lock is
+The machine-readable dependency lock is
 `run_manifests/grchombo_dependency_lock.yaml`. The read-only verifier is
 `scripts/verify_grchombo_dependency.sh`. It fails on a wrong origin, wrong
-commit, attached branch, or dirty checkout.
+commit, attached branch, or dirty checkout. When Chombo is present it also
+checks its fork, cleanliness, real `parstream.H`, `mk/Make.test`, and exact
+revision if pinned. Metadata-only, target-probe, candidate-recovery,
+PETSc-requested, and full-build modes are documented in
+`docs/grchombo/chombo_dependency_contract.md`.
 
 On a new machine, obtain and verify the inspected source with:
 
@@ -50,10 +60,14 @@ GRChombo/Chombo/PETSc/container tuple is known; its migration plan must cover
 the ignore rule, `.gitmodules`, CI/bootstrap commands, and preservation of
 local checkouts.
 
-The manifest locks source inspection, not a full build. No fresh-machine
-production reproducibility claim is permitted until the Chombo revision,
-PETSc tuple where applicable, container image/recipe digests, and the target
-dimension build have been locked and executed.
+The locked workflows clone `GRChombo/Chombo` without a `ref`; consequently
+they verify the fork but cannot recover a historical revision. The current
+shell has no Chombo checkout, `CHOMBO_HOME`, PETSc package, or usable Docker
+integration. The test-only target probe therefore reports blocked and does
+not fabricate headers. No fresh-machine production reproducibility claim is
+permitted until the Chombo revision/patch set, compiler/build tuple, PETSc
+tuple where applicable, container image/recipe digests, and target-dimension
+compile have been locked and executed.
 
 ## Compile-time dimension contract
 

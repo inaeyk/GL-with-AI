@@ -128,29 +128,34 @@ Physics and physics-design stages also produce polished review notes under
 - Current decision: the custom stationary outer-boundary problem remains
   frozen as deferred research. Do not add an eigensolver, MOTS implementation,
   or production evolution as part of the comparison-inventory phase.
-- Immediate sequence: reproducibly pin GRChombo/Chombo/container sources;
-  build the slot/dimension adapter; compare conformal algebra,
-  contracted-connection/Z, and visible Ricci on identical analytic jets; then
-  adapt exact GP initial data, the fixed GP-holding lapse source, and the
-  modified-cartoon hidden production path.
+- Immediate sequence: recover the authoritative revision/patch tuple for the
+  CI-verified `GRChombo/Chombo` fork, run the real `2/4/4`
+  `parstream.H`/`FArrayBox.H`/`Cell.hpp` probe, and lock the resulting
+  compiler/container provenance. The slot/dimension adapter and exact
+  pointwise GP initializer are already isolated and validated; after the
+  dependency probe, add only their thin Chombo storage wrapper before hidden
+  physics work.
 - Infrastructure policy: reuse GRChombo RK4, AMR, MPI/OpenMP,
   checkpoint/restart, ghost exchange, parameter parsing, interpolation,
   reductions, and AH framework. Do not independently rebuild them.
 - Known source blocker: inspected GRChombo commit `37e6595` contains no
   black-string or modified-cartoon production implementation. An authoritative
   collaboration branch/source for those terms, if one exists, has not been
-  supplied. PETSc-enabled AH execution and the container/Chombo digest also
-  remain unresolved.
+  supplied. Locked CI verifies the `GRChombo/Chombo` fork and
+  `<checkout>/lib` layout but omits a Chombo `ref`; the authoritative Chombo
+  commit/patch set, container digest, and PETSc-enabled AH tuple remain
+  unresolved.
 - Production-adaptation preflight: the inspected GRChombo origin and full
   commit are now locked in a tracked manifest with a read-only detached/clean
   verifier. The target design is a compact 18-slot black-string state with
   `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`, no visible-`y`
   slots, and one stored `ww` representative carrying hidden multiplicity two.
   The isolated enum/name/metadata contract and focused mutation fixture now
-  pass; the old 27-slot live smoke scaffold is unchanged. Stock variable
-  mapping still requires a target-dimension adapter, Chombo/PETSc/container
-  provenance remains unresolved, and no production initializer, RHS,
-  cleanup, source, grid, or evolution path has been added.
+  pass; the old 27-slot live smoke scaffold is unchanged. The dedicated
+  reduced Vars adapter and pointwise GP initializer now pass storage-agnostic
+  tests, but their real Chombo storage wrapper is blocked by the missing
+  revision/probe. PETSc/container provenance remains unresolved, and no
+  production RHS, cleanup, source, grid, or evolution path has been added.
 
 ## Stage 5: Pau Diagnostic Reproduction
 

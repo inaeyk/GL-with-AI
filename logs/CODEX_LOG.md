@@ -2023,3 +2023,32 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Scope: No external source, live registration, Chombo storage, BoxLoop, RHS,
   hidden geometry, cleanup, constraint, fixed source, periodic ownership,
   evolution, diagnostic, smoke parameter, staging, or commit changed.
+
+- Date: 2026-07-23
+- Goal: Resolve as much of the Chombo build contract as the locked source and
+  repository-owned evidence permit, without downloading dependencies or
+  implementing production physics.
+- Start state: Used CodeGraph/MCP first. The worktree and index were clean at
+  reduced-Vars/GP checkpoint
+  `dc4981ec3a1f26f1d90ba1252e934ab77c1a9ede`; the original dependency
+  verifier accepted clean detached GRChombo
+  `37e659523830418b210acea1661dac0e00bb1b75`.
+- Recovered contract: Locked CI checks out `GRChombo/Chombo` into `Chombo`,
+  exports `CHOMBO_HOME=Chombo/lib`, installs `lib/mk/Make.defs.local`, and
+  builds `AMRTimeDependent`, `AMRTools`, `BaseTools`, and `BoxTools`.
+  Checkout `ref` is absent in all three workflows, so no Chombo revision or
+  patch set was invented.
+- PETSc/container: Core and the pointwise GP wrapper do not require PETSc;
+  `USE_AHFINDER` does. CI uses unpinned Ubuntu `petsc-dev` and
+  `pkg-config petsc`. The historical image name is known, but its tag, digest,
+  and recipe digest are not. Current Chombo/PETSc/Docker facilities are
+  unavailable.
+- Tooling: Split the manifest into GRChombo/Chombo/PETSc/container records;
+  added honest metadata/probe/build verification modes and exact candidate
+  checking; added a real-header `2/4/4` probe using Chombo `Make.test`,
+  `parstream.H`, `FArrayBox.H`, GRChombo `Cell.hpp`, and the reduced Vars
+  seam.
+- Validation: Shell syntax and metadata verification pass. The compile probe
+  returns its documented blocked status 2 because `external/Chombo` and an
+  authoritative Chombo revision are absent. No stubs, downloads, dependency
+  edits, production physics, staging, or commit were introduced.

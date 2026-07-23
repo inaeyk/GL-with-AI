@@ -300,7 +300,12 @@ digests remain unresolved.
 - [x] Stage 4C: full scratch Docker/GRChombo `BlackStringToy` scaffold compile succeeds with the 27-variable layout.
 - [x] Custom-solver/GRChombo overlap-and-gap inventory: classify variables/conventions, all thirteen frozen interior rows, gauge/background, numerical infrastructure, diagnostics, direct-comparison opportunities, production ownership, and custom-code disposition. GRChombo is the production authority; the custom interior/JVP/hidden helpers remain independent oracles; the outer boundary remains deferred. Evidence: `docs/grchombo/custom_solver_grchombo_overlap_gap_checklist.md`.
 - [x] Comparison/adaptation planning: define Level 1 formula/convention, Level 2 analytic-jet RHS, Level 3 manufactured-profile, and Level 4 physical-run tests with pre-run tolerances; prioritize source locking, GP initial data/source, hidden production terms, periodic z, background evolution, perturbations, growth, horizon observables, and nonlinear workflow; define the agent scorecard without an overall score. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_test_plan.md`, `docs/grchombo/grchombo_adaptation_backlog.md`, `docs/grchombo/agent_capability_scorecard.md`.
-- [ ] GRChombo production-adaptation P0: pin the exact GRChombo, Chombo, container, compiler, dimension, and formulation manifest. The ignored local GRChombo checkout is currently at `37e6595`; the current shell cannot inspect the Docker digest, and no authoritative modified-cartoon/black-string upstream branch has been supplied.
+- [ ] GRChombo production-adaptation P0: pin the exact GRChombo, Chombo,
+  container, compiler, dimension, and formulation manifest. GRChombo
+  `37e6595` is locked. Its CI verifies the `GRChombo/Chombo` fork,
+  `CHOMBO_HOME=<checkout>/lib`, Make-def location, and build targets, but
+  omits `ref`; the Chombo revision/patch set and container tuple remain
+  unresolved. The real target header probe is tracked and dependency-blocked.
 - [x] First executable comparison tranche: exact dependency/source fields available in the shell, slot/dimension map, conformal algebra, contracted-connection/Z, and visible-Ricci analytic jets. The focused bridge calls GRChombo `TensorAlgebra` and `CCZ4Geometry` directly at stock `d=3`; all three numerical families pass the predeclared Level-2 tolerance and all dimension/sign mutations fail. Chombo/container digests remain a P0 gap, hidden terms remain custom-only, and no production evolution or physical diagnostic was started. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch1_results.md`.
 - [x] Comparison batch 2: directly invoke the inspected GRChombo `CCZ4RHS::rhs_equation`, raw Ricci, and Ricci-Z paths at stock `d=3`; independently assemble raw/encoded/combined geometry and every visible `chi,h,K,Theta,A` term family at the same dimension. All families and combined rows pass the unchanged Level-2 tolerance; omission, duplication, index/conformal-factor, trace-dimension, sign, RHS-dimension, and BSSN mutations fail. The production custom `d=4/2` operator is unchanged; hidden `ww` terms remain an adaptation gap. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch2_results.md`.
 - [x] Comparison batch 3: real custom and GRChombo derivative paths converge at their documented orders; all 15 visible advection rows and the complete `chi`, metric, and `A` shift RHS families have independent component/location-aware monitors; visible cleanup passes. Production Chombo periodic ownership/ghost exchange remains blocked, hidden-weighted cleanup remains pending, and batch 4 is next. Do not begin target-`d=4` or modified-cartoon production comparison before the reviewed adapter exists.
@@ -740,5 +745,10 @@ simulation and radiation diagnostics exist.
   compute class around the reduced seam. Do not start CCZ4 RHS, hidden
   geometry, cleanup/constraints, lapse source, periodic ownership, evolution,
   or diagnostics.
-- [ ] Resolve and execute the complete Chombo/PETSc/container build tuple.
-  The GRChombo source is locked, but full build reproducibility is not.
+- [ ] Recover and pin the authoritative `GRChombo/Chombo` full commit and any
+  patch set; then pass the real `CH_SPACEDIM=2`, `GR_SPACEDIM=4`,
+  `DEFAULT_TENSOR_DIM=4` `parstream.H`/`FArrayBox.H`/`Cell.hpp` probe. CI
+  verifies the fork/layout but not a revision.
+- [ ] Resolve and execute the complete compiler/Chombo/container build tuple.
+  Resolve PETSc separately before enabling `USE_AHFINDER`. Full build
+  reproducibility remains false.

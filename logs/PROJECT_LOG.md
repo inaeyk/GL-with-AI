@@ -2293,3 +2293,37 @@ Category: Storage-Agnostic Production Seam + Analytic Setup
   constraint, source, periodic, evolution, or diagnostic path changed. The
   remaining BoxLoop blocker is the unresolved Chombo source/build tuple and
   absent thin `Cell`/`FArrayBox` wrapper.
+
+## 2026-07-23 - Chombo Dependency Contract Audit
+
+Category: Dependency Provenance + Blocked Real-Header Probe
+
+- Began from clean committed reduced-Vars/GP checkpoint
+  `dc4981ec3a1f26f1d90ba1252e934ab77c1a9ede`, used CodeGraph/MCP first, and
+  passed the pre-existing locked GRChombo verifier before editing.
+- The locked GNU, Clang, and Intel CI workflows verify that GRChombo uses the
+  `GRChombo/Chombo` repository with `CHOMBO_HOME=<checkout>/lib`, installs
+  `Make.defs.local` under `lib/mk`, and builds `AMRTimeDependent`, `AMRTools`,
+  `BaseTools`, and `BoxTools`. All three checkout actions omit `ref`, so the
+  historical Chombo revision, branch/tag, and patch set cannot be recovered
+  from the locked source and were not guessed.
+- Separated GRChombo, Chombo, PETSc, and container records in the tracked
+  manifest. PETSc is optional for core/GP storage work and required by
+  `USE_AHFINDER`; the Ubuntu CI uses unpinned `petsc-dev` plus
+  `pkg-config petsc`.
+- Extended the read-only verifier with metadata, target-probe, candidate
+  revision, PETSc-requested, and full-build modes. Full-build verification
+  cannot pass while required provenance remains unresolved.
+- Added a test-only real-header probe for `parstream.H`, `FArrayBox.H`,
+  `Cell.hpp`, the reduced Vars storage boundary, and the exact
+  `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4` macros. It reports
+  `TARGET_HEADER_PROBE=BLOCKED` because no local Chombo checkout exists and
+  no authoritative revision is pinned; no header stubs were created.
+- Local evidence confirms no `external/Chombo`, unset `CHOMBO_HOME`,
+  unavailable PETSc pkg-config data, and unavailable Docker integration.
+  Historical `grchombo/grchombo` smoke evidence supplies no tag/digest or
+  recipe digest.
+- No external GRChombo, production physics, BoxLoop, live registration,
+  smoke parameter, staging, or commit was changed. The next required input is
+  the authoritative full Chombo commit and patch set; only after its strict
+  probe/smoke passes may the thin `Cell`/`FArrayBox` GP wrapper begin.

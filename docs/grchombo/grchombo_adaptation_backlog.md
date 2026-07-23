@@ -18,7 +18,7 @@ acceptance. The frozen custom outer-boundary research is excluded.
 
 | Priority / order | Adaptation item | GRChombo source to reuse | Project-specific work | Dependency | Acceptance / exit criterion |
 |---|---|---|---|---|---|
-| P0-1 | Reproducible GRChombo source/version lock | Current origin plus build/container tooling | Verify the tracked GRChombo remote/commit lock; resolve Chombo, PETSc, and container digests before a build-reproducibility claim | None | Read-only verifier rejects the wrong/dirty source; fresh checkout/build reproduces the complete dependency tuple |
+| P0-1 | Reproducible GRChombo/Chombo build lock | Current origin, locked CI, Chombo Make infrastructure, and container tooling | Keep the tracked GRChombo commit; recover the authoritative `GRChombo/Chombo` revision/patch set and compiler/container tuple; keep PETSc separate until AHFinder | None | Metadata verifier is honest; target probe uses real Chombo headers; strict build/smoke pass; full verifier rejects every unresolved required field |
 | P0-2 | Convention and slot adapter | `CCZ4Vars.hpp`, `ADMConformalVars.hpp`, `UserVariables.inc.hpp`, Tensor/VarsTools | Explicit `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`; reviewed 18-slot black-string map with no visible-`y` slots and one multiplicity-two hidden representative | P0-1 source verification | Level 1 macro/slot/name/parity/permutation tests pass exactly |
 | P0-3 | Formula comparison harness | `CCZ4RHS::rhs_equation`, `CCZ4Geometry`, gauge classes | Test-only adapter accepting supplied analytic jets and emitting per-family rows | P0-1, P0-2 | First five comparison tests execute without production evolution |
 | P1-4 | Exact black-string GP initial data | GRChombo initial-data `BoxLoops` pattern and project parameter parser | Implement `alpha=1`, `beta^x=sqrt(r0/x)`, flat GP spatial metric, target K/A/Gamma/Theta, hidden slots | P0-2 | Cellwise analytic comparison, determinant/trace, and constraints pass |
@@ -41,7 +41,8 @@ acceptance. The frozen custom outer-boundary research is excluded.
 - P0-1 is partially evidenced, not complete. The exact custom and GRChombo
   commits, detached-clean GRChombo status, compiler, comparison flags, and
   dimensions are recorded. The ignored checkout is not a reproducible
-  top-level source lock, and the Chombo/container digests remain unresolved.
+  top-level source lock, and the Chombo revision/container digests remain
+  unresolved.
 - P0-2 has an exact shared-slot map and an explicit stock-`d=3` versus
   custom-`d=4/2` distinction. It is not complete because no reviewed
   `CH_SPACEDIM=2`, `GR_SPACEDIM=4` production adapter exists.
@@ -148,8 +149,9 @@ reduce the requirement to resolve those digests before production adaptation.
   in `run_manifests/grchombo_dependency_lock.yaml`; the read-only
   `scripts/verify_grchombo_dependency.sh` rejects the wrong remote, commit,
   branch state, or dirty checkout. This completes the source-lock portion of
-  P0-1 only. Chombo, PETSc, Docker-image, and container-recipe digests remain
-  unresolved, so fresh-build reproducibility is still open.
+  P0-1 only. The Chombo fork/layout is known, but its revision plus PETSc,
+  Docker-image, and container-recipe digests remain unresolved, so
+  fresh-build reproducibility is still open.
 - The target P0-2 design is an 18-slot black-string layout for
   `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, and `DEFAULT_TENSOR_DIM=4`. It stores no
   visible-`y` variables. `hww/Aww` are single representatives with
@@ -171,6 +173,27 @@ reduce the requirement to resolve those digests before production adaptation.
   names, compile-time dimension assertions, and permutation/parity fixture,
   after running the dependency verifier. It must not add GP values or physics
   RHS code.
+
+## Chombo dependency audit update
+
+- P0-1 now verifies more than the GRChombo checkout: the locked CI establishes
+  the `GRChombo/Chombo` fork, `CHOMBO_HOME=<checkout>/lib`,
+  `${CHOMBO_HOME}/mk/Make.test`, the Make-def installation point, and the
+  four CI build targets. It does not establish a Chombo revision because every
+  locked checkout action omits `ref`.
+- The manifest separates GRChombo, Chombo, PETSc, and container records.
+  Metadata-only verification passes the locked source and reports gaps;
+  target-probe mode requires a real pinned Chombo checkout; full-build mode
+  cannot accept unresolved provenance.
+- The minimal `2/4/4` `parstream.H`/`FArrayBox.H`/`Cell.hpp` probe is tracked
+  but blocked because `external/Chombo` is absent and the authoritative
+  Chombo commit is unknown. It uses no stubs.
+- PETSc is not a dependency of the next pointwise GP storage wrapper. It is a
+  separate later lock for `USE_AHFINDER`/P3-14.
+- P0-1 remains open. Its next input is the authoritative full Chombo commit
+  and patch set from the former environment, collaborators, or maintainers.
+  Candidate commits may be compile-tested explicitly but are pinned only
+  after the strict target probe and smoke build succeed.
 
 ## First production-contract substage update
 
