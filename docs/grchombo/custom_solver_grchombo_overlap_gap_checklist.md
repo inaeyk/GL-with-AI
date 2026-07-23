@@ -1,6 +1,6 @@
 # Custom Solver versus GRChombo Overlap-and-Gap Checklist
 
-Status: inventory contract with comparison batches 1 and 2 evidence. The inventory
+Status: inventory contract with comparison batches 1-3 evidence. The inventory
 starts from the clean frozen-outer-boundary checkpoint `015a035`; batch 1
 starts from the clean committed inventory checkpoint
 `661468ade479cf003dc5336e665dc7b70edf48c6`. GRChombo is the production
@@ -45,7 +45,7 @@ Production-owner values are exactly: **reuse GRChombo**, **adapt GRChombo**,
 | `Z^i`, `Z_i`, `Z_over_chi` | Contracted-connection and Z-derivative adapters reconstruct upper/lower forms | `CCZ4Geometry::compute_ricci_Z[_general]` reconstructs `Z_over_chi=0.5(Gamma-chris.contracted)` | Lowering must use the conformal/physical map consistently; no double chi | Core reconstruction matches; hidden lowering has no stock counterpart | Contracted-connection, encoded-Z tensor, derivative, insertion tests | Identical analytic jet with visible hidden terms suppressed, then target adapter enabled; reconstructed vectors and Ricci-Z split meet Level-2 tolerance | retain custom oracle |
 | Hidden `ww` representative/multiplicity | `hww/Aww` representative with multiplicity 2 in `ConformalCartoonAlgebra.hpp` and cartoon helpers | Stock GRChombo checkout has no `ww` variable or modified-cartoon source path; BlackStringToy scaffold only adds inert slots | Full traces contain `2 h^ww T_ww`; component equations write `ww` once | Production gap | Hidden multiplicity and representative-write mutation tests across Stage 4A-4AO-C | Adapter tests must distinguish one representative write from two trace copies and reject multiplicity 1 or representative duplication | adapt GRChombo |
 | Extrinsic-curvature sign | Locked in Stage 4AO-A and all custom row derivations | GRChombo CCZ4 evolution convention | `partial_t gamma_ij=-2 alpha K_ij+L_beta gamma_ij` | Known match | Background residual and nonlinear JVP tests | Include sign mutation in Level 1 and GP pointwise RHS; mutation must fail | retain custom oracle |
-| Determinant convention | `det_4 h=(hxx hzz-hxz^2) hww^2`; tangent cleanup custom-only | GRChombo assumes conformal determinant cleanup through standard tensor dimension; no hidden-aware production cleanup found | Target `det h=1` in four physical spatial dimensions | Visible convention matches; hidden enforcement mismatches stock path | Stage 4A determinant and Stage 4AO-C tangent tests | Nonzero admissible data, exact hidden determinant, idempotence, and no slot loss; Level-2 tolerance | adapt GRChombo |
+| Determinant convention | `det_4 h=(hxx hzz-hxz^2) hww^2`; tangent cleanup custom-only | No runtime conformal-metric determinant-normalization compute class was found in the inspected stock path; initial-data helpers do use determinant formulas | Target `det h=1` in four physical spatial dimensions | Formula convention is known, but no callable stock cleanup output or hidden enforcement exists | Stage 4A determinant and Stage 4AO-C tangent tests; batch-3 source inventory | Nonzero admissible data, exact hidden determinant, idempotence, and no slot loss after a reviewed adapter; Level-2 tolerance | adapt GRChombo |
 | Trace-free convention | Weighted custom trace includes two hidden copies | `TraceARemoval.hpp` uses stock tensor inverse/loop | `tr_h A=0`, denominator `d` | Stock BlackStringToy call ignores `Aww`; production mismatch | Trace-free projector and metric-inclusive tangent fixtures | Replace/extend production cleanup, then compare to oracle on nonzero data; weighted trace below `1e-12` | adapt GRChombo |
 
 ## Evolution equations
@@ -83,13 +83,13 @@ Production-owner values are exactly: **reuse GRChombo**, **adapt GRChombo**,
 
 | Capability | Custom implementation and status | GRChombo implementation and status | Formula or convention | Match / mismatch | Existing evidence | Required comparison and acceptance | Production owner |
 |---|---|---|---|---|---|---|---|
-| Radial derivatives | Second-order centered validation stencils | `FourthOrderDerivatives.hpp`, `SixthOrderDerivatives.hpp` production classes | Different formal orders | Custom is oracle scaffolding, not production | Stage 4AO-B and boundary fixtures | Manufactured profiles: custom order `>=1.8`, GRChombo fourth `>=3.5` or sixth `>=5.5` in smooth bulk | reuse GRChombo |
-| `z` derivatives/periodicity | Second-order periodic custom Fourier scaffolding | Periodic Chombo domains plus 4th/6th derivatives | `z~z+L`, endpoint wrap owned by framework | Same continuum convention, different implementation | Periodic parity/leakage fixtures; inherited smoke is nonperiodic | Periodic sine/cosine derivative and wrap test; expected order and leakage `<=1e-12` | reuse GRChombo |
-| Mixed derivatives | Custom composed `D_xD_z` and analytic jet adapters | GRChombo `mixed_diff2` production stencil | Mixed derivatives must commute on tensor-product smooth data | Directly comparable at manufactured-profile level | Inner-boundary commutator and Z adapter tests | `D_xD_z-D_zD_x` converges at selected order; pointwise values meet stencil error envelope | reuse GRChombo |
+| Radial derivatives | Direct custom centered order-two validation helpers | Selected `FourthOrderDerivatives.hpp` direct kernels; smoke locks order four | Different formal orders | Same continuum derivatives; finite-grid values intentionally differ | Batch 3: custom observed `1.9974-1.9975`, GRChombo `3.9926-3.9933`; sign/spacing/order mutations detected | Preserve manufactured convergence gate; production owns fourth-order path | reuse GRChombo |
+| `z` derivatives/periodicity | Direct second-order modulo-wrap helper | Direct fourth-order kernels; periodic Chombo domain/ghost fill unavailable without Chombo | `z~z+L`, endpoint wrap owned by framework | Kernel continuum result matches; full production periodic ownership remains blocked | Batch 3: custom `1.9966-1.9972`, GRChombo `3.9895-3.9905`; periodic-wrap mutation detected | Repeat through actual Chombo periodic domain after dependency lock; do not call local analytic ghosts production evidence | reuse GRChombo |
+| Mixed derivatives | Direct composition of custom radial and periodic helpers | Direct GRChombo `mixed_diff2` tensor-product kernel | Mixed derivatives on smooth tensor-product data | Same continuum result, order two versus four | Batch 3: `D_xz` custom `1.9957`, GRChombo `3.9912`; wrong-direction mutation detected | Preserve convergence and later exercise production Cell/ghost strides | reuse GRChombo |
 | Endpoint stencils | Validated second-order inner one-sided helper; mirrored outer stencil diagnostic | `BoundaryConditions.hpp` generic static/Sommerfeld/reflective/extrapolating/mixed BC support | No accepted custom outer physics | Inner helper is oracle only; GRChombo outer policy undecided | Inner boundary exactness/convergence; outer scaffold tests | Retain inner regression; choose production domain/BC separately. No custom outer acceptance test authorized | custom-only deferred research |
 | Outer boundary | Diagnostic row layout and rejected WKB projector only | Generic GRChombo BC infrastructure, no GL-specific asymptotic condition | Unresolved custom research | Neither side contains an accepted GL outer condition | Gate corrections and failed-boundary audit | None on production critical path; defer unless physical domain demands a custom condition | custom-only deferred research |
 | Time integration | None in custom solver | `GRAMRLevel.cpp` uses `RK4LevelAdvance` | Mature RK4 AMR stepping | GRChombo-only | BinaryBH-derived one-step smoke | Standard framework convergence/smoke; do not rebuild | reuse GRChombo |
-| Algebraic cleanup | Hidden-aware custom determinant/A-trace test projectors | `TraceARemoval.hpp`, `PositiveChiAndAlpha.hpp`; stock trace ignores custom hidden slots | Target cleanup must include `ww` multiplicity | Adapter required | Custom nonzero/idempotence tests; inherited cleanup smoke | Hidden-aware production cleanup compared with oracle; idempotent and weighted residual `<=1e-12` | adapt GRChombo |
+| Algebraic cleanup | Hidden-aware custom determinant/A-trace test projectors; test-only same-dimension matrix oracle | Direct `TraceARemoval.hpp` and `PositiveChiAndAlpha.hpp`; no runtime determinant-normalization compute class found; stock trace ignores hidden slots | Target cleanup must include `ww` multiplicity | Visible trace/positivity routines pass directly; determinant and hidden cleanup remain gaps | Batch 3: component max `2.776e-17`, post-trace `5.551e-17`, idempotence `1.388e-17`, exact positivity clamps | Reuse visible routines; adapt hidden determinant/trace owner and compare weighted residual `<=1e-12` | adapt GRChombo |
 | AMR | No custom implementation | `GRAMR`, `GRAMRLevel`, Chombo AMR | Framework-owned refinement, interpolation, reflux/ghost operations | GRChombo-only | BinaryBH scaffold build/run | Reuse with problem-specific tagging convergence; do not independently rebuild | reuse GRChombo |
 | Grid/ghost ownership | Custom vectors/grids only in validation harness | `GRLevelData`, `GRAMRLevel::fillAllGhosts`, boundary handlers | Production ghost width follows derivative order and BC | GRChombo-only | Scratch smoke and layout checks | Document required ghosts for 4th/6th order and hidden variables; fill/BC smoke passes without undefined values | reuse GRChombo |
 | MPI/OpenMP | None | Chombo MPI plus BoxLoops/OpenMP/SIMD; AH has MPI subcommunicator | Framework-owned parallel decomposition | GRChombo-only | Public examples and prior MPI AH test launch | Rank/thread reproducibility for norms and diagnostics; no independent implementation | reuse GRChombo |
@@ -215,3 +215,36 @@ This evidence upgrades the visible same-dimension RHS overlap from
 does not validate target-`d=4` production or hidden/cartoon equations. Detailed
 cases, maxima, directness classifications, and blockers are in
 `docs/grchombo/custom_solver_grchombo_comparison_batch2_results.md`.
+
+## Executed comparison batch 3
+
+Batch 3 began from clean checkpoint
+`571b142ab2bd8c14abb967eb259f2ca202ec9d22`. It directly invokes the actual
+custom order-two interior derivative helpers and actual GRChombo order-four
+scalar derivative kernels. Because the orders differ, the comparison is
+convergence-only at finite resolution. Across `N=32,64,128,256`, every
+first, second, mixed, and divergence class achieves its documented order
+within `0.25`.
+
+| Capability | Updated status | Batch-3 evidence |
+|---|---|---|
+| Custom interior derivatives | direct custom helper, focused oracle only | first/second/mixed/divergence orders `1.9957-1.9975` |
+| GRChombo derivative kernels | direct compiled GRChombo | first/second/mixed/divergence orders `3.9895-3.9933` |
+| Periodic ownership | partial | custom modulo wrap direct; GR kernel direct on local analytic ghosts; Chombo periodic ghost exchange blocked |
+| Manufactured raw Ricci / encoded Z | different-order convergence | custom orders `1.9969-1.9972`; GRChombo `3.9917-3.9951` |
+| Manufactured lapse Hessian | different-order convergence | unchanged: custom `1.9954`, GRChombo `3.9925` |
+| All 15 visible advection rows | componentwise different-order convergence | every row passes; aggregate custom `1.9970`, GRChombo `4.0246`; worst `hyy` at `z=pi/2`; metric/A omission, duplication, and sign mutations fail independently |
+| Raw shift derivative inputs | input-kernel diagnostic only | custom `1.9965`, GRChombo `3.9914`; not labeled RHS-family evidence |
+| Complete `chi`, `h_ij`, and `A_ij` shift RHS families | direct compiled GRChombo family isolation versus independent custom combination | aggregate orders `1.9972/3.9920`, `1.9968/3.9916`, and `1.9966/3.9915`; every component and location retained; omission/duplication/coefficient/sign mutations fail |
+| Combined visible rows | common continuum result | custom order `1.9968`, GRChombo `3.9879`; extrapolated maximum difference `4.91998803e-13` |
+| Visible trace removal | direct compiled GRChombo versus independent matrix oracle | component max `2.77555756e-17`, post-trace `5.55111512e-17`, idempotence `1.38777878e-17` |
+| Chi/lapse positivity | direct compiled GRChombo | exact declared clamps and idempotence pass |
+| Determinant normalization | source-only/absent | no runtime stock compute class found; local exponent controls are not direct evidence |
+| Hidden-aware cleanup | adaptation gap | stock path has no `hww/Aww` or multiplicity-two owner |
+
+The direct derivative kernels compile without Chombo, but full Chombo periodic
+domain and ghost exchange remain blocked by the missing local installation and
+unresolved Chombo/container digest. The locally populated analytic ghost patch
+is direct-kernel evidence only, not production-domain evidence. Detailed
+tables and mutations are in
+`docs/grchombo/custom_solver_grchombo_comparison_batch3_results.md`.

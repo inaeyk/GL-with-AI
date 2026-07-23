@@ -1879,3 +1879,33 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Scope: hidden `ww` terms remain custom-only pending adaptation. No production
   code, external GRChombo, boundary condition, eigensolver, MOTS, smoke
   parameter, staging, or commit changed. No final agent score was assigned.
+
+- Date: 2026-07-23
+- Goal: Execute comparison batch 3 for discrete derivatives, manufactured
+  visible-RHS convergence, and visible algebraic cleanup without production
+  adaptation.
+- Start state: Used CodeGraph/MCP first. The worktree and index were clean at
+  committed batch-2 checkpoint
+  `571b142ab2bd8c14abb967eb259f2ca202ec9d22`; ignored GRChombo remained clean
+  and detached at `37e659523830418b210acea1661dac0e00bb1b75`.
+- Direct paths: Invoked actual custom centered order-two helpers and actual
+  GRChombo fourth-order first/second/mixed and biased-advection kernels. The
+  fixture supplies a local analytic periodic ghost patch because full Chombo
+  grid infrastructure is unavailable; it does not label that patch as
+  production periodic handling.
+- Derivatives: All six derivative/divergence classes converge at
+  `1.9957-1.9975` custom and `3.9895-3.9933` GRChombo over four refinements.
+- Discrete RHS: Raw Ricci, encoded Z, lapse Hessian, advection, shift
+  derivatives, and complete visible rows converge independently at expected
+  orders. Four-level continuum extrapolations agree to
+  `4.91998803e-13`.
+- Cleanup: Direct actual `TraceARemoval` and `PositiveChiAndAlpha` checks pass
+  against independent same-dimension algebra. No runtime stock determinant
+  normalization or hidden-aware cleanup owner was found.
+- Controls: Active sign, spacing, mixed-direction, periodic-wrap, stencil
+  order, one-path, wrong-dimension, omission, positivity, and hidden
+  multiplicity controls fail as required. Determinant-exponent controls are
+  explicitly local/source-only because no callable stock output exists.
+- Scope: No custom production equation, external GRChombo, smoke parameter,
+  outer boundary, eigensolver, MOTS, production evolution, staging, or commit
+  changed. No final overall agent score was assigned.

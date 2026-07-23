@@ -1,7 +1,7 @@
 # Custom Solver versus GRChombo Comparison-Test Plan
 
-Status: executable-test contract with batch 1 completed. The batch-1
-test-only bridge is authorized evidence, not production wiring. The custom
+Status: executable-test contract with comparison batches 1-3 completed. The
+test-only bridges are authorized evidence, not production wiring. The custom
 Stage 4AO-C operator is the independent oracle; GRChombo is the convention
 and production authority.
 
@@ -81,7 +81,7 @@ error.
 | L3-01 radial derivatives | Polynomials through stencil exactness plus smooth nonpolynomial profiles | Custom observed order `>=1.8`; GRChombo fourth `>=3.5` or sixth `>=5.5` away from boundaries |
 | L3-02 periodic z/Fourier | Single and mixed sine/cosine modes crossing periodic wrap | Expected derivative order; forbidden parity/mode leakage `<=1e-12` for exactly represented sampled modes |
 | L3-03 mixed derivatives | Nonseparable smooth `f(x,z)` | Both `D_xD_z` and `D_zD_x` converge; commutator follows the declared truncation envelope |
-| L3-04 manufactured full RHS | Nonzero values/first/second derivatives activating every row | Each RHS error converges at its stencil order; ownership mutations fail |
+| L3-04 manufactured full RHS | Nonzero values/first/second derivatives activating every row | Every visible advection row and each complete chi/metric/A shift RHS family is monitored separately with component and physical location; each error converges at its stencil order; ownership mutations fail |
 | L3-05 algebraic cleanup | Off-determinant/off-trace profiles | Projected determinant and weighted trace residual `<=1e-12`; projection idempotent; physical slots otherwise preserved |
 | L3-06 constraints | Constraint-satisfying and deliberately violating profiles | Analytic residual agreement and expected convergence; violating sign/multiplicity mutations detected |
 | L3-07 GP stationarity | Uniform GP data on nested grids | Raw geometric residual converges at production order; source-adjusted lapse converges to zero without hiding raw residual |
@@ -185,10 +185,30 @@ are in
 | L2-08 visible `A` families | direct `CCZ4RHS::rhs_equation` | `1.665e-16` by family; `1.943e-16` combined | `1.521e-04` | wrong TF dimension, sign; direct damping absence | pass |
 | L2-hidden | custom-only | N/A | N/A | hidden multiplicity remains covered only by custom regressions | production adaptation required |
 
-The next executable tranche is Level 3 rather than another copied pointwise
-oracle: exercise GRChombo’s real fourth-order derivative paths on smooth
-periodic manufactured profiles, compare discrete visible RHS values with the
-analytic-jet oracle, and measure convergence. It should also compare visible
-algebraic cleanup while recording the missing hidden-weighted cleanup as an
-adaptation gap. Target-`d=4` and modified-cartoon production comparisons
-remain blocked until their reviewed adapter exists.
+## Batch 3 result records
+
+The batch-3 fixtures are
+`code/BlackStringToy/tests/Stage4AOCGRChomboComparisonBatch3DerivativeRHSTest.cpp`
+and `Stage4AOCGRChomboComparisonBatch3CleanupTest.cpp`. The derivative fixture
+calls the actual inspected GRChombo fourth-order scalar kernels and actual
+custom second-order helpers. Because their formal orders differ, finite-grid
+values are compared to a common analytic reference and only their continuum
+extrapolations are compared as equivalent values. Detailed tables are in
+`docs/grchombo/custom_solver_grchombo_comparison_batch3_results.md`.
+
+| Test ID | Directness | Custom order | GRChombo order | Finest custom / GR error | Outcome |
+|---|---|---:|---:|---:|---|
+| L3-01 `D_x,D_xx` | different-order convergence; both kernels direct | `1.9974-1.9975` | `3.9926-3.9933` | up to `1.919e-6` / `6.287e-10` | pass |
+| L3-02 periodic `D_z,D_zz` | custom wrap direct; GR kernel direct with local analytic ghosts; Chombo periodic fill blocked | `1.9966-1.9972` | `3.9895-3.9905` | up to `2.827e-6` / `1.217e-9` | pass for kernels |
+| L3-03 `D_xz`/divergence | different-order convergence; both kernels direct | `1.9957-1.9972` | `3.9912-3.9920` | up to `2.806e-6` / `1.040e-9` | pass |
+| L3-04 manufactured visible RHS | direct discrete kernels plus batch-2 continuum paths; direct `rhs_equation` subtraction for complete shift families | `1.9954-1.9985` componentwise | `3.8618-4.2247` componentwise | combined `3.305e-6` / `1.219e-9` | pass; all 15 advection rows and three complete shift groups pass; extrapolated row difference unchanged at `4.920e-13` |
+| L3-05 visible trace cleanup | direct `TraceARemoval`, independent matrix oracle | N/A | N/A | component max `2.776e-17`; post-trace `5.551e-17` | pass |
+| L3-05 positivity cleanup | direct `PositiveChiAndAlpha` | N/A | N/A | exact declared clamps; idempotent | pass |
+| L3-05 determinant cleanup | no inspected callable stock routine | N/A | N/A | N/A | source-only/absent; hidden-aware cleanup remains adaptation gap |
+
+The next comparison batch should move to the background/setup boundary without
+implementing production physics: compare exact GP black-string initial data
+and fixed-lapse-source conventions at the analytic-jet level, inventory the
+minimum target-dimension adapter seam, and specify the Chombo-enabled
+periodic-grid test needed after dependency locking. It must not duplicate
+GRChombo time integration, AMR, ghost exchange, or cleanup infrastructure.

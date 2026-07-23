@@ -2143,3 +2143,36 @@ Category: Direct CCZ4 RHS + Encoded-Z Family Comparison
   outer-boundary work, smoke parameters, staging, or commit was changed.
 - Recommended batch 3 is a Level-3 discrete manufactured-profile comparison
   through real GRChombo derivative paths, not target-`d=4` production work.
+
+## 2026-07-23 - Custom Solver / GRChombo Comparison Batch 3
+
+Category: Direct Derivative Kernels + Manufactured Convergence + Cleanup
+
+- Began from clean committed batch-2 checkpoint
+  `571b142ab2bd8c14abb967eb259f2ca202ec9d22` and used CodeGraph/MCP before
+  direct source inspection.
+- Locked the custom centered first/second/periodic helpers at order two and
+  the selected GRChombo `FourthOrderDerivatives` kernels at order four.
+  Direct centered kernels reach two ghost cells; biased advection reaches
+  three.
+- Across `N=32,64,128,256`, all first, second, mixed, and divergence errors
+  converge at `1.9957-1.9975` on the custom path and `3.9895-3.9933` on the
+  GRChombo path.
+- Raw Ricci, encoded Z, lapse Hessian, advection, shift derivatives, and every
+  visible `chi,h,K,Theta,A` row converge independently at the expected
+  orders. Continuum-extrapolated row values agree to `4.91998803e-13`.
+- Actual stock `TraceARemoval` and `PositiveChiAndAlpha` pass direct,
+  independent visible-`d=3` checks. No runtime determinant-normalization
+  compute class was found; hidden-aware determinant/trace cleanup remains an
+  adaptation gap.
+- Derivative sign, spacing, mixed direction, periodic wrap, wrong order,
+  one-path-only, wrong cleanup dimension, omission, and hidden-multiplicity
+  controls are detected.
+- Full Chombo periodic-domain and ghost-fill execution remains blocked by the
+  missing local Chombo installation and unresolved Chombo/container digest.
+  Locally supplied analytic ghosts are classified only as direct-kernel
+  evidence.
+- Batch 1, batch 2, and affected custom derivative/geometry/RHS regressions
+  pass under strict warnings. No external GRChombo, production equation,
+  smoke parameter, frozen outer-boundary research, staging, or commit changed.
+  No final agent score was assigned.

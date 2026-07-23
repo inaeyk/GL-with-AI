@@ -1,6 +1,6 @@
 # GRChombo Adaptation Backlog for GL Production
 
-Status: prioritized design backlog with batch-1 comparison evidence.
+Status: prioritized design backlog with comparison-batch 1-3 evidence.
 Production must reuse mature GRChombo infrastructure and adapt only
 black-string-specific physics, configuration, and diagnostics. Do not
 independently rebuild RK4, AMR, MPI/OpenMP, checkpoint/restart, ghost exchange,
@@ -79,6 +79,38 @@ reduce the requirement to resolve those digests before production adaptation.
 - No P1, P2, or P3 production item was implemented by batch 2. The custom
   stationary outer boundary remains deferred and is not added to the
   production backlog.
+
+## Batch-3 backlog update
+
+- P0-3 now directly exercises the selected
+  `FourthOrderDerivatives::{diff1,diff2,mixed_diff2,advection_term}` kernels.
+  Their manufactured errors converge at order approximately four; the custom
+  oracle scaffolding converges at order approximately two. Every visible
+  manufactured `chi,h,K,Theta,A` row converges to the common batch-2 continuum
+  result, and the independent continuum extrapolations agree to
+  `4.920e-13`.
+- The repaired family gate separately covers all 15 visible advection rows
+  and directly isolates the complete GRChombo `chi`, metric, and `A` shift
+  RHS families by paired `rhs_equation` calls. Raw shift-derivative
+  convergence remains only an input-kernel diagnostic. This strengthens the
+  comparison evidence but does not create production functionality.
+- P1-8 remains framework-owned. The direct derivative kernels compile without
+  Chombo, but the actual Chombo periodic-domain and ghost-exchange path is
+  blocked by the missing local Chombo installation and unresolved
+  Chombo/container digest. Do not replace it with a project-owned periodic
+  production grid.
+- The stock visible `TraceARemoval` and `PositiveChiAndAlpha` compute classes
+  are directly callable and pass component, trace, idempotence, clamp, and
+  ordering checks. Reuse them for stock visible fields.
+- P1-7 remains open. No runtime conformal-metric determinant-normalization
+  compute class was found in the inspected stock path, and stock trace removal
+  has no `hww/Aww` or multiplicity-two owner. Hidden-aware determinant and
+  trace cleanup must be adapted and compared with the custom oracle.
+- The custom centered order-two derivatives remain focused regressions only.
+  They are not candidates for production replacement of GRChombo's derivative,
+  Chombo ghost, periodic-domain, or AMR infrastructure.
+- No P1, P2, or P3 production item was implemented. The custom stationary
+  outer boundary remains deferred.
 
 ## Explicit non-goals
 

@@ -40,6 +40,9 @@ No weighted total or overall grade is defined yet.
 | Visible encoded-Z Ricci completion | Independent covariant derivative of reconstructed `Z_i` | High; direct side is `compute_ricci_Z-compute_ricci` | Tensor, scalar, and `d=3` TF conventions match directly; standalone `Z_over_chi`, `Z^i`, and `Z_i` are a source/convention reconstruction using a directly computed contracted connection | direct tolerance match: maximum absolute `2.776e-16`, normalized `2.8691300e-04`; standalone map source/convention discrepancy `1.110e-16` | N/A | N/A | direct omission, double insertion, and wrong TF dimension; local-reconstruction wrong lowering and missing chi | no new batch-2 human intervention | retain oracle; adapt hidden completion separately | batch-2 results |
 | Visible `chi/h` RHS | Test-only generalized-dimension custom family assembly | High; direct side invokes actual `CCZ4RHS::rhs_equation` | selected `d=3` coefficients and supplied-gauge convention match | tolerance match: combined maxima `5.551e-17` (`chi`) and `2.776e-17` (`h`) | N/A | N/A | wrong RHS dimension detected | no new batch-2 human intervention | retain oracle; reuse production RHS | batch-2 results |
 | Visible `K/Theta/A` RHS | Test-only generalized-dimension custom family assembly | High; direct side invokes actual `CCZ4RHS::rhs_equation` | selected CCZ4, damping, Ricci-Z, Hessian, algebraic, advection, and shift conventions match | tolerance match: combined maxima `1.110e-16`, `5.551e-17`, and `1.943e-16` | N/A | N/A | family omission/duplication/sign, wrong dimension, BSSN branch; no direct A damping | no new batch-2 human intervention | retain oracle; reuse visible production RHS and adapt hidden rows | batch-2 results |
+| Interior derivative kernels | Actual custom centered helpers and actual GRChombo `FourthOrderDerivatives` scalar kernels | High; neither path consumes the other's values | same continuum convention; explicit order-two versus order-four distinction | N/A | independently convergent: custom orders `1.9957-1.9975`, GRChombo `3.9895-3.9933` | N/A | sign, spacing, mixed direction, periodic wrap, wrong order, and one-path mutations detected | no batch-3 human intervention | retain custom focused regression; reuse GRChombo production kernels | batch-3 results |
+| Discrete visible `chi/h/K/Theta/A` RHS | Batch-2 continuum oracle fed by each path's real discrete jets; direct GRChombo geometry/RHS output | High at kernel/RHS boundary; common analytic reference only | family ownership inherited from passed batch 2; raw shift derivatives explicitly remain input diagnostics | batch-2 tolerance match retained | all 15 advection rows and complete chi/metric/A shift groups converge at expected orders with retained component/location; extrapolated custom/GR maximum unchanged at `4.920e-13` | N/A | metric/A advection omission/duplication/sign and each shift-group omission/duplication/coefficient/sign mutation fail independently | batch-3 family-coverage evidence required repair; no solver defect | retain custom oracle; reuse visible GRChombo RHS | batch-3 results |
+| Visible algebraic cleanup | Independent same-dimension matrix oracle versus actual `TraceARemoval` and `PositiveChiAndAlpha` | High | visible `d=3` trace denominator and positivity convention match; no stock determinant-normalization compute class found | component max `2.776e-17`, normalized below Level-2 limit; post-trace `5.551e-17` | direct cleanup/idempotence checks pass | N/A | wrong dimension, omission, hidden multiplicity, omitted positivity, and source-only determinant controls detected | no batch-3 human intervention | reuse visible cleanup; adapt hidden determinant/trace owner | batch-3 results |
 
 ## Required scorecard metrics
 
@@ -47,14 +50,14 @@ No weighted total or overall grade is defined yet.
 |---|---|---|---|
 | Components independently reproduced | Formula implemented without calling/copying production execution path | Source provenance plus independent oracle | 3 batch-1 families plus 6 batch-2 groups: encoded-Z and visible `chi,h,K,Theta,A` |
 | Exact matches | Discrete conventions, integers, signs, rational coefficients, or slot maps match exactly | Level-1 result record | repaired custom 27-slot permutation, eleven shared correspondences, and explicit compile-time dimension identities |
-| Tolerance-level matches | Floating outputs meet declared pre-run tolerances | Level-2/3 result record | 3 batch-1 families; batch-2 raw/encoded/combined geometry and five visible RHS row groups |
+| Tolerance-level matches | Floating outputs meet declared pre-run tolerances | Level-2/3 result record | 3 batch-1 families; batch-2 raw/encoded/combined geometry and five visible RHS row groups; batch-3 six derivative classes, nine discrete RHS monitors including all 15 advection rows and three complete shift groups, and visible cleanup |
 | Convention errors found | Wrong dimension, sign, formulation branch, normalization, parity, or multiplicity | Before/after formula and failing mutation | 0 new errors; 1 required dimension translation was made explicit before comparison |
-| Implementation errors found by audit | Code behavior contradicted intended capability | Reproducer and corrected disposition | 0 custom or GRChombo defects in batches 1-2; two draft batch-2 oracle/isolation defects were detected by the direct bridge and corrected before acceptance |
-| Documentation/gate errors | Claim or true gate exceeded evidence | Historical claim, correction, and present gate | 1 batch-1 state-map evidence overclaim repaired |
-| Wrong-abstraction tests | Test passed but exercised a proxy rather than target physics | Test name, proxy, missing target, corrective test | 1 batch-1 gate checked frozen order plus stock enum instead of the actual custom 27-slot enum |
-| Human interventions | User/reviewer correction materially changed interpretation or gate | Date, intervention, affected component | 1 batch-1 layout-gate repair; historical entries remain separately countable |
+| Implementation errors found by audit | Code behavior contradicted intended capability | Reproducer and corrected disposition | 0 custom or GRChombo defects in batches 1-3; two draft batch-2 oracle/isolation defects were detected by the direct bridge and corrected before acceptance |
+| Documentation/gate errors | Claim or true gate exceeded evidence | Historical claim, correction, and present gate | 2: batch-1 state-map evidence overclaim and batch-3 incomplete family/direct-path description repaired |
+| Wrong-abstraction tests | Test passed but exercised a proxy rather than target physics | Test name, proxy, missing target, corrective test | 2: batch-1 enum proxy; batch-3 raw shift-derivative convergence was mislabeled as isolated shift-RHS evidence |
+| Human interventions | User/reviewer correction materially changed interpretation or gate | Date, intervention, affected component | 2: batch-1 layout-gate repair and batch-3 family-coverage/direct-path repair; historical entries remain separately countable |
 | Successful independent reconstructions | Independent component later matches GRChombo or analytic authority | Reviewed comparison record | 3 batch-1 families plus encoded-Z and five visible batch-2 RHS row groups |
-| Direct adaptation preferred | Rebuilding would duplicate mature infrastructure or reduce reliability | Ownership decision and source location | GRChombo tensor/geometry production paths; no new runtime infrastructure rebuilt |
+| Direct adaptation preferred | Rebuilding would duplicate mature infrastructure or reduce reliability | Ownership decision and source location | GRChombo tensor/geometry/RHS, fourth-order derivatives, visible trace/positivity cleanup, and Chombo periodic/ghost infrastructure; no runtime infrastructure rebuilt |
 | Research-level unresolved problems | No accepted formulation or validation path | Blocker and deferred owner | custom stationary outer boundary remains one explicit unresolved research area |
 
 ## Known audit events to carry into later scoring
@@ -76,6 +79,7 @@ These entries are evidence categories, not scores:
 | Date | Component | Intervention | Why autonomous result was insufficient | Resulting gate/disposition | Evidence |
 |---|---|---|---|---|---|
 | 2026-07-23 | Batch-1 state mapping | Require the executable fixture to include and validate the real custom 27-slot enum | The original passing gate checked frozen order and stock classification but not numeric custom slots; an `h11/h13` swap was not discriminated | Original exact-map evidence retracted and replaced by the repaired 27-slot, eleven-shared, ownership-separated gate | batch-1 results |
+| 2026-07-23 | Batch-3 discrete RHS families | Require all 15 advection rows, direct complete shift-family isolation, structured worst locations, and accurate custom radial-helper ownership | The original monitor skipped metric/A advection, treated raw shift derivatives as RHS-family evidence, discarded locations, and overstated direct use of `radial_dx_interior` | Repaired component/location-aware family gate; no derivative, continuum, Richardson, cleanup, or combined-row mathematics changed | batch-3 results |
 
 Populate one row per material intervention; do not collapse several corrections
 into a single count.
@@ -111,6 +115,28 @@ unsubtracted Ricci background in the Hessian isolation—were exposed by the
 direct path and corrected before results were recorded. No custom-production
 or GRChombo defect and no new human intervention was established. No final
 overall score is assigned.
+
+## Batch-3 evidence note
+
+Batch 3 began from clean committed batch-2 checkpoint
+`571b142ab2bd8c14abb967eb259f2ca202ec9d22`. The selected smoke configuration
+uses fourth-order GRChombo derivatives. Directly called GRChombo first,
+second, mixed, and biased-advection kernels converge at order approximately
+four, while the actual custom validation helpers converge at order
+approximately two. All tracked visible CCZ4 families converge independently
+to the batch-2 analytic reference. Four-level continuum extrapolations agree
+componentwise, with maximum custom-versus-GRChombo difference
+`4.91998803e-13`.
+
+Actual stock `TraceARemoval` and `PositiveChiAndAlpha` also pass direct
+same-dimension comparisons. No stock runtime determinant normalization or
+hidden-aware cleanup owner was found. Full Chombo periodic ghost exchange is
+not executable without the missing Chombo installation/digest, so the local
+analytic ghost patch is classified only as direct derivative-kernel evidence.
+No custom-production or GRChombo defect was established. The later reviewed
+repair records one documentation/gate error and one human intervention for
+the incomplete family coverage and direct-path description. No final overall
+score is assigned.
 
 ## Final-score prerequisites
 

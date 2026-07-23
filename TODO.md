@@ -17,7 +17,7 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [ ] Pin a reproducible GRChombo/Chombo/container/compiler manifest. The ignored local GRChombo checkout is at `37e6595`, but the container digest is unavailable in the current shell and no authoritative collaboration modified-cartoon/black-string branch has been supplied.
 - [x] Execute comparison batch 1: record available dependency manifest fields, prove the shared thirteen-slot/dimension map, and directly compile GRChombo conformal algebra, contracted-connection/Z, and visible physical-Ricci comparisons. All numerical families pass the fixed tolerance and dimension/sign mutations fail. Chombo/container digests remain unresolved; hidden/cartoon terms remain custom-only. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch1_results.md`.
 - [x] Execute comparison batch 2: separate raw and encoded-Z Ricci, then directly compare visible chi/metric/K/Theta/A RHS families at identical analytic jets in stock `d=3`. All families and combined rows pass the unchanged tolerance; ten active mutations fail. This is not target-`d=4` evidence. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch2_results.md`.
-- [ ] Execute comparison batch 3: use GRChombo’s production derivative paths on periodic manufactured profiles, measure visible discrete-RHS convergence, and compare visible algebraic cleanup. Keep hidden/cartoon production adaptation and target-`d=4` evidence separate.
+- [x] Execute comparison batch 3: actual custom order-two and GRChombo order-four derivative kernels converge on periodic manufactured profiles; all 15 visible advection rows and the complete `chi`, `h_ij`, and `A_ij` shift RHS families now have independent finite-grid monitors; visible algebraic cleanup passes. Production Chombo periodic ownership/ghost exchange remains dependency-blocked, hidden-`ww` adaptation remains pending, and batch 4 is next.
 - [ ] Adapt production functionality in backlog order: exact GP initial data, fixed GP-holding lapse source, hidden-sphere CCZ4 path and cleanup, compact periodic z, background evolution, Fourier perturbations/growth diagnostics, then string MOTS and `R_H` observables.
 - [ ] Stage 4AP/4AQ: align actual grid/ghost parity and finite-axis handling with GRChombo-facing conventions for `h_xz`, `h_xx-h_ww`, `W_x`, and `chi_x`.
 - [ ] Stage 4AT: remove or replace the Stage 4D smoke-only `hww/Aww` freeze in the physics path and add a loud guard against using both paths together.
@@ -145,6 +145,28 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [ ] Stage 4AU: perform final Stage 4 exit review.
 - [ ] Checkpoint I / Claude Audit I: review Stages 4AS-4AU before any Stage 5/Pau diagnostic reproduction.
 - [ ] Future review/lint gate: mechanically flag source-formula recomputation of `(hxx - hww) / x^2` outside `RegularityGuardedGeometrySources` / the Stage 4U authoring gate.
+
+## GRChombo comparison continuation
+
+- [x] Batch 3: actual custom order-two versus GRChombo order-four derivative
+  kernels converge at their documented orders on four refinements.
+- [x] Batch 3: raw Ricci, encoded Z, lapse Hessian, all 15 advection rows,
+  complete `chi`/metric/`A` shift RHS families, and all visible combined rows
+  converge to the common continuum result. Raw shift-derivative convergence
+  is retained separately as an input-kernel diagnostic; extrapolated
+  custom/GR maximum is `4.91998803e-13`.
+- [x] Batch 3: direct stock visible `TraceARemoval` and
+  `PositiveChiAndAlpha` pass independent component, residual, idempotence, and
+  ordering checks.
+- [ ] Pin/build Chombo and record the Chombo/container digest before claiming
+  production periodic ghost ownership. Do not replace it with local
+  production infrastructure.
+- [ ] Adapt hidden-aware determinant and A-trace cleanup. No callable stock
+  determinant-normalization compute class or hidden `ww` cleanup owner was
+  found.
+- [ ] Execute batch 4 at the GP initial-data/fixed-lapse-source seam; keep
+  production evolution, outer-boundary research, eigensolvers, and MOTS out
+  of scope.
 
 ## Later
 

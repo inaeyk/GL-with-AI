@@ -303,7 +303,7 @@ digests remain unresolved.
 - [ ] GRChombo production-adaptation P0: pin the exact GRChombo, Chombo, container, compiler, dimension, and formulation manifest. The ignored local GRChombo checkout is currently at `37e6595`; the current shell cannot inspect the Docker digest, and no authoritative modified-cartoon/black-string upstream branch has been supplied.
 - [x] First executable comparison tranche: exact dependency/source fields available in the shell, slot/dimension map, conformal algebra, contracted-connection/Z, and visible-Ricci analytic jets. The focused bridge calls GRChombo `TensorAlgebra` and `CCZ4Geometry` directly at stock `d=3`; all three numerical families pass the predeclared Level-2 tolerance and all dimension/sign mutations fail. Chombo/container digests remain a P0 gap, hidden terms remain custom-only, and no production evolution or physical diagnostic was started. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch1_results.md`.
 - [x] Comparison batch 2: directly invoke the inspected GRChombo `CCZ4RHS::rhs_equation`, raw Ricci, and Ricci-Z paths at stock `d=3`; independently assemble raw/encoded/combined geometry and every visible `chi,h,K,Theta,A` term family at the same dimension. All families and combined rows pass the unchanged Level-2 tolerance; omission, duplication, index/conformal-factor, trace-dimension, sign, RHS-dimension, and BSSN mutations fail. The production custom `d=4/2` operator is unchanged; hidden `ww` terms remain an adaptation gap. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch2_results.md`.
-- [ ] Comparison batch 3: exercise real GRChombo derivative paths on periodic manufactured profiles, compare discrete visible RHS values and convergence order, and assess visible algebraic cleanup while keeping hidden-weighted cleanup explicitly separate. Do not begin target-`d=4` or modified-cartoon production comparison before the reviewed adapter exists.
+- [x] Comparison batch 3: real custom and GRChombo derivative paths converge at their documented orders; all 15 visible advection rows and the complete `chi`, metric, and `A` shift RHS families have independent component/location-aware monitors; visible cleanup passes. Production Chombo periodic ownership/ghost exchange remains blocked, hidden-weighted cleanup remains pending, and batch 4 is next. Do not begin target-`d=4` or modified-cartoon production comparison before the reviewed adapter exists.
 - [x] Stage 4C: cheap inherited smoke run result recorded accurately; it reaches runtime but fails because `hww/Aww` are not initialized or handed off yet.
 - [x] Stage 4D: finite smoke-only scaffold support for `hww/Aww` so the cheap smoke run no longer dies immediately from NaNs.
 - [x] Stage 4D: guard the temporary freeze with the default-off `scaffold_freeze_hidden` parameter, enabled only in the cheap smoke parameter file.
@@ -689,3 +689,24 @@ Goal: turn validated simulations and radiation diagnostics into scientific concl
 
 All unchecked Stage 9 items remain missing. Owner: Stage 9 after validated
 simulation and radiation diagnostics exist.
+
+## Custom solver / GRChombo comparison batches
+
+- [x] Batch 1: lock source/state/dimension mapping and compare directly
+  callable conformal algebra, visible contracted connection, and physical
+  Ricci at matched stock `d=3`.
+- [x] Batch 2: compare raw Ricci, encoded Z, and every directly overlapping
+  visible `chi,h,K,Theta,A` RHS family and combined row at matched `d=3`.
+- [x] Batch 3: invoke actual custom order-two and GRChombo order-four
+  derivative kernels on periodic manufactured profiles; verify all derivative
+  orders, every one of the 15 visible advection rows, complete chi/metric/A
+  shift RHS families, continuum row agreement to `4.91998803e-13`, and direct
+  visible trace/positivity cleanup. Raw shift derivatives are input-kernel
+  diagnostics, not isolated RHS-family evidence.
+- [ ] Resolve the Chombo/container digest and execute the actual Chombo
+  periodic-domain/ghost-fill path. The batch-3 local analytic ghost patch is
+  direct kernel evidence only.
+- [ ] Adapt and compare hidden-aware `d=4` determinant/A-trace cleanup; stock
+  visible cleanup has no `hww/Aww` or multiplicity-two owner.
+- [ ] Batch 4: compare GP black-string initial-data and fixed-lapse-source
+  conventions at the analytic/setup seam without adding production evolution.
