@@ -56,6 +56,30 @@ The direct header bridge proves that missing Chombo/container digests need not
 block source-level and directly compilable geometry comparisons. It does not
 reduce the requirement to resolve those digests before production adaptation.
 
+## Batch-2 backlog update
+
+- P0-3 now includes a direct test-only call to the inspected
+  `CCZ4RHS::rhs_equation`, in addition to the batch-1 geometry bridge. At
+  matched stock `d=3`, every exercised visible `chi`, `h`, `K`, `Theta`, and
+  `A` family and every combined row passes the fixed Level-2 tolerance.
+- The raw-Ricci and encoded-Z split is directly evidenced. Omission, duplicate
+  insertion, and wrong trace-free dimension mutations are detected against
+  the directly compiled path. Wrong index conversion and missing conformal
+  factor mutations instead validate the local source/convention
+  reconstruction made from a directly computed contracted connection. No
+  visible Ricci-Z correction is required before production adaptation.
+- P0-2 remains incomplete: same-dimension equivalence is not a target-`d=4`
+  production adapter. Dimension coefficients must remain explicit.
+- P1-6 remains the primary physics adaptation gap. Stock source lacks
+  `hww/Aww`, hidden contracted-connection/Z, hidden Ricci/lapse-Hessian,
+  multiplicity-two traces, and hidden-aware determinant/trace cleanup.
+- The next comparison work should be Level 3 discrete manufactured profiles
+  through GRChombo derivative paths. It must reuse the mature derivative and
+  periodic-grid infrastructure rather than rebuilding it.
+- No P1, P2, or P3 production item was implemented by batch 2. The custom
+  stationary outer boundary remains deferred and is not added to the
+  production backlog.
+
 ## Explicit non-goals
 
 Do not add backlog items to recreate:

@@ -2107,3 +2107,39 @@ Category: Direct Source Bridge + Level-2 Geometry Comparison
   eigensolver, MOTS, production evolution, protected path, smoke parameter,
   staging, or commit was changed. The custom stationary outer boundary remains
   deferred research.
+
+## 2026-07-23 - Custom Solver / GRChombo Comparison Batch 2
+
+Category: Direct CCZ4 RHS + Encoded-Z Family Comparison
+
+- Began from clean committed batch-1 checkpoint
+  `921e639dede8a020a34b20d182f43693e757561d` and used CodeGraph/MCP before
+  direct source inspection.
+- Locked the inspected GRChombo path at clean detached commit
+  `37e659523830418b210acea1661dac0e00bb1b75`: `USE_CCZ4`, stock `d=3`,
+  `Lambda=0`, `kappa1=0.1`, `kappa2=0`, `kappa3=1`,
+  `covariantZ4=true`, vacuum matter, analytic supplied lapse/shift, and a
+  test-only frozen gauge adapter.
+- Added a focused test-only bridge that invokes the actual
+  `CCZ4RHS::rhs_equation`, `compute_ricci`, and `compute_ricci_Z` source
+  paths. The independent side is a generalized-dimension family construction
+  evaluated at `d=3`; no production `d=4` equation changed.
+- Raw Ricci, encoded-Z tensor/scalar/trace-free completion, combined Ricci-Z,
+  and the `Z_over_chi` upper/lower map pass. Their largest absolute error is
+  `3.053e-16`.
+- Every directly overlapping visible `chi`, `h`, `K`, `Theta`, and `A`
+  family passes separately. Combined-row maximum absolute errors are
+  `5.551e-17`, `2.776e-17`, `1.110e-16`, `5.551e-17`, and `1.943e-16`,
+  respectively.
+- Omitted/doubled encoded Z, wrong lowering, missing conformal factor, wrong
+  trace-free dimension, family omission/duplication/sign, wrong RHS dimension,
+  and BSSN branch mutations are all detected on active nonzero data.
+- Separate shift-stretch and divergence-trace subterms and zero
+  matter/Lambda terms remain source-only classifications. Stock GRChombo has
+  no hidden `hww/Aww` production owner, so all hidden/cartoon terms and
+  cleanup remain adaptation gaps.
+- Batch 1 and sixteen affected custom term-family/geometry fixtures also pass
+  under strict warnings. No external GRChombo, production source, frozen
+  outer-boundary work, smoke parameters, staging, or commit was changed.
+- Recommended batch 3 is a Level-3 discrete manufactured-profile comparison
+  through real GRChombo derivative paths, not target-`d=4` production work.

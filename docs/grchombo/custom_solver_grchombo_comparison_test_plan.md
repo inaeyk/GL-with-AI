@@ -163,7 +163,32 @@ The production `d=4` custom operator was not changed. For L2-01,
 because the inspected GRChombo headers expose the data convention but no
 standalone callable reconstruction path.
 
-The next executable tranche should compare the raw and encoded-Z Ricci pieces,
-then the visible `chi`, metric, `K`, `Theta`, and `A` RHS families. It must
-continue to separate stock `d=3` evidence from any future reviewed target
-`d=4` adapter and must not begin production evolution.
+## Batch 2 result records
+
+The batch-2 fixture is
+`code/BlackStringToy/tests/Stage4AOCGRChomboComparisonBatch2Test.cpp`.
+It calls the actual inspected GRChombo `CCZ4RHS::rhs_equation` and geometry
+templates at stock `d=3`. The test-only custom side independently assembles
+the same-dimension families; production `d=4` code is unchanged. Full results
+are in
+`docs/grchombo/custom_solver_grchombo_comparison_batch2_results.md`.
+
+| Test ID | Directness | Maximum absolute error | Maximum normalized error | Mutations | Outcome |
+|---|---|---:|---:|---|---|
+| L2-04a raw Ricci | direct `CCZ4Geometry::compute_ricci` | `3.053e-16` including scalar | `1.9970836e-04` | raw/encoded separation controls | pass |
+| L2-04b encoded Z | direct `compute_ricci_Z - compute_ricci` | `2.776e-16` including scalar | `2.8691300e-04` | omit, double, wrong TF dimension | pass |
+| L1-04c standalone Z map | source/convention reconstruction using a directly computed GRChombo contracted connection | `1.110e-16` | `1.8484162e-04` | wrong lowering, missing chi | pass; no callable standalone GRChombo output exists |
+| L2-04d combined Ricci-Z | direct `compute_ricci_Z` | `1.665e-16` tensor; `8.327e-17` scalar | `9.0765382e-05` | omit/double encoded Z | pass |
+| L2-05 `chi/h` families | direct `CCZ4RHS::rhs_equation` | `2.776e-17` | `2.803e-05` | wrong dimension | pass; separate shift and trace subterms are source-only, their sum is direct |
+| L2-06 `K` families | direct `CCZ4RHS::rhs_equation` | `5.551e-17` by family; `1.110e-16` combined | `8.732e-05` | omission, Hessian sign, BSSN branch | pass |
+| L2-07 `Theta` families | direct `CCZ4RHS::rhs_equation` | `2.776e-17` by family; `5.551e-17` combined | `3.152e-05` | Ricci duplication, BSSN branch | pass |
+| L2-08 visible `A` families | direct `CCZ4RHS::rhs_equation` | `1.665e-16` by family; `1.943e-16` combined | `1.521e-04` | wrong TF dimension, sign; direct damping absence | pass |
+| L2-hidden | custom-only | N/A | N/A | hidden multiplicity remains covered only by custom regressions | production adaptation required |
+
+The next executable tranche is Level 3 rather than another copied pointwise
+oracle: exercise GRChombo’s real fourth-order derivative paths on smooth
+periodic manufactured profiles, compare discrete visible RHS values with the
+analytic-jet oracle, and measure convergence. It should also compare visible
+algebraic cleanup while recording the missing hidden-weighted cleanup as an
+adaptation gap. Target-`d=4` and modified-cartoon production comparisons
+remain blocked until their reviewed adapter exists.

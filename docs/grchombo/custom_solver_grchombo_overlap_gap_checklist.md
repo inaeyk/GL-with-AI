@@ -1,6 +1,6 @@
 # Custom Solver versus GRChombo Overlap-and-Gap Checklist
 
-Status: inventory contract with comparison batch 1 evidence. The inventory
+Status: inventory contract with comparison batches 1 and 2 evidence. The inventory
 starts from the clean frozen-outer-boundary checkpoint `015a035`; batch 1
 starts from the clean committed inventory checkpoint
 `661468ade479cf003dc5336e665dc7b70edf48c6`. GRChombo is the production
@@ -179,3 +179,39 @@ eleven documented correspondences, not identical complete custom and stock
 state arrays. Full evidence, cases, directness classifications, and blockers
 are in
 `docs/grchombo/custom_solver_grchombo_comparison_batch1_results.md`.
+
+## Executed comparison batch 2
+
+Batch 2 directly compiles and invokes the inspected GRChombo
+`CCZ4RHS::rhs_equation`, `CCZ4Geometry::compute_ricci`, and
+`compute_ricci_Z` at stock `d=3`. Its independent side is a test-only
+generalized-dimension custom term-family path evaluated at `d=3`; the
+production physical-`d=4`, gridded-`d=2`, hidden-multiplicity-two operator is
+unchanged.
+
+| Capability | Updated status | Batch-2 evidence |
+|---|---|---|
+| Formulation/parameter lock | direct source lock | `USE_CCZ4`, `d=3`, `Lambda=0`, `kappa1=0.1`, `kappa2=0`, `kappa3=1`, `covariantZ4=true`, vacuum matter, supplied analytic lapse/shift, frozen gauge outputs |
+| Raw visible physical Ricci | direct compiled tolerance match | tensor/scalar maximum absolute errors `1.943e-16` / `3.053e-16` |
+| Visible encoded-Z completion | direct compiled tolerance match | `compute_ricci_Z-compute_ricci` tensor/scalar/TF maximum absolute errors `1.943e-16` / `2.776e-16` / `1.943e-16` |
+| Standalone `Z_over_chi`, `Z^i`, and `Z_i` map | source/convention comparison | uses a directly computed GRChombo contracted connection; `Z_over_chi` and `Z^i` are reconstructed locally from `CCZ4RHS.impl.hpp`, and the fixture additionally lowers to `Z_i`; maximum absolute discrepancy `1.110e-16` |
+| Combined visible Ricci-Z | direct compiled tolerance match | tensor/scalar maximum absolute errors `1.665e-16` / `8.327e-17` |
+| `chi` RHS | direct compiled family and combined match | lapse-`K`, divergence, and advection pass separately; combined maximum absolute error `5.551e-17` |
+| Visible `h_ij` RHS | direct compiled family and combined match | algebraic and advection families pass; shift stretching plus trace correction passes; combined maximum absolute error `2.776e-17` |
+| `K` RHS | direct compiled family and combined match | Ricci-Z, nonlinear, damping, lapse-Hessian, and advection families pass; combined maximum absolute error `1.110e-16` |
+| `Theta` RHS | direct compiled family and combined match | Ricci-Z, `K^2/A^2`, `-K Theta`, damping, lapse-gradient/Z, and advection pass; combined maximum absolute error `5.551e-17` |
+| Visible `A_ij` RHS | direct compiled family and combined match | Ricci-Z, lapse Hessian, linear, quadratic, advection, and combined shift families pass; no direct `A` damping is present; combined maximum absolute error `1.943e-16` |
+| Separate shift-stretch/trace pieces | source/convention only | production exposes their sum; that sum is directly executed and passes |
+| Matter and `Lambda` additions | source/convention only | selected vacuum branch and `Lambda=0` are locked |
+| Hidden `ww` RHS/Ricci/Z/cleanup | custom-hidden-only pending adaptation | deliberately excluded; stock GRChombo has no representative slots or modified-cartoon owner |
+
+Omission or duplication of encoded Z, wrong trace-free dimension, family
+omission/duplication/sign, wrong RHS dimension, and the BSSN branch are
+detected against direct compiled results. Wrong Z lowering and a missing
+conformal factor are separately detected mutations of the local
+source/convention reconstruction.
+This evidence upgrades the visible same-dimension RHS overlap from
+“comparison planned” to “directly equivalent for the exercised families.” It
+does not validate target-`d=4` production or hidden/cartoon equations. Detailed
+cases, maxima, directness classifications, and blockers are in
+`docs/grchombo/custom_solver_grchombo_comparison_batch2_results.md`.

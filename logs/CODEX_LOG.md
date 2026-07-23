@@ -1844,3 +1844,38 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Scope: no production solver source, external GRChombo, outer-boundary work,
   eigensolver, MOTS, smoke parameter, staging, or commit was changed. No final
   agent score was assigned.
+
+- Date: 2026-07-23
+- Goal: Execute custom-solver/GRChombo comparison batch 2 for the directly
+  overlapping visible stock-`d=3` CCZ4 RHS families, with raw Ricci and
+  encoded Z separated.
+- Start state: Used CodeGraph/MCP first. The worktree and index were clean at
+  committed batch-1 checkpoint
+  `921e639dede8a020a34b20d182f43693e757561d`; ignored GRChombo was clean and
+  detached at `37e659523830418b210acea1661dac0e00bb1b75`.
+- Direct bridge: The focused fixture compiles and invokes the inspected
+  `CCZ4RHS::rhs_equation`, `CCZ4Geometry::compute_ricci`, and
+  `compute_ricci_Z`. Only unavailable Chombo cell/derivative infrastructure
+  and gauge outputs are replaced at the test boundary; no final RHS formula is
+  copied as the direct side.
+- Formulation: `USE_CCZ4`, `d=3`, `Lambda=0`, `kappa1=0.1`, `kappa2=0`,
+  `kappa3=1`, `covariantZ4=true`, vacuum matter, supplied analytic
+  lapse/shift. The custom production path remains physical `d=4`, gridded
+  `d=2`, hidden multiplicity two.
+- Geometry: raw, encoded-Z, and combined tensor/scalar results all pass the
+  unchanged `5e-13 + 5e-12*scale` rule. The largest absolute geometry error is
+  `3.053e-16`.
+- RHS: Every exercised visible `chi/h/K/Theta/A` family passes independently;
+  the combined rows pass with maxima from `2.776e-17` to `1.943e-16`.
+  Direct `A` damping is absent as required.
+- Controls: all ten omission, duplication, index/conformal-factor,
+  trace-dimension, sign, RHS-dimension, and formulation mutations are
+  detected.
+- Audit behavior: the direct bridge exposed two mistakes in the unaccepted
+  draft oracle—lowering Z before every upper component was constructed and
+  failing to subtract active conformal Ricci in the Hessian isolation. Both
+  were corrected before evidence was recorded; no custom-production or
+  GRChombo defect was established.
+- Scope: hidden `ww` terms remain custom-only pending adaptation. No production
+  code, external GRChombo, boundary condition, eigensolver, MOTS, smoke
+  parameter, staging, or commit changed. No final agent score was assigned.
