@@ -1,6 +1,6 @@
 # GRChombo Adaptation Backlog for GL Production
 
-Status: prioritized design backlog with comparison-batch 1-3 evidence.
+Status: prioritized design backlog with comparison-batch 1-4 evidence.
 Production must reuse mature GRChombo infrastructure and adapt only
 black-string-specific physics, configuration, and diagnostics. Do not
 independently rebuild RK4, AMR, MPI/OpenMP, checkpoint/restart, ghost exchange,
@@ -110,6 +110,36 @@ reduce the requirement to resolve those digests before production adaptation.
   They are not candidates for production replacement of GRChombo's derivative,
   Chombo ghost, periodic-domain, or AMR infrastructure.
 - No P1, P2, or P3 production item was implemented. The custom stationary
+  outer boundary remains deferred.
+
+## Batch-4 backlog update
+
+- P1-4 now has test-only analytic and discrete evidence, but no production
+  implementation. The coordinate angular coefficient
+  `gamma_theta_theta=x^2` must enter the normalized modified-cartoon state as
+  `hww=gamma_theta_theta/x^2=1`; stock visible `y` is not its replacement.
+- P1-5 now has a directly compiled raw gauge reference:
+  `MovingPunctureGauge` gives `partial_t alpha=-3 lambda`. The repaired
+  test-only adapter changes lapse only and has zero numerical Fréchet
+  derivative with respect to all 20 evolved-field coordinates. Wrong
+  sign/factor, `2K`, evolving-horizon, shift-owner, and B-owner adapters fail.
+  A production adapter is still absent.
+- P1-6 and P1-7 remain required before stationarity can be inferred from
+  GRChombo. Independent stock/target family builders now show that the
+  stock-visible `d=3` K/A totals are replaced—not merely negated—by target
+  K/A values, hidden shift divergence, the `2/d=1/2` trace coefficient, and
+  multiplicity-two traces. This is an adaptation seam, not a stock defect.
+- P1-8 remains blocked at production ownership. Direct fourth-order kernels
+  converge, but Chombo `BoxLoop`, periodic ghost exchange, and the unresolved
+  Chombo/container tuple have not been exercised.
+- P2-10 has a locked test-only mode/parity convention and zero frozen-gauge
+  perturbations. The physical radial perturbation profile remains
+  deliberately unlocked, and no initializer was wired.
+- Before P1-9, complete P0-1/P0-2, then P1-4 through P1-8: target-dimension
+  slots, GP `BoxLoop` data, lapse-only source, hidden RHS, hidden-aware
+  cleanup/constraints, periodic z ownership, and raw/held background
+  diagnostics.
+- No production P1/P2/P3 implementation was added. The custom stationary
   outer boundary remains deferred.
 
 ## Explicit non-goals

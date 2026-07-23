@@ -30,7 +30,7 @@ No weighted total or overall grade is defined yet.
 | Hatted-Gamma/Z reconstruction | Custom Stage 4AN/4AO-C | Medium-high; direct GRChombo Christoffel path compiled | visible convention match; hidden increment custom-only | tolerance match: max absolute `1.837e-14`, normalized `1.036e-02` | N/A | N/A | connection-sign mutation detected; hidden increment separated | no batch-1 intervention | retain custom oracle | batch-1 results |
 | Complete 13-row frozen interior | Custom Stage 4AO-C | High at analytic-oracle layer | visible same-dimension CCZ4 family conventions match; hidden/Gamma rows not assessed here | partial tolerance match: all directly overlapping `chi,h,K,Theta,A` families and combined rows pass at stock `d=3` | N/A | N/A | omission, duplication, sign, dimension, and BSSN mutations detected | no new batch-2 human intervention | retain trusted oracle; adapt hidden production path | batch-2 results |
 | Nonlinear analytic JVP oracle | Independent test evaluator | High | N/A | TBD | N/A | N/A | Epsilon sweep and family mutations | TBD | retain trusted oracle | TBD |
-| GP background residual | Custom analytic/discrete derivation | High | TBD | TBD | TBD | TBD | Raw-versus-source separation | TBD | retain oracle | TBD |
+| GP background residual | Actual `Stage4AOCAnalyticFullOracle`, separate covariant constraint evaluator, independent stock/target family builders, and direct stock gauge/RHS seam | High for full custom `d=4`; direct stock evidence is explicitly reduced `d=3` | coordinate angular `x^2` versus stored `hww=1`; target K/A, hidden divergence, `2/d`, and multiplicity traced explicitly | all 13 oracle rows and `H,Mx,Mz` zero; direct stock lapse `-3 lambda`; independent stock K/A families match compiled totals and target families vanish without residual negation | full preflight pairwise `1.8114,1.9036,1.9513`; reduced-RHS setup `2.00006/4.09948` | not assessed | stock-K/dK, hidden divergence/multiplicity, dimension, false Ricci/Z, odd rows, Mz, and real source-adapter mutations rejected | batch-4 obstruction audit required evidence repair; no production defect | retain oracle; adapt GP setup/hidden production path | repaired batch-4 results |
 | Inner radial helper | Custom formulation | High but nonproduction | N/A | N/A | Existing second-order evidence | N/A | Stencil/reach/sign mutations | TBD | focused regression only | TBD |
 | Stationary matrix extraction | Derived from validated custom rows | Low independence from custom source; high representation fidelity | Source/matrix match `2.44e-16` | N/A | N/A | Determinant audit exposed bad inference | Required correction | focused regression only | stationary audit |
 | Diagnostic outer row layout | Custom scaffold | N/A | no accepted physics | invalid for boundary validation | stencil only | N/A | Some ownership checks | Multiple corrections | freeze deferred | boundary audit |
@@ -50,13 +50,13 @@ No weighted total or overall grade is defined yet.
 |---|---|---|---|
 | Components independently reproduced | Formula implemented without calling/copying production execution path | Source provenance plus independent oracle | 3 batch-1 families plus 6 batch-2 groups: encoded-Z and visible `chi,h,K,Theta,A` |
 | Exact matches | Discrete conventions, integers, signs, rational coefficients, or slot maps match exactly | Level-1 result record | repaired custom 27-slot permutation, eleven shared correspondences, and explicit compile-time dimension identities |
-| Tolerance-level matches | Floating outputs meet declared pre-run tolerances | Level-2/3 result record | 3 batch-1 families; batch-2 raw/encoded/combined geometry and five visible RHS row groups; batch-3 six derivative classes, nine discrete RHS monitors including all 15 advection rows and three complete shift groups, and visible cleanup |
+| Tolerance-level matches | Floating outputs meet declared pre-run tolerances | Level-2/3 result record | 3 batch-1 families; batch-2 raw/encoded/combined geometry and five visible RHS row groups; batch-3 six derivative classes, nine discrete RHS monitors including all 15 advection rows and three complete shift groups, and visible cleanup; batch-4 GP derivative/RHS convergence and direct gauge cancellation |
 | Convention errors found | Wrong dimension, sign, formulation branch, normalization, parity, or multiplicity | Before/after formula and failing mutation | 0 new errors; 1 required dimension translation was made explicit before comparison |
-| Implementation errors found by audit | Code behavior contradicted intended capability | Reproducer and corrected disposition | 0 custom or GRChombo defects in batches 1-3; two draft batch-2 oracle/isolation defects were detected by the direct bridge and corrected before acceptance |
-| Documentation/gate errors | Claim or true gate exceeded evidence | Historical claim, correction, and present gate | 2: batch-1 state-map evidence overclaim and batch-3 incomplete family/direct-path description repaired |
-| Wrong-abstraction tests | Test passed but exercised a proxy rather than target physics | Test name, proxy, missing target, corrective test | 2: batch-1 enum proxy; batch-3 raw shift-derivative convergence was mislabeled as isolated shift-RHS evidence |
-| Human interventions | User/reviewer correction materially changed interpretation or gate | Date, intervention, affected component | 2: batch-1 layout-gate repair and batch-3 family-coverage/direct-path repair; historical entries remain separately countable |
-| Successful independent reconstructions | Independent component later matches GRChombo or analytic authority | Reviewed comparison record | 3 batch-1 families plus encoded-Z and five visible batch-2 RHS row groups |
+| Implementation errors found by audit | Code behavior contradicted intended capability | Reproducer and corrected disposition | 0 custom or GRChombo defects in batches 1-4; two draft batch-2 oracle/isolation defects were detected by the direct bridge and corrected before acceptance |
+| Documentation/gate errors | Claim or true gate exceeded evidence | Historical claim, correction, and present gate | 3: batch-1 state-map overclaim, batch-3 family/direct-path overclaim, and batch-4 GP completion/full-oracle/source-mutation evidence repaired |
+| Wrong-abstraction tests | Test passed but exercised a proxy rather than target physics | Test name, proxy, missing target, corrective test | 5: batch-1 enum proxy; batch-3 raw shift-input proxy; batch-4 residual-negation completion, hand-coded complete-residual proxy, and local-variable source mutations |
+| Human interventions | User/reviewer correction materially changed interpretation or gate | Date, intervention, affected component | 3: batch-1 layout, batch-3 family coverage, and batch-4 GP/source evidence repairs; historical entries remain separately countable |
+| Successful independent reconstructions | Independent component later matches GRChombo or analytic authority | Reviewed comparison record | 3 batch-1 families; encoded-Z and five visible batch-2 RHS groups; repaired batch-4 stock/target GP K/A family decomposition |
 | Direct adaptation preferred | Rebuilding would duplicate mature infrastructure or reduce reliability | Ownership decision and source location | GRChombo tensor/geometry/RHS, fourth-order derivatives, visible trace/positivity cleanup, and Chombo periodic/ghost infrastructure; no runtime infrastructure rebuilt |
 | Research-level unresolved problems | No accepted formulation or validation path | Blocker and deferred owner | custom stationary outer boundary remains one explicit unresolved research area |
 
@@ -80,6 +80,7 @@ These entries are evidence categories, not scores:
 |---|---|---|---|---|---|
 | 2026-07-23 | Batch-1 state mapping | Require the executable fixture to include and validate the real custom 27-slot enum | The original passing gate checked frozen order and stock classification but not numeric custom slots; an `h11/h13` swap was not discriminated | Original exact-map evidence retracted and replaced by the repaired 27-slot, eleven-shared, ownership-separated gate | batch-1 results |
 | 2026-07-23 | Batch-3 discrete RHS families | Require all 15 advection rows, direct complete shift-family isolation, structured worst locations, and accurate custom radial-helper ownership | The original monitor skipped metric/A advection, treated raw shift derivatives as RHS-family evidence, discarded locations, and overstated direct use of `radial_dx_interior` | Repaired component/location-aware family gate; no derivative, continuum, Richardson, cleanup, or combined-row mathematics changed | batch-3 results |
+| 2026-07-23 | Batch-4 GP background and lapse source | Require independent stock/target family evaluation, the actual complete analytic oracle, full constraints/odd-row mutations, and real adapter Jacobian/ownership tests | Residual negation did not derive a completion; hand-written cancellations did not invoke the complete oracle; old source mutations modified unrelated locals rather than adapters | Repaired evidence only; storage, coefficients, direct GRChombo results, convergence, Fourier convention, and all production gates unchanged | repaired batch-4 results |
 
 Populate one row per material intervention; do not collapse several corrections
 into a single count.
@@ -137,6 +138,34 @@ No custom-production or GRChombo defect was established. The later reviewed
 repair records one documentation/gate error and one human intervention for
 the incomplete family coverage and direct-path description. No final overall
 score is assigned.
+
+## Batch-4 evidence note
+
+Batch 4 began from clean committed batch-3 checkpoint
+`debafd929377498eaa22c84fdf8c84409f7c3cee`. It independently constructs the
+analytic GP state and jets, directly invokes stock tensor, CCZ4 RHS,
+fourth-order derivative, and gauge templates where callable, and preserves
+the target-dimension/hidden boundary.
+
+The audit made the coordinate convention explicit:
+`gamma_theta_theta=x^2`, while the custom modified-cartoon slot is the
+normalized representative `hww=1`. Direct stock `d=3` K/A values are therefore
+recorded separately from the custom physical-`d=4` values. The repaired
+family builders independently reproduce the stock fractions and target
+zeroes from their own K/A derivatives, hidden shift divergence, dimension,
+and trace multiplicity. The previous residual-negation completion is removed.
+The actual complete analytic oracle evaluates all 13 rows, and a separate
+covariant evaluator checks `H,Mx,Mz`; the stencil preflight is classified
+separately.
+
+The actual `MovingPunctureGauge` path gives `-3 lambda`. The test-only fixed
+source adapter gives `+3 lambda`, writes lapse only, and has zero numerical
+Jacobian for all 20 evolved-field coordinates. Wrong `2K`, evolving-horizon,
+sign/factor, shift-owner, and B-owner adapters fail. Direct order-four
+GRChombo and actual order-two custom derivative paths retain their documented
+rates. This repair records a batch-4 evidence/gate correction, not a
+custom-production or GRChombo defect. No physical-run evidence or final
+overall score is assigned.
 
 ## Final-score prerequisites
 

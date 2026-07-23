@@ -2176,3 +2176,42 @@ Category: Direct Derivative Kernels + Manufactured Convergence + Cleanup
   pass under strict warnings. No external GRChombo, production equation,
   smoke parameter, frozen outer-boundary research, staging, or commit changed.
   No final agent score was assigned.
+
+## 2026-07-23 - Custom Solver / GRChombo Comparison Batch 4
+
+Category: GP Background + Fixed Lapse-Source Convention
+
+- Began from clean committed batch-3 checkpoint
+  `debafd929377498eaa22c84fdf8c84409f7c3cee` and used CodeGraph/MCP before
+  direct source inspection. GRChombo remained clean and detached at
+  `37e659523830418b210acea1661dac0e00bb1b75`.
+- Added two test-only fixtures that directly invoke the inspected stock
+  `d=3` tensor algebra, CCZ4 RHS, fourth-order derivative, and
+  moving-puncture gauge templates. No production path was changed.
+- Resolved the coordinate/storage convention explicitly:
+  `gamma_theta_theta=x^2`, while the custom modified-cartoon state stores
+  `hww=gamma_theta_theta/x^2=1`. The fixture rejects `hww=x^2` as a custom
+  slot value and preserves ordinary stock visible `y` as a separate owner.
+- The repaired gate invokes the actual complete analytic oracle for all 13
+  rows and separately evaluates `H,Mx,Mz` through full four-dimensional
+  geometry. Independent stock/target family builders reproduce the stock
+  K/A fractions and target zeroes from their own K/A derivatives, hidden
+  shift divergence, `2/d`, and trace multiplicity; the former
+  residual-negation completion is removed.
+- The older discrete preflight remains a separate stencil study. Through
+  `N=2048` its pairwise orders are `1.81140120`, `1.90359372`, and
+  `1.95125006`; the worst component is K and its radial location is retained.
+- Direct `MovingPunctureGauge` gives the unmodified lapse drift
+  `-3 lambda`. A real test-only `+3 lambda` adapter changes lapse only and has
+  zero numerical derivative for all 20 evolved-field coordinates. Wrong
+  sign/factor, `2K`, evolving-horizon, shift-owner, and B-owner adapters fail.
+- Actual custom order-two and GRChombo order-four GP derivative/setup paths
+  converge at their documented rates over four refinements. The GR visible
+  RHS clean plateau has order `4.09948021`; its finest roundoff-limited error
+  is separately reported as `2.13052076e-11`.
+- Locked `k_n=2 pi n/L`, scalar/one-z sine-cosine assignments in both parity
+  sectors, all thirteen frozen slots, and zero gauge perturbations. The
+  physical radial perturbation profile remains deliberately unlocked.
+- Production GP `BoxLoop` data, the target hidden/cartoon RHS, hidden-aware
+  cleanup/constraints, Chombo periodic ghost ownership, and the production
+  lapse-source adapter remain open. No final agent score was assigned.

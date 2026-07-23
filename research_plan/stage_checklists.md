@@ -703,10 +703,19 @@ simulation and radiation diagnostics exist.
   shift RHS families, continuum row agreement to `4.91998803e-13`, and direct
   visible trace/positivity cleanup. Raw shift derivatives are input-kernel
   diagnostics, not isolated RHS-family evidence.
+- [x] Batch 4: directly exercise stock `d=3` tensor/RHS/fourth-order
+  derivative/moving-puncture-gauge paths at the GP setup seam; compare with
+  independent stock/target term families and the actual full custom
+  physical-`d=4` 13-row oracle plus `H,Mx,Mz`; distinguish coordinate
+  `gamma_theta_theta=x^2` from stored `hww=1`; verify raw `-3 lambda`, a real
+  lapse-only test adapter with zero 20-field Jacobian, setup convergence,
+  mutation sensitivity, and the frozen-gauge Fourier/parity convention.
 - [ ] Resolve the Chombo/container digest and execute the actual Chombo
   periodic-domain/ghost-fill path. The batch-3 local analytic ghost patch is
   direct kernel evidence only.
 - [ ] Adapt and compare hidden-aware `d=4` determinant/A-trace cleanup; stock
   visible cleanup has no `hww/Aww` or multiplicity-two owner.
-- [ ] Batch 4: compare GP black-string initial-data and fixed-lapse-source
-  conventions at the analytic/setup seam without adding production evolution.
+- [ ] Begin the first production adaptation seam only after provenance is
+  pinned: target `d=4/2` state ownership, GP `BoxLoop` initial data,
+  hidden/cartoon completion, lapse-only fixed source, hidden-aware cleanup and
+  constraints, and compact-z ghost ownership before unperturbed evolution.

@@ -1909,3 +1909,42 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Scope: No custom production equation, external GRChombo, smoke parameter,
   outer boundary, eigensolver, MOTS, production evolution, staging, or commit
   changed. No final overall agent score was assigned.
+
+- Date: 2026-07-23
+- Goal: Execute comparison batch 4 at the GP black-string initial-data,
+  background-residual, and fixed-lapse-source convention seam without
+  production wiring.
+- Start state: Used CodeGraph/MCP first. The worktree and index were clean at
+  committed batch-3 checkpoint
+  `debafd929377498eaa22c84fdf8c84409f7c3cee`; ignored GRChombo was clean and
+  detached at `37e659523830418b210acea1661dac0e00bb1b75`.
+- Direct paths: The two focused fixtures invoke inspected GRChombo tensor
+  algebra, `CCZ4RHS::rhs_equation`, `FourthOrderDerivatives`, and
+  `MovingPunctureGauge` templates. The independent custom side constructs GP
+  jets analytically, calls `make_centered_derivative_jet`, and calls the
+  validated full physical-`d=4` preflight/oracle.
+- Convention: The angular coordinate component is
+  `gamma_theta_theta=x^2`; the custom modified-cartoon slot is its normalized
+  Cartesian representative `hww=1`. Stock visible `y` is not hidden `ww`.
+  Dimension-specific `d=3` and `d=4` K/A coefficients are reported
+  separately.
+- Residuals: The repaired fixture invokes the actual complete analytic oracle
+  for all 13 rows and separately evaluates `H,Mx,Mz`. Independent stock and
+  target family paths reproduce the exact K/A fractions and target zeroes
+  without residual negation. The discrete preflight is separately classified
+  and reaches pairwise orders `1.81140120`, `1.90359372`, and `1.95125006`
+  through `N=2048`, with worst row/location retained.
+- Gauge: Direct stock lapse is `-3 lambda`; a real test-only `+3 lambda`
+  adapter writes lapse only and has zero numerical Jacobian for all 20
+  evolved-field coordinates. Wrong `2K`, evolving-horizon, sign/factor,
+  shift-owner, and B-owner adapters are detected.
+- Discrete setup: Custom first/second derivatives converge at
+  `2.00018683/2.00017965`, GRChombo at
+  `4.00089876/3.96062158`; reduced visible RHS orders are
+  `2.00005826/4.09948021` on their clean regimes.
+- Perturbations: `k_n=2 pi n/L`, both sine/cosine parity assignments, all
+  thirteen frozen slots, and zero gauge perturbations pass. No physical
+  radial profile was selected.
+- Scope: No production initial data, hidden evolution, gauge source, time
+  integration, external GRChombo, smoke parameter, outer-boundary research,
+  staging, or commit changed. No final overall agent score was assigned.

@@ -164,9 +164,16 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [ ] Adapt hidden-aware determinant and A-trace cleanup. No callable stock
   determinant-normalization compute class or hidden `ww` cleanup owner was
   found.
-- [ ] Execute batch 4 at the GP initial-data/fixed-lapse-source seam; keep
-  production evolution, outer-boundary research, eigensolvers, and MOTS out
-  of scope.
+- [x] Batch 4: compare the GP analytic/setup seam through direct stock
+  tensor/RHS/derivative/gauge paths and the independent full custom `d=4`
+  oracle. The repaired gate independently decomposes stock and target K/A
+  families, invokes the actual 13-row analytic oracle plus `H,Mx,Mz`, and
+  validates a lapse-only test adapter with a zero 20-field Jacobian.
+  Coordinate `gamma_theta_theta=x^2` remains stored as custom `hww=1`; raw
+  lapse remains `-3 lambda`.
+- [ ] Batch 5 / first adaptation seam: pin Chombo/container provenance, add
+  the reviewed target-`d=4/2` state owner, and exercise production
+  `BoxLoop`/periodic ghost ownership before any unperturbed evolution.
 
 ## Later
 

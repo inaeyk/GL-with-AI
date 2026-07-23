@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <cstddef>
+#include <string>
 #include <stdexcept>
 #include <vector>
 
@@ -31,6 +32,8 @@ struct RawResidualSample
     double max_raw_residual_error;
     double max_lapse_target_error;
     double max_hat_gamma_x_error;
+    std::string worst_component;
+    double worst_x;
 };
 
 struct JacobianPlateau
@@ -141,6 +144,8 @@ inline RawResidualSample compute_raw_background_residual_sample(
     double max_error = 0.0;
     double max_lapse_error = 0.0;
     double max_gamma_error = 0.0;
+    std::string worst_component = "none";
+    double worst_x = 0.0;
     for (int i = 2; i <= intervals - 2; ++i)
     {
         const std::size_t idx = static_cast<std::size_t>(i);
@@ -207,15 +212,32 @@ inline RawResidualSample compute_raw_background_residual_sample(
             momentum_x,  momentum_z,    det_h_minus_one,
             tr_A,        rhs_hat_gamma_x, rhs_hat_gamma_z,
             rhs_shift_x, rhs_shift_z,   rhs_Bx,     rhs_Bz};
-        for (const double component : components)
+        const char *component_names[] = {
+            "chi",       "hxx",       "hzz",       "hww",
+            "hxz",       "K",         "Theta",     "Axx",
+            "Azz",       "Aww",       "Axz",       "Hamiltonian",
+            "Mx",        "Mz",        "det_h-1",   "tr_A",
+            "hatGammaX", "hatGammaZ", "shiftX",    "shiftZ",
+            "Bx",        "Bz"};
+        for (std::size_t component_index = 0;
+             component_index < sizeof(components) / sizeof(components[0]);
+             ++component_index)
         {
-            max_error = abs_max(max_error, component);
+            const double component_error =
+                std::abs(components[component_index]);
+            if (component_error > max_error)
+            {
+                max_error = component_error;
+                worst_component = component_names[component_index];
+                worst_x = x;
+            }
         }
         max_lapse_error = abs_max(max_lapse_error, rhs_lapse - lapse_target);
         max_gamma_error = abs_max(max_gamma_error, rhs_hat_gamma_x);
     }
 
-    return {intervals, grid.dx, max_error, max_lapse_error, max_gamma_error};
+    return {intervals, grid.dx, max_error, max_lapse_error, max_gamma_error,
+            worst_component, worst_x};
 }
 
 inline double hidden_contraction_from_hww(const double x, const double W,

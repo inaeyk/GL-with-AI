@@ -1,6 +1,6 @@
 # Custom Solver versus GRChombo Comparison-Test Plan
 
-Status: executable-test contract with comparison batches 1-3 completed. The
+Status: executable-test contract with comparison batches 1-4 completed. The
 test-only bridges are authorized evidence, not production wiring. The custom
 Stage 4AO-C operator is the independent oracle; GRChombo is the convention
 and production authority.
@@ -206,9 +206,26 @@ extrapolations are compared as equivalent values. Detailed tables are in
 | L3-05 positivity cleanup | direct `PositiveChiAndAlpha` | N/A | N/A | exact declared clamps; idempotent | pass |
 | L3-05 determinant cleanup | no inspected callable stock routine | N/A | N/A | N/A | source-only/absent; hidden-aware cleanup remains adaptation gap |
 
-The next comparison batch should move to the background/setup boundary without
-implementing production physics: compare exact GP black-string initial data
-and fixed-lapse-source conventions at the analytic-jet level, inventory the
-minimum target-dimension adapter seam, and specify the Chombo-enabled
-periodic-grid test needed after dependency locking. It must not duplicate
-GRChombo time integration, AMR, ghost exchange, or cleanup infrastructure.
+## Batch 4 result records
+
+The batch-4 fixtures are
+`code/BlackStringToy/tests/Stage4AOCGRChomboComparisonBatch4GPBackgroundTest.cpp`
+and `Stage4AOCGRChomboComparisonBatch4GaugeTest.cpp`. Full evidence is in
+`docs/grchombo/custom_solver_grchombo_comparison_batch4_results.md`.
+
+| Test ID | Directness | Result | Mutations / limitations | Outcome |
+|---|---|---|---|---|
+| L1-04/L1-06 GP convention | direct stock `d=3` tensor algebra/RHS plus source/convention target map | coordinate angular `x^2` is distinct from stored custom `hww=1`; custom and stock dimension-specific K/A reconstructions pass | wrong stored `hww=x^2` and reversed extrinsic sign rejected | pass |
+| L1-07 gauge/source | direct `MovingPunctureGauge` raw output plus real test-only fixed-source adapter | raw lapse `-3 lambda`; adapter changes lapse only; all 20 evolved-field numerical Jacobian entries are zero | wrong sign/factor, `2K`, horizon-dependent, shift-owner, and B-owner adapters rejected | pass |
+| L2-09 full GP background | actual custom-hidden-only `Stage4AOCAnalyticFullOracle` plus independent constraint evaluator | all 13 RHS rows and `H,Mx,Mz` vanish; odd-row and `Mz` injected contributions fail | stock visible `d=3` alone cannot establish full cancellation | pass for custom oracle |
+| L2-09 stock/target family seam | independent family builders plus direct stock `rhs_equation` totals | stock K/A fractions reproduced; target K/A totals independently vanish; Ricci, encoded Z, lapse Hessian, and damping are separately zero | stock-K/dK, missing hidden divergence/multiplicity, wrong dimension, false Ricci/Z mutations fail | pass; no residual-negation completion |
+| L3-07 GP derivatives | different-order convergence; both kernels direct | custom `D_x/D_xx` orders `2.00019/2.00018`; GR `4.00090/3.96062` | no production Chombo ghost/BoxLoop claim | pass |
+| L3-07 visible GP RHS | different-order convergence | custom order `2.00006`; GR clean-plateau order `4.09948`, finest error `2.13052e-11` | full target residual still requires hidden adaptation | pass |
+| L3-07 full custom GP preflight | custom second-order stencil study only | pairwise orders `1.81140,1.90359,1.95125` through `N=2048`; worst component/location retained | not used as analytic all-row evidence | pass |
+| L1-08 perturbation convention | test-only convention gate | `k_n=2 pi n/L`, all frozen slots and both phase assignments checked; gauge perturbations zero | radial profile remains deliberately unlocked | pass |
+
+The next comparison work should begin the reviewed target-dimension adaptation
+seam, not another custom runtime: lock Chombo/container provenance, implement
+the `d=4/2` state/hidden owner in isolation, and exercise production
+`BoxLoop`/periodic ghost ownership. GRChombo time integration should be
+invoked only after the adapted Level-1--3 background gates pass.

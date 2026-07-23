@@ -1,6 +1,6 @@
 # Custom Solver versus GRChombo Overlap-and-Gap Checklist
 
-Status: inventory contract with comparison batches 1-3 evidence. The inventory
+Status: inventory contract with comparison batches 1-4 evidence. The inventory
 starts from the clean frozen-outer-boundary checkpoint `015a035`; batch 1
 starts from the clean committed inventory checkpoint
 `661468ade479cf003dc5336e665dc7b70edf48c6`. GRChombo is the production
@@ -71,13 +71,13 @@ Production-owner values are exactly: **reuse GRChombo**, **adapt GRChombo**,
 
 | Capability | Custom implementation and status | GRChombo implementation and status | Formula or convention | Match / mismatch | Existing evidence | Required comparison and acceptance | Production owner |
 |---|---|---|---|---|---|---|---|
-| GP lapse/shift | Stage 4AO-A derivation and `Stage4AOGPDiscretePreflight.hpp`; oracle only | Generic lapse/shift fields and gauge hooks, no GP black-string initializer found | `alpha=1`, `beta^x=sqrt(r0/x)`, `beta^z=0` | Infrastructure overlap; data absent upstream checkout | Analytic and discrete GP residual locks | Production initializer values/derivatives at random radii; absolute error `<=5e-14` | adapt GRChombo |
-| Fixed GP-holding lapse source | Documented Stage 4AO-A validation source; not production code | `MovingPunctureGauge.hpp` has no fixed GP source | `S_alpha=+3 sqrt(r0/x^3)`, field independent | Absent in both live production paths | Analytic cancellation argument only | Add through a gauge adapter, verify background cancellation and unchanged JVP to Level-2 tolerance | adapt GRChombo |
+| GP lapse/shift | Stage 4AO-A derivation and `Stage4AOGPDiscretePreflight.hpp`; validated oracle only | Generic lapse/shift fields and gauge hooks, no GP black-string initializer found | `alpha=1`, `beta^x=sqrt(r0/x)`, `beta^z=0` | Convention matches; production data owner remains absent | Batch 4 directly exercises stock gauge/RHS and derivative paths against independently constructed analytic GP jets | Production `BoxLoop` initializer values/derivatives at random radii; absolute error `<=5e-14` | adapt GRChombo |
+| Fixed GP-holding lapse source | Documented Stage 4AO-A source and batch-4 test-only adapter; not production code | Direct `MovingPunctureGauge.hpp` gives raw `-3 lambda`; no fixed source exists | `S_alpha=+3 sqrt(r0/x^3)`, locked-background and field independent | Raw stock gauge convention matches; production adapter absent | Batch 4 proves exact cancellation, zero linearization, lapse-only ownership, and rejects six active source mutations | Add through a reviewed gauge adapter; raw residual remains visible and source-adjusted continuum residual vanishes | adapt GRChombo |
 | Frozen-gauge operator | Complete 13-variable custom oracle | GRChombo provides nonlinear live fields, not a frozen linear operator | `delta alpha=delta beta=delta B=0` | Custom-only reference role | Full interior nonlinear JVP and parity | Compare custom JVP to finite differences of adapted GRChombo nonlinear RHS | retain custom oracle |
 | Live moving-puncture gauge | Only convention/startup documentation; no custom live operator | `MovingPunctureGauge.hpp` production implementation | Bona-Masso lapse and Gamma-driver shift | GRChombo-only production capability | Inherited BinaryBH smoke only | GP startup and perturbed gauge RHS comparison after source adapter; Level-2 tolerance | reuse GRChombo |
-| Background residuals | Analytic and second-order discrete custom preflight | Production CCZ4 can evolve once target physics is adapted | GP geometric residual zero; unmodified lapse residual `-3 lambda` | Not yet compared to production target | Stage 4AO-A/B fixtures | Level 2 analytic GP RHS, then Level 3 convergence; source-adjusted continuum residual zero | retain custom oracle |
-| Black-string initial data | Explicit formulas in Stage 4AO-A docs; not wired | Current BlackStringToy uses inherited BinaryBH data | Uniform GP black string with compact z | Production absent | Formula review and residual fixtures | Cellwise initial-data comparison plus determinant/trace/constraint checks; exact analytic tolerance | adapt GRChombo |
-| Perturbation/Fourier convention | Custom cosine/sine parity and `k=2 pi n/L` helpers | GRChombo supplies periodic grids but no project Fourier initializer | SO(3) scalar sector, even/odd one-z phase swap | Infrastructure only | Stage 4AO-B/C parity fixtures | Initialize both parities on periodic grid; projection leakage `<=1e-12`, mode amplitude exact to discretization | adapt GRChombo |
+| Background residuals | Analytic zero-residual oracle and second-order discrete custom preflight | Direct stock-visible `d=3` CCZ4 RHS is callable, but lacks target hidden/dimension completion | Full `d=4` GP geometric residual zero; unmodified lapse residual `-3 lambda` | Custom full result passes; reduced stock-visible nonzero rows are classified as omitted hidden/dimension completion, not errors | Batch 4: custom preflight order `1.8575`; direct stock reduced residual ledger; direct gauge drift | Repeat through the adapted target `d=4/2` production state and require source-held convergence to zero | retain custom oracle |
+| Black-string initial data | Explicit formulas and analytic jets validated in batch 4; not wired | Current BlackStringToy uses inherited BinaryBH data; stock tensor conventions directly exercised | Coordinate `gamma_theta_theta=x^2`; custom stored `hww=gamma_theta_theta/x^2=1`; uniform GP compact string | Convention seam established; production initializer absent | Batch 4 determinant, weighted trace, K/A reconstruction, state ownership, analytic-jet, and wrong-`hww` mutation gates | Production cellwise comparison plus hidden-aware determinant/trace/constraint checks | adapt GRChombo |
+| Perturbation/Fourier convention | Test-only all-13-slot cosine/sine assignment; radial profile deliberately unlocked | GRChombo supplies periodic grids but no project Fourier initializer | `k_n=2 pi n/L`; scalar/even cosine and one-z sine in `P+`, swapped in `P-`; frozen gauge unperturbed | Convention lock only | Batch 4 checks mode/amplitude, all state slots, parity classes, and zero gauge perturbations | Initialize both parities on production periodic grid; projection leakage `<=1e-12`, mode amplitude exact to discretization | adapt GRChombo |
 
 ## Numerical infrastructure
 
@@ -248,3 +248,32 @@ unresolved Chombo/container digest. The locally populated analytic ghost patch
 is direct-kernel evidence only, not production-domain evidence. Detailed
 tables and mutations are in
 `docs/grchombo/custom_solver_grchombo_comparison_batch3_results.md`.
+
+## Executed comparison batch 4
+
+Batch 4 began from clean checkpoint
+`debafd929377498eaa22c84fdf8c84409f7c3cee`. It directly invokes the
+inspected stock `d=3` tensor algebra, contracted-connection/CCZ4 RHS,
+fourth-order derivative, and moving-puncture gauge paths. The custom side
+independently constructs analytic GP jets, calls
+`make_centered_derivative_jet`, and calls the validated full `d=4` background
+oracle.
+
+| Capability | Updated status | Batch-4 evidence |
+|---|---|---|
+| GP metric/extrinsic convention | direct stock sign plus source/convention target gate | coordinate `gamma_theta_theta=x^2`, but custom normalized `hww=1`; storing `x^2` in the `hww` slot and reversing the stock extrinsic sign are rejected |
+| Custom full `d=4` K/A reconstruction | independently validated oracle | `K=3 lambda/2`, `Axx=-7 lambda/8`, `Azz=-3 lambda/8`, `Aww=5 lambda/8`; determinant one and weighted trace zero |
+| Stock-visible `d=3` seam | direct compiled stock algebra | ordinary visible `y` remains separate; `K=-lambda/2`, `Axx=-lambda/3`, `Ayy=Azz=lambda/6` for the honest reduced tensor |
+| Full background residual | custom-hidden-only | actual `Stage4AOCAnalyticFullOracle` evaluates all 13 rows; a separate full-geometry evaluator checks `H,Mx,Mz`; all are zero within `5.5e-20` |
+| Stock/target GP family split | independent test-only decomposition plus direct stock totals | stock K/A families reproduce `1/8,1/12,-1/24,-1/24`; independently evaluated target K/A families vanish through target K/A, hidden shift divergence, `2/d=1/2`, and multiplicity two—not residual negation |
+| Discrete GP residual | separate second-order stencil evidence | `N=256,512,1024,2048` pairwise orders `1.8114,1.9036,1.9513`; worst row is K with retained radial location |
+| Moving-puncture gauge | direct compiled GRChombo | unmodified lapse is `-3 lambda`; shift and `B` sources are zero for locked inputs |
+| Fixed lapse source | validated test-only adapter plus direct raw gauge result | adapter changes lapse only; all 20 evolved-field Jacobian entries are zero; wrong `2K`, horizon-dependent, sign/factor, shift-owner, and B-owner adapters fail |
+| GP derivatives/discrete visible RHS | different-order convergence | custom order two; GRChombo order four through its clean plateau; four refinements executed |
+| Fourier/parity setup | convention gate only | `k_n=2 pi n/L`, all thirteen frozen slots classified, one-z phase swap checked, gauge perturbations zero, radial profile unlocked |
+
+Production `BoxLoop` initial data, target-dimension hidden evolution,
+hidden-aware cleanup/constraints, Chombo periodic ghost ownership, and the
+fixed-source production adapter remain open adaptation tasks. Detailed tables
+and classifications are in
+`docs/grchombo/custom_solver_grchombo_comparison_batch4_results.md`.
