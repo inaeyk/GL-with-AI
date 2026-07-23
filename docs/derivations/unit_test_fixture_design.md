@@ -1618,8 +1618,8 @@ determinant/weighted-trace cleanup reaches roundoff, is idempotent, and never
 changes the PDE-row or boundary-equation count.
 
 The diagnostic outer fixture constructs the boundary-local characteristic
-transform independently of endpoint PDE rows. It also exercises scalar
-profiles with `gamma={0,0,0.1,0.5}`:
+transform independently of endpoint PDE rows. It also exercises the now
+superseded scalar-only profiles with `gamma={0,0,0.1,0.5}`:
 
 ```text
 exp(-kx-gamma sqrt(r0*x)) x^[-1-k r0/2-gamma^2 r0/(8k)]
@@ -1632,7 +1632,19 @@ mixing invariance do not validate full WKB decaying/growing states, Jordan
 exclusion, parity, constraints, or endpoint rows. The earlier literal-zero
 outer parity diagnostics and threshold-systematics claims are removed.
 
-The corrected independent fixture remains to be written. It must build full
+The full stationary audit in `stage4AO_C_stationary_wkb_basis.md` supersedes
+those scalar coefficients. Its sparse matrices independently match the source
+operator at `q={0.31,0.73,1.11}`, `X={7,13,29}`, and both parities with maximum
+mismatch `2.44e-16`. An exact-rational `q=2/3` counterexample disproves the
+formerly claimed fourfold light determinant factor. The singular leading
+matrix has nullity three, but that fact does not classify the number or type
+of full asymptotic branches; distinct subleading series may share a leading
+vector. No independent full-vector fixture can yet be specified without
+circular or invented data.
+
+If this deferred research problem is reopened and the branches are first
+classified by higher-order solvability or a regularized first-order system,
+the corrected independent fixture must build full
 `(U,D_xU)` jets without production helpers; separate continuum WKB truncation,
 stencil, and nullspace errors; sweep both sectors over
 `k={0.31,0.57,0.73,1.11}` and `k x_out={8,10,12}`; and execute all actual-row,
@@ -1642,9 +1654,9 @@ Only the inner endpoint and diagnostic outer scaffolding flags are true.
 Exact `F=0` and `G=0` remain diagnostic labels, not proven annihilator rows.
 Outer implementation/validation, aggregate radial validation, the
 boundary-bearing operator, exact quadratic-pencil representation, and
-eigensolver permission are false. The corrected boundary-bearing problem is a
-nonlinear eigenvalue problem unless a later analytic derivation proves a
-polynomial or rational representation.
+eigensolver permission are false. No polynomial, rational, or nonlinear
+solver classification is accepted because no outer boundary operator exists;
+no eigensolver work is authorized.
 
 ## Stage 4AO-C Diagnostic Outer Radial Scaffolding Fixtures
 
@@ -1660,3 +1672,9 @@ or value reset, retains the validated inner-location checks, and checks
 determinant/weighted-trace cleanup on nonzero data at both endpoint locations.
 It makes no outer parity, WKB, growing-mode, constraint, ownership, or endpoint
 rank acceptance claim. All outer and downstream gates remain false.
+
+The custom stationary outer-boundary fixture is frozen as deferred research.
+The next project phase inventories custom-solver/GRChombo overlap, compares
+overlapping formulas and numerical outputs, uses the evidence to assess
+AI-agent capability, and adapts missing production functionality directly
+from GRChombo. No polynomial or nonlinear eigensolver fixture is authorized.

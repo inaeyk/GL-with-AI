@@ -1682,11 +1682,11 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Goal: Complete the Stage 4AO-C outer `k>0` asymptotic-boundary
   normalization lock from clean inner-boundary checkpoint `7ceec6f`;
   documentation/design only.
-- Symbol result: CodeGraph was used first. Expanding the actual complete
-  stationary 13-row symbol in either full Fourier sector gives the finite
-  factor `s^5(s^2-k^2)^4`. There are four light pairs and five
-  advected/algebraic/Jordan amplitudes, so the admissible decaying subspace
-  has dimension four and codimension nine per sector.
+- Historical claim, subsequently rejected: this pass proposed the factor
+  `s^5(s^2-k^2)^4` and inferred four light pairs plus five
+  advected/algebraic/Jordan amplitudes. The 2026-07-23 exact-rational
+  `q=2/3` counterexample disproved that universal factorization, so the
+  inferred dimensions are not accepted results.
 - Audit correction (2026-07-23): only scalar profiles with
   `gamma={0,0,0.1,0.5}` and powers
   `p^-=1+k r0/2+gamma^2 r0/(8k)` were derived. Full-vector
@@ -1737,6 +1737,43 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   boundary-bearing completion, and exact quadratic-pencil representation are
   false. Eigensolver/shift-invert, `k=0`, nonzero-growth asymptotics, MOTS,
   threshold, production, 4AO-D, and Checkpoint G remain false.
-- Solver class: the interior remains quadratic in `k`; the corrected
-  boundary-bearing problem is a nonlinear eigenvalue problem unless a future
-  analytic derivation proves a polynomial or rational representation.
+- Solver status: the interior remains quadratic in `k`, but no boundary
+  operator or solver-class representation has been derived. No polynomial or
+  nonlinear eigensolver work is authorized.
+
+- Date: 2026-07-23
+- Goal: Derive the missing Stage 4AO-C full-vector stationary WKB basis from
+  the committed corrected-boundary checkpoint; symbolic/design only.
+- Start state: Used CodeGraph first. The worktree and index were clean at
+  commit `6628f49` (`Correct Stage 4AO-C outer boundary status`).
+- Derivation: Extracted the exact sparse radial matrices
+  `M0 U+M1 D_x U+M2 D_xx U=0` directly from all thirteen validated interior
+  rows, including spherical, encoded-Z, hidden-sphere, and Gamma terms.
+  Independent comparison at `q={0.31,0.73,1.11}`, `X={7,13,29}`, and both
+  parity sectors gives maximum source-versus-matrix mismatch `2.44e-16`.
+- Retracted conclusions: this pass incorrectly claimed the universal
+  `s^5(s^2-k^2)^4` factorization and inferred one light plus two zero-sector
+  generalized chains from nullity three. Exact rational arithmetic at
+  `q=2/3` instead gives a factor proportional to
+  `s^5(s^2-q^2)^3(s^2-q^2+1/200)`, disproving the universal claim. Ordinary
+  kernel nullity of this singular leading matrix does not classify the full
+  asymptotic branches, and coincident leading vectors with distinct
+  subleading series have not been excluded.
+- Decision: Did not invent `gamma`, `p`, or componentwise `u0..u3` values.
+  Superseded the scalar `gamma={0,0,0.1,0.5}` and power formulas as WKB
+  claims, documented the unresolved higher-order classification, and kept every outer
+  and downstream gate false. No endpoint rows, nullspaces, eigensolvers,
+  production wiring, MOTS work, technical code, staging, or commit were added.
+- Solver status: the interior remains quadratic in `k`; no polynomial,
+  rational, or nonlinear classification exists for an absent outer operator,
+  and no eigensolver work is authorized.
+- Final status: the complete thirteen-variable interior and inner pure-outflow
+  endpoint remain validated. Mirrored outer stencils and row-layout code are
+  diagnostic scaffolding only; no outer condition, rank-four decaying basis,
+  or rank-nine physical annihilator exists. Every outer and downstream gate
+  remains false.
+- Project decision: freeze the custom stationary outer-boundary problem as
+  deferred research. Next inventory custom-solver/GRChombo overlap, compare
+  shared formulas and numerical outputs, use the evidence to assess AI-agent
+  capability, and adapt missing production functionality directly from
+  GRChombo.

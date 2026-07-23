@@ -1999,5 +1999,41 @@ Category: Gate Correction + Diagnostic Boundary Scaffolding
   A-trace cleanup remains checked on nonzero data at both endpoint locations.
 - Outer implementation/validation, aggregate radial validation,
   boundary-bearing completion, and exact quadratic-pencil flags are false.
-  The interior is still quadratic in `k`; the corrected boundary-bearing
-  problem is classified as nonlinear in `k` pending a later analytic proof.
+  The interior is still quadratic in `k`; no solver class is assigned to an
+  absent outer operator, and no polynomial or nonlinear eigensolver work is
+  authorized.
+
+## 2026-07-23 - Stage 4AO-C Full-Vector Stationary WKB Audit
+
+Category: Symbolic Radial System + Honest Asymptotic Blocker
+
+- Began from clean commit `6628f49` and used CodeGraph before direct source
+  inspection. No technical code, endpoint rows, nullspace implementation,
+  eigensolver, MOTS work, or production wiring was added.
+- Extracted the complete sparse `M0`, `M1`, and `M2` matrices of the
+  stationary thirteen-row radial system. The tables retain all `1/x`,
+  `1/x^2`, encoded-Z, hidden-sphere, Gamma, and higher mixed spherical/lambda
+  contributions and cover both parity sectors through one sign parameter.
+- Independent comparison at `q={0.31,0.73,1.11}`, `X={7,13,29}`, and both
+  parity sectors gives maximum source-versus-matrix mismatch `2.44e-16`.
+- Retracted the proposed universal determinant factor and generalized-chain
+  obstruction. Exact rational arithmetic at `q=2/3` gives a factor
+  proportional to `s^5(s^2-q^2)^3(s^2-q^2+1/200)`, which disproves the
+  former fourfold light claim but is not a general-`q` factorization.
+- The leading matrix is generically singular with nullity three. Its kernel
+  vectors remain verified, but ordinary kernel dimension does not directly
+  give geometric multiplicity for this singular problem. Higher-order
+  solvability or a regularized first-order radial system is required;
+  coincident leading vectors with distinct subleading series remain possible.
+- Consequently `A_-`, its nine-dimensional physical annihilator, and the
+  four-row PDE dual do not yet exist. No generalized-chain obstruction has
+  been established.
+- All outer, aggregate-boundary, boundary-bearing, pencil, eigensolver,
+  `k=0`, nonzero-growth, MOTS, threshold, production, 4AO-D, and Checkpoint G
+  gates remain false. The interior stays quadratic in `k`, but no boundary
+  solver classification or eigensolver work is authorized.
+- Project decision: freeze the custom stationary outer-boundary problem as
+  deferred research. The next phase inventories custom-solver/GRChombo
+  overlap, compares common formulas and numerical outputs, uses those results
+  to assess AI-agent capability, and adapts missing production functionality
+  directly from GRChombo.

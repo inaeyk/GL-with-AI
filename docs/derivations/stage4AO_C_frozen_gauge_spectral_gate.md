@@ -2565,6 +2565,16 @@ test.
 
 ### Outer continuum contract
 
+The full stationary-symbol audit is recorded in
+`stage4AO_C_stationary_wkb_basis.md`. It explicitly extracts the complete
+radial matrices from the validated thirteen-row assembler. Independent
+comparison at `q={0.31,0.73,1.11}`, `X={7,13,29}`, and both parity sectors
+gives a maximum source-versus-matrix mismatch of `2.44e-16`. The leading
+symbol is generically singular with nullity three at `s=+/-q`, but that kernel
+dimension does not classify the asymptotic branches. Therefore no four-column
+WKB basis, nine-row physical annihilator, retained-PDE dual, or endpoint
+condition follows from the present derivation.
+
 At `x_out>r0`, `0<v<1`. The `1-v` light fields leave through increasing `x`,
 while the `-1-v` light fields and all `-v` advected sectors enter the domain.
 Outer data must therefore cover both physical and Z4-constraint incoming
@@ -2572,26 +2582,33 @@ sectors and the shift-advected algebraic/longitudinal sectors. Outgoing light
 fields retain their PDE rows with the declared outward one-sided closure;
 they are not independently prescribed or reset.
 
-For a static Fourier mode with `k>0`, the available leading determinant
-calculation gives, in either full Fourier sector,
+For a static Fourier mode with `k>0`, the previously claimed universal
+factorization
 
 ```text
 det L(s;k,x) / v^5 -> const * s^5 (s^2-k^2)^4,
 v=sqrt(r0/x).
 ```
 
-This leading factor classifies four light pairs and five zero-exponential
-advected/algebraic/Jordan directions, but it does not supply their subleading
-right or left eigenvectors. The earlier provisional assumption that all
-thirteen components obey one `exp(-kx)/x` Robin law is false. A scalar
-master-profile diagnostic uses damping transport rates
+is false. At `q=k r0=2/3`, exact-rational evaluation instead gives
+
+```text
+lim[t->0] det L/t^5
+  proportional to s^5 (s^2-q^2)^3 (s^2-q^2+1/200).
+```
+
+This single-`q` expression is a counterexample, not a claimed general-`q`
+factorization. No general determinant factorization has been derived. The
+earlier provisional assumption that all thirteen components obey one
+`exp(-kx)/x` Robin law is also false. A superseded scalar master-profile
+diagnostic used damping transport rates
 
 ```text
 gamma_T=0, gamma_TF=0, gamma_V=kappa1=0.1,
 gamma_S=(d+1)kappa1=0.5  (d=4, kappa2=0).
 ```
 
-Here `T` and `TF` are the physical transverse trace and trace-free blocks,
+Here `T` and `TF` were intended as physical transverse trace and trace-free blocks,
 `V` is the radial-vector Z4 block, and `S` is the scalar Z4 block. For each
 block `b`, the available scalar diagnostic equation is
 
@@ -2601,7 +2618,7 @@ block `b`, the available scalar diagnostic equation is
  = omitted full-vector mixing.
 ```
 
-Writing `t=x^(-1/2)`, the decaying and growing logarithmic derivatives are
+Within that scalar-only diagnostic, writing `t=x^(-1/2)` gave
 
 ```text
 s_b^- = -k - gamma_b sqrt(r0)/(2 sqrt(x)) - p_b^-/x
@@ -2629,7 +2646,7 @@ partial_x log Phi_b^- = -k-(gamma_b/2)sqrt(r0/x)-p_b^-/x
                         + S_b'(x)/S_b(x).
 ```
 
-This logarithmic derivative is implemented correctly for the scalar profile.
+This logarithmic derivative is algebraically correct for the scalar profile.
 The current diagnostic columns, however, are exactly one-hot in
 `W_T^out,W_TF^out,W_V^out,W_S^out`, each multiplied by `Phi_b^-`; they contain
 no relative mixing among the thirteen transformed amplitudes and no mapped
@@ -2637,20 +2654,17 @@ thirteen-component derivative jet. Normalizing those columns erases
 `p_b^-`, `gamma_b`, `u_1b,u_2b,u_3b`, and the logarithmic derivative from the
 row space. They therefore cannot represent the required WKB subspace.
 
-The GP advection therefore produces no `sqrt(x)` exponent in the two physical
-blocks, but it does produce the displayed nonzero correction in both Z4
-blocks. The old `f_x+(k+1/x)f=0` law is recovered only when `r0=0` and
-`gamma_b=0`; even the physical GP blocks instead have `p=1+k r0/2`.
-Spherical `1/x` terms determine the common `1` in `p`, `v^2=r0/x` supplies
-`k r0/2`, and damping supplies the mode-dependent last term. The
-`lambda=O(x^-3/2)` and tensor/cartoon mixing enter the full block vectors.
-Those vector coefficients have not been derived. The missing implementation
-must retain the full projector/eigenvector recursion through
-`t^3=x^-3/2`; a scalar profile residual cannot validate that recursion or a
-boundary condition.
+The full-vector audit does not validate any of those `gamma_b` or `p_b`
+values. They must not be reused as WKB coefficients. The leading matrix is
+singular, and ordinary kernel dimension cannot be interpreted directly as the
+geometric multiplicity of a regular matrix polynomial. Higher-order
+solvability or a separately justified regularized first-order radial system
+is required to classify the branches; coincident leading vectors with
+different subleading series have not been excluded. A scalar profile residual
+cannot validate that recursion or a boundary condition.
 
-Normalizability excludes all four growing light amplitudes. The remaining
-five leading `s=0` amplitudes are
+The number and structure of growing branches have not been derived from the
+full vector system. The former five `s=0` diagnostic amplitudes are
 
 ```text
 J=d_xz+2 z_z,
@@ -2660,9 +2674,12 @@ C_h=delta h_xx+delta h_zz+2 delta h_ww,
 C_A=the locked weighted trace of delta A.
 ```
 
-`J` is the shift-advected companion, `(F,G)` labels the frozen longitudinal
-Jordan chain, and `(C_h,C_A)` are determinant/weighted-trace algebraic
-companions. Setting these five amplitudes and the four nominal incoming light
+`J` was the shift-advected companion, `(F,G)` labelled a proposed frozen
+longitudinal Jordan chain, and `(C_h,C_A)` were determinant/weighted-trace
+algebraic companions. The leading matrix has a three-dimensional ordinary
+kernel at `s=0`, but this does not prove that two additional branches are
+generalized chains or prove this exact unmixed assignment. Setting these five
+amplitudes and the four nominal incoming light
 amplitudes to zero defines a useful **diagnostic characteristic boundary**.
 It is not the primary Stage 4AO-C outer condition. The corrected full-vector
 WKB columns may require mixed annihilator rows, so exact `F=0` or `G=0` rows
@@ -2738,8 +2755,8 @@ mapping four independent **full** jets
 `Y_b^-=(U_b^-,D_x U_b^-)` through this transformation. A rank-revealing
 factorization must prove `rank(A_-)=4` and construct a normalized
 nine-dimensional left nullspace `N_-` with `N_-^T A_-=0`. That calculation is
-the source of truth for all nine rows, including the rows that exclude the
-Jordan eigenvector and generalized partner. The present repository has no
+the source of truth for all nine rows, including whatever conditions exclude
+the branches that a future analysis classifies as inadmissible. The present repository has no
 coefficients for the thirteen components of `U_b^-` or `D_x U_b^-` at orders
 `1,x^-1/2,x^-1,x^-3/2`, and no compatible stationary-symbol left basis.
 
@@ -2756,12 +2773,12 @@ stationary-symbol right/left basis in the same equation coordinates as the
 complete PDE residual; projecting raw PDE rows with the diagnostic amplitude
 basis is not valid.
 
-The corrected boundary operator is exposed directly as `B(k,x_out)`. Its
-columns contain `k`, `1/k`, `k`-dependent powers and recursion coefficients,
-and a `k`-dependent nullspace. No exact polynomial or rational representation
-has been proved. The boundary-bearing problem is therefore classified as a
-nonlinear eigenvalue problem. The interior operator remains quadratic in `k`;
-that statement does not extend to the boundary-bearing operator.
+A future corrected boundary operator would be exposed directly as
+`B(k,x_out)`, but no such accepted operator currently exists. Consequently no
+polynomial, rational, or genuinely nonlinear solver classification has been
+established. The interior operator remains quadratic in `k`; no polynomial or
+nonlinear eigensolver work is authorized for the absent boundary-bearing
+operator.
 
 The first implementation uses second-order one-sided formulas at both radial
 endpoints, matching the current second-order interior validation scaffolding:
@@ -3215,8 +3232,10 @@ locked in this repository.
 ## Current Blockers
 
 Stage 4AO-C cannot honestly produce a threshold crossing, unstable point, or
-stable point yet because the repository does not contain validated radial
-boundary operators or a boundary-bearing spectral operator.
+stable point yet because the repository does not contain an accepted outer
+asymptotic condition or a boundary-bearing spectral operator. The inner
+pure-outflow boundary and endpoint stencils are validated; the outer row
+layout remains diagnostic scaffolding only.
 
 Implemented pieces include GP-shift advection, tensor
 shift-stretching, algebraic metric/chi coupling, the selected-CCZ4 K-output
@@ -3251,14 +3270,21 @@ Therefore no Stage 4AO-C eigensolver or spectral claim is enabled. A toy
 operator or calibrated model would be misleading and is deliberately not
 introduced.
 
-## Required Next Work For 4AO-C
+## Frozen Research Disposition
 
-Before Stage 4AO-C can be marked complete, the validation-only harness must:
+The custom stationary outer-boundary problem is frozen as deferred research.
+No rank-four decaying basis, rank-nine physical annihilator, generalized-chain
+obstruction, accepted pencil representation, or outer boundary condition has
+been derived. All outer endpoint implementation/validation, aggregate
+boundary, boundary-bearing complete-operator, pencil, eigensolver/shift-
+invert, MOTS, threshold, production, Stage 4AO-D, and Checkpoint G gates remain
+false.
 
-1. validate the documented radial boundary conditions;
-2. implement a targeted spectral method such as shift-invert;
-3. map candidate eigenvectors to the linearized horizon-radius observable;
-4. demonstrate at least one unstable point, one stable point, a threshold
-   estimate, radial convergence, and boundary-location convergence.
+The next project phase is:
+
+1. inventory the overlap between the custom solver and GRChombo;
+2. compare overlapping formulas and numerical outputs;
+3. use those results to assess AI-agent capability;
+4. adapt missing production functionality directly from GRChombo.
 
 Checkpoint G remains pending until Stage 4AO-D passes.
