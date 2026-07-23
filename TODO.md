@@ -14,7 +14,7 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [ ] Ensure future physics-stage PDF notes accompany each physics/design stage.
 - [ ] Stage 4AO-C/4AO-D: frozen pending future research. All 13 frozen-gauge interior rows and the inner no-data pure-outflow endpoint pass. The documented sparse stationary matrices match the source operator, but the former fourfold light determinant factor is false and the nullity-three leading kernel does not classify the asymptotic branches. No rank-four decaying basis, nine-row physical annihilator, or accepted outer condition exists. Outer implementation/validation, aggregate radial validation, boundary-bearing completion, pencil representation, eigensolver/shift-invert, `k=0`, nonzero-growth asymptotics, MOTS, threshold results, production wiring, 4AO-D, and Checkpoint G remain blocked.
 - [x] Inventory custom-solver/GRChombo overlap and gaps; define production ownership, the four-level comparison hierarchy, prioritized adaptation backlog, and agent-capability evidence template. No overall agent score is assigned yet.
-- [ ] Pin a reproducible GRChombo/Chombo/container/compiler manifest. The ignored local GRChombo checkout is at `37e6595`, but the container digest is unavailable in the current shell and no authoritative collaboration modified-cartoon/black-string branch has been supplied.
+- [ ] Complete the reproducible GRChombo/Chombo/PETSc/container/compiler tuple. The inspected GRChombo origin and full commit are now tracked and verified detached-clean, but Chombo, PETSc, Docker-image, and container-recipe digests remain unresolved; no full-build reproducibility claim is allowed.
 - [x] Execute comparison batch 1: record available dependency manifest fields, prove the shared thirteen-slot/dimension map, and directly compile GRChombo conformal algebra, contracted-connection/Z, and visible physical-Ricci comparisons. All numerical families pass the fixed tolerance and dimension/sign mutations fail. Chombo/container digests remain unresolved; hidden/cartoon terms remain custom-only. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch1_results.md`.
 - [x] Execute comparison batch 2: separate raw and encoded-Z Ricci, then directly compare visible chi/metric/K/Theta/A RHS families at identical analytic jets in stock `d=3`. All families and combined rows pass the unchanged tolerance; ten active mutations fail. This is not target-`d=4` evidence. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch2_results.md`.
 - [x] Execute comparison batch 3: actual custom order-two and GRChombo order-four derivative kernels converge on periodic manufactured profiles; all 15 visible advection rows and the complete `chi`, `h_ij`, and `A_ij` shift RHS families now have independent finite-grid monitors; visible algebraic cleanup passes. Production Chombo periodic ownership/ghost exchange remains dependency-blocked, hidden-`ww` adaptation remains pending, and batch 4 is next.
@@ -171,9 +171,15 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   validates a lapse-only test adapter with a zero 20-field Jacobian.
   Coordinate `gamma_theta_theta=x^2` remains stored as custom `hww=1`; raw
   lapse remains `-3 lambda`.
-- [ ] Batch 5 / first adaptation seam: pin Chombo/container provenance, add
-  the reviewed target-`d=4/2` state owner, and exercise production
-  `BoxLoop`/periodic ghost ownership before any unperturbed evolution.
+- [x] Production-adaptation preflight: add the tracked GRChombo source lock
+  and read-only verifier; lock the future 18-slot target-`d=4/2` state with
+  hidden multiplicity two and no visible-`y`; define thin GRChombo adaptation
+  points, the 13-row oracle seam, and audit checkpoints. No production path
+  was implemented.
+- [ ] First adaptation implementation: verify the dependency checkout, then
+  implement only the target 18-slot enum/name registration and exact
+  macro/slot/parity/permutation fixture. GP `BoxLoop`, hidden RHS, cleanup,
+  source, periodic ownership, and evolution remain later substages.
 
 ## Later
 

@@ -1,0 +1,41 @@
+schema_version: 1
+dependency_name: GRChombo
+remote_url: https://github.com/GRTLCollaboration/GRChombo.git
+commit: 37e659523830418b210acea1661dac0e00bb1b75
+checkout_path: external/GRChombo
+checkout_state: detached_clean
+
+verified_inspection:
+  source_remote: true
+  source_commit: true
+  detached_head: true
+  clean_worktree: true
+  compiler_family: GNU_CXX
+  compiler_version: 15.2.0
+  comparison_language_standard: cxx17
+  comparison_warning_flags: -Wall -Wextra -Wpedantic -Werror
+  comparison_optimization: -O2
+  comparison_CH_SPACEDIM: 3
+  comparison_GR_SPACEDIM: 3
+  comparison_DEFAULT_TENSOR_DIM: 3
+
+target_production_design:
+  physical_spatial_dimension: 4
+  gridded_spatial_dimension: 2
+  hidden_equivalent_directions: 2
+  stored_hidden_representatives: 1
+  required_CH_SPACEDIM: 2
+  required_GR_SPACEDIM: 4
+  required_DEFAULT_TENSOR_DIM: 4
+  compile_and_runtime_validation: unresolved
+
+unresolved_provenance:
+  chombo_remote_url: unresolved
+  chombo_commit_or_archive_digest: unresolved
+  petsc_version: unresolved
+  petsc_build_options_or_digest: unresolved
+  docker_image_name: grchombo/grchombo
+  docker_image_digest: unresolved
+  container_recipe_digest: unresolved
+
+reproducibility_status: source_locked_build_and_container_unresolved

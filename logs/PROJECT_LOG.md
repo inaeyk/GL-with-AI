@@ -2215,3 +2215,30 @@ Category: GP Background + Fixed Lapse-Source Convention
 - Production GP `BoxLoop` data, the target hidden/cartoon RHS, hidden-aware
   cleanup/constraints, Chombo periodic ghost ownership, and the production
   lapse-source adapter remain open. No final agent score was assigned.
+
+## 2026-07-23 - GRChombo Production-Adaptation Preflight
+
+Category: Dependency Source Lock + Target Ownership Design
+
+- Began from clean committed comparison-batch-4 checkpoint
+  `fc15a936dbaa149edbd68c80d4f921d98aa13eec` and used CodeGraph/MCP before
+  direct inspection.
+- Added a tracked lock for
+  `https://github.com/GRTLCollaboration/GRChombo.git` at
+  `37e659523830418b210acea1661dac0e00bb1b75` and a read-only verifier that
+  requires the ignored checkout to be detached and clean. Chombo, PETSc,
+  Docker-image, and container-recipe digests remain unresolved, so the lock
+  does not establish full build reproducibility.
+- Locked the future production design to `CH_SPACEDIM=2`,
+  `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`, and 18 black-string slots. The
+  layout has no visible-`y` variables and stores `hww/Aww` once with
+  multiplicity two in physical operations. The existing 27-slot scaffold is
+  not the target production layout.
+- Recorded thin wrap/extend/reuse decisions around GRChombo, the future
+  pointwise 13-row oracle seam, and the ordered implementation/audit
+  checkpoints. No enum, initial data, BoxLoop, RHS, cleanup, constraint,
+  gauge source, periodic-grid owner, diagnostic, or evolution path was
+  implemented.
+- The first implementation substage is dependency verification followed by
+  isolated target enum/name registration and exact macro/slot/parity tests.
+  The frozen custom outer boundary remains deferred research.

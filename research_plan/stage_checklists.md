@@ -719,3 +719,15 @@ simulation and radiation diagnostics exist.
   pinned: target `d=4/2` state ownership, GP `BoxLoop` initial data,
   hidden/cartoon completion, lapse-only fixed source, hidden-aware cleanup and
   constraints, and compact-z ghost ownership before unperturbed evolution.
+- [x] Production-adaptation preflight: lock the inspected GRChombo
+  origin/commit in a tracked manifest; add a read-only wrong-commit/dirty-state
+  verifier; lock the target 18-slot `d=4/2` state with no visible-`y` slots;
+  define thin GRChombo adaptation points, the 13-row oracle seam, and staged
+  audit checkpoints. This is design/dependency-source work only.
+- [ ] First production implementation substage: after dependency verification,
+  replace only the black-string enum and names with the reviewed 18-slot
+  layout, assert `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, and
+  `DEFAULT_TENSOR_DIM=4`, and add exact slot/name/parity/permutation tests. Do
+  not add GP initial data or RHS physics in this substage.
+- [ ] Resolve and execute the complete Chombo/PETSc/container build tuple.
+  The GRChombo source is locked, but full build reproducibility is not.

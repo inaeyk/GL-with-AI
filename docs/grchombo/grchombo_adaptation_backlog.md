@@ -18,8 +18,8 @@ acceptance. The frozen custom outer-boundary research is excluded.
 
 | Priority / order | Adaptation item | GRChombo source to reuse | Project-specific work | Dependency | Acceptance / exit criterion |
 |---|---|---|---|---|---|
-| P0-1 | Reproducible GRChombo source/version lock | Current origin plus build/container tooling | Pin commit `37e6595...` or an approved replacement, Chombo revision, container digest, compiler flags, and local patches in a machine-readable manifest | None | Fresh checkout/build reproduces identical manifest; no ignored floating dependency |
-| P0-2 | Convention and slot adapter | `CCZ4Vars.hpp`, `ADMConformalVars.hpp`, `UserVariables.inc.hpp`, Tensor/VarsTools | Explicit `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, 27-slot map, hidden representative policy | P0-1 | Level 1 slot/dimension/convention tests pass exactly |
+| P0-1 | Reproducible GRChombo source/version lock | Current origin plus build/container tooling | Verify the tracked GRChombo remote/commit lock; resolve Chombo, PETSc, and container digests before a build-reproducibility claim | None | Read-only verifier rejects the wrong/dirty source; fresh checkout/build reproduces the complete dependency tuple |
+| P0-2 | Convention and slot adapter | `CCZ4Vars.hpp`, `ADMConformalVars.hpp`, `UserVariables.inc.hpp`, Tensor/VarsTools | Explicit `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`; reviewed 18-slot black-string map with no visible-`y` slots and one multiplicity-two hidden representative | P0-1 source verification | Level 1 macro/slot/name/parity/permutation tests pass exactly |
 | P0-3 | Formula comparison harness | `CCZ4RHS::rhs_equation`, `CCZ4Geometry`, gauge classes | Test-only adapter accepting supplied analytic jets and emitting per-family rows | P0-1, P0-2 | First five comparison tests execute without production evolution |
 | P1-4 | Exact black-string GP initial data | GRChombo initial-data `BoxLoops` pattern and project parameter parser | Implement `alpha=1`, `beta^x=sqrt(r0/x)`, flat GP spatial metric, target K/A/Gamma/Theta, hidden slots | P0-2 | Cellwise analytic comparison, determinant/trace, and constraints pass |
 | P1-5 | Fixed GP-holding lapse source | `MovingPunctureGauge` adapter pattern | Add field-independent `S_alpha=3 sqrt(r0/x^3)` with explicit validation/production policy | P1-4 | Raw lapse residual remains visible; source-adjusted GP residual vanishes; JVP unchanged |
@@ -141,6 +141,36 @@ reduce the requirement to resolve those digests before production adaptation.
   diagnostics.
 - No production P1/P2/P3 implementation was added. The custom stationary
   outer boundary remains deferred.
+
+## Production-adaptation preflight update
+
+- The authoritative inspected GRChombo source is now machine-readably locked
+  in `run_manifests/grchombo_dependency_lock.yaml`; the read-only
+  `scripts/verify_grchombo_dependency.sh` rejects the wrong remote, commit,
+  branch state, or dirty checkout. This completes the source-lock portion of
+  P0-1 only. Chombo, PETSc, Docker-image, and container-recipe digests remain
+  unresolved, so fresh-build reproducibility is still open.
+- The target P0-2 design is an 18-slot black-string layout for
+  `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, and `DEFAULT_TENSOR_DIM=4`. It stores no
+  visible-`y` variables. `hww/Aww` are single representatives with
+  multiplicity two in physical traces and contractions. The current 27-slot
+  smoke/comparison enum is not the production contract.
+- `docs/grchombo/grchombo_production_adaptation_preflight.md` locks field
+  ownership, the minimal GRChombo wrap/extend boundaries, and the future
+  pointwise 13-row oracle seam. No enum, initializer, RHS, cleanup,
+  constraint, gauge-source, grid, or evolution implementation was added.
+- The implementation order is now fixed: dependency verification; target
+  enumeration/registration; GP initializer; hidden/cartoon geometry;
+  hidden-aware cleanup/constraints; fixed lapse source; pointwise 13-row
+  comparison; periodic-`z` ownership; unperturbed evolution. Audit
+  checkpoints occur after the slot lock, initializer, hidden geometry,
+  cleanup/constraints, complete pointwise comparison, periodic ownership, and
+  unperturbed run. This design-only preflight does not receive a separate
+  audit.
+- The first implementation substage is the isolated 18-slot enumeration,
+  names, compile-time dimension assertions, and permutation/parity fixture,
+  after running the dependency verifier. It must not add GP values or physics
+  RHS code.
 
 ## Explicit non-goals
 

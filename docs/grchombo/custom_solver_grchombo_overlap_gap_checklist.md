@@ -277,3 +277,40 @@ hidden-aware cleanup/constraints, Chombo periodic ghost ownership, and the
 fixed-source production adapter remain open adaptation tasks. Detailed tables
 and classifications are in
 `docs/grchombo/custom_solver_grchombo_comparison_batch4_results.md`.
+
+## Production-adaptation preflight
+
+The inspected GRChombo source authority is now represented by
+`run_manifests/grchombo_dependency_lock.yaml` and checked by
+`scripts/verify_grchombo_dependency.sh`. The verified lock covers the origin,
+commit `37e659523830418b210acea1661dac0e00bb1b75`, and detached-clean checkout.
+It does not cover Chombo, PETSc, Docker-image, or container-recipe digests;
+production build reproducibility therefore remains unresolved.
+
+The approved future production ownership differs from the batch-1 27-slot
+comparison map. It is a compact 18-slot black-string state under
+`CH_SPACEDIM=2`, `GR_SPACEDIM=4`, and `DEFAULT_TENSOR_DIM=4`:
+
+| Slot range | Owner | Status |
+|---|---|---|
+| `0..3` | `chi,hxx,hxz,hzz` | stock-visible identities wrapped at target dimensions |
+| `4` | `hww` | custom hidden representative; multiplicity two |
+| `5..8` | `K,Axx,Axz,Azz` | stock-visible families plus target-dimension/hidden completion |
+| `9` | `Aww` | custom hidden representative; multiplicity two |
+| `10..12` | `Theta,GammaX,GammaZ` | stock CCZ4 families plus hidden completion |
+| `13..17` | `lapse,shiftX,shiftZ,Bx,Bz` | stock gauge ownership; future lapse-only source wrapper |
+
+Visible-`y` tensor, Gamma, shift, and `B` slots are deliberately absent and
+must not be identified with `ww`. The GP convention remains
+`gamma_theta_theta=x^2`, `gamma_ww=hww/chi`, and stored `hww=1`.
+
+The minimum production seam is thin: replace only the black-string enum and
+names; wrap stock CCZ4 RHS, cleanup, constraints, and gauge; extend only
+hidden/cartoon physics; reuse Chombo periodic grids, ghost exchange, RK, AMR,
+parallelism, checkpointing, reductions, interpolation, and AH infrastructure.
+The first future pointwise gate accepts identical values and derivative jets
+and returns all 13 physical RHS rows, reporting stock-visible, hidden-adapted,
+and total families separately against
+`Stage4AOCAnalyticFullOracle.hpp`. The full contract and staged audit
+checkpoints are in
+`docs/grchombo/grchombo_production_adaptation_preflight.md`.

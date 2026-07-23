@@ -1948,3 +1948,29 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Scope: No production initial data, hidden evolution, gauge source, time
   integration, external GRChombo, smoke parameter, outer-boundary research,
   staging, or commit changed. No final overall agent score was assigned.
+
+- Date: 2026-07-23
+- Goal: Begin the GRChombo production-adaptation preflight without production
+  physics or evolution changes.
+- Start state: Used CodeGraph/MCP first. The top-level worktree and index were
+  clean at committed batch-4 checkpoint
+  `fc15a936dbaa149edbd68c80d4f921d98aa13eec`; ignored GRChombo was clean and
+  detached at `37e659523830418b210acea1661dac0e00bb1b75`.
+- Dependency lock: Added a tracked source manifest and read-only verifier for
+  the exact GRChombo remote and commit. The verifier rejects wrong origin,
+  wrong commit, attached branch, and dirty state. Chombo, PETSc, Docker-image,
+  and container-recipe digests remain explicitly unresolved.
+- Ownership: Locked a future 18-slot state under `CH_SPACEDIM=2`,
+  `GR_SPACEDIM=4`, and `DEFAULT_TENSOR_DIM=4`. There are no visible-`y`
+  slots; one `hww/Aww` representative carries multiplicity two. The GP
+  storage convention remains `gamma_theta_theta=x^2`,
+  `gamma_ww=hww/chi`, and `hww=1`.
+- Architecture: Classified the example enum/names as black-string
+  replacements, CCZ4/cleanup/constraints/gauge as thin wrappers, hidden
+  cartoon geometry as the extension, and GRChombo runtime infrastructure as
+  unchanged reuse. Defined a future analytic-jet adapter returning all 13
+  physical RHS rows with visible/hidden/total reports against the frozen
+  custom oracle.
+- Scope: Documentation, manifest, and verification tooling only. No
+  production source, test equation, external dependency, smoke parameter,
+  stationary boundary research, staging, or commit was changed.
