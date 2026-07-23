@@ -1777,3 +1777,31 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   shared formulas and numerical outputs, use the evidence to assess AI-agent
   capability, and adapt missing production functionality directly from
   GRChombo.
+
+- Date: 2026-07-23
+- Goal: Create the custom-solver versus GRChombo overlap/gap checklist,
+  comparison hierarchy, production adaptation backlog, and AI-agent evidence
+  scorecard; documentation/inventory only.
+- Start state: Used CodeGraph first. The worktree and index were clean at
+  commit `015a035` (`Freeze unresolved Stage 4AO-C outer boundary`).
+- Authority map: GRChombo is the production/convention authority; the complete
+  custom thirteen-row frozen interior, nonlinear JVP oracle, and hidden helpers
+  are retained as independent references. Mature GRChombo RK4, AMR,
+  MPI/OpenMP, restart, ghost, parsing, reduction, interpolation, and AH
+  infrastructure must be reused rather than rebuilt.
+- Source finding: the clean ignored GRChombo checkout is at upstream commit
+  `37e659523830418b210acea1661dac0e00bb1b75`. It contains standard CCZ4,
+  gauge, derivative, boundary, AMR, and AH infrastructure but no black-string
+  or modified-cartoon production source. Docker was unavailable in this shell,
+  so the previously used image digest and Chombo identity remain unrecorded.
+- Outputs: added the master capability/ownership checklist, four-level
+  comparison plan with fixed Level-2 tolerances, prioritized adaptation
+  backlog, and scorecard template without a final score. Updated the roadmap,
+  stage checklist, TODO, and current logs only.
+- Production sequence: pin dependencies; map slots/dimensions; compare
+  conformal algebra, contracted connection/Z, and visible Ricci; then adapt GP
+  initial data/source, hidden production terms/cleanup, periodic z, background
+  evolution, perturbation/growth diagnostics, and string-horizon observables.
+- Scope: no code, tests, boundary work, eigensolver, MOTS, or production
+  evolution was implemented. The custom outer-boundary problem remains
+  deferred and every associated gate remains false.

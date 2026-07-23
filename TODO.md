@@ -13,7 +13,10 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 
 - [ ] Ensure future physics-stage PDF notes accompany each physics/design stage.
 - [ ] Stage 4AO-C/4AO-D: frozen pending future research. All 13 frozen-gauge interior rows and the inner no-data pure-outflow endpoint pass. The documented sparse stationary matrices match the source operator, but the former fourfold light determinant factor is false and the nullity-three leading kernel does not classify the asymptotic branches. No rank-four decaying basis, nine-row physical annihilator, or accepted outer condition exists. Outer implementation/validation, aggregate radial validation, boundary-bearing completion, pencil representation, eigensolver/shift-invert, `k=0`, nonzero-growth asymptotics, MOTS, threshold results, production wiring, 4AO-D, and Checkpoint G remain blocked.
-- [ ] Next project phase: inventory custom-solver/GRChombo overlap; compare overlapping formulas and numerical outputs; use the results to assess AI-agent capability; then adapt missing production functionality directly from GRChombo.
+- [x] Inventory custom-solver/GRChombo overlap and gaps; define production ownership, the four-level comparison hierarchy, prioritized adaptation backlog, and agent-capability evidence template. No overall agent score is assigned yet.
+- [ ] Pin a reproducible GRChombo/Chombo/container/compiler manifest. The ignored local GRChombo checkout is at `37e6595`, but the container digest is unavailable in the current shell and no authoritative collaboration modified-cartoon/black-string branch has been supplied.
+- [ ] Implement the first five comparisons only after review: dependency manifest, slot/dimension map, conformal algebra, contracted-connection/Z reconstruction, and visible physical Ricci analytic jets.
+- [ ] Adapt production functionality in backlog order: exact GP initial data, fixed GP-holding lapse source, hidden-sphere CCZ4 path and cleanup, compact periodic z, background evolution, Fourier perturbations/growth diagnostics, then string MOTS and `R_H` observables.
 - [ ] Stage 4AP/4AQ: align actual grid/ghost parity and finite-axis handling with GRChombo-facing conventions for `h_xz`, `h_xx-h_ww`, `W_x`, and `chi_x`.
 - [ ] Stage 4AT: remove or replace the Stage 4D smoke-only `hww/Aww` freeze in the physics path and add a loud guard against using both paths together.
 - [ ] Future constraint-damping validation: inject linearized constraint violations and verify `Theta` / encoded-`Z^i` damping behavior after the coupled Stage 4AO validation path is ready.
@@ -22,7 +25,7 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [ ] Factor duplicated symbolic geometry helpers into a shared module.
 - [ ] Convert Stage 3C/3D symbolic checks into unit-test fixtures after review.
 - [ ] Future initial-data implementation: code black-string fields only after the Stage 4 checkpoint gates and current checklist owners allow production wiring.
-- [ ] Stage 4AO-C / horizon diagnostics: resolve PETSc/AHFinder reuse, the linearized MOTS map, and any eigensolver adapter needed for the GL gate.
+- [ ] GRChombo horizon diagnostics: lock PETSc/AHFinder-enabled execution, adapt `AHStringGeometry` and hidden expansion terms, and implement convergent `R_H`, minimum-radius, and area outputs only after the background production path passes. No custom eigensolver adapter is authorized.
 
 ## Resolved or carried forward from old Active items
 

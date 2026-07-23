@@ -115,6 +115,33 @@ Physics and physics-design stages also produce polished review notes under
   or `k_c r0` convention lock was added. The commonly quoted
   `k_c r0 ~= 0.876` remains provisional.
 
+## Production Pivot: GRChombo Adaptation And Oracle Comparison
+
+- Goal: use GRChombo as the production framework/convention authority and the
+  completed custom Stage 4AO-C interior as an independent comparison oracle.
+- Inventory: `docs/grchombo/custom_solver_grchombo_overlap_gap_checklist.md`
+  records formula, convention, infrastructure, and diagnostic ownership;
+  `custom_solver_grchombo_comparison_test_plan.md` fixes four comparison
+  levels and pre-run tolerances; `grchombo_adaptation_backlog.md` prioritizes
+  production adaptations; `agent_capability_scorecard.md` defines evidence
+  metrics without assigning an overall score.
+- Current decision: the custom stationary outer-boundary problem remains
+  frozen as deferred research. Do not add an eigensolver, MOTS implementation,
+  or production evolution as part of the comparison-inventory phase.
+- Immediate sequence: reproducibly pin GRChombo/Chombo/container sources;
+  build the slot/dimension adapter; compare conformal algebra,
+  contracted-connection/Z, and visible Ricci on identical analytic jets; then
+  adapt exact GP initial data, the fixed GP-holding lapse source, and the
+  modified-cartoon hidden production path.
+- Infrastructure policy: reuse GRChombo RK4, AMR, MPI/OpenMP,
+  checkpoint/restart, ghost exchange, parameter parsing, interpolation,
+  reductions, and AH framework. Do not independently rebuild them.
+- Known source blocker: inspected GRChombo commit `37e6595` contains no
+  black-string or modified-cartoon production implementation. An authoritative
+  collaboration branch/source for those terms, if one exists, has not been
+  supplied. PETSc-enabled AH execution and the container/Chombo digest also
+  remain unresolved.
+
 ## Stage 5: Pau Diagnostic Reproduction
 
 - Goal: reproduce the first scientific milestone: Pau / Figueras-Andrade-Franca-Gu style 5D black-string horizon diagnostics.

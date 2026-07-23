@@ -287,10 +287,20 @@ compares overlapping formulas and numerical outputs, uses the comparison to
 assess AI-agent capability, and adapts missing production functionality
 directly from GRChombo. This decision does not reopen any Stage 4AO-C gate.
 
+The overlap/gap inventory is now complete as a documentation contract. Four
+companion documents define the master capability matrix, four-level comparison
+hierarchy with predeclared tolerances, prioritized GRChombo adaptation backlog,
+and scorecard evidence schema. No comparison code or production adaptation has
+started.
+
 - [x] Stage 4A: local conformal-cartoon algebra helpers and non-grid tests.
 - [x] Stage 4B: public GRChombo CCZ4 baseline-layout check.
 - [x] Stage 4C: real `hww/Aww` variable entries, header-level placement checks, and non-grid placement fixture.
 - [x] Stage 4C: full scratch Docker/GRChombo `BlackStringToy` scaffold compile succeeds with the 27-variable layout.
+- [x] Custom-solver/GRChombo overlap-and-gap inventory: classify variables/conventions, all thirteen frozen interior rows, gauge/background, numerical infrastructure, diagnostics, direct-comparison opportunities, production ownership, and custom-code disposition. GRChombo is the production authority; the custom interior/JVP/hidden helpers remain independent oracles; the outer boundary remains deferred. Evidence: `docs/grchombo/custom_solver_grchombo_overlap_gap_checklist.md`.
+- [x] Comparison/adaptation planning: define Level 1 formula/convention, Level 2 analytic-jet RHS, Level 3 manufactured-profile, and Level 4 physical-run tests with pre-run tolerances; prioritize source locking, GP initial data/source, hidden production terms, periodic z, background evolution, perturbations, growth, horizon observables, and nonlinear workflow; define the agent scorecard without an overall score. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_test_plan.md`, `docs/grchombo/grchombo_adaptation_backlog.md`, `docs/grchombo/agent_capability_scorecard.md`.
+- [ ] GRChombo production-adaptation P0: pin the exact GRChombo, Chombo, container, compiler, dimension, and formulation manifest. The ignored local GRChombo checkout is currently at `37e6595`; the current shell cannot inspect the Docker digest, and no authoritative modified-cartoon/black-string upstream branch has been supplied.
+- [ ] First executable comparison tranche: implement only the dependency manifest, slot/dimension map, conformal-algebra comparison, contracted-connection/Z comparison, and visible-Ricci analytic-jet comparison. Do not begin production evolution or physical diagnostics before review.
 - [x] Stage 4C: cheap inherited smoke run result recorded accurately; it reaches runtime but fails because `hww/Aww` are not initialized or handed off yet.
 - [x] Stage 4D: finite smoke-only scaffold support for `hww/Aww` so the cheap smoke run no longer dies immediately from NaNs.
 - [x] Stage 4D: guard the temporary freeze with the default-off `scaffold_freeze_hidden` parameter, enabled only in the cheap smoke parameter file.

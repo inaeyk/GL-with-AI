@@ -2037,3 +2037,36 @@ Category: Symbolic Radial System + Honest Asymptotic Blocker
   overlap, compares common formulas and numerical outputs, uses those results
   to assess AI-agent capability, and adapts missing production functionality
   directly from GRChombo.
+
+## 2026-07-23 - Custom Solver / GRChombo Overlap-and-Gap Inventory
+
+Category: Production Ownership + Comparison Design
+
+- Began from clean frozen-outer-boundary checkpoint `015a035` and used
+  CodeGraph before direct source inventory. This was documentation only.
+- Locked the project roles: GRChombo owns production framework/conventions;
+  the custom complete frozen interior, analytic nonlinear JVP, and hidden
+  helpers remain independent oracles; the stationary outer boundary remains
+  deferred research.
+- Inspected the clean local GRChombo checkout at
+  `37e659523830418b210acea1661dac0e00bb1b75`. Standard CCZ4, moving-puncture
+  gauge, derivatives, generic boundaries, RK4, AMR, MPI/OpenMP,
+  checkpoint/restart, parsing, reductions, interpolation, and AH/PETSc source
+  are present. No black-string or modified-cartoon production implementation
+  was found in this checkout.
+- Added a master capability matrix covering variables/conventions, every
+  frozen evolution row, gauge/background, numerical infrastructure, and all
+  requested diagnostics. Each entry records locations/status, formula,
+  match/gap, evidence, required comparison, acceptance, and production owner.
+- Added a four-level comparison plan with fixed pre-run pointwise tolerances,
+  a prioritized GRChombo adaptation backlog, and an AI-agent scorecard schema.
+  No final agent score was assigned.
+- First planned executable comparisons are the dependency manifest,
+  slot/dimension map, conformal algebra, contracted-connection/Z, and visible
+  physical-Ricci analytic jets.
+- Largest blockers are the unpinned ignored dependency checkout, unavailable
+  Docker/Chombo digest, missing authoritative collaboration
+  modified-cartoon/black-string source, unverified PETSc-enabled AH path, and
+  missing string-horizon data conventions.
+- No technical source, test, boundary, eigensolver, MOTS, production evolution,
+  protected path, smoke parameter, staging, or commit change was made.
