@@ -4,11 +4,12 @@ Status: this document began as the Stage 3J fixture design and now also records
 implemented Stage 4AO-C C++ fixtures. Those fixtures include complete
 13-variable frozen-gauge interior assembly, independent analytic nonlinear JVP
 validation, and full-interior parity/block-diagonal validation. The inner
-pure-outflow radial fixture and the outer `k>0` transformed-amplitude/WKB/
-rank-nine-projector fixture also pass. Actual outer endpoint rows, the joint
-boundary-bearing fixture, MOTS, and spectral/eigensolver fixtures remain
-pending; no production RHS
-wiring or production tolerance policy is introduced here.
+pure-outflow radial fixture passes. Outer transformed-amplitude, scalar-
+profile, mirrored-stencil, and radial row-layout fixtures remain diagnostic:
+the full thirteen-component WKB recursion and its dual basis are unavailable.
+No outer endpoint, joint boundary-bearing, MOTS, or spectral/eigensolver gate
+passes, and no production RHS wiring or production tolerance policy is
+introduced here.
 
 Stage 3J defines the fixture layer that should exist before project-specific
 modified-cartoon CCZ4 source terms are implemented. The purpose is to keep the
@@ -759,9 +760,10 @@ per-variable RHS inventory labels, and the radial-domain contract
 complete interior RHS row, all 13 variable-completion flags are true, and the
 full interior assembly/JVP/parity flags are true. The independent full fixture
 checks the analytic nonlinear JVP and explicit parity blocks. The focused
-inner pure-outflow endpoint fixture is now implemented and passing; the outer
-boundary fixture and joint radial-boundary convergence validation are not.
-Consequently the boundary-bearing complete-operator gate, MOTS,
+inner fixture is implemented and passing. The outer fixtures validate only
+diagnostic characteristic/profile and row-layout scaffolding. Consequently
+outer implementation/validation, aggregate radial validation, and the
+boundary-bearing complete-operator gate remain false, while MOTS,
 eigensolver/shift-invert, threshold work, and production RHS wiring remain
 absent. The contract fixture also checks the separate trace-free `delta A`
 projector contract flag. It is a guard against stale status confusion, not the
@@ -937,9 +939,10 @@ difference. A separately central-differenced nonlinear BSSN expression is a
 negative oracle, and every case must distinguish the selected branch from it.
 At that narrow K-block checkpoint, Z-dependent and other coupled rows were
 missing. The later K/Theta/A, chi/metric, Gamma, and full-interior fixtures now
-close all 13 interior rows and JVP/parity. Boundaries, MOTS, and the spectral
-gate remain incomplete; neither the boundary-bearing complete operator nor
-the eigensolver is ready. The simple K/Theta damping insertion remains tested
+close all 13 interior rows and JVP/parity. The later `k>0` radial fixtures
+exercise diagnostic outer scaffolding but do not close the boundary-bearing
+complete operator. MOTS, eigensolver, and the spectral-result gate remain
+incomplete. The simple K/Theta damping insertion remains tested
 separately. Frozen-gauge lapse-Hessian variation vanishes; locked `Lambda=0`
 leaves no cosmological term.
 
@@ -1614,60 +1617,46 @@ reflection commutator are zero, below `100 epsilon_machine`. Separately invoked
 determinant/weighted-trace cleanup reaches roundoff, is idempotent, and never
 changes the PDE-row or boundary-equation count.
 
-The implemented outer fixture constructs the boundary-local
-principal/asymptotic block transform independently of endpoint PDE rows. The
-exact stationary-symbol lock has four decaying light amplitudes and codimension
-nine in each full parity sector. The physical transverse trace/trace-free blocks
-have `gamma=0`; the vector and scalar Z4 blocks have `gamma=0.1` and `0.5`.
-Their analytic profiles are
+The diagnostic outer fixture constructs the boundary-local characteristic
+transform independently of endpoint PDE rows. It also exercises scalar
+profiles with `gamma={0,0,0.1,0.5}`:
 
 ```text
 exp(-kx-gamma sqrt(r0*x)) x^[-1-k r0/2-gamma^2 r0/(8k)]
 ```
 
-times the independently generated series through `x^-3/2`. The fixture accepts
-all four decaying series, rejects all four growing series, and rejects nonzero
-`J,F,G,C_h,C_A`. Its continuum residual decreases faster than `O(x^-2)` from
-`3.604577077373e-3` at `x=10` to `7.816769473923e-7` at `x=160`.
-Endpoint-residual convergence remains pending until endpoint rows exist.
-Rank-matched homogeneous Dirichlet on the same nine transformed amplitudes is
-the systematic-error alternative; thirteen componentwise Dirichlet or Robin
-rows are invalid. The `k=0` diagnostic remains separate and excluded from GL-
-threshold acceptance.
+times a scalar series through `x^-3/2`. Its scalar residual decreases from
+`3.604577077373e-3` at `x=10` to `7.816769473923e-7` at `x=160`. The four
+stored amplitude columns are one-hot, so their diagnostic complement rank and
+mixing invariance do not validate full WKB decaying/growing states, Jordan
+exclusion, parity, constraints, or endpoint rows. The earlier literal-zero
+outer parity diagnostics and threshold-systematics claims are removed.
 
-The helper fixture already asserts rank exactly nine, nullity four, independent
-`F=0` and `G=0`, no tenth condition, hidden and representative-`ww` ownership,
-and projector invariance under nonsingular basis changes. Its raw-column
-condition estimate is `5.529886614793`; its projector change under the locked
-mixing/rescaling mutation is `9.853229343548e-16`. Both parity sectors have
-zero leakage and zero reflection commutator. The condition estimates over
-`k x_out={8,10,12}` are `4.441258097371`, `5.656796369041`, and
-`6.996308114122`. The later assembled boundary
-fixture will additionally assert replacement of
-exactly nine endpoint PDE rows, retention of the four outgoing light PDE
-rows, exactly one owner for every transformed endpoint row, no representative-
-ww duplication, hidden
-multiplicity only in trace/block definitions, determinant and metric/A tangent
-preservation, and no leakage between the full Fourier `P+` and `P-` sectors.
-The correct `E*cos+O*sin` or `E*sin+O*cos` coupling within one sector remains
-allowed. Deleting or duplicating any of the four growing-mode or five
-advected/Jordan/algebraic equations must change the declared boundary-block
-rank and fail. Rescaling or nonsingularly mixing a degenerate decaying basis
-must leave its orthogonal projector invariant within `100 epsilon_machine`,
-and the normalized row condition number must stay below `10^6` over the
-declared outer-location sweep. Constraint
-residuals must converge at order at least `1.8` and fall below `10^-8` on the
-finest unit-normalized fixture. Candidate threshold acceptance additionally
-requires Richardson relative uncertainty at most `10^-3`, the declared
-`x_in/r0={0.35,0.50,0.65,0.80}` sweep, and outer comparisons at
-`k x_out={8,10,12}` with Robin/Dirichlet extrapolations agreeing within
-`10^-3` in `k_c r0`.
+The corrected independent fixture remains to be written. It must build full
+`(U,D_xU)` jets without production helpers; separate continuum WKB truncation,
+stencil, and nullspace errors; sweep both sectors over
+`k={0.31,0.57,0.73,1.11}` and `k x_out={8,10,12}`; and execute all actual-row,
+retained-owner, rank, hidden-multiplicity, and representative-`ww` mutations.
 
-The inner endpoint/pure-outflow flags and the outer transformed-amplitude and
-rank-nine-projector helper flags are now true. Outer endpoint
-implementation/validation, aggregate radial-boundary completion,
-the boundary-bearing complete operator, and eigensolver permission remain
-false. For `k>0`, the Jordan chain is excluded by `F=G=0`, projector
-normalization is locked, and explicit rows in a sparse quadratic pencil are
-required. `k=0` charge fixing, growth-rate-dependent asymptotics, and the later
-quadratic-pencil solver linearization remain separate decisions.
+Only the inner endpoint and diagnostic outer scaffolding flags are true.
+Exact `F=0` and `G=0` remain diagnostic labels, not proven annihilator rows.
+Outer implementation/validation, aggregate radial validation, the
+boundary-bearing operator, exact quadratic-pencil representation, and
+eigensolver permission are false. The corrected boundary-bearing problem is a
+nonlinear eigenvalue problem unless a later analytic derivation proves a
+polynomial or rational representation.
+
+## Stage 4AO-C Diagnostic Outer Radial Scaffolding Fixtures
+
+`Stage4AOCFrozenGaugeOuterEndpointTest.cpp` validates the mirrored second-order
+outer `D_x/D_xx/D_xz` closure and exercises the diagnostic nine-selector row
+layout. It does not validate a WKB residual or polynomial coefficient
+representation. The interpolation-at-`k={1,2,3}` path and the self-subtraction
+projector-versus-Dirichlet check were removed.
+
+`Stage4AOCFrozenGaugeBoundaryBearingOperatorTest.cpp` assembles the preserved
+diagnostic radial slot layout `13+0`, `13+0`, `4+9`, verifies no ghost unknowns
+or value reset, retains the validated inner-location checks, and checks
+determinant/weighted-trace cleanup on nonzero data at both endpoint locations.
+It makes no outer parity, WKB, growing-mode, constraint, ownership, or endpoint
+rank acceptance claim. All outer and downstream gates remain false.

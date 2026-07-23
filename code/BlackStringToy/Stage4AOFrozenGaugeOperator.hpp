@@ -86,18 +86,26 @@ static constexpr bool full_interior_parity_validation_implemented = true;
 static constexpr bool trace_free_delta_a_projector_contract_implemented = true;
 static constexpr bool inner_endpoint_derivative_helper_implemented = true;
 static constexpr bool inner_pure_outflow_validation_implemented = true;
-static constexpr bool outer_transformed_amplitude_helper_implemented = true;
-static constexpr bool outer_rank_nine_projector_helper_implemented = true;
+static constexpr bool outer_diagnostic_characteristic_transform_implemented =
+    true;
+static constexpr bool outer_diagnostic_characteristic_projector_implemented =
+    true;
+static constexpr bool outer_full_wkb_boundary_jets_implemented = false;
+static constexpr bool outer_wkb_left_nullspace_implemented = false;
+static constexpr bool outer_retained_pde_dual_implemented = false;
 static constexpr bool outer_boundary_implementation_implemented = false;
 static constexpr bool outer_boundary_validation_implemented = false;
 static constexpr bool radial_boundary_system_complete = false;
-// This legacy aggregate remains false until both radial endpoints and their
-// joint convergence contract are independently validated. The inner-only
-// flags above must not be mistaken for complete radial-boundary validation.
+static constexpr bool quadratic_pencil_coefficient_representation_implemented =
+    false;
+static constexpr bool k_zero_outer_boundary_implemented = false;
+static constexpr bool nonzero_growth_outer_asymptotics_implemented = false;
+// This aggregate remains false until both radial endpoints and their joint
+// convergence contract are independently validated. The mirrored outer
+// stencils alone do not validate an outer boundary condition.
 static constexpr bool boundary_derivative_validation_implemented = false;
-// The boundary-bearing operator gate remains closed until the radial
-// boundary and convergence contract is validated. Interior completion alone
-// must not open eigensolver access.
+// Interior completion does not open this gate. The full WKB boundary jets,
+// their left nullspace, and compatible retained PDE dual are still missing.
 static constexpr bool complete_frozen_gauge_operator_implemented = false;
 static constexpr bool eigensolver_implemented = false;
 static constexpr bool shift_invert_implemented = false;
@@ -225,12 +233,13 @@ inline constexpr std::array<FrozenGaugeVariable, 5>
         FrozenGaugeVariable::B_x,
         FrozenGaugeVariable::B_z};
 
-inline constexpr std::array<const char *, 5> implemented_wrapper_pieces = {
+inline constexpr std::array<const char *, 6> implemented_wrapper_pieces = {
     "frozen-gauge perturbation state-vector layout",
     "delta alpha, delta beta^i, and delta B^i exclusion contract",
     "RHS block inventory with implemented/reusable/missing labels",
     "radial-domain and boundary-condition contract",
-    "inner no-data pure-outflow endpoint derivative/full-row wrapper"};
+    "inner no-data pure-outflow endpoint derivative/full-row wrapper",
+    "diagnostic outer characteristic transform and radial row-layout scaffolding"};
 
 inline constexpr std::array<const char *, 25> implemented_operator_pieces = {
     "matrix-free GP-shift advection block beta_GP^x d_x(delta u)",
@@ -260,9 +269,10 @@ inline constexpr std::array<const char *, 25> implemented_operator_pieces = {
     "trace-free delta A subspace and projector contract",
     "validation-only radial and periodic-z derivative scaffolding"};
 
-inline constexpr std::array<const char *, 3> next_validation_hooks = {
-    "outer static-decay and constraint-preserving boundary operator",
-    "joint radial-resolution and boundary-location convergence",
+inline constexpr std::array<const char *, 4> next_validation_hooks = {
+    "full 13-component outer WKB state/derivative recursion through x^-3/2",
+    "rank-four WKB image, nine-dimensional left nullspace, and compatible PDE dual",
+    "independent outer boundary/parity/constraint/ownership validation",
     "linearized MOTS map from delta U to delta R_H"};
 
 inline const char *variable_name(const PerturbationVariable variable)
@@ -2250,21 +2260,20 @@ inline std::array<BoundaryConditionContract, 5> boundary_contracts()
          "equation replaces any of the 13 rows",
          true},
         {BoundaryRegion::outer_boundary,
-         "outer endpoint must consume the validated k>0 rank-nine "
-         "decaying-subspace projector; no endpoint row or x_out convergence "
-         "validation exists yet",
+         "outer endpoint has mirrored derivative and row-layout scaffolding, "
+         "but the full 13-component WKB residual is not implemented",
          false},
         {BoundaryRegion::physical_gl_sector,
          "physical GL sector uses compact-z periodicity and the locked "
-         "horizon-radius observable; radial conditions are not validated yet",
+         "horizon-radius observable; outer radial conditions are not validated",
          false},
         {BoundaryRegion::constraint_related_variables,
-         "constraint variables must use a constraint-compatible condition and "
-         "be checked in the actual-operator parity/JVP tests",
+         "J,F,G,C_h,C_A define only a diagnostic characteristic boundary "
+         "until the corrected WKB left nullspace proves its mixed rows",
          false},
         {BoundaryRegion::hatted_gamma_variables,
-         "hat_Gamma variables must preserve the GRChombo hatted convention, "
-         "hidden multiplicity, and parity sector before spectral use",
+         "hat_Gamma variables must preserve the hatted convention, hidden "
+         "multiplicity, and parity in the future corrected outer operator",
          false}}};
 }
 

@@ -1687,18 +1687,12 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   factor `s^5(s^2-k^2)^4`. There are four light pairs and five
   advected/algebraic/Jordan amplitudes, so the admissible decaying subspace
   has dimension four and codimension nine per sector.
-- WKB lock: physical trace/trace-free blocks have `gamma=0`; vector/scalar
-  Z4 blocks have `gamma=0.1/0.5`. Their decaying profiles are
-  `exp(-kx-gamma sqrt(r0*x)) x^[-1-k r0/2-gamma^2 r0/(8k)]` times a series.
-  Projector/eigenvector transport is retained through `x^-3/2`, including
-  the first `lambda` order, for an `O(x^-2)` continuum residual.
-- Rows/representation: four projector rows reject growing light amplitudes;
-  five homogeneous rows remove `J,F,G,C_h,C_A`. The two `F,G` rows remove
-  the longitudinal Jordan eigenvector/generalized partner. Nine endpoint PDE
-  rows are replaced and four outgoing PDE rows remain. Orthogonal-projector
-  normalization removes eigenvector-scale ambiguity. Clearing harmless
-  `1/k` row factors leaves a sparse quadratic polynomial pencil; algebraic
-  elimination is not the primary representation.
+- Audit correction (2026-07-23): only scalar profiles with
+  `gamma={0,0,0.1,0.5}` and powers
+  `p^-=1+k r0/2+gamma^2 r0/(8k)` were derived. Full-vector
+  projector/eigenvector transport, Jordan exclusion, endpoint replacement,
+  and a polynomial boundary representation were not established. The direct
+  selectors are diagnostic only.
 - Status: no boundary code or tests were added. Outer implementation and
   validation, aggregate radial-boundary completion, boundary-bearing
   complete operator, eigensolver/shift-invert, MOTS, threshold, production,
@@ -1713,20 +1707,36 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   lower `z`. Hidden multiplicity two occurs only in traces; representative
   `ww` is read once. Zero/nonfinite `k` and invalid/nonfinite boundary inputs
   reject.
-- WKB/projector: four columns use `gamma={0,0,0.1,0.5}`, corrected
-  `p^-=1+k r0/2+gamma^2 r0/(8k)`, and explicit recursion through
-  `x^-3/2`. Modified Gram-Schmidt builds the scale/mixing-invariant
-  orthogonal excluded projector. `F` and `G` remain independent, with no
-  tenth Jordan row.
-- Evidence: rank `9`, nullity `4`, condition estimate `5.529886614793`, and
-  basis-mixing projector difference `9.853229343548e-16`. The maximum
-  analytic residual decreases from `3.604577077373e-3` at `x=10` to
-  `7.816769473923e-7` at `x=160`, faster than `O(x^-2)`. Growing, Jordan,
-  charge/constraint, WKB, normalization, hidden/ww, rank, row-count, and
-  parity mutations reject; both parity sectors have zero leakage/commutator.
-  The `k x_out={8,10,12}` condition sweep remains between `4.44` and `7.00`.
-- Gates: only the transformed-amplitude and rank-nine-projector helper flags
-  are newly true. No endpoint PDE row or pencil row exists. Outer endpoint
+- Audit correction (2026-07-23): the four columns are one-hot diagnostic
+  amplitudes scaled by scalar profiles. Their rank, condition, mixing, and
+  scalar-residual numbers do not validate full WKB states, growing/Jordan
+  rejection, parity, or constraints. Literal-zero parity diagnostics were
+  removed.
+- Gates: only diagnostic transform/projector helper flags are true. No
+  accepted endpoint PDE row or pencil row exists. Outer endpoint
   implementation/validation, aggregate boundary, boundary-bearing operator,
   eigensolver, MOTS, threshold, production, 4AO-D, and Checkpoint G remain
   false.
+
+- Date: 2026-07-23
+- Goal: Audit and repair the uncommitted Stage 4AO-C outer-boundary patch;
+  CodeGraph first.
+- Finding: the repository contains a scalar master-profile recursion but no
+  full thirteen-component stationary-symbol right-vector recursion through
+  `x^-3/2` and no compatible left/dual basis. The four stored columns were
+  one-hot nominal outgoing amplitudes multiplied by scalar profiles, so
+  projector normalization erased `p_b^-`, `gamma_b`, all retained `u_j`, the
+  radial logarithmic derivative, and any absent relative mixing.
+- Repair: retained the validated inner endpoint, complete interior operator,
+  mirrored outer stencils, and useful `13+0/13+0/4+9` row-layout scaffolding.
+  Relabeled the direct nine selectors and four provisional PDE projections as
+  diagnostic characteristic scaffolding. Removed the `k={1,2,3}` interpolation
+  path, exact quadratic-pencil claim, self-subtraction Dirichlet comparison,
+  and literal-zero outer parity diagnostics.
+- Gates: outer implementation, outer validation, aggregate radial validation,
+  boundary-bearing completion, and exact quadratic-pencil representation are
+  false. Eigensolver/shift-invert, `k=0`, nonzero-growth asymptotics, MOTS,
+  threshold, production, 4AO-D, and Checkpoint G remain false.
+- Solver class: the interior remains quadratic in `k`; the corrected
+  boundary-bearing problem is a nonlinear eigenvalue problem unless a future
+  analytic derivation proves a polynomial or rational representation.

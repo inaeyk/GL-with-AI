@@ -23,8 +23,11 @@ using Vector = Operator::FrozenGaugePerturbationVector;
 using FourierParitySector = InnerBoundary::FourierParitySector;
 
 static constexpr bool validation_only = true;
-static constexpr bool transformed_amplitude_helper_implemented = true;
-static constexpr bool rank_nine_projector_helper_implemented = true;
+static constexpr bool diagnostic_characteristic_transform_implemented = true;
+static constexpr bool diagnostic_characteristic_projector_implemented = true;
+static constexpr bool full_wkb_boundary_jets_implemented = false;
+static constexpr bool wkb_left_nullspace_implemented = false;
+static constexpr bool retained_pde_dual_implemented = false;
 static constexpr bool endpoint_pde_rows_replaced = false;
 static constexpr bool boundary_bearing_operator_implemented = false;
 static constexpr bool generalized_or_polynomial_pencil_rows_created = false;
@@ -266,7 +269,9 @@ inline TransformedAmplitudes transform_boundary_state(
     return TransformedAmplitudes(values, sector, wavenumber);
 }
 
-class WkbMode
+// Scalar master-profile diagnostic only. This is not a 13-component WKB
+// boundary jet and must not be used to open an outer-boundary gate.
+class DiagnosticScalarWkbProfile
 {
   public:
     LightBlock block() const { return m_block; }
@@ -284,12 +289,14 @@ class WkbMode
     int retained_half_orders() const { return 3; }
 
   private:
-    WkbMode(const LightBlock block, const double gamma,
-            const double leading_exponent, const double power,
-            const double u1, const double u2, const double u3,
-            const double profile,
-            const double log_derivative, const double residual_ratio,
-            const bool decaying)
+    DiagnosticScalarWkbProfile(const LightBlock block, const double gamma,
+                               const double leading_exponent,
+                               const double power, const double u1,
+                               const double u2, const double u3,
+                               const double profile,
+                               const double log_derivative,
+                               const double residual_ratio,
+                               const bool decaying)
         : m_block(block), m_gamma(gamma),
           m_leading_exponent(leading_exponent), m_power(power), m_u1(u1),
           m_u2(u2), m_u3(u3), m_profile(profile),
@@ -298,7 +305,8 @@ class WkbMode
     {
     }
 
-    friend WkbMode make_wkb_mode(LightBlock, double, double, double, bool);
+    friend DiagnosticScalarWkbProfile make_diagnostic_scalar_wkb_profile(
+        LightBlock, double, double, double, bool);
 
     LightBlock m_block;
     double m_gamma;
@@ -313,9 +321,9 @@ class WkbMode
     bool m_decaying;
 };
 
-inline WkbMode make_wkb_mode(const LightBlock block, const double r0,
-                             const double x_out, const double wavenumber,
-                             const bool decaying = true)
+inline DiagnosticScalarWkbProfile make_diagnostic_scalar_wkb_profile(
+    const LightBlock block, const double r0, const double x_out,
+    const double wavenumber, const bool decaying = true)
 {
     require_outer_inputs(r0, x_out, wavenumber);
     const double gamma = damping_transport_rate(block);
@@ -385,27 +393,29 @@ inline WkbMode make_wkb_mode(const LightBlock block, const double r0,
         throw std::domain_error(
             "Stage 4AO-C outer WKB construction produced nonfinite data");
     }
-    return WkbMode(block, gamma, leading, power, u1, u2, u3, profile,
-                   log_derivative, residual_ratio, decaying);
+    return DiagnosticScalarWkbProfile(block, gamma, leading, power, u1, u2,
+                                      u3, profile, log_derivative,
+                                      residual_ratio, decaying);
 }
 
 using AmplitudeVector = std::array<double, amplitude_count>;
-using DecayingBasis = std::array<AmplitudeVector, decaying_dimension>;
+using DiagnosticCharacteristicBasis =
+    std::array<AmplitudeVector, decaying_dimension>;
 using SquareMatrix =
     std::array<std::array<double, amplitude_count>, amplitude_count>;
 
-inline DecayingBasis make_decaying_basis(const double r0, const double x_out,
-                                         const double wavenumber)
+inline DiagnosticCharacteristicBasis make_diagnostic_characteristic_basis(
+    const double r0, const double x_out, const double wavenumber)
 {
     require_outer_inputs(r0, x_out, wavenumber);
-    DecayingBasis basis = {};
+    DiagnosticCharacteristicBasis basis = {};
     const std::array<LightBlock, decaying_dimension> blocks = {
         LightBlock::transverse_trace, LightBlock::transverse_trace_free,
         LightBlock::vector_z4, LightBlock::scalar_z4};
     for (std::size_t column = 0; column < blocks.size(); ++column)
     {
-        const auto mode =
-            make_wkb_mode(blocks[column], r0, x_out, wavenumber, true);
+        const auto mode = make_diagnostic_scalar_wkb_profile(
+            blocks[column], r0, x_out, wavenumber, true);
         basis[column][amplitude_index(outgoing_amplitude(blocks[column]))] =
             mode.profile();
     }
@@ -427,21 +437,24 @@ inline double norm(const AmplitudeVector &vector)
     return std::sqrt(dot(vector, vector));
 }
 
-class DecayingSubspaceProjector
+class DiagnosticCharacteristicProjector
 {
   public:
-    const DecayingBasis &basis_columns() const { return m_basis; }
-    const SquareMatrix &decaying_projector() const { return m_decaying; }
-    const SquareMatrix &excluded_projector() const { return m_excluded; }
-    std::size_t decaying_rank() const { return decaying_dimension; }
-    std::size_t excluded_rank() const { return excluded_dimension; }
+    const DiagnosticCharacteristicBasis &basis_columns() const
+    {
+        return m_basis;
+    }
+    const SquareMatrix &diagnostic_projector() const { return m_decaying; }
+    const SquareMatrix &complement_projector() const { return m_excluded; }
+    std::size_t diagnostic_rank() const { return decaying_dimension; }
+    std::size_t complement_rank() const { return excluded_dimension; }
     std::size_t nullity() const { return decaying_dimension; }
     double basis_condition_estimate() const { return m_condition; }
     bool replaces_endpoint_rows() const { return false; }
     std::size_t boundary_equation_count() const { return 0; }
 
     std::array<double, excluded_dimension>
-    excluded_residual_amplitudes(const TransformedAmplitudes &amplitudes) const
+    selector_residuals(const TransformedAmplitudes &amplitudes) const
     {
         std::array<double, excluded_dimension> residuals = {};
         for (std::size_t i = 0; i < excluded_amplitudes.size(); ++i)
@@ -457,7 +470,7 @@ class DecayingSubspaceProjector
         return residuals;
     }
 
-    AmplitudeVector projected_excluded_residual(
+    AmplitudeVector projected_diagnostic_complement_residual(
         const AmplitudeVector &amplitudes) const
     {
         AmplitudeVector result = {};
@@ -472,28 +485,30 @@ class DecayingSubspaceProjector
     }
 
   private:
-    DecayingSubspaceProjector(const DecayingBasis &basis,
-                              const SquareMatrix &decaying,
-                              const SquareMatrix &excluded,
-                              const double condition)
+    DiagnosticCharacteristicProjector(
+        const DiagnosticCharacteristicBasis &basis,
+        const SquareMatrix &decaying, const SquareMatrix &excluded,
+        const double condition)
         : m_basis(basis), m_decaying(decaying), m_excluded(excluded),
           m_condition(condition)
     {
     }
 
-    friend DecayingSubspaceProjector
-    make_decaying_subspace_projector(const DecayingBasis &);
+    friend DiagnosticCharacteristicProjector
+    make_diagnostic_characteristic_projector(
+        const DiagnosticCharacteristicBasis &);
 
-    DecayingBasis m_basis;
+    DiagnosticCharacteristicBasis m_basis;
     SquareMatrix m_decaying;
     SquareMatrix m_excluded;
     double m_condition;
 };
 
-inline DecayingSubspaceProjector
-make_decaying_subspace_projector(const DecayingBasis &basis)
+inline DiagnosticCharacteristicProjector
+make_diagnostic_characteristic_projector(
+    const DiagnosticCharacteristicBasis &basis)
 {
-    DecayingBasis orthonormal = {};
+    DiagnosticCharacteristicBasis orthonormal = {};
     double largest_norm = 0.0;
     double smallest_residual = std::numeric_limits<double>::infinity();
     for (std::size_t column = 0; column < decaying_dimension; ++column)
@@ -503,7 +518,7 @@ make_decaying_subspace_projector(const DecayingBasis &basis)
         if (!std::isfinite(original_norm) || !(original_norm > 0.0))
         {
             throw std::domain_error(
-                "Stage 4AO-C decaying basis contains a zero or nonfinite column");
+                "Stage 4AO-C diagnostic characteristic basis contains a zero or nonfinite column");
         }
         largest_norm = std::fmax(largest_norm, original_norm);
         for (std::size_t previous = 0; previous < column; ++previous)
@@ -520,7 +535,7 @@ make_decaying_subspace_projector(const DecayingBasis &basis)
                                    original_norm))
         {
             throw std::domain_error(
-                "Stage 4AO-C decaying basis lost rank before reaching four columns");
+                "Stage 4AO-C diagnostic characteristic basis lost rank before four columns");
         }
         smallest_residual = std::fmin(smallest_residual, residual_norm);
         for (std::size_t row = 0; row < amplitude_count; ++row)
@@ -545,15 +560,16 @@ make_decaying_subspace_projector(const DecayingBasis &basis)
                 (row == column ? 1.0 : 0.0) - decaying[row][column];
         }
     }
-    return DecayingSubspaceProjector(
+    return DiagnosticCharacteristicProjector(
         basis, decaying, excluded, largest_norm / smallest_residual);
 }
 
-inline DecayingSubspaceProjector make_locked_decaying_subspace_projector(
+inline DiagnosticCharacteristicProjector
+make_locked_diagnostic_characteristic_projector(
     const double r0, const double x_out, const double wavenumber)
 {
-    return make_decaying_subspace_projector(
-        make_decaying_basis(r0, x_out, wavenumber));
+    return make_diagnostic_characteristic_projector(
+        make_diagnostic_characteristic_basis(r0, x_out, wavenumber));
 }
 
 inline void require_locked_outer_residual_row_count(const std::size_t rows)

@@ -228,6 +228,9 @@ class InnerEndpointDerivativeJet
 
     friend InnerEndpointDerivativeJet make_inner_endpoint_derivative_jet(
         const std::vector<Vector> &, double, double, FourierParitySector);
+    friend InnerEndpointDerivativeJet make_boundary_derivative_jet(
+        const Vector &, const Vector &, const Vector &, double,
+        FourierParitySector);
 
     Vector m_value;
     Vector m_dx;
@@ -238,6 +241,35 @@ class InnerEndpointDerivativeJet
     FourierParitySector m_sector;
     double m_wavenumber;
 };
+
+inline InnerEndpointDerivativeJet make_boundary_derivative_jet(
+    const Vector &value, const Vector &dx, const Vector &dxx,
+    const double wavenumber, const FourierParitySector sector)
+{
+    if (!std::isfinite(wavenumber) || wavenumber < 0.0)
+    {
+        throw std::domain_error(
+            "Stage 4AO-C boundary derivative jet requires finite k>=0");
+    }
+    std::array<double, Operator::frozen_gauge_state_vector.size()> dz = {};
+    std::array<double, Operator::frozen_gauge_state_vector.size()> dxz = {};
+    std::array<double, Operator::frozen_gauge_state_vector.size()> dzz = {};
+    for (const auto variable : Operator::frozen_gauge_state_vector)
+    {
+        const auto slot = Operator::variable_index(variable);
+        const double factor =
+            fourier_dz_multiplier(variable, wavenumber, sector);
+        dz[slot] = factor * value.value(variable);
+        dxz[slot] = factor * dx.value(variable);
+        dzz[slot] = -wavenumber * wavenumber * value.value(variable);
+    }
+    return InnerEndpointDerivativeJet(
+        value, dx,
+        Operator::make_frozen_gauge_perturbation_vector(dz), dxx,
+        Operator::make_frozen_gauge_perturbation_vector(dxz),
+        Operator::make_frozen_gauge_perturbation_vector(dzz), sector,
+        wavenumber);
+}
 
 inline InnerEndpointDerivativeJet make_inner_endpoint_derivative_jet(
     const std::vector<Vector> &radial_amplitudes, const double dx,

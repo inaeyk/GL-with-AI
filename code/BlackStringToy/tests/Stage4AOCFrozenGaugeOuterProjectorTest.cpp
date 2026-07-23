@@ -181,9 +181,9 @@ void check_boundary_state_transformation()
     const auto amplitudes = Outer::transform_boundary_state(
         r0, x, k, Sector::P_plus, state, dx);
     const auto projector =
-        Outer::make_locked_decaying_subspace_projector(r0, x, k);
+        Outer::make_locked_diagnostic_characteristic_projector(r0, x, k);
     const auto normalized_residuals =
-        projector.excluded_residual_amplitudes(amplitudes);
+        projector.selector_residuals(amplitudes);
     for (std::size_t i = 0; i < Outer::excluded_amplitudes.size(); ++i)
     {
         const auto amplitude = Outer::excluded_amplitudes[i];
@@ -276,7 +276,7 @@ double mutated_profile(const double gamma, const double power,
             u3 / (x * std::sqrt(x)));
 }
 
-void check_wkb_basis_and_mutations()
+void check_scalar_profile_and_diagnostic_columns()
 {
     constexpr double r0 = 1.2;
     constexpr double x = 12.0;
@@ -286,22 +286,24 @@ void check_wkb_basis_and_mutations()
         Block::vector_z4, Block::scalar_z4};
     for (const auto block : blocks)
     {
-        const auto mode = Outer::make_wkb_mode(block, r0, x, k, true);
+        const auto mode =
+            Outer::make_diagnostic_scalar_wkb_profile(block, r0, x, k, true);
         const double gamma = Outer::damping_transport_rate(block);
         const auto expected =
             independent_mode_coefficients(gamma, r0, k, true);
-        require_close("WKB gamma", mode.gamma(), gamma, 0.0);
-        require_close("WKB corrected power", mode.power(), expected.power,
-                      2.0e-15);
-        require_close("WKB x^-1/2 recursion coefficient", mode.u1(),
+        require_close("scalar diagnostic gamma", mode.gamma(), gamma, 0.0);
+        require_close("scalar diagnostic corrected power", mode.power(),
+                      expected.power, 2.0e-15);
+        require_close("scalar diagnostic x^-1/2 coefficient", mode.u1(),
                       expected.u1, 3.0e-15);
-        require_close("WKB x^-1 recursion coefficient", mode.u2(),
+        require_close("scalar diagnostic x^-1 coefficient", mode.u2(),
                       expected.u2, 5.0e-15);
-        require_close("WKB x^-3/2 recursion coefficient", mode.u3(),
+        require_close("scalar diagnostic x^-3/2 coefficient", mode.u3(),
                       expected.u3, 8.0e-15);
-        require_true("WKB retains through x^-3/2 log order",
+        require_true("scalar diagnostic retains through x^-3/2",
                      mode.retained_half_orders() == 3);
-        require_true("decaying WKB profile is positive", mode.profile() > 0.0);
+        require_true("decaying scalar diagnostic profile is positive",
+                     mode.profile() > 0.0);
 
         const double p_one = mutated_profile(
             gamma, 1.0, mode.u1(), mode.u2(), mode.u3(), r0, x, k);
@@ -342,15 +344,16 @@ void check_wkb_basis_and_mutations()
                           mode.u3(), 0.0, 1.0e-14);
         }
     }
-    const auto vector =
-        Outer::make_wkb_mode(Block::vector_z4, r0, x, k, true);
-    const auto scalar =
-        Outer::make_wkb_mode(Block::scalar_z4, r0, x, k, true);
+    const auto vector = Outer::make_diagnostic_scalar_wkb_profile(
+        Block::vector_z4, r0, x, k, true);
+    const auto scalar = Outer::make_diagnostic_scalar_wkb_profile(
+        Block::scalar_z4, r0, x, k, true);
     require_true("0.1/0.5 damping swap mutation rejected",
                  std::abs(vector.profile() - scalar.profile()) >
                      1.0e-3 * std::abs(vector.profile()));
 
-    const auto basis = Outer::make_decaying_basis(r0, x, k);
+    const auto basis =
+        Outer::make_diagnostic_characteristic_basis(r0, x, k);
     for (std::size_t column = 0; column < basis.size(); ++column)
     {
         for (std::size_t row = 0; row < Outer::amplitude_count; ++row)
@@ -358,7 +361,7 @@ void check_wkb_basis_and_mutations()
             const bool expected_nonzero =
                 row == Outer::amplitude_index(
                            Outer::outgoing_amplitude(blocks[column]));
-            require_true("individual decaying block column ownership",
+            require_true("one-hot diagnostic column ownership",
                          expected_nonzero ? basis[column][row] != 0.0
                                           : basis[column][row] == 0.0);
         }
@@ -370,7 +373,7 @@ void check_residual_convergence()
     constexpr double r0 = 1.0;
     constexpr double k = 0.8;
     const std::array<double, 5> x_values = {10.0, 20.0, 40.0, 80.0, 160.0};
-    std::cout << "INFO outer WKB continuum residual convergence\n";
+    std::cout << "INFO scalar profile residual convergence\n";
     std::cout << "  x max_residual scaled_x2\n";
     double previous = 0.0;
     for (std::size_t i = 0; i < x_values.size(); ++i)
@@ -382,7 +385,8 @@ void check_residual_convergence()
         {
             maximum = std::fmax(
                 maximum,
-                std::abs(Outer::make_wkb_mode(block, r0, x_values[i], k, true)
+                std::abs(Outer::make_diagnostic_scalar_wkb_profile(
+                             block, r0, x_values[i], k, true)
                              .continuum_residual_ratio()));
         }
         std::cout << "  " << std::scientific << std::setprecision(12)
@@ -390,7 +394,7 @@ void check_residual_convergence()
                   << maximum * x_values[i] * x_values[i] << '\n';
         if (i > 0)
         {
-            require_true("WKB residual converges at least O(x^-2)",
+            require_true("scalar residual converges at least O(x^-2)",
                          maximum <= previous / 3.8);
         }
         previous = maximum;
@@ -418,18 +422,21 @@ void check_rank_residuals_and_invariance()
     constexpr double r0 = 1.0;
     constexpr double x = 14.0;
     constexpr double k = 0.7;
-    const auto basis = Outer::make_decaying_basis(r0, x, k);
-    const auto projector = Outer::make_decaying_subspace_projector(basis);
-    require_true("decaying-basis rank is four",
-                 projector.decaying_rank() == 4);
-    require_true("excluded projector rank is nine",
-                 projector.excluded_rank() == 9);
-    require_true("decaying-basis nullity is four", projector.nullity() == 4);
+    const auto basis =
+        Outer::make_diagnostic_characteristic_basis(r0, x, k);
+    const auto projector =
+        Outer::make_diagnostic_characteristic_projector(basis);
+    require_true("diagnostic basis rank is four",
+                 projector.diagnostic_rank() == 4);
+    require_true("diagnostic complement rank is nine",
+                 projector.complement_rank() == 9);
+    require_true("diagnostic basis nullity is four", projector.nullity() == 4);
     require_true("locked basis condition diagnostic finite",
                  std::isfinite(projector.basis_condition_estimate()));
     require_true("locked basis condition diagnostic below 1e6",
                  projector.basis_condition_estimate() < 1.0e6);
-    std::cout << "INFO outer projector rank=" << projector.excluded_rank()
+    std::cout << "INFO diagnostic projector complement rank="
+              << projector.complement_rank()
               << " nullity=" << projector.nullity()
               << " basis_condition=" << std::scientific
               << projector.basis_condition_estimate() << '\n';
@@ -443,45 +450,50 @@ void check_rank_residuals_and_invariance()
     {
         const double coefficient =
             std::array<double, 4>{0.7, -1.1, 0.4, 1.3}[column];
-        const auto projected = projector.projected_excluded_residual(
+        const auto projected =
+            projector.projected_diagnostic_complement_residual(
             basis[column]);
-        require_close("individual decaying column annihilated",
+        require_close("individual diagnostic column annihilated",
                       Outer::norm(projected), 0.0, 2.0e-15);
         for (std::size_t row = 0; row < Outer::amplitude_count; ++row)
         {
             mixed_decaying[row] += coefficient * basis[column][row];
         }
     }
-    require_close("mixed decaying combination annihilated",
+    require_close("mixed diagnostic combination annihilated",
                   Outer::norm(
-                      projector.projected_excluded_residual(mixed_decaying)),
+                      projector.projected_diagnostic_complement_residual(
+                          mixed_decaying)),
                   0.0, 3.0e-15);
 
     for (const auto amplitude : Outer::excluded_amplitudes)
     {
         Outer::AmplitudeVector excluded = {};
         excluded[Outer::amplitude_index(amplitude)] = 1.0;
-        require_close("each growing/Jordan/charge direction rejected",
+        require_close("each diagnostic complement selector retained",
                       Outer::norm(
-                          projector.projected_excluded_residual(excluded)),
+                          projector.projected_diagnostic_complement_residual(
+                              excluded)),
                       1.0, 2.0e-15);
     }
     for (const auto block : {Block::transverse_trace,
                              Block::transverse_trace_free,
                              Block::vector_z4, Block::scalar_z4})
     {
-        const auto growing = Outer::make_wkb_mode(block, r0, x, k, false);
+        const auto growing = Outer::make_diagnostic_scalar_wkb_profile(
+            block, r0, x, k, false);
         Outer::AmplitudeVector profile = {};
         profile[Outer::amplitude_index(Outer::incoming_amplitude(block))] =
             growing.profile();
-        require_close("analytic growing-light profile rejected",
+        require_close("diagnostic incoming scalar profile selected",
                       Outer::norm(
-                          projector.projected_excluded_residual(profile)),
+                          projector.projected_diagnostic_complement_residual(
+                              profile)),
                       std::abs(growing.profile()),
                       3.0e-15 * std::abs(growing.profile()));
     }
 
-    Outer::DecayingBasis transformed = {};
+    Outer::DiagnosticCharacteristicBasis transformed = {};
     const std::array<std::array<double, 4>, 4> mixing = {{
         {{2.0, 0.3, -0.2, 0.1}},
         {{-0.4, -1.7, 0.5, 0.2}},
@@ -500,13 +512,13 @@ void check_rank_residuals_and_invariance()
         }
     }
     const auto transformed_projector =
-        Outer::make_decaying_subspace_projector(transformed);
+        Outer::make_diagnostic_characteristic_projector(transformed);
     const double invariance = matrix_max_difference(
-        projector.excluded_projector(),
-        transformed_projector.excluded_projector());
-    require_true("rescaling and nonsingular mixing preserve projector",
+        projector.complement_projector(),
+        transformed_projector.complement_projector());
+    require_true("mixing preserves diagnostic projector",
                  invariance <= 100.0 * std::numeric_limits<double>::epsilon());
-    std::cout << "INFO outer projector basis-invariance difference="
+    std::cout << "INFO diagnostic projector basis-invariance difference="
               << std::scientific << invariance << '\n';
 
     Outer::SquareMatrix naive = {};
@@ -522,13 +534,13 @@ void check_rank_residuals_and_invariance()
     }
     require_true("basis-dependent unnormalized mutation rejected",
                  matrix_max_difference(naive,
-                                       projector.decaying_projector()) >
+                                       projector.diagnostic_projector()) >
                      1.0e-4);
 
-    Outer::DecayingBasis rank_lost = basis;
+    Outer::DiagnosticCharacteristicBasis rank_lost = basis;
     rank_lost[3] = rank_lost[2];
     require_domain_error("rank-loss mutation rejected", [&]() {
-        Outer::make_decaying_subspace_projector(rank_lost);
+        Outer::make_diagnostic_characteristic_projector(rank_lost);
     });
 
     std::vector<Amplitude> locked(Outer::excluded_amplitudes.begin(),
@@ -568,9 +580,10 @@ void check_rank_residuals_and_invariance()
 
     for (const double kx : {8.0, 10.0, 12.0})
     {
-        const auto swept = Outer::make_locked_decaying_subspace_projector(
-            r0, kx / k, k);
-        std::cout << "INFO outer projector kx=" << kx
+        const auto swept =
+            Outer::make_locked_diagnostic_characteristic_projector(
+                r0, kx / k, k);
+        std::cout << "INFO diagnostic projector kx=" << kx
                   << " basis_condition=" << std::scientific
                   << swept.basis_condition_estimate() << '\n';
         require_true("basis conditioning below 1e6 over kx sweep",
@@ -584,7 +597,7 @@ void check_parity_and_gates()
     constexpr double x = 13.0;
     constexpr double k = 0.9;
     const auto projector =
-        Outer::make_locked_decaying_subspace_projector(r0, x, k);
+        Outer::make_locked_diagnostic_characteristic_projector(r0, x, k);
     const Vector state = make_vector(
         {0.21, -0.17, 0.13, 0.29, -0.31, 0.37, -0.41,
          0.43, 0.47, -0.53, 0.59, -0.61, 0.67});
@@ -597,35 +610,29 @@ void check_parity_and_gates()
         const auto amplitudes =
             Outer::transform_boundary_state(r0, x, k, sector, state, dx);
         const auto residuals =
-            projector.excluded_residual_amplitudes(amplitudes);
+            projector.selector_residuals(amplitudes);
         double sector_norm = 0.0;
         for (const double residual : residuals)
         {
             sector_norm += residual * residual;
         }
         allowed_norm += sector_norm;
-        require_true("parity-sector rank remains nine",
-                     projector.excluded_rank() == 9);
+        require_true("diagnostic sector complement rank remains nine",
+                     projector.complement_rank() == 9);
         require_true("parity-sector nullity remains four",
                      projector.nullity() == 4);
         require_true("allowed-sector data are nonzero", sector_norm > 1.0e-6);
     }
-    const double leakage = 0.0;
-    const double reflection_commutator = 0.0;
-    const double limit =
-        100.0 * std::numeric_limits<double>::epsilon() *
-        std::fmax(1.0, std::sqrt(allowed_norm));
-    std::cout << "INFO outer projector parity leakage=" << std::scientific
-              << leakage << " reflection_commutator="
-              << reflection_commutator << " limit=" << limit << '\n';
-    require_true("no cross-sector leakage", leakage <= limit);
-    require_true("reflection commutator <=100 epsilon",
-                 reflection_commutator <= limit);
-
-    require_true("transformed-amplitude helper flag true",
-                 Operator::outer_transformed_amplitude_helper_implemented);
-    require_true("rank-nine projector helper flag true",
-                 Operator::outer_rank_nine_projector_helper_implemented);
+    require_true("diagnostic sectors carry nonzero transformed data",
+                 allowed_norm > 1.0e-6);
+    require_true("diagnostic characteristic transform flag true",
+                 Operator::
+                     outer_diagnostic_characteristic_transform_implemented);
+    require_true("diagnostic characteristic projector flag true",
+                 Operator::
+                     outer_diagnostic_characteristic_projector_implemented);
+    require_true("full WKB boundary jets remain false",
+                 !Operator::outer_full_wkb_boundary_jets_implemented);
     require_true("outer endpoint implementation remains false",
                  !Operator::outer_boundary_implementation_implemented);
     require_true("outer endpoint validation remains false",
@@ -634,6 +641,9 @@ void check_parity_and_gates()
                  !Operator::radial_boundary_system_complete);
     require_true("boundary-bearing operator remains false",
                  !Operator::complete_frozen_gauge_operator_implemented);
+    require_true("exact quadratic boundary pencil remains false",
+                 !Operator::
+                     quadratic_pencil_coefficient_representation_implemented);
     require_true("eigensolver remains false",
                  !Operator::eigensolver_implemented);
     require_true("shift-invert remains false",
@@ -652,7 +662,7 @@ int main()
     try
     {
         check_boundary_state_transformation();
-        check_wkb_basis_and_mutations();
+        check_scalar_profile_and_diagnostic_columns();
         check_residual_convergence();
         check_rank_residuals_and_invariance();
         check_parity_and_gates();
@@ -662,6 +672,6 @@ int main()
         std::cerr << "FAIL " << error.what() << '\n';
         return 1;
     }
-    std::cout << "PASS Stage 4AO-C outer transformed-amplitude/projector helper\n";
+    std::cout << "PASS Stage 4AO-C diagnostic outer characteristic scaffolding\n";
     return 0;
 }

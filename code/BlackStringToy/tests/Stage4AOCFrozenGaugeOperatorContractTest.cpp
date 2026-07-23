@@ -188,16 +188,27 @@ void check_domain_and_boundary_contract()
                  Operator::inner_endpoint_derivative_helper_implemented);
     require_true("inner pure-outflow validation is implemented",
                  Operator::inner_pure_outflow_validation_implemented);
-    require_true("outer transformed-amplitude helper is implemented",
-                 Operator::outer_transformed_amplitude_helper_implemented);
-    require_true("outer rank-nine projector helper is implemented",
-                 Operator::outer_rank_nine_projector_helper_implemented);
+    require_true("diagnostic characteristic transform is implemented",
+                 Operator::
+                     outer_diagnostic_characteristic_transform_implemented);
+    require_true("diagnostic characteristic projector is implemented",
+                 Operator::
+                     outer_diagnostic_characteristic_projector_implemented);
+    require_true("full WKB boundary jets remain missing",
+                 !Operator::outer_full_wkb_boundary_jets_implemented);
+    require_true("WKB left nullspace remains missing",
+                 !Operator::outer_wkb_left_nullspace_implemented);
+    require_true("compatible retained PDE dual remains missing",
+                 !Operator::outer_retained_pde_dual_implemented);
     require_true("outer boundary implementation remains false",
                  !Operator::outer_boundary_implementation_implemented);
     require_true("outer boundary validation remains false",
                  !Operator::outer_boundary_validation_implemented);
     require_true("aggregate radial boundary system remains incomplete",
                  !Operator::radial_boundary_system_complete);
+    require_true("exact quadratic boundary pencil remains false",
+                 !Operator::
+                     quadratic_pencil_coefficient_representation_implemented);
     require_true("boundary-bearing complete operator remains false",
                  !Operator::complete_frozen_gauge_operator_implemented);
 }
@@ -1160,7 +1171,7 @@ void check_operator_completion_guard()
     require_true("eigensolver is not allowed by this contract",
                  !contract.eigensolver_allowed());
     require_true("next validation hooks are explicit",
-                 Operator::next_validation_hooks.size() == 3);
+                 Operator::next_validation_hooks.size() == 4);
 }
 
 } // namespace

@@ -1946,23 +1946,16 @@ Category: Boundary Physics + Projector/Matrix Design
 
 - Began from clean committed inner-boundary checkpoint `7ceec6f` and used
   CodeGraph before direct source inspection.
-- The actual stationary 13-row symbol has four physical/Z4 light pairs and
-  five zero-exponential advected/algebraic/Jordan amplitudes in each complete
-  Fourier sector. The admissible decaying dimension is four, hence exactly
-  nine outer equations per sector; thirteen componentwise Robin or Dirichlet
-  equations are rejected.
+- The leading stationary determinant factor classifies four physical/Z4 light
+  pairs and five zero-exponential directions. The later audit found that this
+  does not establish the full decaying subspace or nine annihilator rows.
 - GP advection changes the asymptotics. Physical blocks have no `sqrt(x)`
   exponent but acquire `p=1+k r0/2`. Vector/scalar Z4 damping adds
   `exp[-0.1 sqrt(r0*x)]` and `exp[-0.5 sqrt(r0*x)]` plus the declared
-  damping-dependent power. The asymptotic projector is retained through
-  `x^-3/2`, where `lambda` and tensor/cartoon mixing first enter.
-- Locked a scale-invariant orthogonal-projector normalization, four growing-
-  light rejection rows, and five `J,F,G,C_h,C_A` rows. `F=G=0` removes both
-  members of the frozen longitudinal Jordan chain without claiming a full
-  dynamical characteristic diagonalization.
-- Recommended explicit zero-mass boundary rows in a sparse quadratic
-  polynomial pencil. Rank-matched transformed Dirichlet is only the outer-
-  systematic alternative after independent `x_out` extrapolation.
+  damping-dependent power.
+- Audit correction (2026-07-23): only the scalar profile recursion was
+  available. Full-vector transport through `x^-3/2`, the left nullspace,
+  Jordan exclusion, and a polynomial boundary representation remain missing.
 - This was documentation/design only. All outer implementation/validation,
   aggregate boundary, boundary-bearing operator, eigensolver, MOTS,
   threshold, production, Stage 4AO-D, and Checkpoint G gates remain closed.
@@ -1976,19 +1969,35 @@ Category: Validation Boundary Basis + Analytic Asymptotic Oracle
 - Implemented the finite-`k>0` boundary-local map from `(U,D_xU)` to the
   physical/Z4 characteristic pairs and `J,F,G,C_h,C_A`, preserving the two
   hidden trace copies and writing each representative `ww` amplitude once.
-- Implemented four decaying WKB columns with the locked physical/vector/scalar
-  damping rates, corrected powers, and scalar stationary recursion through
-  `x^-3/2`. The analytic residual decreases faster than the required
-  `O(x^-2)` contract over `x=10,20,40,80,160`.
-- The orthogonal complement has rank nine and nullity four. Its condition
-  diagnostic is `5.529886614793`; nonsingular basis mixing changes the
-  projector by `9.853229343548e-16`. Growing profiles and every separate
-  `J,F,G,C_h,C_A` direction reject, including independent Jordan-row guards.
-  The `k x_out={8,10,12}` condition sweep stays between `4.44` and `7.00`.
-- Both full parity sectors preserve rank/nullity with zero cross-sector
-  leakage and reflection commutator. WKB, hidden/ww, normalization, rank,
-  row-count, and componentwise-boundary mutations reject.
-- Only the two validation-helper flags opened. Actual outer endpoint rows,
+- Audit correction (2026-07-23): the four stored columns are one-hot
+  diagnostic amplitudes scaled by scalar profiles. Their scalar residual,
+  rank, condition, and mixing numbers do not validate full WKB states,
+  growing/Jordan rejection, parity, constraints, or endpoint rows. The
+  hard-coded zero outer parity diagnostics were removed.
+- Only diagnostic transform/projector helper flags are true. Actual outer
+  endpoint rows,
   aggregate boundary completion, the boundary-bearing operator, eigensolver,
   MOTS, threshold, production wiring, Stage 4AO-D, and Checkpoint G remain
   closed.
+
+## 2026-07-23 - Stage 4AO-C Outer-Boundary Audit Repair
+
+Category: Gate Correction + Diagnostic Boundary Scaffolding
+
+- CodeGraph showed that the purported decaying basis contained four one-hot
+  transformed-amplitude columns scaled by scalar profiles. No full
+  thirteen-component WKB state/derivative recursion or stationary-symbol dual
+  left basis is present, so the required boundary cannot be constructed
+  without inventing coefficients.
+- Preserved the validated inner endpoint, complete interior operator, mirrored
+  outer derivatives, and diagnostic radial row layout. Renamed the direct
+  `W_b^in,J,F,G,C_h,C_A` selectors and provisional PDE projections so they do
+  not own the primary outer gate.
+- Removed the interpolation-at-`k={1,2,3}` coefficient extraction, exact
+  quadratic-pencil claim, self-subtraction projector/Dirichlet comparison, and
+  hard-coded zero outer parity diagnostics. Determinant and metric-inclusive
+  A-trace cleanup remains checked on nonzero data at both endpoint locations.
+- Outer implementation/validation, aggregate radial validation,
+  boundary-bearing completion, and exact quadratic-pencil flags are false.
+  The interior is still quadratic in `k`; the corrected boundary-bearing
+  problem is classified as nonlinear in `k` pending a later analytic proof.
