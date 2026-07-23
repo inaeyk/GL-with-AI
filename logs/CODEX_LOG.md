@@ -1999,3 +1999,27 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Scope: The old 27-slot smoke/comparison `UserVariables.hpp`, external
   GRChombo, parameters, initial data, BoxLoops, RHS, cleanup, constraints,
   source, periodic ownership, diagnostics, and evolution were not changed.
+
+- Date: 2026-07-23
+- Goal: Implement the reduced production Vars seam, exact GP pointwise
+  initializer, and analytic GP radial metadata without Chombo wiring.
+- Start state: Used CodeGraph/MCP first. The worktree and index were clean at
+  committed 18-slot checkpoint
+  `fca3b899feacb2290887089b398d9f2836980ae8`; the dependency verifier
+  accepted clean detached GRChombo
+  `37e659523830418b210acea1661dac0e00bb1b75`.
+- Adapter: Added storage-agnostic reduced tensors/vectors, physical/gauge
+  groups, const/mutable access, and exact load/store using only
+  `BlackStringProductionVariables.hpp`. The adapter documents the future
+  `Cell`/`FArrayBox` boundary and replacement of incompatible stock enum
+  mapping.
+- Initializer: Added all 18 locked GP values plus analytic radial jets for
+  `beta^x`, `lambda`, `K`, `Axx`, `Axz`, `Azz`, and `Aww`. Stored `hww=1`
+  remains distinct from coordinate `gamma_theta_theta=x^2`.
+- Validation: Strict-warning Vars and GP fixtures pass three point cases,
+  exact round trips, local mutable writes, determinant/trace/reconstruction,
+  gauge ownership, central-difference order, roundoff turnover, input
+  rejection, and all requested mutations.
+- Scope: No external source, live registration, Chombo storage, BoxLoop, RHS,
+  hidden geometry, cleanup, constraint, fixed source, periodic ownership,
+  evolution, diagnostic, smoke parameter, staging, or commit changed.

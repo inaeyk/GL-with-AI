@@ -258,3 +258,79 @@ The first implementation substage passes:
 Only the contract is complete. The old 27-slot scaffold, GP initialization,
 all equation and cleanup owners, periodic grid, diagnostics, and evolution
 remain unchanged.
+
+## Reduced Vars and exact GP pointwise substage
+
+The dedicated reduced seam is implemented in
+`code/BlackStringToy/BlackStringReducedVars.hpp`. It defines:
+
+- `ReducedSymmetricTensor<T> = {xx,xz,zz,ww}`;
+- `ReducedVisibleVector<T> = {x,z}`;
+- `PhysicalVariables<T>` for
+  `chi,h,K,A,Theta,hat_Gamma`;
+- `GaugeVariables<T>` for `lapse,shift,B`;
+- `Variables<T>` grouping the physical and gauge structures;
+- `Storage<T> = std::array<T,18>`;
+- explicit const/mutable component access and exact load/store operations.
+
+All slot ownership comes from `BlackStringProductionVariables.hpp`; the enum
+is not copied. Storage writes one `ww` representative. The optional physical
+diagonal contraction counts that representative twice. There is no `y` or
+`yy` member and the legacy 27-slot header is not imported.
+
+Future Chombo `Cell`/`FArrayBox` wrappers will load the 18 slots into this
+structure, expose visible `(x,z)` data to stock formula families, add
+black-string hidden families, and store through the same seam. For the
+black-string application this replaces
+`ADMConformalVars::enum_mapping`, `BSSNVars::enum_mapping`,
+`CCZ4Vars::enum_mapping`, and their
+`VarsTools::define_*_enum_mapping` calls. It does not replace Chombo storage,
+`BoxLoops`, derivatives, time integration, or AMR.
+
+The exact point initializer and analytic setup metadata are implemented in
+`code/BlackStringToy/BlackStringGPPointwiseInitialData.hpp`. For finite
+`r0>0,x>0`, it returns:
+
+```text
+chi=1
+h={xx=1,xz=0,zz=1,ww=1}
+K=3 lambda/2
+A={xx=-7 lambda/8,xz=0,zz=-3 lambda/8,ww=5 lambda/8}
+Theta=0
+hat_Gamma={x=0,z=0}
+lapse=1
+shift={x=sqrt(r0/x),z=0}
+B={x=0,z=0}
+lambda=sqrt(r0/x^3)
+```
+
+Nonfinite, nonpositive-`r0`, and nonpositive-`x` inputs are rejected. The
+initializer stores `hww=1`; `gamma_theta_theta=x^2` is separate from
+`gamma_ww=hww/chi=1`.
+
+The analytic metadata supplies value, first radial derivative, and second
+radial derivative for `beta^x`, `lambda`, `K`, and every reduced `A`
+component. It uses
+
+```text
+beta_x'   = -beta_x/(2x)
+beta_x''  = 3 beta_x/(4x^2)
+lambda'   = -3 lambda/(2x)
+lambda''  = 15 lambda/(4x^2)
+```
+
+and constant multiples for `K,Axx,Azz,Aww`; the `Axz` jet is identically
+zero. This is analytic metadata only and performs no grid differentiation.
+
+The focused fixtures pass exact 18-slot round trips, component-local mutable
+writes, representative storage, 13+5 grouping/parity, three GP sample points,
+determinant one, weighted `A` trace zero, physical `K_IJ` reconstruction,
+gauge ownership, analytic derivative convergence, and roundoff turnover.
+They reject swapped mappings, visible-y aliases, hidden multiplicity one,
+`hww=x^2`, wrong `K` sign, wrong `Aww`, missing gauge initialization, and
+field- or horizon-dependent initializer mutations.
+
+Only the reduced Vars seam, pointwise GP contract, and analytic GP metadata
+are complete. Chombo storage/`BoxLoop`, live registration, CCZ4 RHS,
+hidden/cartoon geometry, cleanup/constraints, fixed lapse source, periodic
+ownership, evolution, and diagnostics remain open.

@@ -730,10 +730,15 @@ simulation and radiation diagnostics exist.
   slot/name/parity/permutation/multiplicity and mutation tests. The old
   27-slot smoke scaffold remains live and unchanged; no GP or RHS path was
   added.
-- [ ] Next production substage: implement GP initial-data values against the
-  reviewed 18-slot contract and a dedicated black-string Vars mapping seam.
-  Do not begin hidden RHS, cleanup/constraints, lapse source, periodic
-  ownership, evolution, or diagnostics. The missing Chombo source/build tuple
-  remains an execution blocker for an actual `BoxLoop`.
+- [x] Reduced Vars/GP pointwise substage: implement explicit
+  `{xx,xz,zz,ww}` and `{x,z}` structures, const/mutable 18-slot load/store,
+  exact GP values, and analytic `beta^x/lambda/K/A_IJ` radial jets. Focused
+  round-trip, ownership, determinant, trace, reconstruction, derivative, and
+  mutation checks pass. No Chombo or live application path is wired.
+- [ ] Chombo GP integration substage: after locking an available Chombo build,
+  add only the thin `Cell`/`FArrayBox` storage wrapper and GP initial-data
+  compute class around the reduced seam. Do not start CCZ4 RHS, hidden
+  geometry, cleanup/constraints, lapse source, periodic ownership, evolution,
+  or diagnostics.
 - [ ] Resolve and execute the complete Chombo/PETSc/container build tuple.
   The GRChombo source is locked, but full build reproducibility is not.

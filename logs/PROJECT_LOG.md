@@ -2268,3 +2268,28 @@ Category: Dependency Verification + Isolated 18-Slot Enumeration
   cleanup, constraint, source, periodic-grid, diagnostic, and evolution paths
   remain unchanged. The next substage is GP initial-data construction against
   the reviewed contract and a dedicated Vars mapping seam.
+
+## 2026-07-23 - Reduced Vars And GP Pointwise Initializer
+
+Category: Storage-Agnostic Production Seam + Analytic Setup
+
+- Began from clean committed 18-slot checkpoint
+  `fca3b899feacb2290887089b398d9f2836980ae8`, used CodeGraph/MCP first, and
+  passed the locked GRChombo dependency verifier.
+- Added explicit reduced `{xx,xz,zz,ww}` tensor and `{x,z}` vector structures,
+  13-physical/5-gauge grouping, const/mutable component access, and exact
+  18-slot load/store driven only by the production enum.
+- Added the exact GP point initializer for all 18 fields and separate analytic
+  value/`dx`/`dxx` metadata for `beta^x`, `lambda`, `K`, and `A_IJ`.
+  Nonfinite or nonpositive inputs are rejected.
+- Focused tests pass exact round trips, component-local writes, single `ww`
+  storage, hidden multiplicity two, three GP points, determinant one, weighted
+  trace zero, `Kxx=-lambda/2`, `Kzz=0`, `Kww=lambda`, gauge values, derivative
+  convergence, and fine-step roundoff turnover.
+- Swapped mapping, visible-y alias, multiplicity-one trace, `hww=x^2`, wrong
+  `K` sign, wrong `Aww`, missing gauge, field-dependent, and
+  horizon-dependent mutations are rejected.
+- No Chombo, live 27-slot application, BoxLoop, RHS, hidden geometry, cleanup,
+  constraint, source, periodic, evolution, or diagnostic path changed. The
+  remaining BoxLoop blocker is the unresolved Chombo source/build tuple and
+  absent thin `Cell`/`FArrayBox` wrapper.

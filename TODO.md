@@ -180,14 +180,18 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   isolated target 18-slot enum/name/metadata registration, and pass exact
   macro/slot/parity/permutation/multiplicity plus mutation checks. The live
   27-slot smoke scaffold is unchanged.
-- [ ] Next adaptation substage: implement exact GP initial-data values against
-  the 18-slot contract and dedicated black-string Vars mapping seam. Actual
-  Chombo `BoxLoop` execution remains blocked by the missing Chombo build tuple;
-  do not begin RHS, cleanup, source, periodic, evolution, or diagnostics.
+- [x] Implement the storage-agnostic reduced Vars seam, exact 18-slot GP
+  pointwise initializer, and analytic `beta^x/lambda/K/A_IJ` radial metadata.
+  Exact mapping, reconstruction, convergence, and mutation fixtures pass.
+- [ ] Resolve the Chombo source/build tuple, then wrap the reduced seam in a
+  black-string `Cell`/`FArrayBox` adapter and GP initial-data compute class.
+  Keep RHS, hidden geometry, cleanup, sources, periodic ownership, evolution,
+  and diagnostics out of that integration substage.
 
 ## Later
 
-- [ ] Implement black-string initial data.
+- [ ] Integrate the exact black-string initial data through a Chombo
+  `BoxLoop`.
 - [ ] Implement compact-z handling.
 - [ ] Add GL perturbation controls.
 - [ ] Add constraint/gauge diagnostics.

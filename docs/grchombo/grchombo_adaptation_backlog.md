@@ -192,6 +192,25 @@ reduce the requirement to resolve those digests before production adaptation.
   through the dedicated production adapter seam. It must not reuse the old
   27-slot scaffold or begin RHS, cleanup, source, periodic, or evolution work.
 
+## Reduced Vars and pointwise GP substage update
+
+- The black-string-specific reduced Vars seam is complete for local storage.
+  It groups 13 physical and five gauge variables, loads/stores the reviewed
+  18-slot array exactly, and replaces the incompatible stock enum-mapping
+  concept without copying the enum.
+- P1-4 now has an exact pointwise GP initializer and analytic radial metadata.
+  All 18 values, determinant, weighted trace, reconstructed `K_IJ`, gauge
+  values, input rejection, and derivative formulas pass focused tests.
+- P1-4 is not production-complete: no Chombo `Cell`, `FArrayBox`, `BoxLoop`,
+  live registration, ghost, or checkpoint path calls the new seam.
+- The exact remaining integration blocker is the unresolved Chombo
+  source/build tuple (`parstream.H` is unavailable locally), followed by a
+  thin black-string `Cell`/`FArrayBox` wrapper and initial-data compute class.
+  The wrapper must call the reduced load/store seam; it must not use stock
+  `ADMConformalVars`/`VarsTools` mapping.
+- Hidden/cartoon RHS, cleanup, constraints, fixed lapse source, periodic
+  ownership, evolution, and diagnostics remain later backlog items.
+
 ## Explicit non-goals
 
 Do not add backlog items to recreate:

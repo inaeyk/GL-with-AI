@@ -334,3 +334,25 @@ ten, and the selected vector interval has two slots while the default vector
 has four components. A black-string Vars/mapping adapter remains required;
 the full stock-header probe is additionally blocked by missing Chombo
 `parstream.H`.
+
+### Reduced Vars and GP pointwise seam
+
+The production side now has an isolated `std::array<T,18>` mapping seam with
+explicit `{xx,xz,zz,ww}` tensors and `{x,z}` vectors. Load/store uses the
+reviewed production enum directly, round trips all 18 slots exactly, and
+writes each hidden representative once. A separate contraction helper applies
+hidden multiplicity two. No stock visible-y or legacy 27-slot owner enters
+the seam.
+
+The exact GP point initializer now supplies all 18 values and separate
+analytic radial jets for `beta^x`, `lambda`, `K`, and `A_IJ`. At `r0=1,x=2`
+it gives `lambda=0.3535533905932738`, `beta^x=0.7071067811865476`,
+unit conformal determinant, zero weighted `A` trace, and reconstructed
+`Kxx=-lambda/2`, `Kzz=0`, `Kww=lambda`. Three point cases and independent
+central-difference checks pass; fine epsilon data exhibit the expected
+roundoff turnover.
+
+This adds no direct compiled Chombo storage evidence. The next Chombo-facing
+step remains blocked by the missing Chombo source/build tuple and must wrap
+the reduced seam at the `Cell`/`FArrayBox` boundary rather than reintroducing
+stock enum mapping.
