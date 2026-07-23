@@ -1,9 +1,10 @@
 # GRChombo Production-Adaptation Preflight
 
 Status: dependency source/contract audit, isolated production variable
-contract, reduced Vars seam, and pointwise GP initializer implemented. The
-GRChombo source and Chombo fork/layout are verified; the exact Chombo
-revision, patch/container provenance, and target header compile remain
+contract, reduced Vars seam, and pointwise GP initializer implemented. Locked
+GRChombo and the official Chombo project dependency are verified. The Chombo
+lock is `PROJECT_QUALIFIED`, not historically exact; the real target `2/4/4`
+header probe passes. Former-container and PETSc/AHFinder provenance remain
 unresolved. The contract is not imported by the live 27-slot smoke
 application. No GP initial-data `BoxLoop`, hidden RHS, cleanup, constraint,
 gauge-source, periodic grid, diagnostic, or evolution path is implemented.
@@ -25,10 +26,11 @@ The authoritative inspected source tuple is:
 | Inspection compiler | GNU C++ `15.2.0` | environment observation, not a portable toolchain lock |
 | Comparison compile contract | C++17, `-O2 -Wall -Wextra -Wpedantic -Werror` | verified for focused comparison fixtures |
 | Direct-comparison dimensions | `CH_SPACEDIM=3`, `GR_SPACEDIM=3`, `DEFAULT_TENSOR_DIM=3` | verified comparison configuration |
-| Target production dimensions | `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4` | required design, compilation/runtime still unresolved |
+| Target production dimensions | `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4` | real header/storage-boundary compile and run verified |
 | Chombo repository | `https://github.com/GRChombo/Chombo.git` | verified from locked CI |
 | Chombo layout | checkout root with `CHOMBO_HOME=<root>/lib`; `mk/Make.test` | verified from locked CI/GNUmakefiles |
-| Chombo revision/patch set | CI checkout omits `ref`; no local tuple found | unresolved |
+| Historical Chombo revision | CI checkout omits `ref`; public logs/artifacts expose no SHA | unavailable; timestamp inference only |
+| Project Chombo lock | `8684f2e000106f1abadb72642e1d15351867f98f`, patch set `none` | official candidate qualified by libraries, target probe, and stock tests |
 | PETSc role | optional for core/GP wrapper; required by `USE_AHFINDER` | verified |
 | PETSc source/build tuple | Ubuntu CI uses unpinned `petsc-dev` and `pkg-config petsc` | unresolved |
 | Docker image | historical name `grchombo/grchombo`; digest unavailable | unresolved |
@@ -61,13 +63,15 @@ the ignore rule, `.gitmodules`, CI/bootstrap commands, and preservation of
 local checkouts.
 
 The locked workflows clone `GRChombo/Chombo` without a `ref`; consequently
-they verify the fork but cannot recover a historical revision. The current
-shell has no Chombo checkout, `CHOMBO_HOME`, PETSc package, or usable Docker
-integration. The test-only target probe therefore reports blocked and does
-not fabricate headers. No fresh-machine production reproducibility claim is
-permitted until the Chombo revision/patch set, compiler/build tuple, PETSc
-tuple where applicable, container image/recipe digests, and target-dimension
-compile have been locked and executed.
+they verify the fork but do not identify the historical revision. Official
+public run/log/artifact/cache routes were exhausted without an exact SHA.
+The default-branch head at the successful workflow timestamp,
+`8684f2e000106f1abadb72642e1d15351867f98f`, was qualified as the project's
+dependency: all four required serial DIM=2 libraries build, the real target
+probe compiles/links/runs, and stock variable-store and CCZ4-geometry tests
+pass. PETSc and usable Docker integration remain unavailable. This authorizes
+the thin `Cell`/`FArrayBox` storage wrapper, but not periodic ownership,
+evolution, AHFinder, or a claim of historical exactness.
 
 ## Compile-time dimension contract
 
@@ -107,10 +111,11 @@ the target layout. It does not:
   `Tensor<1>` members default to four components under the target macro tuple.
 
 Therefore a black-string Vars/mapping adapter is required before stock
-`CCZ4Vars` can own this state. The available direct header probe is also
-blocked earlier by missing Chombo `parstream.H`, so no full target stock
-header/build claim is made. The earlier direct GRChombo comparisons remain
-matched stock-`d=3` evidence.
+`CCZ4Vars` can own this state. The direct header probe now resolves real
+Chombo `parstream.H` and `FArrayBox.H`, locked GRChombo `Cell.hpp`, and the
+target reduced storage boundary. It proves header/build compatibility, not
+that the generic stock variable mapper accepts the reduced state. The earlier
+direct GRChombo comparisons remain matched stock-`d=3` evidence.
 
 ## Target black-string state
 
@@ -213,8 +218,9 @@ implemented in this preflight.
 
 ## First adaptation sequence and audit checkpoints
 
-1. **Dependency verification.** Run the source-lock verifier and resolve the
-   Chombo/container tuple needed by the selected build.
+1. **Dependency verification.** Run the source-lock verifier. The core
+   GRChombo/Chombo tuple is project-qualified; disclose the still-unresolved
+   historical container and PETSc/AHFinder tuples separately.
 2. **Target enumeration and registration.** Implement only the 18-slot enum,
    names, compile-time dimension assertions, and exact permutation/parity
    fixture.

@@ -2327,3 +2327,25 @@ Category: Dependency Provenance + Blocked Real-Header Probe
   smoke parameter, staging, or commit was changed. The next required input is
   the authoritative full Chombo commit and patch set; only after its strict
   probe/smoke passes may the thin `Cell`/`FArrayBox` GP wrapper begin.
+
+## 2026-07-23 - Chombo Project Dependency Qualification
+
+Category: Dependency Recovery + Core Build Qualification
+
+- Official public CI metadata did not expose the historical Chombo checkout
+  SHA for locked GRChombo `37e659523830418b210acea1661dac0e00bb1b75`.
+  Successful workflows used the default branch without a `ref`; log archives
+  were access-restricted and no artifacts/caches contained the dependency.
+- Official Chombo `8684f2e000106f1abadb72642e1d15351867f98f`, the
+  default-branch head at the successful CI timestamp, was tested as the sole
+  bounded candidate. It is recorded as timestamp-inferred, not historically
+  exact.
+- The candidate is now `PROJECT_QUALIFIED`: all four required serial DIM2
+  libraries build, the real black-string `2/4/4` target probe compiles,
+  links, and runs, and stock GRChombo VariableStore and CCZ4Geometry tests
+  pass. Both dependency checkouts remain detached and clean.
+- The machine-readable manifest and verifier now separate qualified core
+  dependency evidence from unresolved former-container and PETSc/AHFinder
+  provenance. The next authorized implementation is only the thin
+  `Cell`/`FArrayBox` GP initializer wrapper; production physics and evolution
+  remain untouched.

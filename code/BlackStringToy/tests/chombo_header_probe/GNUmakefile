@@ -5,12 +5,8 @@ GRCHOMBO_SOURCE ?= $(abspath ../../../../external/GRChombo/Source)
 BLACKSTRING_SOURCE ?= $(abspath ../..)
 
 ebase := BlackStringChomboHeaderProbe
-LibNames := BaseTools BoxTools
+LibNames := BoxTools
 
-src_dirs := . \
-            $(BLACKSTRING_SOURCE) \
-            $(GRCHOMBO_SOURCE)/utils \
-            $(GRCHOMBO_SOURCE)/simd \
-            $(GRCHOMBO_SOURCE)/BoxUtils
+src_dirs :=
 
 include $(CHOMBO_HOME)/mk/Make.test

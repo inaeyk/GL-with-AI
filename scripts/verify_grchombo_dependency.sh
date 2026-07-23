@@ -22,15 +22,16 @@ Options:
   --require-probe         Require a pinned, clean Chombo checkout with the
                           headers and make infrastructure needed by the target
                           header compile probe.
-  --require-build         Require all provenance needed for a full reproducible
-                          build. This remains unavailable while the manifest
-                          contains required unresolved fields.
+  --require-build         Require the project-qualified core Chombo build:
+                          pinned clean checkout and the four serial DIM=2
+                          libraries. Container and PETSc/AHFinder provenance
+                          are reported separately.
   --with-petsc            Also require a discoverable PETSc installation.
   --chombo-root PATH      Override the manifest Chombo checkout path.
   --candidate-chombo-revision COMMIT
                           Permit --require-probe to validate this exact
                           candidate before it is accepted into the manifest.
-                          This never satisfies --require-build.
+                          This is recovery-only and never overrides a lock.
   -h, --help              Show this help.
 
 This verifier is read-only. It never downloads, installs, checks out, or builds
@@ -200,6 +201,27 @@ echo "  commit: ${actual_grchombo_commit}"
 echo "  state: detached and clean"
 echo "  target macros: CH_SPACEDIM=2 GR_SPACEDIM=4 DEFAULT_TENSOR_DIM=4"
 
+historical_provenance_status="$(
+    manifest_value historical_provenance status
+)"
+project_dependency_status="$(
+    manifest_value project_dependency_lock status
+)"
+project_dependency_commit="$(
+    manifest_value project_dependency_lock chombo_commit
+)"
+[[ "${historical_provenance_status}" == "exact" ||
+   "${historical_provenance_status}" == "inferred" ||
+   "${historical_provenance_status}" == "unavailable" ]] ||
+    fail_verification \
+        "historical_provenance.status must be exact, inferred, or unavailable"
+[[ "${project_dependency_status}" == "qualified" ]] ||
+    fail_verification \
+        "project_dependency_lock.status is not qualified"
+[[ "${project_dependency_commit}" =~ ^[0-9a-f]{40}$ ]] ||
+    fail_verification \
+        "project_dependency_lock.chombo_commit is not a full commit"
+
 configured_chombo_checkout="$(manifest_value chombo checkout_path)"
 locked_chombo_remote="$(manifest_value chombo remote_url)"
 locked_chombo_revision="$(manifest_value chombo revision)"
@@ -231,6 +253,12 @@ if [[ -e "${verification_chombo_checkout}" ]]; then
     actual_chombo_revision="$(
         git -C "${verification_chombo_checkout}" rev-parse --verify HEAD
     )" || fail_verification "cannot resolve Chombo checkout HEAD"
+    if [[ -n "${verification_candidate_chombo_revision}" ]] &&
+        [[ "${actual_chombo_revision}" != \
+           "${verification_candidate_chombo_revision}" ]]; then
+        fail_verification \
+            "Chombo HEAD is ${actual_chombo_revision}; requested candidate is ${verification_candidate_chombo_revision}"
+    fi
 
     chombo_status="$(
         git -C "${verification_chombo_checkout}" \
@@ -260,7 +288,7 @@ if [[ -e "${verification_chombo_checkout}" ]]; then
     chombo_available="true"
     echo "Chombo checkout inspected"
     echo "  remote: ${actual_chombo_remote}"
-    echo "  candidate revision: ${actual_chombo_revision}"
+    echo "  revision: ${actual_chombo_revision}"
     echo "  CHOMBO_HOME: ${verification_chombo_home}"
     echo "  ${required_chombo_header}: ${chombo_header_path}"
 
@@ -279,6 +307,9 @@ if [[ -e "${verification_chombo_checkout}" ]]; then
         fail_verification \
             "Chombo HEAD is ${actual_chombo_revision}; expected ${locked_chombo_revision}"
     else
+        [[ "${actual_chombo_revision}" == "${project_dependency_commit}" ]] ||
+            fail_verification \
+                "Chombo manifest revision disagrees with project dependency lock"
         chombo_probe_ready="true"
         echo "  revision lock: verified"
     fi
@@ -324,56 +355,77 @@ if [[ "${verification_mode}" == "probe" ]]; then
             "target header probe requires a pinned Chombo revision"
 fi
 
-full_reproducibility_status="$(
+core_reproducibility_status="$(
     manifest_top_value reproducibility_status
 )"
-required_build_provenance=(
-    "$(manifest_value chombo revision)"
-    "$(manifest_value chombo patch_set)"
-    "$(manifest_value chombo build_artifact_digest)"
-    "$(manifest_value grchombo exact_production_compiler)"
-    "$(manifest_value container historical_tag)"
-    "$(manifest_value container image_digest)"
-    "$(manifest_value container recipe_path)"
-    "$(manifest_value container recipe_digest)"
-)
-build_provenance_resolved="true"
-for provenance_field in "${required_build_provenance[@]}"; do
-    if is_unresolved "${provenance_field}"; then
-        build_provenance_resolved="false"
-    fi
-done
-
-if [[ "${full_reproducibility_status}" == "fully_reproducible" ]] &&
-    [[ "${build_provenance_resolved}" != "true" ]]; then
+[[ "${core_reproducibility_status}" == \
+   "project_qualified_core_dependency" ]] ||
     fail_verification \
-        "manifest claims full reproducibility while required provenance is unresolved"
-fi
+        "manifest does not declare a project-qualified core dependency"
 
 if [[ "${verification_mode}" == "build" ]]; then
     [[ -z "${verification_candidate_chombo_revision}" ]] ||
         fail_verification \
-            "a candidate Chombo revision cannot satisfy full-build verification"
+            "a recovery candidate cannot satisfy the project dependency lock"
     [[ "${chombo_probe_ready}" == "true" ]] ||
         fail_verification \
-            "full build requires a pinned and verified Chombo revision"
+            "core build verification requires the pinned Chombo revision"
 
-    [[ "${build_provenance_resolved}" == "true" ]] ||
+    qualification_compiler_version="$(
+        manifest_value chombo qualification_compiler_version
+    )"
+    [[ -n "${qualification_compiler_version}" ]] ||
         fail_verification \
-            "full build reproducibility still has unresolved required provenance"
-    [[ "${full_reproducibility_status}" == "fully_reproducible" ]] ||
+            "manifest has no Chombo qualification compiler version"
+    [[ "${compiler_version}" == *"${qualification_compiler_version}"* ]] ||
         fail_verification \
-            "manifest has not recorded a successfully reproduced full build"
+            "C++ compiler does not match qualified version ${qualification_compiler_version}"
+
+    fortran_compiler_command="${CHOMBO_FC:-gfortran}"
+    if [[ "${fortran_compiler_command}" = */* ]]; then
+        [[ -x "${fortran_compiler_command}" ]] ||
+            fail_verification \
+                "qualified Fortran compiler is unavailable: ${fortran_compiler_command}"
+    else
+        command -v "${fortran_compiler_command}" >/dev/null 2>&1 ||
+            fail_verification \
+                "qualified Fortran compiler is unavailable: ${fortran_compiler_command}"
+    fi
+    fortran_compiler_version="$(
+        "${fortran_compiler_command}" --version | sed -n '1p'
+    )"
+    [[ "${fortran_compiler_version}" == \
+       *"${qualification_compiler_version}"* ]] ||
+        fail_verification \
+            "Fortran compiler does not match qualified version ${qualification_compiler_version}"
+
+    required_chombo_libraries=(
+        "libbasetools2d_ch*.a"
+        "libboxtools2d_ch*.a"
+        "libamrtools2d_ch*.a"
+        "libamrtimedependent2d_ch*.a"
+    )
+    for required_library_pattern in "${required_chombo_libraries[@]}"; do
+        library_matches=(
+            "${verification_chombo_home}"/${required_library_pattern}
+        )
+        [[ -f "${library_matches[0]}" ]] ||
+            fail_verification \
+                "missing qualified DIM=2 library ${required_library_pattern}"
+    done
 fi
 
-if [[ "${full_reproducibility_status}" == "fully_reproducible" ]] &&
-    [[ "${build_provenance_resolved}" == "true" ]] &&
-    [[ "${chombo_probe_ready}" == "true" ]]; then
-    echo "FULL_BUILD_REPRODUCIBILITY=VERIFIED"
+echo "HISTORICAL_PROVENANCE=${historical_provenance_status^^}"
+if [[ "${verification_mode}" == "build" ]]; then
+    echo "CORE_DEPENDENCY_BUILD=VERIFIED"
 else
-    echo "FULL_BUILD_REPRODUCIBILITY=UNRESOLVED"
-    echo "Reason: Chombo revision/build tuple and container provenance are not fully pinned."
+    echo "CORE_DEPENDENCY_BUILD=PROJECT_QUALIFIED"
 fi
+echo "CONTAINER_REPRODUCIBILITY=UNRESOLVED"
+echo "Reason: the former image tag/digest and recipe digest remain unavailable."
 if [[ "${petsc_available}" != "true" ]]; then
-    echo "AHFinder note: PETSc is also unavailable; core/initializer work does not require it."
+    echo "PETSC_AHFINDER_REPRODUCIBILITY=UNRESOLVED"
+    echo "Reason: PETSc is unavailable and is not required by the core/initializer seam."
+else
+    echo "PETSC_DISCOVERY=AVAILABLE_UNPINNED"
 fi

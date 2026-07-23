@@ -1,192 +1,214 @@
-# Chombo Dependency Contract and Recovery Plan
+# Chombo Dependency Contract
 
-Status: GRChombo source, Chombo fork identity, and Chombo layout are verified.
-The Chombo revision, patch provenance, production compiler tuple, and
-container provenance are unresolved. Therefore neither the target header
-probe nor a fully reproducible build is currently available.
+Status: **PROJECT_QUALIFIED**.
 
-## Evidence classification
+The project dependency lock is the official `GRChombo/Chombo` commit
+`8684f2e000106f1abadb72642e1d15351867f98f`. It is compatible with locked
+GRChombo commit `37e659523830418b210acea1661dac0e00bb1b75` under the tested
+serial core configuration. This is a project qualification, not a claim that
+the same Chombo SHA was used historically.
 
-| Fact | Classification | Evidence |
+## Historical recovery result
+
+The bounded official-metadata audit did not recover an exact log-recorded
+Chombo SHA.
+
+| Official path | Result |
+|---|---|
+| Locked GRChombo commit and PR | PR 272 merged at `2026-04-16T13:01:59Z` |
+| Clang workflow run `24511708920` | successful; jobs checked out Chombo's default branch without an explicit `ref` |
+| Intel Classic run `24511708915` | successful; same unpinned checkout convention |
+| GCC run `24511708956` | failed before useful qualification; remaining jobs were cancelled |
+| Public run/job log archive API | unavailable: GitHub returned HTTP 403 requiring repository administration |
+| Workflow artifacts | none |
+| Actions caches for the locked ref | none |
+| PR-head workflow runs | none |
+| Authenticated `gh api` | unavailable because `gh` and GitHub authentication were absent |
+
+Therefore:
+
+```text
+historical_provenance.status = inferred
+historical_provenance.exact_log_recorded_chombo_sha = unavailable
+```
+
+No source supports `HISTORICAL_EXACT`.
+
+## Candidate selection
+
+The workflows checked out the official repository named
+`GRChombo/Chombo`, now canonically exposed as
+`GRTLCollaboration/Chombo`. At the successful locked-GRChombo CI timestamp,
+the protected default branch `main` pointed to:
+
+```text
+8684f2e000106f1abadb72642e1d15351867f98f
+2023-01-17T16:46:53Z
+Merge pull request #36 from GRChombo/enhancement/aarch64_2
+```
+
+There were no later default-branch commits before the 2026 workflow. This
+timestamp-derived head was the first candidate. It passed every qualification
+gate, so the bounded search stopped and no preceding commit was tested.
+
+| Candidate | Classification | Selection reason | Result |
+|---|---|---|---|
+| `8684f2e000106f1abadb72642e1d15351867f98f` | timestamp-inferred, not historically exact | official default-branch head at successful CI time | qualified |
+
+The ignored local checkout is `external/Chombo`, with official origin,
+detached `HEAD`, and a clean tracked worktree. Neither dependency checkout is
+a submodule, and neither dependency source was patched.
+
+## Qualification configuration
+
+The serial pattern comes from locked GRChombo's
+`ubuntu-gcc-nompi.Make.defs.local`:
+
+- `DIM=2`, `MPI=FALSE`, `DEBUG=FALSE`, `OPT=TRUE`;
+- double precision, 64-bit indices, Chombo namespace;
+- OpenMP enabled;
+- HDF5, BLAS, and LAPACK enabled;
+- no PETSc and no `USE_AHFINDER`.
+
+The qualification machine used Ubuntu 26.04 x86-64, GNU Make 4.4.1,
+GNU C++/Fortran 15.2.0, HDF5 1.14.6, and BLAS/LAPACK 3.12.1. Because the
+host lacked system `csh`, Fortran, and HDF5 development packages and
+passwordless package installation, official Ubuntu packages were extracted
+under `/tmp` and presented read-only in a Bubblewrap mount namespace. This
+changed no Chombo or GRChombo source.
+
+Required serial DIM=2 libraries:
+
+| Library | Build |
+|---|---|
+| BaseTools | pass |
+| BoxTools | pass |
+| AMRTools | pass |
+| AMRTimeDependent | pass |
+
+The produced archives use the
+`2d_ch.Linux.64.g++.x86_64-linux-gnu-gfortran-15.OPT.OPENMPCC` configuration.
+Archive hashes are not used as a portable source lock; source commits,
+configuration, and executable probes are the authority.
+
+## Target and stock compatibility matrix
+
+| Check | Dimension/configuration | Result |
 |---|---|---|
-| GRChombo remote is `https://github.com/GRTLCollaboration/GRChombo.git` | verified | clean detached local checkout and tracked source lock |
-| GRChombo commit is `37e659523830418b210acea1661dac0e00bb1b75` | verified | local `HEAD` and verifier |
-| GRChombo CI obtains Chombo from repository `GRChombo/Chombo` | verified | locked `gcc-tests.yml`, `clang-tests.yml`, and `intel-classic-tests.yml` |
-| Canonical Chombo remote is `https://github.com/GRChombo/Chombo.git` | verified as the CI repository identity | the three locked checkout actions |
-| CI Chombo checkout is pinned to a revision | false | all three checkout actions omit `ref` |
-| Exact Chombo branch, commit, tag, archive digest, or patch set | unresolved | absent from locked source, manifests, and local metadata |
-| Chombo checkout layout is `<root>/lib`, exported as `CHOMBO_HOME` | verified | all three locked CI workflows |
-| GRChombo applications include `${CHOMBO_HOME}/mk/Make.test` | verified | application and test GNUmakefiles |
-| CI installs `Make.defs.local` at `${CHOMBO_HOME}/mk/Make.defs.local` | verified | locked CI build steps |
-| CI builds `AMRTimeDependent AMRTools BaseTools BoxTools` | verified | locked CI build steps |
-| The minimal storage-header probe needs `BaseTools` and `BoxTools` | inferred from included Chombo/GRChombo types; must be compile-tested | `parstream.H`, `FArrayBox.H`, `Cell.hpp`, and their headers |
-| `parstream.H` is supplied by Chombo, not GRChombo | verified | direct GRChombo includes and absence from the locked GRChombo tree |
-| No Chombo submodule is embedded in GRChombo | verified | no `.gitmodules` and empty submodule inventory |
-| Core CCZ4 / pointwise GP initialization requires PETSc | false | core headers and non-AH CI configurations |
-| `USE_AHFINDER` requires PETSc headers/libraries | verified | `PETScAHSolver`, `PETScCommunicator`, and MPI Make-def flags |
-| Ubuntu MPI CI discovers PETSc as `pkg-config petsc` | verified | `ubuntu-gcc.Make.defs.local` and `ubuntu-clang.Make.defs.local` |
-| Exact PETSc version/revision/build | unresolved | CI installs unversioned Ubuntu 22.04 `petsc-dev`; no lock is recorded |
-| Historical image name is `grchombo/grchombo` | verified as repository history | build notes and prior smoke commands |
-| Historical image tag and digest | unresolved | not recorded; current Docker integration is unavailable |
-| Container recipe and recipe digest | unresolved | no authoritative tracked recipe was found |
-| A `docker_hpc-base-stretch.Make.defs.local` example exists | verified | locked GRChombo `InstallNotes` |
-| That Make-def example identifies the historical production image | not established | it names a generic `hpc-base-stretch` base but supplies no recipe or digest |
+| Real target header compile and executable | `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4` | pass |
+| `parstream.H` resolution | real Chombo include | pass |
+| `FArrayBox.H` and Chombo link | real Chombo type/library | pass |
+| GRChombo `Cell.hpp` | real locked GRChombo header | pass |
+| GRChombo dimensions/tensors/CCZ4 geometry | real locked GRChombo headers | pass |
+| Reduced 18-slot Vars storage crossing | project seam plus real Chombo/GRChombo boundary | pass |
+| Stock `VariableStoreTest` | stock DIM=3 test | pass |
+| Stock `CCZ4GeometryUnitTest` | stock DIM=3 test | pass |
 
-The ignored `external/GRChombo` checkout must not be treated as carrying its
-own Chombo dependency. No `external/Chombo` checkout, `CHOMBO_HOME`,
-`PETSC_DIR`, or `PETSC_ARCH` is available in the current shell, and
-`pkg-config` cannot resolve PETSc. The Docker command is present only as an
-unavailable WSL integration shim, so it cannot recover an image ID or digest.
+The stock tests remain DIM=3 because their fixtures construct stock 3D boxes
+and data. They prove real GRChombo/Chombo compile, link, `Cell`/`FArrayBox`,
+tensor, and geometry compatibility. The separate target probe proves the
+black-string `2/4/4` header and storage-boundary configuration. Neither test
+is represented as a full application or evolution run.
 
-## Build contract recovered from the locked source
-
-The locked GNU and Clang workflows run on Ubuntu 22.04, test gridded dimensions
-two and three, and exercise MPI/non-MPI and optimized/debug variants. Their
-compiler matrices are GNU 9--12 and Clang 13--15. The source README describes
-GRChombo as C++14; the black-string reduced seam is tested as C++17, so its
-target Make configuration must explicitly preserve C++17.
-
-The MPI GNU configuration records:
-
-- `PRECISION=DOUBLE`, `USE_64=TRUE`, `NAMESPACE=TRUE`;
-- GNU C++ and Fortran, `mpicxx`, MPI, and OpenMP;
-- serial and MPI HDF5 include/library paths;
-- BLAS and LAPACK;
-- `-DUSE_AHFINDER`, PETSc include flags, and PETSc link flags through
-  `pkg-config petsc`.
-
-The non-MPI GNU configuration omits AHFinder/PETSc and MPI while retaining
-HDF5, BLAS, LAPACK, OpenMP, double precision, 64-bit indices, and the Chombo
-namespace. The exact production choices for MPI, OpenMP, HDF5, compiler
-version, and optimization flags remain decisions to lock after Chombo
-recovery.
-
-The project-local convention is:
+Strict project warnings are enabled. With GNU 15, upstream dependency headers
+need only these warning-to-error exceptions:
 
 ```text
-Chombo checkout: external/Chombo
-CHOMBO_HOME:      external/Chombo/lib
-Make definitions: external/Chombo/lib/mk/Make.defs.local
-GRChombo checkout: external/GRChombo
+-Wno-error=unused-parameter
+-Wno-error=deprecated-copy
 ```
 
-This mirrors the CI relative layout without converting either ignored
-checkout to a submodule.
+The stock DIM=3 tests additionally require
+`-Wno-error=unused-variable` for their own test source. The project probe
+remains `-Werror` for all other diagnostics.
 
-## PETSc and AHFinder boundary
+## Project lock and verifier semantics
 
-PETSc is not required for the next `Cell`/`FArrayBox` GP-initializer wrapper.
-It becomes required when `USE_AHFINDER` is enabled for MOTS/horizon work.
-The CI's `petsc-dev` package and `pkg-config petsc` convention are useful
-build-shape evidence, but not a reproducibility lock. PETSc remote, version,
-configure options, MPI ABI, and artifact digest remain unresolved.
-
-## Verifier and compile probe
-
-The tracked manifest is
+The machine-readable authority is
 `run_manifests/grchombo_dependency_lock.yaml`.
-`scripts/verify_grchombo_dependency.sh` always verifies the locked GRChombo
-origin, commit, detached state, cleanliness, and the `2/4/4` target macro
-contract. If a Chombo path is present it also verifies:
-
-- the CI-authoritative Chombo remote;
-- cleanliness;
-- exact revision when the manifest is pinned, or an explicitly named
-  full-commit candidate during recovery;
-- `${CHOMBO_HOME}/mk/Make.test`;
-- a real `parstream.H`;
-- compiler availability;
-- PETSc through `pkg-config petsc` when requested.
-
-Metadata-only mode reports missing dependencies without claiming a usable
-build. Probe-required mode rejects an unpinned revision unless the caller
-supplies the exact candidate commit. Full-build mode rejects candidate-only
-evidence and all unresolved required provenance.
-
-The test-only probe in
-`code/BlackStringToy/tests/chombo_header_probe/` includes real
-`parstream.H`, `FArrayBox.H`, and GRChombo `Cell.hpp`, and crosses the storage
-boundary with `BlackStringReducedVars`. It compiles with
-`CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`, and C++17 through
-Chombo's `Make.test`, with `-O2 -Wall -Wextra -Wpedantic -Werror`. It does not
-instantiate a `BoxLoop`, initial-data physics, RHS, cleanup, source, grid, or
-evolution path.
-
-Current result:
 
 ```text
-TARGET_HEADER_PROBE=BLOCKED
-Reason: no Chombo checkout is available at external/Chombo, and no
-authoritative Chombo revision is pinned.
+historical_provenance:
+  status: inferred
+
+project_dependency_lock:
+  status: qualified
+  chombo_commit: 8684f2e000106f1abadb72642e1d15351867f98f
 ```
 
-No locally invented Chombo headers or copied stencil/formula substitutes are
-accepted.
+`scripts/verify_grchombo_dependency.sh` is read-only. It rejects:
 
-## Bounded recovery plan
+- a wrong GRChombo or Chombo origin;
+- a wrong commit;
+- an attached dependency branch;
+- a dirty dependency checkout;
+- a dimension-contract mismatch;
+- missing real Chombo headers or Make infrastructure;
+- missing required DIM=2 libraries in `--require-build` mode.
 
-Because the locked GRChombo source does not identify a Chombo revision, no
-clone-and-checkout command can yet honestly name an accepted commit. Recovery
-is bounded to:
+It reports the historical, container, and PETSc/AHFinder statuses separately.
+Unknown former-container provenance no longer masks the qualified core
+dependency; it also is not silently promoted to resolved.
 
-1. Obtain the authoritative Chombo full commit, any patch set, compiler,
-   `Make.defs.local`, PETSc tuple where AHFinder was enabled, container image
-   digest, and recipe digest from the former working environment,
-   collaborators, or GRChombo maintainers.
-2. For each named candidate only, obtain `GRChombo/Chombo` into
-   `external/Chombo`, detach at the supplied full commit, and keep it clean.
+```bash
+scripts/verify_grchombo_dependency.sh --metadata-only
+scripts/verify_grchombo_dependency.sh --require-probe
+scripts/verify_grchombo_dependency.sh --require-build
+scripts/verify_grchombo_dependency.sh --require-probe --with-petsc
+```
 
-   ```bash
-   git clone https://github.com/GRChombo/Chombo.git external/Chombo
-   git -C external/Chombo checkout --detach \
-     <AUTHORITATIVE_FULL_40_HEX_CHOMBO_COMMIT>
-   git -C external/Chombo status --short
-   ```
+The last command remains unavailable until PETSc is separately pinned and
+installed. Candidate mode is retained only for a future recovery audit; it
+cannot override the project lock.
 
-3. Run:
+## New-machine core setup
 
-   ```bash
-   scripts/verify_grchombo_dependency.sh \
-     --metadata-only \
-     --chombo-root external/Chombo
+Obtain the two locked source trees without modifying them:
 
-   scripts/probe_grchombo_target_headers.sh \
-     --chombo-root external/Chombo \
-     --candidate-revision <FULL_40_HEX_CHOMBO_COMMIT>
-   ```
+```bash
+git clone https://github.com/GRTLCollaboration/GRChombo.git external/GRChombo
+git -C external/GRChombo checkout --detach \
+  37e659523830418b210acea1661dac0e00bb1b75
 
-4. For the initializer-only non-MPI candidate, begin with the locked
-   GRChombo serial template and the two probe libraries:
+git clone https://github.com/GRChombo/Chombo.git external/Chombo
+git -C external/Chombo checkout --detach \
+  8684f2e000106f1abadb72642e1d15351867f98f
+```
 
-   ```bash
-   cp \
-     external/GRChombo/InstallNotes/MakeDefsLocalExamples/ubuntu-gcc-nompi.Make.defs.local \
-     external/Chombo/lib/mk/Make.defs.local
-   make -C external/Chombo/lib -j4 BaseTools BoxTools \
-     DIM=2 MPI=FALSE OPT=TRUE DEBUG=FALSE
-   ```
+Install a C++/Fortran toolchain, `csh`, HDF5 development files, BLAS, LAPACK,
+and the Perl getopt helper. Copy the locked serial pattern:
 
-   A production candidate additionally builds the CI-established
-   `AMRTools` and `AMRTimeDependent` targets with the reviewed
-   MPI/OpenMP/HDF5 settings. Run the target header probe, a strict GRChombo
-   compile, and the existing cheap smoke test in the recovered environment.
-5. Pin the Chombo revision, patch set, compiler/configuration, and artifacts
-   in the manifest only after the target header probe, strict compile, and
-   smoke test pass. Then run `--require-probe`.
-6. Recover and pin the container recipe/image digest independently. Only
-   after all required fields are resolved may `--require-build` report a
-   reproducible build.
+```bash
+cp \
+  external/GRChombo/InstallNotes/MakeDefsLocalExamples/ubuntu-gcc-nompi.Make.defs.local \
+  external/Chombo/lib/mk/Make.defs.local
+```
 
-Do not choose the current default branch, newest tag, or latest container as a
-substitute for the missing authoritative tuple.
+Review only machine-specific compiler and HDF5 paths, then build:
 
-## Next production action
+```bash
+make -C external/Chombo/lib -j4 \
+  BaseTools BoxTools AMRTools AMRTimeDependent \
+  DIM=2 MPI=FALSE OPT=TRUE DEBUG=FALSE
 
-The exact blocker before the `Cell`/`FArrayBox` GP wrapper is an authoritative
-full Chombo commit (plus any patch set) and a real checkout that passes the
-target header probe. PETSc may remain deferred for this initializer-only
-substage. After the probe passes, the next implementation is limited to a
-thin `Cell` load/store wrapper and pointwise GP compute class around the
-already validated reduced Vars/initializer; `BoxLoop` execution, RHS,
-hidden/cartoon geometry, cleanup, lapse source, periodic ownership, and
-evolution remain later gates.
+scripts/verify_grchombo_dependency.sh --require-build
+scripts/probe_grchombo_target_headers.sh
+```
+
+The verifier must fail if either checkout is dirty or at a different SHA.
+The target probe must compile and execute; a Make usage banner is not a pass.
+
+## Remaining provenance boundaries
+
+The core source/build dependency is project-qualified. These remain separate:
+
+- the exact Chombo SHA used by the former successful CI run;
+- the historical `grchombo/grchombo` image tag and digest;
+- the container recipe and recipe digest;
+- PETSc source/version/options/artifact provenance;
+- AHFinder/PETSc compile and smoke qualification;
+- MPI production configuration and a full black-string evolution build.
+
+Consequently, the project may begin the thin `Cell`/`FArrayBox` GP initializer
+wrapper. This does not authorize `BoxLoop` execution, RHS/cartoon physics,
+cleanup, lapse source, periodic ownership, evolution, or AHFinder work.

@@ -300,12 +300,12 @@ digests remain unresolved.
 - [x] Stage 4C: full scratch Docker/GRChombo `BlackStringToy` scaffold compile succeeds with the 27-variable layout.
 - [x] Custom-solver/GRChombo overlap-and-gap inventory: classify variables/conventions, all thirteen frozen interior rows, gauge/background, numerical infrastructure, diagnostics, direct-comparison opportunities, production ownership, and custom-code disposition. GRChombo is the production authority; the custom interior/JVP/hidden helpers remain independent oracles; the outer boundary remains deferred. Evidence: `docs/grchombo/custom_solver_grchombo_overlap_gap_checklist.md`.
 - [x] Comparison/adaptation planning: define Level 1 formula/convention, Level 2 analytic-jet RHS, Level 3 manufactured-profile, and Level 4 physical-run tests with pre-run tolerances; prioritize source locking, GP initial data/source, hidden production terms, periodic z, background evolution, perturbations, growth, horizon observables, and nonlinear workflow; define the agent scorecard without an overall score. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_test_plan.md`, `docs/grchombo/grchombo_adaptation_backlog.md`, `docs/grchombo/agent_capability_scorecard.md`.
-- [ ] GRChombo production-adaptation P0: pin the exact GRChombo, Chombo,
-  container, compiler, dimension, and formulation manifest. GRChombo
-  `37e6595` is locked. Its CI verifies the `GRChombo/Chombo` fork,
-  `CHOMBO_HOME=<checkout>/lib`, Make-def location, and build targets, but
-  omits `ref`; the Chombo revision/patch set and container tuple remain
-  unresolved. The real target header probe is tracked and dependency-blocked.
+- [x] GRChombo production-adaptation P0 core dependency: lock GRChombo
+  `37e6595`; qualify official Chombo
+  `8684f2e000106f1abadb72642e1d15351867f98f`; build the four serial DIM2
+  libraries; and pass the real `2/4/4` header plus stock compile/smoke gates.
+  Historical Chombo provenance remains inferred because CI omitted `ref`.
+  Container and PETSc/AHFinder provenance remain separate open items.
 - [x] First executable comparison tranche: exact dependency/source fields available in the shell, slot/dimension map, conformal algebra, contracted-connection/Z, and visible-Ricci analytic jets. The focused bridge calls GRChombo `TensorAlgebra` and `CCZ4Geometry` directly at stock `d=3`; all three numerical families pass the predeclared Level-2 tolerance and all dimension/sign mutations fail. Chombo/container digests remain a P0 gap, hidden terms remain custom-only, and no production evolution or physical diagnostic was started. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch1_results.md`.
 - [x] Comparison batch 2: directly invoke the inspected GRChombo `CCZ4RHS::rhs_equation`, raw Ricci, and Ricci-Z paths at stock `d=3`; independently assemble raw/encoded/combined geometry and every visible `chi,h,K,Theta,A` term family at the same dimension. All families and combined rows pass the unchanged Level-2 tolerance; omission, duplication, index/conformal-factor, trace-dimension, sign, RHS-dimension, and BSSN mutations fail. The production custom `d=4/2` operator is unchanged; hidden `ww` terms remain an adaptation gap. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch2_results.md`.
 - [x] Comparison batch 3: real custom and GRChombo derivative paths converge at their documented orders; all 15 visible advection rows and the complete `chi`, metric, and `A` shift RHS families have independent component/location-aware monitors; visible cleanup passes. Production Chombo periodic ownership/ghost exchange remains blocked, hidden-weighted cleanup remains pending, and batch 4 is next. Do not begin target-`d=4` or modified-cartoon production comparison before the reviewed adapter exists.
@@ -715,7 +715,7 @@ simulation and radiation diagnostics exist.
   `gamma_theta_theta=x^2` from stored `hww=1`; verify raw `-3 lambda`, a real
   lapse-only test adapter with zero 20-field Jacobian, setup convergence,
   mutation sensitivity, and the frozen-gauge Fourier/parity convention.
-- [ ] Resolve the Chombo/container digest and execute the actual Chombo
+- [ ] Resolve the container digest and execute the actual Chombo
   periodic-domain/ghost-fill path. The batch-3 local analytic ghost patch is
   direct kernel evidence only.
 - [ ] Adapt and compare hidden-aware `d=4` determinant/A-trace cleanup; stock
@@ -740,15 +740,18 @@ simulation and radiation diagnostics exist.
   exact GP values, and analytic `beta^x/lambda/K/A_IJ` radial jets. Focused
   round-trip, ownership, determinant, trace, reconstruction, derivative, and
   mutation checks pass. No Chombo or live application path is wired.
-- [ ] Chombo GP integration substage: after locking an available Chombo build,
+- [ ] Chombo GP integration substage: using the project-qualified Chombo build,
   add only the thin `Cell`/`FArrayBox` storage wrapper and GP initial-data
   compute class around the reduced seam. Do not start CCZ4 RHS, hidden
   geometry, cleanup/constraints, lapse source, periodic ownership, evolution,
   or diagnostics.
-- [ ] Recover and pin the authoritative `GRChombo/Chombo` full commit and any
-  patch set; then pass the real `CH_SPACEDIM=2`, `GR_SPACEDIM=4`,
-  `DEFAULT_TENSOR_DIM=4` `parstream.H`/`FArrayBox.H`/`Cell.hpp` probe. CI
-  verifies the fork/layout but not a revision.
+- [x] Qualify and pin official `GRChombo/Chombo`
+  `8684f2e000106f1abadb72642e1d15351867f98f` as the project dependency;
+  build four required serial DIM2 libraries; pass the real
+  `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`
+  `parstream.H`/`FArrayBox.H`/`Cell.hpp` probe and stock compile/smoke checks.
+  This is `PROJECT_QUALIFIED`; historical exact provenance remains inferred.
 - [ ] Resolve and execute the complete compiler/Chombo/container build tuple.
-  Resolve PETSc separately before enabling `USE_AHFINDER`. Full build
-  reproducibility remains false.
+  Resolve PETSc separately before enabling `USE_AHFINDER`. Full evolution and
+  historical-container reproducibility remain separate from the qualified
+  core dependency.

@@ -18,7 +18,7 @@ acceptance. The frozen custom outer-boundary research is excluded.
 
 | Priority / order | Adaptation item | GRChombo source to reuse | Project-specific work | Dependency | Acceptance / exit criterion |
 |---|---|---|---|---|---|
-| P0-1 | Reproducible GRChombo/Chombo build lock | Current origin, locked CI, Chombo Make infrastructure, and container tooling | Keep the tracked GRChombo commit; recover the authoritative `GRChombo/Chombo` revision/patch set and compiler/container tuple; keep PETSc separate until AHFinder | None | Metadata verifier is honest; target probe uses real Chombo headers; strict build/smoke pass; full verifier rejects every unresolved required field |
+| P0-1 | Reproducible GRChombo/Chombo core lock | Current origin, locked CI, Chombo Make infrastructure | Keep the tracked GRChombo commit and qualified official Chombo commit; disclose that historical SHA/container provenance is unresolved; keep PETSc separate until AHFinder | None | Project lock is detached/clean; four serial DIM2 libraries, real `2/4/4` target probe, and stock compile/smoke checks pass |
 | P0-2 | Convention and slot adapter | `CCZ4Vars.hpp`, `ADMConformalVars.hpp`, `UserVariables.inc.hpp`, Tensor/VarsTools | Explicit `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`; reviewed 18-slot black-string map with no visible-`y` slots and one multiplicity-two hidden representative | P0-1 source verification | Level 1 macro/slot/name/parity/permutation tests pass exactly |
 | P0-3 | Formula comparison harness | `CCZ4RHS::rhs_equation`, `CCZ4Geometry`, gauge classes | Test-only adapter accepting supplied analytic jets and emitting per-family rows | P0-1, P0-2 | First five comparison tests execute without production evolution |
 | P1-4 | Exact black-string GP initial data | GRChombo initial-data `BoxLoops` pattern and project parameter parser | Implement `alpha=1`, `beta^x=sqrt(r0/x)`, flat GP spatial metric, target K/A/Gamma/Theta, hidden slots | P0-2 | Cellwise analytic comparison, determinant/trace, and constraints pass |
@@ -183,17 +183,17 @@ reduce the requirement to resolve those digests before production adaptation.
   locked checkout action omits `ref`.
 - The manifest separates GRChombo, Chombo, PETSc, and container records.
   Metadata-only verification passes the locked source and reports gaps;
-  target-probe mode requires a real pinned Chombo checkout; full-build mode
-  cannot accept unresolved provenance.
-- The minimal `2/4/4` `parstream.H`/`FArrayBox.H`/`Cell.hpp` probe is tracked
-  but blocked because `external/Chombo` is absent and the authoritative
-  Chombo commit is unknown. It uses no stubs.
+  target-probe mode requires a real pinned Chombo checkout. The later
+  project-qualification update below supersedes this audit's initial blocked
+  result.
+- The minimal `2/4/4` `parstream.H`/`FArrayBox.H`/`Cell.hpp` probe was
+  initially tracked as blocked. It now passes against the qualified commit
+  without stubs.
 - PETSc is not a dependency of the next pointwise GP storage wrapper. It is a
   separate later lock for `USE_AHFINDER`/P3-14.
-- P0-1 remains open. Its next input is the authoritative full Chombo commit
-  and patch set from the former environment, collaborators, or maintainers.
-  Candidate commits may be compile-tested explicitly but are pinned only
-  after the strict target probe and smoke build succeed.
+- Exact historical provenance remains open, but the core project lock is
+  closed by the later strict qualification. Container and PETSc/AHFinder
+  provenance remain separate.
 
 ## First production-contract substage update
 
@@ -234,6 +234,28 @@ reduce the requirement to resolve those digests before production adaptation.
 - Hidden/cartoon RHS, cleanup, constraints, fixed lapse source, periodic
   ownership, evolution, and diagnostics remain later backlog items.
 
+## Chombo project-qualification update
+
+- P0-1 core dependency qualification is complete as
+  `PROJECT_QUALIFIED`. Official Chombo commit
+  `8684f2e000106f1abadb72642e1d15351867f98f` was the default-branch head at
+  the successful locked-GRChombo CI timestamp. Public workflow logs,
+  artifacts, caches, and PR-head runs exposed no exact historical SHA, so
+  historical provenance remains `inferred`.
+- The candidate builds BaseTools, BoxTools, AMRTools, and AMRTimeDependent in
+  serial DIM2 mode. The real `CH_SPACEDIM=2`, `GR_SPACEDIM=4`,
+  `DEFAULT_TENSOR_DIM=4` probe compiles, links, and runs with Chombo
+  `parstream.H`/`FArrayBox.H`, GRChombo `Cell.hpp`, and the reduced Vars seam.
+  Stock DIM3 VariableStore and CCZ4Geometry tests also pass.
+- The core verifier enforces both dependency SHAs, detached-clean state,
+  headers, and required libraries. Former Docker image/recipe provenance and
+  PETSc/AHFinder remain explicit separate gaps; neither blocks the
+  initializer storage wrapper.
+- The next authorized substage is only the thin black-string
+  `Cell`/`FArrayBox` adapter and GP initial-data compute class. `BoxLoop`
+  execution, hidden RHS, cleanup/constraints, source, periodic ownership,
+  evolution, and diagnostics remain open.
+
 ## Explicit non-goals
 
 Do not add backlog items to recreate:
@@ -254,8 +276,9 @@ and observables.
 
 Before P1-6 or P3-14 can be planned precisely, resolve:
 
-1. the authoritative GRChombo/Chombo/container version tuple; the current
-   nested checkout is ignored and the Docker digest is unavailable here;
+1. the historical Chombo SHA and former container tuple remain unavailable;
+   the core project source lock is qualified, while the Docker digest remains
+   a separate production-runtime provenance gap;
 2. whether the collaboration has a maintained higher-dimensional
    modified-cartoon or black-string branch not present in commit `37e6595`;
 3. the authoritative production formula/source for hidden-sphere CCZ4 terms,

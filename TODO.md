@@ -14,15 +14,17 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [ ] Ensure future physics-stage PDF notes accompany each physics/design stage.
 - [ ] Stage 4AO-C/4AO-D: frozen pending future research. All 13 frozen-gauge interior rows and the inner no-data pure-outflow endpoint pass. The documented sparse stationary matrices match the source operator, but the former fourfold light determinant factor is false and the nullity-three leading kernel does not classify the asymptotic branches. No rank-four decaying basis, nine-row physical annihilator, or accepted outer condition exists. Outer implementation/validation, aggregate radial validation, boundary-bearing completion, pencil representation, eigensolver/shift-invert, `k=0`, nonzero-growth asymptotics, MOTS, threshold results, production wiring, 4AO-D, and Checkpoint G remain blocked.
 - [x] Inventory custom-solver/GRChombo overlap and gaps; define production ownership, the four-level comparison hierarchy, prioritized adaptation backlog, and agent-capability evidence template. No overall agent score is assigned yet.
-- [ ] Complete the reproducible GRChombo/Chombo/container/compiler tuple.
-  GRChombo is pinned; locked CI verifies the `GRChombo/Chombo` fork and
-  `<checkout>/lib` layout but omits `ref`, so the authoritative Chombo
-  revision/patch set is still required. The real target header probe is
-  tracked and blocked. PETSc is a separate later requirement for
-  `USE_AHFINDER`; no full-build reproducibility claim is allowed.
+- [x] Qualify the core GRChombo/Chombo/compiler tuple. GRChombo is pinned;
+  official Chombo `8684f2e000106f1abadb72642e1d15351867f98f` builds the
+  four serial DIM2 libraries and passes the real `2/4/4` target plus stock
+  compile/smoke gates. This is a project-qualified lock; the exact historical
+  Chombo SHA remains inferred.
+- [ ] Recover the former container recipe/image digests. Pin PETSc separately
+  before `USE_AHFINDER`; neither is part of the qualified core initializer
+  dependency.
 - [x] Execute comparison batch 1: record available dependency manifest fields, prove the shared thirteen-slot/dimension map, and directly compile GRChombo conformal algebra, contracted-connection/Z, and visible physical-Ricci comparisons. All numerical families pass the fixed tolerance and dimension/sign mutations fail. Chombo/container digests remain unresolved; hidden/cartoon terms remain custom-only. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch1_results.md`.
 - [x] Execute comparison batch 2: separate raw and encoded-Z Ricci, then directly compare visible chi/metric/K/Theta/A RHS families at identical analytic jets in stock `d=3`. All families and combined rows pass the unchanged tolerance; ten active mutations fail. This is not target-`d=4` evidence. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch2_results.md`.
-- [x] Execute comparison batch 3: actual custom order-two and GRChombo order-four derivative kernels converge on periodic manufactured profiles; all 15 visible advection rows and the complete `chi`, `h_ij`, and `A_ij` shift RHS families now have independent finite-grid monitors; visible algebraic cleanup passes. Production Chombo periodic ownership/ghost exchange remains dependency-blocked, hidden-`ww` adaptation remains pending, and batch 4 is next.
+- [x] Execute comparison batch 3: actual custom order-two and GRChombo order-four derivative kernels converge on periodic manufactured profiles; all 15 visible advection rows and the complete `chi`, `h_ij`, and `A_ij` shift RHS families now have independent finite-grid monitors; visible algebraic cleanup passes. Production Chombo periodic ownership/ghost exchange remains unimplemented and untested, hidden-`ww` adaptation remains pending, and batch 4 is complete.
 - [ ] Adapt production functionality in backlog order: exact GP initial data, fixed GP-holding lapse source, hidden-sphere CCZ4 path and cleanup, compact periodic z, background evolution, Fourier perturbations/growth diagnostics, then string MOTS and `R_H` observables.
 - [ ] Stage 4AP/4AQ: align actual grid/ghost parity and finite-axis handling with GRChombo-facing conventions for `h_xz`, `h_xx-h_ww`, `W_x`, and `chi_x`.
 - [ ] Stage 4AT: remove or replace the Stage 4D smoke-only `hww/Aww` freeze in the physics path and add a loud guard against using both paths together.
@@ -163,11 +165,13 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [x] Batch 3: direct stock visible `TraceARemoval` and
   `PositiveChiAndAlpha` pass independent component, residual, idempotence, and
   ordering checks.
-- [ ] Obtain the authoritative full Chombo commit and any patch set from the
-  former environment, collaborators, or maintainers; validate that exact
-  candidate with the tracked `2/4/4` header probe; pin only after strict
-  compile/smoke success. Record the compiler and container recipe/image
-  digests before claiming production periodic ghost ownership.
+- [x] Qualify official Chombo
+  `8684f2e000106f1abadb72642e1d15351867f98f` as the project dependency:
+  required serial DIM2 libraries, the real target `2/4/4` header probe, and
+  stock GRChombo compile/smoke checks pass. Historical exact provenance was
+  not recovered and remains explicitly inferred.
+- [ ] Recover the former container recipe/image digests and separately pin
+  PETSc/AHFinder before claiming those runtime paths reproducible.
 - [ ] Adapt hidden-aware determinant and A-trace cleanup. No callable stock
   determinant-normalization compute class or hidden `ww` cleanup owner was
   found.
@@ -190,9 +194,8 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [x] Implement the storage-agnostic reduced Vars seam, exact 18-slot GP
   pointwise initializer, and analytic `beta^x/lambda/K/A_IJ` radial metadata.
   Exact mapping, reconstruction, convergence, and mutation fixtures pass.
-- [ ] After the Chombo revision is authoritative and the real header probe
-  passes, wrap the reduced seam in a black-string `Cell`/`FArrayBox` adapter
-  and GP initial-data compute class.
+- [ ] Using the project-qualified Chombo lock, wrap the reduced seam in a
+  black-string `Cell`/`FArrayBox` adapter and GP initial-data compute class.
   Keep RHS, hidden geometry, cleanup, sources, periodic ownership, evolution,
   and diagnostics out of that integration substage.
 

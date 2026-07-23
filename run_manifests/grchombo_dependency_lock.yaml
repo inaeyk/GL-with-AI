@@ -1,5 +1,19 @@
-schema_version: 2
-reproducibility_status: source_locked_required_build_dependencies_unresolved
+schema_version: 3
+reproducibility_status: project_qualified_core_dependency
+
+historical_provenance:
+  status: inferred
+  evidence: locked_GRChombo_CI_checked_out_default_Chombo_branch_without_ref_and_public_logs_artifacts_caches_exposed_no_SHA
+  successful_workflow_timestamp: 2026-04-16T13:01:59Z
+  exact_log_recorded_chombo_sha: unavailable
+
+project_dependency_lock:
+  status: qualified
+  outcome: PROJECT_QUALIFIED
+  chombo_commit: 8684f2e000106f1abadb72642e1d15351867f98f
+  qualification_evidence: docs/grchombo/chombo_dependency_contract.md
+  qualified_on: 2026-07-23
+  patch_set: none
 
 grchombo:
   remote_url: https://github.com/GRTLCollaboration/GRChombo.git
@@ -17,37 +31,51 @@ grchombo:
   ci_gnu_versions: 9,10,11,12
   ci_clang_versions: 13,14,15
   source_language_claim: cxx14
-  exact_production_compiler: unresolved
+  qualification_compiler: GNU_g++_and_gfortran_15.2.0
 
 chombo:
   remote_url: https://github.com/GRChombo/Chombo.git
-  remote_evidence: locked_GRChombo_CI_checkout
-  revision: unresolved
-  default_branch_at_locked_GRChombo_commit: unresolved
-  patch_set: unresolved
+  canonical_repository: GRTLCollaboration/Chombo
+  revision: 8684f2e000106f1abadb72642e1d15351867f98f
+  revision_date: 2023-01-17T16:46:53Z
+  selection_basis: default_branch_head_at_locked_GRChombo_successful_CI_timestamp
+  historical_classification: timestamp_inferred_candidate
+  patch_set: none
   checkout_path: external/Chombo
+  expected_checkout_state: detached_clean
   CHOMBO_HOME: external/Chombo/lib
   make_defs_template_mpi: external/GRChombo/InstallNotes/MakeDefsLocalExamples/ubuntu-gcc.Make.defs.local
   make_defs_template_serial: external/GRChombo/InstallNotes/MakeDefsLocalExamples/ubuntu-gcc-nompi.Make.defs.local
   make_defs_destination: external/Chombo/lib/mk/Make.defs.local
   required_make_include: external/Chombo/lib/mk/Make.test
   required_header: parstream.H
-  minimal_probe_libraries: BaseTools,BoxTools
-  production_ci_libraries: AMRTimeDependent,AMRTools,BaseTools,BoxTools
+  required_libraries: BaseTools,BoxTools,AMRTools,AMRTimeDependent
   namespace_mode: true
   precision: DOUBLE
   use_64_bit_indices: true
-  mpi_mode: unresolved
-  openmp_mode: unresolved
-  hdf5_configuration: unresolved
-  build_artifact_digest: unresolved
+  qualification_mpi_mode: false
+  qualification_openmp_mode: true
+  qualification_hdf5_mode: true
+  qualification_debug_mode: false
+  qualification_optimized_mode: true
+  qualification_platform: Ubuntu_26.04_x86_64
+  qualification_make: GNU_Make_4.4.1
+  qualification_compiler: GNU_g++_and_gfortran_15.2.0
+  qualification_compiler_version: 15.2.0
+  qualification_hdf5: Ubuntu_libhdf5-dev_1.14.6+repack-2
+  qualification_blas_lapack: Ubuntu_3.12.1-7ubuntu1
+  target_header_probe: pass
+  target_header_probe_macros: CH_SPACEDIM=2_GR_SPACEDIM=4_DEFAULT_TENSOR_DIM=4
+  stock_variable_store_test: pass_at_DIM3
+  stock_ccz4_geometry_test: pass_at_DIM3
+  build_artifact_digest: not_portable_not_used_as_source_lock
 
 petsc:
   core_and_pointwise_initializer_required: false
   ahfinder_required: true
   enabling_macro: USE_AHFINDER
   discovery: pkg-config petsc
-  ci_distribution: ubuntu-22.04 petsc-dev
+  ci_distribution: ubuntu-22.04_petsc-dev
   remote_url: unresolved
   revision_or_version: unresolved
   build_options: unresolved
@@ -59,22 +87,16 @@ container:
   image_digest: unresolved
   recipe_path: unresolved
   recipe_digest: unresolved
-  former_verified_platform: Windows WSL2 Docker
+  former_verified_platform: Windows_WSL2_Docker
   current_shell_access: unavailable
 
-local_observation_2026_07_23:
-  chombo_checkout: absent
-  CHOMBO_HOME: unset
-  petsc_pkg_config: unavailable
-  PETSC_DIR: unset
-  PETSC_ARCH: unset
-  docker_cli_integration: unavailable
+core_dependency_reproducibility:
+  status: qualified
+  includes: locked_GRChombo_and_Chombo_sources_serial_DIM2_libraries_target_2_4_4_header_probe
+  excludes: container_PETSc_AHFinder_MPI_production_evolution
 
-unresolved_required_for_full_build_reproducibility:
-  - chombo.revision
-  - chombo.patch_set
-  - chombo.build_artifact_digest
-  - grchombo.exact_production_compiler
+unresolved_historical_provenance:
+  - historical_provenance.exact_log_recorded_chombo_sha
   - container.historical_tag
   - container.image_digest
   - container.recipe_path

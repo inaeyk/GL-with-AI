@@ -2052,3 +2052,31 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   returns its documented blocked status 2 because `external/Chombo` and an
   authoritative Chombo revision are absent. No stubs, downloads, dependency
   edits, production physics, staging, or commit were introduced.
+
+- Date: 2026-07-23
+- Goal: Recover or qualify and pin the Chombo revision for the locked
+  GRChombo adaptation.
+- Historical recovery: Used CodeGraph/MCP first, then exhausted official
+  workflow-run, PR, job-log, artifact, and cache metadata for locked
+  GRChombo commit `37e659523830418b210acea1661dac0e00bb1b75`. Public log
+  archives require repository administration; no artifact, cache, PR-head
+  run, or authenticated `gh` path exposed the Chombo SHA. Historical
+  provenance is therefore `inferred`, not exact.
+- Candidate: Selected only official Chombo
+  `8684f2e000106f1abadb72642e1d15351867f98f`, the default-branch head at the
+  successful 2026-04-16 GRChombo CI timestamp. The ignored checkout remained
+  detached and clean; no dependency source was patched.
+- Qualification: Built serial DIM2 BaseTools, BoxTools, AMRTools, and
+  AMRTimeDependent with GNU C++/Fortran 15.2.0. Corrected the target probe so
+  it compiles `all` and executes `run-only`; real Chombo
+  `parstream.H`/`FArrayBox.H`, GRChombo `Cell.hpp`, tensors/geometry, and the
+  reduced Vars seam pass at `CH_SPACEDIM=2`, `GR_SPACEDIM=4`,
+  `DEFAULT_TENSOR_DIM=4`. Stock DIM3 VariableStore and CCZ4Geometry tests
+  also compile and pass.
+- Result: Pinned the candidate as `PROJECT_QUALIFIED`, distinct from
+  historical provenance. The verifier enforces both clean detached source
+  locks and the four DIM2 libraries while continuing to report the former
+  container and PETSc/AHFinder tuples unresolved. The thin
+  `Cell`/`FArrayBox` GP storage wrapper is now authorized; no production
+  physics, `BoxLoop`, evolution, dependency source, smoke parameter, staging,
+  or commit changed.

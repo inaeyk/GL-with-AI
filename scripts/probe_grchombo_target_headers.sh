@@ -6,6 +6,26 @@ probe_script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 probe_repo_root="$(cd "${probe_script_dir}/.." && pwd)"
 probe_chombo_root="${probe_repo_root}/external/Chombo"
 probe_candidate_revision=""
+probe_make_overrides=()
+
+if [[ -n "${CHOMBO_CSHELL:-}" ]]; then
+    [[ -x "${CHOMBO_CSHELL}" ]] || {
+        echo "CHOMBO_CSHELL is not executable: ${CHOMBO_CSHELL}" >&2
+        exit 64
+    }
+    probe_make_overrides+=(
+        "CSHELLCMD=${CHOMBO_CSHELL} -f -c"
+    )
+fi
+if [[ -n "${CHOMBO_FC:-}" ]]; then
+    [[ -x "${CHOMBO_FC}" ]] || {
+        echo "CHOMBO_FC is not executable: ${CHOMBO_FC}" >&2
+        exit 64
+    }
+    probe_make_overrides+=(
+        "FC=${CHOMBO_FC}"
+    )
+fi
 
 while (($# > 0)); do
     case "$1" in
@@ -54,13 +74,22 @@ fi
 
 probe_directory="${probe_repo_root}/code/BlackStringToy/tests/chombo_header_probe"
 probe_chombo_home="${probe_chombo_root}/lib"
+probe_warning_flags="-Wall -Wextra -Wpedantic -Werror -Wno-error=unused-parameter -Wno-error=deprecated-copy"
+probe_include_flags="-I${probe_repo_root}/code/BlackStringToy -I${probe_repo_root}/external/GRChombo/Source/utils -I${probe_repo_root}/external/GRChombo/Source/simd -I${probe_repo_root}/external/GRChombo/Source/BoxUtils -I${probe_repo_root}/external/GRChombo/Source/CCZ4"
 
 make -C "${probe_directory}" clean \
-    CHOMBO_HOME="${probe_chombo_home}" DIM=2 >/dev/null
-make -C "${probe_directory}" -j1 \
+    CHOMBO_HOME="${probe_chombo_home}" DIM=2 USE_HDF=FALSE \
+    "${probe_make_overrides[@]}" >/dev/null
+make -C "${probe_directory}" -j1 all \
     CHOMBO_HOME="${probe_chombo_home}" \
-    DIM=2 DEBUG=FALSE OPT=TRUE MPI=FALSE \
-    XTRACPPFLAGS="-std=c++17 -O2 -Wall -Wextra -Wpedantic -Werror -DGR_SPACEDIM=4 -DDEFAULT_TENSOR_DIM=4"
+    DIM=2 DEBUG=FALSE OPT=TRUE MPI=FALSE USE_HDF=FALSE \
+    "${probe_make_overrides[@]}" \
+    XTRACPPFLAGS="-std=c++17 -O2 ${probe_warning_flags} ${probe_include_flags} -DGR_SPACEDIM=4 -DDEFAULT_TENSOR_DIM=4"
+make -C "${probe_directory}" -j1 run-only \
+    CHOMBO_HOME="${probe_chombo_home}" \
+    DIM=2 DEBUG=FALSE OPT=TRUE MPI=FALSE USE_HDF=FALSE \
+    "${probe_make_overrides[@]}" \
+    XTRACPPFLAGS="-std=c++17 -O2 ${probe_warning_flags} ${probe_include_flags} -DGR_SPACEDIM=4 -DDEFAULT_TENSOR_DIM=4"
 
 echo "TARGET_HEADER_PROBE=PASS"
 echo "Macros: CH_SPACEDIM=2 GR_SPACEDIM=4 DEFAULT_TENSOR_DIM=4"

@@ -1,46 +1,39 @@
 # Run Manifests
 
-Structured records for smoke tests, validation runs, and production runs.
+Structured records for validation and production runs live here. Do not
+commit raw run output.
 
-Do not commit raw run outputs here.
+`grchombo_dependency_lock.yaml` separates two facts:
 
-`grchombo_dependency_lock.yaml` is the dependency contract for the
-production-adaptation preflight. Its GRChombo record is fully pinned. The
-locked source verifies that GRChombo CI uses the `GRChombo/Chombo` fork with
-`CHOMBO_HOME=<checkout>/lib`, but the CI checkout has no `ref`, so the Chombo
-revision is deliberately `unresolved`. PETSc and container provenance are
-recorded separately.
+- the former CI checkout has only inferred Chombo provenance because its
+  exact SHA was not exposed by official public logs or artifacts;
+- official Chombo commit
+  `8684f2e000106f1abadb72642e1d15351867f98f` is this project's qualified
+  core dependency for locked GRChombo
+  `37e659523830418b210acea1661dac0e00bb1b75`.
 
-Verification levels are:
+Verification levels:
 
 ```bash
-# Strict GRChombo source check; reports absent/unresolved build dependencies.
+# Check both source locks when present and disclose unresolved optional fields.
 scripts/verify_grchombo_dependency.sh --metadata-only
 
-# Available only after Chombo is pinned and present.
+# Require the pinned clean Chombo checkout and real header infrastructure.
 scripts/verify_grchombo_dependency.sh --require-probe
 
-# Also require PETSc for an AHFinder candidate.
-scripts/verify_grchombo_dependency.sh --require-probe --with-petsc
-
-# Must not pass while any required build provenance remains unresolved.
+# Additionally require the four qualified serial DIM=2 Chombo libraries.
 scripts/verify_grchombo_dependency.sh --require-build
+
+# Separate later AHFinder/PETSc discovery gate.
+scripts/verify_grchombo_dependency.sh --require-probe --with-petsc
 ```
 
-For recovery testing before a Chombo candidate is accepted into the manifest,
-use its full commit explicitly:
+The real target executable probe is:
 
 ```bash
-scripts/probe_grchombo_target_headers.sh \
-  --chombo-root external/Chombo \
-  --candidate-revision <FULL_40_HEX_CHOMBO_COMMIT>
+scripts/probe_grchombo_target_headers.sh
 ```
 
-Candidate mode proves only that the exact requested checkout passes the
-minimal target-header probe. It never satisfies full-build verification and
-does not silently pin the candidate.
-
-The verifier and probe are read-only with respect to dependency checkouts.
-They never download, install, check out, or patch dependencies. A missing
-Chombo checkout makes the probe print `TARGET_HEADER_PROBE=BLOCKED` and exit
-with status 2; no header stubs are permitted.
+The verifier and probe never download, install, check out, or patch a
+dependency. Container and PETSc/AHFinder provenance remain unresolved and are
+reported separately from the qualified core source/build dependency.
