@@ -176,10 +176,14 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   hidden multiplicity two and no visible-`y`; define thin GRChombo adaptation
   points, the 13-row oracle seam, and audit checkpoints. No production path
   was implemented.
-- [ ] First adaptation implementation: verify the dependency checkout, then
-  implement only the target 18-slot enum/name registration and exact
-  macro/slot/parity/permutation fixture. GP `BoxLoop`, hidden RHS, cleanup,
-  source, periodic ownership, and evolution remain later substages.
+- [x] First adaptation contract: verify the dependency checkout, implement the
+  isolated target 18-slot enum/name/metadata registration, and pass exact
+  macro/slot/parity/permutation/multiplicity plus mutation checks. The live
+  27-slot smoke scaffold is unchanged.
+- [ ] Next adaptation substage: implement exact GP initial-data values against
+  the 18-slot contract and dedicated black-string Vars mapping seam. Actual
+  Chombo `BoxLoop` execution remains blocked by the missing Chombo build tuple;
+  do not begin RHS, cleanup, source, periodic, evolution, or diagnostics.
 
 ## Later
 

@@ -724,10 +724,16 @@ simulation and radiation diagnostics exist.
   verifier; lock the target 18-slot `d=4/2` state with no visible-`y` slots;
   define thin GRChombo adaptation points, the 13-row oracle seam, and staged
   audit checkpoints. This is design/dependency-source work only.
-- [ ] First production implementation substage: after dependency verification,
-  replace only the black-string enum and names with the reviewed 18-slot
-  layout, assert `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, and
-  `DEFAULT_TENSOR_DIM=4`, and add exact slot/name/parity/permutation tests. Do
-  not add GP initial data or RHS physics in this substage.
+- [x] First production-contract substage: after dependency verification, add
+  an isolated black-string 18-slot enum/name/metadata contract, assert
+  `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, and `DEFAULT_TENSOR_DIM=4`, and pass exact
+  slot/name/parity/permutation/multiplicity and mutation tests. The old
+  27-slot smoke scaffold remains live and unchanged; no GP or RHS path was
+  added.
+- [ ] Next production substage: implement GP initial-data values against the
+  reviewed 18-slot contract and a dedicated black-string Vars mapping seam.
+  Do not begin hidden RHS, cleanup/constraints, lapse source, periodic
+  ownership, evolution, or diagnostics. The missing Chombo source/build tuple
+  remains an execution blocker for an actual `BoxLoop`.
 - [ ] Resolve and execute the complete Chombo/PETSc/container build tuple.
   The GRChombo source is locked, but full build reproducibility is not.

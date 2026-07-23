@@ -2242,3 +2242,29 @@ Category: Dependency Source Lock + Target Ownership Design
 - The first implementation substage is dependency verification followed by
   isolated target enum/name registration and exact macro/slot/parity tests.
   The frozen custom outer boundary remains deferred research.
+
+## 2026-07-23 - First GRChombo Production Contract
+
+Category: Dependency Verification + Isolated 18-Slot Enumeration
+
+- Began from clean committed preflight checkpoint
+  `4e76df0a38da8efcda5b5238c75b54ee592ea910`, used CodeGraph/MCP first, and
+  verified the detached-clean GRChombo checkout against the tracked lock.
+- Added an isolated 18-slot production enum and one shared
+  variable/registration/checkpoint/output name ordering. Metadata covers the
+  13 physical and five gauge fields, parity, stock overlap, future owners,
+  storage multiplicity, and physical hidden multiplicity.
+- The strict-warning fixture passes every exact slot, name, category, parity,
+  GP `hww=1`, and multiplicity check. Swapped, duplicate, omitted, visible-y,
+  `hww=x^2`, multiplicity-one, added-field, registration-order, and
+  wrong-dimension controls are rejected.
+- The `2/4/4` tuple compiles through inspected `DimensionDefinitions.hpp` and
+  `Tensor.hpp`. Stock `ADMConformalVars`/`VarsTools` cannot directly map it:
+  a three-slot visible symmetric interval conflicts with ten physical tensor
+  components, and two vector slots conflict with four physical components.
+  The full stock probe is also dependency-blocked by missing Chombo
+  `parstream.H`.
+- The old 27-slot smoke scaffold and all production initial-data, RHS,
+  cleanup, constraint, source, periodic-grid, diagnostic, and evolution paths
+  remain unchanged. The next substage is GP initial-data construction against
+  the reviewed contract and a dedicated Vars mapping seam.

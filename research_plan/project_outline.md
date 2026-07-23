@@ -146,9 +146,11 @@ Physics and physics-design stages also produce polished review notes under
   verifier. The target design is a compact 18-slot black-string state with
   `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`, no visible-`y`
   slots, and one stored `ww` representative carrying hidden multiplicity two.
-  This is a design lock only. Chombo/PETSc/container provenance and the target
-  build remain unresolved, and no production initializer, RHS, cleanup,
-  source, grid, or evolution path has been added.
+  The isolated enum/name/metadata contract and focused mutation fixture now
+  pass; the old 27-slot live smoke scaffold is unchanged. Stock variable
+  mapping still requires a target-dimension adapter, Chombo/PETSc/container
+  provenance remains unresolved, and no production initializer, RHS,
+  cleanup, source, grid, or evolution path has been added.
 
 ## Stage 5: Pau Diagnostic Reproduction
 

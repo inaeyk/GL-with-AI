@@ -1974,3 +1974,28 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Scope: Documentation, manifest, and verification tooling only. No
   production source, test equation, external dependency, smoke parameter,
   stationary boundary research, staging, or commit was changed.
+
+- Date: 2026-07-23
+- Goal: Implement dependency verification and the first isolated
+  black-string production variable contract.
+- Start state: Used CodeGraph/MCP first. The top-level worktree and index were
+  clean at committed preflight checkpoint
+  `4e76df0a38da8efcda5b5238c75b54ee592ea910`; the verifier accepted clean
+  detached GRChombo commit `37e659523830418b210acea1661dac0e00bb1b75`.
+- Contract: Added exactly 18 contiguous slots and one aliased
+  registration/checkpoint/output name array. Per-slot metadata records
+  physical/gauge category, scalar/one-z/gauge parity, storage and hidden
+  multiplicity, stock overlap, and initial-data/RHS/cleanup/diagnostic owners.
+- Validation: The focused fixture compiles under C++17 strict warnings with
+  `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, and `DEFAULT_TENSOR_DIM=4`. It passes the
+  13+5 split, exact one-z fields, no-visible-y, GP storage, and hidden
+  trace-copy checks; all nine requested mutations fail.
+- Stock seam: `DimensionDefinitions.hpp` and `Tensor.hpp` accept the target
+  tuple. Unmodified stock symmetric mapping selects three gridded slots but
+  requires ten physical tensor components, while vector mapping selects two
+  slots for four physical components. A dedicated Vars adapter is required.
+  Full stock-header compilation is independently blocked by missing Chombo
+  `parstream.H`.
+- Scope: The old 27-slot smoke/comparison `UserVariables.hpp`, external
+  GRChombo, parameters, initial data, BoxLoops, RHS, cleanup, constraints,
+  source, periodic ownership, diagnostics, and evolution were not changed.

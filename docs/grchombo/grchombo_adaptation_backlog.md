@@ -172,6 +172,26 @@ reduce the requirement to resolve those digests before production adaptation.
   after running the dependency verifier. It must not add GP values or physics
   RHS code.
 
+## First production-contract substage update
+
+- P0-2's isolated enum/registration contract is complete. It has exactly 18
+  slots, one registration/checkpoint/output ordering, 13 physical plus five
+  gauge variables, no visible-y fields, and explicit parity, stock-overlap,
+  future-owner, storage, and hidden-multiplicity metadata.
+- The old 27-slot `UserVariables.hpp` remains the live smoke/comparison
+  scaffold. The new contract is not production evolution wiring and does not
+  change checkpoints or outputs from the current executable.
+- The target `2/4/4` macro assertions compile with inspected GRChombo
+  `DimensionDefinitions.hpp` and `Tensor.hpp`. Unmodified stock
+  `ADMConformalVars` and `VarsTools` cannot map the target state: their
+  CH-dimension-selected three-component symmetric interval conflicts with the
+  ten components required by `DEFAULT_TENSOR_DIM=4`, and two-component vector
+  intervals conflict with four-component default tensors. The future
+  black-string Vars/mapping adapter must own this translation.
+- P1-4 GP initialization is next, but it must consume the reviewed contract
+  through the dedicated production adapter seam. It must not reuse the old
+  27-slot scaffold or begin RHS, cleanup, source, periodic, or evolution work.
+
 ## Explicit non-goals
 
 Do not add backlog items to recreate:

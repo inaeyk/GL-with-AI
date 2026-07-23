@@ -1,8 +1,9 @@
 # GRChombo Production-Adaptation Preflight
 
-Status: design and dependency-source lock only. No production variable enum,
-initial-data `BoxLoop`, hidden RHS, cleanup, constraint, gauge-source, periodic
-grid, diagnostic, or evolution path is implemented by this preflight.
+Status: dependency-source lock and isolated production variable contract
+implemented. The contract is not yet imported by the live 27-slot smoke
+application. No GP initial-data `BoxLoop`, hidden RHS, cleanup, constraint,
+gauge-source, periodic grid, diagnostic, or evolution path is implemented.
 
 GRChombo is the production framework and convention authority. The frozen
 custom physical-`d=4` implementation remains an independent pointwise oracle.
@@ -74,8 +75,28 @@ Their meanings are:
 - `DEFAULT_TENSOR_DIM=4`: tensor loops that represent physical geometry
   cannot silently truncate to the two gridded directions.
 
-This combination is a production requirement, not yet an executable result.
-The earlier direct GRChombo comparisons remain matched stock-`d=3` evidence.
+The isolated `BlackStringProductionVariables.hpp` contract and focused
+fixture now compile with this exact tuple while including the inspected
+GRChombo `DimensionDefinitions.hpp` and `Tensor.hpp`. A compile with
+`CH_SPACEDIM=3` fails the production static assertion as required.
+
+This does not establish that the unmodified stock CCZ4 variable mapper accepts
+the target layout. It does not:
+
+- `ADMConformalVars.hpp` maps a symmetric tensor through
+  `GRInterval<c_h11,D_SELECT(,c_h22,c_h33)>`. With `CH_SPACEDIM=2`, that
+  interval contains three visible components.
+- `VarsTools::define_symmetric_enum_mapping` requires the interval size to be
+  `DEFAULT_TENSOR_DIM*(DEFAULT_TENSOR_DIM+1)/2`, which is ten when
+  `DEFAULT_TENSOR_DIM=4`.
+- Stock vector intervals contain two gridded components, while stock
+  `Tensor<1>` members default to four components under the target macro tuple.
+
+Therefore a black-string Vars/mapping adapter is required before stock
+`CCZ4Vars` can own this state. The available direct header probe is also
+blocked earlier by missing Chombo `parstream.H`, so no full target stock
+header/build claim is made. The earlier direct GRChombo comparisons remain
+matched stock-`d=3` evidence.
 
 ## Target black-string state
 
@@ -83,18 +104,18 @@ The production black-string example will replace only its own user-variable
 enumeration and names. It will not reinterpret the current stock visible
 `y` component as hidden `ww`. The intended compact layout has 18 slots:
 
-| Slot | Field | Geometric meaning | `z -> -z` parity | Stored multiplicity | Initial-data owner | RHS owner | Cleanup owner | Diagnostic owner | Stock equivalent / status |
+| Slot | Field | Geometric meaning | `z -> -z` parity | Storage / physical multiplicity | Initial-data owner | RHS owner | Cleanup owner | Diagnostic owner | Stock equivalent / status |
 |---:|---|---|---|---:|---|---|---|---|---|
 | 0 | `chi` | conformal factor | even | 1 | GP initializer | wrapped stock CCZ4 | stock positivity plus hidden determinant adapter | 13-row seam, constraints | stock `c_chi`; shared |
 | 1 | `hxx` | conformal metric `h_xx` | even | 1 | GP initializer | wrapped stock visible metric RHS | hidden-aware determinant normalization | 13-row seam | stock `h[0][0]`; shared |
 | 2 | `hxz` | conformal metric `h_xz` | odd | 1 | GP initializer | wrapped stock visible metric RHS | hidden-aware determinant normalization | parity and 13-row seam | stock `h[0][1]` in the target 2-grid layout; shared |
 | 3 | `hzz` | conformal metric `h_zz` | even | 1 | GP initializer | wrapped stock visible metric RHS | hidden-aware determinant normalization | 13-row seam | stock `h[1][1]` in the target 2-grid layout; shared |
-| 4 | `hww` | one stored representative for each of two equivalent hidden directions | even | 2 in traces/contractions | GP initializer | hidden/cartoon adapter | hidden-aware determinant normalization | hidden-family report and 13-row seam | no stock slot; adapt |
+| 4 | `hww` | one stored representative for each of two equivalent hidden directions | even | 1 / 2 | GP initializer | hidden/cartoon adapter | hidden-aware determinant normalization | hidden-family report and 13-row seam | no stock slot; adapt |
 | 5 | `K` | physical four-dimensional trace of `K_IJ` | even | 1 | GP initializer | wrapped stock scalar RHS with hidden completion | none | 13-row seam, constraints | stock `K` name; dimension-adapted |
 | 6 | `Axx` | conformal trace-free `A_xx` | even | 1 | GP initializer | wrapped stock visible tensor RHS | hidden-aware trace removal | 13-row seam | stock visible component; shared |
 | 7 | `Axz` | conformal trace-free `A_xz` | odd | 1 | GP initializer | wrapped stock visible tensor RHS | hidden-aware trace removal | parity and 13-row seam | stock visible component in target grid; shared |
 | 8 | `Azz` | conformal trace-free `A_zz` | even | 1 | GP initializer | wrapped stock visible tensor RHS | hidden-aware trace removal | 13-row seam | stock visible component in target grid; shared |
-| 9 | `Aww` | one stored trace-free representative for two equivalent hidden directions | even | 2 in traces/contractions | GP initializer | hidden/cartoon adapter | hidden-aware trace removal | hidden-family report and 13-row seam | no stock slot; adapt |
+| 9 | `Aww` | one stored trace-free representative for two equivalent hidden directions | even | 1 / 2 | GP initializer | hidden/cartoon adapter | hidden-aware trace removal | hidden-family report and 13-row seam | no stock slot; adapt |
 | 10 | `Theta` | CCZ4 scalar constraint variable | even | 1 | GP initializer | wrapped stock CCZ4 with hidden completion | none | 13-row seam, constraints | stock `Theta`; shared |
 | 11 | `GammaX` | hatted conformal connection `hat_Gamma^x` | even | 1 | GP initializer | wrapped visible plus hidden/cartoon connection RHS | none | 13-row seam, constraints | stock `Gamma[0]`; shared with hidden completion |
 | 12 | `GammaZ` | hatted conformal connection `hat_Gamma^z` | odd | 1 | GP initializer | wrapped visible plus hidden/cartoon connection RHS | none | parity and 13-row seam | stock `Gamma[1]` in target grid; shared with hidden completion |
@@ -111,8 +132,9 @@ determinants, contractions, and constraints with multiplicity two.
 
 The current 27-slot `BlackStringToy/UserVariables.hpp` remains comparison and
 smoke scaffolding. It contains stock-visible-`y` slots and must not be cited
-as the approved production layout. Replacing it with the 18-slot contract is
-a later isolated implementation substage.
+as the approved production layout. The isolated production source of truth is
+`code/BlackStringToy/BlackStringProductionVariables.hpp`; importing it into a
+live application remains a later integration change.
 
 The GP storage convention is locked as
 
@@ -214,3 +236,25 @@ are implementation stop points. The first implementation substage after
 preflight is dependency verification followed by the isolated target
 enumeration/registration change; GP data and all RHS work remain out of that
 substage.
+
+## Enumeration/registration substage result
+
+The first implementation substage passes:
+
+- the dependency verifier accepts the clean detached locked checkout;
+- exactly 18 contiguous, unique slots are defined in the reviewed order;
+- one registration array owns variable, checkpoint, and output names;
+- metadata records physical/gauge category, scalar/one-z/gauge parity,
+  storage and hidden multiplicity, stock overlap, and future owners;
+- the split is 13 physical plus five gauge fields;
+- `hxz`, `Axz`, and `GammaZ` are exactly the physical one-z fields;
+- `shiftZ` and `Bz` retain one-z gauge parity;
+- all visible-y names are forbidden;
+- `hww/Aww` have storage multiplicity one and physical multiplicity two;
+- `gamma_theta_theta=x^2`, `gamma_ww=hww/chi`, and stored GP `hww=1` pass;
+- swapped, duplicate, omitted, visible-y, `hww=x^2`, multiplicity-one,
+  added-field, registration-order, and wrong-dimension mutations fail.
+
+Only the contract is complete. The old 27-slot scaffold, GP initialization,
+all equation and cleanup owners, periodic grid, diagnostics, and evolution
+remain unchanged.

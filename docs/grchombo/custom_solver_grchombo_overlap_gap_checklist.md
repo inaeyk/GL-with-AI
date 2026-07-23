@@ -314,3 +314,23 @@ and total families separately against
 `Stage4AOCAnalyticFullOracle.hpp`. The full contract and staged audit
 checkpoints are in
 `docs/grchombo/grchombo_production_adaptation_preflight.md`.
+
+### First production-contract substage
+
+`BlackStringProductionVariables.hpp` now implements the isolated 18-slot
+enum, a single aliased registration/checkpoint/output name table, and
+per-slot ownership metadata. The focused strict-warning fixture verifies the
+13-physical/5-gauge split, exact parity, storage-one/physical-two `ww`
+multiplicity, absent visible-y fields, and the GP `hww=1` convention. All
+requested layout, name, multiplicity, convention, and dimension mutations
+are rejected.
+
+This is contract evidence only. The 27-slot live smoke scaffold is unchanged
+and is not imported by the focused fixture. Stock `Tensor.hpp` accepts the
+`CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4` tuple, but stock
+`ADMConformalVars`/`VarsTools` mapping is not compatible: the selected visible
+symmetric interval has three slots while the default physical tensor requires
+ten, and the selected vector interval has two slots while the default vector
+has four components. A black-string Vars/mapping adapter remains required;
+the full stock-header probe is additionally blocked by missing Chombo
+`parstream.H`.
