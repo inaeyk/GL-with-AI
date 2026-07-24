@@ -28,7 +28,8 @@ assigned before actual evolution runs. The production target-`d=4` 13-row
 pointwise seam now passes direct nonlinear comparison. It reports target
 hidden-suppressed, subtraction-defined hidden increment, and full target
 GRChombo results; the increment is not an independently implemented hidden
-RHS. Hidden-aware cleanup and constraints are the next comparison target.
+RHS. Pointwise hidden-aware cleanup, constraints, and the fixed source now
+pass; live BoxLoop and periodic-ownership comparison is next.
 
 Historical provenance remains inferred because the GRChombo-era Chombo SHA is
 unavailable. The project-qualified comparison/production tuple is official
@@ -263,9 +264,22 @@ their subtraction remain observable. The epsilon sweep is classified only as
 a roundoff/cancellation-dominated secondary diagnostic: finite-state
 production/oracle discrepancies are amplified approximately as `1/epsilon`
 in the quotient. Genuine Fourier `P_+`/`P_-` sector checks supplement the
-primary direct nonlinear result. The next comparison work is hidden-aware
-cleanup and constraints. Periodic ghost ownership and GRChombo time
-integration remain later gates.
+primary direct nonlinear result.
+
+The pointwise hidden-aware cleanup/constraint/source comparison also passes.
+For cleanup, the target determinant and weighted trace reach roundoff and the
+map is idempotent. For constraints, production directly invokes locked
+`CCZ4Geometry::compute_ricci` and then evaluates the exact
+`Constraints.impl.hpp` target formula
+`H=R+3K^2/4-A_IJ A^IJ` plus its two visible momentum rows. The complete stock
+`Constraints` method is source/convention-only at this analytic pointwise
+boundary. The target total `H,Mx,Mz` is compared directly with an independent
+long-double custom oracle for GP, non-trace-free flat, curved, off-diagonal,
+pure-hidden, mixed, and Fourier-consistent `P_+`/`P_-` cases. The fixed source
+comparison executes locked
+`MovingPunctureGauge` first and verifies lapse-only ownership and zero
+evolved-field dependence. Live BoxLoop wiring, periodic ghost ownership, and
+GRChombo time integration remain later gates.
 
 Both oracle defects exposed during this comparison are now active negative
 controls. The old one-pass raised-Christoffel construction and the old

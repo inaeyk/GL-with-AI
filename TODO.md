@@ -59,11 +59,18 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   only a roundoff/cancellation-dominated secondary diagnostic, and true
   Fourier `P_+`/`P_-` sector checks pass. This is not an independently coded
   hidden-family RHS. No BoxLoop or live application path was added.
-- [ ] Exact next substage: adapt hidden-aware target-`d=4` determinant and
-  `A`-trace cleanup plus Hamiltonian/momentum constraints. Keep the fixed
-  lapse source, periodicity, evolution, diagnostics, and AHFinder deferred.
-- [ ] Then execute the remaining locked production order: separately
-  validated hidden cleanup and constraints; fixed lapse source; periodic
+- [x] Implement the pointwise hidden-aware target-`d=4` determinant and
+  `A`-trace cleanup, Hamiltonian plus exactly two visible momentum
+  constraints, and the fixed GP lapse-source hook. The repaired Hamiltonian is
+  exactly `R + 3 K^2/4 - A_IJ A^IJ`; direct locked
+  `CCZ4Geometry::compute_ricci` supplies `R`, and the thin formula layer
+  follows `Constraints.impl.hpp`. The full result matches the independent
+  analytic path across GP, non-trace-free flat, curved, off-diagonal, hidden,
+  mixed, and both genuine Fourier-sector cases.
+- [ ] Exact next substage: live black-string `BoxLoop` RHS/cleanup/source
+  wiring and periodic-`z` ghost ownership. Keep time evolution, diagnostics,
+  horizons, and AHFinder deferred.
+- [ ] Then execute the remaining locked production order: periodic
   `z`/ghost ownership; unperturbed
   GP evolution; perturbed Fourier growth/threshold; horizon/nonlinear
   diagnostics after PETSc/AHFinder qualification.
@@ -221,9 +228,11 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   not recovered and remains explicitly inferred.
 - [ ] Recover the former container recipe/image digests and separately pin
   PETSc/AHFinder before claiming those runtime paths reproducible.
-- [ ] Adapt hidden-aware determinant and A-trace cleanup. No callable stock
-  determinant-normalization compute class or hidden `ww` cleanup owner was
-  found.
+- [x] Adapt hidden-aware determinant and A-trace cleanup. The target
+  determinant uses `hww^2`, the weighted trace uses two hidden copies, and
+  the pointwise cleanup is idempotent. No callable stock determinant
+  normalization owner exists; the hidden-aware normalization is project
+  adaptation.
 - [x] Batch 4: compare the GP analytic/setup seam through direct stock
   tensor/RHS/derivative/gauge paths and the independent full custom `d=4`
   oracle. The repaired gate independently decomposes stock and target K/A
@@ -243,9 +252,9 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [x] Implement the storage-agnostic reduced Vars seam, exact 18-slot GP
   pointwise initializer, and analytic `beta^x/lambda/K/A_IJ` radial metadata.
   Exact mapping, reconstruction, convergence, and mutation fixtures pass.
-- [ ] Using the project-qualified Chombo lock, wrap the reduced seam in a
-  black-string `Cell`/`FArrayBox` storage adapter only. The GP `BoxLoop`
-  compute class is the following substage.
+- [x] Using the project-qualified Chombo lock, wrap the reduced seam in a
+  black-string `Cell`/`FArrayBox` storage adapter and validate the GP
+  `BoxLoop` compute class.
 
 ## Later
 

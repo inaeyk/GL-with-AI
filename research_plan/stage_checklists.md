@@ -29,8 +29,8 @@ Historical dependency provenance and the production lock are separate:
   stock GRChombo `VariableStoreTest` and `CCZ4GeometryUnitTest` pass.
 - Core dependency build: verified. Former container provenance and
   PETSc/AHFinder reproducibility: unresolved. MPI and a full black-string
-  runtime: not yet qualified. These gaps do not block the next hidden-aware
-  cleanup/constraint adaptation; PETSc/AHFinder work remains blocked.
+  runtime: not yet qualified. These gaps do not block the next live
+  BoxLoop/periodic-ownership adaptation; PETSc/AHFinder work remains blocked.
 
 Stage 4AO-C is split without changing its original objective:
 
@@ -54,14 +54,15 @@ project-qualified Chombo lock, dependency verifier and target-header probe,
 contract, dedicated reduced `(2+2)` Vars seam, exact GP pointwise initializer,
 analytic GP derivative metadata, the real one-point `Cell`/`FArrayBox`
 load/store seam, the pointwise GP storage round trip, and the real DIM2 GP
-`BoxLoop` compute/traversal with its coordinate contract. None is live
-application wiring.
+  `BoxLoop` compute/traversal with its coordinate contract, the pointwise
+  target RHS, hidden-aware cleanup/constraints, and fixed lapse source. None
+  is live application wiring.
 
-Still incomplete are live application registration and BoxLoop RHS wiring,
-hidden-aware cleanup and constraints, production fixed
-lapse-source hook, periodic-`z` ownership and ghost exchange, unperturbed and
-perturbed production evolution, growth/decay diagnostics, horizon/`R_H`
-diagnostics, MPI qualification, and PETSc/AHFinder qualification.
+Still incomplete are live application registration and BoxLoop
+RHS/cleanup/source wiring, periodic-`z` ownership and ghost exchange,
+unperturbed and perturbed production evolution, growth/decay diagnostics,
+horizon/`R_H` diagnostics, MPI qualification, and PETSc/AHFinder
+qualification.
 
 ### Locked active production sequence
 
@@ -78,9 +79,10 @@ diagnostics, MPI qualification, and PETSc/AHFinder qualification.
    `target_shared_hidden_suppressed`, subtraction-defined
    `hidden_increment_decomposition`, and `target_full_grchombo` against the
    custom analytic oracle.
-5. [next] Hidden-aware cleanup and constraints.
-6. Production fixed lapse-source hook.
-7. Periodic `z` and ghost ownership.
+5. [complete] Pointwise hidden-aware cleanup and constraints.
+6. [complete] Pointwise production-style fixed lapse-source hook.
+7. [next] Live BoxLoop RHS/cleanup/source wiring and periodic `z` ghost
+   ownership.
 8. Unperturbed GP evolution: stationarity, constraint convergence, and
    gauge-source validation.
 9. Perturbed Fourier-mode evolution: growth/decay extraction and the first GL
@@ -98,7 +100,8 @@ Fold documentation consistency into independent technical audits only after:
 1. [complete] the first real `Cell`/`FArrayBox` plus `BoxLoop` GP initializer
    is assembled;
 2. [complete] the direct full target-`d=4` 13-row nonlinear comparison passes;
-3. hidden cleanup/constraints and the fixed source are integrated;
+3. [complete pointwise] hidden cleanup/constraints and the fixed source are
+   integrated at the validated pointwise seam;
 4. the first unperturbed production evolution passes; and
 5. the first perturbed GL growth-rate run passes.
 
@@ -814,11 +817,22 @@ simulation and radiation diagnostics exist.
 - [ ] Recover the former container recipe/image digests. This provenance gap
   does not block the storage seam; actual Chombo periodic-domain/ghost-fill
   ownership remains a later unqualified production step.
-- [ ] Adapt and compare hidden-aware `d=4` determinant/A-trace cleanup; stock
-  visible cleanup has no `hww/Aww` or multiplicity-two owner.
+- [x] Adapt and compare hidden-aware `d=4` determinant/A-trace cleanup. The
+  stored `hww/Aww` representatives are each written once and counted twice in
+  physical determinant/trace contractions; invalid metrics reject and both
+  cleanup maps are idempotent.
+- [x] Add pointwise target constraints and fixed GP source. Exactly
+  `H,Mx,Mz` match the independent analytic path across GP, non-trace-free
+  flat, curved, off-diagonal, hidden, mixed, and genuine Fourier-sector data.
+  The Hamiltonian is `R+3K^2/4-A_IJ A^IJ`; Ricci is a direct locked
+  `CCZ4Geometry::compute_ricci` result and the exact remaining
+  `Constraints.impl.hpp` formula layer is source/convention-only. Locked
+  `MovingPunctureGauge` is evaluated before the lapse-only
+  `3 sqrt(r0/x^3)` source.
 - [ ] Execute the locked production sequence above. The exact next substage is
-  hidden-aware cleanup and constraints; storage, the isolated GP `BoxLoop`
-  initializer, and pointwise 13-row hidden/cartoon RHS are complete.
+  live BoxLoop RHS/cleanup/source wiring and periodic-`z` ownership; storage,
+  the isolated GP `BoxLoop` initializer, pointwise 13-row hidden/cartoon RHS,
+  cleanup, constraints, and source are complete.
 - [x] Production-adaptation preflight: lock the inspected GRChombo
   origin/commit in a tracked manifest; add a read-only wrong-commit/dirty-state
   verifier; lock the target 18-slot `d=4/2` state with no visible-`y` slots;
@@ -863,7 +877,7 @@ simulation and radiation diagnostics exist.
   This is `PROJECT_QUALIFIED`; historical exact provenance remains inferred.
 - [ ] Qualify MPI and a full black-string runtime separately. Recover former
   container provenance when possible, and qualify PETSc before enabling
-  `USE_AHFINDER`; none blocks the next hidden-aware cleanup/constraint
+  `USE_AHFINDER`; none blocks the next live BoxLoop/periodic-ownership
   adaptation.
 - [x] Pointwise target-`d=4` hidden/cartoon RHS adapter: expand the reviewed
   reduced state/jets into `(x,z,w1,w2)`, directly execute locked GRChombo
@@ -874,3 +888,12 @@ simulation and radiation diagnostics exist.
   `P_+`/`P_-` sector checks, exact GP cancellation, directness checks, and
   target-input mutations pass. No independently coded hidden-family RHS, live
   BoxLoop, or evolution path was added.
+- [x] Pointwise target-`d=4` cleanup/constraint/source checkpoint: normalize
+  `hww^2(hxx*hzz-hxz^2)` to one, remove
+  `h^xx Axx+2h^xz Axz+h^zz Azz+2h^ww Aww` with a one-quarter projection,
+  evaluate the exact vacuum Hamiltonian `R+3K^2/4-A_IJ A^IJ` and two visible
+  momentum constraints, and call locked `MovingPunctureGauge` before applying
+  the fixed lapse-only GP source. Direct locked Ricci is exercised twice per
+  full/suppressed evaluation. Full target constraint values match the
+  independent analytic path; genuine sector checks and active production and
+  reduction mutations pass. No live BoxLoop path changed.

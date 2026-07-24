@@ -1,14 +1,15 @@
 # GRChombo Production-Adaptation Preflight
 
 Status: dependency source/contract audit, isolated production variable
-contract, reduced Vars seam, pointwise GP initializer, real storage seam, and
-isolated real DIM2 GP `BoxLoop` initializer implemented. Locked
+contract, reduced Vars seam, pointwise GP initializer, real storage seam,
+isolated real DIM2 GP `BoxLoop` initializer, pointwise target RHS,
+hidden-aware cleanup/constraints, and fixed lapse source implemented. Locked
 GRChombo and the official Chombo project dependency are verified. The Chombo
 lock is `PROJECT_QUALIFIED`, not historically exact; the real target `2/4/4`
 header probe passes. Former-container and PETSc/AHFinder provenance remain
 unresolved. The contract is not imported by the live 27-slot smoke
-application. No live GP initial-data call, hidden RHS, cleanup, constraint,
-gauge-source, periodic grid, diagnostic, or evolution path is implemented.
+application. No live GP initial-data, RHS, cleanup, constraint, gauge-source,
+periodic-grid, diagnostic, or evolution path is implemented.
 
 GRChombo is the production framework and convention authority. The frozen
 custom physical-`d=4` implementation remains an independent pointwise oracle.
@@ -177,9 +178,9 @@ the same stored quantity.
 | GP initial-data `BoxLoop` | extend | isolated black-string compute class and real traversal complete; live call remains deferred |
 | CCZ4 RHS | wrap | pointwise target adapter complete: expand reduced inputs, directly call locked full target-`d=4` GRChombo, execute a hidden-suppressed comparison, and report their subtraction; live BoxLoop wiring deferred |
 | Modified-cartoon derivatives and geometry | extend | use GRChombo derivative/ghost infrastructure; add only hidden representative formulas and axis policy |
-| Algebraic cleanup | wrap | reuse positivity; extend determinant and `A`-trace operations for `hww/Aww` with multiplicity two |
-| Constraints | wrap | retain stock orchestration/reductions; add physical-`d=4` hidden terms |
-| Fixed lapse source | wrap | later add the validated field-independent lapse-only source after raw stock gauge evaluation |
+| Algebraic cleanup | wrap | pointwise hidden-aware determinant and `A`-trace operations complete; live Cell/BoxLoop wiring deferred |
+| Constraints | wrap | pointwise physical-`d=4` `H,Mx,Mz` complete: direct locked `compute_ricci`, exact source-convention formula adapter, and independent oracle; complete stock `Constraints` call remains unavailable at this analytic boundary; live orchestration/reductions deferred |
+| Fixed lapse source | wrap | pointwise direct-gauge plus field-independent lapse-only source complete; live wiring deferred |
 | Periodic `z` ownership | reuse unchanged | Chombo domain/ghost exchange owns periodicity; project code supplies configuration only |
 | Diagnostics and horizon data | reuse and extend | reuse reductions, interpolation, I/O, and AH machinery; add black-string `R_H`, minimum radius, area, and Fourier data |
 | RK, AMR, MPI/OpenMP, checkpoint/restart | reuse unchanged | no project-owned replacement |
@@ -241,9 +242,10 @@ complete. The active implementation sequence is now:
 4. **Pointwise complete 13-row equivalence (complete).** Report target
    hidden-suppressed, subtraction-defined hidden increment, and full target
    values; compare the full target result directly with the custom oracle.
-5. **Hidden-aware cleanup and constraints (next).**
-6. **Production fixed lapse-source hook.**
-7. **Periodic `z` and ghost ownership.**
+5. **Hidden-aware cleanup and constraints (pointwise complete).**
+6. **Production-style fixed lapse-source hook (pointwise complete).**
+7. **Live BoxLoop RHS/cleanup/source wiring and periodic `z` ghost ownership
+   (next).**
 8. **Unperturbed GP evolution.** Require background stationarity, constraint
    convergence, and gauge-source validation.
 9. **Perturbed Fourier-mode evolution.** Extract growth/decay and the first GL
@@ -474,6 +476,35 @@ construction passes the same state. A shift-Hessian policy with distinct
 nonzero derivative-derivative-component and former component-first entries
 likewise rejects the former index order while the corrected order passes.
 
-This acceptance changes no application, BoxLoop, cleanup, constraint, source,
-periodic, evolution, diagnostic, or horizon path. Hidden-aware cleanup and
-constraints are next.
+This acceptance changes no live application or BoxLoop path.
+
+## Pointwise cleanup, constraints, and fixed-source acceptance
+
+`BlackStringTargetCleanupConstraintsSource` now normalizes the reduced metric
+with `det(h)=hww^2(hxx*hzz-hxz^2)` and a target-`d=4` exponent, then removes
+the weighted `A` trace with one-quarter projection. The hidden representative
+is stored once and counted twice. Invalid nonfinite, singular, or non-positive
+metrics are rejected; positivity floors are not extended beyond the locked
+GRChombo policy.
+
+The constraint path reuses the accepted reduced-to-target expansion, invokes
+locked `CCZ4Geometry::compute_ricci` directly, completes the modified-cartoon
+`A` derivatives needed by the covariant divergence, and returns only
+`H,Mx,Mz`. Its Hamiltonian is the locked formula
+`R+3K^2/4-A_IJ A^IJ`; it never reconstructs `K_IJ`. The complete stock
+`Constraints` method is not directly callable for these supplied analytic
+jets, so the Hamiltonian and momentum formula layer is classified as a thin
+source/convention implementation. It reports the target hidden-suppressed
+result, the subtraction-defined hidden-sensitive increment, and the target
+total. The target total matches the independent long-double analytic
+source-convention oracle for GP, non-trace-free flat, curved, off-diagonal,
+hidden, mixed, and Fourier-consistent `P_+`/`P_-` data. Forbidden-sector
+leakage and reflection commutators are roundoff zero.
+
+The fixed source calls locked `MovingPunctureGauge` first and then adds
+`3 sqrt(r0/x^3)` to lapse only. On GP data it cancels the raw `-3 lambda`
+lapse drift; shift and B are unchanged, and the source is independent of all
+18 evolved slots and any horizon observable.
+
+No live application path is wired. The exact next substage is live BoxLoop
+RHS/cleanup/source wiring and periodic-`z` ghost ownership.

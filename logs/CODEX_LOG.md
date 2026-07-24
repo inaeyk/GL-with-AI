@@ -2239,3 +2239,55 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Remaining incomplete work: live BoxLoop RHS wiring; hidden-aware cleanup and
   constraints; fixed lapse-source production hook; periodic-`z` ghost
   ownership; evolution; diagnostics and horizons; final agent score.
+
+- Date: 2026-07-24
+- Goal: Implement pointwise hidden-aware cleanup, target constraints, and the
+  fixed GP lapse-source hook.
+- Result: Added target-`d=4` determinant normalization and weighted
+  one-quarter `A`-trace removal, a three-output `H,Mx,Mz` constraint seam, and
+  a direct locked-`MovingPunctureGauge` source adapter. Constraint reports are
+  target hidden-suppressed, subtraction-defined hidden-sensitive increment,
+  and target total.
+- Validation: Cleanup reaches determinant one and weighted trace
+  `2.775557561563e-17`; idempotence error is `1.387778780781e-17`. Across GP,
+  flat, diagonal, off-diagonal, hidden, mixed, and both Fourier sectors, the
+  constraint maximum absolute error is `7.624109676918e-16` and maximum
+  normalized error is `1.483495448188e-3`. The raw GP lapse is
+  `-2.493704923052`, the fixed source is `+2.493704923052`, and the sourced
+  lapse is roundoff zero.
+- Ordering note: determinant normalization precedes trace removal. Exact
+  reversal of only these two maps is algebraically identical under uniform
+  metric scaling, so no false numerical reversed-order failure is claimed.
+- Scope: No live application, BoxLoop RHS/cleanup/source, periodic ghost,
+  evolution, diagnostic, horizon, external source, production physics, or
+  smoke-parameter path changed. Remaining work is live BoxLoop
+  RHS/cleanup/source wiring; periodic-`z` ghost ownership; evolution;
+  diagnostics and horizons; final agent score.
+
+- Date: 2026-07-24
+- Goal: Repair the uncommitted target-`d=4` constraint checkpoint without
+  changing validated cleanup or fixed-source behavior.
+- Result: Replaced the trace-contaminated reconstructed-`K_IJ` Hamiltonian
+  with the exact locked `Constraints.impl.hpp` expression
+  `H=R+3K^2/4-A_IJ A^IJ`. Production now calls locked
+  `CCZ4Geometry::compute_ricci` directly; because the complete stock
+  `Constraints` pointwise method is Cell/finite-difference owned and not
+  callable with supplied target analytic jets, the remaining Hamiltonian and
+  momentum formulas are explicitly classified as a thin source/convention
+  adapter.
+- Evidence: On active non-trace-free flat data, `tr_h A=0.58`, the corrected
+  Hamiltonian is `0.104475`, and the rejected reconstruction gives
+  `-0.078225` (difference `-0.1827`). Across all constraint cases the maximum
+  absolute error is `6.403298030699e-16` and maximum normalized error is
+  `1.276405780850e-3`. Genuine `P_+`/`P_-` forbidden-sector leakage and
+  reflection commutators are zero; allowed outputs are nonzero.
+- Mutations: The old reconstruction, wrong `3/4`, hidden multiplicity one,
+  omitted off-diagonal `A` contraction, omitted Ricci, independently wrong
+  `Mx`/`Mz`, omitted hidden derivative, wrong `K` gradient, omitted
+  off-diagonal momentum term, and actual output-reduction leakage all fail.
+  Cleanup mutations are independent, and the invalid appended hidden-momentum
+  value test is removed.
+- Regression: Cleanup determinant/trace/idempotence/commutativity and all fixed
+  source values and ownership are unchanged. No external source, live
+  application, BoxLoop RHS/cleanup/source, smoke parameter, periodic,
+  evolution, diagnostic, or horizon path changed.

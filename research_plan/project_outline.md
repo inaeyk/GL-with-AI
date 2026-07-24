@@ -169,7 +169,8 @@ Physics and physics-design stages also produce polished review notes under
 - Active sequence: [complete] `Cell`/`FArrayBox` storage seam; [complete]
   isolated GP `BoxLoop` compute/traversal; [complete] pointwise
   hidden/cartoon RHS and separately reported complete 13-row equivalence;
-  [next] hidden-aware cleanup/constraints; fixed lapse source; periodic `z`/ghost
+  [complete] pointwise hidden-aware cleanup/constraints and fixed lapse
+  source; [next] live BoxLoop RHS/cleanup/source wiring and periodic `z`/ghost
   ownership; unperturbed GP evolution; perturbed Fourier-mode evolution and a
   first threshold estimate; then horizon/nonlinear diagnostics after
   PETSc/AHFinder qualification.
@@ -181,16 +182,17 @@ Physics and physics-design stages also produce polished review notes under
   storage-plus-`BoxLoop` initializer, complete hidden/cartoon 13-row
   equivalence, integrated cleanup/constraints/fixed source, first unperturbed
   evolution, and first perturbed growth-rate run. Avoid per-substep audits.
-- Exact next implementation substage: hidden-aware target-`d=4` cleanup and
-  constraints only. The pointwise RHS adapter directly evaluates locked full
-  target-`d=4` GRChombo and separately reports the hidden-suppressed result
-  and their subtraction. It deliberately does not independently rebuild
-  GRChombo hidden CCZ4 families.
-  Direct finite nonlinear comparison is the completed 13-row numerical gate;
-  the directional JVP sweep is only a roundoff/cancellation-dominated
-  diagnostic and carries no convergence or completion claim.
-  Keep live BoxLoop RHS wiring, source, periodicity, evolution, diagnostics,
-  and AHFinder out of scope.
+- Completed pointwise cleanup/constraint/source checkpoint: hidden determinant
+  and trace multiplicity are two, the projection denominator is four, exactly
+  `H,Mx,Mz` are emitted, the Hamiltonian is
+  `R+3K^2/4-A_IJ A^IJ` with direct locked GRChombo Ricci, and the fixed source
+  is lapse-only and field-independent. The constraint target total matches
+  the independent long-double source-convention oracle under the locked
+  tolerance, including a non-trace-free discriminator and genuine Fourier
+  parity projections.
+- Exact next implementation substage: live BoxLoop RHS/cleanup/source wiring
+  and periodic-`z` ownership. Keep evolution, diagnostics, horizons, and
+  AHFinder out of scope.
 - Infrastructure policy: reuse GRChombo RK4, AMR, MPI/OpenMP,
   checkpoint/restart, ghost exchange, parameter parsing, interpolation,
   reductions, and AH framework. Do not independently rebuild them.

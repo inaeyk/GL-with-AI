@@ -2529,3 +2529,60 @@ Category: Production RHS Adaptation
 - Remaining incomplete work: live BoxLoop RHS wiring; hidden-aware cleanup and
   constraints; fixed lapse-source production hook; periodic-`z` ghost
   ownership; evolution; diagnostics and horizons; final agent score.
+
+## 2026-07-24 - Pointwise Cleanup, Constraints, And Fixed Source
+
+Category: Production Adaptation
+
+- Implemented hidden-aware reduced cleanup with
+  `det(h)=hww^2(hxx*hzz-hxz^2)` and the target one-quarter weighted
+  `A`-trace projection. The representative hidden slots are written once and
+  counted twice in contractions.
+- Added pointwise vacuum Hamiltonian and exactly two visible momentum
+  constraints. The accepted target expansion and locked GRChombo tensor
+  inverse/Christoffel conventions are reused; the target hidden-suppressed,
+  subtraction-defined hidden-sensitive increment, and target total are
+  reported separately.
+- The independent analytic path matches every `H,Mx,Mz` output for GP, flat,
+  diagonal, off-diagonal, hidden, mixed, and Fourier-consistent `P_+`/`P_-`
+  cases. Maximum absolute error is `7.624109676918e-16`; maximum normalized
+  error is `1.483495448188e-3`.
+- Locked `MovingPunctureGauge` is evaluated before adding
+  `3 sqrt(r0/x^3)` to lapse only. The GP raw/source/final lapse values are
+  `-2.493704923052`, `+2.493704923052`, and roundoff zero. Shift/B ownership
+  and zero evolved-field dependence pass.
+- Determinant normalization is called before trace removal. The exact two
+  algebraic maps commute under uniform metric rescaling, so reversed ordering
+  cannot honestly be rejected by a numerical-output mutation.
+- No live application path changed. Remaining work is live BoxLoop
+  RHS/cleanup/source wiring; periodic-`z` ghost ownership; evolution;
+  diagnostics and horizons; final agent score.
+
+## 2026-07-24 - Constraint Formula And Direct-Geometry Repair
+
+Category: Production Adaptation Repair
+
+- Corrected the target Hamiltonian to the exact locked convention
+  `H=R+3K^2/4-A_IJ A^IJ`; no `K_IJ` reconstruction or trace-free assumption is
+  used. Both hidden representatives contribute to `A_IJ A^IJ`, with
+  off-diagonal `Axz` contraction included.
+- Production directly executes locked `CCZ4Geometry::compute_ricci`. The
+  complete stock `Constraints` pointwise method cannot consume this supplied
+  target analytic-jet boundary safely, so only its exact Hamiltonian and
+  momentum formula layer is transcribed and classified as source/convention
+  implementation.
+- The independent long-double constraint oracle uses the same finite target
+  values and analytic jets without calling production. The repaired
+  `H,Mx,Mz` maximum absolute error is `6.403298030699e-16`; maximum normalized
+  error is `1.276405780850e-3`.
+- A dedicated non-trace-free flat case has `tr_h A=0.58`: corrected
+  `H=0.104475`, rejected reconstructed-`K_IJ` `H=-0.078225`. Genuine
+  `P_+`/`P_-` projections have zero forbidden leakage and reflection
+  commutator with nonzero allowed outputs.
+- Active formula, derivative, contraction, component, and reduction mutations
+  fail independently. The result structure contains exactly `H,Mx,Mz`; no
+  false hidden momentum output exists.
+- Validated cleanup and fixed-source results are unchanged. The pointwise
+  constraint gates are reopened; live BoxLoop RHS/cleanup/source wiring,
+  periodic-`z` ghost ownership, evolution, diagnostics/horizons,
+  PETSc/AHFinder, and final scoring remain incomplete.

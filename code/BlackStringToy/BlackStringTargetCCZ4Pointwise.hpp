@@ -42,6 +42,7 @@ compute_inverse_sym(const Tensor<2, data_t, 4> &matrix)
 template <class data_t> class Cell;
 #define FOURTHORDERDERIVATIVES_HPP_
 class FourthOrderDerivatives;
+#ifndef MOVINGPUNCTUREGAUGE_HPP_
 #define MOVINGPUNCTUREGAUGE_HPP_
 class MovingPunctureGauge
 {
@@ -50,6 +51,7 @@ class MovingPunctureGauge
     {
     };
 };
+#endif
 #define CCZ4VARS_HPP_
 namespace CCZ4Vars
 {

@@ -54,9 +54,10 @@ The locked production order is:
 4. [complete] direct nonlinear 13-row equivalence with target
    hidden-suppressed, full-minus-suppressed increment, and full target values
    reported separately;
-5. [next] hidden-aware cleanup and constraints;
-6. production fixed lapse-source hook;
-7. periodic `z` and ghost ownership;
+5. [complete] hidden-aware cleanup and constraints;
+6. [complete, pointwise] production-style fixed lapse-source hook;
+7. [next] live BoxLoop RHS/cleanup/source wiring and periodic `z` and ghost
+   ownership;
 8. unperturbed GP evolution;
 9. perturbed Fourier-mode evolution and the first growth/threshold estimate;
 10. horizon and nonlinear diagnostics after PETSc/AHFinder and observable
@@ -77,8 +78,8 @@ consistency is folded into those audits; no per-substep audit is added.
 | P1-4b | GP BoxLoop initializer | GRChombo initial-data `BoxLoops` pattern and project parameter parser | Thin compute class and isolated real DIM2 traversal; live application wiring deferred | P1-4a | Every requested point equals the existing initializer; coordinate, traversal, determinant, trace, and mutation checks pass |
 | P1-5 | Modified-cartoon target-input pointwise production path (complete) | Direct locked target-`d=4` `CCZ4RHS::rhs_equation` and `CCZ4Geometry`; no BoxLoop | Expand the reviewed reduced state/jets to `(x,z,w1,w2)` and call locked source; do not independently rebuild hidden CCZ4 families | P0-3, P1-4b | Full and hidden-suppressed evaluations execute; real target-input mutations are rejected |
 | P1-6 | Complete pointwise 13-row equivalence (complete) | Full target GRChombo RHS, target hidden-suppressed comparison, and custom oracle | Report `target_shared_hidden_suppressed`, subtraction-defined `hidden_increment_decomposition`, and `target_full_grchombo` | P1-5 | Direct nonlinear comparison passes every physical row and is the sole numerical completion gate; the JVP sweep is only a roundoff/cancellation diagnostic; genuine `P_+`/`P_-` checks pass |
-| P1-7 | Hidden-aware algebraic cleanup and constraints | `TraceARemoval`, `PositiveChiAndAlpha`, `Constraints`, `AMRReductions` | Extend determinant/A-trace cleanup and Hamiltonian/momentum constraints with multiplicity two | P1-6 | Weighted residuals and pointwise constraints match oracle; convergence passes |
-| P1-8 | Fixed GP-holding lapse source | `MovingPunctureGauge` adapter pattern | Add field-independent `S_alpha=3 sqrt(r0/x^3)` with explicit validation/production policy | P1-7 | Raw lapse residual remains visible; source-adjusted GP residual vanishes; JVP unchanged |
+| P1-7 | Hidden-aware algebraic cleanup and constraints (pointwise complete) | Direct locked `CCZ4Geometry::compute_ricci`, exact `Constraints.impl.hpp` source convention, visible `TraceARemoval` comparison, accepted target expansion | Extend determinant/A-trace cleanup and exact `R+3K^2/4-A_IJ A^IJ` Hamiltonian/two visible momentum constraints with multiplicity two | P1-6 | Non-trace-free, curved, hidden, off-diagonal, mixed, and true sector data match the independent long-double oracle; active production/reduction mutations fail |
+| P1-8 | Fixed GP-holding lapse source (pointwise complete) | Direct locked `MovingPunctureGauge` | Add field-independent `S_alpha=3 sqrt(r0/x^3)` after raw gauge evaluation | P1-7 | Raw lapse is `-3 lambda`, source-adjusted GP lapse vanishes, shift/B are untouched, and the source has zero evolved-field derivative |
 | P1-9 | Compact periodic `z` production domain | GRChombo periodic boundary/domain parameters and derivative classes | Lock `L`, `k_n=2 pi n/L`, parity conventions, radial/compact direction mapping | P1-4b | Periodic wrap, ghost ownership, and Fourier derivative tests pass at production order |
 | P1-10 | Unperturbed background evolution | `GRAMR`, RK4, ghost fill, boundaries, checkpointing | Configure target grid, source, hidden RHS, diagnostics, and conservative validation window | P1-7 through P1-9 | L4-01 stationarity, constraint convergence, gauge-source validation, and restart smoke pass |
 | P2-11 | Fourier perturbation initialization | Initial-data BoxLoop plus periodic grid | Add normalized even/odd SO(3)-scalar perturbation families with amplitude guard | P1-10 | Linear amplitude scaling and mode/parity leakage tests pass |
@@ -288,8 +289,9 @@ reduce the requirement to resolve those digests before production adaptation.
   The reduced-to-full target-`d=4` input seam, direct locked GRChombo
   pointwise RHS, and complete nonlinear 13-row equivalence are now complete.
   Live initializer/RHS wiring remains deferred.
-- Hidden-aware cleanup, constraints, fixed lapse source, periodic ownership,
-  evolution, and diagnostics remain later backlog items.
+- Pointwise hidden-aware cleanup, constraints, and the fixed lapse source are
+  complete. Live BoxLoop wiring, periodic ownership, evolution, and
+  diagnostics remain later backlog items.
 
 ## Chombo project-qualification update
 
@@ -311,10 +313,10 @@ reduce the requirement to resolve those digests before production adaptation.
 - The one-point black-string `Cell`/`FArrayBox` storage adapter is complete.
   The GP `BoxLoop` compute class and isolated real traversal are also
   complete. The direct target-`d=4` pointwise RHS and 13-row equivalence are
-  also complete. The next authorized substage is hidden-aware
-  cleanup/constraints;
-  live registration, source, periodic
-  ownership, evolution, and diagnostics remain open.
+  also complete. Pointwise hidden-aware cleanup/constraints and the fixed
+  lapse source are complete. The next authorized substage is live
+  BoxLoop RHS/cleanup/source wiring plus periodic ownership; evolution and
+  diagnostics remain open.
 
 ## Cell/FArrayBox storage seam result
 
@@ -443,6 +445,17 @@ Before P1-6 or P3-14 can be planned precisely, resolve:
 - The old one-pass Christoffel construction and old shift-Hessian index order
   are retained only as test policies. Each fails on active finite data while
   the corrected oracle passes the same direct-GRChombo comparison.
-- No live BoxLoop, cleanup, constraint, source, periodic, evolution,
-  diagnostic, or horizon path changed. P1-7 hidden-aware cleanup and
-  constraints is the exact next active substage.
+- Pointwise P1-7/P1-8 are complete. Cleanup uses
+  `det(h)=hww^2(hxx*hzz-hxz^2)` and the target one-quarter weighted trace
+  projection. Constraints call locked `CCZ4Geometry::compute_ricci` directly
+  and use `H=R+3K^2/4-A_IJ A^IJ` without reconstructing `K_IJ`; the remaining
+  formula layer is classified as source/convention implementation. Constraint
+  outputs are `target_hidden_suppressed`,
+  `hidden_sensitive_increment`, and `target_total`; the increment is defined
+  by subtraction. The complete target result matches the independent
+  long-double analytic path for `H,Mx,Mz`, including genuine reflection and
+  forbidden-sector tests for both Fourier sectors.
+- No live application or BoxLoop RHS/cleanup/source path changed. Periodic
+  ghosts, evolution, diagnostics, and horizons remain absent. The exact next
+  active substage is live BoxLoop RHS/cleanup/source wiring plus periodic-`z`
+  ownership.
