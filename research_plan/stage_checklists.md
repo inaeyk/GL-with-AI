@@ -29,8 +29,8 @@ Historical dependency provenance and the production lock are separate:
   stock GRChombo `VariableStoreTest` and `CCZ4GeometryUnitTest` pass.
 - Core dependency build: verified. Former container provenance and
   PETSc/AHFinder reproducibility: unresolved. MPI and a full black-string
-  runtime: not yet qualified. These gaps do not block the next storage
-  integration; PETSc/AHFinder work remains blocked.
+  runtime: not yet qualified. These gaps do not block the next GP `BoxLoop`
+  initializer; PETSc/AHFinder work remains blocked.
 
 Stage 4AO-C is split without changing its original objective:
 
@@ -52,21 +52,23 @@ Completed production-adaptation foundations are the GRChombo source lock,
 project-qualified Chombo lock, dependency verifier and target-header probe,
 18-slot production-variable contract, exact registration/name metadata
 contract, dedicated reduced `(2+2)` Vars seam, exact GP pointwise initializer,
-and analytic GP derivative metadata. None is live production wiring.
+analytic GP derivative metadata, the real one-point `Cell`/`FArrayBox`
+load/store seam, and the pointwise GP storage round trip. The storage seam is
+not live application wiring.
 
-Still incomplete are the `Cell`/`FArrayBox` wrapper, GP `BoxLoop`, live
-application registration, hidden/cartoon RHS, hidden-aware cleanup and
-constraints, production fixed lapse-source hook, periodic-`z` ownership and
-ghost exchange, unperturbed and perturbed production evolution,
-growth/decay diagnostics, horizon/`R_H` diagnostics, MPI qualification, and
-PETSc/AHFinder qualification.
+Still incomplete are the GP `BoxLoop`, live application registration,
+hidden/cartoon RHS, hidden-aware cleanup and constraints, production fixed
+lapse-source hook, periodic-`z` ownership and ghost exchange, unperturbed and
+perturbed production evolution, growth/decay diagnostics, horizon/`R_H`
+diagnostics, MPI qualification, and PETSc/AHFinder qualification.
 
 ### Locked active production sequence
 
-1. `Cell`/`FArrayBox` storage seam: a thin wrapper around the validated
-   18-slot reduced Vars and GP point initializer, with no physics duplication.
-2. GP `BoxLoop` initializer and live application wiring, compared pointwise
-   with the existing initializer.
+1. [complete] `Cell`/`FArrayBox` storage seam: a thin wrapper around the
+   validated 18-slot reduced Vars and GP point initializer, with no physics
+   duplication.
+2. [next] GP `BoxLoop` initializer and live application wiring, compared
+   pointwise with the existing initializer.
 3. Hidden/cartoon RHS adaptation: retain GRChombo ownership of shared visible
    CCZ4 families and add only missing hidden contributions.
 4. Pointwise complete 13-row equivalence, reporting stock-visible,
@@ -828,11 +830,14 @@ simulation and radiation diagnostics exist.
   exact GP values, and analytic `beta^x/lambda/K/A_IJ` radial jets. Focused
   round-trip, ownership, determinant, trace, reconstruction, derivative, and
   mutation checks pass. No Chombo or live application path is wired.
-- [ ] Cell/FArrayBox storage substage: using the project-qualified Chombo
-  build, add only a thin load/store wrapper around the reduced 18-slot seam
-  and GP point initializer. Do not add `BoxLoop`, live registration, RHS,
-  hidden geometry, cleanup/constraints, lapse source, periodic ownership,
-  evolution, or diagnostics.
+- [x] Cell/FArrayBox storage substage: the project-qualified Chombo build now
+  compiles a thin const-load/mutable-store wrapper around the reduced 18-slot
+  seam. A real DIM2 `FArrayBox` fixture proves exact one-point ordering,
+  neighbor ownership, component-local mutations, representative-only
+  `hww/Aww` storage, rejection of the old 27-slot shape, and pointwise GP
+  storage round trips at three positive `(r0,x)` cases. It adds no `BoxLoop`,
+  live registration, RHS, hidden geometry, cleanup/constraints, lapse source,
+  periodic ownership, evolution, or diagnostics.
 - [ ] GP BoxLoop initializer substage: after the storage seam, add production
   application wiring and compare every point with the existing GP initializer.
 - [x] Qualify and pin official `GRChombo/Chombo`
@@ -843,4 +848,4 @@ simulation and radiation diagnostics exist.
   This is `PROJECT_QUALIFIED`; historical exact provenance remains inferred.
 - [ ] Qualify MPI and a full black-string runtime separately. Recover former
   container provenance when possible, and qualify PETSc before enabling
-  `USE_AHFINDER`; none blocks the next storage seam.
+  `USE_AHFINDER`; none blocks the next GP `BoxLoop` initializer.

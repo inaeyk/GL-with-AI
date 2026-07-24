@@ -2385,3 +2385,33 @@ Category: Documentation Status + Production Sequence
   Missing shell-local `gfortran`, `csh`, and BLAS/LAPACK development links
   were supplied by packages extracted only under `/tmp`, without a system
   install or repository/dependency modification.
+
+## 2026-07-24 - Black-String Cell/FArrayBox Storage Seam
+
+Category: Production Storage Integration
+
+- Resumed from clean committed roadmap checkpoint `450624c` and used
+  CodeGraph/MCP before source inspection.
+- Resolved the verifier interface from its help and manifest rather than
+  assuming an option: `scripts/verify_grchombo_dependency.sh --require-build`
+  is the strongest existing qualified-core mode. It verified both locked,
+  detached, clean dependency checkouts, the compiler/macro tuple, and all
+  four required DIM2 Chombo libraries. The real target-header probe also
+  passed at `CH_SPACEDIM=2`, `GR_SPACEDIM=4`,
+  `DEFAULT_TENSOR_DIM=4`.
+- Added a thin black-string-specific `Cell<double>` adapter using the
+  production 18-slot enum as sole slot authority and the reduced Vars seam as
+  the only mapping layer. It does not expand hidden multiplicity or introduce
+  visible-y aliases.
+- Added a focused real DIM2 `FArrayBox` fixture with explicit `IntVect`,
+  `BoxPointers`, and `Cell` access. Exact 18-slot round trips,
+  component-local writes, unchanged neighbors, one-component `hww/Aww`
+  ownership, malformed-mapping mutations, and legacy 27-component rejection
+  pass.
+- Stored and reloaded three pointwise GP states, including `(r0,x)=(1,2)`;
+  every slot plus determinant, trace, physical-extrinsic-curvature, and gauge
+  identities match the existing pointwise oracle.
+- No `BoxLoop`, live registration, RHS, cleanup/constraints, lapse source,
+  periodic ownership, evolution, diagnostics, AHFinder, production physics,
+  or smoke parameter was changed. The exact next substage is the GP
+  `BoxLoop` initializer and application wiring.

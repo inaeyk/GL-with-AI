@@ -219,14 +219,14 @@ implemented in this preflight.
 ## Locked production sequence and audit checkpoints
 
 The source locks, 18-slot contract, exact metadata, reduced Vars seam, GP point
-initializer, and analytic GP derivative metadata are already complete. The
+initializer, analytic GP derivative metadata, real one-point
+`Cell`/`FArrayBox` seam, and GP storage round trip are already complete. The
 active implementation sequence is now:
 
-1. **Cell/FArrayBox storage seam.** Add only a thin wrapper around the
-   validated 18-slot reduced Vars and GP point initializer. Duplicate no
-   physics.
-2. **GP BoxLoop initializer.** Add production application wiring and compare
-   every point with the existing GP initializer.
+1. **Cell/FArrayBox storage seam (complete).** The thin wrapper around the
+   validated 18-slot reduced Vars duplicates no physics.
+2. **GP BoxLoop initializer (next).** Add production application wiring and
+   compare every point with the existing GP initializer.
 3. **Hidden/cartoon RHS adaptation.** Extend the stock visible GRChombo RHS
    only with missing hidden contributions; GRChombo remains owner of shared
    CCZ4 families.
@@ -253,9 +253,8 @@ Avoid per-substep audits. Require substantive independent audits only after:
 - the first perturbed GL growth-rate run passes.
 
 Fold documentation consistency into those technical audits. The exact next
-implementation substage is item 1 only; it excludes `BoxLoop`, live
-registration, RHS physics, cleanup, source, periodicity, evolution,
-diagnostics, and AHFinder.
+implementation substage is item 2 only; it excludes RHS physics, cleanup,
+source, periodicity, evolution, diagnostics, and AHFinder.
 
 ## Enumeration/registration substage result
 
@@ -298,10 +297,11 @@ is not copied. Storage writes one `ww` representative. The optional physical
 diagonal contraction counts that representative twice. There is no `y` or
 `yy` member and the legacy 27-slot header is not imported.
 
-Future Chombo `Cell`/`FArrayBox` wrappers will load the 18 slots into this
-structure, expose visible `(x,z)` data to stock formula families, add
-black-string hidden families, and store through the same seam. For the
-black-string application this replaces
+`BlackStringCellStorage.hpp` now loads and stores the 18 slots between this
+structure and a real `Cell<double>`-compatible source. Future production
+adapters will expose visible `(x,z)` data to stock formula families and add
+black-string hidden families. For the black-string application the reduced
+Vars seam replaces
 `ADMConformalVars::enum_mapping`, `BSSNVars::enum_mapping`,
 `CCZ4Vars::enum_mapping`, and their
 `VarsTools::define_*_enum_mapping` calls. It does not replace Chombo storage,
@@ -350,7 +350,31 @@ They reject swapped mappings, visible-y aliases, hidden multiplicity one,
 `hww=x^2`, wrong `K` sign, wrong `Aww`, missing gauge initialization, and
 field- or horizon-dependent initializer mutations.
 
-Only the reduced Vars seam, pointwise GP contract, and analytic GP metadata
-are complete. Chombo storage/`BoxLoop`, live registration, CCZ4 RHS,
-hidden/cartoon geometry, cleanup/constraints, fixed lapse source, periodic
-ownership, evolution, and diagnostics remain open.
+The reduced Vars seam, pointwise GP contract, analytic GP metadata, real
+one-point Chombo storage seam, and GP storage round trip are complete.
+`BoxLoop`, live registration, CCZ4 RHS, hidden/cartoon geometry,
+cleanup/constraints, fixed lapse source, periodic ownership, evolution, and
+diagnostics remain open.
+
+## Cell/FArrayBox storage seam result
+
+`code/BlackStringToy/BlackStringCellStorage.hpp` is intentionally thin:
+
+- `load(const Cell<double> &)` checks exactly 18 components and loads them
+  into `BlackStringReducedVars::Variables<double>`;
+- `store(const Cell<double> &, const Variables<double> &)` checks exactly 18
+  components and stores them in production-enum order;
+- both operations iterate the production enum as their sole slot authority;
+- storage never applies hidden multiplicity and writes one `hww` and one
+  `Aww` representative.
+
+The test-only real-grid access path is
+`FArrayBox -> BoxPointers -> Cell<double> -> BlackStringCellStorage`.
+It uses an explicit nonzero DIM2 `IntVect` and performs no grid traversal.
+The focused fixture proves exact 18-slot round trips, all component-local
+writes, unchanged neighbors, single-representative hidden storage, legacy
+27-component rejection, and three pointwise GP storage comparisons including
+`(r0,x)=(1,2)`. The next substage must add only a black-string GP compute
+class that `BoxLoop` invokes, reuse the existing point initializer and storage
+adapter at each point, wire the production application, and compare each
+written point with the pointwise oracle.

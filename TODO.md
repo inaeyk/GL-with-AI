@@ -30,11 +30,17 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [x] Execute comparison batch 1: record available dependency manifest fields, prove the shared thirteen-slot/dimension map, and directly compile GRChombo conformal algebra, contracted-connection/Z, and visible physical-Ricci comparisons. All numerical families pass the fixed tolerance and dimension/sign mutations fail. Chombo/container digests remain unresolved; hidden/cartoon terms remain custom-only. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch1_results.md`.
 - [x] Execute comparison batch 2: separate raw and encoded-Z Ricci, then directly compare visible chi/metric/K/Theta/A RHS families at identical analytic jets in stock `d=3`. All families and combined rows pass the unchanged tolerance; ten active mutations fail. This is not target-`d=4` evidence. Evidence: `docs/grchombo/custom_solver_grchombo_comparison_batch2_results.md`.
 - [x] Execute comparison batch 3: actual custom order-two and GRChombo order-four derivative kernels converge on periodic manufactured profiles; all 15 visible advection rows and the complete `chi`, `h_ij`, and `A_ij` shift RHS families now have independent finite-grid monitors; visible algebraic cleanup passes. Production Chombo periodic ownership/ghost exchange remains unimplemented and untested, hidden-`ww` adaptation remains pending, and batch 4 is complete.
-- [ ] Exact next substage: add only the thin `Cell`/`FArrayBox` load/store
-  wrapper around the validated 18-slot reduced Vars and GP point initializer.
-  No `BoxLoop`, physics, live registration, source, periodicity, evolution,
-  diagnostics, or AHFinder.
-- [ ] Then execute the locked production order: GP `BoxLoop`; hidden/cartoon
+- [x] Complete the thin real `Cell`/`FArrayBox` load/store wrapper around the
+  validated 18-slot reduced Vars and GP point initializer. The DIM2 fixture
+  proves exact 18-slot one-point round trips, neighbor ownership,
+  representative-only `hww/Aww` writes, mutation rejection, and three GP
+  storage comparisons without adding `BoxLoop` or physics.
+- [ ] Exact next substage: add the GP `BoxLoop` initializer and live
+  application wiring, traversing the production box while delegating every
+  point to the existing GP point initializer and new storage adapter. Compare
+  every written point with the pointwise oracle; do not add RHS, cleanup,
+  source, periodicity, evolution, diagnostics, or AHFinder.
+- [ ] Then execute the remaining locked production order: hidden/cartoon
   RHS; separately reported complete 13-row equivalence; hidden cleanup and
   constraints; fixed lapse source; periodic `z`/ghost ownership; unperturbed
   GP evolution; perturbed Fourier growth/threshold; horizon/nonlinear

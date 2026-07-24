@@ -277,13 +277,16 @@ reduce the requirement to resolve those digests before production adaptation.
 - P1-4 now has an exact pointwise GP initializer and analytic radial metadata.
   All 18 values, determinant, weighted trace, reconstructed `K_IJ`, gauge
   values, input rejection, and derivative formulas pass focused tests.
-- P1-4 is not production-complete: no Chombo `Cell`, `FArrayBox`, `BoxLoop`,
-  live registration, ghost, or checkpoint path calls the new seam.
+- The one-point Chombo storage portion of P1-4 is complete. A thin
+  black-string adapter loads and stores all 18 slots through real
+  `Cell<double>` access backed by a DIM2 `FArrayBox`; it performs no
+  hidden-multiplicity expansion and writes `hww/Aww` once each.
+- P1-4 is not production-complete: no `BoxLoop`, live registration, ghost, or
+  checkpoint path calls the new seam.
 - The Chombo source/build blocker is resolved by the project-qualified tuple.
-  The exact next substage is the thin black-string `Cell`/`FArrayBox`
-  load/store wrapper. It must call the reduced seam and must not use stock
-  `ADMConformalVars`/`VarsTools` mapping. The GP `BoxLoop` compute class is the
-  following substage, not part of the storage seam.
+  The exact next substage is the GP `BoxLoop` compute class and live
+  application wiring. It must call the existing point initializer and the new
+  storage adapter rather than duplicating GP formulas.
 - Hidden/cartoon RHS, cleanup, constraints, fixed lapse source, periodic
   ownership, evolution, and diagnostics remain later backlog items.
 
@@ -303,12 +306,32 @@ reduce the requirement to resolve those digests before production adaptation.
 - The core verifier enforces both dependency SHAs, detached-clean state,
   headers, and required libraries. Former Docker image/recipe provenance and
   PETSc/AHFinder remain explicit separate gaps; neither blocks the
-  initializer storage wrapper.
-- The next authorized substage is only the thin black-string
-  `Cell`/`FArrayBox` storage adapter around the existing reduced Vars and GP
-  point initializer. The GP `BoxLoop` compute class follows separately;
-  hidden RHS, cleanup/constraints, source, periodic ownership, evolution, and
-  diagnostics remain open.
+  GP `BoxLoop` initializer.
+- The one-point black-string `Cell`/`FArrayBox` storage adapter is complete.
+  The next authorized substage is only the GP `BoxLoop` compute class and
+  application wiring; hidden RHS, cleanup/constraints, source, periodic
+  ownership, evolution, and diagnostics remain open.
+
+## Cell/FArrayBox storage seam result
+
+- `BlackStringCellStorage::load(const Cell<double> &) -> Variables<double>`
+  and `BlackStringCellStorage::store(const Cell<double> &,
+  const Variables<double> &)` are the complete production-facing wrapper API.
+  Slot iteration and component checks derive only from
+  `BlackStringProductionVariables`.
+- The focused fixture creates a real 18-component DIM2 `FArrayBox`, binds an
+  explicit `IntVect` through Chombo `BoxPointers` and GRChombo `Cell`, and
+  performs one-point access only. No traversal, ghost-ownership assumption,
+  or `BoxLoop` is present.
+- Distinct values round-trip exactly in production order. All 18
+  component-local mutations affect only their intended slot; neighboring
+  points remain unchanged; `hww` and `Aww` each occupy one stored component.
+- Mutations for swapped, duplicate, omitted, off-by-one, visible-tensor
+  `hww`, duplicated hidden representatives, neighboring-cell writes, the
+  legacy 27-component shape, and an oversized output shape are rejected.
+- Three GP states, including `(r0,x)=(1,2)`, store and reload slot-for-slot
+  while preserving `hww=1`, determinant and weighted-trace identities,
+  reconstructed `Kxx/Kzz/Kww`, and all lapse/shift/gauge values.
 
 ## Explicit non-goals
 

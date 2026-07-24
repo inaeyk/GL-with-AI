@@ -2112,3 +2112,29 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   was installed. The verifier returned `CORE_DEPENDENCY_BUILD=VERIFIED`, the
   probe returned `TARGET_HEADER_PROBE=PASS`, and probe-generated artifacts
   were cleaned before the final status check.
+
+- Date: 2026-07-24
+- Goal: Implement only the black-string real `Cell`/`FArrayBox` storage seam
+  around the validated 18-slot reduced Vars contract.
+- Start/gate: Used CodeGraph/MCP first and confirmed clean checkpoint
+  `450624c`. Inspection of the verifier help, manifest, and dependency
+  contract established `scripts/verify_grchombo_dependency.sh
+  --require-build` as the strongest supported core qualification mode; no
+  unsupported `--strict` alias was added or documented. The verifier and
+  target-header probe both passed with the qualified temporary compiler
+  support under `/tmp`.
+- Implementation: Added `BlackStringCellStorage.hpp` with const `load` and
+  mutable-cell `store` operations, exact 18-component guards, production-enum
+  slot iteration, and no hidden multiplicity expansion. Added only a
+  test-local `UserVariables.hpp` boundary and real Chombo DIM2 fixture using
+  `FArrayBox`, explicit `IntVect`, `BoxPointers`, and `Cell`.
+- Evidence: Exact distinct-value and GP round trips pass. All 18
+  component-local mutations preserve ownership; neighbors remain unchanged;
+  `hww/Aww` each write once. Swapped, duplicate, omitted, off-by-one,
+  visible-tensor `hww`, doubled hidden, neighbor-write, legacy 27-component,
+  and oversized-output mutations are detected.
+- Scope: No `BoxLoop`, live application registration, RHS, cleanup,
+  constraints, source, periodicity, evolution, diagnostics, AHFinder,
+  external dependency source, production physics, or smoke parameters were
+  changed. The exact next implementation is the GP `BoxLoop` initializer
+  that delegates each point to the existing initializer and storage seam.
