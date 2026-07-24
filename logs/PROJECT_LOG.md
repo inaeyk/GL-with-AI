@@ -2469,3 +2469,63 @@ Category: Production Initial-Data Traversal
   oracle, algebraic identities, production physics, and smoke parameters are
   unchanged. Hidden/cartoon RHS adaptation remains next; live wiring,
   cleanup, source, periodicity, evolution, and diagnostics remain incomplete.
+
+## 2026-07-24 - Pointwise Target Hidden/Cartoon CCZ4 RHS
+
+Category: Production RHS Adaptation
+
+- Implemented a pointwise-only target `(2+2)` tensor and derivative adapter
+  for the reviewed 18-slot state. Stored `hww/Aww` remain single
+  representatives; target contractions use two hidden diagonal directions.
+- Direct locked GRChombo CCZ4 and geometry routines own shared source
+  families. The adapter reports stock-shared, adapted-hidden, and total values
+  for exactly 13 physical rows, plus isolated Ricci, encoded-Z,
+  lapse-derivative, and damping ledgers.
+- Exact GP totals are roundoff zero with `hww=1`. The independent analytic
+  oracle passes all 13 rows for diagonal, off-diagonal, hidden, encoded-Z,
+  mixed, even, and odd perturbation cases under the locked tolerance.
+- No live BoxLoop/RHS path changed. Hidden-aware cleanup and constraints are
+  the next active substage; fixed source, periodicity, evolution, diagnostics,
+  and horizons remain incomplete.
+
+## 2026-07-24 - Pointwise Target RHS Checkpoint Repair
+
+Category: Production RHS Adaptation
+
+- Corrected the checkpoint terminology and gate semantics. The production
+  path expands reduced `(2+2)` values/jets to full target `d=4` and directly
+  evaluates locked GRChombo. A second locked-source path suppresses
+  hidden-sensitive inputs.
+- Reports are `target_shared_hidden_suppressed`,
+  `hidden_increment_decomposition`, and `target_full_grchombo`, with the
+  increment defined exactly as full minus suppressed. It is decomposition
+  evidence, not an independently implemented hidden Ricci, encoded-Z, shift,
+  Gamma, or coefficient-correction RHS.
+- Direct nonlinear comparison across seven finite states and all 13 physical
+  rows passes: maximum absolute error `1.2216790079566664e-15`, maximum
+  normalized error `0.0023890868613152456`, worst at `GammaX` for the pure
+  hidden-`ww` state.
+- The JVP comparison now sweeps eight declared epsilons and is only a
+  roundoff/cancellation-dominated secondary diagnostic. It records
+  approximately `1/epsilon` amplification of finite-state discrepancies and
+  supplies no convergence, selected-epsilon, or completion gate.
+- Full Fourier `P_+` and `P_-` analytic jets, including correct `z` derivative
+  signs, pass at four phases with zero measured forbidden leakage/reflection
+  commutator and nonzero allowed rows.
+- Real test expansion policies mutate data before GRChombo evaluation and
+  reject hidden-copy, representative-`1/x^2`, cartoon, encoded-Z/Gamma,
+  representative-evolution, and target-coefficient defects.
+- Test-only analytic-oracle policies actively restore both prior defects. On
+  the same direct finite target state, the old one-pass Christoffel
+  construction fails at `GammaX` with normalized error `5.8113568280757554e7`
+  while the corrected two-pass path passes; the old shift-Hessian index order
+  fails at `GammaZ` with normalized error `1.687193240039411e11` while the
+  corrected derivative-derivative-component order passes.
+- Scope: Independently coded hidden-family production RHS is intentionally not
+  part of the production architecture. The completed seam expands reduced
+  `(2+2)` data into the full target-`d=4` state and calls locked GRChombo
+  directly for the complete CCZ4 RHS. Hidden sensitivity is reported through
+  the full-minus-hidden-suppressed decomposition.
+- Remaining incomplete work: live BoxLoop RHS wiring; hidden-aware cleanup and
+  constraints; fixed lapse-source production hook; periodic-`z` ghost
+  ownership; evolution; diagnostics and horizons; final agent score.

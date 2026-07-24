@@ -50,13 +50,21 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   headers are isolated with `-isystem`, and a project-owned unused parameter
   remains a fatal negative compile. Checkpoint completion was held pending on
   this repair and is accepted only with these checks passing.
-- [ ] Exact next substage: adapt the hidden/cartoon RHS while retaining
-  GRChombo ownership of shared visible CCZ4 families. Report stock-visible,
-  adapted-hidden, and total contributions separately; do not yet add cleanup,
-  source, periodicity, evolution, diagnostics, or AHFinder.
+- [x] Implement and validate the pointwise target-`d=4` hidden/cartoon RHS
+  adapter by expanding the reduced `(2+2)` state/jets and directly evaluating
+  locked GRChombo. Report `target_shared_hidden_suppressed`,
+  `hidden_increment_decomposition`, and `target_full_grchombo`, where the
+  increment is defined strictly as full minus suppressed. Direct nonlinear
+  comparison is the sole 13-row numerical completion gate. The JVP sweep is
+  only a roundoff/cancellation-dominated secondary diagnostic, and true
+  Fourier `P_+`/`P_-` sector checks pass. This is not an independently coded
+  hidden-family RHS. No BoxLoop or live application path was added.
+- [ ] Exact next substage: adapt hidden-aware target-`d=4` determinant and
+  `A`-trace cleanup plus Hamiltonian/momentum constraints. Keep the fixed
+  lapse source, periodicity, evolution, diagnostics, and AHFinder deferred.
 - [ ] Then execute the remaining locked production order: separately
-  reported complete 13-row equivalence; hidden cleanup and
-  constraints; fixed lapse source; periodic `z`/ghost ownership; unperturbed
+  validated hidden cleanup and constraints; fixed lapse source; periodic
+  `z`/ghost ownership; unperturbed
   GP evolution; perturbed Fourier growth/threshold; horizon/nonlinear
   diagnostics after PETSc/AHFinder qualification.
 - [ ] Run substantive audits only after: assembled storage plus `BoxLoop`;

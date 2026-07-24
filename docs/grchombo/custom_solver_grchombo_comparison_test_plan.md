@@ -24,10 +24,11 @@ Comparison batches 1-4 are complete:
   lapse-source seam plus Fourier/parity initialization convention.
 
 This is substantial agent-capability evidence, but no final overall score is
-assigned before hidden-sector production equivalence and actual evolution
-runs. The next comparison target is not more custom spectral work: it is the
-production-adapted hidden/cartoon 13-row pointwise seam, with stock-visible,
-adapted-hidden, and total contributions reported separately.
+assigned before actual evolution runs. The production target-`d=4` 13-row
+pointwise seam now passes direct nonlinear comparison. It reports target
+hidden-suppressed, subtraction-defined hidden increment, and full target
+GRChombo results; the increment is not an independently implemented hidden
+RHS. Hidden-aware cleanup and constraints are the next comparison target.
 
 Historical provenance remains inferred because the GRChombo-era Chombo SHA is
 unavailable. The project-qualified comparison/production tuple is official
@@ -95,7 +96,7 @@ derivatives; do not let either path compute its own stencil in Level 2.
 | L2-05 chi/metric RHS | advection, stretching, algebraic coupling, complete rows | Per-family and complete rows meet tolerance |
 | L2-06 K/Theta/A RHS | Ricci, encoded Z, algebraic, damping, advection/stretching | Per-family and every output component meet tolerance; BSSN mutation fails |
 | L2-07 hatted-Gamma RHS | Z/kappa, gradients, connection-A, vector Hessian, grad-div, advection | Per-family and complete x/z rows meet tolerance; parity signs exact |
-| L2-08 nonlinear JVP | Two mixed perturbation directions and six central-difference epsilons | GRChombo nonlinear finite difference approaches custom analytic JVP; truncation region shows second-order epsilon convergence and best error meets fixed tolerance envelope |
+| L2-08 direct nonlinear target comparison and directional diagnostic | Deterministic finite target states plus the declared central-difference epsilon sweep | Direct full target GRChombo versus the custom analytic oracle must meet the fixed tolerance for all 13 rows and is the sole numerical completion gate. The JVP sweep is reported only as a roundoff/cancellation-dominated diagnostic; no epsilon, convergence order, or locked-tolerance JVP pass is required |
 | L2-09 GP background | Analytic GP values/derivatives with and without fixed lapse source | Geometric rows vanish within tolerance; unmodified lapse is `-3 lambda`; source-adjusted lapse vanishes |
 | L2-10 constraint equations | Hamiltonian and momentum, raw and hidden increments | Componentwise tolerance and exact hidden multiplicity |
 
@@ -255,8 +256,18 @@ and `Stage4AOCGRChomboComparisonBatch4GaugeTest.cpp`. Full evidence is in
 | L3-07 full custom GP preflight | custom second-order stencil study only | pairwise orders `1.81140,1.90359,1.95125` through `N=2048`; worst component/location retained | not used as analytic all-row evidence | pass |
 | L1-08 perturbation convention | test-only convention gate | `k_n=2 pi n/L`, all frozen slots and both phase assignments checked; gauge perturbations zero | radial profile remains deliberately unlocked | pass |
 
-The next comparison work begins at the reviewed target-dimension adaptation
-seam, not another custom runtime. First add only the thin
-`Cell`/`FArrayBox` storage wrapper; then assemble the GP `BoxLoop`. Hidden RHS
-adaptation and the separately reported complete 13-row comparison follow.
-Periodic ghost ownership and GRChombo time integration remain later gates.
+The reviewed target-dimension pointwise adaptation seam now passes. Direct
+locked source routines execute at target `d=4`; all 13 nonlinear rows match
+the independent custom analytic oracle. Hidden-suppressed/full execution and
+their subtraction remain observable. The epsilon sweep is classified only as
+a roundoff/cancellation-dominated secondary diagnostic: finite-state
+production/oracle discrepancies are amplified approximately as `1/epsilon`
+in the quotient. Genuine Fourier `P_+`/`P_-` sector checks supplement the
+primary direct nonlinear result. The next comparison work is hidden-aware
+cleanup and constraints. Periodic ghost ownership and GRChombo time
+integration remain later gates.
+
+Both oracle defects exposed during this comparison are now active negative
+controls. The old one-pass raised-Christoffel construction and the old
+component-first shift-Hessian interpretation each fail the locked tolerance
+on nonzero finite data; the corrected oracle passes those identical states.

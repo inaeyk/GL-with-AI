@@ -29,8 +29,8 @@ Historical dependency provenance and the production lock are separate:
   stock GRChombo `VariableStoreTest` and `CCZ4GeometryUnitTest` pass.
 - Core dependency build: verified. Former container provenance and
   PETSc/AHFinder reproducibility: unresolved. MPI and a full black-string
-  runtime: not yet qualified. These gaps do not block the next hidden/cartoon
-  RHS adaptation; PETSc/AHFinder work remains blocked.
+  runtime: not yet qualified. These gaps do not block the next hidden-aware
+  cleanup/constraint adaptation; PETSc/AHFinder work remains blocked.
 
 Stage 4AO-C is split without changing its original objective:
 
@@ -57,7 +57,7 @@ load/store seam, the pointwise GP storage round trip, and the real DIM2 GP
 `BoxLoop` compute/traversal with its coordinate contract. None is live
 application wiring.
 
-Still incomplete are live application registration, hidden/cartoon RHS,
+Still incomplete are live application registration and BoxLoop RHS wiring,
 hidden-aware cleanup and constraints, production fixed
 lapse-source hook, periodic-`z` ownership and ghost exchange, unperturbed and
 perturbed production evolution, growth/decay diagnostics, horizon/`R_H`
@@ -71,12 +71,14 @@ diagnostics, MPI qualification, and PETSc/AHFinder qualification.
 2. [complete] GP `BoxLoop` compute class and isolated real DIM2 traversal,
    compared at every point with the existing initializer. Live application
    wiring remains deferred.
-3. [next] Hidden/cartoon RHS adaptation: retain GRChombo ownership of shared visible
-   CCZ4 families and add only missing hidden contributions.
-4. Pointwise complete 13-row equivalence, reporting stock-visible,
-   adapted-hidden, and total contributions separately against the frozen
+3. [complete] Pointwise target-`d=4` RHS adaptation: expand the reduced state
+   and modified-cartoon jets, then directly call locked GRChombo for full and
+   hidden-suppressed target inputs.
+4. [complete] Pointwise complete 13-row equivalence, reporting
+   `target_shared_hidden_suppressed`, subtraction-defined
+   `hidden_increment_decomposition`, and `target_full_grchombo` against the
    custom analytic oracle.
-5. Hidden-aware cleanup and constraints.
+5. [next] Hidden-aware cleanup and constraints.
 6. Production fixed lapse-source hook.
 7. Periodic `z` and ghost ownership.
 8. Unperturbed GP evolution: stationarity, constraint convergence, and
@@ -95,7 +97,7 @@ Fold documentation consistency into independent technical audits only after:
 
 1. [complete] the first real `Cell`/`FArrayBox` plus `BoxLoop` GP initializer
    is assembled;
-2. the complete adapted hidden/cartoon 13-row pointwise RHS passes;
+2. [complete] the direct full target-`d=4` 13-row nonlinear comparison passes;
 3. hidden cleanup/constraints and the fixed source are integrated;
 4. the first unperturbed production evolution passes; and
 5. the first perturbed GL growth-rate run passes.
@@ -629,7 +631,7 @@ trace-free curvature/lapse, and `hat_Gamma^x` work:
 - [x] Stage 4AO-C encoded-Z derivative adapter: analytically differentiate the unreduced hidden-aware contracted-connection formulas without a determinant constraint, retaining the two hidden copies and every derivative of `1/x`, including the `1/x^2` terms. The separately testable adapter supplies `dx/dz Z_x` and `dx/dz Z_z` to the existing encoded-Z tensor helper and never numerically differentiates production code. Its independent full modified-cartoon contraction oracle checks mixed derivatives, parity, determinant independence, and sign/coefficient/multiplicity mutations.
 - [x] Stage 4AO-C complete frozen-gauge K/Theta/A rows: consume common GP advection, geometric Ricci, encoded-Z completion, selected algebraic terms, locked K/Theta damping, and A shift stretching exactly once. Curvature is projected only in its existing geometric and encoded-Z owners; the complete assembler performs no second projection, representative `A_ww` is written once, and no direct A damping is introduced. A test-only nonlinear four-dimensional Cartesian analytic-jet oracle independently constructs physical Ricci, `Z_over_chi`, physical lower `Z_i=h_ij Z_over_chi^j`, covariant `D_i Z_j`, selected CCZ4 algebraic terms, trace-free curvature, GP advection, and tensor shift stretching. It validates the geometric-Ricci-plus-Z split path; source mapping identifies that path with selected CCZ4, and no independent direct Gamma-form Ricci is claimed. Analytic-jet GP residuals are zero except `Theta=-6.78e-21`. Two mixed directions pass the six-point `1e-2` through `1e-7` sweep with approximately 100-fold error reduction over the first two decades followed by roundoff saturation. A genuinely isolated nonzero geometric-Ricci direction has `Z=partial Z=0` and every unrelated family zero. The full metric-inclusive tangent case enforces `T=partial_x T=0`, has a nonzero metric contribution, and preserves `T(delta rhs)` at roundoff without completing metric rows. Every family omission/duplication, encoded-Z omission/double insertion, hidden multiplicity one, representative-ww duplication, adapter mixed/second/inverse-square mutation, parity leakage, and illegal write mutation is rejected. K, Theta, and `A_xx/A_xz/A_zz/A_ww` completion/inventory/validation flags are true. At that checkpoint chi/metric and full-interior gates remained false; the following two checklist items record their completed status. Boundaries, MOTS, eigensolver, and 4AO-D remain false.
 - [x] Stage 4AO-C complete frozen-gauge chi/metric rows: assemble common GP advection, the existing tensor shift-stretching owner, and the existing `chi<-K/2`, `h_IJ<-2A_IJ` algebraic owner exactly once. The final rows are `chi=Adv+delta K/2` and `hxx/hxz/hzz/hww=Adv+(-7,-5,-3,+5)lambda delta h/4-2delta A`. The locked `K_GP=div beta_GP` identity removes the potential `delta chi` coefficient, and representative hww is written once. An independent analytic-jet nonlinear oracle covers background, pure/mixed directions, six epsilons, parity, determinant/tangent consistency, family mutations, ww ownership, and illegal writes. The chi and four metric variable-completion flags are true.
-- [x] Stage 4AO-C full 13-variable interior assembly/JVP/parity: compose the chi/metric, K/Theta/A, and hatted-Gamma complete-row owners in the locked state order, consuming the supplied common-advection vector without recomputation. A test-only analytic-jet selected-branch evaluator independently constructs all 13 nonlinear rows. All GP residuals are zero or below `5.5e-20`; two mixed directions activate every row/family and pass `1e-2` through `1e-7`, with second-order convergence for nonlinear rows through `1e-4` and roundoff-level exact-linear chi/metric rows. Complete-row/advection omission and duplication, hidden/representative-ww, slot ownership, weighted tangent identities, and both explicit parity sectors pass with zero forbidden leakage. All 13 variable flags and only the interior assembly/JVP/parity gates are true; radial boundaries, boundary-bearing complete operator, MOTS, eigensolver, threshold work, and 4AO-D remain false.
+- [x] Stage 4AO-C full 13-variable interior assembly/JVP/parity: compose the chi/metric, K/Theta/A, and hatted-Gamma complete-row owners in the locked state order, consuming the supplied common-advection vector without recomputation. A test-only analytic-jet selected-branch evaluator independently constructs all 13 nonlinear rows. All GP residuals are zero or below `5.5e-20`; two mixed directions activate every row/family across the recorded epsilon range. That historical custom selected-branch exercise is not convergence evidence for the target-adapter directional quotient, which is classified separately as roundoff/cancellation dominated. Complete-row/advection omission and duplication, hidden/representative-ww, slot ownership, weighted tangent identities, and both explicit parity sectors pass with zero forbidden leakage. All 13 variable flags and only the interior assembly/JVP/parity gates are true; radial boundaries, boundary-bearing complete operator, MOTS, eigensolver, threshold work, and 4AO-D remain false.
 - [x] Stage 4AO-C radial-boundary design preflight: trace the selected `USE_CCZ4` radial principal symbol and lock a blockwise physical/Z4 characteristic substitute. The light sectors have fixed-boundary speeds `1-sqrt(r0/x)` and `-1-sqrt(r0/x)`; shift-advected and frozen-longitudinal sectors have speed `-sqrt(r0/x)`. The frozen longitudinal sector contains a zero-normal-speed Jordan block, so no false complete characteristic basis is claimed. Every sector is outflow at `0<x_in<r0`; no inner continuum data are allowed, only second-order one-sided `D_x/D_xx/D_xz` closure and local determinant/weighted-trace cleanup. Its provisional scalar outer law and generalized layout remain diagnostic; no rank-nine WKB projector or polynomial pencil is locked. `k=0` remains a separate charge/gauge diagnostic. Every outer and downstream gate remains false.
 - [x] Stage 4AO-C inner pure-outflow endpoint operator: implement explicit second-order one-sided `D_x` and `D_xx` coefficient/reach contracts and Fourier-amplitude `D_xz=D_xD_z` for both full parity sectors, with no stored radial ghost unknown or continuum data. The validation-only wrapper constructs endpoint jets, consumes the existing complete 13-variable interior assembler once, retains all 13 PDE rows, adds zero boundary equations, performs no reset/extrapolation, and keeps determinant/weighted-trace cleanup separate. Exact polynomial tests, smooth-profile order above `1.8`, wrong-sign/coefficient/reach/centered mutations, exact row-owner and representative-ww ownership, both parity sectors, zero leakage/commutator, and cleanup separation pass. At `x_in/r0={0.35,0.50,0.65,0.80}` all `c_+=1-v`, `c_-=-1-v`, and `c_0=-v` are outward; `x_in=r0` is glancing and rejected, and `x_in>r0` is invalid. The endpoint-symbol reflection measure decreases from `5.48e-5` at `dx=1/64` to `5.11e-8` at `dx=1/2048`. Only the inner helper/validation flags are true; outer, aggregate boundary, boundary-bearing complete-operator, MOTS, eigensolver, threshold, production, 4AO-D, and Checkpoint G gates remain false.
 - [x] Stage 4AO-C outer `k>0` leading-asymptotic diagnostic: historical scalar profile powers and logarithmic derivatives are retained only as a rejected diagnostic record. The full stationary audit supersedes their coefficients. Its exact-rational `q=2/3` counterexample disproves the formerly claimed universal `s^5(s^2-k^2)^4` light factorization. Direct `W_b^in,J,F,G,C_h,C_A` conditions are diagnostic characteristic labels only; they are not the primary boundary condition. All outer and downstream gates remain false.
@@ -815,8 +817,8 @@ simulation and radiation diagnostics exist.
 - [ ] Adapt and compare hidden-aware `d=4` determinant/A-trace cleanup; stock
   visible cleanup has no `hww/Aww` or multiplicity-two owner.
 - [ ] Execute the locked production sequence above. The exact next substage is
-  hidden/cartoon RHS adaptation; storage and the isolated GP `BoxLoop`
-  initializer are complete.
+  hidden-aware cleanup and constraints; storage, the isolated GP `BoxLoop`
+  initializer, and pointwise 13-row hidden/cartoon RHS are complete.
 - [x] Production-adaptation preflight: lock the inspected GRChombo
   origin/commit in a tracked manifest; add a read-only wrong-commit/dirty-state
   verifier; lock the target 18-slot `d=4/2` state with no visible-`y` slots;
@@ -861,4 +863,14 @@ simulation and radiation diagnostics exist.
   This is `PROJECT_QUALIFIED`; historical exact provenance remains inferred.
 - [ ] Qualify MPI and a full black-string runtime separately. Recover former
   container provenance when possible, and qualify PETSc before enabling
-  `USE_AHFINDER`; none blocks the next hidden/cartoon RHS adaptation.
+  `USE_AHFINDER`; none blocks the next hidden-aware cleanup/constraint
+  adaptation.
+- [x] Pointwise target-`d=4` hidden/cartoon RHS adapter: expand the reviewed
+  reduced state/jets into `(x,z,w1,w2)`, directly execute locked GRChombo
+  CCZ4/geometry source, and report hidden-suppressed, subtraction-defined
+  increment, and full target values for exactly 13 physical rows. Direct
+  nonlinear finite-state comparison as the sole 13-row numerical completion
+  gate, the roundoff/cancellation-dominated secondary JVP diagnostic, genuine
+  `P_+`/`P_-` sector checks, exact GP cancellation, directness checks, and
+  target-input mutations pass. No independently coded hidden-family RHS, live
+  BoxLoop, or evolution path was added.

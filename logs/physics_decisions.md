@@ -82,3 +82,35 @@ Durable physics decisions only. Use [PROJECT_LOG.md](PROJECT_LOG.md) for day-to-
   split with the selected CCZ4 Ricci-Z content.
   Chi and metric rows, the complete 13-variable/JVP gate, boundaries, MOTS,
   eigensolver, and 4AO-D remain incomplete.
+
+## 2026-07-24 - Target `(2+2)` CCZ4 pointwise ownership
+
+- Stored `hww/Aww` are one Cartesian-like representative, never
+  `gamma_theta_theta=x^2`. Target contractions expand that representative to
+  two hidden diagonal directions with indices `2` and `3`.
+- Gridded directions remain `0=x` and `1=z`; modified-cartoon `1/x` and
+  `1/x^2` identities supply hidden derivatives at positive `x`.
+- The production seam expands reduced `(2+2)` data to a complete target
+  `d=4` state and directly calls locked GRChombo for the complete CCZ4 RHS.
+  Hidden sensitivity is reported as full minus a separately evaluated target
+  hidden-suppressed result. The seam does not “add only the hidden
+  completion.” Exact GP cancellation and the complete direct nonlinear
+  13-row oracle comparison pass. Hidden-aware cleanup and constraints remain
+  the next physics adaptation.
+
+## 2026-07-24 - Target RHS hidden increment is decomposition evidence
+
+- The production physics owner is locked full target-`d=4` GRChombo, supplied
+  by the validated reduced-to-full tensor and modified-cartoon derivative
+  expansion. The hidden-suppressed result is a second GRChombo evaluation.
+- `hidden_increment_decomposition = target_full_grchombo -
+  target_shared_hidden_suppressed`. This reports the hidden-sensitive
+  increment but does not independently assign hidden Ricci, encoded-Z, shift,
+  Gamma, damping, or target-coefficient families to project code.
+- On exact GP data, nonzero suppressed/increment legs cancel to roundoff. The
+  hidden-suppressed target-`d=4` K row is itself approximately zero because
+  `beta^x partial_x K = -9 lambda^2/4` and `K^2 = +9 lambda^2/4`; this differs
+  from the older stock-`d=3` mapping with residual `1/8`.
+- Genuine `P_+` and `P_-` validation uses full Fourier-consistent even/one-`z`
+  jets and their derivative signs. The older labels “even-variable data” and
+  “one-z-variable data” remain data classifications, not parity-sector claims.

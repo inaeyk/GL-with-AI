@@ -373,6 +373,15 @@ inline Geometry compute_geometry(const AxisTensorJets &jets)
                     0.5L * (geometry.first[b][a][c] +
                             geometry.first[c][a][b] -
                             geometry.first[a][b][c]);
+            }
+        }
+    }
+    for (int a = 0; a < dimension; ++a)
+    {
+        for (int b = 0; b < dimension; ++b)
+        {
+            for (int c = 0; c < dimension; ++c)
+            {
                 for (int d = 0; d < dimension; ++d)
                 {
                     geometry.gamma[a][b][c] +=
@@ -417,6 +426,58 @@ inline Geometry compute_geometry(const AxisTensorJets &jets)
                                 lower[d][b][c] +
                             geometry.inverse[a][d] * derivative_lower;
                     }
+                }
+            }
+        }
+    }
+    for (int i = 0; i < dimension; ++i)
+    {
+        for (int j = 0; j < dimension; ++j)
+        {
+            for (int a = 0; a < dimension; ++a)
+            {
+                geometry.ricci[i][j] +=
+                    geometry.gamma_first[a][a][i][j] -
+                    geometry.gamma_first[j][a][i][a];
+                for (int b = 0; b < dimension; ++b)
+                {
+                    geometry.ricci[i][j] +=
+                        geometry.gamma[a][i][j] *
+                            geometry.gamma[b][a][b] -
+                        geometry.gamma[a][j][b] *
+                            geometry.gamma[b][i][a];
+                }
+            }
+        }
+    }
+    return geometry;
+}
+
+// Test-only regression path reproducing the former one-pass construction
+// defect. The corrected oracle above first fills every lower-index
+// Christoffel and only then raises the first index. Here each raised entry is
+// formed while later lower-index entries are still zero.
+inline Geometry
+compute_geometry_old_construction_order(const AxisTensorJets &jets)
+{
+    Geometry geometry = compute_geometry(jets);
+    geometry.gamma = {};
+    geometry.ricci = {};
+    Christoffel lower = {};
+    for (int a = 0; a < dimension; ++a)
+    {
+        for (int b = 0; b < dimension; ++b)
+        {
+            for (int c = 0; c < dimension; ++c)
+            {
+                lower[a][b][c] =
+                    0.5L * (geometry.first[b][a][c] +
+                            geometry.first[c][a][b] -
+                            geometry.first[a][b][c]);
+                for (int d = 0; d < dimension; ++d)
+                {
+                    geometry.gamma[a][b][c] +=
+                        geometry.inverse[a][d] * lower[d][b][c];
                 }
             }
         }
@@ -532,6 +593,145 @@ inline Tensor encoded_z_tensor(const Context &context,
     return q;
 }
 
+// Independent analytic transcription of the locked Gamma-based CCZ4
+// Ricci-Z formula. This consumes only the oracle's analytic target tensors
+// and jets; it does not call GRChombo or the production pointwise adapter.
+// The older covariant encoded_z_tensor remains useful as a geometric
+// cross-check, but finite nonlinear comparison must use the same Gamma-based
+// convention as the production source.
+inline Tensor analytic_ccz4_ricci_z(const Context &context,
+                                    const Geometry &conformal,
+                                    Vector4 &z_over_chi_out)
+{
+    const auto chi = state_jet(context, Variable::chi);
+    const auto gamma_x =
+        state_jet(context, Variable::hat_Gamma_x);
+    const auto gamma_z =
+        state_jet(context, Variable::hat_Gamma_z);
+    const Vector4 hatted = {gamma_x.value, gamma_z.value, 0.0L, 0.0L};
+    std::array<Vector4, dimension> hatted_first = {};
+    hatted_first[0] = {gamma_x.dx, gamma_z.dx, 0.0L, 0.0L};
+    hatted_first[1] = {gamma_x.dz, gamma_z.dz, 0.0L, 0.0L};
+    hatted_first[2][2] = gamma_x.value / context.x;
+    hatted_first[3][3] = gamma_x.value / context.x;
+
+    const Vector4 chi_first = {chi.dx, chi.dz, 0.0L, 0.0L};
+    Tensor chi_second = {};
+    chi_second[0][0] = chi.dxx;
+    chi_second[0][1] = chi_second[1][0] = chi.dxz;
+    chi_second[1][1] = chi.dzz;
+    chi_second[2][2] = chi_second[3][3] = chi.dx / context.x;
+
+    const auto contracted = contracted_connection(conformal);
+    for (int i = 0; i < dimension; ++i)
+    {
+        z_over_chi_out[i] = 0.5L * (hatted[i] - contracted[i]);
+    }
+
+    Christoffel lower = {};
+    for (int i = 0; i < dimension; ++i)
+    {
+        for (int j = 0; j < dimension; ++j)
+        {
+            for (int k = 0; k < dimension; ++k)
+            {
+                lower[i][j][k] =
+                    0.5L * (conformal.first[j][i][k] +
+                            conformal.first[k][i][j] -
+                            conformal.first[i][j][k]);
+            }
+        }
+    }
+
+    Christoffel lower_lower_upper = {};
+    for (int i = 0; i < dimension; ++i)
+    {
+        for (int j = 0; j < dimension; ++j)
+        {
+            for (int k = 0; k < dimension; ++k)
+            {
+                for (int l = 0; l < dimension; ++l)
+                {
+                    lower_lower_upper[i][j][k] +=
+                        conformal.inverse[k][l] * lower[i][j][l];
+                }
+            }
+        }
+    }
+
+    Tensor covariant_tilde_chi_second = {};
+    Real box_tilde_chi = 0.0L;
+    Real chi_gradient_squared = 0.0L;
+    for (int i = 0; i < dimension; ++i)
+    {
+        for (int j = 0; j < dimension; ++j)
+        {
+            covariant_tilde_chi_second[i][j] = chi_second[i][j];
+            for (int k = 0; k < dimension; ++k)
+            {
+                covariant_tilde_chi_second[i][j] -=
+                    conformal.gamma[k][i][j] * chi_first[k];
+            }
+            box_tilde_chi +=
+                conformal.inverse[i][j] *
+                covariant_tilde_chi_second[i][j];
+            chi_gradient_squared +=
+                conformal.inverse[i][j] * chi_first[i] * chi_first[j];
+        }
+    }
+
+    Tensor result = {};
+    for (int i = 0; i < dimension; ++i)
+    {
+        for (int j = 0; j < dimension; ++j)
+        {
+            Real ricci_hat = 0.0L;
+            for (int k = 0; k < dimension; ++k)
+            {
+                ricci_hat +=
+                    0.5L *
+                    (conformal.metric[k][i] * hatted_first[j][k] +
+                     conformal.metric[k][j] * hatted_first[i][k]);
+                ricci_hat +=
+                    0.5L * hatted[k] * conformal.first[k][i][j];
+                for (int l = 0; l < dimension; ++l)
+                {
+                    ricci_hat +=
+                        -0.5L * conformal.inverse[k][l] *
+                            conformal.second[k][l][i][j] +
+                        conformal.gamma[k][l][i] *
+                            lower_lower_upper[j][k][l] +
+                        conformal.gamma[k][l][j] *
+                            lower_lower_upper[i][k][l] +
+                        conformal.gamma[k][i][l] *
+                            lower_lower_upper[k][j][l];
+                }
+            }
+
+            const Real ricci_chi =
+                0.5L *
+                (2.0L * covariant_tilde_chi_second[i][j] +
+                 conformal.metric[i][j] * box_tilde_chi -
+                 (2.0L * chi_first[i] * chi_first[j] +
+                  4.0L * conformal.metric[i][j] *
+                      chi_gradient_squared) /
+                     (2.0L * chi.value));
+            Real z_terms = 0.0L;
+            for (int k = 0; k < dimension; ++k)
+            {
+                z_terms += z_over_chi_out[k] *
+                           (conformal.metric[i][k] * chi_first[j] +
+                            conformal.metric[j][k] * chi_first[i] -
+                            conformal.metric[i][j] * chi_first[k]);
+            }
+            result[i][j] =
+                (ricci_chi + chi.value * ricci_hat + z_terms) /
+                chi.value;
+        }
+    }
+    return result;
+}
+
 inline Real trace(const Tensor &tensor, const Tensor &inverse,
                   const int hidden_copies)
 {
@@ -582,6 +782,27 @@ inline ShiftJets shift_jets(const Context &context)
     return out;
 }
 
+struct CorrectedEvaluationPolicy
+{
+    Geometry geometry_from(const AxisTensorJets &jets) const
+    {
+        return compute_geometry(jets);
+    }
+
+    ShiftJets shift_from(const Context &context) const
+    {
+        return shift_jets(context);
+    }
+
+    Real contracted_vector_hessian(const ShiftJets &shift,
+                                   const int derivative_1,
+                                   const int derivative_2,
+                                   const int component) const
+    {
+        return shift.second[derivative_1][derivative_2][component];
+    }
+};
+
 inline void add_representative_tensor(Rows &rows, const Tensor &tensor,
                                       const Variable xx,
                                       const Variable xz,
@@ -595,9 +816,11 @@ inline void add_representative_tensor(Rows &rows, const Tensor &tensor,
     rows[slot(ww)] += factor * tensor[2][2];
 }
 
-inline Result evaluate(const double r0, const double x, const double epsilon,
-                       const Direction &direction,
-                       const int hidden_copies = hidden_multiplicity)
+template <class evaluation_policy_t>
+inline Result evaluate_with_policy(
+    const double r0, const double x, const double epsilon,
+    const Direction &direction, const evaluation_policy_t &evaluation_policy,
+    const int hidden_copies = hidden_multiplicity)
 {
     const Context context{static_cast<Real>(r0), static_cast<Real>(x),
                           static_cast<Real>(epsilon), &direction,
@@ -605,11 +828,22 @@ inline Result evaluate(const double r0, const double x, const double epsilon,
     const auto conformal_jets = conformal_metric_jets(context);
     const auto physical_jets = physical_metric_jets(context);
     const auto a_jets = a_tensor_jets(context);
-    const auto conformal = compute_geometry(conformal_jets);
-    const auto physical = compute_geometry(physical_jets);
-    const auto shift = shift_jets(context);
+    const auto conformal =
+        evaluation_policy.geometry_from(conformal_jets);
+    const auto physical =
+        evaluation_policy.geometry_from(physical_jets);
+    const auto shift = evaluation_policy.shift_from(context);
     Vector4 z_over_chi = {};
-    const auto q = encoded_z_tensor(context, conformal, physical, z_over_chi);
+    const auto combined_ricci =
+        analytic_ccz4_ricci_z(context, conformal, z_over_chi);
+    Tensor q = {};
+    for (int i = 0; i < dimension; ++i)
+    {
+        for (int j = 0; j < dimension; ++j)
+        {
+            q[i][j] = combined_ricci[i][j] - physical.ricci[i][j];
+        }
+    }
     const auto &a = a_jets.value;
     const Real chi = state_jet(context, Variable::chi).value;
     const Real k = state_jet(context, Variable::K).value;
@@ -768,7 +1002,10 @@ inline Result evaluate(const double r0, const double x, const double epsilon,
             {
                 gamma_rhs +=
                     2.0L * conformal.gamma[i][j][m] * a_uu[j][m];
-                gamma_rhs += conformal.inverse[j][m] * shift.second[i][j][m];
+                gamma_rhs +=
+                    conformal.inverse[j][m] *
+                    evaluation_policy.contracted_vector_hessian(
+                        shift, j, m, i);
                 gamma_rhs += 0.5L * conformal.inverse[i][j] *
                              shift.second[m][j][m];
             }
@@ -785,6 +1022,15 @@ inline Result evaluate(const double r0, const double x, const double epsilon,
         }
     }
     return result;
+}
+
+inline Result evaluate(const double r0, const double x, const double epsilon,
+                       const Direction &direction,
+                       const int hidden_copies = hidden_multiplicity)
+{
+    return evaluate_with_policy(r0, x, epsilon, direction,
+                                CorrectedEvaluationPolicy{},
+                                hidden_copies);
 }
 
 inline Result central_difference(const double r0, const double x,

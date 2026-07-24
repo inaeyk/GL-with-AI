@@ -175,7 +175,7 @@ the same stored quantity.
 | User-variable enumeration | replace only for black-string variables | introduce the reviewed 18-slot enum; do not modify generic GRChombo enums |
 | Variable registration and names | replace only for black-string variables | register exactly the 18 names and parity metadata in the example |
 | GP initial-data `BoxLoop` | extend | isolated black-string compute class and real traversal complete; live call remains deferred |
-| CCZ4 RHS | wrap | retain stock visible families and add explicitly reported hidden/cartoon increments through a thin adapter |
+| CCZ4 RHS | wrap | pointwise target adapter complete: expand reduced inputs, directly call locked full target-`d=4` GRChombo, execute a hidden-suppressed comparison, and report their subtraction; live BoxLoop wiring deferred |
 | Modified-cartoon derivatives and geometry | extend | use GRChombo derivative/ghost infrastructure; add only hidden representative formulas and axis policy |
 | Algebraic cleanup | wrap | reuse positivity; extend determinant and `A`-trace operations for `hww/Aww` with multiplicity two |
 | Constraints | wrap | retain stock orchestration/reductions; add physical-`d=4` hidden terms |
@@ -184,14 +184,15 @@ the same stored quantity.
 | Diagnostics and horizon data | reuse and extend | reuse reductions, interpolation, I/O, and AH machinery; add black-string `R_H`, minimum radius, area, and Fourier data |
 | RK, AMR, MPI/OpenMP, checkpoint/restart | reuse unchanged | no project-owned replacement |
 
-Thin adapters must preserve separately observable stock-visible and
-black-string-hidden contributions. Copying the complete custom solver into
-production is explicitly rejected.
+Thin adapters must preserve separately observable target hidden-suppressed and
+full target evaluations. Their subtraction is decomposition evidence only.
+Copying the complete custom solver or independently rebuilding complete hidden
+CCZ4 families in production is explicitly rejected.
 
 ## Oracle-to-production comparison seam
 
-The first pointwise production acceptance target will be a test adapter with
-the following contract:
+The implemented pointwise production acceptance adapter has the following
+contract:
 
 - Input: `(x,z,r0)`, the 18 target values, analytic first and second
   derivatives in the two gridded directions, the modified-cartoon
@@ -202,20 +203,25 @@ the following contract:
   `kappa3=1`, and `covariantZ4=true`.
 - Output: all 13 physical RHS rows in the frozen order
   `(chi,hxx,hxz,hzz,hww,K,Axx,Axz,Azz,Aww,Theta,GammaX,GammaZ)`.
-- Reporting: stock-visible contributions, adapted hidden/cartoon
-  contributions, and final rows are recorded separately so cancellation
-  cannot hide ownership errors.
+- Reporting: `target_shared_hidden_suppressed`,
+  `hidden_increment_decomposition`, and `target_full_grchombo` are recorded
+  separately. The increment is exactly full minus suppressed; it exposes
+  cancellation size without claiming an independently coded hidden family.
 - Reference: the independent
   `code/BlackStringToy/tests/Stage4AOCAnalyticFullOracle.hpp` path and its
   complete analytic full-oracle fixture. Production code must not be called
   by the oracle.
 - Acceptance:
   `|a-b| <= 5e-13 + 5e-12 max(|a|,|b|)` for pointwise comparisons, plus
-  component ownership, hidden-multiplicity, parity, and mutation checks.
+  component ownership, hidden-multiplicity, genuine Fourier-sector, and
+  target-input mutation checks.
 
-The adapter design allows the already direct stock-visible evidence to remain
-visible while the new hidden terms are assessed independently. It is not
-implemented in this preflight.
+Both target paths execute locked GRChombo source directly. The independent
+custom oracle evaluates the same finite nonlinear state/jets without calling
+the production adapter. The direct nonlinear comparison is the sole 13-row
+numerical completion gate. The JVP epsilon sweep is a
+roundoff/cancellation-dominated secondary diagnostic only; it is not
+convergence evidence.
 
 ## Locked production sequence and audit checkpoints
 
@@ -229,13 +235,13 @@ complete. The active implementation sequence is now:
    validated 18-slot reduced Vars duplicates no physics.
 2. **GP BoxLoop initializer (compute/traversal complete).** Live application
    wiring remains deferred.
-3. **Hidden/cartoon RHS adaptation (next).** Extend the stock visible GRChombo RHS
-   only with missing hidden contributions; GRChombo remains owner of shared
-   CCZ4 families.
-4. **Pointwise complete 13-row equivalence.** Report stock-visible,
-   adapted-hidden, and total contributions separately and compare with the
-   frozen custom analytic oracle.
-5. **Hidden-aware cleanup and constraints.**
+3. **Target-input and RHS adaptation (pointwise complete).** Expand the
+   reduced `(2+2)` value/derivative data to full target `d=4` and call locked
+   GRChombo directly. No complete hidden family is independently reimplemented.
+4. **Pointwise complete 13-row equivalence (complete).** Report target
+   hidden-suppressed, subtraction-defined hidden increment, and full target
+   values; compare the full target result directly with the custom oracle.
+5. **Hidden-aware cleanup and constraints (next).**
 6. **Production fixed lapse-source hook.**
 7. **Periodic `z` and ghost ownership.**
 8. **Unperturbed GP evolution.** Require background stationarity, constraint
@@ -249,13 +255,13 @@ Avoid per-substep audits. Require substantive independent audits only after:
 
 - the first real `Cell`/`FArrayBox` plus `BoxLoop` GP initializer is
   assembled;
-- the complete adapted hidden/cartoon 13-row pointwise RHS passes;
+- the direct full target-`d=4` 13-row nonlinear comparison passes;
 - hidden cleanup/constraints and the fixed source are integrated;
 - the first unperturbed production evolution passes; and
 - the first perturbed GL growth-rate run passes.
 
 Fold documentation consistency into those technical audits. The exact next
-implementation substage is item 3 only; it excludes cleanup, source,
+implementation substage is item 5 only; it excludes live RHS wiring, source,
 periodicity, evolution, diagnostics, and AHFinder.
 
 ## Enumeration/registration substage result
@@ -354,10 +360,10 @@ field- or horizon-dependent initializer mutations.
 
 The reduced Vars seam, pointwise GP contract, analytic GP metadata, real
 one-point Chombo storage seam, GP storage round trip, and isolated real DIM2
-GP `BoxLoop` traversal are complete. Live registration, CCZ4 RHS,
-hidden/cartoon geometry,
-cleanup/constraints, fixed lapse source, periodic ownership, evolution, and
-diagnostics remain open.
+GP `BoxLoop` traversal are complete. The pointwise target CCZ4 RHS and
+hidden/cartoon geometry adapter are also complete. Live registration/BoxLoop
+RHS wiring, cleanup/constraints, fixed lapse source, periodic ownership,
+evolution, and diagnostics remain open.
 
 ## Cell/FArrayBox storage seam result
 
@@ -428,3 +434,46 @@ compile remains fatal.
 The future live call site is `BlackStringToyLevel::initialData()`, using
 `BoxLoops::loop(make_compute(r0,m_dx,m_p.center),...)` with SIMD disabled.
 That file, its parameters, and all smoke applications remain unchanged.
+
+## Target pointwise hidden/cartoon RHS acceptance
+
+`BlackStringTargetCCZ4Pointwise::evaluate(const Input&)` now owns the narrow
+production-style pointwise boundary. It expands one reduced hidden
+representative into target indices `(x,z,w1,w2)=(0,1,2,3)`, supplies the
+complete modified-cartoon derivative identities to directly compiled locked
+GRChombo source routines, and returns exactly 13 physical rows.
+
+The result separates `target_shared_hidden_suppressed`,
+`hidden_increment_decomposition`, and `target_full_grchombo`. The middle
+quantity is defined only by subtracting the first from the third; it is
+decomposition evidence, not independent ownership of hidden Ricci, encoded
+Z, shift, Gamma, or coefficient corrections. Directly isolated geometric
+Ricci, encoded-Z, lapse-derivative, and damping evidence is retained.
+
+The independent custom oracle passes direct nonlinear comparison for
+diagonal, off-diagonal, pure hidden, pure encoded-Z, and mixed finite states.
+The epsilon-sweep JVP is classified as roundoff/cancellation dominated and is
+secondary diagnostic evidence only. Fourier-consistent `P_+` and
+`P_-` perturbation jets pass reflection and forbidden-sector leakage checks at
+several phases. Exact GP full-target totals vanish to roundoff with `hww=1`;
+nonzero suppressed/increment cancellation legs remain visible. In the
+hidden-suppressed target-`d=4` K row,
+`beta^x d_x K = -9 lambda^2/4` and `K^2 = +9 lambda^2/4`, so that leg is
+approximately zero; this is distinct from the older stock-`d=3` mapping with
+residual `1/8`.
+
+Test-only expansion policies alter the actual target data passed to GRChombo
+and reject multiplicity, representative `1/x^2`, cartoon, encoded-Z/Gamma,
+representative evolution, and coefficient defects. An independently coded
+hidden-family RHS gate is intentionally absent/false.
+
+The independent oracle also carries active regression policies for both
+defects found by the direct nonlinear gate. A one-pass raised-Christoffel
+construction fails on active off-diagonal data while the corrected two-pass
+construction passes the same state. A shift-Hessian policy with distinct
+nonzero derivative-derivative-component and former component-first entries
+likewise rejects the former index order while the corrected order passes.
+
+This acceptance changes no application, BoxLoop, cleanup, constraint, source,
+periodic, evolution, diagnostic, or horizon path. Hidden-aware cleanup and
+constraints are next.

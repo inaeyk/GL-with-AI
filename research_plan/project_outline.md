@@ -167,9 +167,9 @@ Physics and physics-design stages also produce polished review notes under
   isolated real DIM2 GP `BoxLoop` initializer. These are not live application
   wiring.
 - Active sequence: [complete] `Cell`/`FArrayBox` storage seam; [complete]
-  isolated GP `BoxLoop` compute/traversal; [next] hidden/cartoon RHS;
-  separately reported complete 13-row equivalence;
-  hidden-aware cleanup/constraints; fixed lapse source; periodic `z`/ghost
+  isolated GP `BoxLoop` compute/traversal; [complete] pointwise
+  hidden/cartoon RHS and separately reported complete 13-row equivalence;
+  [next] hidden-aware cleanup/constraints; fixed lapse source; periodic `z`/ghost
   ownership; unperturbed GP evolution; perturbed Fourier-mode evolution and a
   first threshold estimate; then horizon/nonlinear diagnostics after
   PETSc/AHFinder qualification.
@@ -181,10 +181,16 @@ Physics and physics-design stages also produce polished review notes under
   storage-plus-`BoxLoop` initializer, complete hidden/cartoon 13-row
   equivalence, integrated cleanup/constraints/fixed source, first unperturbed
   evolution, and first perturbed growth-rate run. Avoid per-substep audits.
-- Exact next implementation substage: hidden/cartoon RHS adaptation only.
-  Retain GRChombo ownership of shared visible CCZ4 families, add only missing
-  hidden contributions, and keep cleanup, source, periodicity, evolution,
-  diagnostics, and AHFinder out of scope.
+- Exact next implementation substage: hidden-aware target-`d=4` cleanup and
+  constraints only. The pointwise RHS adapter directly evaluates locked full
+  target-`d=4` GRChombo and separately reports the hidden-suppressed result
+  and their subtraction. It deliberately does not independently rebuild
+  GRChombo hidden CCZ4 families.
+  Direct finite nonlinear comparison is the completed 13-row numerical gate;
+  the directional JVP sweep is only a roundoff/cancellation-dominated
+  diagnostic and carries no convergence or completion claim.
+  Keep live BoxLoop RHS wiring, source, periodicity, evolution, diagnostics,
+  and AHFinder out of scope.
 - Infrastructure policy: reuse GRChombo RK4, AMR, MPI/OpenMP,
   checkpoint/restart, ghost exchange, parameter parsing, interpolation,
   reductions, and AH framework. Do not independently rebuild them.
