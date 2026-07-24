@@ -2138,3 +2138,49 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   external dependency source, production physics, or smoke parameters were
   changed. The exact next implementation is the GP `BoxLoop` initializer
   that delegates each point to the existing initializer and storage seam.
+
+- Date: 2026-07-24
+- Goal: Implement the production-style black-string GP `BoxLoop` compute
+  class and validate a complete real DIM2 box without live application wiring.
+- Start/gates: Used CodeGraph/MCP first; began from clean committed storage
+  checkpoint `cb4cbac`. The `--require-build` dependency verifier returned
+  `CORE_DEPENDENCY_BUILD=VERIFIED`; the rebuilt target probe returned
+  `TARGET_HEADER_PROBE=PASS`.
+- Implementation: Added `BlackStringGPInitialData::Compute(r0,dx,origin)`.
+  Direction 0 is radial and direction 1 compact. The target coordinate adapter
+  uses `(index+1/2)dx-origin`; locked GRChombo's stock `Coordinates` has no
+  `2/4/4` constructor branch. Each cell delegates GP physics to
+  `make_pointwise_vars` and writes only through `BlackStringCellStorage`.
+- Evidence: Real `BoxLoops` visits all 20 cells in the requested 4-by-5 box
+  exactly once, writes all 18 slots, and leaves 22 surrounding cells
+  unchanged. Full-box pointwise-oracle maximum absolute and normalized errors
+  are zero. Determinant, trace, reconstructed K, and gauge checks pass at
+  every cell.
+- Mutations: Wrong radial direction, node centering, ignored origin,
+  compact-coordinate dependence, `hww=x^2`, adapter bypass,
+  omitted/duplicate/swapped writes, incomplete/double/outside traversal,
+  nonpositive radius, and the legacy 27-slot shape are rejected.
+- Scope: `BlackStringToyLevel::initialData()` is documented as the future call
+  site but unchanged. No live registration, RHS, cleanup, source, periodicity,
+  evolution, diagnostics, dependency source, or smoke parameter changed.
+
+- Date: 2026-07-24
+- Goal: Repair the uncommitted GP `BoxLoop` checkpoint by replacing claimed
+  adapter ownership with observable instrumentation and restoring strict
+  project warning semantics.
+- Instrumentation: Added a storage-policy seam. The production/default policy
+  still calls `BlackStringCellStorage::store`; the fixture policy wraps that
+  call and records target `IntVect` plus all written slots in shared,
+  mutex-protected test state. It observes 20 calls, zero outside calls, and
+  exactly 18 unique slots per call, including one `hww` and one `Aww`.
+- Bypass guard: The direct-write mutation remains numerically exact at all 20
+  cells but records zero adapter invocations, and is rejected solely by the
+  missing record. No Boolean claim or global production counter remains.
+- Diagnostics: Target fixtures use
+  `-std=c++17 -O2 -Wall -Wextra -Wpedantic -Werror`. Project paths remain
+  `-I`; locked Chombo/GRChombo paths use `-isystem`. The project-owned
+  unused-parameter negative compile fails as required.
+- Status: Repair acceptance was pending on these gates; the repaired
+  instrumentation, strict probe, fixture matrix, and hygiene checks pass.
+  Hidden/cartoon RHS adaptation is next. Live wiring, cleanup, source,
+  periodicity, evolution, and diagnostics remain incomplete.

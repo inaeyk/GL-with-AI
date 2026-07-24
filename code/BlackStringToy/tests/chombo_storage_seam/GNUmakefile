@@ -9,4 +9,7 @@ LibNames := BoxTools
 
 src_dirs :=
 
+include ../StrictTargetBuildFlags.mk
 include $(CHOMBO_HOME)/mk/Make.test
+
+override CXXFLAGS := $(BLACKSTRING_STRICT_FLAGS)

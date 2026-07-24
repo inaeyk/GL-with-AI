@@ -27,6 +27,12 @@ that real executable; this overrides only Chombo's command-wrapper path.
 Likewise, `CHOMBO_FC` may name the qualified Fortran compiler when it is not
 on `PATH`.
 
-This probe authorizes only the future `Cell`/`FArrayBox` GP storage wrapper.
-It does not implement or validate a `BoxLoop`, initial-data dispatch, CCZ4
-RHS, cartoon geometry, cleanup, gauge source, periodic grid, or evolution.
+Project and fixture sources compile with
+`-std=c++17 -O2 -Wall -Wextra -Wpedantic -Werror`. The locked Chombo and
+GRChombo include paths alone use `-isystem`; the project contract contains no
+global warning downgrade.
+
+This probe verifies dependency headers and the reduced variable seam. The
+focused storage and GP `BoxLoop` fixtures own their respective runtime
+validation. This probe does not validate live initial-data dispatch, CCZ4 RHS,
+cartoon geometry, cleanup, gauge source, periodic grid, or evolution.

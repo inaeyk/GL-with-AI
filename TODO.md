@@ -35,13 +35,27 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   proves exact 18-slot one-point round trips, neighbor ownership,
   representative-only `hww/Aww` writes, mutation rejection, and three GP
   storage comparisons without adding `BoxLoop` or physics.
-- [ ] Exact next substage: add the GP `BoxLoop` initializer and live
-  application wiring, traversing the production box while delegating every
-  point to the existing GP point initializer and new storage adapter. Compare
-  every written point with the pointwise oracle; do not add RHS, cleanup,
+- [x] Complete the GP `BoxLoop` initializer compute class and isolated real
+  DIM2 traversal. All 20 requested cells and 18 slots match independently
+  recomputed pointwise GP states exactly; 22 surrounding cells remain
+  untouched. The coordinate and mutation fixtures lock radial direction 0,
+  compact direction 1, cell centering, nonzero origin ownership, and use of
+  the storage adapter. Adapter ownership is observed through a shared,
+  thread-safe test policy: 20 real adapter calls, zero outside calls, and
+  exactly one write claim for each of the 18 slots per call. The otherwise
+  numerically exact direct-write bypass records zero adapter calls and fails
+  independently. No live application path is changed.
+- [x] Pass the GP `BoxLoop` repair acceptance gate. Project code compiles with
+  `-std=c++17 -O2 -Wall -Wextra -Wpedantic -Werror`; locked Chombo/GRChombo
+  headers are isolated with `-isystem`, and a project-owned unused parameter
+  remains a fatal negative compile. Checkpoint completion was held pending on
+  this repair and is accepted only with these checks passing.
+- [ ] Exact next substage: adapt the hidden/cartoon RHS while retaining
+  GRChombo ownership of shared visible CCZ4 families. Report stock-visible,
+  adapted-hidden, and total contributions separately; do not yet add cleanup,
   source, periodicity, evolution, diagnostics, or AHFinder.
-- [ ] Then execute the remaining locked production order: hidden/cartoon
-  RHS; separately reported complete 13-row equivalence; hidden cleanup and
+- [ ] Then execute the remaining locked production order: separately
+  reported complete 13-row equivalence; hidden cleanup and
   constraints; fixed lapse source; periodic `z`/ghost ownership; unperturbed
   GP evolution; perturbed Fourier growth/threshold; horizon/nonlinear
   diagnostics after PETSc/AHFinder qualification.

@@ -163,21 +163,28 @@ Physics and physics-design stages also produce polished review notes under
 - Completed adaptation foundations: source locks, verifier and target probe,
   the 18-slot variable and exact registration/name metadata contracts, the
   reduced `(2+2)` Vars seam, exact GP point initializer, and analytic GP
-  derivative metadata. These are not live production wiring.
-- Active sequence: `Cell`/`FArrayBox` storage seam; GP `BoxLoop` initializer;
-  hidden/cartoon RHS; separately reported complete 13-row equivalence;
+  derivative metadata, the real `Cell`/`FArrayBox` storage seam, and the
+  isolated real DIM2 GP `BoxLoop` initializer. These are not live application
+  wiring.
+- Active sequence: [complete] `Cell`/`FArrayBox` storage seam; [complete]
+  isolated GP `BoxLoop` compute/traversal; [next] hidden/cartoon RHS;
+  separately reported complete 13-row equivalence;
   hidden-aware cleanup/constraints; fixed lapse source; periodic `z`/ghost
   ownership; unperturbed GP evolution; perturbed Fourier-mode evolution and a
   first threshold estimate; then horizon/nonlinear diagnostics after
   PETSc/AHFinder qualification.
+- GP `BoxLoop` checkpoint repair: accepted only after real test-policy
+  instrumentation observes one 18-slot adapter call per requested cell and
+  the numerically exact direct-write bypass observes none. Project-owned code
+  remains under strict `-Werror`; dependency headers alone are `-isystem`.
 - Audit policy: substantive independent audits follow the assembled
   storage-plus-`BoxLoop` initializer, complete hidden/cartoon 13-row
   equivalence, integrated cleanup/constraints/fixed source, first unperturbed
   evolution, and first perturbed growth-rate run. Avoid per-substep audits.
-- Exact next implementation substage: only the thin `Cell`/`FArrayBox`
-  load/store wrapper around the validated 18-slot reduced Vars and GP point
-  initializer. It must not duplicate physics or add `BoxLoop`, RHS, source,
-  periodicity, evolution, diagnostics, or AHFinder.
+- Exact next implementation substage: hidden/cartoon RHS adaptation only.
+  Retain GRChombo ownership of shared visible CCZ4 families, add only missing
+  hidden contributions, and keep cleanup, source, periodicity, evolution,
+  diagnostics, and AHFinder out of scope.
 - Infrastructure policy: reuse GRChombo RK4, AMR, MPI/OpenMP,
   checkpoint/restart, ghost exchange, parameter parsing, interpolation,
   reductions, and AH framework. Do not independently rebuild them.

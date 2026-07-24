@@ -1,10 +1,10 @@
-# Minimal dependency/header probe. This is not a production application.
+# Real DIM2 Chombo/GRChombo GP BoxLoop fixture.
 
 CHOMBO_HOME ?= $(abspath ../../../../external/Chombo/lib)
 GRCHOMBO_SOURCE ?= $(abspath ../../../../external/GRChombo/Source)
 BLACKSTRING_SOURCE ?= $(abspath ../..)
 
-ebase := BlackStringChomboHeaderProbe
+ebase := BlackStringGPBoxLoopInitialDataTest
 LibNames := BoxTools
 
 src_dirs :=

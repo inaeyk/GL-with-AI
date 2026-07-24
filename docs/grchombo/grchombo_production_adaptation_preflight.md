@@ -1,12 +1,13 @@
 # GRChombo Production-Adaptation Preflight
 
 Status: dependency source/contract audit, isolated production variable
-contract, reduced Vars seam, and pointwise GP initializer implemented. Locked
+contract, reduced Vars seam, pointwise GP initializer, real storage seam, and
+isolated real DIM2 GP `BoxLoop` initializer implemented. Locked
 GRChombo and the official Chombo project dependency are verified. The Chombo
 lock is `PROJECT_QUALIFIED`, not historically exact; the real target `2/4/4`
 header probe passes. Former-container and PETSc/AHFinder provenance remain
 unresolved. The contract is not imported by the live 27-slot smoke
-application. No GP initial-data `BoxLoop`, hidden RHS, cleanup, constraint,
+application. No live GP initial-data call, hidden RHS, cleanup, constraint,
 gauge-source, periodic grid, diagnostic, or evolution path is implemented.
 
 GRChombo is the production framework and convention authority. The frozen
@@ -173,7 +174,7 @@ the same stored quantity.
 |---|---|---|
 | User-variable enumeration | replace only for black-string variables | introduce the reviewed 18-slot enum; do not modify generic GRChombo enums |
 | Variable registration and names | replace only for black-string variables | register exactly the 18 names and parity metadata in the example |
-| GP initial-data `BoxLoop` | extend | add a black-string compute class later; reuse `BoxLoops`, grid traversal, and parameter plumbing |
+| GP initial-data `BoxLoop` | extend | isolated black-string compute class and real traversal complete; live call remains deferred |
 | CCZ4 RHS | wrap | retain stock visible families and add explicitly reported hidden/cartoon increments through a thin adapter |
 | Modified-cartoon derivatives and geometry | extend | use GRChombo derivative/ghost infrastructure; add only hidden representative formulas and axis policy |
 | Algebraic cleanup | wrap | reuse positivity; extend determinant and `A`-trace operations for `hww/Aww` with multiplicity two |
@@ -221,13 +222,14 @@ implemented in this preflight.
 The source locks, 18-slot contract, exact metadata, reduced Vars seam, GP point
 initializer, analytic GP derivative metadata, real one-point
 `Cell`/`FArrayBox` seam, and GP storage round trip are already complete. The
-active implementation sequence is now:
+real DIM2 GP `BoxLoop` compute/traversal and coordinate contract are also
+complete. The active implementation sequence is now:
 
 1. **Cell/FArrayBox storage seam (complete).** The thin wrapper around the
    validated 18-slot reduced Vars duplicates no physics.
-2. **GP BoxLoop initializer (next).** Add production application wiring and
-   compare every point with the existing GP initializer.
-3. **Hidden/cartoon RHS adaptation.** Extend the stock visible GRChombo RHS
+2. **GP BoxLoop initializer (compute/traversal complete).** Live application
+   wiring remains deferred.
+3. **Hidden/cartoon RHS adaptation (next).** Extend the stock visible GRChombo RHS
    only with missing hidden contributions; GRChombo remains owner of shared
    CCZ4 families.
 4. **Pointwise complete 13-row equivalence.** Report stock-visible,
@@ -253,8 +255,8 @@ Avoid per-substep audits. Require substantive independent audits only after:
 - the first perturbed GL growth-rate run passes.
 
 Fold documentation consistency into those technical audits. The exact next
-implementation substage is item 2 only; it excludes RHS physics, cleanup,
-source, periodicity, evolution, diagnostics, and AHFinder.
+implementation substage is item 3 only; it excludes cleanup, source,
+periodicity, evolution, diagnostics, and AHFinder.
 
 ## Enumeration/registration substage result
 
@@ -351,8 +353,9 @@ They reject swapped mappings, visible-y aliases, hidden multiplicity one,
 field- or horizon-dependent initializer mutations.
 
 The reduced Vars seam, pointwise GP contract, analytic GP metadata, real
-one-point Chombo storage seam, and GP storage round trip are complete.
-`BoxLoop`, live registration, CCZ4 RHS, hidden/cartoon geometry,
+one-point Chombo storage seam, GP storage round trip, and isolated real DIM2
+GP `BoxLoop` traversal are complete. Live registration, CCZ4 RHS,
+hidden/cartoon geometry,
 cleanup/constraints, fixed lapse source, periodic ownership, evolution, and
 diagnostics remain open.
 
@@ -374,7 +377,54 @@ It uses an explicit nonzero DIM2 `IntVect` and performs no grid traversal.
 The focused fixture proves exact 18-slot round trips, all component-local
 writes, unchanged neighbors, single-representative hidden storage, legacy
 27-component rejection, and three pointwise GP storage comparisons including
-`(r0,x)=(1,2)`. The next substage must add only a black-string GP compute
-class that `BoxLoop` invokes, reuse the existing point initializer and storage
-adapter at each point, wire the production application, and compare each
-written point with the pointwise oracle.
+`(r0,x)=(1,2)`. The following isolated GP `BoxLoop` substage reuses this
+storage adapter and pointwise initializer; live application wiring remains
+deferred.
+
+## GP BoxLoop initializer result
+
+`code/BlackStringToy/BlackStringGPInitialData.hpp` defines:
+
+- `BlackStringGPInitialData::make_compute(r0, dx, origin)`, whose default
+  policy delegates to `BlackStringCellStorage::store`;
+- `compute(Cell<double>)`, compatible with real GRChombo `BoxLoops` when
+  `disable_simd()` is selected;
+- a test-injectable storage-policy seam that does not add a production
+  counter.
+
+Direction 0 is radial `x` and direction 1 is compact `z`. Cell centers follow
+`coordinate=(index+1/2)dx-origin[direction]`. Locked GRChombo's generic
+`Coordinates` constructor lacks a `CH_SPACEDIM=2`,
+`DEFAULT_TENSOR_DIM=4` branch, so the target adapter reproduces that exact
+GRChombo convention without owning any GP formula. Nonfinite inputs and
+nonpositive radial cells are rejected.
+
+The production compute path calls only
+`BlackStringGPPointwiseInitialData::make_pointwise_vars(r0,x)` and
+`BlackStringCellStorage::store(cell,vars)`. The compact coordinate is absent
+from the physics call.
+
+The focused real-Chombo fixture runs over 20 requested cells inside a
+42-point allocation. It records 20 exact single visits, leaves all 22 outside
+points unchanged, writes all 18 slots, and reports zero maximum absolute and
+normalized oracle error. All per-point algebraic and gauge checks pass.
+Coordinate, storage, component, traversal, nonpositive-radius, and legacy
+shape mutations fail independently.
+
+Storage-adapter ownership is observed rather than claimed. A test policy
+wraps the real adapter and records, in shared mutex-protected state, one call
+and the exact 18-slot ledger for every requested `IntVect`; no outside call is
+recorded and `hww/Aww` each occur once. The direct-write mutation preserves
+the complete numerical oracle but records zero adapter calls, so that guard
+fails independently without a Boolean claim.
+
+The checkpoint repair was held pending until this instrumentation and the
+strict warning gate passed. Fixture/project code now uses
+`-std=c++17 -O2 -Wall -Wextra -Wpedantic -Werror`; only locked Chombo and
+GRChombo include paths use `-isystem`. No global `-Wno-error` downgrade is
+part of the project contract, and a project-owned unused-parameter negative
+compile remains fatal.
+
+The future live call site is `BlackStringToyLevel::initialData()`, using
+`BoxLoops::loop(make_compute(r0,m_dx,m_p.center),...)` with SIMD disabled.
+That file, its parameters, and all smoke applications remain unchanged.

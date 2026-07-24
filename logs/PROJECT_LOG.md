@@ -2415,3 +2415,57 @@ Category: Production Storage Integration
   periodic ownership, evolution, diagnostics, AHFinder, production physics,
   or smoke parameter was changed. The exact next substage is the GP
   `BoxLoop` initializer and application wiring.
+
+## 2026-07-24 - Black-String GP BoxLoop Initializer
+
+Category: Production Initial-Data Traversal
+
+- Began from clean committed storage checkpoint `cb4cbac`; used CodeGraph/MCP
+  first. Qualified dependency build verification and the real target header
+  probe passed without modifying either dependency.
+- Added `BlackStringGPInitialData::Compute(r0,dx,origin)` and
+  `make_compute(...)`. The class maps direction 0 to radial `x`, direction 1
+  to compact `z`, applies the GRChombo cell-center convention
+  `(index+1/2)dx-origin`, calls the existing pointwise GP initializer, and
+  stores through the validated 18-slot Cell adapter.
+- Locked GRChombo's generic `Coordinates` constructor does not support the
+  target `2/4/4` tuple, so a target-local coordinate adapter owns only the
+  exact coordinate translation. It owns no GP physics.
+- A real DIM2 Chombo/GRChombo fixture traverses a 4-by-5 requested box within
+  a 6-by-7 allocation. It records 20/20 single visits, 22/22 outside points
+  unchanged, all 18 slots written, exact compact-direction invariance, and
+  distinct correct radial states.
+- Every cell is compared with a separately recomputed pointwise oracle at
+  `5e-13 + 5e-12 max(|a|,|b|)`. Maximum absolute and normalized errors are
+  zero; all determinant, weighted-trace, reconstructed-K, hatted-Gamma, lapse,
+  shift, and gauge checks pass.
+- All required coordinate, storage, component, traversal, radius, and legacy
+  mutations fail independently.
+- Live `BlackStringToyLevel::initialData()` wiring remains deferred. The exact
+  next substage is hidden/cartoon RHS adaptation with shared visible CCZ4
+  ownership retained and hidden contributions reported separately.
+
+## 2026-07-24 - GP BoxLoop Checkpoint Repair
+
+Category: Production Initial-Data Traversal
+
+- Checkpoint completion was held pending until adapter ownership became
+  observable and project warning strictness was restored; the repair gate now
+  passes.
+- `make_compute(r0,dx,origin)` retains the production/default storage policy,
+  which calls `BlackStringCellStorage::store`. A test-injected wrapper records
+  each call in shared mutex-protected state without adding a production
+  counter.
+- The full-box run records 20 adapter invocations for 20 requested cells,
+  zero outside invocations, and exactly 18 unique slots per call. `hww` and
+  `Aww` each occur once.
+- The direct-write bypass produces the otherwise exact full-box GP state but
+  records zero adapter invocations and fails independently for that reason.
+- Project/fixture sources compile with
+  `-std=c++17 -O2 -Wall -Wextra -Wpedantic -Werror`; dependency header paths
+  alone use `-isystem`. A project-owned unused parameter remains fatal under
+  the negative compile.
+- The coordinate contract, GP formulas, 18-slot layout, traversal, numerical
+  oracle, algebraic identities, production physics, and smoke parameters are
+  unchanged. Hidden/cartoon RHS adaptation remains next; live wiring,
+  cleanup, source, periodicity, evolution, and diagnostics remain incomplete.

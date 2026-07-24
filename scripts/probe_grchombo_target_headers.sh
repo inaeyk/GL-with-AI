@@ -74,22 +74,19 @@ fi
 
 probe_directory="${probe_repo_root}/code/BlackStringToy/tests/chombo_header_probe"
 probe_chombo_home="${probe_chombo_root}/lib"
-probe_warning_flags="-Wall -Wextra -Wpedantic -Werror -Wno-error=unused-parameter -Wno-error=deprecated-copy"
-probe_include_flags="-I${probe_repo_root}/code/BlackStringToy -I${probe_repo_root}/external/GRChombo/Source/utils -I${probe_repo_root}/external/GRChombo/Source/simd -I${probe_repo_root}/external/GRChombo/Source/BoxUtils -I${probe_repo_root}/external/GRChombo/Source/CCZ4"
 
 make -C "${probe_directory}" clean \
-    CHOMBO_HOME="${probe_chombo_home}" DIM=2 USE_HDF=FALSE \
+    CHOMBO_HOME="${probe_chombo_home}" \
+    DIM=2 DEBUG=FALSE OPT=TRUE MPI=FALSE USE_HDF=FALSE \
     "${probe_make_overrides[@]}" >/dev/null
 make -C "${probe_directory}" -j1 all \
     CHOMBO_HOME="${probe_chombo_home}" \
     DIM=2 DEBUG=FALSE OPT=TRUE MPI=FALSE USE_HDF=FALSE \
-    "${probe_make_overrides[@]}" \
-    XTRACPPFLAGS="-std=c++17 -O2 ${probe_warning_flags} ${probe_include_flags} -DGR_SPACEDIM=4 -DDEFAULT_TENSOR_DIM=4"
+    "${probe_make_overrides[@]}"
 make -C "${probe_directory}" -j1 run-only \
     CHOMBO_HOME="${probe_chombo_home}" \
     DIM=2 DEBUG=FALSE OPT=TRUE MPI=FALSE USE_HDF=FALSE \
-    "${probe_make_overrides[@]}" \
-    XTRACPPFLAGS="-std=c++17 -O2 ${probe_warning_flags} ${probe_include_flags} -DGR_SPACEDIM=4 -DDEFAULT_TENSOR_DIM=4"
+    "${probe_make_overrides[@]}"
 
 echo "TARGET_HEADER_PROBE=PASS"
 echo "Macros: CH_SPACEDIM=2 GR_SPACEDIM=4 DEFAULT_TENSOR_DIM=4"

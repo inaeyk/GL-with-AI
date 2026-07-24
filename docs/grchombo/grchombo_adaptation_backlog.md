@@ -45,11 +45,11 @@ spectral objective did not pass; it is simply nonblocking for production.
 
 The locked production order is:
 
-1. thin `Cell`/`FArrayBox` storage seam around the reduced 18-slot Vars and GP
-   point initializer;
-2. GP `BoxLoop` initializer and live application wiring, with pointwise
-   comparison to the existing initializer;
-3. hidden/cartoon RHS adaptation, preserving GRChombo ownership of shared
+1. [complete] thin `Cell`/`FArrayBox` storage seam around the reduced 18-slot
+   Vars and GP point initializer;
+2. [compute/traversal complete] GP `BoxLoop` initializer, with live
+   application wiring deferred;
+3. [next] hidden/cartoon RHS adaptation, preserving GRChombo ownership of shared
    visible CCZ4 families;
 4. complete 13-row pointwise equivalence with stock-visible, adapted-hidden,
    and total contributions reported separately;
@@ -73,7 +73,7 @@ consistency is folded into those audits; no per-substep audit is added.
 | P0-2 | Convention and slot adapter | `CCZ4Vars.hpp`, `ADMConformalVars.hpp`, `UserVariables.inc.hpp`, Tensor/VarsTools | Explicit `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`; reviewed 18-slot black-string map with no visible-`y` slots and one multiplicity-two hidden representative | P0-1 source verification | Level 1 macro/slot/name/parity/permutation tests pass exactly |
 | P0-3 | Formula comparison harness | `CCZ4RHS::rhs_equation`, `CCZ4Geometry`, gauge classes | Test-only adapter accepting supplied analytic jets and emitting per-family rows | P0-1, P0-2 | First five comparison tests execute without production evolution |
 | P1-4a | Cell/FArrayBox storage seam | Chombo storage plus locked GRChombo `Cell` | Thin load/store wrapper around the validated 18-slot reduced Vars and GP point initializer; no physics duplication | P0-2 | Exact round trip through real storage; no `BoxLoop` or physics path |
-| P1-4b | GP BoxLoop initializer | GRChombo initial-data `BoxLoops` pattern and project parameter parser | Wire the exact GP point initializer into the application | P1-4a | Pointwise equality with the existing initializer; determinant/trace checks pass |
+| P1-4b | GP BoxLoop initializer | GRChombo initial-data `BoxLoops` pattern and project parameter parser | Thin compute class and isolated real DIM2 traversal; live application wiring deferred | P1-4a | Every requested point equals the existing initializer; coordinate, traversal, determinant, trace, and mutation checks pass |
 | P1-5 | Modified-cartoon hidden-sphere production path | GRChombo CCZ4 orchestration, derivatives, BoxLoops | Adapt only missing hidden Ricci, lapse Hessian, Gamma, algebraic, shift, and Z terms; remove smoke freeze | P0-3, P1-4b | All Level 1/2 hidden-family comparisons and ownership mutations pass |
 | P1-6 | Complete pointwise 13-row equivalence | Stock visible RHS plus hidden adapter and custom oracle | Report stock-visible, adapted-hidden, and total rows separately | P1-5 | Every family and all 13 totals pass the fixed tolerance and mutations |
 | P1-7 | Hidden-aware algebraic cleanup and constraints | `TraceARemoval`, `PositiveChiAndAlpha`, `Constraints`, `AMRReductions` | Extend determinant/A-trace cleanup and Hamiltonian/momentum constraints with multiplicity two | P1-6 | Weighted residuals and pointwise constraints match oracle; convergence passes |
@@ -281,12 +281,11 @@ reduce the requirement to resolve those digests before production adaptation.
   black-string adapter loads and stores all 18 slots through real
   `Cell<double>` access backed by a DIM2 `FArrayBox`; it performs no
   hidden-multiplicity expansion and writes `hww/Aww` once each.
-- P1-4 is not production-complete: no `BoxLoop`, live registration, ghost, or
-  checkpoint path calls the new seam.
+- P1-4 compute and isolated traversal are complete. No live registration,
+  ghost, or checkpoint path calls the new seam.
 - The Chombo source/build blocker is resolved by the project-qualified tuple.
-  The exact next substage is the GP `BoxLoop` compute class and live
-  application wiring. It must call the existing point initializer and the new
-  storage adapter rather than duplicating GP formulas.
+  The exact next substage is hidden/cartoon RHS adaptation. Live initializer
+  wiring remains deferred and must eventually call the existing compute class.
 - Hidden/cartoon RHS, cleanup, constraints, fixed lapse source, periodic
   ownership, evolution, and diagnostics remain later backlog items.
 
@@ -306,10 +305,11 @@ reduce the requirement to resolve those digests before production adaptation.
 - The core verifier enforces both dependency SHAs, detached-clean state,
   headers, and required libraries. Former Docker image/recipe provenance and
   PETSc/AHFinder remain explicit separate gaps; neither blocks the
-  GP `BoxLoop` initializer.
+  hidden/cartoon RHS adapter.
 - The one-point black-string `Cell`/`FArrayBox` storage adapter is complete.
-  The next authorized substage is only the GP `BoxLoop` compute class and
-  application wiring; hidden RHS, cleanup/constraints, source, periodic
+  The GP `BoxLoop` compute class and isolated real traversal are also
+  complete. The next authorized substage is only hidden/cartoon RHS
+  adaptation; live registration, cleanup/constraints, source, periodic
   ownership, evolution, and diagnostics remain open.
 
 ## Cell/FArrayBox storage seam result
@@ -332,6 +332,46 @@ reduce the requirement to resolve those digests before production adaptation.
 - Three GP states, including `(r0,x)=(1,2)`, store and reload slot-for-slot
   while preserving `hww=1`, determinant and weighted-trace identities,
   reconstructed `Kxx/Kzz/Kww`, and all lapse/shift/gauge values.
+
+## GP BoxLoop initializer result
+
+- `BlackStringGPInitialData::make_compute(r0, dx, origin)` is the
+  production/default API and returns a compute whose default storage policy
+  calls `BlackStringCellStorage::store`. `compute(Cell<double>)` evaluates the
+  target cell center and calls
+  `BlackStringGPPointwiseInitialData::make_pointwise_vars`.
+- Direction 0 is radial `x`; direction 1 is compact `z`. The target adapter
+  uses GRChombo's exact cell-center convention
+  `(index + 1/2) * dx - origin[direction]`. Locked GRChombo's stock
+  `Coordinates` constructor has no `2/4/4` branch, so the project adapter owns
+  only this coordinate translation and no physics.
+- The real DIM2 fixture traverses a 4-by-5 requested box inside a 6-by-7
+  allocation. All 20 requested cells are visited exactly once, all 18 slots
+  are written, and all 22 outside points retain sentinels.
+- Every cell is compared with a separately recomputed pointwise GP state at
+  tolerance `5e-13 + 5e-12 max(|a|,|b|)`. Maximum absolute and normalized
+  errors are both zero in the focused fixture.
+- Determinant, weighted trace, reconstructed `Kxx/Kzz/Kww`, Theta,
+  hatted-Gamma, lapse, shift, and gauge checks pass at every point. Same
+  radial indices agree exactly across compact positions and `hww=1`
+  everywhere.
+- A test-only storage policy wraps the real adapter and records into shared,
+  mutex-protected state. It observes 20 calls in the requested box, zero
+  outside calls, and the exact 18-slot ledger on every call; `hww` and `Aww`
+  each occur once. The numerically exact direct-write mutation records no
+  adapter call and is rejected for that reason, not by metadata.
+- Active mutations also reject radial/compact direction confusion, node
+  centering, ignored origin, compact-coordinate dependence, `hww=x^2`,
+  omitted/duplicate/swapped writes, incomplete/double/outside traversal,
+  nonpositive radial cells, and the legacy 27-slot shape.
+- Repair acceptance was held pending until strict project diagnostics and
+  real adapter instrumentation passed. Target fixtures now compile project
+  code with `-std=c++17 -O2 -Wall -Wextra -Wpedantic -Werror`; dependency
+  paths alone use `-isystem`, and the project-warning negative compile passes.
+- The future live call site remains `BlackStringToyLevel::initialData()` with
+  `BoxLoops::loop(BlackStringGPInitialData::make_compute(r0, m_dx,
+  m_p.center), ..., disable_simd())`. No live application or smoke path is
+  changed in this substage.
 
 ## Explicit non-goals
 

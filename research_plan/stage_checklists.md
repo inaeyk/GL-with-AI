@@ -29,8 +29,8 @@ Historical dependency provenance and the production lock are separate:
   stock GRChombo `VariableStoreTest` and `CCZ4GeometryUnitTest` pass.
 - Core dependency build: verified. Former container provenance and
   PETSc/AHFinder reproducibility: unresolved. MPI and a full black-string
-  runtime: not yet qualified. These gaps do not block the next GP `BoxLoop`
-  initializer; PETSc/AHFinder work remains blocked.
+  runtime: not yet qualified. These gaps do not block the next hidden/cartoon
+  RHS adaptation; PETSc/AHFinder work remains blocked.
 
 Stage 4AO-C is split without changing its original objective:
 
@@ -53,11 +53,12 @@ project-qualified Chombo lock, dependency verifier and target-header probe,
 18-slot production-variable contract, exact registration/name metadata
 contract, dedicated reduced `(2+2)` Vars seam, exact GP pointwise initializer,
 analytic GP derivative metadata, the real one-point `Cell`/`FArrayBox`
-load/store seam, and the pointwise GP storage round trip. The storage seam is
-not live application wiring.
+load/store seam, the pointwise GP storage round trip, and the real DIM2 GP
+`BoxLoop` compute/traversal with its coordinate contract. None is live
+application wiring.
 
-Still incomplete are the GP `BoxLoop`, live application registration,
-hidden/cartoon RHS, hidden-aware cleanup and constraints, production fixed
+Still incomplete are live application registration, hidden/cartoon RHS,
+hidden-aware cleanup and constraints, production fixed
 lapse-source hook, periodic-`z` ownership and ghost exchange, unperturbed and
 perturbed production evolution, growth/decay diagnostics, horizon/`R_H`
 diagnostics, MPI qualification, and PETSc/AHFinder qualification.
@@ -67,9 +68,10 @@ diagnostics, MPI qualification, and PETSc/AHFinder qualification.
 1. [complete] `Cell`/`FArrayBox` storage seam: a thin wrapper around the
    validated 18-slot reduced Vars and GP point initializer, with no physics
    duplication.
-2. [next] GP `BoxLoop` initializer and live application wiring, compared
-   pointwise with the existing initializer.
-3. Hidden/cartoon RHS adaptation: retain GRChombo ownership of shared visible
+2. [complete] GP `BoxLoop` compute class and isolated real DIM2 traversal,
+   compared at every point with the existing initializer. Live application
+   wiring remains deferred.
+3. [next] Hidden/cartoon RHS adaptation: retain GRChombo ownership of shared visible
    CCZ4 families and add only missing hidden contributions.
 4. Pointwise complete 13-row equivalence, reporting stock-visible,
    adapted-hidden, and total contributions separately against the frozen
@@ -91,8 +93,8 @@ reductions, interpolation, ghost exchange, or generic grid infrastructure.
 
 Fold documentation consistency into independent technical audits only after:
 
-1. the first real `Cell`/`FArrayBox` plus `BoxLoop` GP initializer is
-   assembled;
+1. [complete] the first real `Cell`/`FArrayBox` plus `BoxLoop` GP initializer
+   is assembled;
 2. the complete adapted hidden/cartoon 13-row pointwise RHS passes;
 3. hidden cleanup/constraints and the fixed source are integrated;
 4. the first unperturbed production evolution passes; and
@@ -813,7 +815,8 @@ simulation and radiation diagnostics exist.
 - [ ] Adapt and compare hidden-aware `d=4` determinant/A-trace cleanup; stock
   visible cleanup has no `hww/Aww` or multiplicity-two owner.
 - [ ] Execute the locked production sequence above. The exact next substage is
-  only the thin `Cell`/`FArrayBox` storage seam; `BoxLoop` follows separately.
+  hidden/cartoon RHS adaptation; storage and the isolated GP `BoxLoop`
+  initializer are complete.
 - [x] Production-adaptation preflight: lock the inspected GRChombo
   origin/commit in a tracked manifest; add a read-only wrong-commit/dirty-state
   verifier; lock the target 18-slot `d=4/2` state with no visible-`y` slots;
@@ -838,8 +841,18 @@ simulation and radiation diagnostics exist.
   storage round trips at three positive `(r0,x)` cases. It adds no `BoxLoop`,
   live registration, RHS, hidden geometry, cleanup/constraints, lapse source,
   periodic ownership, evolution, or diagnostics.
-- [ ] GP BoxLoop initializer substage: after the storage seam, add production
-  application wiring and compare every point with the existing GP initializer.
+- [x] GP BoxLoop initializer substage: a thin compute class receives `r0`,
+  level `dx`, and the coordinate origin; direction 0 is radial and direction
+  1 compact. A real DIM2 `BoxLoops` fixture visits 20/20 requested cells once,
+  leaves 22 surrounding cells unchanged, and matches all 18 slots to the
+  pointwise oracle with zero measured error. Active coordinate, slot,
+  traversal, and legacy-shape mutations fail. A shared test storage policy
+  observes exactly 20 real adapter invocations, zero outside invocations, and
+  all 18 slots once per call, including one `hww` and one `Aww`. The
+  otherwise-correct direct-write bypass records zero calls and fails without
+  metadata. Repair completion was pending until this instrumentation and the
+  strict project-warning gate passed; both now pass. Live application
+  registration remains deferred.
 - [x] Qualify and pin official `GRChombo/Chombo`
   `8684f2e000106f1abadb72642e1d15351867f98f` as the project dependency;
   build four required serial DIM2 libraries; pass the real
@@ -848,4 +861,4 @@ simulation and radiation diagnostics exist.
   This is `PROJECT_QUALIFIED`; historical exact provenance remains inferred.
 - [ ] Qualify MPI and a full black-string runtime separately. Recover former
   container provenance when possible, and qualify PETSc before enabling
-  `USE_AHFINDER`; none blocks the next GP `BoxLoop` initializer.
+  `USE_AHFINDER`; none blocks the next hidden/cartoon RHS adaptation.
