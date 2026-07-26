@@ -38,3 +38,17 @@ Durable coding/workflow decisions only. Use [PROJECT_LOG.md](PROJECT_LOG.md) or 
   roundoff/cancellation-dominated secondary diagnostic; target-input
   policies, rather than post-computation row edits, test production mapping
   defects. Output-ownership mutations remain explicitly reporting-only.
+
+### 2026-07-26: Isolated target-dimension application adapters
+
+- Decision: Keep target-only `Coordinates.hpp` and a forward-only
+  `Lagrange.hpp` in `BlackStringToy`, and compile only the GRChombo core
+  needed by E1.
+- Reason: Locked stock coordinates reject `CH_SPACEDIM=2` with
+  `DEFAULT_TENSOR_DIM=4`, while the E1 path needs only the validated
+  cell-centred `x,z` convention. The locked interpolation header also contains
+  a compiler-visible defect in code E1 does not instantiate.
+- Consequences: Core initialization/RHS/cleanup/constraint and ghost fixtures
+  build without modifying either dependency. Interpolation, AHFinder, and the
+  locked `Lagrange` implementation remain deferred and must be qualified
+  before those paths are enabled.

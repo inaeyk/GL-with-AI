@@ -2291,3 +2291,24 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   source values and ownership are unchanged. No external source, live
   application, BoxLoop RHS/cleanup/source, smoke parameter, periodic,
   evolution, diagnostic, or horizon path changed.
+
+- Date: 2026-07-26
+- Goal: Assemble Stage 4AO-D-E1 as an isolated live black-string application
+  seam without beginning evolution.
+- Result: Replaced the legacy application-local variable wiring with the
+  validated 18-slot contract; connected GP initialization, real fourth-order
+  derivative loading, reduced-to-target-`d=4` direct GRChombo RHS, five gauge
+  rows, the fixed lapse source, post-update cleanup, observational
+  `H,Mx,Mz`, and periodic direction-1 domain ownership.
+- Live evidence: 72 initialized cells and 9 selected RHS cells match every
+  one of their 18 pointwise reference slots with zero measured difference.
+  Cleanup gives determinant `0.9999999999999998` and weighted trace
+  `-3.903127820947816e-18`; constraint mismatch and evolved-state mutations
+  are zero.
+- Periodic evidence: real `ProblemDomain` plus `LevelData::exchange` fills
+  both compact wraps and an inter-box seam, leaves radial ghost sentinels
+  untouched, and introduces no one-`z` translation sign flip. Four
+  resolutions give final scalar/one-`z` derivative orders `4.2508/3.9946`.
+- Scope: no sustained time evolution, AMR/MPI production, accepted physical
+  radial boundary, perturbations, horizons, PETSc/AHFinder, Checkpoint G, or
+  final score. Stage 4AO-D-F is next.

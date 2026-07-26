@@ -28,8 +28,10 @@ assigned before actual evolution runs. The production target-`d=4` 13-row
 pointwise seam now passes direct nonlinear comparison. It reports target
 hidden-suppressed, subtraction-defined hidden increment, and full target
 GRChombo results; the increment is not an independently implemented hidden
-RHS. Pointwise hidden-aware cleanup, constraints, and the fixed source now
-pass; live BoxLoop and periodic-ownership comparison is next.
+RHS. Pointwise hidden-aware cleanup, constraints, and the fixed source pass.
+The E1 comparison also passes through real `FArrayBox`, `BoxLoops`,
+fourth-order derivatives, and direction-1 ghost exchange. The next evidence
+gate is bounded unperturbed evolution.
 
 Historical provenance remains inferred because the GRChombo-era Chombo SHA is
 unavailable. The project-qualified comparison/production tuple is official
@@ -61,6 +63,24 @@ Exact integers, slot maps, dimensions, parity tables, signs, rational
 coefficients, formulation selections, and parameter values must match exactly.
 Changing tolerances requires a documented numerical-error study before the
 test is run, not after a failure.
+
+## Stage 4AO-D-E1 live comparison record
+
+The real-storage fixture initializes 72 valid cells and compares all 18 slots
+with zero measured difference. At nine selected interior cells, all 18 live
+RHS slots equal the accepted physical and gauge/source pointwise seams with
+zero measured difference under the fixed tolerance. Cleanup reaches
+`det(h)=0.9999999999999998` and weighted trace
+`-3.903127820947816e-18`; the diagnostic path matches `H,Mx,Mz` exactly and
+does not alter the evolved `FArrayBox`.
+
+For multi-mode periodic data at `N=32,64,128,256`, the scalar seam derivative
+errors are `1.4018306044e-5`, `5.9896771233e-7`,
+`2.8448054884e-8`, and `1.4942951043e-9`; the one-`z` errors are
+`4.4315057955e-4`, `2.9497160218e-5`, `1.8721704072e-6`, and
+`1.1744640141e-7`. The final observed orders are `4.2508` and
+`3.9946`. Both compact seam wraps and an inter-box exchange pass with no
+translation sign flip; radial ghost sentinels remain untouched.
 
 For a quantity expected to vanish, report its absolute norm and compare to the
 declared absolute tolerance; do not manufacture a relative error. For a family
@@ -140,7 +160,7 @@ These are the first tests to implement after this documentation phase:
 1. **L1-01 dependency manifest**: pin and emit the exact GRChombo, Chombo,
    container, compiler, dimension, and formulation identities.
 2. **L1-02/L1-03 slot-and-dimension map**: distinct-value mapping between the
-   13-state oracle, 27-slot BlackStringToy layout, and GRChombo tensor structs.
+   13-state oracle, 18-slot BlackStringToy layout, and GRChombo tensor structs.
 3. **L2-01 conformal algebra comparison**: determinant, inverse, trace,
    trace-free projection, and K reconstruction on deterministic nonzero data.
 4. **L2-02 contracted-connection/Z comparison**: compare visible GRChombo

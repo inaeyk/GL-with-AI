@@ -17,7 +17,8 @@ BLACKSTRING_EXTERNAL_INCLUDES := \
     -isystem$(GRCHOMBO_SOURCE)/utils \
     -isystem$(GRCHOMBO_SOURCE)/simd \
     -isystem$(GRCHOMBO_SOURCE)/BoxUtils \
-    -isystem$(GRCHOMBO_SOURCE)/CCZ4
+    -isystem$(GRCHOMBO_SOURCE)/CCZ4 \
+    -isystem$(GRCHOMBO_SOURCE)/GRChomboCore
 
 override XTRACPPFLAGS += \
     $(BLACKSTRING_PROJECT_INCLUDES) \

@@ -160,18 +160,19 @@ Physics and physics-design stages also produce polished review notes under
   lapse-source seam, and Fourier/parity convention. This is substantial
   capability evidence, but no final overall score is assigned before
   hidden-sector production equivalence and real evolution runs.
-- Completed adaptation foundations: source locks, verifier and target probe,
-  the 18-slot variable and exact registration/name metadata contracts, the
-  reduced `(2+2)` Vars seam, exact GP point initializer, and analytic GP
-  derivative metadata, the real `Cell`/`FArrayBox` storage seam, and the
-  isolated real DIM2 GP `BoxLoop` initializer. These are not live application
-  wiring.
+- Completed adaptation foundations and E1 integration: source locks, verifier
+  and target probe, exact 18-slot registration, reduced `(2+2)` Vars/storage,
+  the GP initializer, real fourth-order derivative ownership, direct target
+  `d=4` GRChombo RHS, post-update hidden-aware cleanup, observational
+  `H,Mx,Mz`, fixed lapse source, and periodic direction-1 ghost exchange are
+  assembled in the isolated live black-string application.
 - Active sequence: [complete] `Cell`/`FArrayBox` storage seam; [complete]
   isolated GP `BoxLoop` compute/traversal; [complete] pointwise
   hidden/cartoon RHS and separately reported complete 13-row equivalence;
   [complete] pointwise hidden-aware cleanup/constraints and fixed lapse
-  source; [next] live BoxLoop RHS/cleanup/source wiring and periodic `z`/ghost
-  ownership; unperturbed GP evolution; perturbed Fourier-mode evolution and a
+  source; [complete] live BoxLoop RHS/cleanup/source wiring and periodic
+  `z`/ghost ownership; [next] bounded unperturbed GP evolution and radial
+  boundary qualification; perturbed Fourier-mode evolution and a
   first threshold estimate; then horizon/nonlinear diagnostics after
   PETSc/AHFinder qualification.
 - GP `BoxLoop` checkpoint repair: accepted only after real test-policy
@@ -190,9 +191,10 @@ Physics and physics-design stages also produce polished review notes under
   the independent long-double source-convention oracle under the locked
   tolerance, including a non-trace-free discriminator and genuine Fourier
   parity projections.
-- Exact next implementation substage: live BoxLoop RHS/cleanup/source wiring
-  and periodic-`z` ownership. Keep evolution, diagnostics, horizons, and
-  AHFinder out of scope.
+- Exact next implementation substage: Stage 4AO-D-F bounded unperturbed GP
+  evolution. The E1 fixtures do not establish sustained evolution, AMR/MPI
+  production, physical radial-boundary acceptance, perturbation growth,
+  horizons, or AHFinder.
 - Infrastructure policy: reuse GRChombo RK4, AMR, MPI/OpenMP,
   checkpoint/restart, ghost exchange, parameter parsing, interpolation,
   reductions, and AH framework. Do not independently rebuild them.
@@ -208,11 +210,10 @@ Physics and physics-design stages also produce polished review notes under
   `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`, no visible-`y`
   slots, and one stored `ww` representative carrying hidden multiplicity two.
   The isolated enum/name/metadata contract and focused mutation fixture now
-  pass; the old 27-slot live smoke scaffold is unchanged. The dedicated
-  reduced Vars adapter and pointwise GP initializer pass storage-agnostic
-  tests. The real Chombo storage wrapper is now the authorized next substage.
-  PETSc/container provenance remains unresolved, and no production RHS,
-  cleanup, source, grid, or evolution path has been added.
+  pass. E1 later replaced the isolated application's historical 27-slot
+  scaffold with this production contract; the old shape remains a rejected
+  mutation. PETSc/container provenance and evolution qualification remain
+  unresolved.
 
 ## Stage 5: Pau Diagnostic Reproduction
 

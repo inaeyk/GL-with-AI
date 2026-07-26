@@ -2586,3 +2586,25 @@ Category: Production Adaptation Repair
   constraint gates are reopened; live BoxLoop RHS/cleanup/source wiring,
   periodic-`z` ghost ownership, evolution, diagnostics/horizons,
   PETSc/AHFinder, and final scoring remain incomplete.
+
+## 2026-07-26 - Stage 4AO-D-E1 Live Black-String Seam
+
+Category: Production Adaptation
+
+- The isolated application owns exactly 18 black-string variables at target
+  macros `2/4/4`; direction 0 is radial and direction 1 is compact/periodic.
+- `initialData()` uses the validated GP compute class through real
+  `BoxLoops`; live RHS loads reduced Vars through `Cell`, obtains real
+  fourth-order derivatives, expands to `(x,z,w1,w2)`, and calls locked
+  GRChombo directly for the complete 13-row physical RHS. Gauge evaluation
+  owns the remaining five rows and the fixed source is applied once to lapse.
+- Cleanup runs only in the post-update hook. A separate diagnostic compute
+  emits `H,Mx,Mz` and leaves all evolution slots unchanged.
+- Real Chombo ghost exchange passes both compact wraps, multi-box ownership,
+  no-sign-flip scalar/one-`z` tests, and fourth-order multi-mode seam
+  convergence. Radial ghost values remain independently owned and no new
+  radial outer-boundary physics is claimed.
+- E1 fixtures report zero mismatch for 72-by-18 GP values and 9-by-18 live
+  RHS values. Sustained evolution, AMR/MPI, physical radial-boundary
+  acceptance, perturbations, horizons/PETSc, Checkpoint G, and final scoring
+  remain incomplete.

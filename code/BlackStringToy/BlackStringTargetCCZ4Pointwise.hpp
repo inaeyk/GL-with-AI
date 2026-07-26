@@ -62,10 +62,12 @@ template <class data_t> struct Diff2VarsWithGauge;
 #define VARSTOOLS_HPP_
 #define SIMD_HPP_
 
+#ifndef _MAYDAY_H_
 namespace MayDay
 {
 inline void Error(const char *message) { throw std::runtime_error(message); }
 } // namespace MayDay
+#endif
 
 #include "CCZ4RHS.hpp"
 

@@ -829,10 +829,19 @@ simulation and radiation diagnostics exist.
   `Constraints.impl.hpp` formula layer is source/convention-only. Locked
   `MovingPunctureGauge` is evaluated before the lapse-only
   `3 sqrt(r0/x^3)` source.
-- [ ] Execute the locked production sequence above. The exact next substage is
-  live BoxLoop RHS/cleanup/source wiring and periodic-`z` ownership; storage,
-  the isolated GP `BoxLoop` initializer, pointwise 13-row hidden/cartoon RHS,
-  cleanup, constraints, and source are complete.
+- [x] Stage 4AO-D-E1 live application seam: the isolated black-string
+  application registers exactly 18 slots, initializes valid cells through the
+  validated GP `BoxLoop`, obtains live first/second derivatives from
+  GRChombo's fourth-order stencil path, expands reduced `(2+2)` data to
+  target `d=4`, calls locked GRChombo once for the complete physical RHS,
+  owns all five gauge rows, and adds the fixed source once to lapse.
+  Hidden-aware determinant/A-trace cleanup is post-update rather than inside
+  RHS; diagnostics emit observational `H,Mx,Mz`; direction 1 is periodic
+  through `ProblemDomain` plus real `LevelData::exchange`.
+- [ ] Stage 4AO-D-F first unperturbed evolution. Sustained evolution,
+  AMR/MPI qualification, accepted physical radial boundaries, perturbation
+  growth, horizons/PETSc, Stage 4AO-D completion, Checkpoint G, and final
+  scoring remain open.
 - [x] Production-adaptation preflight: lock the inspected GRChombo
   origin/commit in a tracked manifest; add a read-only wrong-commit/dirty-state
   verifier; lock the target 18-slot `d=4/2` state with no visible-`y` slots;
@@ -841,9 +850,9 @@ simulation and radiation diagnostics exist.
 - [x] First production-contract substage: after dependency verification, add
   an isolated black-string 18-slot enum/name/metadata contract, assert
   `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, and `DEFAULT_TENSOR_DIM=4`, and pass exact
-  slot/name/parity/permutation/multiplicity and mutation tests. The old
-  27-slot smoke scaffold remains live and unchanged; no GP or RHS path was
-  added.
+  slot/name/parity/permutation/multiplicity and mutation tests. E1 later made
+  this contract the isolated application's live registration; the legacy
+  27-slot shape remains only a rejected mutation.
 - [x] Reduced Vars/GP pointwise substage: implement explicit
   `{xx,xz,zz,ww}` and `{x,z}` structures, const/mutable 18-slot load/store,
   exact GP values, and analytic `beta^x/lambda/K/A_IJ` radial jets. Focused
@@ -867,8 +876,8 @@ simulation and radiation diagnostics exist.
   all 18 slots once per call, including one `hww` and one `Aww`. The
   otherwise-correct direct-write bypass records zero calls and fails without
   metadata. Repair completion was pending until this instrumentation and the
-  strict project-warning gate passed; both now pass. Live application
-  registration remains deferred.
+  strict project-warning gate passed; both now pass. E1 now reuses this
+  compute class in the live application `initialData()` path.
 - [x] Qualify and pin official `GRChombo/Chombo`
   `8684f2e000106f1abadb72642e1d15351867f98f` as the project dependency;
   build four required serial DIM2 libraries; pass the real
@@ -877,8 +886,8 @@ simulation and radiation diagnostics exist.
   This is `PROJECT_QUALIFIED`; historical exact provenance remains inferred.
 - [ ] Qualify MPI and a full black-string runtime separately. Recover former
   container provenance when possible, and qualify PETSc before enabling
-  `USE_AHFINDER`; none blocks the next live BoxLoop/periodic-ownership
-  adaptation.
+  `USE_AHFINDER`; E1 core integration is complete, while these remain later
+  production qualifications.
 - [x] Pointwise target-`d=4` hidden/cartoon RHS adapter: expand the reviewed
   reduced state/jets into `(x,z,w1,w2)`, directly execute locked GRChombo
   CCZ4/geometry source, and report hidden-suppressed, subtraction-defined
@@ -886,8 +895,8 @@ simulation and radiation diagnostics exist.
   nonlinear finite-state comparison as the sole 13-row numerical completion
   gate, the roundoff/cancellation-dominated secondary JVP diagnostic, genuine
   `P_+`/`P_-` sector checks, exact GP cancellation, directness checks, and
-  target-input mutations pass. No independently coded hidden-family RHS, live
-  BoxLoop, or evolution path was added.
+  target-input mutations pass. E1 invokes this seam from the live RHS
+  `BoxLoop`; no independently coded hidden-family RHS was added.
 - [x] Pointwise target-`d=4` cleanup/constraint/source checkpoint: normalize
   `hww^2(hxx*hzz-hxz^2)` to one, remove
   `h^xx Axx+2h^xz Axz+h^zz Azz+2h^ww Aww` with a one-quarter projection,
@@ -896,4 +905,5 @@ simulation and radiation diagnostics exist.
   the fixed lapse-only GP source. Direct locked Ricci is exercised twice per
   full/suppressed evaluation. Full target constraint values match the
   independent analytic path; genuine sector checks and active production and
-  reduction mutations pass. No live BoxLoop path changed.
+  reduction mutations pass. E1 owns cleanup at the update hook and
+  constraints in a separate diagnostic `BoxLoop`.

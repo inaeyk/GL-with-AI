@@ -21,7 +21,7 @@ boundary.
 | Container | configured name `grchombo/grchombo`; Docker is unavailable in this WSL shell | image ID and digest unresolved |
 | Host | Linux WSL2 `6.18.33.2-microsoft-standard-WSL2`, `x86_64` | recorded |
 | Fixture | `code/BlackStringToy/tests/Stage4AOCGRChomboComparisonBatch1Test.cpp` | focused test-only bridge |
-| Fixture SHA-256 | `fe9a55c2189e82afd73ff59d8449ad93565244099fb9cc01400c5743e9d1870d` | repaired executable layout gate |
+| Fixture SHA-256 | `1100e029143dd0c5f37fd0732a761d6688d21dbd253c886ef86b0721bb77979d` | E1-reconciled executable layout gate |
 | Pointwise tolerance | `5e-13 + 5e-12 max(abs(a),abs(b))` | unchanged from the predeclared contract |
 
 The missing Chombo and container digests remain a P0 reproducibility gap. They
@@ -30,10 +30,10 @@ through header-only `TensorAlgebra` and `CCZ4Geometry` code paths.
 
 ## State and dimension map
 
-The custom frozen state is a reduced `d=4` oracle. The current BlackStringToy
-scaffold is a 27-slot extension of the stock three-dimensional layout. The
-compiled GRChombo comparison path is stock `d=3`; no `d=4` coefficient is
-numerically compared to a `d=3` coefficient.
+The custom frozen state and current BlackStringToy application use the
+production 18-slot reduced `d=4` layout. The compiled GRChombo comparison path
+is stock `d=3`; no `d=4` coefficient is numerically compared to a `d=3`
+coefficient.
 
 The original batch-1 executable gate checked the frozen thirteen-variable
 order and stock enum but did not include the real custom `UserVariables.hpp`.
@@ -46,55 +46,46 @@ correspondence.
 |---:|---|---:|---:|---|
 | 0 | `chi` | 0 | 0 | direct |
 | 1 | `hxx` / `h11` | 1 | 1 | direct |
-| 2 | `hxz` / `h13` | 3 | 3 | direct |
-| 3 | `hzz` / `h33` | 6 | 6 | direct |
-| 4 | `hww` | 7 | none | custom hidden representative |
-| 5 | `K` | 8 | 7 | direct, shifted by custom `hww` |
-| 6 | `Axx` / `A11` | 9 | 8 | direct |
-| 7 | `Axz` / `A13` | 11 | 10 | direct |
-| 8 | `Azz` / `A33` | 14 | 13 | direct |
-| 9 | `Aww` | 15 | none | custom hidden representative |
-| 10 | `Theta` | 16 | 14 | direct |
-| 11 | `hatGamma_x` / `Gamma1` | 17 | 15 | direct |
-| 12 | `hatGamma_z` / `Gamma3` | 19 | 17 | direct |
+| 2 | `hxz` / `h13` | 2 | 3 | direct |
+| 3 | `hzz` / `h33` | 3 | 6 | direct |
+| 4 | `hww` | 4 | none | custom hidden representative |
+| 5 | `K` | 5 | 7 | direct |
+| 6 | `Axx` / `A11` | 6 | 8 | direct |
+| 7 | `Axz` / `A13` | 7 | 10 | direct |
+| 8 | `Azz` / `A33` | 8 | 13 | direct |
+| 9 | `Aww` | 9 | none | custom hidden representative |
+| 10 | `Theta` | 10 | 14 | direct |
+| 11 | `hatGamma_x` / `Gamma1` | 11 | 15 | direct |
+| 12 | `hatGamma_z` / `Gamma3` | 12 | 17 | direct |
 
 The complete custom enum and ownership table is:
 
 | Custom slot | Custom name | Corresponding stock slot | Ownership |
 |---:|---|---:|---|
 | 0 | `chi` | 0 | directly shared |
-| 1 | `h11` | 1 | directly shared |
-| 2 | `h12` | 2 | stock visible-y component |
-| 3 | `h13` | 3 | directly shared |
-| 4 | `h22` | 4 | stock visible-y component |
-| 5 | `h23` | 5 | stock visible-y component |
-| 6 | `h33` | 6 | directly shared |
-| 7 | `hww` | none | custom hidden representative |
-| 8 | `K` | 7 | directly shared |
-| 9 | `A11` | 8 | directly shared |
-| 10 | `A12` | 9 | stock visible-y component |
-| 11 | `A13` | 10 | directly shared |
-| 12 | `A22` | 11 | stock visible-y component |
-| 13 | `A23` | 12 | stock visible-y component |
-| 14 | `A33` | 13 | directly shared |
-| 15 | `Aww` | none | custom hidden representative |
-| 16 | `Theta` | 14 | directly shared |
-| 17 | `Gamma1` | 15 | directly shared |
-| 18 | `Gamma2` | 16 | stock visible-y component |
-| 19 | `Gamma3` | 17 | directly shared |
-| 20 | `lapse` | 18 | gauge variable |
-| 21 | `shift1` | 19 | gauge variable |
-| 22 | `shift2` | 20 | gauge variable |
-| 23 | `shift3` | 21 | gauge variable |
-| 24 | `B1` | 22 | gauge variable |
-| 25 | `B2` | 23 | gauge variable |
-| 26 | `B3` | 24 | gauge variable |
+| 1 | `hxx` | 1 | directly shared |
+| 2 | `hxz` | 3 | directly shared |
+| 3 | `hzz` | 6 | directly shared |
+| 4 | `hww` | none | custom hidden representative |
+| 5 | `K` | 7 | directly shared |
+| 6 | `Axx` | 8 | directly shared |
+| 7 | `Axz` | 10 | directly shared |
+| 8 | `Azz` | 13 | directly shared |
+| 9 | `Aww` | none | custom hidden representative |
+| 10 | `Theta` | 14 | directly shared |
+| 11 | `GammaX` | 15 | directly shared |
+| 12 | `GammaZ` | 17 | directly shared |
+| 13 | `lapse` | 18 | gauge variable |
+| 14 | `shiftX` | 19 | gauge variable |
+| 15 | `shiftZ` | 21 | gauge variable |
+| 16 | `Bx` | 22 | gauge variable |
+| 17 | `Bz` | 24 | gauge variable |
 
 Compile-time assertions verify every numeric custom enum value, range, and the
-unique complete permutation `[0,27)`. The runtime gate verifies exactly eleven
-shared frozen correspondences; `hww/Aww` ownership; and separation of seven
-visible-y and seven gauge slots. It does not claim that the 27-slot custom and
-25-slot stock arrays are identical.
+unique complete permutation `[0,18)`. The runtime gate verifies exactly eleven
+shared frozen correspondences, `hww/Aww` ownership, zero visible-`y` slots,
+and five gauge slots. It does not claim that the reduced custom and 25-slot
+stock arrays are identical.
 
 Executed mapping mutations all fail: swapped `c_h11/c_h13`, `hww` assigned to
 `h12`, `Aww` assigned to `A12`, duplicated `A11` for shared `A13`, and omitted
@@ -187,8 +178,8 @@ multiplicity in production GRChombo.
 
 ## Batch disposition
 
-The repaired exact custom 27-slot layout, eleven shared correspondences, and
-hidden/visible-y/gauge ownership separation pass. This is not an identical
+The repaired exact custom 18-slot layout, eleven shared correspondences, and
+hidden/visible-`y`/gauge ownership separation pass. This is not an identical
 complete-state-array claim. All three numerical families also pass unchanged.
 The required translation is explicit: the stock source was compiled and
 evaluated at `d=3`, while the production custom oracle remains `d=4` with two

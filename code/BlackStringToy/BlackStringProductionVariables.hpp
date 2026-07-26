@@ -11,12 +11,14 @@
 
 namespace BlackStringProductionVariables
 {
+#ifndef BLACKSTRINGTOY_LAYOUT_TEST_ONLY
 static_assert(CH_SPACEDIM == 2,
               "black-string production requires CH_SPACEDIM=2");
 static_assert(GR_SPACEDIM == 4,
               "black-string production requires GR_SPACEDIM=4");
 static_assert(DEFAULT_TENSOR_DIM == 4,
               "black-string production requires DEFAULT_TENSOR_DIM=4");
+#endif
 
 inline constexpr int physical_spatial_dimension = 4;
 inline constexpr int gridded_spatial_dimension = 2;
@@ -31,15 +33,17 @@ inline constexpr std::array<std::string_view, gridded_spatial_dimension>
 inline constexpr int stock_visible_symmetric_slots =
     gridded_spatial_dimension * (gridded_spatial_dimension + 1) / 2;
 inline constexpr int physical_symmetric_tensor_slots =
-    DEFAULT_TENSOR_DIM * (DEFAULT_TENSOR_DIM + 1) / 2;
+    physical_spatial_dimension * (physical_spatial_dimension + 1) / 2;
 inline constexpr bool stock_symmetric_enum_mapping_is_compatible =
     stock_visible_symmetric_slots == physical_symmetric_tensor_slots;
 inline constexpr bool stock_vector_enum_mapping_is_compatible =
     gridded_spatial_dimension == DEFAULT_TENSOR_DIM;
 
+#ifndef BLACKSTRINGTOY_LAYOUT_TEST_ONLY
 static_assert(CH_SPACEDIM == gridded_spatial_dimension);
 static_assert(GR_SPACEDIM == physical_spatial_dimension);
 static_assert(DEFAULT_TENSOR_DIM == physical_spatial_dimension);
+#endif
 static_assert(x_direction == 0 && z_direction == 1);
 static_assert(hidden_equivalent_directions == 2);
 static_assert(stored_hidden_representatives == 1);

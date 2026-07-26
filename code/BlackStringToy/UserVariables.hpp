@@ -1,86 +1,40 @@
-/* GRChombo
- * Copyright 2012 The GRChombo collaboration.
- * Please refer to LICENSE in GRChombo's root directory.
- */
-
 #ifndef USERVARIABLES_HPP
 #define USERVARIABLES_HPP
 
-#include <array>
-#include <string>
-
-#include "ArrayTools.hpp"
+#include "BlackStringProductionVariables.hpp"
 #include "DiagnosticVariables.hpp"
 
-/// This enum gives the index of every variable stored in the grid
-enum
-{
-    c_chi,
-
-    c_h11,
-    c_h12,
-    c_h13,
-    c_h22,
-    c_h23,
-    c_h33,
-    c_hww,
-
-    c_K,
-
-    c_A11,
-    c_A12,
-    c_A13,
-    c_A22,
-    c_A23,
-    c_A33,
-    c_Aww,
-
-    c_Theta,
-
-    c_Gamma1,
-    c_Gamma2,
-    c_Gamma3,
-
-    c_lapse,
-
-    c_shift1,
-    c_shift2,
-    c_shift3,
-
-    c_B1,
-    c_B2,
-    c_B3,
-
-    NUM_VARS
-};
-
-static_assert(c_hww == c_K - 1, "hww must be immediately before K");
-static_assert(c_Aww == c_Theta - 1,
-              "Aww must be immediately before Theta");
-static_assert(NUM_VARS == c_B3 + 1,
-              "NUM_VARS must terminate the BlackStringToy enum");
+// GRChombo requires these names in the global namespace. Their values and
+// registration strings are aliases of the single production contract; this is
+// not a second enum and cannot drift back to the legacy 27-slot layout.
+inline constexpr int c_chi = BlackStringProductionVariables::c_chi;
+inline constexpr int c_hxx = BlackStringProductionVariables::c_hxx;
+inline constexpr int c_hxz = BlackStringProductionVariables::c_hxz;
+inline constexpr int c_hzz = BlackStringProductionVariables::c_hzz;
+inline constexpr int c_hww = BlackStringProductionVariables::c_hww;
+inline constexpr int c_K = BlackStringProductionVariables::c_K;
+inline constexpr int c_Axx = BlackStringProductionVariables::c_Axx;
+inline constexpr int c_Axz = BlackStringProductionVariables::c_Axz;
+inline constexpr int c_Azz = BlackStringProductionVariables::c_Azz;
+inline constexpr int c_Aww = BlackStringProductionVariables::c_Aww;
+inline constexpr int c_Theta = BlackStringProductionVariables::c_Theta;
+inline constexpr int c_GammaX = BlackStringProductionVariables::c_GammaX;
+inline constexpr int c_GammaZ = BlackStringProductionVariables::c_GammaZ;
+inline constexpr int c_lapse = BlackStringProductionVariables::c_lapse;
+inline constexpr int c_shiftX = BlackStringProductionVariables::c_shiftX;
+inline constexpr int c_shiftZ = BlackStringProductionVariables::c_shiftZ;
+inline constexpr int c_Bx = BlackStringProductionVariables::c_Bx;
+inline constexpr int c_Bz = BlackStringProductionVariables::c_Bz;
+inline constexpr int NUM_VARS = BlackStringProductionVariables::NUM_VARS;
 
 namespace UserVariables
 {
-static const std::array<std::string, NUM_VARS> variable_names = {
-    "chi",
+inline const auto &variable_names =
+    BlackStringProductionVariables::UserVariables::registration_names;
+}
 
-    "h11",    "h12",    "h13",    "h22", "h23", "h33", "hww",
-
-    "K",
-
-    "A11",    "A12",    "A13",    "A22", "A23", "A33", "Aww",
-
-    "Theta",
-
-    "Gamma1", "Gamma2", "Gamma3",
-
-    "lapse",
-
-    "shift1", "shift2", "shift3",
-
-    "B1",     "B2",     "B3"};
-} // namespace UserVariables
+static_assert(NUM_VARS == 18);
+static_assert(c_hww == 4 && c_Aww == 9);
 
 #ifndef BLACKSTRINGTOY_LAYOUT_TEST_ONLY
 #include "UserVariables.inc.hpp"

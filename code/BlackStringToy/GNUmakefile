@@ -6,25 +6,8 @@
 # Included makefiles need an absolute path to the Chombo installation
 # CHOMBO_HOME := Please set the CHOMBO_HOME locally (e.g. export CHOMBO_HOME=... in bash)
 #
-# Stage 2A note: this scaffold is derived from public GRChombo
-# Examples/BinaryBH. It is not physical black-string evolution.
-
-# Figure out whether to build with Two Punctures
-ifdef TWOPUNCTURES_SOURCE
-ifneq (,$(wildcard $(TWOPUNCTURES_SOURCE)/TwoPunctures.hpp))
-  $(info ================== Using TwoPunctures ==================)
-  USE_TWOPUNCTURES := TRUE
-  # Note this code requires linking with the GNU Scientific Library
-  # In addition to the line below, the include paths to the relevant header
-  # files might also need to be passed to the preprocessor/compiler
-  XTRALIBFLAGS = -lgsl
-  cxxcppflags = -DUSE_TWOPUNCTURES
-else
-  $(error TWOPUNCTURES_SOURCE not set correctly)
-endif
-endif
-
-GRCHOMBO_SOURCE = ../../Source
+CHOMBO_HOME ?= $(abspath ../../external/Chombo/lib)
+GRCHOMBO_SOURCE = $(abspath ../../external/GRChombo/Source)
 
 ebase := Main_BlackStringToy
 
@@ -36,21 +19,21 @@ src_dirs := $(GRCHOMBO_SOURCE)/utils \
             $(GRCHOMBO_SOURCE)/BoxUtils  \
             $(GRCHOMBO_SOURCE)/GRChomboCore  \
             $(GRCHOMBO_SOURCE)/AMRInterpolator  \
-            $(GRCHOMBO_SOURCE)/TaggingCriteria  \
-            $(GRCHOMBO_SOURCE)/ApparentHorizonFinder  \
-            $(GRCHOMBO_SOURCE)/InitialConditions/BlackHoles \
-            $(GRCHOMBO_SOURCE)/BlackHoles
+            $(GRCHOMBO_SOURCE)/TaggingCriteria
 
-ifeq ($(USE_TWOPUNCTURES),TRUE)
-  src_dirs += $(TWOPUNCTURES_SOURCE)
-endif
+override CXXFLAGS := -std=c++17 -O2 -fopenmp
+override XTRACPPFLAGS += \
+    -isystem$(CHOMBO_HOME)/src/AMRTimeDependent \
+    -isystem$(CHOMBO_HOME)/src/AMRTools \
+    -isystem$(CHOMBO_HOME)/src/BoxTools \
+    -isystem$(CHOMBO_HOME)/src/BaseTools \
+    -isystem$(GRCHOMBO_SOURCE)/utils \
+    -isystem$(GRCHOMBO_SOURCE)/simd \
+    -isystem$(GRCHOMBO_SOURCE)/CCZ4 \
+    -isystem$(GRCHOMBO_SOURCE)/BoxUtils \
+    -isystem$(GRCHOMBO_SOURCE)/GRChomboCore \
+    -isystem$(GRCHOMBO_SOURCE)/AMRInterpolator \
+    -isystem$(GRCHOMBO_SOURCE)/TaggingCriteria \
+    -DGR_SPACEDIM=4 -DDEFAULT_TENSOR_DIM=4
 
 include $(CHOMBO_HOME)/mk/Make.test
-
-ifdef TWOPUNCTURES_SOURCE
-all-tp: all-test
-	$(ECHO)mv $(_app_configs) $(ebase)_TP.$(config).ex
-else
-all-tp:
-	@echo "Set TWOPUNCTURES_SOURCE environment variable to build inherited TwoPunctures behavior.";
-endif

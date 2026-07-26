@@ -870,72 +870,56 @@ struct SlotExpectation
 
 constexpr int no_slot = -1;
 
-constexpr std::array<int, 27> actual_custom_slots = {
-    c_chi,    c_h11,    c_h12,    c_h13,    c_h22,    c_h23,    c_h33,
-    c_hww,    c_K,      c_A11,    c_A12,    c_A13,    c_A22,    c_A23,
-    c_A33,    c_Aww,    c_Theta,  c_Gamma1, c_Gamma2, c_Gamma3, c_lapse,
-    c_shift1, c_shift2, c_shift3, c_B1,     c_B2,     c_B3};
+constexpr std::size_t custom_layout_size = 18;
 
-constexpr std::array<SlotExpectation, 27> expected_custom_layout = {{
+constexpr std::array<int, custom_layout_size> actual_custom_slots = {
+    c_chi,    c_hxx,   c_hxz,    c_hzz,   c_hww,   c_K,
+    c_Axx,    c_Axz,   c_Azz,    c_Aww,   c_Theta, c_GammaX,
+    c_GammaZ, c_lapse, c_shiftX, c_shiftZ, c_Bx,    c_Bz};
+
+constexpr std::array<SlotExpectation, custom_layout_size>
+    expected_custom_layout = {{
     {"chi", 0, "chi", StockGRChomboLayout::c_chi,
      SlotOwnership::directly_shared, 0},
-    {"h11", 1, "h11", StockGRChomboLayout::c_h11,
+    {"hxx", 1, "h11", StockGRChomboLayout::c_h11,
      SlotOwnership::directly_shared, 1},
-    {"h12", 2, "h12", StockGRChomboLayout::c_h12,
-     SlotOwnership::stock_visible_y_component, no_slot},
-    {"h13", 3, "h13", StockGRChomboLayout::c_h13,
+    {"hxz", 2, "h13", StockGRChomboLayout::c_h13,
      SlotOwnership::directly_shared, 2},
-    {"h22", 4, "h22", StockGRChomboLayout::c_h22,
-     SlotOwnership::stock_visible_y_component, no_slot},
-    {"h23", 5, "h23", StockGRChomboLayout::c_h23,
-     SlotOwnership::stock_visible_y_component, no_slot},
-    {"h33", 6, "h33", StockGRChomboLayout::c_h33,
+    {"hzz", 3, "h33", StockGRChomboLayout::c_h33,
      SlotOwnership::directly_shared, 3},
-    {"hww", 7, "none", no_slot,
+    {"hww", 4, "none", no_slot,
      SlotOwnership::custom_hidden_representative, 4},
-    {"K", 8, "K", StockGRChomboLayout::c_K,
+    {"K", 5, "K", StockGRChomboLayout::c_K,
      SlotOwnership::directly_shared, 5},
-    {"A11", 9, "A11", StockGRChomboLayout::c_A11,
+    {"Axx", 6, "A11", StockGRChomboLayout::c_A11,
      SlotOwnership::directly_shared, 6},
-    {"A12", 10, "A12", StockGRChomboLayout::c_A12,
-     SlotOwnership::stock_visible_y_component, no_slot},
-    {"A13", 11, "A13", StockGRChomboLayout::c_A13,
+    {"Axz", 7, "A13", StockGRChomboLayout::c_A13,
      SlotOwnership::directly_shared, 7},
-    {"A22", 12, "A22", StockGRChomboLayout::c_A22,
-     SlotOwnership::stock_visible_y_component, no_slot},
-    {"A23", 13, "A23", StockGRChomboLayout::c_A23,
-     SlotOwnership::stock_visible_y_component, no_slot},
-    {"A33", 14, "A33", StockGRChomboLayout::c_A33,
+    {"Azz", 8, "A33", StockGRChomboLayout::c_A33,
      SlotOwnership::directly_shared, 8},
-    {"Aww", 15, "none", no_slot,
+    {"Aww", 9, "none", no_slot,
      SlotOwnership::custom_hidden_representative, 9},
-    {"Theta", 16, "Theta", StockGRChomboLayout::c_Theta,
+    {"Theta", 10, "Theta", StockGRChomboLayout::c_Theta,
      SlotOwnership::directly_shared, 10},
-    {"Gamma1", 17, "Gamma1", StockGRChomboLayout::c_Gamma1,
+    {"GammaX", 11, "Gamma1", StockGRChomboLayout::c_Gamma1,
      SlotOwnership::directly_shared, 11},
-    {"Gamma2", 18, "Gamma2", StockGRChomboLayout::c_Gamma2,
-     SlotOwnership::stock_visible_y_component, no_slot},
-    {"Gamma3", 19, "Gamma3", StockGRChomboLayout::c_Gamma3,
+    {"GammaZ", 12, "Gamma3", StockGRChomboLayout::c_Gamma3,
      SlotOwnership::directly_shared, 12},
-    {"lapse", 20, "lapse", StockGRChomboLayout::c_lapse,
+    {"lapse", 13, "lapse", StockGRChomboLayout::c_lapse,
      SlotOwnership::gauge_variable, no_slot},
-    {"shift1", 21, "shift1", StockGRChomboLayout::c_shift1,
+    {"shiftX", 14, "shift1", StockGRChomboLayout::c_shift1,
      SlotOwnership::gauge_variable, no_slot},
-    {"shift2", 22, "shift2", StockGRChomboLayout::c_shift2,
+    {"shiftZ", 15, "shift3", StockGRChomboLayout::c_shift3,
      SlotOwnership::gauge_variable, no_slot},
-    {"shift3", 23, "shift3", StockGRChomboLayout::c_shift3,
+    {"Bx", 16, "B1", StockGRChomboLayout::c_B1,
      SlotOwnership::gauge_variable, no_slot},
-    {"B1", 24, "B1", StockGRChomboLayout::c_B1,
-     SlotOwnership::gauge_variable, no_slot},
-    {"B2", 25, "B2", StockGRChomboLayout::c_B2,
-     SlotOwnership::gauge_variable, no_slot},
-    {"B3", 26, "B3", StockGRChomboLayout::c_B3,
+    {"Bz", 17, "B3", StockGRChomboLayout::c_B3,
      SlotOwnership::gauge_variable, no_slot},
 }};
 
 constexpr bool custom_slots_form_complete_permutation()
 {
-    std::array<bool, 27> seen{};
+    std::array<bool, custom_layout_size> seen{};
     for (const int slot : actual_custom_slots)
     {
         if (slot < 0 || slot >= NUM_VARS ||
@@ -970,27 +954,25 @@ constexpr bool frozen_slots_exclude_visible_y_and_gauge()
     return true;
 }
 
-static_assert(NUM_VARS == 27, "custom layout must contain exactly 27 slots");
+static_assert(NUM_VARS == 18, "custom layout must contain exactly 18 slots");
 static_assert(StockGRChomboLayout::NUM_CCZ4_VARS == 25,
               "inspected stock GRChombo layout must contain 25 slots");
-static_assert(c_chi == 0 && c_h11 == 1 && c_h12 == 2 && c_h13 == 3 &&
-                  c_h22 == 4 && c_h23 == 5 && c_h33 == 6 && c_hww == 7 &&
-                  c_K == 8,
+static_assert(c_chi == 0 && c_hxx == 1 && c_hxz == 2 && c_hzz == 3 &&
+                  c_hww == 4 && c_K == 5,
               "custom metric/K slots changed");
-static_assert(c_A11 == 9 && c_A12 == 10 && c_A13 == 11 && c_A22 == 12 &&
-                  c_A23 == 13 && c_A33 == 14 && c_Aww == 15 &&
-                  c_Theta == 16,
+static_assert(c_Axx == 6 && c_Axz == 7 && c_Azz == 8 && c_Aww == 9 &&
+                  c_Theta == 10,
               "custom A/Theta slots changed");
-static_assert(c_Gamma1 == 17 && c_Gamma2 == 18 && c_Gamma3 == 19 &&
-                  c_lapse == 20 && c_shift1 == 21 && c_shift2 == 22 &&
-                  c_shift3 == 23 && c_B1 == 24 && c_B2 == 25 && c_B3 == 26,
+static_assert(c_GammaX == 11 && c_GammaZ == 12 && c_lapse == 13 &&
+                  c_shiftX == 14 && c_shiftZ == 15 && c_Bx == 16 &&
+                  c_Bz == 17,
               "custom Gamma/gauge slots changed");
-static_assert(c_hww != c_h12 && c_hww != c_h22 && c_hww != c_h23,
-              "hidden hww must not alias a visible-y metric component");
-static_assert(c_Aww != c_A12 && c_Aww != c_A22 && c_Aww != c_A23,
-              "hidden Aww must not alias a visible-y A component");
+static_assert(c_hww != c_hxz,
+              "hidden hww must not alias the visible xz component");
+static_assert(c_Aww != c_Axz,
+              "hidden Aww must not alias the visible xz component");
 static_assert(custom_slots_form_complete_permutation(),
-              "custom slots must be unique and cover [0,27)");
+              "custom slots must be unique and cover [0,18)");
 static_assert(frozen_slots_exclude_visible_y_and_gauge(),
               "visible-y and gauge slots must not enter the frozen state map");
 
@@ -1013,7 +995,7 @@ const char *ownership_name(const SlotOwnership ownership)
 }
 
 bool mapping_table_is_exact(
-    const std::array<SlotExpectation, 27> &candidate)
+    const std::array<SlotExpectation, custom_layout_size> &candidate)
 {
     namespace Operator = BlackStringToy::Stage4AOFrozenGaugeOperator;
     using Variable = Operator::PerturbationVariable;
@@ -1029,7 +1011,7 @@ bool mapping_table_is_exact(
         return false;
     }
 
-    std::array<bool, 27> seen_custom_slots{};
+    std::array<bool, custom_layout_size> seen_custom_slots{};
     std::array<bool, 13> seen_frozen_slots{};
     std::array<int, 5> ownership_counts{};
     for (std::size_t index = 0; index < candidate.size(); ++index)
@@ -1084,15 +1066,15 @@ bool mapping_table_is_exact(
            ownership_counts[static_cast<std::size_t>(
                SlotOwnership::custom_hidden_representative)] == 2 &&
            ownership_counts[static_cast<std::size_t>(
-               SlotOwnership::stock_visible_y_component)] == 7 &&
+               SlotOwnership::stock_visible_y_component)] == 0 &&
            ownership_counts[static_cast<std::size_t>(
-               SlotOwnership::gauge_variable)] == 7 &&
+               SlotOwnership::gauge_variable)] == 5 &&
            ownership_counts[static_cast<std::size_t>(
                SlotOwnership::otherwise_non_overlapping)] == 0;
 }
 
 bool mapping_data_changed(
-    const std::array<SlotExpectation, 27> &candidate)
+    const std::array<SlotExpectation, custom_layout_size> &candidate)
 {
     for (std::size_t index = 0; index < candidate.size(); ++index)
     {
@@ -1128,7 +1110,8 @@ struct MappingMutationResults
 
 MappingMutationResults run_mapping_mutations()
 {
-    auto rejected = [](const std::array<SlotExpectation, 27> &mutation)
+    auto rejected =
+        [](const std::array<SlotExpectation, custom_layout_size> &mutation)
     {
         return mapping_data_changed(mutation) &&
                !mapping_table_is_exact(mutation);
@@ -1136,35 +1119,35 @@ MappingMutationResults run_mapping_mutations()
 
     auto swap_h11_h13 = expected_custom_layout;
     std::swap(swap_h11_h13[1].expected_custom_slot,
-              swap_h11_h13[3].expected_custom_slot);
+              swap_h11_h13[2].expected_custom_slot);
 
     auto hww_to_visible_y = expected_custom_layout;
-    hww_to_visible_y[7].expected_custom_slot = c_h12;
-    hww_to_visible_y[7].stock_component = "h12";
-    hww_to_visible_y[7].expected_stock_slot =
+    hww_to_visible_y[4].expected_custom_slot = c_hxz;
+    hww_to_visible_y[4].stock_component = "h12";
+    hww_to_visible_y[4].expected_stock_slot =
         StockGRChomboLayout::c_h12;
-    hww_to_visible_y[7].ownership =
+    hww_to_visible_y[4].ownership =
         SlotOwnership::stock_visible_y_component;
-    hww_to_visible_y[7].frozen_state_slot = no_slot;
+    hww_to_visible_y[4].frozen_state_slot = no_slot;
 
     auto Aww_to_visible_y = expected_custom_layout;
-    Aww_to_visible_y[15].expected_custom_slot = c_A12;
-    Aww_to_visible_y[15].stock_component = "A12";
-    Aww_to_visible_y[15].expected_stock_slot =
+    Aww_to_visible_y[9].expected_custom_slot = c_Axz;
+    Aww_to_visible_y[9].stock_component = "A12";
+    Aww_to_visible_y[9].expected_stock_slot =
         StockGRChomboLayout::c_A12;
-    Aww_to_visible_y[15].ownership =
+    Aww_to_visible_y[9].ownership =
         SlotOwnership::stock_visible_y_component;
-    Aww_to_visible_y[15].frozen_state_slot = no_slot;
+    Aww_to_visible_y[9].frozen_state_slot = no_slot;
 
     auto duplicate_shared_slot = expected_custom_layout;
-    duplicate_shared_slot[11].expected_custom_slot = c_A11;
+    duplicate_shared_slot[7].expected_custom_slot = c_Axx;
 
     auto omit_shared_slot = expected_custom_layout;
-    omit_shared_slot[19].stock_component = "none";
-    omit_shared_slot[19].expected_stock_slot = no_slot;
-    omit_shared_slot[19].ownership =
+    omit_shared_slot[12].stock_component = "none";
+    omit_shared_slot[12].expected_stock_slot = no_slot;
+    omit_shared_slot[12].ownership =
         SlotOwnership::otherwise_non_overlapping;
-    omit_shared_slot[19].frozen_state_slot = no_slot;
+    omit_shared_slot[12].frozen_state_slot = no_slot;
 
     return {rejected(swap_h11_h13), rejected(hww_to_visible_y),
             rejected(Aww_to_visible_y), rejected(duplicate_shared_slot),
@@ -1222,9 +1205,10 @@ int main()
     const bool conformal_mutation = conformal_dimension_mutation_detected();
     const bool connection_mutation = connection_sign_mutation_detected();
     const bool ricci_mutation = ricci_sign_mutation_detected();
-    std::cout << "EXACT custom_27_slot_layout="
+    std::cout << "EXACT custom_18_slot_layout="
               << (state_map ? "PASS" : "FAIL")
               << " shared_11_mapping=" << (state_map ? "PASS" : "FAIL")
+              << " gauge_5_mapping=" << (state_map ? "PASS" : "FAIL")
               << " ownership_separation=" << (state_map ? "PASS" : "FAIL")
               << '\n';
     std::cout << "MAPPING_MUTATION swap_h11_h13="

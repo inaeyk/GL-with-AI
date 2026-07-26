@@ -114,3 +114,15 @@ Durable physics decisions only. Use [PROJECT_LOG.md](PROJECT_LOG.md) for day-to-
 - Genuine `P_+` and `P_-` validation uses full Fourier-consistent even/one-`z`
   jets and their derivative signs. The older labels “even-variable data” and
   “one-z-variable data” remain data classifications, not parity-sector claims.
+
+## 2026-07-26 - E1 periodic and radial boundary scope
+
+- Direction 1 is a true periodic Chombo domain direction. Periodic
+  translation does not apply a tensor-parity sign; scalar/even and one-`z`
+  components therefore wrap with the same stored sign.
+- Direction 0 remains nonperiodic and independently boundary-owned. E1 uses
+  only the existing extrapolation setup needed by the zero-step application
+  fixture and does not accept it as physical black-string outer-boundary
+  physics.
+- Physical radial-boundary behavior and the stationary residual over an
+  actual time window are Stage 4AO-D-F gates.

@@ -67,13 +67,14 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   follows `Constraints.impl.hpp`. The full result matches the independent
   analytic path across GP, non-trace-free flat, curved, off-diagonal, hidden,
   mixed, and both genuine Fourier-sector cases.
-- [ ] Exact next substage: live black-string `BoxLoop` RHS/cleanup/source
-  wiring and periodic-`z` ghost ownership. Keep time evolution, diagnostics,
-  horizons, and AHFinder deferred.
-- [ ] Then execute the remaining locked production order: periodic
-  `z`/ghost ownership; unperturbed
-  GP evolution; perturbed Fourier growth/threshold; horizon/nonlinear
-  diagnostics after PETSc/AHFinder qualification.
+- [x] Stage 4AO-D-E1: isolate the 18-slot live black-string application;
+  invoke GP initialization and the complete target-`d=4` RHS through real
+  DIM2 `BoxLoops`; apply the fixed source once to lapse; run hidden-aware
+  cleanup only at the post-update hook; expose observational `H,Mx,Mz`; and
+  configure direction 1 as periodic with real Chombo ghost exchange.
+- [ ] Stage 4AO-D-F: run the first bounded unperturbed GP evolution and
+  qualify its radial boundary treatment. Keep AMR/MPI production,
+  perturbations, horizons, PETSc/AHFinder, and final scoring deferred.
 - [ ] Run substantive audits only after: assembled storage plus `BoxLoop`;
   complete hidden/cartoon 13-row equivalence; integrated cleanup/constraints
   plus fixed source; first unperturbed evolution; first perturbed growth-rate

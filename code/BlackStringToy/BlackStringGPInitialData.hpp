@@ -2,6 +2,7 @@
 #define BLACKSTRINGGPINITIALDATA_HPP
 
 #include "BlackStringCellStorage.hpp"
+#include "BlackStringCoordinates.hpp"
 #include "BlackStringGPPointwiseInitialData.hpp"
 
 #include <array>
@@ -52,10 +53,12 @@ cell_centered_coordinates(const IntVect &integer_coordinates, const double dx,
         }
     }
 
-    return {(integer_coordinates[radial_direction] + 0.5) * dx -
-                origin[radial_direction],
-            (integer_coordinates[compact_direction] + 0.5) * dx -
-                origin[compact_direction]};
+    return {BlackStringCoordinates::cell_centered<double>(
+                integer_coordinates[radial_direction], dx,
+                origin[radial_direction]),
+            BlackStringCoordinates::cell_centered<double>(
+                integer_coordinates[compact_direction], dx,
+                origin[compact_direction])};
 }
 
 struct DefaultStoragePolicy

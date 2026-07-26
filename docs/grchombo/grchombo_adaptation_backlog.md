@@ -6,6 +6,15 @@ black-string-specific physics, configuration, and diagnostics. Do not
 independently rebuild RK4, AMR, MPI/OpenMP, checkpoint/restart, ghost exchange,
 reductions, interpolation, or generic parameter parsing.
 
+Stage 4AO-D-E1 is complete at the live application seam. The target-owned
+files register 18 slots, reuse the validated GP compute class, obtain
+derivatives from GRChombo's fourth-order operator, expand reduced data to
+target `d=4`, call locked GRChombo directly, own the five gauge rows and one
+fixed lapse source, clean only after update, expose observational `H,Mx,Mz`,
+and configure direction 1 periodic through Chombo. The next backlog item is a
+bounded unperturbed evolution; physical radial-boundary acceptance remains
+open.
+
 ## Priority rules
 
 - **P0** establishes a reproducible authority and prevents convention drift.
@@ -47,8 +56,8 @@ The locked production order is:
 
 1. [complete] thin `Cell`/`FArrayBox` storage seam around the reduced 18-slot
    Vars and GP point initializer;
-2. [compute/traversal complete] GP `BoxLoop` initializer, with live
-   application wiring deferred;
+2. [complete, live] GP `BoxLoop` initializer in the black-string
+   `initialData()` path;
 3. [complete] reduced `(2+2)` to full target-`d=4` pointwise expansion and
    direct GRChombo RHS evaluation;
 4. [complete] direct nonlinear 13-row equivalence with target
@@ -56,9 +65,9 @@ The locked production order is:
    reported separately;
 5. [complete] hidden-aware cleanup and constraints;
 6. [complete, pointwise] production-style fixed lapse-source hook;
-7. [next] live BoxLoop RHS/cleanup/source wiring and periodic `z` and ghost
-   ownership;
-8. unperturbed GP evolution;
+7. [complete] live BoxLoop RHS/cleanup/source wiring and periodic direction-1
+   domain/ghost ownership;
+8. [next] bounded unperturbed GP evolution and radial-boundary qualification;
 9. perturbed Fourier-mode evolution and the first growth/threshold estimate;
 10. horizon and nonlinear diagnostics after PETSc/AHFinder and observable
     conventions are qualified.
@@ -75,12 +84,12 @@ consistency is folded into those audits; no per-substep audit is added.
 | P0-2 | Convention and slot adapter | `CCZ4Vars.hpp`, `ADMConformalVars.hpp`, `UserVariables.inc.hpp`, Tensor/VarsTools | Explicit `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`; reviewed 18-slot black-string map with no visible-`y` slots and one multiplicity-two hidden representative | P0-1 source verification | Level 1 macro/slot/name/parity/permutation tests pass exactly |
 | P0-3 | Formula comparison harness | `CCZ4RHS::rhs_equation`, `CCZ4Geometry`, gauge classes | Test-only adapter accepting supplied analytic jets and emitting per-family rows | P0-1, P0-2 | First five comparison tests execute without production evolution |
 | P1-4a | Cell/FArrayBox storage seam | Chombo storage plus locked GRChombo `Cell` | Thin load/store wrapper around the validated 18-slot reduced Vars and GP point initializer; no physics duplication | P0-2 | Exact round trip through real storage; no `BoxLoop` or physics path |
-| P1-4b | GP BoxLoop initializer | GRChombo initial-data `BoxLoops` pattern and project parameter parser | Thin compute class and isolated real DIM2 traversal; live application wiring deferred | P1-4a | Every requested point equals the existing initializer; coordinate, traversal, determinant, trace, and mutation checks pass |
+| P1-4b | GP BoxLoop initializer (live complete) | GRChombo initial-data `BoxLoops` pattern and project parameter parser | Thin compute class used by the isolated live application | P1-4a | Every requested point equals the existing initializer; coordinate, traversal, determinant, trace, and mutation checks pass |
 | P1-5 | Modified-cartoon target-input pointwise production path (complete) | Direct locked target-`d=4` `CCZ4RHS::rhs_equation` and `CCZ4Geometry`; no BoxLoop | Expand the reviewed reduced state/jets to `(x,z,w1,w2)` and call locked source; do not independently rebuild hidden CCZ4 families | P0-3, P1-4b | Full and hidden-suppressed evaluations execute; real target-input mutations are rejected |
 | P1-6 | Complete pointwise 13-row equivalence (complete) | Full target GRChombo RHS, target hidden-suppressed comparison, and custom oracle | Report `target_shared_hidden_suppressed`, subtraction-defined `hidden_increment_decomposition`, and `target_full_grchombo` | P1-5 | Direct nonlinear comparison passes every physical row and is the sole numerical completion gate; the JVP sweep is only a roundoff/cancellation diagnostic; genuine `P_+`/`P_-` checks pass |
 | P1-7 | Hidden-aware algebraic cleanup and constraints (pointwise complete) | Direct locked `CCZ4Geometry::compute_ricci`, exact `Constraints.impl.hpp` source convention, visible `TraceARemoval` comparison, accepted target expansion | Extend determinant/A-trace cleanup and exact `R+3K^2/4-A_IJ A^IJ` Hamiltonian/two visible momentum constraints with multiplicity two | P1-6 | Non-trace-free, curved, hidden, off-diagonal, mixed, and true sector data match the independent long-double oracle; active production/reduction mutations fail |
 | P1-8 | Fixed GP-holding lapse source (pointwise complete) | Direct locked `MovingPunctureGauge` | Add field-independent `S_alpha=3 sqrt(r0/x^3)` after raw gauge evaluation | P1-7 | Raw lapse is `-3 lambda`, source-adjusted GP lapse vanishes, shift/B are untouched, and the source has zero evolved-field derivative |
-| P1-9 | Compact periodic `z` production domain | GRChombo periodic boundary/domain parameters and derivative classes | Lock `L`, `k_n=2 pi n/L`, parity conventions, radial/compact direction mapping | P1-4b | Periodic wrap, ghost ownership, and Fourier derivative tests pass at production order |
+| P1-9 | Compact periodic `z` production domain (E1 complete) | GRChombo periodic boundary/domain parameters, `LevelData::exchange`, and derivative classes | Lock direction 0 radial/direction 1 compact; use real ghost ownership with no translation sign flip | P1-4b | Both seam wraps, multi-box exchange, scalar/one-`z` fourth-order convergence, and nonperiodic radial ghosts pass |
 | P1-10 | Unperturbed background evolution | `GRAMR`, RK4, ghost fill, boundaries, checkpointing | Configure target grid, source, hidden RHS, diagnostics, and conservative validation window | P1-7 through P1-9 | L4-01 stationarity, constraint convergence, gauge-source validation, and restart smoke pass |
 | P2-11 | Fourier perturbation initialization | Initial-data BoxLoop plus periodic grid | Add normalized even/odd SO(3)-scalar perturbation families with amplitude guard | P1-10 | Linear amplitude scaling and mode/parity leakage tests pass |
 | P2-12 | Fourier amplitude diagnostics | `AMRInterpolator`, reductions, `SmallDataIO` | Adapt custom cosine/sine projections to AMR-consistent sampled/integrated output | P2-11 | Synthetic and production single-mode recovery tests pass |
@@ -210,8 +219,8 @@ reduce the requirement to resolve those digests before production adaptation.
 - The target P0-2 design is an 18-slot black-string layout for
   `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, and `DEFAULT_TENSOR_DIM=4`. It stores no
   visible-`y` variables. `hww/Aww` are single representatives with
-  multiplicity two in physical traces and contractions. The current 27-slot
-  smoke/comparison enum is not the production contract.
+  multiplicity two in physical traces and contractions. E1 now uses this
+  contract live; the historical 27-slot shape is rejected.
 - `docs/grchombo/grchombo_production_adaptation_preflight.md` locks field
   ownership, the minimal GRChombo wrap/extend boundaries, and the future
   pointwise 13-row oracle seam. No enum, initializer, RHS, cleanup,
@@ -256,9 +265,10 @@ reduce the requirement to resolve those digests before production adaptation.
   slots, one registration/checkpoint/output ordering, 13 physical plus five
   gauge variables, no visible-y fields, and explicit parity, stock-overlap,
   future-owner, storage, and hidden-multiplicity metadata.
-- The old 27-slot `UserVariables.hpp` remains the live smoke/comparison
-  scaffold. The new contract is not production evolution wiring and does not
-  change checkpoints or outputs from the current executable.
+- Historical note: before E1, the old 27-slot `UserVariables.hpp` remained
+  the live smoke/comparison scaffold. E1 supersedes that state with the
+  isolated 18-slot application and leaves the old shape only as a negative
+  control.
 - The target `2/4/4` macro assertions compile with inspected GRChombo
   `DimensionDefinitions.hpp` and `Tensor.hpp`. Unmodified stock
   `ADMConformalVars` and `VarsTools` cannot map the target state: their
@@ -266,9 +276,9 @@ reduce the requirement to resolve those digests before production adaptation.
   ten components required by `DEFAULT_TENSOR_DIM=4`, and two-component vector
   intervals conflict with four-component default tensors. The future
   black-string Vars/mapping adapter must own this translation.
-- P1-4 GP initialization is next, but it must consume the reviewed contract
-  through the dedicated production adapter seam. It must not reuse the old
-  27-slot scaffold or begin RHS, cleanup, source, periodic, or evolution work.
+- P1-4 GP initialization subsequently consumed the reviewed contract through
+  the dedicated adapter, and E1 assembled the remaining live seam without
+  reusing the old 27-slot scaffold.
 
 ## Reduced Vars and pointwise GP substage update
 

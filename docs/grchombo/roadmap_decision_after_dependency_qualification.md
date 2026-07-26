@@ -14,7 +14,9 @@ and Checkpoint G remain incomplete. GRChombo RK, AMR, MPI/OpenMP,
 checkpointing, reductions, interpolation, ghost exchange, and generic grid
 infrastructure remain framework-owned.
 
-The exact next implementation substage is the thin `Cell`/`FArrayBox` storage
-seam around the validated 18-slot reduced Vars and GP point initializer. It
-must not duplicate physics or begin `BoxLoop`, RHS, cleanup, gauge-source,
-periodicity, evolution, diagnostics, or AHFinder work.
+Storage, GP `BoxLoop` initialization, the complete target-`d=4` RHS,
+post-update cleanup, observational constraints, the fixed lapse source, and
+periodic direction-1 ghost exchange are now assembled in the isolated E1
+application. The exact next implementation substage is Stage 4AO-D-F: a
+bounded unperturbed GP evolution plus radial-boundary qualification. It must
+not yet claim AMR/MPI production, perturbation growth, horizons, or AHFinder.
