@@ -191,12 +191,35 @@ make -C external/Chombo/lib -j4 \
   BaseTools BoxTools AMRTools AMRTimeDependent \
   DIM=2 MPI=FALSE OPT=TRUE DEBUG=FALSE
 
+CXX=/usr/bin/g++ \
+CHOMBO_FC=/usr/bin/gfortran-15 \
 scripts/verify_grchombo_dependency.sh --require-build
+
+CXX=/usr/bin/g++ \
+CHOMBO_FC=/usr/bin/gfortran-15 \
+CHOMBO_CSHELL=/bin/csh \
+CHOMBO_HOME="$PWD/external/Chombo/lib" \
 scripts/probe_grchombo_target_headers.sh
 ```
 
 The verifier must fail if either checkout is dirty or at a different SHA.
 The target probe must compile and execute; a Make usage banner is not a pass.
+`CXX` is Chombo's existing C++ compiler interface. `CHOMBO_FC` and
+`CHOMBO_CSHELL` are the project probe overrides, while `CHOMBO_HOME` is
+Chombo's existing build-root interface. The probe resolves the real
+architecture-qualified executable behind `/usr/bin/gfortran-15` before
+matching and invoking the qualified archive configuration. The stock
+`lib/mk/reverse` helper has a `/bin/csh` shebang, so a compatible shell at a
+different path cannot satisfy that helper without rebuilding or altering the
+dependency contract.
+
+The probe rejects compiler, shell, helper, or Chombo-home paths under `/tmp`
+and `/var/tmp`; the temporary package extraction used during the original
+qualification is evidence, not a persistent project dependency. On Ubuntu
+26.04 the persistent serial setup requires `gfortran-15`, `csh`,
+`libblas-dev`, and `liblapack-dev`; reproducing the qualified HDF-enabled
+Chombo build also requires `libhdf5-dev`. Installing these is a host setup
+action, not a repository change.
 
 ## Remaining provenance boundaries
 
@@ -211,8 +234,9 @@ The core source/build dependency is project-qualified. These remain separate:
 - AHFinder/PETSc compile and smoke qualification;
 - MPI production configuration and a full black-string evolution build.
 
-Consequently, the project may begin the thin `Cell`/`FArrayBox` GP initializer
-storage wrapper. This does not authorize `BoxLoop` execution, RHS/cartoon
-physics, cleanup, lapse source, periodic ownership, evolution, or AHFinder
-work. The former container, MPI, and full-runtime gaps do not block this
-storage seam; PETSc/AHFinder remains blocked.
+With the persistent-tool `--require-build` verifier and target `2/4/4` header
+probe passing, Stage 4AO-D-E1 is authorized to begin. This dependency
+checkpoint does not itself implement or qualify live application integration,
+`BoxLoop` execution, RHS/cartoon physics, cleanup, lapse source, periodic
+ownership, or evolution. The former container and MPI gaps do not block
+starting E1; PETSc/AHFinder remains separately blocked.

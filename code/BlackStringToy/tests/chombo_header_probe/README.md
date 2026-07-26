@@ -22,10 +22,31 @@ scripts/probe_grchombo_target_headers.sh
 The script verifies both dependency source locks, compiles the `all` target,
 and executes `run-only`. Merely invoking the Makefile's default usage target
 is not evidence. No header stubs or copied dependency headers are allowed.
-On a system where `csh` is installed outside `/bin`, set `CHOMBO_CSHELL` to
-that real executable; this overrides only Chombo's command-wrapper path.
-Likewise, `CHOMBO_FC` may name the qualified Fortran compiler when it is not
-on `PATH`.
+
+The probe accepts Chombo's existing compiler/home interfaces plus the
+project's qualified Fortran and shell overrides:
+
+```bash
+CXX=/usr/bin/g++ \
+CHOMBO_FC=/usr/bin/gfortran-15 \
+CHOMBO_CSHELL=/bin/csh \
+CHOMBO_HOME="$PWD/external/Chombo/lib" \
+scripts/probe_grchombo_target_headers.sh
+```
+
+`CXX` remains the compiler variable already used by Chombo; there is no
+second `CHOMBO_CXX` alias. The probe resolves the real executable behind the
+`gfortran-15` symlink and passes that architecture-qualified path to Chombo,
+preserving the configuration name of the qualified DIM2 archives. The helper
+`lib/mk/reverse` has a locked `#!/bin/csh -f` interpreter, so setting
+`CHOMBO_CSHELL` to another location does not replace the requirement that
+`/bin/csh` exist.
+
+Before invoking Make, the probe prints and validates the real compiler, shell,
+Chombo-home, reverse-helper, target-header, and exact four DIM2 library paths.
+Persistent dependency qualification rejects tools or Chombo homes resolved
+under `/tmp` or `/var/tmp`. The normal locked path runs the dependency
+verifier in `--require-build` mode.
 
 Project and fixture sources compile with
 `-std=c++17 -O2 -Wall -Wextra -Wpedantic -Werror`. The locked Chombo and
