@@ -52,3 +52,15 @@ Durable coding/workflow decisions only. Use [PROJECT_LOG.md](PROJECT_LOG.md) or 
   build without modifying either dependency. Interpolation, AHFinder, and the
   locked `Lagrange` implementation remain deferred and must be qualified
   before those paths are enabled.
+
+### 2026-07-27: One analytic manufactured owner for live convergence
+
+- Decision: Define manufactured values and all first/second jets in one test
+  helper, use its values to fill the real FArrayBox, and use its jets only for
+  the continuum target oracle.
+- Reason: This compares the production fourth-order stencil path against an
+  analytic result without duplicating field formulas or deriving the oracle
+  from the same discrete jets.
+- Consequences: Ricci, encoded Z, advection, shift, lapse derivatives,
+  combined rows, and constraints have separate four-resolution evidence.
+  Radial-boundary cells remain excluded.

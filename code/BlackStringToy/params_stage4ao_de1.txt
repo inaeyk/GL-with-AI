@@ -1,5 +1,6 @@
 # Isolated Stage 4AO-D-E1 application parameters. This file is not a sustained
 # evolution acceptance test.
+check_params = 1
 N1 = 32
 N2 = 32
 L = 8.0

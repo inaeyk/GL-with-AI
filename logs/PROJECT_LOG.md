@@ -2608,3 +2608,54 @@ Category: Production Adaptation
   RHS values. Sustained evolution, AMR/MPI, physical radial-boundary
   acceptance, perturbations, horizons/PETSc, Checkpoint G, and final scoring
   remain incomplete.
+
+## 2026-07-27 - E1 Convergence And Mutation Completion
+
+Category: Production Adaptation Validation
+
+- Added real-FArrayBox manufactured convergence at `N=8,16,32,64`,
+  separately tracking geometric Ricci, encoded Z, advection, shift terms,
+  lapse derivatives, combined 18-row output, and `H,Mx,Mz`.
+- Added real periodic-domain GP residual runs at `N=32,64,128,256`, reporting
+  every RHS row, all three constraints, and lapse drift before/after the fixed
+  source. Maximum RHS residual converges from `1.032981011468426e-4` to
+  `7.543271873799995e-8`; fixed-source lapse drift is zero.
+- Added active application mutations for initializer storage bypass,
+  `hww=x^2`, one hidden copy, wrong slot order, legacy 27-slot input, wrong or
+  skipped periodic exchange, duplicate/omitted writes, source
+  omission/doubling/misrouting, cleanup placement/omission/multiplicity, and
+  mutating constraint output.
+- This closes E1 interior application validation only. Physical radial
+  boundary acceptance and the first bounded unperturbed evolution remain
+  Stage 4AO-D-F.
+- The application-local `BlackStringChomboParameters.hpp` fixes the first
+  locked 2/4/4 infrastructure overrun without modifying dependencies.
+  Additional locked GRAMR runtime loops still index grid objects with the
+  target tensor dimension, so the isolated E1 parameter file is explicitly
+  check-only until Stage 4AO-D-F adapts that boundary.
+
+## 2026-07-27 - E1 Live-Evidence Repair
+
+Category: Production Adaptation Validation
+
+- Replaced post-output registration, RHS-write, fixed-source, and cleanup
+  mutations with executed pre-output input, evaluation, storage, and
+  update-hook policies. Every mutation uses active nonzero data and is
+  rejected independently by oracle, write-count, or invocation-order
+  evidence.
+- Added production first-, second-, and mixed-derivative checks at both sides
+  of the real two-box seam, `z=N/2-1,N/2`, after `LevelData::exchange`.
+  Scalar/even and one-z families pass at `N=32,64,128,256`; the slowest final
+  order is `3.9946`. Low/high global wraps and absent radial wrapping remain
+  separately reported.
+- Manufactured results retain maximum error, row/component, resolution,
+  `IntVect`, physical `(x,z)`, and parity for all seven reported families.
+  Their previous maximum errors are unchanged.
+- Cleanup remains determinant `0.9999999999999997` and weighted trace
+  `-5.204170427930421e-18`.
+- The first evolution remains blocked at
+  `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define ->
+  RealVect::operator[]`: a dimension-four loop indexes the two-dimensional
+  `m_center` at `i=2`. The source incompatibility and first site are known,
+  the full adaptation surface remains under investigation, and E1 stays
+  check-only. No evolution, AMR, or MPI success is claimed.

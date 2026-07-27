@@ -23,6 +23,7 @@ src_dirs := $(GRCHOMBO_SOURCE)/utils \
 
 override CXXFLAGS := -std=c++17 -O2 -fopenmp
 override XTRACPPFLAGS += \
+    -include$(abspath BlackStringChomboParameters.hpp) \
     -isystem$(CHOMBO_HOME)/src/AMRTimeDependent \
     -isystem$(CHOMBO_HOME)/src/AMRTools \
     -isystem$(CHOMBO_HOME)/src/BoxTools \

@@ -469,3 +469,41 @@ Before P1-6 or P3-14 can be planned precisely, resolve:
   ghosts, evolution, diagnostics, and horizons remain absent. The exact next
   active substage is live BoxLoop RHS/cleanup/source wiring plus periodic-`z`
   ownership.
+
+## Stage 4AO-D-E1 live-integration supersession
+
+The historical pointwise-only status immediately above is superseded by the
+isolated E1 application integration:
+
+- live GP initialization, live stencil-driven target-`d=4` RHS, post-update
+  cleanup, `H,Mx,Mz`, fixed lapse source, and periodic-z ownership are
+  complete;
+- exact live comparisons cover 72 initialized cells and 9 RHS cells across
+  all 18 slots with zero measured mismatch;
+- manufactured `N=8,16,32,64` fixtures pass fourth-order gates for Ricci,
+  encoded Z, advection, shift terms, lapse derivatives, combined rows, and
+  constraints;
+- GP `N=32,64,128,256` fixtures report all 18 rows and three constraints;
+  the maximum RHS residual decreases from `1.032981011468426e-4` to
+  `7.543271873799995e-8`, and the fixed-source lapse residual is zero;
+- low and high z wraps are checked separately; real production first-,
+  second-, and mixed-derivative stencils cross both sides of the internal
+  two-box seam at four resolutions with fourth-order convergence, no one-z
+  sign flip, and independently owned radial ghosts;
+- manufactured tables retain worst row/component, `IntVect`, physical
+  `(x,z)`, and parity for every family and resolution;
+- live mutation coverage means only executed pre-output registration,
+  storage, source, and update-hook policy mutations. Cleanup remains
+  determinant `0.9999999999999997` and weighted trace
+  `-5.204170427930421e-18`.
+
+The next gate is bounded unperturbed evolution plus physical radial-boundary
+qualification. Sustained evolution, AMR/MPI, perturbations/growth,
+horizons/PETSc, final scoring, Stage 4AO-D, and Checkpoint G remain open.
+The known blocker is
+`AMR::define -> GRAMRLevel::define -> BoundaryConditions::define ->
+RealVect::operator[]`: a `DEFAULT_TENSOR_DIM=4` loop indexes the
+`CH_SPACEDIM=2` `RealVect m_center` at `i=2`. The first adaptation site and
+source incompatibility are established; the full surface remains under
+investigation, no evolution/AMR/MPI success is claimed, and E1 stays
+check-only.

@@ -2312,3 +2312,47 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Scope: no sustained time evolution, AMR/MPI production, accepted physical
   radial boundary, perturbations, horizons, PETSc/AHFinder, Checkpoint G, or
   final score. Stage 4AO-D-F is next.
+
+- Date: 2026-07-27
+- Goal: Complete E1 production-style convergence, GP-residual, and active
+  mutation evidence after the compiler-qualified dependency gates.
+- Result: Extended the real Chombo live-application fixture with one analytic
+  manufactured state/jet owner, four-resolution family-separated
+  convergence, four-resolution periodic-exchange GP residuals for all 18 RHS
+  rows and `H,Mx,Mz`, and active live-path mutations covering the complete E1
+  rejection list.
+- Validation: Manufactured `N=8,16,32,64` passes the fourth-order gate for
+  Ricci, encoded Z, advection, shift terms, lapse derivatives, combined rows,
+  and constraints. GP `N=32,64,128,256` reduces the maximum RHS residual from
+  `1.032981011468426e-4` to `7.543271873799995e-8`; sourced lapse drift is
+  zero. Radial-boundary cells are excluded.
+- Scope: no evolution step, AMR/MPI qualification, radial-boundary
+  acceptance, perturbation/growth diagnostic, horizon/PETSc work, final
+  score, Stage 4AO-D completion, or Checkpoint G.
+- Runtime boundary: a local pre-include safely compiles
+  `ChomboParameters` grid loops at CH_SPACEDIM=2 and restores target tensor
+  loops to four. Entering locked `GRAMRLevel::define` still reaches a
+  tensor-wide `FOR` on a 2D `RealVect`; E1 therefore uses `check_params`, and
+  the broader runtime adapter is a Stage 4AO-D-F prerequisite.
+
+- Date: 2026-07-27
+- Goal: Repair E1 seam and mutation evidence without altering validated
+  physics or entering GRAMR dimensional adaptation.
+- Result: Added actual two-box seam-crossing first-, second-, and mixed-
+  derivative checks at `z=N/2-1,N/2`; all scalar/even and one-z outputs pass
+  fourth-order convergence over `N=32,64,128,256`, with slowest final order
+  `3.9946`. Low/high global wraps and radial nonperiodicity remain separate.
+- Mutation repair: registration swaps now occur in the live input policy;
+  omitted/duplicated writes occur in the live storage policy; source
+  omission/doubling/shift/B routing occurs in live evaluation policies; and
+  cleanup placement is exercised through traced RHS/update hooks. No
+  completed output array is edited to manufacture these results.
+- Provenance: every manufactured family now retains its maximum error,
+  row/component, resolution, `IntVect`, physical `(x,z)`, and parity. Existing
+  maxima and cleanup values (`0.9999999999999997`,
+  `-5.204170427930421e-18`) are unchanged.
+- Blocker: first evolution remains check-only. The established failure is
+  `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define ->
+  RealVect::operator[]`, with a dimension-four loop indexing
+  `CH_SPACEDIM=2` `m_center` at `i=2`; the full adaptation surface remains
+  under investigation and no evolution/AMR/MPI claim is made.

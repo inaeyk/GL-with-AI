@@ -235,3 +235,28 @@ fixture, and periodic manufactured derivatives show fourth-order convergence.
 This is application-integration evidence only. It is not sustained evolution,
 AMR/MPI qualification, physical radial-boundary acceptance, horizon evidence,
 or a final capability score.
+
+The E1 fixture additionally supplies four-resolution manufactured interior
+convergence separated into Ricci, encoded Z, advection, shift,
+lapse-derivative, combined-row, and constraint columns, plus a
+four-resolution unperturbed GP table for every RHS row and `H,Mx,Mz`.
+Maximum GP RHS residual decreases from `1.032981011468426e-4` at `N=32` to
+`7.543271873799995e-8` at `N=256`; the fixed source cancels the measured
+lapse drift to zero. This strengthens integration evidence but does not
+assign or change a final agent score.
+
+The periodic claim is now backed by separate low/high global-wrap checks and
+real two-box seam-crossing first-, second-, and mixed-derivative outputs at
+`N=32,64,128,256`; the slowest final observed order is `3.9946`. Every
+manufactured family records its worst row/component, `IntVect`, physical
+location, and parity. Mutation credit is limited to defects injected through
+executed live registration, storage, source, and update-hook policies before
+output production. Cleanup remains determinant `0.9999999999999997` and
+weighted trace `-5.204170427930421e-18`.
+
+This does not change the blocker classification. The established first
+runtime failure is
+`AMR::define -> GRAMRLevel::define -> BoundaryConditions::define ->
+RealVect::operator[]`, where the dimension-four loop reaches `m_center[i=2]`
+on a two-dimensional `RealVect`. The full adaptation surface, evolution,
+AMR, and MPI remain unqualified.

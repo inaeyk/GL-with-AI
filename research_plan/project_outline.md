@@ -165,7 +165,14 @@ Physics and physics-design stages also produce polished review notes under
   the GP initializer, real fourth-order derivative ownership, direct target
   `d=4` GRChombo RHS, post-update hidden-aware cleanup, observational
   `H,Mx,Mz`, fixed lapse source, and periodic direction-1 ghost exchange are
-  assembled in the isolated live black-string application.
+  assembled in the isolated live black-string application. Real
+  FArrayBox/BoxLoop fixtures now add four-level interior manufactured
+  convergence and four-level unperturbed GP residual tables for all 18 RHS
+  rows plus all three constraints. Manufactured families retain worst
+  row/component and location. Low/high periodic wraps are distinct from
+  fourth-order first-, second-, and mixed-derivative stencils crossing both
+  sides of the internal two-box seam. Radial-boundary cells are excluded, so
+  this evidence does not qualify physical radial-boundary behavior.
 - Active sequence: [complete] `Cell`/`FArrayBox` storage seam; [complete]
   isolated GP `BoxLoop` compute/traversal; [complete] pointwise
   hidden/cartoon RHS and separately reported complete 13-row equivalence;
@@ -192,7 +199,13 @@ Physics and physics-design stages also produce polished review notes under
   tolerance, including a non-trace-free discriminator and genuine Fourier
   parity projections.
 - Exact next implementation substage: Stage 4AO-D-F bounded unperturbed GP
-  evolution. The E1 fixtures do not establish sustained evolution, AMR/MPI
+  evolution. First isolate remaining locked GRAMR infrastructure loops that
+  apply target-d=4 `FOR` to CH_SPACEDIM-sized grid objects. The established
+  first path is `AMR::define -> GRAMRLevel::define ->
+  BoundaryConditions::define -> RealVect::operator[]`, with `m_center[i=2]`;
+  E1 adapts `ChomboParameters` parsing only, does not repair this site, and
+  keeps its parameter file check-only.
+  The E1 fixtures do not establish sustained evolution, AMR/MPI
   production, physical radial-boundary acceptance, perturbation growth,
   horizons, or AHFinder.
 - Infrastructure policy: reuse GRChombo RK4, AMR, MPI/OpenMP,

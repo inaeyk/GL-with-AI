@@ -70,8 +70,8 @@ The real-storage fixture initializes 72 valid cells and compares all 18 slots
 with zero measured difference. At nine selected interior cells, all 18 live
 RHS slots equal the accepted physical and gauge/source pointwise seams with
 zero measured difference under the fixed tolerance. Cleanup reaches
-`det(h)=0.9999999999999998` and weighted trace
-`-3.903127820947816e-18`; the diagnostic path matches `H,Mx,Mz` exactly and
+`det(h)=0.9999999999999997` and weighted trace
+`-5.204170427930421e-18`; the diagnostic path matches `H,Mx,Mz` exactly and
 does not alter the evolved `FArrayBox`.
 
 For multi-mode periodic data at `N=32,64,128,256`, the scalar seam derivative
@@ -305,3 +305,33 @@ Both oracle defects exposed during this comparison are now active negative
 controls. The old one-pass raised-Christoffel construction and the old
 component-first shift-Hessian interpretation each fail the locked tolerance
 on nonzero finite data; the corrected oracle passes those identical states.
+
+## Stage 4AO-D-E1 application result
+
+The pointwise-only “later gates” statement above is superseded for E1. The
+real application fixture uses production `FArrayBox`, `LevelData`,
+`BoxLoops`, fourth-order derivatives, initializer, RHS, cleanup, constraints,
+source, periodic domain, and ghost exchange.
+
+| Evidence | Resolutions/cells | Result |
+|---|---:|---|
+| live GP equivalence | 72 cells x 18 slots | maximum absolute error `0` |
+| live RHS equivalence | 9 cells x 18 rows | maximum absolute error `0` |
+| manufactured families | `N=8,16,32,64` | fourth-order gate passes for Ricci, encoded Z, advection, shift, lapse derivative, combined, constraints; every family retains worst row/component, `IntVect`, physical `(x,z)`, and parity |
+| global periodic wraps | `N=32,64,128,256` | final scalar/one-z first-derivative orders `4.2508/3.9946`; low and high wraps pass separately with no sign flip |
+| internal two-box seam | `N=32,64,128,256` | actual production first-, second-, and mixed-derivative stencils at `z=N/2-1,N/2` pass; slowest final order `3.9946`; radial ghosts remain unwrapped |
+| GP residual | `N=32,64,128,256` | maximum 18-row residual `1.032981011468426e-4 -> 7.543271873799995e-8`; fixed-source lapse drift `0` |
+
+Mutation evidence in this table is limited to policies that execute inside
+the live input-registration, RHS-storage, gauge/source, or update-hook path
+before outputs are produced. The cleanup result remains determinant
+`0.9999999999999997` and weighted trace
+`-5.204170427930421e-18`.
+
+All convergence regions exclude radial-boundary cells. L4 physical runs,
+including the first bounded unperturbed evolution and radial-boundary
+acceptance, remain unexecuted. The first runtime failure remains
+`AMR::define -> GRAMRLevel::define -> BoundaryConditions::define ->
+RealVect::operator[]`, where a dimension-four loop indexes the
+two-dimensional `m_center` at `i=2`; the full adaptation surface is not yet
+known and the E1 parameter file remains check-only.

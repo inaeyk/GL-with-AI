@@ -194,6 +194,12 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [x] Stage 4AO-B: discrete operator preflight harness: raw unmodified-RHS background residual convergence on the provisional `r0=1`, `x in [0.5,4.0]` domain, with target zero for verified geometric/scalar/constraint components and `-3 sqrt(r0/x^3)` for the unmodified live moving-puncture lapse equation; `S_alpha=+3 sqrt(r0/x^3)` is not used to cancel measured finite-grid residuals; the fixture also checks `delta hww` hidden-contraction isolation for `delta hat_Gamma^x`, hand-derived actual-discrete-RHS Jacobian-vector agreement, and z-coupled periodic-stencil parity-sector block diagonalization with a flipped-parity negative guard.
 - [ ] Stage 4AO-C: custom stationary outer-boundary research is deferred. The complete coupled interior linearization/JVP/parity and inner endpoint pass. The current outer characteristic selectors and row layout are diagnostic only. The singular leading kernel has nullity three, but no generalized-chain obstruction or complete branch classification is established; coincident leading vectors with distinct subleading series remain possible. Outer, aggregate boundary, boundary-bearing, and pencil gates are false; all solver, MOTS, threshold, production, and downstream work remains blocked.
 - [ ] Stage 4AO-D: live-gauge/full acceptance: physical GL eigenvalue agreement, physical/gauge/constraint mode separation, CCZ4 constraint-subsystem decay, inner-boundary characteristics, seeded time-evolution growth bridge, and full convergence.
+- [ ] Before Stage 4AO-D-F, adapt locked GRAMR grid-infrastructure loops that
+  use target-d=4 `FOR` on CH_SPACEDIM-sized `RealVect`/domain objects. E1
+  adapts parameter parsing and remains check-only. The first failing path is
+  `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define ->
+  RealVect::operator[]`, where `m_center[i=2]` overruns the two-dimensional
+  `RealVect`; the full adaptation surface remains under investigation.
 - [ ] Stage 4AO deferred-branch hard rules: flat tests alone are insufficient;
   no eigensolver before its prerequisite gates; Pau is not the convention
   authority; and `hat_Gamma^x` alone is not the observable. The former
@@ -259,10 +265,14 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 
 ## Later
 
-- [ ] Integrate the exact black-string initial data through a Chombo
-  `BoxLoop`.
-- [ ] Implement compact-z handling.
+- [x] Integrate exact black-string GP initial data through a live Chombo
+  `BoxLoop`, with one storage-seam call per valid cell.
+- [x] Implement compact-z domain ownership through Chombo periodic
+  `ProblemDomain` and real `LevelData::exchange`: low/high global wraps and
+  fourth-order first-, second-, and mixed-derivative stencils at both sides
+  of the internal two-box seam pass separately, with no radial wrapping.
 - [ ] Add GL perturbation controls.
-- [ ] Add constraint/gauge diagnostics.
+- [x] Add observational `H,Mx,Mz` diagnostics and the fixed GP lapse-source
+  hook; no hidden momentum output.
 - [ ] Add horizon diagnostics.
 - [ ] Add radiation extraction.

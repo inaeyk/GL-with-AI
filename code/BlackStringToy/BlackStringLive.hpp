@@ -12,6 +12,7 @@
 #include <array>
 #include <cmath>
 #include <stdexcept>
+#include <utility>
 
 namespace BlackStringLive
 {
@@ -131,16 +132,69 @@ evaluate_rhs(const Target::Input &input, const double r0,
     return rhs;
 }
 
-class RHSCompute
+struct DefaultInputPolicy
+{
+    Target::Input
+    operator()(const Cell<double> &cell, const double dx,
+               const std::array<double, CH_SPACEDIM> &coordinate_offset) const
+    {
+        return make_pointwise_input(cell, dx, coordinate_offset);
+    }
+};
+
+struct DefaultEvaluationPolicy
+{
+    Reduced::Variables<double>
+    operator()(const Target::Input &input, const double r0,
+               const GaugeParameters &gauge_parameters,
+               const bool fixed_lapse_source_enabled) const
+    {
+        return evaluate_rhs(input, r0, gauge_parameters,
+                            fixed_lapse_source_enabled);
+    }
+};
+
+struct DefaultPreStorePolicy
+{
+    void operator()(Reduced::Variables<double> &) const {}
+};
+
+struct DefaultRHSStoragePolicy
+{
+    void store(const Cell<double> &cell,
+               const Reduced::Variables<double> &rhs) const
+    {
+        Storage::store(cell, rhs);
+    }
+};
+
+// The policy parameters are narrow test seams around the live load/evaluate/
+// store path. The default specialization is the production RHSCompute below;
+// it executes the same pointwise input, direct target-d=4 RHS, gauge/source,
+// and BlackStringCellStorage calls as before.
+template <class input_policy_t = DefaultInputPolicy,
+          class evaluation_policy_t = DefaultEvaluationPolicy,
+          class pre_store_policy_t = DefaultPreStorePolicy,
+          class storage_policy_t = DefaultRHSStoragePolicy>
+class BasicRHSCompute
 {
   public:
-    RHSCompute(const double r0, const double dx,
-               const std::array<double, CH_SPACEDIM> &coordinate_offset,
-               const GaugeParameters &gauge_parameters,
-               const bool fixed_lapse_source_enabled)
+    BasicRHSCompute(
+        const double r0, const double dx,
+        const std::array<double, CH_SPACEDIM> &coordinate_offset,
+        const GaugeParameters &gauge_parameters,
+        const bool fixed_lapse_source_enabled,
+        input_policy_t input_policy = input_policy_t{},
+        evaluation_policy_t evaluation_policy = evaluation_policy_t{},
+        pre_store_policy_t pre_store_policy = pre_store_policy_t{},
+        storage_policy_t storage_policy = storage_policy_t{})
         : m_r0(r0), m_dx(dx), m_coordinate_offset(coordinate_offset),
           m_gauge_parameters(gauge_parameters),
-          m_fixed_lapse_source_enabled(fixed_lapse_source_enabled)
+          m_fixed_lapse_source_enabled(fixed_lapse_source_enabled),
+          m_input_policy(std::move(input_policy)),
+          m_evaluation_policy(std::move(evaluation_policy)),
+          m_pre_store_policy(std::move(pre_store_policy)),
+          m_storage_policy(std::move(storage_policy))
     {
         if (!std::isfinite(m_r0) || !(m_r0 > 0.0))
         {
@@ -150,11 +204,13 @@ class RHSCompute
 
     void compute(const Cell<double> cell) const
     {
-        Storage::store(
-            cell, evaluate_rhs(
-                      make_pointwise_input(cell, m_dx, m_coordinate_offset),
-                      m_r0, m_gauge_parameters,
-                      m_fixed_lapse_source_enabled));
+        const Target::Input input =
+            m_input_policy(cell, m_dx, m_coordinate_offset);
+        auto rhs = m_evaluation_policy(
+            input, m_r0, m_gauge_parameters,
+            m_fixed_lapse_source_enabled);
+        m_pre_store_policy(rhs);
+        m_storage_policy.store(cell, rhs);
     }
 
   private:
@@ -163,7 +219,13 @@ class RHSCompute
     std::array<double, CH_SPACEDIM> m_coordinate_offset;
     GaugeParameters m_gauge_parameters;
     bool m_fixed_lapse_source_enabled;
+    input_policy_t m_input_policy;
+    evaluation_policy_t m_evaluation_policy;
+    pre_store_policy_t m_pre_store_policy;
+    storage_policy_t m_storage_policy;
 };
+
+using RHSCompute = BasicRHSCompute<>;
 
 class CleanupCompute
 {

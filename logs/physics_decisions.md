@@ -126,3 +126,14 @@ Durable physics decisions only. Use [PROJECT_LOG.md](PROJECT_LOG.md) for day-to-
   physics.
 - Physical radial-boundary behavior and the stationary residual over an
   actual time window are Stage 4AO-D-F gates.
+
+## 2026-07-27 - E1 GP residual interpretation
+
+- The unperturbed GP grid residual is an interior finite-difference
+  stationarity test, not a time-evolution result.
+- All 18 RHS rows and `H,Mx,Mz` are measured across four resolutions after
+  real periodic-z exchange; cells whose fourth-order stencil would touch a
+  radial boundary are excluded.
+- The raw moving-puncture lapse drift remains reported separately. The fixed
+  source cancels lapse only and is never used to cancel another row or a
+  measured finite-grid residual.

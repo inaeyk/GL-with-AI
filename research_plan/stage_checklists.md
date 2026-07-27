@@ -815,8 +815,8 @@ simulation and radiation diagnostics exist.
   lapse-only test adapter with zero 20-field Jacobian, setup convergence,
   mutation sensitivity, and the frozen-gauge Fourier/parity convention.
 - [ ] Recover the former container recipe/image digests. This provenance gap
-  does not block the storage seam; actual Chombo periodic-domain/ghost-fill
-  ownership remains a later unqualified production step.
+  does not block the storage seam or the now-qualified E1 periodic-domain,
+  global-wrap, and internal inter-box stencil evidence.
 - [x] Adapt and compare hidden-aware `d=4` determinant/A-trace cleanup. The
   stored `hww/Aww` representatives are each written once and counted twice in
   physical determinant/trace contractions; invalid metrics reject and both
@@ -838,10 +838,30 @@ simulation and radiation diagnostics exist.
   Hidden-aware determinant/A-trace cleanup is post-update rather than inside
   RHS; diagnostics emit observational `H,Mx,Mz`; direction 1 is periodic
   through `ProblemDomain` plus real `LevelData::exchange`.
+  The application fixture also passes four-resolution manufactured
+  convergence for geometric Ricci, encoded Z, advection, shift terms, lapse
+  derivatives, combined rows, and constraints, retaining the worst
+  row/component, `IntVect`, physical `(x,z)`, and parity at every resolution.
+  Global low/high periodic wraps are checked separately from real
+  seam-crossing first-, second-, and mixed-derivative stencils at
+  `z=N/2-1,N/2`; all internal scalar/even and one-z families converge at
+  fourth order, and radial ghosts do not wrap. A separate four-resolution
+  unperturbed GP sweep reports every one of the 18 RHS rows, `H,Mx,Mz`, and
+  lapse drift before/after the fixed source while excluding radial-boundary
+  cells. Live mutation status refers only to executed input-registration,
+  RHS-storage, gauge/source, and update-hook policies before outputs are
+  produced. Cleanup validation is `det(h)=0.9999999999999997` and weighted
+  `tr(A)=-5.204170427930421e-18`.
 - [ ] Stage 4AO-D-F first unperturbed evolution. Sustained evolution,
   AMR/MPI qualification, accepted physical radial boundaries, perturbation
   growth, horizons/PETSc, Stage 4AO-D completion, Checkpoint G, and final
-  scoring remain open.
+  scoring remain open. The established first failure is
+  `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define ->
+  RealVect::operator[]`: a `DEFAULT_TENSOR_DIM=4` loop indexes the
+  `CH_SPACEDIM=2` `RealVect m_center` at `i=2`. This source incompatibility
+  and first adaptation site are established, but the full adaptation surface
+  remains under investigation. E1 remains check-only and does not adapt this
+  runtime boundary.
 - [x] Production-adaptation preflight: lock the inspected GRChombo
   origin/commit in a tracked manifest; add a read-only wrong-commit/dirty-state
   verifier; lock the target 18-slot `d=4/2` state with no visible-`y` slots;
