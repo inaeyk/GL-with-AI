@@ -2356,3 +2356,20 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   RealVect::operator[]`, with a dimension-four loop indexing
   `CH_SPACEDIM=2` `m_center` at `i=2`; the full adaptation surface remains
   under investigation and no evolution/AMR/MPI claim is made.
+
+- Date: 2026-07-27
+- Goal: Investigate the black-string `GRAMRLevel::define` dimensional blocker
+  as documentation/design work only.
+- Result: Traced the first observed trap to
+  `BoundaryConditions.cpp:235` and inventoried the related `2/4/4`
+  grid/tensor mismatches in boundary parameter setup and fills, bulk
+  derivatives, tagging, interpolation/extraction, constraints, and stock
+  diagnostics. Explicit `SpaceDim`/`CH_SPACEDIM` setup and checkpoint loops
+  are valid; CCZ4 tensor algebra remains correctly four-dimensional.
+- Design: Use a black-string-only grid-loop compile scope, retain explicit
+  direction-0/1 live derivatives and the validated target hidden expansion,
+  and gate the repair with real define-only, checked-access, domain-direction,
+  no-fake-coordinate, stock-DIM3, and clean-dependency tests.
+- Scope: No source formula, external dependency, live application, smoke
+  parameter, or evolution change. Define repair alone is insufficient for an
+  evolution attempt because radial-boundary semantics remain unaccepted.

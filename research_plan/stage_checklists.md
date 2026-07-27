@@ -858,10 +858,16 @@ simulation and radiation diagnostics exist.
   scoring remain open. The established first failure is
   `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define ->
   RealVect::operator[]`: a `DEFAULT_TENSOR_DIM=4` loop indexes the
-  `CH_SPACEDIM=2` `RealVect m_center` at `i=2`. This source incompatibility
-  and first adaptation site are established, but the full adaptation surface
-  remains under investigation. E1 remains check-only and does not adapt this
-  runtime boundary.
+  `CH_SPACEDIM=2` `RealVect m_center` at `i=2`. This is the first observed
+  trapped site, not the complete adaptation surface. The design audit now
+  inventories the related boundary-parameter, boundary-fill, bulk-derivative,
+  tagging, interpolation/extraction, and stock diagnostic mismatches. It also
+  separates valid `CH_SPACEDIM` gridded loops from valid
+  `DEFAULT_TENSOR_DIM` physical-tensor loops. No adapter is implemented:
+  E1 remains check-only, and a define-only `2/4/4` gate, checked coordinate
+  ownership, unchanged stock DIM3 behavior, and separate radial-boundary
+  acceptance are prerequisites to any bounded evolution attempt. Evidence:
+  `docs/grchombo/grchombo_adaptation_backlog.md`.
 - [x] Production-adaptation preflight: lock the inspected GRChombo
   origin/commit in a tracked manifest; add a read-only wrong-commit/dirty-state
   verifier; lock the target 18-slot `d=4/2` state with no visible-`y` slots;

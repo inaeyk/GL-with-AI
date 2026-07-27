@@ -75,6 +75,17 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [ ] Stage 4AO-D-F: run the first bounded unperturbed GP evolution and
   qualify its radial boundary treatment. Keep AMR/MPI production,
   perturbations, horizons, PETSc/AHFinder, and final scoring deferred.
+- [x] Audit the `2/4/4` `GRAMRLevel::define` blocker beyond its first trapped
+  `RealVect` access. Classify boundary, derivative, tagging,
+  interpolation/extraction, coordinate, and stock diagnostic sites without
+  changing GRChombo or starting evolution. Evidence:
+  `docs/grchombo/grchombo_adaptation_backlog.md`.
+- [ ] Implement the black-string-only grid-dimension adapter and define-only
+  regression gate: bound Chombo grid loops by `CH_SPACEDIM`, preserve all
+  target tensor loops at four, reject fake hidden coordinates, prove radial
+  direction 0/periodic direction 1, and leave stock DIM3 and locked
+  dependencies unchanged. A successful define is not radial-boundary or
+  evolution acceptance.
 - [ ] Run substantive audits only after: assembled storage plus `BoxLoop`;
   complete hidden/cartoon 13-row equivalence; integrated cleanup/constraints
   plus fixed source; first unperturbed evolution; first perturbed growth-rate

@@ -12,8 +12,9 @@ derivatives from GRChombo's fourth-order operator, expand reduced data to
 target `d=4`, call locked GRChombo directly, own the five gauge rows and one
 fixed lapse source, clean only after update, expose observational `H,Mx,Mz`,
 and configure direction 1 periodic through Chombo. The next backlog item is a
-bounded unperturbed evolution; physical radial-boundary acceptance remains
-open.
+focused `CH_SPACEDIM` grid-infrastructure adapter and define-only gate. A
+bounded unperturbed evolution remains later; physical radial-boundary
+acceptance remains open.
 
 ## Priority rules
 
@@ -67,9 +68,11 @@ The locked production order is:
 6. [complete, pointwise] production-style fixed lapse-source hook;
 7. [complete] live BoxLoop RHS/cleanup/source wiring and periodic direction-1
    domain/ghost ownership;
-8. [next] bounded unperturbed GP evolution and radial-boundary qualification;
-9. perturbed Fourier-mode evolution and the first growth/threshold estimate;
-10. horizon and nonlinear diagnostics after PETSc/AHFinder and observable
+8. [next] dimension-correct GRAMR/boundary setup and a define-only `2/4/4`
+   gate;
+9. bounded unperturbed GP evolution and radial-boundary qualification;
+10. perturbed Fourier-mode evolution and the first growth/threshold estimate;
+11. horizon and nonlinear diagnostics after PETSc/AHFinder and observable
     conventions are qualified.
 
 Substantive independent audits occur only after the assembled storage plus
@@ -77,6 +80,143 @@ Substantive independent audits occur only after the assembled storage plus
 cleanup/constraints plus fixed source, the first passing unperturbed
 evolution, and the first passing perturbed growth-rate run. Documentation
 consistency is folded into those audits; no per-substep audit is added.
+
+## `2/4/4` GRAMR dimensional-blocker audit
+
+This is a source/design audit, not an implementation or evolution result. The
+target split is:
+
+```text
+CH_SPACEDIM=2
+GR_SPACEDIM=4
+DEFAULT_TENSOR_DIM=4
+```
+
+`FOR` and `FOR1` expand to `DEFAULT_TENSOR_DIM`. They are valid for physical
+tensor indices, but never for Chombo grid directions or storage whose extent
+is `CH_SPACEDIM`.
+
+### Observed failure and setup path
+
+The observed runtime path is
+
+```text
+AMR::define
+  -> GRAMRLevel::define(ProblemDomain)
+  -> BoundaryConditions::define
+  -> RealVect::operator[]
+```
+
+`GRAMRLevel.cpp:51-53` passes the two-component parameter center to
+`BoundaryConditions::define`. At `BoundaryConditions.cpp:235`,
+`FOR(i) { m_center[i] = a_center[i]; }` executes four iterations even though
+both `RealVect m_center` and `std::array<double, CH_SPACEDIM> a_center` have
+two components. The first trapped access is `i=2`. This is the first observed
+failing site, not the complete adaptation surface. Boundary-parameter setters
+at lines 44, 53, and 89 have the same unchecked array mismatch and can corrupt
+state earlier without producing the same `RealVect` assertion.
+
+The setup operations in `SetupFunctions.hpp:143-156` are correctly
+grid-dimensional: `IntVect`, `Box`, and `ProblemDomain` use Chombo dimensions,
+and periodicity is set with `dir < SpaceDim`. `GRAMRLevel::contains` and the
+checkpoint/plot periodicity loops likewise use `CH_SPACEDIM` or `SpaceDim`.
+They are valid gridded loops and need no target-tensor widening.
+
+### Mismatch inventory
+
+| Area and source location | Classification | `2/4/4` finding | Black-string relevance |
+|---|---|---|---|
+| `ChomboParameters.hpp:240,329,353,421` | Incompatible mixed use; intended gridded loop | `FOR` indexes `std::array<...,CH_SPACEDIM>` and `IntVect`. | Immediate parameter parsing/checking. E1's project-local pre-include scopes this one header to two directions, but that does not adapt out-of-line runtime code. |
+| `BoundaryConditions.cpp:44,53,89` | Incompatible mixed use; intended gridded loop | Boundary periodic/low/high arrays have two entries but `FOR` executes four times. | Immediate and potentially earlier than the trapped define access. |
+| `BoundaryConditions.cpp:235` | Incompatible mixed use; intended gridded loop | Four writes target a two-component `RealVect` and center array. | First observed trapped site in `GRAMRLevel::define`. |
+| `BoundaryConditions.cpp:324,415,439,471` | Incompatible mixed use; intended gridded loop | Boundary reporting and RHS/solution/diagnostic direction dispatch index two-entry boundary arrays. | Immediate after define and during ghost/boundary fills. |
+| `BoundaryConditions.cpp:604,613` | Incompatible mixed use; intended gridded loop | Sommerfeld radius and derivative stencils index `RealVect`, `IntVect`, and grid strides. | Downstream radial-boundary path. Even after loop repair, the stock Euclidean grid radius includes compact `z`, so it is not an accepted black-string radial policy. |
+| `BoundaryConditions.cpp:699-756,716,742` | Incompatible mixed use; intended gridded loop | Extrapolation clamps two-dimensional `IntVect`s with four-direction `FOR`. Its radius calls use the coordinate wrapper. | E1 parameters select radial extrapolation. The application coordinate wrapper returns `sqrt(x^2+z^2)`, which is not cylindrical radius `x`; physical radial-boundary acceptance therefore stays open. |
+| `BoundaryConditions.cpp:800,854,929,1027,1074,1114` | Incompatible mixed use; intended gridded loop | Copy, coarse/fine interpolation, boundary-box growth, and `ProblemDomain` growth all traverse Chombo directions with tensor bounds. | Copy/fill is level-zero downstream; interpolation and grown-grid paths become relevant with AMR or Sommerfeld/mixed boundaries. |
+| `utils/Coordinates.hpp:38-49,73-103` | Incompatible target coordinate wrapper | Stock code has branches for `3/3`, `2/3` Cartoon, and `2/2`, but not `CH_SPACEDIM=2,DEFAULT_TENSOR_DIM=4`. Its static CH2 radius treats both grid directions as a Euclidean plane. | The application-local wrapper supplies `(x,z)` and prevents fake hidden coordinates, but its generic radius is still not a black-string radial-boundary policy. |
+| `FourthOrderDerivatives.hpp:77,249,349,405` and `SixthOrderDerivatives.hpp:80,280,386,470` | Incompatible mixed use | Bulk first/second derivative, advection, and dissipation overloads return physical tensors but index `m_in_stride[CH_SPACEDIM]` with `FOR`. Only grid directions may select a stride; hidden derivatives require target-specific expansion. | Likely downstream if a generic compute class is used. E1 is safe because `BlackStringLive` calls explicit direction-0/1 kernels and supplies hidden jets in the accepted target expansion. Sixth order is disabled. |
+| `ChiTaggingCriterion.hpp:27,30`, `PhiAndKTaggingCriterion.hpp:30-37`, and `ComputeModGrad.hpp:31-39` | Incompatible mixed use; intended gridded norm | The criteria request derivative directions 2 and 3 from two grid strides and contract them as if they were gridded. | Not on E1: the black-string level owns a zero criterion. Must remain unavailable unless adapted. |
+| `ChiExtractionTaggingCriterion.hpp:59-63`, `ChiPunctureExtractionTaggingCriterion.hpp:69-73`, and `ChiAndPhiTaggingCriterion.hpp:50-62` | Incompatible mixed use | They call the unsafe bulk second-derivative overload and contract all tensor directions as grid Hessian directions. Coordinate-radius tagging also assumes stock spherical/cartoon geometry. | Extraction and puncture tagging are disabled and irrelevant to the first unperturbed level-zero path. |
+| `SimulationParametersBase.hpp:258-268` | Incompatible mixed use; intended gridded loop | Extraction-center validation indexes `CH_SPACEDIM` center/domain arrays with `FOR`. | Dormant while extraction is disabled; required before extraction qualification. |
+| `AMRInterpolator.impl.hpp:810-818,838-849` | Incompatible mixed use; intended gridded loop | Reflective setup and parity traverse `IntVect`, query-coordinate, boundary, and corner arrays with tensor bounds. | Dormant for the define-only and first level-zero path; required before interpolation/extraction or reflective interpolation. |
+| `SurfaceExtraction.impl.hpp:43,57,154` | Incompatible mixed use; intended gridded loop | A four-direction loop resizes/indexes `m_interp_coords`, whose extent is `CH_SPACEDIM`, and submits nonexistent coordinate directions to `InterpolationQuery`. | Extraction is disabled. Hidden coordinates must never be invented to satisfy this loop. |
+| `SphericalGeometry.hpp:97-110` and `CylindricalGeometry.hpp:70-83` | Irrelevant to the current black-string path, and not a qualified target geometry | Stock CH2 spherical extraction is the one-hidden-direction Cartoon geometry; cylindrical geometry contains a `center[2]` branch. Neither represents the `(x,z)` black-string grid plus two suppressed sphere directions. | Deferred with extraction/horizon work; do not use fake hidden query coordinates as a shortcut. |
+| `Constraints.impl.hpp:58-73` and `NewConstraints.impl.hpp:72-102` | Incompatible mixed use | A derivative-index array is declared `covd_A[CH_SPACEDIM]` and then indexed by physical `FOR`; the compute path also calls unsafe bulk derivatives. Merely shortening every tensor contraction to two would lose required hidden contributions. | Stock constraint compute is not usable. E1's validated target expansion and observational `H,Mx,Mz` compute remain the owner. |
+| `ADMQuantities.hpp:61-121` | Incompatible target diagnostic | Bulk derivatives are unsafe, a three-coordinate vector initializes a four-component tensor, and a fixed three-dimensional Levi-Civita symbol is indexed by tensor-wide loops. | ADM mass/angular momentum diagnostics are not enabled or qualified. |
+| `Weyl4.impl.hpp` | Incompatible target diagnostic | Bulk derivatives are unsafe and the null tetrad/electric-magnetic construction is explicitly three-spatial-dimensional while tensor loops are four-dimensional. | Radiation diagnostics are deferred and irrelevant to the first unperturbed path. |
+| `NanCheck.hpp:64` | Irrelevant to the blocker; coordinate semantics still restricted | It does not perform a tensor-wide grid loop, but optional coordinate reporting inherits the selected coordinate adapter's meaning. | It may report `(x,z)` safely through the application adapter; it is not a radial-physics owner. |
+| `AHFinder.impl.hpp:293,377`, `ApparentHorizon.impl.hpp:204,221,256,362,493,498,835`, and `AHFunctions.hpp:158,166,214,218,247` | Irrelevant to the current path and incompatible where instantiated | Center arrays and explicitly `CH_SPACEDIM` tensors are traversed by `FOR`; the code also contains separate higher-dimensional assumptions requiring a dedicated string-horizon design. | `USE_AHFINDER`/PETSc and horizons remain deferred. This audit does not qualify them. |
+| `BoxLoops.impl.hpp`, `GRLevelData.cpp`, `AMRInterpolator`'s explicit `i < CH_SPACEDIM` loops, `Derivative.hpp`, and `SimpleArrayBox` | Valid gridded loop | These use `CH_SPACEDIM`, `SpaceDim`, `D_DECL`, or an asserted dimension bounded by `CH_SPACEDIM`. | Reuse unchanged. |
+| `VarsTools.hpp`, `TensorAlgebra.hpp`, `CoordinateTransformations.hpp`, `CCZ4Geometry.hpp`, `CCZ4RHS.impl.hpp`, and moving-puncture gauge classes | Valid physical-tensor loop | These operate on `Tensor<...,DEFAULT_TENSOR_DIM>` and may use `FOR`. `GR_SPACEDIM` remains the equation coefficient owner. | Reuse unchanged through the validated target-`d=4` pointwise seam. |
+| Stock black-hole/cosmology initial data, puncture tracking, and stock application tagging choices | Irrelevant to the black-string application | They are application-specific, often CH3-guarded, and are not selected by the isolated black-string factory. | Do not adapt or alter them for this stage. |
+
+This inventory distinguishes source-level reachability from current
+instantiation. It does not claim that fixing the first line, or even compiling
+all listed templates, proves the full adaptation complete.
+
+### Minimal adaptation architecture
+
+1. Add a project-owned grid-loop scope for the black-string build. Compile the
+   locked `BoundaryConditions` translation unit with `FOR` bounded by
+   `CH_SPACEDIM`, using a target-specific object flag/include wrapper, and
+   restore `DEFAULT_TENSOR_DIM` for every physics translation unit. All
+   audited `FOR` uses in that boundary translation unit are grid operations,
+   so this is narrower than changing global tensor semantics or copying
+   boundary formulas.
+2. Retain the existing project-local `ChomboParameters` scope, but add a
+   compile/runtime guard proving it affects only that header. Do not hard-code
+   hidden center or `IntVect` components.
+3. Keep the live RHS on explicit direction-0/1 fourth-order kernels. Add a
+   negative compile/runtime policy gate against the unsafe bulk derivative,
+   generic tagging, stock constraint, ADM, and Weyl paths in the black-string
+   target. Hidden derivatives remain owned only by the validated target
+   expansion.
+4. Add a define-only level-zero gate before any setup/advance call. This
+   isolates domain and boundary-object construction from initial data,
+   radial ghost filling, and evolution.
+5. Adapt interpolation/extraction only when those features enter scope.
+   Their query coordinate count must stay `CH_SPACEDIM`; target hidden
+   directions are tensor geometry, not extra grid coordinates.
+6. Treat radial-boundary semantics separately. Dimension-correct loops make
+   memory access safe, but do not validate the current `sqrt(x^2+z^2)`
+   extrapolation radius. No custom outer-boundary research or physical
+   acceptance is reopened by this adapter.
+
+If the build system cannot apply a target-specific object flag without
+changing other applications, use a black-string-only wrapper translation unit
+and exclude the ordinary boundary object only from this executable. A broad
+global `FOR=CH_SPACEDIM` override is forbidden because it would truncate the
+accepted four-dimensional CCZ4 tensor equations.
+
+### Focused regression sequence
+
+1. A `2/4/4` define-only fixture must execute `AMR::define` through the real
+   black-string factory and return successfully without calling
+   `setupForNewAMRRun`, `initialData`, or `advance`.
+2. Inspect the created `ProblemDomain`: direction 0 is nonperiodic radial,
+   direction 1 is periodic compact, both extents equal the requested grid,
+   and no direction 2/3 grid query exists.
+3. Run the define fixture with Chombo assertions plus address/undefined
+   behavior sanitizers. Add canaries around parameter center/boundary arrays
+   so the silent setter overruns are independently detected.
+4. Compile and run the same define-only fixture at stock
+   `CH_SPACEDIM=GR_SPACEDIM=DEFAULT_TENSOR_DIM=3`, then run the existing
+   BinaryBH smoke gate. Its domain, center, periodicity, and output
+   registration must remain unchanged.
+5. Add a coordinate-ownership fixture proving every `RealVect`, `IntVect`,
+   `ProblemDomain`, stencil stride, and interpolation query direction is less
+   than `CH_SPACEDIM`. Requests for hidden grid coordinates must fail; the
+   existing target expansion must still supply both hidden tensor copies.
+6. Verify the project dependency lock before and after: GRChombo and Chombo
+   stay at the pinned detached commits and clean, while all adapters/tests are
+   project-owned.
+
+Passing only the define repair does not authorize a bounded evolution. After
+the full grid-loop guard sequence passes, a serial, level-zero,
+max-steps-bounded diagnostic attempt may be made only after radial ghost
+semantics receive their separate minimum acceptance test. It would still not
+qualify sustained evolution, AMR, MPI, extraction, diagnostics, or physical
+outer boundaries.
 
 | Priority / order | Adaptation item | GRChombo source to reuse | Project-specific work | Dependency | Acceptance / exit criterion |
 |---|---|---|---|---|---|
@@ -90,7 +230,8 @@ consistency is folded into those audits; no per-substep audit is added.
 | P1-7 | Hidden-aware algebraic cleanup and constraints (pointwise complete) | Direct locked `CCZ4Geometry::compute_ricci`, exact `Constraints.impl.hpp` source convention, visible `TraceARemoval` comparison, accepted target expansion | Extend determinant/A-trace cleanup and exact `R+3K^2/4-A_IJ A^IJ` Hamiltonian/two visible momentum constraints with multiplicity two | P1-6 | Non-trace-free, curved, hidden, off-diagonal, mixed, and true sector data match the independent long-double oracle; active production/reduction mutations fail |
 | P1-8 | Fixed GP-holding lapse source (pointwise complete) | Direct locked `MovingPunctureGauge` | Add field-independent `S_alpha=3 sqrt(r0/x^3)` after raw gauge evaluation | P1-7 | Raw lapse is `-3 lambda`, source-adjusted GP lapse vanishes, shift/B are untouched, and the source has zero evolved-field derivative |
 | P1-9 | Compact periodic `z` production domain (E1 complete) | GRChombo periodic boundary/domain parameters, `LevelData::exchange`, and derivative classes | Lock direction 0 radial/direction 1 compact; use real ghost ownership with no translation sign flip | P1-4b | Both seam wraps, multi-box exchange, scalar/one-`z` fourth-order convergence, and nonperiodic radial ghosts pass |
-| P1-10 | Unperturbed background evolution | `GRAMR`, RK4, ghost fill, boundaries, checkpointing | Configure target grid, source, hidden RHS, diagnostics, and conservative validation window | P1-7 through P1-9 | L4-01 stationarity, constraint convergence, gauge-source validation, and restart smoke pass |
+| P1-9a | `2/4/4` GRAMR grid-dimension adapter | `SetupFunctions`, `GRAMRLevel`, `BoundaryConditions`, and Chombo `ProblemDomain`/grid types | Scope grid loops to `CH_SPACEDIM` only in black-string infrastructure; forbid fake hidden coordinates and generic bulk derivative paths | P1-9 | Real `GRAMRLevel::define` succeeds under checked access; radial/periodic ownership is exact; stock DIM3 is unchanged; dependencies stay clean |
+| P1-10 | Unperturbed background evolution | `GRAMR`, RK4, ghost fill, boundaries, checkpointing | Configure target grid, source, hidden RHS, diagnostics, and conservative validation window | P1-7 through P1-9a | L4-01 stationarity, constraint convergence, gauge-source validation, and restart smoke pass |
 | P2-11 | Fourier perturbation initialization | Initial-data BoxLoop plus periodic grid | Add normalized even/odd SO(3)-scalar perturbation families with amplitude guard | P1-10 | Linear amplitude scaling and mode/parity leakage tests pass |
 | P2-12 | Fourier amplitude diagnostics | `AMRInterpolator`, reductions, `SmallDataIO` | Adapt custom cosine/sine projections to AMR-consistent sampled/integrated output | P2-11 | Synthetic and production single-mode recovery tests pass |
 | P2-13 | Growth-rate extraction | `SmallDataIOReader`/project analysis output contract | Implement fit-window, uncertainty, resolution, and observable-consistency reporting | P2-12 | Synthetic exponent tests and window mutations pass before physical rates |

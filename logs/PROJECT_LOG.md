@@ -2659,3 +2659,27 @@ Category: Production Adaptation Validation
   `m_center` at `i=2`. The source incompatibility and first site are known,
   the full adaptation surface remains under investigation, and E1 stays
   check-only. No evolution, AMR, or MPI success is claimed.
+
+## 2026-07-27 - GRAMR `2/4/4` Dimensional-Blocker Design Audit
+
+Category: Production Adaptation Design
+
+- Confirmed the first observed trap at `BoundaryConditions.cpp:235`: the
+  tensor-wide `FOR` writes indices 0 through 3 into a two-component
+  `RealVect` and parameter center. The boundary parameter setters contain
+  earlier unchecked versions of the same mismatch, so this line is not the
+  complete surface.
+- Audited setup, boundary filling, fourth/sixth-order bulk derivatives,
+  tagging, AMR interpolation, extraction, constraints, and stock diagnostics.
+  The source inventory distinguishes Chombo grid loops, which must use
+  `CH_SPACEDIM`, from physical CCZ4 tensor contractions, which remain
+  `DEFAULT_TENSOR_DIM=4`.
+- The smallest proposed architecture is a black-string-only compile scope for
+  grid infrastructure, continued explicit direction-0/1 derivative use, and
+  define-only checked-access tests. Generic bulk derivatives, stock tagging,
+  stock constraints, ADM/Weyl diagnostics, extraction, and horizons remain
+  unavailable until separately adapted.
+- No code, dependency, live application, smoke parameter, or evolution path
+  changed. A successful define repair alone will not authorize evolution:
+  radial extrapolation still uses `sqrt(x^2+z^2)` rather than radial `x` and
+  needs separate acceptance.
