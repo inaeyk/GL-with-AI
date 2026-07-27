@@ -330,8 +330,9 @@ before outputs are produced. The cleanup result remains determinant
 
 All convergence regions exclude radial-boundary cells. L4 physical runs,
 including the first bounded unperturbed evolution and radial-boundary
-acceptance, remain unexecuted. The first runtime failure remains
-`AMR::define -> GRAMRLevel::define -> BoundaryConditions::define ->
-RealVect::operator[]`, where a dimension-four loop indexes the
-two-dimensional `m_center` at `i=2`; the full adaptation surface is not yet
-known and the E1 parameter file remains check-only.
+acceptance, remain unexecuted. Dimension-safe
+`AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` is
+implemented and validated, and the former two-dimensional
+`RealVect m_center[i=2]` over-index blocker is cleared. Radial-boundary
+physics, time evolution, AMR refinement, MPI, extraction, diagnostics, and
+AHFinder remain incomplete; the E1 parameter file remains check-only.

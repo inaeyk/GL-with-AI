@@ -2683,3 +2683,18 @@ Category: Production Adaptation Design
   changed. A successful define repair alone will not authorize evolution:
   radial extrapolation still uses `sqrt(x^2+z^2)` rather than radial `x` and
   needs separate acceptance.
+
+## 2026-07-27 - GRAMR `2/4/4` Boundary-Define Repair
+
+Category: Production Adaptation Infrastructure
+
+- Implemented and validated dimension-safe
+  `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` using a
+  black-string-only boundary translation-unit grid-loop scope.
+- Cleared the former `CH_SPACEDIM=2` `RealVect m_center[i=2]` over-index
+  blocker. The real define-only fixture transfers guarded center, domain
+  extents, periodicity, and side-boundary arrays through the factory-owned
+  parameter copy; all canaries remain intact.
+- This is boundary infrastructure only. Radial-boundary physics, time
+  evolution, AMR refinement, MPI, extraction, diagnostics, and AHFinder
+  remain incomplete, and E1 remains check-only.

@@ -254,9 +254,9 @@ executed live registration, storage, source, and update-hook policies before
 output production. Cleanup remains determinant `0.9999999999999997` and
 weighted trace `-5.204170427930421e-18`.
 
-This does not change the blocker classification. The established first
-runtime failure is
-`AMR::define -> GRAMRLevel::define -> BoundaryConditions::define ->
-RealVect::operator[]`, where the dimension-four loop reaches `m_center[i=2]`
-on a two-dimensional `RealVect`. The full adaptation surface, evolution,
-AMR, and MPI remain unqualified.
+Dimension-safe
+`AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` is now
+implemented and validated, so the former two-dimensional
+`RealVect m_center[i=2]` over-index blocker is cleared. This is boundary
+infrastructure credit only: radial-boundary physics, time evolution, AMR
+refinement, MPI, extraction, diagnostics, and AHFinder remain incomplete.

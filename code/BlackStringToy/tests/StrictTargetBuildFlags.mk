@@ -12,6 +12,8 @@ BLACKSTRING_PROJECT_INCLUDES := \
     -I$(BLACKSTRING_SOURCE)
 
 BLACKSTRING_EXTERNAL_INCLUDES := \
+    -isystem$(CHOMBO_HOME)/src/AMRTimeDependent \
+    -isystem$(CHOMBO_HOME)/src/AMRTools \
     -isystem$(CHOMBO_HOME)/src/BoxTools \
     -isystem$(CHOMBO_HOME)/src/BaseTools \
     -isystem$(GRCHOMBO_SOURCE)/utils \

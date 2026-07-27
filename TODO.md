@@ -80,12 +80,13 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   interpolation/extraction, coordinate, and stock diagnostic sites without
   changing GRChombo or starting evolution. Evidence:
   `docs/grchombo/grchombo_adaptation_backlog.md`.
-- [ ] Implement the black-string-only grid-dimension adapter and define-only
+- [x] Implement the black-string-only grid-dimension adapter and define-only
   regression gate: bound Chombo grid loops by `CH_SPACEDIM`, preserve all
   target tensor loops at four, reject fake hidden coordinates, prove radial
   direction 0/periodic direction 1, and leave stock DIM3 and locked
   dependencies unchanged. A successful define is not radial-boundary or
-  evolution acceptance.
+  evolution acceptance. The real dimension-safe `AMR::define` fixture passes,
+  and the former `RealVect m_center[i=2]` over-index blocker is cleared.
 - [ ] Run substantive audits only after: assembled storage plus `BoxLoop`;
   complete hidden/cartoon 13-row equivalence; integrated cleanup/constraints
   plus fixed source; first unperturbed evolution; first perturbed growth-rate
@@ -205,12 +206,12 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [x] Stage 4AO-B: discrete operator preflight harness: raw unmodified-RHS background residual convergence on the provisional `r0=1`, `x in [0.5,4.0]` domain, with target zero for verified geometric/scalar/constraint components and `-3 sqrt(r0/x^3)` for the unmodified live moving-puncture lapse equation; `S_alpha=+3 sqrt(r0/x^3)` is not used to cancel measured finite-grid residuals; the fixture also checks `delta hww` hidden-contraction isolation for `delta hat_Gamma^x`, hand-derived actual-discrete-RHS Jacobian-vector agreement, and z-coupled periodic-stencil parity-sector block diagonalization with a flipped-parity negative guard.
 - [ ] Stage 4AO-C: custom stationary outer-boundary research is deferred. The complete coupled interior linearization/JVP/parity and inner endpoint pass. The current outer characteristic selectors and row layout are diagnostic only. The singular leading kernel has nullity three, but no generalized-chain obstruction or complete branch classification is established; coincident leading vectors with distinct subleading series remain possible. Outer, aggregate boundary, boundary-bearing, and pencil gates are false; all solver, MOTS, threshold, production, and downstream work remains blocked.
 - [ ] Stage 4AO-D: live-gauge/full acceptance: physical GL eigenvalue agreement, physical/gauge/constraint mode separation, CCZ4 constraint-subsystem decay, inner-boundary characteristics, seeded time-evolution growth bridge, and full convergence.
-- [ ] Before Stage 4AO-D-F, adapt locked GRAMR grid-infrastructure loops that
-  use target-d=4 `FOR` on CH_SPACEDIM-sized `RealVect`/domain objects. E1
-  adapts parameter parsing and remains check-only. The first failing path is
-  `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define ->
-  RealVect::operator[]`, where `m_center[i=2]` overruns the two-dimensional
-  `RealVect`; the full adaptation surface remains under investigation.
+- [x] Before Stage 4AO-D-F, adapt the locked boundary-setup loops needed by
+  `AMR::define` so grid objects use `CH_SPACEDIM`. The real define-only gate
+  passes, and the former `RealVect m_center[i=2]` over-index blocker is
+  cleared. E1 remains check-only; radial-boundary physics, time evolution,
+  AMR refinement, MPI, extraction, diagnostics, and AHFinder remain
+  incomplete.
 - [ ] Stage 4AO deferred-branch hard rules: flat tests alone are insufficient;
   no eigensolver before its prerequisite gates; Pau is not the convention
   authority; and `hat_Gamma^x` alone is not the observable. The former

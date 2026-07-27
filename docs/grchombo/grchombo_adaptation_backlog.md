@@ -230,7 +230,7 @@ outer boundaries.
 | P1-7 | Hidden-aware algebraic cleanup and constraints (pointwise complete) | Direct locked `CCZ4Geometry::compute_ricci`, exact `Constraints.impl.hpp` source convention, visible `TraceARemoval` comparison, accepted target expansion | Extend determinant/A-trace cleanup and exact `R+3K^2/4-A_IJ A^IJ` Hamiltonian/two visible momentum constraints with multiplicity two | P1-6 | Non-trace-free, curved, hidden, off-diagonal, mixed, and true sector data match the independent long-double oracle; active production/reduction mutations fail |
 | P1-8 | Fixed GP-holding lapse source (pointwise complete) | Direct locked `MovingPunctureGauge` | Add field-independent `S_alpha=3 sqrt(r0/x^3)` after raw gauge evaluation | P1-7 | Raw lapse is `-3 lambda`, source-adjusted GP lapse vanishes, shift/B are untouched, and the source has zero evolved-field derivative |
 | P1-9 | Compact periodic `z` production domain (E1 complete) | GRChombo periodic boundary/domain parameters, `LevelData::exchange`, and derivative classes | Lock direction 0 radial/direction 1 compact; use real ghost ownership with no translation sign flip | P1-4b | Both seam wraps, multi-box exchange, scalar/one-`z` fourth-order convergence, and nonperiodic radial ghosts pass |
-| P1-9a | `2/4/4` GRAMR grid-dimension adapter | `SetupFunctions`, `GRAMRLevel`, `BoundaryConditions`, and Chombo `ProblemDomain`/grid types | Scope grid loops to `CH_SPACEDIM` only in black-string infrastructure; forbid fake hidden coordinates and generic bulk derivative paths | P1-9 | Real `GRAMRLevel::define` succeeds under checked access; radial/periodic ownership is exact; stock DIM3 is unchanged; dependencies stay clean |
+| P1-9a | `2/4/4` GRAMR grid-dimension adapter (define complete) | `SetupFunctions`, `GRAMRLevel`, `BoundaryConditions`, and Chombo `ProblemDomain`/grid types | Scope grid loops to `CH_SPACEDIM` only in black-string infrastructure; forbid fake hidden coordinates and generic bulk derivative paths | P1-9 | Real `GRAMRLevel::define` succeeds under checked access; radial/periodic ownership is exact; stock DIM3 is unchanged; dependencies stay clean |
 | P1-10 | Unperturbed background evolution | `GRAMR`, RK4, ghost fill, boundaries, checkpointing | Configure target grid, source, hidden RHS, diagnostics, and conservative validation window | P1-7 through P1-9a | L4-01 stationarity, constraint convergence, gauge-source validation, and restart smoke pass |
 | P2-11 | Fourier perturbation initialization | Initial-data BoxLoop plus periodic grid | Add normalized even/odd SO(3)-scalar perturbation families with amplitude guard | P1-10 | Linear amplitude scaling and mode/parity leakage tests pass |
 | P2-12 | Fourier amplitude diagnostics | `AMRInterpolator`, reductions, `SmallDataIO` | Adapt custom cosine/sine projections to AMR-consistent sampled/integrated output | P2-11 | Synthetic and production single-mode recovery tests pass |
@@ -641,10 +641,9 @@ isolated E1 application integration:
 The next gate is bounded unperturbed evolution plus physical radial-boundary
 qualification. Sustained evolution, AMR/MPI, perturbations/growth,
 horizons/PETSc, final scoring, Stage 4AO-D, and Checkpoint G remain open.
-The known blocker is
-`AMR::define -> GRAMRLevel::define -> BoundaryConditions::define ->
-RealVect::operator[]`: a `DEFAULT_TENSOR_DIM=4` loop indexes the
-`CH_SPACEDIM=2` `RealVect m_center` at `i=2`. The first adaptation site and
-source incompatibility are established; the full surface remains under
-investigation, no evolution/AMR/MPI success is claimed, and E1 stays
-check-only.
+Dimension-safe
+`AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` is
+implemented and validated, and the former
+`CH_SPACEDIM=2` `RealVect m_center[i=2]` over-index blocker is cleared.
+Radial-boundary physics, time evolution, AMR refinement, MPI, extraction,
+diagnostics, and AHFinder remain incomplete, and E1 stays check-only.

@@ -20,7 +20,10 @@
 #define FOR5(IDX1, IDX2, IDX3, IDX4, IDX5)                                  \
     FOR4(IDX1, IDX2, IDX3, IDX4) FOR1(IDX5)
 
-#include_next "ChomboParameters.hpp"
+// Use the locked dependency path explicitly. This header is repository-owned
+// and fixed at this location; avoiding the non-standard include_next extension
+// keeps the project-owned adapter clean under -Wpedantic -Werror.
+#include "../../external/GRChombo/Source/GRChomboCore/ChomboParameters.hpp"
 
 #undef FOR1
 #undef FOR2

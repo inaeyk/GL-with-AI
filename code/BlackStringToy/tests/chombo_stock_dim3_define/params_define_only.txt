@@ -1,0 +1,20 @@
+# Focused ordinary CH_SPACEDIM=GR_SPACEDIM=DEFAULT_TENSOR_DIM=3 regression.
+N1 = 8
+N2 = 12
+N3 = 16
+L = 4.0
+center = 0.75 -0.5 1.25
+max_level = 0
+regrid_interval = 0
+max_grid_size = 16
+block_factor = 4
+max_spatial_derivative_order = 4
+num_ghosts = 3
+dt_multiplier = 0.125
+checkpoint_interval = 0
+plot_interval = 0
+verbosity = 0
+
+isPeriodic = 0 1 0
+lo_boundary = 0 0 0
+hi_boundary = 0 0 0

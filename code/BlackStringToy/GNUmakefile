@@ -38,3 +38,18 @@ override XTRACPPFLAGS += \
     -DGR_SPACEDIM=4 -DDEFAULT_TENSOR_DIM=4
 
 include $(CHOMBO_HOME)/mk/Make.test
+
+# BoundaryConditions is Chombo grid infrastructure even when the physical
+# tensor target is d=4. Select the black-string DIM2 loop adapter for this one
+# object and its generated dependency file only; all CCZ4 objects retain the
+# DEFAULT_TENSOR_DIM=4 FOR definitions restored by
+# BlackStringChomboParameters.hpp.
+BLACKSTRING_BOUNDARY_SCOPE := \
+    $(abspath BlackStringBoundaryDimensionScope.hpp)
+
+$(_object_prefix)BoundaryConditions.o \
+$(_depends_prefix)BoundaryConditions.d: \
+    XTRACPPFLAGS += -include$(BLACKSTRING_BOUNDARY_SCOPE)
+
+$(_object_prefix)BoundaryConditions.o \
+$(_depends_prefix)BoundaryConditions.d: $(BLACKSTRING_BOUNDARY_SCOPE)

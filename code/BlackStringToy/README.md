@@ -33,18 +33,16 @@ make -C code/BlackStringToy -j1 all DIM=2 DEBUG=FALSE OPT=TRUE \
 
 `params_stage4ao_de1.txt` is an isolated check-only setup. A project-local
 pre-include compiles locked `ChomboParameters` grid loops at
-`CH_SPACEDIM=2`, then restores target tensor loops at dimension four. Deeper
-locked runtime infrastructure still uses tensor-wide `FOR` loops on
-grid-dimensional objects. The established failure path is
-`AMR::define -> GRAMRLevel::define -> BoundaryConditions::define ->
-RealVect::operator[]`: the `DEFAULT_TENSOR_DIM=4` loop reaches `i=2` while
-indexing the `CH_SPACEDIM=2` `RealVect m_center`. The source incompatibility
-and first adaptation site are established, but the full adaptation surface
-remains under investigation and is not repaired in E1. This file does not
-claim
-sustained evolution, AMR/MPI qualification, an accepted physical radial
-boundary, perturbation growth, horizons, or PETSc/AHFinder support. The older
-smoke parameter file is unchanged.
+`CH_SPACEDIM=2`, then restores target tensor loops at dimension four. The
+black-string boundary translation unit now uses a dimension-safe grid-loop
+scope, and a real define-only fixture validates
+`AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` without
+accessing grid directions 2 or 3. The former `RealVect m_center[i=2]`
+over-index blocker is cleared. This infrastructure result does not establish
+accepted radial-boundary physics, time evolution, AMR refinement, MPI,
+extraction, diagnostics, horizons, or PETSc/AHFinder support. The E1
+parameter file remains check-only, and the older smoke parameter file is
+unchanged.
 
 The application fixture in `tests/chombo_live_application` uses real
 `FArrayBox`, `LevelData`, `BoxLoops`, fourth-order derivatives, and

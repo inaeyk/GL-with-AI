@@ -2373,3 +2373,15 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Scope: No source formula, external dependency, live application, smoke
   parameter, or evolution change. Define repair alone is insufficient for an
   evolution attempt because radial-boundary semantics remain unaccepted.
+
+- Date: 2026-07-27
+- Goal: Complete the boundary-dimension checkpoint by validating guarded
+  parameter ownership through the real define-only call path.
+- Result: Dimension-safe
+  `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` is
+  implemented and validated. The factory owns the guarded center and domain
+  extents, every two-component call-path input retains its canaries, and the
+  former `RealVect m_center[i=2]` over-index blocker is cleared.
+- Remaining scope: Radial-boundary physics, time evolution, AMR refinement,
+  MPI, extraction, diagnostics, and AHFinder remain incomplete; E1 remains
+  check-only.

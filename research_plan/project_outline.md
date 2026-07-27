@@ -198,16 +198,12 @@ Physics and physics-design stages also produce polished review notes under
   the independent long-double source-convention oracle under the locked
   tolerance, including a non-trace-free discriminator and genuine Fourier
   parity projections.
-- Exact next implementation substage: Stage 4AO-D-F bounded unperturbed GP
-  evolution. First isolate remaining locked GRAMR infrastructure loops that
-  apply target-d=4 `FOR` to CH_SPACEDIM-sized grid objects. The established
-  first path is `AMR::define -> GRAMRLevel::define ->
-  BoundaryConditions::define -> RealVect::operator[]`, with `m_center[i=2]`;
-  E1 adapts `ChomboParameters` parsing only, does not repair this site, and
-  keeps its parameter file check-only.
-  The E1 fixtures do not establish sustained evolution, AMR/MPI
-  production, physical radial-boundary acceptance, perturbation growth,
-  horizons, or AHFinder.
+- Current infrastructure status: dimension-safe
+  `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` is
+  implemented and validated. The former `RealVect m_center[i=2]` over-index
+  blocker is cleared, while E1 remains check-only. Radial-boundary physics,
+  time evolution, AMR refinement, MPI, extraction, diagnostics, and AHFinder
+  remain incomplete.
 - Infrastructure policy: reuse GRChombo RK4, AMR, MPI/OpenMP,
   checkpoint/restart, ghost exchange, parameter parsing, interpolation,
   reductions, and AH framework. Do not independently rebuild them.

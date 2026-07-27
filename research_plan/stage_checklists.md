@@ -855,18 +855,12 @@ simulation and radiation diagnostics exist.
 - [ ] Stage 4AO-D-F first unperturbed evolution. Sustained evolution,
   AMR/MPI qualification, accepted physical radial boundaries, perturbation
   growth, horizons/PETSc, Stage 4AO-D completion, Checkpoint G, and final
-  scoring remain open. The established first failure is
-  `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define ->
-  RealVect::operator[]`: a `DEFAULT_TENSOR_DIM=4` loop indexes the
-  `CH_SPACEDIM=2` `RealVect m_center` at `i=2`. This is the first observed
-  trapped site, not the complete adaptation surface. The design audit now
-  inventories the related boundary-parameter, boundary-fill, bulk-derivative,
-  tagging, interpolation/extraction, and stock diagnostic mismatches. It also
-  separates valid `CH_SPACEDIM` gridded loops from valid
-  `DEFAULT_TENSOR_DIM` physical-tensor loops. No adapter is implemented:
-  E1 remains check-only, and a define-only `2/4/4` gate, checked coordinate
-  ownership, unchanged stock DIM3 behavior, and separate radial-boundary
-  acceptance are prerequisites to any bounded evolution attempt. Evidence:
+  scoring remain open. Dimension-safe
+  `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` is
+  implemented and validated, and the former `RealVect m_center[i=2]`
+  over-index blocker is cleared. E1 remains check-only; radial-boundary
+  physics, time evolution, AMR refinement, MPI, extraction, diagnostics, and
+  AHFinder remain incomplete. Evidence:
   `docs/grchombo/grchombo_adaptation_backlog.md`.
 - [x] Production-adaptation preflight: lock the inspected GRChombo
   origin/commit in a tracked manifest; add a read-only wrong-commit/dirty-state
