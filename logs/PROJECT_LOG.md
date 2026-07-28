@@ -2698,3 +2698,58 @@ Category: Production Adaptation Infrastructure
 - This is boundary infrastructure only. Radial-boundary physics, time
   evolution, AMR refinement, MPI, extraction, diagnostics, and AHFinder
   remain incomplete, and E1 remains check-only.
+
+## 2026-07-27 - E2 Bounded Level-Zero GP Evolution
+
+Category: Production Adaptation Diagnostic
+
+- Added a black-string-only radial ghost policy for the unperturbed GP
+  diagnostic. Both radial sides are filled through the validated pointwise
+  initializer and storage seam; pure compact-direction ghosts remain owned by
+  Chombo periodic exchange. Radial/compact corner cells are included in the
+  analytic radial strip because the inherited static radial copier does not
+  grow its domain through those corners.
+- Real serial `GRAMR` runs to `t=0.004` with one level and no refinement on
+  matched `(32,8),(64,16),(128,32)` domains after 4/8/16 steps. The maximum
+  18-variable
+  change decreases `3.059570617455879e-6 -> 2.196566544967908e-7 ->
+  1.510007325733700e-8`; sourced-lapse drift decreases
+  `5.639184674777198e-9 -> 4.093922978398723e-10 ->
+  2.811939570079858e-11`.
+- Maximum `H` decreases `6.910655251657349e-7 ->
+  9.008898252393927e-8 -> 8.041968369010277e-9`; maximum `Mx` decreases
+  `6.878627068376275e-4 -> 4.939786971913662e-5 ->
+  3.396766288910058e-6`. `Mz` remains at roundoff scale.
+- Lifecycle instrumentation observes define, initialization, RHS, update,
+  post-update cleanup, radial fill, periodic exchange, and four time
+  advancements. Missing and wrong-coordinate radial policies execute the real
+  pre-step path and are rejected.
+- This is a background-preserving diagnostic policy, not accepted radial
+  physics for perturbations. Sustained evolution, AMR refinement, MPI,
+  extraction, expanded diagnostics, and AHFinder remain incomplete. E1
+  parameters remain check-only.
+
+### 2026-07-28 E2 checkpoint repair
+
+- Removed lifecycle/ghost counters and their update sites from the default
+  production level. E2 alone enables compile-time diagnostic instrumentation.
+- Removed the radial policy's periodic exchange and the RHS probe prefill.
+  Framework exchanges now own pure-z ghosts; radial fills own only radial
+  strips/corners. Total old/repaired exchange counts are
+  `104/24`, `200/44`, and `392/84`, with zero radial/periodic error and valid
+  exchange-before-radial-before-RHS order.
+- Replaced the unmatched compact grids and fixed-dt sweep with
+  `(32,8),(64,16),(128,32)` on `L_x=8,L_z=2`, fixed CFL `0.004`, and
+  `t_final=0.004` after 4/8/16 steps. State convergence orders are
+  `3.8000,3.8626`; lapse orders are `3.7839,3.8638`; `Mx` orders are
+  `3.7996,3.8622`; Hamiltonian orders are `2.9394,3.4857`.
+- Added `constraint_diagnostic_cadence` with production default zero. E2 uses
+  one; a live cadence-zero step executes no constraint evaluation.
+- The real `BLACKSTRING_BOUNDARY_LEGACY_TENSOR_LOOP` E2 target rejects a
+  non-grid direction during level-zero setup. N32 old/repaired timings both
+  round to `0.03 s` and about `19.7 MB`; the samples are too small/noisy for
+  a speedup claim.
+- Bounded serial level-zero evolution and matched-domain convergence are
+  implemented and validated. The exact GP radial policy is diagnostic-only.
+  Physical radial-boundary policy is next; sustained evolution, AMR, MPI,
+  perturbations, broader diagnostics, and horizons remain incomplete.

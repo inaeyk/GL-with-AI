@@ -7,6 +7,7 @@
 #include "MayDay.H"
 
 #include <array>
+#include <cstddef>
 #include <cmath>
 
 class SimulationParameters : public ChomboParameters
@@ -17,7 +18,10 @@ class SimulationParameters : public ChomboParameters
         pp.load("r_0", r0);
         pp.load("black_string_coordinate_minimum", coordinate_minimum);
         pp.load("fixed_lapse_source", fixed_lapse_source, true);
-        pp.load("calculate_constraints", calculate_constraints, true);
+        pp.load("constraint_diagnostic_cadence",
+                constraint_diagnostic_cadence, 0);
+        pp.load("background_preserving_gp_radial_ghosts",
+                background_preserving_gp_radial_ghosts, false);
         pp.load("min_chi", min_chi, BlackStringLive::positivity_floor);
         pp.load("min_lapse", min_lapse, BlackStringLive::positivity_floor);
 
@@ -36,10 +40,23 @@ class SimulationParameters : public ChomboParameters
             coordinate_minimum);
     }
 
+    bool constraint_diagnostic_due(const std::size_t completed_steps) const
+    {
+        return constraint_diagnostic_cadence > 0 && completed_steps > 0 &&
+               completed_steps %
+                       static_cast<std::size_t>(
+                           constraint_diagnostic_cadence) ==
+                   0;
+    }
+
     double r0 = 0.0;
     std::array<double, CH_SPACEDIM> coordinate_minimum{};
     bool fixed_lapse_source = true;
-    bool calculate_constraints = true;
+    // 0 disables the constraint loop; positive values run every N steps.
+    int constraint_diagnostic_cadence = 0;
+    // Diagnostic-only exact GP radial ghost data. This is not an accepted
+    // physical boundary condition for perturbations.
+    bool background_preserving_gp_radial_ghosts = false;
     double min_chi = BlackStringLive::positivity_floor;
     double min_lapse = BlackStringLive::positivity_floor;
     BlackStringLive::GaugeParameters gauge{};
@@ -77,6 +94,11 @@ class SimulationParameters : public ChomboParameters
         if (min_chi < 0.0 || min_lapse < 0.0)
         {
             MayDay::Error("BlackStringToy positivity floors must be nonnegative");
+        }
+        if (constraint_diagnostic_cadence < 0)
+        {
+            MayDay::Error(
+                "constraint_diagnostic_cadence must be zero or positive");
         }
     }
 };

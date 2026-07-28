@@ -72,8 +72,13 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   DIM2 `BoxLoops`; apply the fixed source once to lapse; run hidden-aware
   cleanup only at the post-update hook; expose observational `H,Mx,Mz`; and
   configure direction 1 as periodic with real Chombo ghost exchange.
-- [ ] Stage 4AO-D-F: run the first bounded unperturbed GP evolution and
-  qualify its radial boundary treatment. Keep AMR/MPI production,
+- [x] Stage 4AO-D-E2: run the first bounded serial level-zero unperturbed GP
+  diagnostic and matched-domain convergence. `(32,8),(64,16),(128,32)` share
+  `L_x=8,L_z=2`, CFL `0.004`, and `t_final=0.004`; exact GP radial ghosts are
+  diagnostic-only, periodic z remains framework-owned with no duplicate
+  exchange, and missing/wrong-coordinate/legacy-loop mutations fail.
+- [ ] Stage 4AO-D-F: qualify sustained unperturbed evolution and an accepted
+  physical radial boundary treatment. Keep AMR/MPI production,
   perturbations, horizons, PETSc/AHFinder, and final scoring deferred.
 - [x] Audit the `2/4/4` `GRAMRLevel::define` blocker beyond its first trapped
   `RealVect` access. Classify boundary, derivative, tagging,
@@ -209,9 +214,10 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
 - [x] Before Stage 4AO-D-F, adapt the locked boundary-setup loops needed by
   `AMR::define` so grid objects use `CH_SPACEDIM`. The real define-only gate
   passes, and the former `RealVect m_center[i=2]` over-index blocker is
-  cleared. E1 remains check-only; radial-boundary physics, time evolution,
-  AMR refinement, MPI, extraction, diagnostics, and AHFinder remain
-  incomplete.
+  cleared. Bounded serial level-zero evolution and matched-domain convergence
+  are complete in E2. Physical radial-boundary policy is the next blocker;
+  sustained evolution, AMR, MPI, perturbations, broader diagnostics, and
+  horizons remain incomplete.
 - [ ] Stage 4AO deferred-branch hard rules: flat tests alone are insufficient;
   no eigensolver before its prerequisite gates; Pau is not the convention
   authority; and `hat_Gamma^x` alone is not the observable. The former

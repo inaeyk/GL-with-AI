@@ -1,0 +1,36 @@
+# Same Lx=8, Lz=2 domain and CFL=0.004 as params_n32.txt:
+# dx=dz=0.0625, dt=2.5e-4, sixteen steps, final time 4e-3.
+N1 = 128
+N2 = 32
+L = 8.0
+max_level = 0
+regrid_interval = 0
+max_grid_size = 128
+block_factor = 8
+max_spatial_derivative_order = 4
+num_ghosts = 3
+dt_multiplier = 0.004
+stop_time = 0.004
+max_steps = 16
+checkpoint_interval = 0
+plot_interval = 0
+chk_prefix = e2_chk
+plot_prefix = e2_plt
+verbosity = 0
+
+isPeriodic = 0 1
+lo_boundary = 0 0
+hi_boundary = 0 0
+
+r_0 = 1.0
+black_string_coordinate_minimum = 2.0 0.0
+fixed_lapse_source = 1
+constraint_diagnostic_cadence = 1
+background_preserving_gp_radial_ghosts = 1
+
+lapse_advec_coeff = 0.0
+lapse_power = 1.0
+lapse_coeff = 2.0
+shift_Gamma_coeff = 0.75
+shift_advec_coeff = 0.0
+eta = 1.0

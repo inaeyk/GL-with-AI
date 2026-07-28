@@ -15,7 +15,7 @@ static_assert(DEFAULT_TENSOR_DIM == 4,
 #ifdef BLACKSTRING_BOUNDARY_DIMENSION_AUDIT
 #include "BlackStringBoundaryDimensionAudit.hpp"
 #define BLACKSTRING_BOUNDARY_OBSERVE(IDX)                                   \
-    (::BlackStringBoundaryDimensionAudit::observe(IDX), true)
+    (::BlackStringBoundaryDimensionAudit::observe(IDX))
 #else
 #define BLACKSTRING_BOUNDARY_OBSERVE(IDX) true
 #endif

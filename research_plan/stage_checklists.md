@@ -852,15 +852,28 @@ simulation and radiation diagnostics exist.
   RHS-storage, gauge/source, and update-hook policies before outputs are
   produced. Cleanup validation is `det(h)=0.9999999999999997` and weighted
   `tr(A)=-5.204170427930421e-18`.
-- [ ] Stage 4AO-D-F first unperturbed evolution. Sustained evolution,
-  AMR/MPI qualification, accepted physical radial boundaries, perturbation
-  growth, horizons/PETSc, Stage 4AO-D completion, Checkpoint G, and final
-  scoring remain open. Dimension-safe
+- [x] Stage 4AO-D-E2 first bounded serial level-zero GP evolution diagnostic.
+  A black-string-only background-preserving policy fills both radial ghost
+  sides from the validated GP pointwise initializer while Chombo retains
+  periodic-z ownership. Matched-domain `(32,8),(64,16),(128,32)` runs keep
+  `L_x=8,L_z=2`, CFL `0.004`, and `t_final=0.004`, taking 4/8/16 steps.
+  Compile-time E2-only instrumentation proves one framework exchange per
+  logical periodic refresh and exchange/radial/RHS order; the default level
+  stores and updates no counters. Old total exchanges fall
+  `104/200/392 -> 24/44/84`, with zero radial/periodic ghost error. The real
+  legacy boundary-loop build rejects direction 2 during level-zero setup.
+  Constraint cadence defaults to zero and E2 explicitly uses one. Missing and
+  wrong-coordinate radial policies are independently rejected. This exact GP
+  fill is diagnostic data, not an accepted physical boundary.
+- [ ] Stage 4AO-D-F sustained unperturbed evolution and radial-boundary
+  qualification. AMR/MPI qualification, accepted physical radial boundaries,
+  perturbation growth, horizons/PETSc, Stage 4AO-D completion, Checkpoint G,
+  and final scoring remain open. Dimension-safe
   `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` is
   implemented and validated, and the former `RealVect m_center[i=2]`
-  over-index blocker is cleared. E1 remains check-only; radial-boundary
-  physics, time evolution, AMR refinement, MPI, extraction, diagnostics, and
-  AHFinder remain incomplete. Evidence:
+  over-index blocker is cleared. E1 remains check-only; physical
+  radial-boundary acceptance, sustained evolution, AMR refinement, MPI,
+  extraction, expanded diagnostics, and AHFinder remain incomplete. Evidence:
   `docs/grchombo/grchombo_adaptation_backlog.md`.
 - [x] Production-adaptation preflight: lock the inspected GRChombo
   origin/commit in a tracked manifest; add a read-only wrong-commit/dirty-state

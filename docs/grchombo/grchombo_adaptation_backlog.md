@@ -11,10 +11,12 @@ files register 18 slots, reuse the validated GP compute class, obtain
 derivatives from GRChombo's fourth-order operator, expand reduced data to
 target `d=4`, call locked GRChombo directly, own the five gauge rows and one
 fixed lapse source, clean only after update, expose observational `H,Mx,Mz`,
-and configure direction 1 periodic through Chombo. The next backlog item is a
-focused `CH_SPACEDIM` grid-infrastructure adapter and define-only gate. A
-bounded unperturbed evolution remains later; physical radial-boundary
-acceptance remains open.
+and configure direction 1 periodic through Chombo. The focused
+`CH_SPACEDIM` grid-infrastructure adapter and define-only gate are complete.
+E2 also completes a bounded serial level-zero GP diagnostic and matched-domain
+convergence with exact background-preserving radial ghost data. Physical
+radial-boundary acceptance is the next blocker; sustained evolution,
+refinement, MPI, perturbations, broader diagnostics, and horizons remain open.
 
 ## Priority rules
 
@@ -68,9 +70,12 @@ The locked production order is:
 6. [complete, pointwise] production-style fixed lapse-source hook;
 7. [complete] live BoxLoop RHS/cleanup/source wiring and periodic direction-1
    domain/ghost ownership;
-8. [next] dimension-correct GRAMR/boundary setup and a define-only `2/4/4`
+8. [complete] dimension-correct GRAMR/boundary setup and a define-only `2/4/4`
    gate;
-9. bounded unperturbed GP evolution and radial-boundary qualification;
+9. [bounded diagnostic and matched-domain convergence complete] 4/8/16-step
+   unperturbed GP evolution on one fixed physical domain with an
+   exact-background radial ghost policy; sustained evolution and physical
+   radial-boundary qualification remain open;
 10. perturbed Fourier-mode evolution and the first growth/threshold estimate;
 11. horizon and nonlinear diagnostics after PETSc/AHFinder and observable
     conventions are qualified.
@@ -211,12 +216,15 @@ accepted four-dimensional CCZ4 tensor equations.
    stay at the pinned detached commits and clean, while all adapters/tests are
    project-owned.
 
-Passing only the define repair does not authorize a bounded evolution. After
-the full grid-loop guard sequence passes, a serial, level-zero,
-max-steps-bounded diagnostic attempt may be made only after radial ghost
-semantics receive their separate minimum acceptance test. It would still not
-qualify sustained evolution, AMR, MPI, extraction, diagnostics, or physical
-outer boundaries.
+The define repair and E2 radial-ghost gate now pass bounded serial level-zero
+evolution and matched-domain convergence on
+`(N_x,N_z)=(32,8),(64,16),(128,32)`. The fixed domain is
+`L_x=8,L_z=2`, the Courant factor is `0.004`, and all resolutions end at
+`t=0.004` after 4/8/16 steps. The policy analytically preserves the exact GP
+background at both radial strips and their radial-periodic corners while
+pure-z ghosts remain framework-owned. It deliberately does not qualify a
+physical radial boundary, sustained evolution, AMR, MPI, perturbations,
+broader diagnostics, or horizons.
 
 | Priority / order | Adaptation item | GRChombo source to reuse | Project-specific work | Dependency | Acceptance / exit criterion |
 |---|---|---|---|---|---|
@@ -231,7 +239,7 @@ outer boundaries.
 | P1-8 | Fixed GP-holding lapse source (pointwise complete) | Direct locked `MovingPunctureGauge` | Add field-independent `S_alpha=3 sqrt(r0/x^3)` after raw gauge evaluation | P1-7 | Raw lapse is `-3 lambda`, source-adjusted GP lapse vanishes, shift/B are untouched, and the source has zero evolved-field derivative |
 | P1-9 | Compact periodic `z` production domain (E1 complete) | GRChombo periodic boundary/domain parameters, `LevelData::exchange`, and derivative classes | Lock direction 0 radial/direction 1 compact; use real ghost ownership with no translation sign flip | P1-4b | Both seam wraps, multi-box exchange, scalar/one-`z` fourth-order convergence, and nonperiodic radial ghosts pass |
 | P1-9a | `2/4/4` GRAMR grid-dimension adapter (define complete) | `SetupFunctions`, `GRAMRLevel`, `BoundaryConditions`, and Chombo `ProblemDomain`/grid types | Scope grid loops to `CH_SPACEDIM` only in black-string infrastructure; forbid fake hidden coordinates and generic bulk derivative paths | P1-9 | Real `GRAMRLevel::define` succeeds under checked access; radial/periodic ownership is exact; stock DIM3 is unchanged; dependencies stay clean |
-| P1-10 | Unperturbed background evolution | `GRAMR`, RK4, ghost fill, boundaries, checkpointing | Configure target grid, source, hidden RHS, diagnostics, and conservative validation window | P1-7 through P1-9a | L4-01 stationarity, constraint convergence, gauge-source validation, and restart smoke pass |
+| P1-10 | Unperturbed background evolution (E2 bounded diagnostic and matched-domain convergence complete; production qualification open) | `GRAMR`, RK4, ghost fill, boundaries, checkpointing | Configure target grid, source, hidden RHS, diagnostics, and conservative validation window | P1-7 through P1-9a | E2: 4/8/16-step matched-domain stationarity and constraint convergence pass with exact-background radial ghosts; remaining exit: accepted physical radial boundary, sustained window, and restart smoke |
 | P2-11 | Fourier perturbation initialization | Initial-data BoxLoop plus periodic grid | Add normalized even/odd SO(3)-scalar perturbation families with amplitude guard | P1-10 | Linear amplitude scaling and mode/parity leakage tests pass |
 | P2-12 | Fourier amplitude diagnostics | `AMRInterpolator`, reductions, `SmallDataIO` | Adapt custom cosine/sine projections to AMR-consistent sampled/integrated output | P2-11 | Synthetic and production single-mode recovery tests pass |
 | P2-13 | Growth-rate extraction | `SmallDataIOReader`/project analysis output contract | Implement fit-window, uncertainty, resolution, and observable-consistency reporting | P2-12 | Synthetic exponent tests and window mutations pass before physical rates |
@@ -525,10 +533,12 @@ reduce the requirement to resolve those digests before production adaptation.
   real adapter instrumentation passed. Target fixtures now compile project
   code with `-std=c++17 -O2 -Wall -Wextra -Wpedantic -Werror`; dependency
   paths alone use `-isystem`, and the project-warning negative compile passes.
-- The future live call site remains `BlackStringToyLevel::initialData()` with
-  `BoxLoops::loop(BlackStringGPInitialData::make_compute(r0, m_dx,
-  m_p.center), ..., disable_simd())`. No live application or smoke path is
-  changed in this substage.
+- The formerly future live call site is implemented in
+  `BlackStringToyLevel::initialData()` through
+  `BoxLoops::loop(BlackStringGPInitialData::make_compute(...))`. E1 validates
+  the live application seam; E2 validates bounded serial level-zero
+  evolution and matched-domain convergence. The exact GP radial fill remains
+  diagnostic-only, so the next blocker is a physical radial-boundary policy.
 
 ## Explicit non-goals
 
@@ -638,12 +648,15 @@ isolated E1 application integration:
   determinant `0.9999999999999997` and weighted trace
   `-5.204170427930421e-18`.
 
-The next gate is bounded unperturbed evolution plus physical radial-boundary
-qualification. Sustained evolution, AMR/MPI, perturbations/growth,
-horizons/PETSc, final scoring, Stage 4AO-D, and Checkpoint G remain open.
+Bounded serial level-zero GP evolution and matched-domain convergence are now
+implemented and validated. The next blocker is physical radial-boundary
+qualification. Sustained evolution, AMR/MPI, perturbations/growth, broader
+diagnostics, horizons/PETSc, final scoring, Stage 4AO-D, and Checkpoint G
+remain open.
 Dimension-safe
 `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` is
 implemented and validated, and the former
 `CH_SPACEDIM=2` `RealVect m_center[i=2]` over-index blocker is cleared.
-Radial-boundary physics, time evolution, AMR refinement, MPI, extraction,
-diagnostics, and AHFinder remain incomplete, and E1 stays check-only.
+Physical radial-boundary policy, sustained evolution, AMR refinement, MPI,
+perturbations, broader diagnostics, and AHFinder remain incomplete. E1 stays
+the application-seam gate; E2 is the bounded level-zero evolution gate.

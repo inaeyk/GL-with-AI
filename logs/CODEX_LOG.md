@@ -2385,3 +2385,41 @@ the current selected-CCZ4 implementation and evidence are recorded in the
 - Remaining scope: Radial-boundary physics, time evolution, AMR refinement,
   MPI, extraction, diagnostics, and AHFinder remain incomplete; E1 remains
   check-only.
+
+- Date: 2026-07-27
+- Goal: Implement the first bounded serial level-zero unperturbed GP
+  evolution diagnostic without changing locked dependencies or accepted E1
+  physics.
+- Result: Added an exact-background radial ghost policy through the validated
+  GP pointwise initializer and storage seam, preserving separate low/high
+  ownership and Chombo periodic-z exchange. Real one-level `GRAMR` runs use
+  matched `(32,8),(64,16),(128,32)` domains and reach `t=0.004` after
+  4/8/16 steps.
+- Validation: Maximum state change decreases
+  `3.059570617455879e-6 -> 2.196566544967908e-7 ->
+  1.510007325733700e-8`; sourced lapse drift and `H,Mx` also decrease, while
+  `Mz` stays at roundoff. Both radial fills and periodic exchange are
+  instrumented; missing and wrong-coordinate policies are rejected on the
+  real pre-step path.
+- Scope: This exact GP fill is diagnostic-only and is not an accepted
+  physical radial boundary for perturbations. Sustained evolution,
+  refinement, MPI, extraction, expanded diagnostics, and AHFinder remain
+  open; E1 parameters remain check-only.
+
+- Date: 2026-07-28
+- Goal: Repair and optimize only the uncommitted E2 level-zero checkpoint.
+- Result: Production builds now contain no lifecycle/ghost counter storage or
+  updates. The radial GP filler is stateless and exchange-free; E2-only
+  compile-time instrumentation proves one framework exchange, radial-only
+  fill, then RHS. The redundant test prefill is removed.
+- Validation: Matched `(32,8),(64,16),(128,32)` runs use
+  `L_x=8,L_z=2`, CFL `0.004`, and `t_final=0.004` after 4/8/16 steps.
+  Old/repaired total exchanges are `104/24`, `200/44`, and `392/84`;
+  radial/periodic errors are zero. Cadence zero produces no constraint
+  evaluation. The real legacy tensor-loop E2 build fails during setup.
+- Performance: repaired wall/RSS values are `0.03 s/19.7 MB`,
+  `0.20 s/20.0 MB`, and `1.78 s/21.7 MB`. The N32 duplicate-exchange
+  baseline also rounds to `0.03 s/19.7 MB`; timings are small and noisy.
+- Scope: Validated CCZ4 physics, initializer, cleanup, source, and coordinate
+  convention are unchanged. Exact GP radial ghosts remain diagnostic-only;
+  physical radial-boundary policy is the next blocker.
