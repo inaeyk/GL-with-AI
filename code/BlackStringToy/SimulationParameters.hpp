@@ -22,6 +22,9 @@ class SimulationParameters : public ChomboParameters
                 constraint_diagnostic_cadence, 0);
         pp.load("background_preserving_gp_radial_ghosts",
                 background_preserving_gp_radial_ghosts, false);
+        pp.load("physical_radial_boundaries", physical_radial_boundaries,
+                false);
+        pp.load("outer_sommerfeld_speed", outer_sommerfeld_speed, 1.0);
         pp.load("min_chi", min_chi, BlackStringLive::positivity_floor);
         pp.load("min_lapse", min_lapse, BlackStringLive::positivity_floor);
 
@@ -32,6 +35,10 @@ class SimulationParameters : public ChomboParameters
         pp.load("shift_advec_coeff", gauge.shift_advec_coeff, 0.0);
         pp.load("eta", gauge.eta, 1.0);
         check_black_string_params();
+        if (physical_radial_boundaries)
+        {
+            configure_physical_radial_boundary_infrastructure();
+        }
     }
 
     std::array<double, CH_SPACEDIM> coordinate_offset() const
@@ -57,6 +64,9 @@ class SimulationParameters : public ChomboParameters
     // Diagnostic-only exact GP radial ghost data. This is not an accepted
     // physical boundary condition for perturbations.
     bool background_preserving_gp_radial_ghosts = false;
+    // Provisional excision/outflow plus GP-subtracted outer Sommerfeld policy.
+    bool physical_radial_boundaries = false;
+    double outer_sommerfeld_speed = 1.0;
     double min_chi = BlackStringLive::positivity_floor;
     double min_lapse = BlackStringLive::positivity_floor;
     BlackStringLive::GaugeParameters gauge{};
@@ -100,6 +110,70 @@ class SimulationParameters : public ChomboParameters
             MayDay::Error(
                 "constraint_diagnostic_cadence must be zero or positive");
         }
+        if (background_preserving_gp_radial_ghosts &&
+            physical_radial_boundaries)
+        {
+            MayDay::Error("exact-GP diagnostic and physical radial boundary "
+                          "policies are mutually exclusive");
+        }
+        if (physical_radial_boundaries)
+        {
+            if (!(coordinate_minimum[BlackStringLive::radial_direction] < r0))
+            {
+                MayDay::Error(
+                    "physical inner radial boundary requires x_in < r_0");
+            }
+            const double innermost_ghost_x =
+                coordinate_minimum[BlackStringLive::radial_direction] -
+                (static_cast<double>(num_ghosts) - 0.5) * coarsest_dx;
+            if (!(innermost_ghost_x > 0.0))
+            {
+                MayDay::Error("physical radial boundary requires every inner "
+                              "ghost to remain at x > 0");
+            }
+            if (num_ghosts != 3)
+            {
+                MayDay::Error("physical radial boundary requires exactly "
+                              "three ghost cells");
+            }
+            if (!std::isfinite(outer_sommerfeld_speed) ||
+                !(outer_sommerfeld_speed > 0.0))
+            {
+                MayDay::Error(
+                    "outer_sommerfeld_speed must be finite and positive");
+            }
+        }
+    }
+
+    void configure_physical_radial_boundary_infrastructure()
+    {
+        const auto periodic = boundary_params.is_periodic;
+        BoundaryConditions::params_t configured;
+        configured.set_is_periodic(periodic);
+
+        auto low = configured.lo_boundary;
+        low[BlackStringLive::radial_direction] =
+            BoundaryConditions::EXTRAPOLATING_BC;
+        configured.set_lo_boundary(low);
+
+        auto high = configured.hi_boundary;
+        // MIXED grows the stock boundary layout. All reduced components are
+        // assigned to its extrapolating branch because the black-string
+        // adapter supplies the physical GP-subtracted Sommerfeld surface RHS.
+        high[BlackStringLive::radial_direction] =
+            BoundaryConditions::MIXED_BC;
+        configured.set_hi_boundary(high);
+        // These RHS ghosts are overwritten by the project-owned solution
+        // closure after each RK update; constant extension is sufficient and
+        // avoids using stock Euclidean-radius slope fitting.
+        configured.extrapolation_order = 0;
+        configured.mixed_bc_vars_map.clear();
+        for (int component = 0; component < NUM_VARS; ++component)
+        {
+            configured.mixed_bc_vars_map.emplace(
+                component, BoundaryConditions::EXTRAPOLATING_BC);
+        }
+        boundary_params = configured;
     }
 };
 

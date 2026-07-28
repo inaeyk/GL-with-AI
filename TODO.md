@@ -77,9 +77,14 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   `L_x=8,L_z=2`, CFL `0.004`, and `t_final=0.004`; exact GP radial ghosts are
   diagnostic-only, periodic z remains framework-owned with no duplicate
   exchange, and missing/wrong-coordinate/legacy-loop mutations fail.
-- [ ] Stage 4AO-D-F: qualify sustained unperturbed evolution and an accepted
-  physical radial boundary treatment. Keep AMR/MPI production,
-  perturbations, horizons, PETSc/AHFinder, and final scoring deferred.
+- [x] Add the minimal provisional radial policy for the first perturbed
+  level-zero smoke: GP-subtracted fourth-order inner extrapolation with
+  `x_in<r0`, plus componentwise GP-subtracted outer Sommerfeld. The focused
+  GP/scalar/one-z fixture passes without radial wrap, duplicate exchange, or
+  runtime diagnostics. This is not the deferred WKB/spectral boundary.
+- [ ] Stage 4AO-D-F: qualify sustained unperturbed/perturbed evolution,
+  boundary-location systematics, and constraint behavior. Keep AMR/MPI,
+  growth-rate claims, horizons, PETSc/AHFinder, and final scoring deferred.
 - [x] Audit the `2/4/4` `GRAMRLevel::define` blocker beyond its first trapped
   `RealVect` access. Classify boundary, derivative, tagging,
   interpolation/extraction, coordinate, and stock diagnostic sites without
@@ -215,9 +220,10 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   `AMR::define` so grid objects use `CH_SPACEDIM`. The real define-only gate
   passes, and the former `RealVect m_center[i=2]` over-index blocker is
   cleared. Bounded serial level-zero evolution and matched-domain convergence
-  are complete in E2. Physical radial-boundary policy is the next blocker;
-  sustained evolution, AMR, MPI, perturbations, broader diagnostics, and
-  horizons remain incomplete.
+  are complete in E2. A minimal provisional physical radial policy now passes
+  a small perturbative smoke; sustained evolution, boundary systematics, AMR,
+  MPI, growth-rate extraction, broader diagnostics, and horizons remain
+  incomplete.
 - [ ] Stage 4AO deferred-branch hard rules: flat tests alone are insufficient;
   no eigensolver before its prerequisite gates; Pau is not the convention
   authority; and `hat_Gamma^x` alone is not the observable. The former

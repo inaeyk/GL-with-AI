@@ -14,9 +14,11 @@ fixed lapse source, clean only after update, expose observational `H,Mx,Mz`,
 and configure direction 1 periodic through Chombo. The focused
 `CH_SPACEDIM` grid-infrastructure adapter and define-only gate are complete.
 E2 also completes a bounded serial level-zero GP diagnostic and matched-domain
-convergence with exact background-preserving radial ghost data. Physical
-radial-boundary acceptance is the next blocker; sustained evolution,
-refinement, MPI, perturbations, broader diagnostics, and horizons remain open.
+convergence with exact background-preserving radial ghost data. A separate
+minimal GP-subtracted extrapolation/Sommerfeld policy now enables the first
+small perturbative boundary smoke. Sustained evolution, boundary-location and
+constraint systematics, refinement, MPI, growth extraction, broader
+diagnostics, and horizons remain open.
 
 ## Priority rules
 
@@ -74,10 +76,11 @@ The locked production order is:
    gate;
 9. [bounded diagnostic and matched-domain convergence complete] 4/8/16-step
    unperturbed GP evolution on one fixed physical domain with an
-   exact-background radial ghost policy; sustained evolution and physical
-   radial-boundary qualification remain open;
-10. perturbed Fourier-mode evolution and the first growth/threshold estimate;
-11. horizon and nonlinear diagnostics after PETSc/AHFinder and observable
+   exact-background radial ghost policy;
+10. [provisional smoke complete] GP-subtracted inner extrapolation and outer
+    Sommerfeld for the first scalar/one-z perturbed level-zero run;
+11. perturbed Fourier-mode evolution and the first growth/threshold estimate;
+12. horizon and nonlinear diagnostics after PETSc/AHFinder and observable
     conventions are qualified.
 
 Substantive independent audits occur only after the assembled storage plus
@@ -135,8 +138,8 @@ They are valid gridded loops and need no target-tensor widening.
 | `BoundaryConditions.cpp:44,53,89` | Incompatible mixed use; intended gridded loop | Boundary periodic/low/high arrays have two entries but `FOR` executes four times. | Immediate and potentially earlier than the trapped define access. |
 | `BoundaryConditions.cpp:235` | Incompatible mixed use; intended gridded loop | Four writes target a two-component `RealVect` and center array. | First observed trapped site in `GRAMRLevel::define`. |
 | `BoundaryConditions.cpp:324,415,439,471` | Incompatible mixed use; intended gridded loop | Boundary reporting and RHS/solution/diagnostic direction dispatch index two-entry boundary arrays. | Immediate after define and during ghost/boundary fills. |
-| `BoundaryConditions.cpp:604,613` | Incompatible mixed use; intended gridded loop | Sommerfeld radius and derivative stencils index `RealVect`, `IntVect`, and grid strides. | Downstream radial-boundary path. Even after loop repair, the stock Euclidean grid radius includes compact `z`, so it is not an accepted black-string radial policy. |
-| `BoundaryConditions.cpp:699-756,716,742` | Incompatible mixed use; intended gridded loop | Extrapolation clamps two-dimensional `IntVect`s with four-direction `FOR`. Its radius calls use the coordinate wrapper. | E1 parameters select radial extrapolation. The application coordinate wrapper returns `sqrt(x^2+z^2)`, which is not cylindrical radius `x`; physical radial-boundary acceptance therefore stays open. |
+| `BoundaryConditions.cpp:604,613` | Incompatible mixed use; intended gridded loop | Sommerfeld radius and derivative stencils index `RealVect`, `IntVect`, and grid strides. | The provisional adapter reuses the stock grown layout but supplies its own radial-x GP-subtracted Sommerfeld surface formula. |
+| `BoundaryConditions.cpp:699-756,716,742` | Incompatible mixed use; intended gridded loop | Extrapolation clamps two-dimensional `IntVect`s with four-direction `FOR`. Its radius calls use the coordinate wrapper. | The provisional adapter uses only stock RHS-ghost extrapolation; project-owned solution ghosts never use the stock `sqrt(x^2+z^2)` radius. |
 | `BoundaryConditions.cpp:800,854,929,1027,1074,1114` | Incompatible mixed use; intended gridded loop | Copy, coarse/fine interpolation, boundary-box growth, and `ProblemDomain` growth all traverse Chombo directions with tensor bounds. | Copy/fill is level-zero downstream; interpolation and grown-grid paths become relevant with AMR or Sommerfeld/mixed boundaries. |
 | `utils/Coordinates.hpp:38-49,73-103` | Incompatible target coordinate wrapper | Stock code has branches for `3/3`, `2/3` Cartoon, and `2/2`, but not `CH_SPACEDIM=2,DEFAULT_TENSOR_DIM=4`. Its static CH2 radius treats both grid directions as a Euclidean plane. | The application-local wrapper supplies `(x,z)` and prevents fake hidden coordinates, but its generic radius is still not a black-string radial-boundary policy. |
 | `FourthOrderDerivatives.hpp:77,249,349,405` and `SixthOrderDerivatives.hpp:80,280,386,470` | Incompatible mixed use | Bulk first/second derivative, advection, and dissipation overloads return physical tensors but index `m_in_stride[CH_SPACEDIM]` with `FOR`. Only grid directions may select a stride; hidden derivatives require target-specific expansion. | Likely downstream if a generic compute class is used. E1 is safe because `BlackStringLive` calls explicit direction-0/1 kernels and supplies hidden jets in the accepted target expansion. Sixth order is disabled. |
@@ -225,6 +228,14 @@ background at both radial strips and their radial-periodic corners while
 pure-z ghosts remain framework-owned. It deliberately does not qualify a
 physical radial boundary, sustained evolution, AMR, MPI, perturbations,
 broader diagnostics, or horizons.
+
+The subsequent provisional boundary fixture supplies the minimum physical
+policy for early perturbative runs. It requires `x_in<r0`, extrapolates every
+stored `delta U` at the inner side without imposing incoming data, and uses a
+componentwise GP-subtracted Sommerfeld condition at the outer radial surface.
+It reuses GRChombo's boundary layout/RHS-ghost infrastructure but bypasses the
+stock constant-asymptote, Euclidean-radius formula. This clears only a small
+serial smoke, not sustained or AMR/MPI qualification.
 
 | Priority / order | Adaptation item | GRChombo source to reuse | Project-specific work | Dependency | Acceptance / exit criterion |
 |---|---|---|---|---|---|
@@ -538,7 +549,9 @@ reduce the requirement to resolve those digests before production adaptation.
   `BoxLoops::loop(BlackStringGPInitialData::make_compute(...))`. E1 validates
   the live application seam; E2 validates bounded serial level-zero
   evolution and matched-domain convergence. The exact GP radial fill remains
-  diagnostic-only, so the next blocker is a physical radial-boundary policy.
+  diagnostic-only. A separate provisional GP-subtracted physical boundary now
+  passes the first perturbative smoke; sustained and boundary-systematic
+  qualification remain next.
 
 ## Explicit non-goals
 
@@ -649,14 +662,15 @@ isolated E1 application integration:
   `-5.204170427930421e-18`.
 
 Bounded serial level-zero GP evolution and matched-domain convergence are now
-implemented and validated. The next blocker is physical radial-boundary
-qualification. Sustained evolution, AMR/MPI, perturbations/growth, broader
-diagnostics, horizons/PETSc, final scoring, Stage 4AO-D, and Checkpoint G
-remain open.
+implemented and validated. The minimal physical radial-boundary smoke is also
+implemented, but sustained evolution and boundary-location/constraint
+systematics remain next. AMR/MPI, perturbation growth, broader diagnostics,
+horizons/PETSc, final scoring, Stage 4AO-D, and Checkpoint G remain open.
 Dimension-safe
 `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` is
 implemented and validated, and the former
 `CH_SPACEDIM=2` `RealVect m_center[i=2]` over-index blocker is cleared.
-Physical radial-boundary policy, sustained evolution, AMR refinement, MPI,
-perturbations, broader diagnostics, and AHFinder remain incomplete. E1 stays
-the application-seam gate; E2 is the bounded level-zero evolution gate.
+The provisional radial policy passes only a small perturbative smoke.
+Sustained evolution, boundary systematics, AMR refinement, MPI, growth-rate
+extraction, broader diagnostics, and AHFinder remain incomplete. E1 stays the
+application-seam gate; E2 is the bounded level-zero evolution gate.

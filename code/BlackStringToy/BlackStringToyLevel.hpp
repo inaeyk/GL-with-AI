@@ -4,6 +4,7 @@
 #include "DefaultLevelFactory.hpp"
 #include "GRAMRLevel.hpp"
 #include "BlackStringRadialGPGhost.hpp"
+#include "BlackStringPerturbativeRadialBoundary.hpp"
 
 #include <array>
 
@@ -54,6 +55,8 @@ class BlackStringToyLevel : public GRAMRLevel
     void fill_background_radial_ghosts(
         GRLevelData &state,
         const std::array<double, CH_SPACEDIM> &coordinate_offset);
+    void fill_perturbative_radial_ghosts(GRLevelData &state,
+                                         const Interval &components);
 
 #ifdef BLACKSTRING_E2_LEVEL_DIAGNOSTICS
     BlackStringLevelDiagnosticInstrumentation &instrumentation()

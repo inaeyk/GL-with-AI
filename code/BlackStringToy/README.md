@@ -105,8 +105,35 @@ and `1.78 s / 21.7 MB`, with approximate wall times per valid-cell/RHS of
 `6.89e-6`, `5.92e-6`, and `6.69e-6` seconds. The N32 duplicate-exchange
 baseline also rounds to `0.03 s / 19.7 MB`; these runs are too small and
 noisy for a speedup claim, while the exchange-count reduction is exact.
-Sustained evolution, a physical radial boundary, AMR, MPI, perturbations,
-broader diagnostics, and horizons remain unqualified.
+
+The first perturbative radial policy is the project-owned
+`BlackStringPerturbativeRadialBoundary`. It uses GRChombo's nonperiodic
+boundary layout, periodic exchange, and extrapolating RHS-ghost machinery,
+but replaces stock radial formulas where the reduced state requires it.
+Writing `delta U=U-U_GP`, the inner three ghost layers use degree-four
+one-sided extrapolation of `delta U` from five interior points, then add the
+analytic GP value at each ghost. The outer valid surface applies
+`partial_t delta U=-c_out(partial_x delta U+delta U/x)` with a fourth-order
+backward derivative; its solution ghosts use the same background-subtracted
+extrapolation. All 18 slots, including the one-copy `hww/Aww`, are treated
+componentwise. `x_in>=r0`, radial periodicity, a nonpositive outgoing speed,
+and a ghost depth other than three reject.
+
+The focused `32x8`, four-step serial smoke has `x_in=0.5<r0=1`,
+`x_out=4.5`, diagnostics disabled, 17 RHS calls, 76 low/high boundary
+refreshes, 17 outer radiative calls, and 20 framework periodic exchanges.
+GP, scalar, and one-z cases remain finite; initial GP ghosts agree exactly
+with the analytic background, and scalar/one-z initial sectors do not mix.
+A manufactured outgoing `f(x-t)/x` pulse leaves the domain with remaining
+ratio `1.01e-11`. Its boundary-residual reflection proxy decreases at
+roughly fourth order and is smaller at `x_out=6` than at `x_out=4`.
+
+This is an inexpensive provisional finite-domain boundary, not an exact
+characteristic/WKB condition. It does not prove long-time stability,
+constraint preservation at the boundary, nonlinear mode transparency, or a
+GL growth rate. Sustained evolution, boundary-location systematics, AMR,
+MPI, growth-rate extraction, broader diagnostics, horizons, and final
+scoring remain unqualified.
 
 The validated cleanup values are determinant `0.9999999999999997` and
 weighted trace `-5.204170427930421e-18`.

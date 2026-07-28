@@ -77,6 +77,16 @@ void BlackStringToyLevel::specificEvalRHS(GRLevelData &a_soln,
             m_p.r0, m_dx, m_p.coordinate_offset(), m_p.gauge,
             m_p.fixed_lapse_source),
         a_soln, a_rhs, EXCLUDE_GHOST_CELLS, disable_simd());
+    if (m_p.physical_radial_boundaries)
+    {
+        BlackStringPerturbativeRadialBoundary::apply_outer_rhs(
+            a_soln, a_rhs, m_problem_domain, m_p.r0, m_dx,
+            m_p.coordinate_offset(), m_p.outer_sommerfeld_speed,
+            Interval(0, NUM_VARS - 1));
+#ifdef BLACKSTRING_E2_LEVEL_DIAGNOSTICS
+        m_instrumentation.record_outer_radiative_rhs();
+#endif
+    }
 }
 
 void BlackStringToyLevel::specificUpdateODE(GRLevelData &a_soln,
@@ -157,6 +167,11 @@ void BlackStringToyLevel::fillBdyGhosts(GRLevelData &state,
 #ifdef BLACKSTRING_E2_LEVEL_DIAGNOSTICS
     m_instrumentation.record_ghost_fill();
 #endif
+    if (m_p.physical_radial_boundaries)
+    {
+        fill_perturbative_radial_ghosts(state, components);
+        return;
+    }
     if (!m_p.background_preserving_gp_radial_ghosts)
     {
         GRAMRLevel::fillBdyGhosts(state, components);
@@ -165,10 +180,29 @@ void BlackStringToyLevel::fillBdyGhosts(GRLevelData &state,
     fill_background_radial_ghosts(state, m_p.coordinate_offset());
 }
 
+void BlackStringToyLevel::fill_perturbative_radial_ghosts(
+    GRLevelData &state, const Interval &components)
+{
+    const auto coordinate_offset = m_p.coordinate_offset();
+    BlackStringPerturbativeRadialBoundary::fill_solution_ghosts(
+        state, m_problem_domain, m_p.r0, m_dx, coordinate_offset, Side::Lo,
+        components);
+#ifdef BLACKSTRING_E2_LEVEL_DIAGNOSTICS
+    m_instrumentation.record_radial_fill(Side::Lo);
+#endif
+    BlackStringPerturbativeRadialBoundary::fill_solution_ghosts(
+        state, m_problem_domain, m_p.r0, m_dx, coordinate_offset, Side::Hi,
+        components);
+#ifdef BLACKSTRING_E2_LEVEL_DIAGNOSTICS
+    m_instrumentation.record_radial_fill(Side::Hi);
+#endif
+}
+
 void BlackStringToyLevel::copyBdyGhosts(const GRLevelData &source,
                                         GRLevelData &destination)
 {
-    if (!m_p.background_preserving_gp_radial_ghosts)
+    if (!m_p.background_preserving_gp_radial_ghosts &&
+        !m_p.physical_radial_boundaries)
     {
         GRAMRLevel::copyBdyGhosts(source, destination);
         return;

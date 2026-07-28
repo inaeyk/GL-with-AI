@@ -29,6 +29,7 @@ class BlackStringLevelDiagnosticInstrumentation
         std::size_t fillall_periodic_exchanges = 0;
         std::size_t rhs_periodic_exchanges = 0;
         std::size_t legacy_policy_duplicate_exchanges = 0;
+        std::size_t outer_radiative_rhs_calls = 0;
         bool radial_low_then_high = true;
         bool exchange_before_radial = true;
         bool radial_before_rhs = true;
@@ -93,6 +94,11 @@ class BlackStringLevelDiagnosticInstrumentation
     {
         ++m_report.periodic_exchanges;
         ++m_report.legacy_policy_duplicate_exchanges;
+    }
+
+    void record_outer_radiative_rhs()
+    {
+        ++m_report.outer_radiative_rhs_calls;
     }
 
     const Report &report() const { return m_report; }

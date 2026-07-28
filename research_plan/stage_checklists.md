@@ -865,15 +865,23 @@ simulation and radiation diagnostics exist.
   Constraint cadence defaults to zero and E2 explicitly uses one. Missing and
   wrong-coordinate radial policies are independently rejected. This exact GP
   fill is diagnostic data, not an accepted physical boundary.
-- [ ] Stage 4AO-D-F sustained unperturbed evolution and radial-boundary
-  qualification. AMR/MPI qualification, accepted physical radial boundaries,
-  perturbation growth, horizons/PETSc, Stage 4AO-D completion, Checkpoint G,
-  and final scoring remain open. Dimension-safe
+- [x] Minimal first-perturbation radial policy. The inner side extrapolates
+  `delta U=U-U_GP` through three ghost layers from five interior points and
+  requires `x_in<r0`; the outer side applies componentwise
+  `dt(delta U)=-c_out(dx(delta U)+delta U/x)` with a fourth-order backward
+  derivative. GRChombo retains periodic exchange and boundary layout
+  ownership. GP/scalar/one-z level-zero smoke cases and a fourth-order
+  manufactured reflection proxy pass. This is provisional, not the deferred
+  custom WKB/spectral boundary.
+- [ ] Stage 4AO-D-F sustained unperturbed/perturbed evolution and boundary
+  qualification. AMR/MPI qualification, boundary-location and constraint
+  systematics, perturbation growth, horizons/PETSc, Stage 4AO-D completion,
+  Checkpoint G, and final scoring remain open. Dimension-safe
   `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` is
   implemented and validated, and the former `RealVect m_center[i=2]`
-  over-index blocker is cleared. E1 remains check-only; physical
-  radial-boundary acceptance, sustained evolution, AMR refinement, MPI,
-  extraction, expanded diagnostics, and AHFinder remain incomplete. Evidence:
+  over-index blocker is cleared. E1 remains check-only; sustained evolution,
+  boundary systematics, AMR refinement, MPI, extraction, expanded
+  diagnostics, and AHFinder remain incomplete. Evidence:
   `docs/grchombo/grchombo_adaptation_backlog.md`.
 - [x] Production-adaptation preflight: lock the inspected GRChombo
   origin/commit in a tracked manifest; add a read-only wrong-commit/dirty-state

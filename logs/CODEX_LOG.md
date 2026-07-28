@@ -2422,4 +2422,26 @@ the current selected-CCZ4 implementation and evidence are recorded in the
   baseline also rounds to `0.03 s/19.7 MB`; timings are small and noisy.
 - Scope: Validated CCZ4 physics, initializer, cleanup, source, and coordinate
   convention are unchanged. Exact GP radial ghosts remain diagnostic-only;
-  physical radial-boundary policy is the next blocker.
+  physical radial-boundary policy was the next blocker at this checkpoint.
+
+- Date: 2026-07-28
+- Goal: Add the minimal physical radial boundary required for a first
+  perturbed level-zero smoke without reopening custom WKB/spectral research.
+- Result: Added a thin 18-slot GP-subtracted boundary adapter. The inner three
+  ghosts use degree-four one-sided extrapolation and require `x_in<r0`; the
+  outer valid surface uses
+  `dt(delta U)=-c_out(dx(delta U)+delta U/x)`. GRChombo retains periodic
+  exchange, nonperiodic grown-grid layout, and RHS-ghost extrapolation.
+- Validation: GP/scalar/one-z four-step serial runs are finite with 76 fills
+  on each radial side, 17 outer radiative calls for 17 RHS evaluations, 20
+  framework exchanges, and zero diagnostic evaluations. The initial GP
+  ghosts are exact, the initial sectors remain separate, radial wrap is
+  rejected, and `x_in>=r0` fails. A manufactured outgoing pulse leaves with
+  remaining ratio `1.01e-11`; its reflection proxy decreases at roughly
+  fourth order and decreases when `x_out` moves from 4 to 6.
+- Performance: Each 256-cell live smoke rounds to `0.01 s` and about
+  `19.7 MB`, versus the E2 N32 fixture's current `0.03 s` and `19.7 MB`.
+  These timings are resolution-limited and do not establish a speedup.
+- Scope: This is provisional finite-domain data, not an exact characteristic
+  or WKB boundary. Sustained evolution, boundary systematics, AMR/MPI, GL
+  growth, horizons, and final scoring remain incomplete.

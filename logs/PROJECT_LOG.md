@@ -2751,5 +2751,30 @@ Category: Production Adaptation Diagnostic
   a speedup claim.
 - Bounded serial level-zero evolution and matched-domain convergence are
   implemented and validated. The exact GP radial policy is diagnostic-only.
-  Physical radial-boundary policy is next; sustained evolution, AMR, MPI,
-  perturbations, broader diagnostics, and horizons remain incomplete.
+  Physical radial-boundary policy was next at this checkpoint; sustained
+  evolution, AMR, MPI, perturbations, broader diagnostics, and horizons
+  remained incomplete.
+
+### 2026-07-28 Provisional perturbative radial boundary
+
+- Added a project-owned surface adapter for the reduced 18-slot live state.
+  At the excision-side boundary, all components extrapolate
+  `delta U=U-U_GP` through three ghost layers with the degree-four five-point
+  closure; `x_in>=r0` rejects. At the outer valid surface, all components use
+  `dt(delta U)=-c_out(dx(delta U)+delta U/x)` with a fourth-order backward
+  derivative. Analytic GP values are added only as the subtraction
+  background, never as a hard reset of perturbations, Z, Gamma, or gauge.
+- Retained GRChombo ownership of the periodic-z exchange, nonperiodic grown
+  layout, and extrapolated RHS ghosts. The adapter performs no exchange and
+  touches only fixed radial surface layers.
+- The focused `32x8` level-zero GP/scalar/one-z smoke passes with 76 calls on
+  each radial side, 17 outer boundary RHS calls for 17 live RHS evaluations,
+  20 framework exchanges, and zero constraint diagnostics. All cases remain
+  finite; GP ghosts start exact and initial scalar/one-z sectors remain
+  separate.
+- A manufactured outgoing `f(x-t)/x` pulse leaves the domain with remaining
+  ratio `1.01e-11`. The boundary-residual reflection proxy decreases at
+  approximately fourth order and is lower at `x_out=6` than at `x_out=4`.
+- This provisional boundary is not the deferred WKB/spectral projector and
+  makes no sustained-evolution, GL-growth, AMR/MPI, horizon, or final-score
+  claim.
