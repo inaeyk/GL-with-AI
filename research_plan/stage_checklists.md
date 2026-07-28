@@ -871,12 +871,36 @@ simulation and radiation diagnostics exist.
   `dt(delta U)=-c_out(dx(delta U)+delta U/x)` with a fourth-order backward
   derivative. GRChombo retains periodic exchange and boundary layout
   ownership. GP/scalar/one-z level-zero smoke cases and a fourth-order
-  manufactured reflection proxy pass. This is provisional, not the deferred
-  custom WKB/spectral boundary.
+  manufactured reflection proxy pass. Locked upstream
+  `BoundaryConditions.cpp` dynamically allocates three `std::vector<int>`
+  component lists per boundary-driver invocation; its boundary `Box` objects
+  are stack objects. This is upstream per-invocation overhead, not
+  project-introduced and not per-cell, so the end-to-end boundary path is not
+  literally allocation-free. This is provisional, not the deferred custom
+  WKB/spectral boundary.
+- [x] First bounded Fourier growth/decay sign diagnostic. A test-only
+  compact-support seed with `epsilon=1e-9,5e-10` assigns even slots to cosine
+  and `hxz,Axz,GammaZ` to sine. The corrected connection seed uses
+  `0.10 p' + 0.20 p/x + 0.25 k p`; restoring the former `1.00 p'`
+  coefficient is an expected-failure mutation. No zero-`Z` seed claim is
+  retained. Two `Lz=8`, CFL `0.05`, `t_final=0.4`
+  matched sequences use `dx=1/6,1/8,1/12` at `x_out=4.5,6.5`.
+  Both Fourier quadratures of `0.5 log(hww/chi)` enter
+  `ak=hypot(Ck,Sk)` and the phase is reported; this supersedes the
+  cosine-only result. Fits on `[0.1,0.4]`, `[0.15,0.4]`, and `[0.2,0.4]`
+  retain positive `k=pi/4` and negative `k=pi/2` signs at all resolutions,
+  boundaries, and amplitudes. Identical unperturbed controls put leakage
+  below `4.14e-21` and the minimum seeded/leakage ratio above `2.75e10`.
+  Epsilon-normalized histories agree within `6.62e-7` under the declared
+  `5e-4` tolerance. Paired drift and `H,Mx,Mz` differences are reported;
+  `Mz` is not called roundoff or convergent. This is bounded sign evidence
+  only, not an asymptotic eigenmode rate, `k_cr_0`, or physical-boundary
+  acceptance.
 - [ ] Stage 4AO-D-F sustained unperturbed/perturbed evolution and boundary
-  qualification. AMR/MPI qualification, boundary-location and constraint
-  systematics, perturbation growth, horizons/PETSc, Stage 4AO-D completion,
-  Checkpoint G, and final scoring remain open. Dimension-safe
+  qualification. Converged `k_cr_0`, sustained nonlinear evolution,
+  physical radial-boundary acceptance, AMR/MPI qualification,
+  horizons/PETSc, Stage 4AO-D completion, Checkpoint G, and final scoring
+  remain open. Dimension-safe
   `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` is
   implemented and validated, and the former `RealVect m_center[i=2]`
   over-index blocker is cleared. E1 remains check-only; sustained evolution,

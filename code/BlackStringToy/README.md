@@ -128,12 +128,64 @@ A manufactured outgoing `f(x-t)/x` pulse leaves the domain with remaining
 ratio `1.01e-11`. Its boundary-residual reflection proxy decreases at
 roughly fourth order and is smaller at `x_out=6` than at `x_out=4`.
 
-This is an inexpensive provisional finite-domain boundary, not an exact
-characteristic/WKB condition. It does not prove long-time stability,
-constraint preservation at the boundary, nonlinear mode transparency, or a
-GL growth rate. Sustained evolution, boundary-location systematics, AMR,
-MPI, growth-rate extraction, broader diagnostics, horizons, and final
-scoring remain unqualified.
+The focused `tests/chombo_fourier_growth` fixture supplies the first bounded
+Fourier growth/decay diagnostic without changing the production level. It
+adds a compact `C-infinity` radial bump
+`u=exp(1-1/(1-s^2))`, `s=(x-2.25)/0.75`, for `|s|<1` and zero otherwise,
+with `epsilon=1e-9` and `5e-10`. Even fields use `cos(kz)` while `hxz`,
+`Axz`, and
+`GammaZ` use `sin(kz)`; the conformal-metric and `A` seeds are trace-free at
+linear order. In particular,
+`delta GammaZ=epsilon*(0.10 p' + 0.20 p/x + 0.25 k p)*sin(kz)`.
+The old `1.00 p'` mutation is rejected by the live initializer audit; no
+zero-`Z` interpretation is claimed here. At every cadence sample the
+test-only diagnostic computes cosine and sine Fourier coefficients of
+`q=0.5 log(hww/chi)` at each radial point, forms their signed radial-RMS
+quadratures `Ck` and `Sk` over `1.25<=x<=3.5`, and measures
+`ak=hypot(Ck,Sk)`. It also reports `atan2(Sk,Ck)`. Explicit rotations of the
+quadrature pair preserve `ak` to relative error below `2.5e-16`, so a phase
+rotation cannot masquerade as decay. The former cosine-only result is
+superseded.
+
+Both matched-domain sequences keep `Lz=8`, CFL `0.05`, final time `0.4`, and
+sample every eight steps. The `x_out=4.5` sequence uses
+`(Nx,Nz)=(24,48),(32,64),(48,96)`; the `x_out=6.5` sequence uses
+`(36,48),(48,64),(72,96)`. Thus `dx=dz` is
+`1/6,1/8,1/12` and `dt` is `1/120,1/160,1/240`. For
+`k=pi/4`, the `[0.1,0.4]` fitted rates at either boundary are approximately
+`0.3063,0.1636,0.1640`; for `k=pi/2` they are approximately
+`-0.08593,-0.2287,-0.2290`. On the finest grid, moving the fit start through
+`0.10,0.15,0.20` preserves the signs: the unstable slopes are
+`0.1640,0.1464,0.1285`, while the stable slopes are
+`-0.2290,-0.2956,-0.3379`. These are bounded sign fits, not asymptotic
+eigenmode rates or threshold data.
+
+Every resolution/domain/mode case now has an identical unperturbed control.
+At final time its unseeded mode leakage lies between `8.21e-23` and
+`4.14e-21`; the seeded-to-leakage ratio is at least `2.75e10`. Final
+perturbed-minus-control drift is `8.37e-11` to `1.37e-10`; paired constraint
+differences are `1.52e-9` to `2.42e-9` for `H`, `1.84e-10` to `1.26e-9` for
+`Mx`, and `1.35e-9` to `2.96e-9` for `Mz`. These paired `Mz` values are
+reported without calling them roundoff or convergent. Repeating every seeded
+case at `epsilon=5e-10` changes the epsilon-normalized amplitude histories
+by at most `6.62e-7`, below the declared `5e-4` tolerance, and preserves all
+fitted signs. Every run is finite, scalar/one-z parity remains separated, and
+every radial refresh contains one low and one high fill with no
+boundary-owned periodic exchange. Diagnostics run every eight steps only in
+this fixture; production still defaults to disabled.
+
+Locked upstream `BoundaryConditions.cpp` dynamically allocates three
+`std::vector<int>` component lists per boundary-driver invocation. The
+boundary `Box` objects themselves are stack objects. This is upstream
+per-invocation overhead, not project-introduced and not per-cell; therefore
+the end-to-end boundary path is not literally allocation-free.
+
+This remains an inexpensive provisional finite-domain boundary and first
+sign diagnostic, not an exact characteristic/WKB condition or a converged
+physical GL spectrum. It does not establish `k_cr_0`, long-time stability,
+constraint-preserving radial data, nonlinear mode transparency, or accepted
+boundary physics. Sustained evolution, AMR, MPI, horizons/AHFinder, broader
+production diagnostics, and final scoring remain unqualified.
 
 The validated cleanup values are determinant `0.9999999999999997` and
 weighted trace `-5.204170427930421e-18`.

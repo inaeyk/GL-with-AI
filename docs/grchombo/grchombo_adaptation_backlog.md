@@ -16,8 +16,10 @@ and configure direction 1 periodic through Chombo. The focused
 E2 also completes a bounded serial level-zero GP diagnostic and matched-domain
 convergence with exact background-preserving radial ghost data. A separate
 minimal GP-subtracted extrapolation/Sommerfeld policy now enables the first
-small perturbative boundary smoke. Sustained evolution, boundary-location and
-constraint systematics, refinement, MPI, growth extraction, broader
+small perturbative boundary smoke. A fixture-only compact Fourier initializer,
+cadenced projection, and two-boundary/three-resolution short evolution now
+supply the first stable/unstable sign evidence. Sustained evolution, physical
+radial-boundary acceptance, a converged threshold, refinement, MPI, broader
 diagnostics, and horizons remain open.
 
 ## Priority rules
@@ -79,7 +81,9 @@ The locked production order is:
    exact-background radial ghost policy;
 10. [provisional smoke complete] GP-subtracted inner extrapolation and outer
     Sommerfeld for the first scalar/one-z perturbed level-zero run;
-11. perturbed Fourier-mode evolution and the first growth/threshold estimate;
+11. [first bounded sign diagnostic complete; threshold open] perturbed
+    Fourier-mode evolution at two wavenumbers, three resolutions, and two
+    outer-boundary locations;
 12. horizon and nonlinear diagnostics after PETSc/AHFinder and observable
     conventions are qualified.
 
@@ -237,6 +241,24 @@ It reuses GRChombo's boundary layout/RHS-ghost infrastructure but bypasses the
 stock constant-asymptote, Euclidean-radius formula. This clears only a small
 serial smoke, not sustained or AMR/MPI qualification.
 
+The repaired Fourier fixture keeps all initializer coefficients, amplitude
+sampling, fits, controls, mutations, and instrumentation test-only. Its
+corrected sine seed is
+`delta GammaZ=epsilon*(0.10 p' + 0.20 p/x + 0.25 k p) sin(kz)`; the former
+`1.00 p'` coefficient is an expected-failure mutation. No zero-`Z` seed claim
+is made. On `Lz=8`, it evolves `k=pi/4` and `k=pi/2` to `t=0.4` with CFL
+`0.05` on matched `dx=1/6,1/8,1/12` sequences at `x_out=4.5` and `6.5`.
+Both quadratures of `q=0.5 log(hww/chi)` enter the phase-neutral radial-RMS
+amplitude, superseding the cosine-only result. Fits over `[0.1,0.4]`,
+`[0.15,0.4]`, and `[0.2,0.4]` retain positive and negative signs respectively
+at every resolution, boundary, and at `epsilon=1e-9,5e-10`; the largest
+epsilon-normalized history difference is `6.62e-7` under a `5e-4` tolerance.
+Paired unperturbed leakage is at most `4.14e-21`, and the seeded/leakage ratio
+is at least `2.75e10`. Paired constraint differences are reported directly;
+`Mz` is not labeled roundoff or convergent. This is short-window sign
+evidence, not a threshold, asymptotic rate, sustained evolution, or
+physical-boundary qualification.
+
 | Priority / order | Adaptation item | GRChombo source to reuse | Project-specific work | Dependency | Acceptance / exit criterion |
 |---|---|---|---|---|---|
 | P0-1 | Reproducible GRChombo/Chombo core lock | Current origin, locked CI, Chombo Make infrastructure | Keep the tracked GRChombo commit and qualified official Chombo commit; disclose that historical SHA/container provenance is unresolved; keep PETSc separate until AHFinder | None | Project lock is detached/clean; four serial DIM2 libraries, real `2/4/4` target probe, and stock compile/smoke checks pass |
@@ -251,9 +273,9 @@ serial smoke, not sustained or AMR/MPI qualification.
 | P1-9 | Compact periodic `z` production domain (E1 complete) | GRChombo periodic boundary/domain parameters, `LevelData::exchange`, and derivative classes | Lock direction 0 radial/direction 1 compact; use real ghost ownership with no translation sign flip | P1-4b | Both seam wraps, multi-box exchange, scalar/one-`z` fourth-order convergence, and nonperiodic radial ghosts pass |
 | P1-9a | `2/4/4` GRAMR grid-dimension adapter (define complete) | `SetupFunctions`, `GRAMRLevel`, `BoundaryConditions`, and Chombo `ProblemDomain`/grid types | Scope grid loops to `CH_SPACEDIM` only in black-string infrastructure; forbid fake hidden coordinates and generic bulk derivative paths | P1-9 | Real `GRAMRLevel::define` succeeds under checked access; radial/periodic ownership is exact; stock DIM3 is unchanged; dependencies stay clean |
 | P1-10 | Unperturbed background evolution (E2 bounded diagnostic and matched-domain convergence complete; production qualification open) | `GRAMR`, RK4, ghost fill, boundaries, checkpointing | Configure target grid, source, hidden RHS, diagnostics, and conservative validation window | P1-7 through P1-9a | E2: 4/8/16-step matched-domain stationarity and constraint convergence pass with exact-background radial ghosts; remaining exit: accepted physical radial boundary, sustained window, and restart smoke |
-| P2-11 | Fourier perturbation initialization | Initial-data BoxLoop plus periodic grid | Add normalized even/odd SO(3)-scalar perturbation families with amplitude guard | P1-10 | Linear amplitude scaling and mode/parity leakage tests pass |
-| P2-12 | Fourier amplitude diagnostics | `AMRInterpolator`, reductions, `SmallDataIO` | Adapt custom cosine/sine projections to AMR-consistent sampled/integrated output | P2-11 | Synthetic and production single-mode recovery tests pass |
-| P2-13 | Growth-rate extraction | `SmallDataIOReader`/project analysis output contract | Implement fit-window, uncertainty, resolution, and observable-consistency reporting | P2-12 | Synthetic exponent tests and window mutations pass before physical rates |
+| P2-11 | Fourier perturbation initialization (first level-zero fixture complete; production family open) | Initial-data BoxLoop plus periodic grid | Test-only normalized compact even/odd SO(3)-scalar seed with the one-z slots on sine | P1-10 | First parity leakage and bounded linear-amplitude run pass; production parameter family remains open |
+| P2-12 | Fourier amplitude diagnostics (first level-zero fixture complete; AMR output open) | Level-zero storage and reductions | Test-only cosine/sine radial-RMS quadratures of `0.5 log(hww/chi)`, phase-neutral amplitude, and paired controls at cadence eight | P2-11 | Quadrature rotation invariance, leakage, and two-epsilon normalized histories pass; AMR-consistent persistent output remains open |
+| P2-13 | Growth-rate extraction (first bounded sign diagnostic complete; physical rate open) | Project fixture analysis | Three declared short log-amplitude windows with slope error/R2, resolution, boundary, and amplitude reporting | P2-12 | Opposite signs persist across the focused matrix; asymptotic eigenmode-rate and physical-rate acceptance remain open |
 | P2-14 | Production convergence workflow | GRChombo AMR/restart/output machinery | Reproducible multi-resolution parameter sets and comparison tables | P1-10, P2-13 | Background, constraints, perturbations, and rate show documented convergence |
 | P3-15 | String MOTS/horizon adapter | `AHFinder`, `PETScAHSolver`, `AHStringGeometry`, interpolation | Supply target variables, `S2 x S1` geometry, hidden expansion terms, PETSc configuration | P1-7, PETSc source lock | Uniform `x=r0` MOTS recovered with convergent residual; restart supported |
 | P3-16 | `R_H`, minimum radius, and horizon area | AH surface data, interpolation, reductions, `SmallDataIO` | Evaluate `R_H=h sqrt(hww/chi)`, minimum over z, correct string area | P3-15 | Uniform analytic values and perturbed manufactured profiles converge |
@@ -662,15 +684,18 @@ isolated E1 application integration:
   `-5.204170427930421e-18`.
 
 Bounded serial level-zero GP evolution and matched-domain convergence are now
-implemented and validated. The minimal physical radial-boundary smoke is also
-implemented, but sustained evolution and boundary-location/constraint
-systematics remain next. AMR/MPI, perturbation growth, broader diagnostics,
-horizons/PETSc, final scoring, Stage 4AO-D, and Checkpoint G remain open.
+implemented and validated. The minimal physical radial-boundary smoke and the
+first bounded Fourier stable/unstable sign diagnostic are also implemented.
+Sustained evolution, physical radial-boundary acceptance, a converged
+`k_cr_0`, AMR/MPI, broader diagnostics, horizons/PETSc, final scoring, Stage
+4AO-D, and Checkpoint G remain open.
 Dimension-safe
 `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` is
 implemented and validated, and the former
 `CH_SPACEDIM=2` `RealVect m_center[i=2]` over-index blocker is cleared.
-The provisional radial policy passes only a small perturbative smoke.
-Sustained evolution, boundary systematics, AMR refinement, MPI, growth-rate
-extraction, broader diagnostics, and AHFinder remain incomplete. E1 stays the
-application-seam gate; E2 is the bounded level-zero evolution gate.
+The provisional radial policy now passes the small perturbative smoke and a
+short two-boundary Fourier sign matrix, but it is not physically accepted.
+Sustained evolution, converged growth/threshold extraction, AMR refinement,
+MPI, broader diagnostics, and AHFinder remain incomplete. E1 stays the
+application-seam gate; E2 is the bounded unperturbed level-zero evolution
+gate.
