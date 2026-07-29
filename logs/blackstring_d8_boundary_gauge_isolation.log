@@ -1,0 +1,195 @@
+BLACKSTRING STAGE 4AO-D8 BOUNDARY/GAUGE ISOLATION
+date=2026-07-29
+base_commit=1c1ccef
+scope=fixture-only controls
+production_equations_changed=false
+production_boundary_changed=false
+gp_initializer_changed=false
+baseline_rerun=false
+
+DOMAIN
+Lz=8
+x_in=0.5
+x_out=4.5
+Nx=32
+Nz=64
+dx=dz=0.125
+CFL=0.05
+dt=0.00625
+final_time=8
+
+EXACT-GP EARLY-ABORT DIAGNOSIS
+first_failing_timestep=397
+first_failing_base_time=2.475
+rk_stage=3
+update_in_step=6_of_7
+update_target=stage_predictor
+first_invalid_cell=(1,0)
+cell_x=0.6875
+cell_kind=valid
+region=inner_boundary
+offending_field=hxx
+
+The immediately preceding ghost fill saw:
+radial_noncorner_ghost_cells=384
+radial_periodic_corner_cells=36
+pure_z_ghost_cells=192
+invalid_metric_cells_before_fill=0
+invalid_metric_cells_after_fill=0
+maximum_radial_GP_component_error=0
+valid_cells_overwritten=0
+components_filled=0_through_17
+ordering=Chombo_exchange_then_radial_fill
+
+The 420 initially uninitialized radial/corner ghost cells are invalid before
+the very first fill and all are admissible afterward. On all subsequent
+audited fills, the failure-relevant pre/post counts are zero.
+
+Metric at the failing valid cell immediately before the last ghost fill:
+hxx=2.191128251364e-1
+hxz=-5.158541765836e-15
+hzz=1.364451223612
+hww=1.828887927730
+principal_1=2.191128251364e-1
+principal_2=hxx*hzz-hxz^2=2.989687623663e-1
+principal_3=principal_2*hww=5.467803602603e-1
+determinant=principal_3*hww=1.000000000000
+
+Immediately after the last ghost fill every listed value is bitwise
+unchanged. After the RK stage-3 predictor update and before cleanup:
+hxx=-3.539596892038e-2
+hxz=-6.708062828742e-15
+hzz=1.531299585899
+hww=2.100563873675
+principal_1=-3.539596892038e-2
+principal_2=-5.420183255026e-2
+principal_3=-1.138544113421e-1
+determinant=-2.391584633237e-1
+
+The failure is therefore created by a valid-cell RK update in the inner
+radial band. It does not begin in a ghost, at the outer boundary, or in a
+radial-periodic corner. The exact-GP policy already has the intended
+ownership and was not repaired.
+
+TRUE FROZEN-GAUGE CONTROL
+policy=fixture-only BasicRHSCompute pre-store specialization
+radial_boundary=provisional
+direct_target_d4_evaluations_per_cell_stage=1
+lapse_RHS=0
+shift_x_RHS=shift_z_RHS=0
+B_x_RHS=B_z_RHS=0
+Theta_frozen=false
+Gamma_x_frozen=Gamma_z_frozen=false
+lapse_maximum_drift=0
+shift_x_maximum_drift=0
+shift_z_maximum_drift=0
+B_x_maximum_drift=0
+B_z_maximum_drift=0
+verification_tolerance=1e-14
+result=completed_to_t8
+
+SELECTED TIME SERIES
+t state_max state_L2 max_variable location H_max H_L2 Mx_max Mx_L2 Mz_max Mz_L2
+0 0 0 chi inner 1.746e-14 1.708e-14 3.053e-1 5.572e-2 6.632e-16 2.048e-16
+1 8.044e-2 4.978e-3 K inner 4.589e-1 9.542e-2 1.597e-1 3.520e-2 1.304e-14 4.476e-15
+2 9.652e-2 6.703e-3 K inner 4.056e-1 8.800e-2 1.558e-1 3.600e-2 2.406e-14 7.233e-15
+3 1.273e-1 8.690e-3 Axx inner 2.881e-1 7.265e-2 1.264e-1 3.296e-2 1.271e-14 5.182e-15
+4 3.299e-1 3.705e-2 GammaX outer 3.074e-1 6.588e-2 1.041e-1 4.266e-2 2.631e-14 8.021e-15
+5 5.034e-1 1.161e-1 hxx bulk 4.918e-1 1.179e-1 2.027e-1 1.065e-1 2.988e-14 1.168e-14
+6 1.157 2.957e-1 Axx inner 3.044 7.275e-1 1.435 4.863e-1 6.817e-14 2.445e-14
+7 3.231 4.339e-1 K inner 1.458 3.073e-1 7.391e-1 2.110e-1 3.316e-14 1.017e-14
+8 3.409 4.840e-1 GammaX inner 9.527e-1 2.111e-1 3.149e-1 9.738e-2 3.258e-14 1.331e-14
+
+At t=8, H, Mx, and Mz maxima are all at the inner boundary. The state maximum
+is GammaX at the inner boundary. The t=0 Mx value is the finite-resolution GP
+constraint residual and not state drift.
+
+FINAL DRIFT BY STORED VARIABLE
+variable maximum L2 maximum_location
+chi 7.103064444962e-1 4.854501866860e-1 inner_boundary
+hxx 1.297365205901 8.607007510121e-1 bulk
+hxz 1.039499445979e-13 9.028236472084e-14 bulk
+hzz 8.321444482646e-1 5.964407724845e-1 inner_boundary
+hww 1.905608667951 5.194946098809e-1 inner_boundary
+K 3.201492487522 1.013708648304 inner_boundary
+Axx 1.827728751838 4.551384593821e-1 inner_boundary
+Axz 3.642287300219e-14 2.717394395282e-14 bulk
+Azz 9.057489896849e-1 2.860412105634e-1 inner_boundary
+Aww 1.120227952017 3.158449815683e-1 inner_boundary
+Theta 3.491950799319e-1 2.714896118429e-1 bulk
+GammaX 3.408889753831 1.060488687909 inner_boundary
+GammaZ 4.228518007681e-13 9.405145153755e-14 inner_boundary
+lapse 0 0 inner_boundary
+shiftX 0 0 inner_boundary
+shiftZ 0 0 inner_boundary
+Bx 0 0 inner_boundary
+Bz 0 0 inner_boundary
+
+ALGEBRAIC AND Z-INDEPENDENCE CHECKS AT T=8
+determinant_max=4.440892098501e-16
+determinant_L2=2.490279988461e-16
+determinant_max_location=bulk
+weighted_trace_max=5.551115123126e-17
+weighted_trace_L2=2.333831747142e-17
+weighted_trace_max_location=inner_boundary
+maximum_z_span=0
+maximum_nonzero_Fourier=2.794362180825e-16
+
+DRIFT CROSSINGS
+threshold reused_D7_baseline true_frozen_gauge
+1e-3 0.25_at_retained_cadence 0.025
+1e-2 0.25_at_retained_cadence 0.05
+1e-1 6.0 2.225
+1 7.75 5.9
+
+The baseline's retained cadence is 0.25, so its two smallest crossings are
+not compared to the 0.025-cadence D8 samples.
+
+ROLLING WIDTH-ONE LOG SLOPES
+metric interval slope standard_error R2
+state 5-6 0.741482 0.012031 0.989836
+state 6-7 1.015510 0.051765 0.907989
+state 7-8 0.044005 0.016580 0.152994
+H 5-6 2.022277 0.028878 0.992110
+H 6-7 -0.620664 0.098887 0.502515
+H 7-8 0.643482 0.262475 0.133532
+Mx 5-6 2.064058 0.020955 0.995996
+Mx 6-7 -0.518640 0.107271 0.374759
+Mx 7-8 0.272622 0.225961 0.035981
+Mz 5-6 0.905908 0.058888 0.858517
+Mz 6-7 -1.931994 0.184173 0.738329
+Mz 7-8 -0.708028 0.112273 0.504883
+
+The small final state slope reflects saturation/turnover only after drift is
+already O(1); it is not a cure under the D8 definition.
+
+COMBINED CONTROL
+boundary=exact_GP_radial_ghosts
+gauge=true_frozen
+result=invalid_reduced_metric_before_completion
+last_completed_step_time_in_log=2.35625
+wall_seconds=6.15
+peak_RSS_kB=10504
+
+RUN ACCOUNTING AND PERFORMANCE
+reused_D7_baseline_evolutions=1
+reused_baseline_rerun=false
+early_abort_diagnostic_attempts=1
+completed_D8_evolutions=1
+optional_combined_attempts=1
+completed_evolution_cap=3
+true_frozen_wall_seconds=24.71
+true_frozen_peak_RSS_kB=11076
+exact_abort_diagnostic_wall_seconds=7.93
+exact_abort_diagnostic_peak_RSS_kB=12132
+total_observed_wall_seconds=38.79
+maximum_observed_peak_RSS_kB=12132
+
+CLASSIFICATION
+NEITHER_CONTROL_CURES — CORE_RADIAL_EVOLUTION_UNRESOLVED
+
+Exact-GP radial ghosts fail sooner than the reused provisional-boundary
+baseline, and true gauge freezing advances rather than delays the 0.1 drift
+crossing. Their combination also loses metric admissibility. Thus neither
+the provisional boundary alone nor the live gauge alone explains or cures
+the instability. No GL interpretation or k-scan resumption follows.

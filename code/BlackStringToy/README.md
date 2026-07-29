@@ -228,6 +228,26 @@ cleanup errors below `8.89e-16`. These mixed and incomplete isolations give
 the bounded classification `MULTIPLE_OR_UNRESOLVED`; spatial sensitivity is
 the strongest clue, not a unique root-cause identification.
 
+D8 resolves the two incomplete D7 isolation seams without changing
+production equations or boundaries. The exact-GP diagnostic finds its first
+invalid metric at timestep 397, RK stage 3's predictor (`t=2.475`), in valid
+inner cell `(1,0)`: `hxx` changes from `0.2191` before/after the preceding
+ghost fill to `-0.03540` after the RK update, taking the determinant from
+`1` to `-0.2392`. The audited fill uses Chombo exchange for pure-`z` ghosts,
+then fills 384 radial ghosts and 36 radial-periodic corners in all 18
+components with zero GP error and no valid-cell overwrite. Thus the abort is
+not an exact-GP wiring bug.
+
+The true frozen-gauge fixture specialization zeroes only the lapse, shift,
+and `B^i` RHS rows after the unchanged direct target-`d=4` evaluation;
+`Theta` and `Gamma^i` stay live. All five frozen slots have exactly zero
+measured drift, but the provisional-boundary control crosses drift `0.1` at
+`t=2.225`, reaches `3.4089` by `t=8`, and remains inner-boundary dominated.
+The optional exact-GP/frozen-gauge combination also becomes inadmissible near
+`t=2.36`. D8 therefore classifies the source as
+`NEITHER_CONTROL_CURES — CORE_RADIAL_EVOLUTION_UNRESOLVED`. Neither a GL
+interpretation nor resumption of the `k` scan follows.
+
 Locked upstream `BoundaryConditions.cpp` dynamically allocates three
 `std::vector<int>` component lists per boundary-driver invocation. The
 boundary `Box` objects themselves are stack objects. This is upstream

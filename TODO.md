@@ -100,6 +100,13 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   available zero-coefficient gauge parameters leave `B^i` evolving. Record
   the bounded result as `MULTIPLE_OR_UNRESOLVED`, and keep the `k` scan
   suspended.
+- [x] Complete D8 boundary/gauge isolation. Audit the exact-GP fill as
+  radial-only plus corners after Chombo exchange, with all 18 slots
+  preserved, zero GP error, and no valid overwrite. Localize its genuine
+  abort to a valid inner cell at timestep 397/RK stage 3. Add a fixture-only
+  true frozen-gauge RHS policy; all lapse/shift/`B` drift is exactly zero but
+  rapid radial growth remains, and the combined control also fails. Record
+  `NEITHER_CONTROL_CURES — CORE_RADIAL_EVOLUTION_UNRESOLVED`.
 - [ ] Establish a provisional `k_-<k_+` sign bracket in a separately
   authorized follow-up. The current evidence supplies no late-time negative
   endpoint and supports no conclusion about whether `k_cr r0` is above or

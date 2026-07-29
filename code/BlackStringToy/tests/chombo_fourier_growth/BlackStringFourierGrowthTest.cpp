@@ -321,6 +321,8 @@ template <int mode_number>
 class FourierGrowthLevel : public BlackStringToyLevel
 {
     friend class DefaultLevelFactory<FourierGrowthLevel<mode_number>>;
+
+  protected:
     using BlackStringToyLevel::BlackStringToyLevel;
 
   public:
@@ -458,6 +460,18 @@ class FourierGrowthLevel : public BlackStringToyLevel
     int compact_cells() const { return m_problem_domain.domainBox().size(1); }
 
     double spacing() const { return m_dx; }
+
+    double maximum_component_drift(const int component) const
+    {
+        double result = 0.0;
+        for (const auto &sample : m_samples)
+        {
+            result = std::max(
+                result,
+                sample.variable_maximum[static_cast<std::size_t>(component)]);
+        }
+        return result;
+    }
 
   protected:
     void fillIntralevelGhosts(const Interval &components) override
@@ -903,12 +917,408 @@ class FourierGrowthLevel : public BlackStringToyLevel
     bool m_finite = true;
 };
 
+struct D8MetricSnapshot
+{
+    double hxx = 0.0;
+    double hxz = 0.0;
+    double hzz = 0.0;
+    double hww = 0.0;
+    double principal_1 = 0.0;
+    double principal_2 = 0.0;
+    double principal_3 = 0.0;
+    double determinant = 0.0;
+};
+
+D8MetricSnapshot d8_metric_snapshot(const FArrayBox &state,
+                                    const IntVect &point)
+{
+    D8MetricSnapshot result;
+    result.hxx = state(point, c_hxx);
+    result.hxz = state(point, c_hxz);
+    result.hzz = state(point, c_hzz);
+    result.hww = state(point, c_hww);
+    result.principal_1 = result.hxx;
+    result.principal_2 =
+        result.hxx * result.hzz - result.hxz * result.hxz;
+    result.principal_3 = result.principal_2 * result.hww;
+    result.determinant = result.principal_3 * result.hww;
+    return result;
+}
+
+bool d8_admissible_metric(const D8MetricSnapshot &metric)
+{
+    return std::isfinite(metric.hxx) && std::isfinite(metric.hxz) &&
+           std::isfinite(metric.hzz) && std::isfinite(metric.hww) &&
+           metric.principal_1 > 0.0 && metric.principal_2 > 0.0 &&
+           metric.principal_3 > 0.0 && metric.determinant > 0.0 &&
+           std::isfinite(metric.determinant);
+}
+
+const char *d8_offending_metric_field(const D8MetricSnapshot &metric)
+{
+    if (!std::isfinite(metric.hxx))
+        return "hxx_nonfinite";
+    if (!std::isfinite(metric.hxz))
+        return "hxz_nonfinite";
+    if (!std::isfinite(metric.hzz))
+        return "hzz_nonfinite";
+    if (!std::isfinite(metric.hww))
+        return "hww_nonfinite";
+    if (!(metric.principal_1 > 0.0))
+        return "hxx_principal_minor";
+    if (!(metric.principal_2 > 0.0))
+        return "visible_2x2_principal_minor";
+    if (!(metric.principal_3 > 0.0))
+        return "first_hidden_principal_minor";
+    return "determinant";
+}
+
+void d8_print_metric(const char *label, const D8MetricSnapshot &metric)
+{
+    std::cout << std::scientific << std::setprecision(12)
+              << "D8_METRIC label=" << label << " hxx=" << metric.hxx
+              << " hxz=" << metric.hxz << " hzz=" << metric.hzz
+              << " hww=" << metric.hww
+              << " principal_1=" << metric.principal_1
+              << " principal_2=" << metric.principal_2
+              << " principal_3=" << metric.principal_3
+              << " determinant=" << metric.determinant << '\n';
+}
+
+const char *d8_point_region(const IntVect &point, const Box &domain)
+{
+    const bool radial_low = point[0] < domain.smallEnd(0);
+    const bool radial_high = point[0] > domain.bigEnd(0);
+    const bool compact_ghost =
+        point[1] < domain.smallEnd(1) || point[1] > domain.bigEnd(1);
+    if ((radial_low || radial_high) && compact_ghost)
+        return "radial_periodic_corner";
+    if (radial_low)
+        return "inner_radial_ghost";
+    if (radial_high)
+        return "outer_radial_ghost";
+    if (compact_ghost)
+        return "pure_z_ghost";
+    const int radial = point[0] - domain.smallEnd(0);
+    return maximum_region(radial, domain.size(0));
+}
+
 template <int mode_number>
+class D8ExactGPAbortLevel : public FourierGrowthLevel<mode_number>
+{
+    friend class DefaultLevelFactory<D8ExactGPAbortLevel<mode_number>>;
+    using Base = FourierGrowthLevel<mode_number>;
+
+  protected:
+    using Base::Base;
+
+    void fillBdyGhosts(
+        GRLevelData &state,
+        const Interval &components = Interval(0, NUM_VARS - 1)) override
+    {
+        const Box domain = this->m_problem_domain.domainBox();
+        ObjectAudit &object = audit_for(state, domain);
+        std::vector<ValidState> valid_before;
+        std::size_t invalid_before = 0;
+        std::size_t invalid_after = 0;
+        std::size_t radial_ghost_cells = 0;
+        std::size_t radial_corner_cells = 0;
+        std::size_t pure_z_ghost_cells = 0;
+        double maximum_radial_gp_error = 0.0;
+
+        const DataIterator iterator = state.dataIterator();
+        for (int ibox = 0; ibox < iterator.size(); ++ibox)
+        {
+            const DataIndex data_index = iterator[ibox];
+            const FArrayBox &fab = state[data_index];
+            const Box valid = this->m_grids[data_index] & domain;
+            for (BoxIterator bit(valid); bit.ok(); ++bit)
+            {
+                ValidState saved;
+                saved.point = bit();
+                for (int component = 0; component < NUM_VARS; ++component)
+                    saved.values[static_cast<std::size_t>(component)] =
+                        fab(saved.point, component);
+                valid_before.push_back(saved);
+                object.before[valid_index(saved.point, domain)] =
+                    d8_metric_snapshot(fab, saved.point);
+            }
+            for (BoxIterator bit(fab.box()); bit.ok(); ++bit)
+            {
+                if (!d8_admissible_metric(d8_metric_snapshot(fab, bit())))
+                    ++invalid_before;
+            }
+        }
+
+        BlackStringToyLevel::fillBdyGhosts(state, components);
+
+        std::size_t valid_cursor = 0;
+        for (int ibox = 0; ibox < iterator.size(); ++ibox)
+        {
+            const DataIndex data_index = iterator[ibox];
+            const FArrayBox &fab = state[data_index];
+            const Box valid = this->m_grids[data_index] & domain;
+            for (BoxIterator bit(valid); bit.ok(); ++bit)
+            {
+                const ValidState &saved = valid_before[valid_cursor++];
+                for (int component = 0; component < NUM_VARS; ++component)
+                {
+                    if (fab(saved.point, component) !=
+                        saved.values[static_cast<std::size_t>(component)])
+                        object.valid_overwritten = true;
+                }
+                object.after[valid_index(saved.point, domain)] =
+                    d8_metric_snapshot(fab, saved.point);
+            }
+            for (BoxIterator bit(fab.box()); bit.ok(); ++bit)
+            {
+                const IntVect point = bit();
+                const auto metric = d8_metric_snapshot(fab, point);
+                if (!d8_admissible_metric(metric))
+                    ++invalid_after;
+                if (domain.contains(point))
+                    continue;
+                const bool radial_ghost =
+                    point[0] < domain.smallEnd(0) ||
+                    point[0] > domain.bigEnd(0);
+                const bool compact_ghost =
+                    point[1] < domain.smallEnd(1) ||
+                    point[1] > domain.bigEnd(1);
+                if (!radial_ghost)
+                {
+                    ++pure_z_ghost_cells;
+                    continue;
+                }
+                if (compact_ghost)
+                    ++radial_corner_cells;
+                else
+                    ++radial_ghost_cells;
+                const double x =
+                    BlackStringCoordinates::cell_centered<double>(
+                        point[0], this->m_dx,
+                        this->m_p.coordinate_offset()[0]);
+                const auto background =
+                    BlackStringGPPointwiseInitialData::make_pointwise_state(
+                        this->m_p.r0, x);
+                for (int component = 0; component < NUM_VARS; ++component)
+                    maximum_radial_gp_error =
+                        std::max(maximum_radial_gp_error,
+                                 std::abs(fab(point, component) -
+                                          background[static_cast<std::size_t>(
+                                              component)]));
+            }
+        }
+        ++m_ghost_fill_calls;
+        object.has_fill = true;
+        object.invalid_before = invalid_before;
+        object.invalid_after = invalid_after;
+        object.maximum_radial_gp_error = maximum_radial_gp_error;
+        if (m_ghost_fill_calls == 1)
+        {
+            std::cout << "D8_GHOST_AUDIT fill=1"
+                      << " components_begin=" << components.begin()
+                      << " components_end=" << components.end()
+                      << " invalid_metric_cells_before=" << invalid_before
+                      << " invalid_metric_cells_after=" << invalid_after
+                      << " radial_ghost_cells=" << radial_ghost_cells
+                      << " radial_corner_cells=" << radial_corner_cells
+                      << " pure_z_ghost_cells=" << pure_z_ghost_cells
+                      << " valid_overwritten="
+                      << (object.valid_overwritten ? 1 : 0)
+                      << " maximum_radial_gp_error="
+                      << maximum_radial_gp_error
+                      << " ordering=chombo_exchange_then_radial_fill\n";
+        }
+    }
+
+  private:
+    struct ValidState
+    {
+        IntVect point;
+        std::array<double, NUM_VARS> values{};
+    };
+
+    struct ObjectAudit
+    {
+        const GRLevelData *identity = nullptr;
+        std::vector<D8MetricSnapshot> before;
+        std::vector<D8MetricSnapshot> after;
+        bool has_fill = false;
+        bool valid_overwritten = false;
+        std::size_t invalid_before = 0;
+        std::size_t invalid_after = 0;
+        double maximum_radial_gp_error = 0.0;
+    };
+
+    static std::size_t valid_index(const IntVect &point, const Box &domain)
+    {
+        const int compact = point[1] - domain.smallEnd(1);
+        const int radial = point[0] - domain.smallEnd(0);
+        return static_cast<std::size_t>(radial * domain.size(1) + compact);
+    }
+
+    ObjectAudit &audit_for(GRLevelData &state, const Box &domain)
+    {
+        for (auto &audit : m_object_audits)
+            if (audit.identity == &state)
+                return audit;
+        ObjectAudit audit;
+        audit.identity = &state;
+        const auto cells =
+            static_cast<std::size_t>(domain.size(0) * domain.size(1));
+        audit.before.resize(cells);
+        audit.after.resize(cells);
+        m_object_audits.push_back(audit);
+        return m_object_audits.back();
+    }
+
+    const ObjectAudit *find_audit(const GRLevelData &state) const
+    {
+        for (const auto &audit : m_object_audits)
+            if (audit.identity == &state)
+                return &audit;
+        return nullptr;
+    }
+
+    void specificUpdateODE(GRLevelData &solution, const GRLevelData &rhs,
+                           const Real dt) override
+    {
+        this->instrumentation().record_update();
+        (void)rhs;
+        ++m_update_calls;
+        const Box domain = this->m_problem_domain.domainBox();
+        const DataIterator iterator = solution.dataIterator();
+        for (int ibox = 0; ibox < iterator.size(); ++ibox)
+        {
+            const DataIndex data_index = iterator[ibox];
+            const FArrayBox &fab = solution[data_index];
+            const Box valid = this->m_grids[data_index] & domain;
+            for (BoxIterator bit(valid); bit.ok(); ++bit)
+            {
+                const IntVect point = bit();
+                const auto failed = d8_metric_snapshot(fab, point);
+                if (d8_admissible_metric(failed))
+                    continue;
+
+                const std::size_t update_in_step =
+                    (m_update_calls - 1) % updates_per_step + 1;
+                const std::size_t timestep =
+                    (m_update_calls - 1) / updates_per_step + 1;
+                const int rk_stage =
+                    update_in_step <= 2
+                        ? 1
+                        : (update_in_step <= 4
+                               ? 2
+                               : (update_in_step <= 6 ? 3 : 4));
+                const char *target =
+                    update_in_step == 2 || update_in_step == 4 ||
+                            update_in_step == 6
+                        ? "stage_predictor"
+                        : "new_solution_accumulator";
+                std::cout << "D8_EXACT_GP_ABORT"
+                          << " first_failing_timestep=" << timestep
+                          << " rk_stage=" << rk_stage
+                          << " update_in_step=" << update_in_step
+                          << " update_target=" << target
+                          << " base_time=" << this->m_time
+                          << " full_dt=" << this->m_dt
+                          << " update_dt=" << dt << '\n'
+                          << "D8_INVALID_CELL index_x=" << point[0]
+                          << " index_z=" << point[1]
+                          << " valid_cell=1 ghost_cell=0 region="
+                          << d8_point_region(point, domain)
+                          << " offending_field="
+                          << d8_offending_metric_field(failed) << '\n';
+                const ObjectAudit *audit = find_audit(solution);
+                if (audit != nullptr && audit->has_fill)
+                {
+                    const auto index = valid_index(point, domain);
+                    d8_print_metric("immediately_before_last_ghost_fill",
+                                    audit->before[index]);
+                    d8_print_metric("immediately_after_last_ghost_fill",
+                                    audit->after[index]);
+                    std::cout
+                        << "D8_GHOST_STATE_AT_ABORT"
+                        << " invalid_before=" << audit->invalid_before
+                        << " invalid_after=" << audit->invalid_after
+                        << " valid_overwritten="
+                        << (audit->valid_overwritten ? 1 : 0)
+                        << " maximum_radial_gp_error="
+                        << audit->maximum_radial_gp_error << '\n';
+                }
+                d8_print_metric("after_rk_update_before_cleanup", failed);
+                std::cout.flush();
+                std::exit(86);
+            }
+        }
+        BoxLoops::loop(
+            BlackStringLive::CleanupCompute(this->m_p.min_chi,
+                                            this->m_p.min_lapse),
+            solution, solution, EXCLUDE_GHOST_CELLS, disable_simd());
+        this->instrumentation().record_cleanup();
+    }
+
+    static constexpr std::size_t updates_per_step = 7;
+    std::vector<ObjectAudit> m_object_audits;
+    std::size_t m_ghost_fill_calls = 0;
+    std::size_t m_update_calls = 0;
+};
+
+struct D8FrozenGaugePreStorePolicy
+{
+    void operator()(BlackStringReducedVars::Variables<double> &rhs) const
+    {
+        rhs.gauge.lapse = 0.0;
+        rhs.gauge.shift = {0.0, 0.0};
+        rhs.gauge.B = {0.0, 0.0};
+    }
+};
+
+template <int mode_number>
+class D8FrozenGaugeLevel : public FourierGrowthLevel<mode_number>
+{
+    friend class DefaultLevelFactory<D8FrozenGaugeLevel<mode_number>>;
+    using Base = FourierGrowthLevel<mode_number>;
+
+  protected:
+    using Base::Base;
+
+  private:
+    void specificEvalRHS(GRLevelData &solution, GRLevelData &rhs,
+                         const double time) override
+    {
+        this->instrumentation().record_rhs_after_framework_refresh();
+        (void)time;
+        using FrozenCompute = BlackStringLive::BasicRHSCompute<
+            BlackStringLive::DefaultInputPolicy,
+            BlackStringLive::DefaultEvaluationPolicy,
+            D8FrozenGaugePreStorePolicy>;
+        BoxLoops::loop(
+            FrozenCompute(this->m_p.r0, this->m_dx,
+                          this->m_p.coordinate_offset(), this->m_p.gauge,
+                          this->m_p.fixed_lapse_source),
+            solution, rhs, EXCLUDE_GHOST_CELLS, disable_simd());
+        if (this->m_p.physical_radial_boundaries)
+        {
+            BlackStringPerturbativeRadialBoundary::apply_outer_rhs(
+                solution, rhs, this->m_problem_domain, this->m_p.r0,
+                this->m_dx, this->m_p.coordinate_offset(),
+                this->m_p.outer_sommerfeld_speed,
+                Interval(0, c_GammaZ));
+            this->instrumentation().record_outer_radiative_rhs();
+        }
+    }
+};
+
+template <int mode_number,
+          template <int> class level_template = FourierGrowthLevel>
 int run_case(SimulationParameters &parameters, const char *mode_name)
 {
     constexpr int secondary_mode_number = mode_number == 1 ? 2 : 1;
+    const std::string mode(mode_name);
     const bool exact_gp_control =
-        std::string(mode_name) == "d7_exact_gp";
+        mode == "d7_exact_gp" || mode == "d8_exact_gp" ||
+        mode == "d8_exact_abort" || mode == "d8_combined";
     if (exact_gp_control)
     {
         require(parameters.background_preserving_gp_radial_ghosts &&
@@ -928,7 +1338,7 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
             "growth fixture must remain serial level zero");
 
     GRAMR amr;
-    using Level = FourierGrowthLevel<mode_number>;
+    using Level = level_template<mode_number>;
     DefaultLevelFactory<Level> factory(amr, parameters);
     setupAMRObject(amr, factory);
     const Vector<AMRLevel *> levels = amr.getAMRLevels();
@@ -988,6 +1398,28 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
             "radial policy performed a duplicate periodic exchange");
     require(counts.diagnostic_evaluations == level->samples().size(),
             "diagnostic cadence count differs from collected samples");
+    if (mode == "d8_frozen_gauge" || mode == "d8_combined")
+    {
+        constexpr double frozen_tolerance = 1.0e-14;
+        for (const int component :
+             {c_lapse, c_shiftX, c_shiftZ, c_Bx, c_Bz})
+        {
+            require(level->maximum_component_drift(component) <=
+                        frozen_tolerance,
+                    "D8 frozen-gauge slot changed during evolution");
+        }
+        std::cout << "D8_FROZEN_GAUGE_CHECK"
+                  << " lapse_max="
+                  << level->maximum_component_drift(c_lapse)
+                  << " shift_x_max="
+                  << level->maximum_component_drift(c_shiftX)
+                  << " shift_z_max="
+                  << level->maximum_component_drift(c_shiftZ)
+                  << " B_x_max=" << level->maximum_component_drift(c_Bx)
+                  << " B_z_max=" << level->maximum_component_drift(c_Bz)
+                  << " tolerance=" << frozen_tolerance
+                  << " theta_frozen=0 gamma_frozen=0\n";
+    }
 
     const int radial_cells = level->radial_cells();
     const int compact_cells = level->compact_cells();
@@ -1053,7 +1485,10 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
                   << " Mx=" << sample.constraints[c_MomX]
                   << " Mz=" << sample.constraints[c_MomZ]
                   << " state_drift=" << sample.state_drift << '\n';
-        if (std::string(mode_name).rfind("d7_", 0) == 0)
+        const std::string diagnostic_prefix =
+            std::string(mode_name).rfind("d8_", 0) == 0 ? "D8" : "D7";
+        if (diagnostic_prefix == "D8" ||
+            std::string(mode_name).rfind("d7_", 0) == 0)
         {
             const auto maximum_variable =
                 static_cast<int>(std::distance(
@@ -1072,7 +1507,7 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
                         sample.variable_fourier_amplitude.begin(),
                         sample.variable_fourier_amplitude.end())));
             std::cout
-                << "D7_SAMPLE variant=" << mode_name
+                << diagnostic_prefix << "_SAMPLE variant=" << mode_name
                 << " t=" << sample.time
                 << " state_max=" << sample.state_drift
                 << " state_l2=" << sample.state_l2
@@ -1126,7 +1561,7 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
             {
                 const auto slot = static_cast<std::size_t>(component);
                 std::cout
-                    << "D7_VARIABLE variant=" << mode_name
+                    << diagnostic_prefix << "_VARIABLE variant=" << mode_name
                     << " t=" << sample.time << " slot=" << component
                     << " name=" << UserVariables::variable_names[slot]
                     << " maximum=" << sample.variable_maximum[slot]
@@ -1225,7 +1660,8 @@ int main(int argc, char *argv[])
     {
         fail("usage: BlackStringFourierGrowthTest <params> "
              "<unstable|stable|scan|transient-low|transient-high|"
-             "d7-exact-gp|d7-frozen-gauge|d7-half-cfl|d7-fine> "
+             "d7-exact-gp|d7-frozen-gauge|d7-half-cfl|d7-fine|"
+             "d8-exact-abort|d8-exact-gp|d8-frozen-gauge|d8-combined> "
              "<control|seeded|legacy-gammaz> <epsilon>");
     }
     const std::string kind(argv[3]);
@@ -1308,7 +1744,34 @@ int main(int argc, char *argv[])
                 "D7 controls must remain unperturbed");
         return run_case<1>(parameters, "d7_fine");
     }
+    if (mode == "d8-exact-abort")
+    {
+        require(run_configuration.kind == RunKind::control,
+                "D8 controls must remain unperturbed");
+        return run_case<1, D8ExactGPAbortLevel>(parameters,
+                                                "d8_exact_abort");
+    }
+    if (mode == "d8-exact-gp")
+    {
+        require(run_configuration.kind == RunKind::control,
+                "D8 controls must remain unperturbed");
+        return run_case<1>(parameters, "d8_exact_gp");
+    }
+    if (mode == "d8-frozen-gauge")
+    {
+        require(run_configuration.kind == RunKind::control,
+                "D8 controls must remain unperturbed");
+        return run_case<1, D8FrozenGaugeLevel>(parameters,
+                                               "d8_frozen_gauge");
+    }
+    if (mode == "d8-combined")
+    {
+        require(run_configuration.kind == RunKind::control,
+                "D8 controls must remain unperturbed");
+        return run_case<1, D8FrozenGaugeLevel>(parameters, "d8_combined");
+    }
     fail("mode must be unstable, stable, scan, transient-low, or "
          "transient-high, d7-exact-gp, d7-frozen-gauge, d7-half-cfl, or "
-         "d7-fine");
+         "d7-fine, d8-exact-abort, d8-exact-gp, d8-frozen-gauge, or "
+         "d8-combined");
 }

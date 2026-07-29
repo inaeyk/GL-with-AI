@@ -941,6 +941,21 @@ simulation and radiation diagnostics exist.
   `8.89e-16`. The bounded classification is `MULTIPLE_OR_UNRESOLVED`, with
   spatial-discretization sensitivity the strongest surviving clue. No
   perturbed growth is identified as a GL signal.
+- [x] Stage 4AO-D8 boundary/gauge isolation. The exact-GP abort is localized
+  to timestep 397, RK stage 3's predictor at `t=2.475`: valid inner cell
+  `(1,0)` changes from admissible `hxx=0.2191`, `det(h)=1` to
+  `hxx=-0.03540`, `det(h)=-0.2392` after the RK update. Chombo exchanges
+  pure-`z` ghosts first; the exact policy then fills 384 radial ghosts and 36
+  radial-periodic corners across all 18 slots with zero GP error, zero
+  post-fill invalid metrics, and no valid-cell overwrite. The seam was
+  correctly wired and was not repaired. A fixture-only compile-time RHS
+  specialization holds lapse, both shifts, and both `B` slots exactly fixed
+  while leaving `Theta,GammaX,GammaZ` live. With the provisional boundary it
+  still crosses drift `0.1` at `t=2.225` and reaches `3.4089`; the optional
+  exact-GP/frozen-gauge combination also loses metric admissibility near
+  `t=2.36`. The bounded classification is
+  `NEITHER_CONTROL_CURES — CORE_RADIAL_EVOLUTION_UNRESOLVED`. The `k` scan
+  remains suspended and no perturbative growth is identified as a GL mode.
 - [ ] Stage 4AO-D-F sustained unperturbed/perturbed evolution and boundary
   qualification. Converged `k_cr_0`, sustained nonlinear evolution,
   physical radial-boundary acceptance, AMR/MPI qualification,

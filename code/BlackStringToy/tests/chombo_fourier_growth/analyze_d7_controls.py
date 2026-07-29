@@ -37,10 +37,10 @@ def read_control(path: Path) -> ControlData:
     variables: Dict[float, Dict[str, Dict[str, str]]] = {}
     with path.open(encoding="utf-8") as source:
         for line in source:
-            if line.startswith("D7_SAMPLE "):
+            if line.startswith(("D7_SAMPLE ", "D8_SAMPLE ")):
                 parsed = fields(line)
                 samples[float(parsed["t"])] = parsed
-            elif line.startswith("D7_VARIABLE "):
+            elif line.startswith(("D7_VARIABLE ", "D8_VARIABLE ")):
                 parsed = fields(line)
                 time = float(parsed["t"])
                 variables.setdefault(time, {})[parsed["name"]] = parsed
