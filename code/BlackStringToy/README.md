@@ -359,6 +359,40 @@ location to report. D12 is bounded as `NO_CREDIBLE_MODE_PLATEAU`; it does
 not identify a growing or decaying physical mode and does not support a
 critical-wavenumber inference.
 
+D13 removes dependence on natural seed settling with a fixture-only,
+matrix-free action of the real one-step map. For each of `k=pi/4` and
+`k=pi/2`, the action resets valid cells to `U_GP +/- epsilon v`, executes the
+unchanged level-zero `GRAMRLevel::advance` lifecycle (periodic exchange,
+project radial ghosts, four-stage RK, direct target-`d=4` RHS, live gauge,
+fixed lapse source, `ko_sigma=0.3`, outer surface override, and cleanup), and
+Fourier-projects the signed difference back into the requested parity
+sector. Three deterministic starting vectors cover the corrected D12 seed,
+a smooth bulk seed, and an inner-localized seed. The main action uses
+`epsilon=1e-8`; every terminated sequence is repeated at `5e-9`.
+
+Some sequences satisfy the local five-iterate overlap/rate test, but this is
+not independent-seed eigensystem convergence. At `k=pi/4`, the D12 and smooth
+seeds terminate at `(Omega,overlap)=(1.777,0.99921)` and
+`(1.962,0.99913)`, yet their cross-profile overlap is only `0.5846` and
+their rates differ by `9.41%`. At `k=pi/2`, the corresponding values are
+`(1.588,0.99915)` and `(1.920,0.99918)`, but cross overlap is only `0.5572`
+and the rates differ by `17.3%`. Both inner-localized sequences reach the
+78-iteration cap, turn through positive and negative inferred rates, and
+finish concentrated at the first radial cell with about `60-63%` of their
+energy in the first/last three-cell bands. The other profiles peak at
+`x=1.1875` or `2.3125`, so they are also mutually distinct.
+
+The centered responses agree between epsilon values to below `9e-8` in
+normalized profile and `2e-8` in amplification; harmonic leakage is below
+`7e-16`, parity leakage is below `6e-9`, and radial Nyquist fractions are
+below `0.009`. These establish a clean linear single-Fourier-sector action,
+not a physical mode. Raw versus GP-field-scaled norm rate estimates differ
+by `1.63-45.1%`, normalized Hamiltonian response reaches `0.808-4.11`, and
+the nonzero component amplifications are not common. No pair of independent
+seeds passes the required profile/rate gate. D13 is therefore classified
+`NONNORMAL_OR_NO_CONVERGED_MODE`; it does not identify either candidate as
+the physical GL mode and supplies no `k_cr r0` inference.
+
 Locked upstream `BoundaryConditions.cpp` dynamically allocates three
 `std::vector<int>` component lists per boundary-driver invocation. The
 boundary `Box` objects themselves are stack objects. This is upstream

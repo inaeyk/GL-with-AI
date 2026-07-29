@@ -1009,6 +1009,18 @@ simulation and radiation diagnostics exist.
   `GammaX`, while `k=pi/2` continues to turn over. Consequently there are no
   accepted three-sample eigenfunctions, and the bounded classification is
   `NO_CREDIBLE_MODE_PLATEAU`. Do not infer `k_cr r0` or resume a scan.
+- [x] Stage 4AO-D13 matrix-free KO-stabilized Fourier tangent probe. A
+  fixture-only centered difference applies the actual level-zero one-step RK
+  map at `k=pi/4,pi/2`, restricts every response to its single-mode parity
+  sector, and starts from the corrected D12, smooth-bulk, and inner-localized
+  vectors. It executes 382 tangent actions (764 signed live steps) with no
+  production change. Epsilon-halving, parity, harmonic, and Nyquist checks
+  pass, but independent seeds do not converge: best cross-seed overlaps are
+  `0.5846` and `0.5572`, with rate differences `9.41%` and `17.3%`.
+  Field-scaled versus raw-norm rates and normalized constraints also fail the
+  physical-mode gate. Classification:
+  `NONNORMAL_OR_NO_CONVERGED_MODE`. Do not label a GL mode or infer
+  `k_cr r0`; keep the Fourier scan suspended.
 - [ ] Stage 4AO-D-F sustained unperturbed/perturbed evolution and boundary
   qualification. Converged `k_cr_0`, sustained nonlinear evolution,
   physical radial-boundary acceptance, AMR/MPI qualification,

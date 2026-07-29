@@ -26,9 +26,15 @@ or the optional exact-GP control. D10 then finds that the live direct
 `rhs_equation` path bypasses the only locked upstream call that adds KO
 dissipation; effective coverage is `0/18`, so the tangent probe stops before
 numerical iteration with `DISSIPATION_PATH_DEFECT_IDENTIFIED`. Sustained
-evolution, physical
-radial-boundary acceptance, a converged threshold, refinement, MPI, broader
-diagnostics, and horizons remain open.
+evolution is subsequently stabilized by the D11 project-owned
+grid-dimension-safe KO helper. D12 still finds no compatible multi-field
+time-domain plateau. D13 then applies the actual KO-stabilized one-step map
+matrix-free at `k=pi/4,pi/2`: epsilon and Fourier-sector checks pass, but
+independent seeds have cross-profile overlaps only `0.5846` and `0.5572` and
+do not share rates or norm/constraint behavior. Its bounded result is
+`NONNORMAL_OR_NO_CONVERGED_MODE`. Physical radial-boundary acceptance, a
+converged threshold, refinement, MPI, broader diagnostics, and horizons
+remain open.
 
 ## Priority rules
 
@@ -401,6 +407,16 @@ records `NO_CREDIBLE_MODE_PLATEAU`, with no accepted radial eigenfunction
 and no critical-wavenumber claim. The physical radial boundary and sustained
 mode-identification items remain open.
 
+D13 also leaves the production path untouched. Its fixture-only centered
+tangent action executes the actual periodic/radial ghost lifecycle, direct
+target-`d=4` RHS, live gauge, fixed source, KO, outer override, RK updates,
+and cleanup, then projects back to one Fourier parity sector. Across three
+seeds per requested wavenumber, local self-overlap is not confirmed by
+independent-seed convergence. Epsilon-halving agrees, but cross-seed profiles,
+raw/field-scaled rates, component amplification, and normalized constraints
+fail the physical-mode gate. The Fourier scan therefore remains suspended
+under `NONNORMAL_OR_NO_CONVERGED_MODE`.
+
 | Priority / order | Adaptation item | GRChombo source to reuse | Project-specific work | Dependency | Acceptance / exit criterion |
 |---|---|---|---|---|---|
 | P0-1 | Reproducible GRChombo/Chombo core lock | Current origin, locked CI, Chombo Make infrastructure | Keep the tracked GRChombo commit and qualified official Chombo commit; disclose that historical SHA/container provenance is unresolved; keep PETSc separate until AHFinder | None | Project lock is detached/clean; four serial DIM2 libraries, real `2/4/4` target probe, and stock compile/smoke checks pass |
@@ -418,6 +434,7 @@ mode-identification items remain open.
 | P2-11 | Fourier perturbation initialization (first level-zero fixture complete; production family open) | Initial-data BoxLoop plus periodic grid | Test-only normalized compact even/odd SO(3)-scalar seed with the one-z slots on sine | P1-10 | First parity leakage and bounded linear-amplitude run pass; production parameter family remains open |
 | P2-12 | Fourier amplitude diagnostics (first level-zero fixture complete; AMR output open) | Level-zero storage and reductions | Test-only cosine/sine radial-RMS quadratures of `0.5 log(hww/chi)`, phase-neutral amplitude, and paired controls at cadence eight | P2-11 | Quadrature rotation invariance, leakage, and two-epsilon normalized histories pass; AMR-consistent persistent output remains open |
 | P2-13 | Growth-rate extraction (transient diagnosis complete; physical rate open) | Project fixture analysis | Signed odd/even response, rolling width-`0.5/1.0` log slopes, linearity, constraint, and budgeted transient reporting | P2-12 | `k=pi/4` has a linear late-time instability whose physical identity is unresolved; exploding constraints/control drift forbid a GL identification, D9 shows deeper excision is insufficient, and D10 identifies missing live KO dissipation before modal isolation; no negative plateau, bracket, asymptotic rate, or physical-rate acceptance follows |
+| P2-13a | Matrix-free KO-stabilized mode extraction (bounded D13 probe complete; accepted mode open) | Actual level-zero one-step map plus fixture-only signed projection | Three independent parity-compatible seeds, two epsilon values, raw/scaled norms, profiles, component fractions, and linearized constraints at `k=pi/4,pi/2` | P2-13 and D11 | No independent seed pair converges to one profile/rate; `NONNORMAL_OR_NO_CONVERGED_MODE`, with no GL identity or threshold inference |
 | P2-14 | Production convergence workflow | GRChombo AMR/restart/output machinery | Reproducible multi-resolution parameter sets and comparison tables | P1-10, P2-13 | Background, constraints, perturbations, and rate show documented convergence |
 | P3-15 | String MOTS/horizon adapter | `AHFinder`, `PETScAHSolver`, `AHStringGeometry`, interpolation | Supply target variables, `S2 x S1` geometry, hidden expansion terms, PETSc configuration | P1-7, PETSc source lock | Uniform `x=r0` MOTS recovered with convergent residual; restart supported |
 | P3-16 | `R_H`, minimum radius, and horizon area | AH surface data, interpolation, reductions, `SmallDataIO` | Evaluate `R_H=h sqrt(hww/chi)`, minimum over z, correct string area | P3-15 | Uniform analytic values and perturbed manufactured profiles converge |

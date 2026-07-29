@@ -141,10 +141,17 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   incompatible and the high mode continues to turn over. Record
   `NO_CREDIBLE_MODE_PLATEAU`; there are no accepted radial eigenfunction
   samples and no `k_cr r0` inference.
+- [x] Complete D13's fixture-only matrix-free tangent extraction at
+  `k=pi/4,pi/2`. Apply the real signed one-step RK map from three independent
+  seeds per sector and check two finite-difference amplitudes plus raw and
+  field-scaled norms. The linear/parity checks pass, but no independent seed
+  pair shares a profile and rate; record
+  `NONNORMAL_OR_NO_CONVERGED_MODE`. Keep production unchanged and do not call
+  any sequence a physical GL mode.
 - [ ] Establish a provisional `k_-<k_+` sign bracket in a separately
-  authorized follow-up. The current evidence supplies no late-time negative
-  endpoint and supports no conclusion about whether `k_cr r0` is above or
-  below `0.75`.
+  authorized follow-up only after the D13 nonnormal/no-convergence result is
+  resolved. The current evidence supplies no accepted mode endpoint and
+  supports no conclusion about whether `k_cr r0` is above or below `0.75`.
 - [ ] Stage 4AO-D-F: qualify sustained unperturbed/perturbed evolution,
   boundary-location systematics, and constraint behavior. Keep AMR/MPI,
   growth-rate claims, horizons, PETSc/AHFinder, and final scoring deferred.
