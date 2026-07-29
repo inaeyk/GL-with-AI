@@ -1,0 +1,154 @@
+Stage 4AO-D11 dimension-safe KO restoration
+Date: 2026-07-29
+Starting commit: 9f46737 (clean D10)
+
+IMPLEMENTATION
+- Project-owned helper:
+  code/BlackStringToy/BlackStringKODissipation.hpp
+- Locked upstream-equivalent stencil in each grid direction:
+  sigma/(64 dx) [U(-3)-6U(-2)+15U(-1)-20U(0)+15U(+1)-6U(+2)+U(+3)].
+- Requested grid directions: radial x=0 and compact z=1 only.
+- Coverage: all 18 reduced evolved slots.
+- Fused live order:
+  direct target-d=4 CCZ4 -> gauge rows -> fixed lapse source -> KO ->
+  outer valid-surface RHS override.
+- One existing full-volume BoxLoop, one direct target evaluation per
+  cell/stage, no second evaluation.
+- No generic upstream dissipation wrapper, hidden stride, per-cell
+  allocation, vector, logging, counter, or runtime polymorphism.
+- sigma=0 returns before all stride/stencil access and is bitwise identical
+  to the pre-D11 live RHS in the focused live fixture.
+- Required project parameter ko_sigma is checked finite and nonnegative and
+  is explicit in every real evolution parameter file. Historical fixtures
+  use zero.
+
+SIGMA PROVENANCE
+- sigma_ref=0.3.
+- Locked sources:
+  external/GRChombo/Examples/KerrBH/params_cheap.txt
+  external/GRChombo/Examples/BinaryBH/params_very_cheap.txt
+- The locked SimulationParametersBase default is 0.1; the two inexpensive
+  example configurations explicitly choose 0.3.
+
+ALGEBRAIC/LIVE FIXTURE
+KO_ANNIHILATION constant_max=0 polynomial_degree=5 polynomial_max=0
+KO_ALTERNATING sigma=0.3 dx=0.125 x_slot0=-2.4 z_slot0=-4.8
+  mixed_slot0=-7.2 expected_x_slot0=-2.4 expected_z_slot0=-4.8
+  component_coverage=18/18 sigma_linearity=PASS
+KO_MUTATIONS omit_component=REJECTED reverse_sign=REJECTED
+KO_DIRECTION_AUDIT direction_mask=3 hidden_direction_accesses=0
+  sigma_zero_bitwise=PASS sigma_zero_stride_accesses=0
+KO_LIVE_ORDER direct_target_evaluations=1 gauge_evaluations=1
+  fixed_source_applications=1 ko_additions=1
+  outer_surface_owner=AFTER_VOLUME second_rhs_evaluation=0
+  sigma_zero_old_rhs=BITWISE_PASS
+KO_PARAMETER_VALIDATION negative=REJECTED nonfinite=REJECTED
+BLACKSTRING_KO_DISSIPATION_FIXTURE_PASS
+
+CONTROL POLICY
+- Reused D7 zero-KO baseline; it was not rerun.
+- Original domain: x=[0.5,4.5], Lz=8, CFL=0.05, tf=8.
+- New medium: Nx=32, Nz=64, dx=dz=1/8, dt=0.00625, sigma=0.3.
+- The reference run met the stability gates, so sigma=0.6 was not run.
+- New fine: Nx=48, Nz=96, dx=dz=1/12, dt=1/240,
+  sigma=0.3.
+- New long evolutions: 2. Reused runs: 1. Hard-cap usage: 2/3.
+
+REUSED ZERO-KO BASELINE
+- Final recorded maximum state drift at t=8: 1.969929951638.
+- Recorded medium wall-time range: 24.78--25.36 s.
+- Per-variable/constraint series were not regenerated because D11 forbids
+  rerunning this baseline.
+
+ALL-18 PEAK DRIFTS
+Columns: variable, medium max, medium L2, fine max, fine L2.
+chi       1.402328396591e-02 3.977680448929e-03 7.226694883573e-04 1.276955355086e-04
+hxx       4.291770094722e-02 1.001099040915e-02 6.521928499072e-03 1.457314113161e-03
+hxz       6.860192000000e-16 2.439153000000e-16 1.501826000000e-15 8.800359000000e-16
+hzz       1.622065660709e-02 4.711994937501e-03 8.542310841851e-04 1.557465373764e-04
+hww       2.344508125850e-02 5.044689172384e-03 3.606444961946e-03 7.747115616871e-04
+K         7.179750509641e-02 1.351384323923e-02 1.308379442422e-02 2.171745536968e-03
+Axx       9.262394652455e-02 1.912227596181e-02 1.506191921386e-02 2.787157350622e-03
+Axz       2.581688000000e-15 6.032782000000e-16 5.504400000000e-15 1.176580000000e-15
+Azz       3.006534760918e-02 8.430030283765e-03 3.559314687753e-03 5.949180642963e-04
+Aww       6.047631754645e-02 1.343913969221e-02 9.710080165279e-03 1.794324502016e-03
+Theta     4.335450839163e-02 1.270179488182e-02 6.778553505166e-03 1.395271246526e-03
+GammaX    7.183846649617e-02 1.488294625530e-02 1.155339351722e-02 2.175971560196e-03
+GammaZ    1.452407000000e-15 4.128531000000e-16 3.607733000000e-15 9.941360000000e-16
+lapse     1.401000267762e-02 2.774325939002e-03 2.412399503169e-03 4.301721540756e-04
+shiftX    4.894121997044e-02 1.186822207412e-02 5.932846944177e-03 1.262703342296e-03
+shiftZ    7.554580000000e-16 2.297961000000e-16 1.924514000000e-15 6.116209000000e-16
+Bx        5.858957317617e-02 1.195394312014e-02 9.678473353436e-03 1.776716913569e-03
+Bz        7.571411000000e-16 1.790164000000e-16 1.549990000000e-15 3.372267000000e-16
+
+FINAL GLOBAL METRICS AT t=8
+metric                         medium dx=1/8       fine dx=1/12
+state max                      6.047631754645e-02  9.710080165279e-03
+state L2                       8.975164271328e-03  9.258540854376e-04
+Hamiltonian max                3.035759587480e-01  6.862829426025e-02
+Hamiltonian L2                 9.357463941991e-02  1.529319148688e-02
+Mx max                         1.746251973762e-01  1.846697278468e-02
+Mx L2                          3.585006760151e-02  2.759537024180e-03
+Mz max                         5.293466807351e-15  9.137500000000e-15
+Mz L2                          1.179258193972e-15  2.914050000000e-15
+determinant max                6.661338000000e-16  4.440890000000e-16
+determinant L2                 2.662221000000e-16  2.333230000000e-16
+weighted trace max             8.881784000000e-16  4.440890000000e-16
+weighted trace L2              1.665335000000e-16  1.284480000000e-16
+radial Nyquist amplitude       1.288863847205e-03  1.289555627173e-04
+Nyquist/state-L2 fraction      1.436033712856e-01  1.392828143717e-01
+spurious z span                0                     0
+nonzero z Fourier content      1.445340000000e-16  2.700240000000e-16
+first invalid metric cell      NONE                  NONE
+dominant final error/location  Aww / inner           Aww / inner
+
+DRIFT CROSSINGS AND LATE ROLLING SLOPES
+- Medium crossings: 1e-3 at t=0.025; 1e-2 at t=0.05; 1e-1 NONE;
+  1 NONE.
+- Fine crossings: 1e-3 at t=0.025; 1e-2 at t=0.175; 1e-1 NONE;
+  1 NONE.
+- Medium state log-slope on [7,8]:
+  0.1288311506348, SE 0.000139741902916, R2 0.9999541165.
+- Fine state log-slope on [7,8]:
+  0.09343607188530, SE 0.0001342009439853, R2 0.99991955.
+- Medium Nyquist log-slope on [7,8]:
+  0.1081909042387, SE 0.0000613669, R2 0.99998745.
+- Fine Nyquist log-slope on [7,8]:
+  0.08480883688619, SE 0.000088486, R2 0.99995755.
+- Positive residual secular drift remains, but the rapid zero-KO late
+  instability is absent and both drift and slope improve with refinement.
+
+PERFORMANCE
+- Medium sigma=0.3: wall 26.16 s, peak RSS 11368 KiB (11.10 MiB).
+- Fine sigma=0.3: wall 74.64 s, peak RSS 13736 KiB (13.41 MiB).
+- New-evolution aggregate wall: 100.80 s.
+- Approximate medium whole-fixture overhead relative to the reused zero-KO
+  wall-time midpoint 25.07 s: +4.35%. These short timings are noisy and this
+  is not an isolated kernel benchmark.
+
+ACCEPTANCE
+- No invalid metric through t=8: PASS.
+- No drift-0.1 crossing: PASS.
+- Controlled radial Nyquist content: PASS.
+- Fine resolution does not develop faster instability: PASS.
+- Constraints remain bounded and improve with refinement: PASS.
+
+CLASSIFICATION
+KO_PATH_RESTORED_AND_BACKGROUND_STABILIZED
+
+SCOPE
+- No Fourier/k scan, exact-GP, frozen-gauge, excision, boundary regression,
+  comparison batch, D6--D9, full E2 convergence, AMR/MPI, horizon, or
+  nonlinear evolution was run.
+- Physical radial-boundary acceptance, sustained evolution, renewed
+  perturbations, k_cr r0, AMR/MPI, and horizons remain incomplete.
+- One focused audit is requested after this evidence.
+
+FINAL VALIDATION
+- KO algebraic/live fixture strict build/run: PASS.
+- Positive-sigma controls: PASS (two new runs; optional doubled run skipped).
+- Project warning-negative compile: PASS.
+- Locked GRChombo and Chombo dependency cleanliness: PASS.
+- git diff --check: PASS.
+- staged-diff check: PASS; no staged changes.
+- Focused fixture build and Python-cache artifacts: cleaned.

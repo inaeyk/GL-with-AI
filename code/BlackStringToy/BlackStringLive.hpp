@@ -6,6 +6,7 @@
 #include "FourthOrderDerivatives.hpp"
 
 #include "BlackStringGPInitialData.hpp"
+#include "BlackStringKODissipation.hpp"
 #include "BlackStringTargetCleanupConstraintsSource.hpp"
 
 #include <algorithm>
@@ -187,10 +188,12 @@ class BasicRHSCompute
         input_policy_t input_policy = input_policy_t{},
         evaluation_policy_t evaluation_policy = evaluation_policy_t{},
         pre_store_policy_t pre_store_policy = pre_store_policy_t{},
-        storage_policy_t storage_policy = storage_policy_t{})
+        storage_policy_t storage_policy = storage_policy_t{},
+        const double ko_sigma = 0.0)
         : m_r0(r0), m_dx(dx), m_coordinate_offset(coordinate_offset),
           m_gauge_parameters(gauge_parameters),
           m_fixed_lapse_source_enabled(fixed_lapse_source_enabled),
+          m_ko_sigma(ko_sigma),
           m_input_policy(std::move(input_policy)),
           m_evaluation_policy(std::move(evaluation_policy)),
           m_pre_store_policy(std::move(pre_store_policy)),
@@ -200,6 +203,29 @@ class BasicRHSCompute
         {
             throw std::domain_error("live black-string RHS requires r0>0");
         }
+        if (!std::isfinite(m_dx) || !(m_dx > 0.0))
+        {
+            throw std::domain_error("live black-string RHS requires dx>0");
+        }
+        if (!std::isfinite(m_ko_sigma) || m_ko_sigma < 0.0)
+        {
+            throw std::domain_error(
+                "live black-string RHS requires finite ko_sigma>=0");
+        }
+    }
+
+    // Preserve the compact production construction while leaving the
+    // long-standing fixture-policy argument order source-compatible.
+    BasicRHSCompute(
+        const double r0, const double dx,
+        const std::array<double, CH_SPACEDIM> &coordinate_offset,
+        const GaugeParameters &gauge_parameters,
+        const bool fixed_lapse_source_enabled, const double ko_sigma)
+        : BasicRHSCompute(r0, dx, coordinate_offset, gauge_parameters,
+                          fixed_lapse_source_enabled, input_policy_t{},
+                          evaluation_policy_t{}, pre_store_policy_t{},
+                          storage_policy_t{}, ko_sigma)
+    {
     }
 
     void compute(const Cell<double> cell) const
@@ -209,6 +235,7 @@ class BasicRHSCompute
         auto rhs = m_evaluation_policy(
             input, m_r0, m_gauge_parameters,
             m_fixed_lapse_source_enabled);
+        BlackStringKODissipation::add(rhs, cell, m_dx, m_ko_sigma);
         m_pre_store_policy(rhs);
         m_storage_policy.store(cell, rhs);
     }
@@ -219,6 +246,7 @@ class BasicRHSCompute
     std::array<double, CH_SPACEDIM> m_coordinate_offset;
     GaugeParameters m_gauge_parameters;
     bool m_fixed_lapse_source_enabled;
+    double m_ko_sigma;
     input_policy_t m_input_policy;
     evaluation_policy_t m_evaluation_policy;
     pre_store_policy_t m_pre_store_policy;

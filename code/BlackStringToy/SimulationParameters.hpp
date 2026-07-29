@@ -18,6 +18,7 @@ class SimulationParameters : public ChomboParameters
         pp.load("r_0", r0);
         pp.load("black_string_coordinate_minimum", coordinate_minimum);
         pp.load("fixed_lapse_source", fixed_lapse_source, true);
+        pp.load("ko_sigma", ko_sigma);
         pp.load("constraint_diagnostic_cadence",
                 constraint_diagnostic_cadence, 0);
         pp.load("background_preserving_gp_radial_ghosts",
@@ -59,6 +60,10 @@ class SimulationParameters : public ChomboParameters
     double r0 = 0.0;
     std::array<double, CH_SPACEDIM> coordinate_minimum{};
     bool fixed_lapse_source = true;
+    // Project-owned grid-direction KO coefficient. This is deliberately
+    // separate from locked SimulationParametersBase::sigma because the live
+    // reduced-state path cannot use its target-wide grid-stride wrapper.
+    double ko_sigma = 0.0;
     // 0 disables the constraint loop; positive values run every N steps.
     int constraint_diagnostic_cadence = 0;
     // Diagnostic-only exact GP radial ghost data. This is not an accepted
@@ -104,6 +109,10 @@ class SimulationParameters : public ChomboParameters
         if (min_chi < 0.0 || min_lapse < 0.0)
         {
             MayDay::Error("BlackStringToy positivity floors must be nonnegative");
+        }
+        if (!std::isfinite(ko_sigma) || ko_sigma < 0.0)
+        {
+            MayDay::Error("ko_sigma must be finite and nonnegative");
         }
         if (constraint_diagnostic_cadence < 0)
         {

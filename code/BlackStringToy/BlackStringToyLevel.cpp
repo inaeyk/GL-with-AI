@@ -75,7 +75,7 @@ void BlackStringToyLevel::specificEvalRHS(GRLevelData &a_soln,
     BoxLoops::loop(
         BlackStringLive::RHSCompute(
             m_p.r0, m_dx, m_p.coordinate_offset(), m_p.gauge,
-            m_p.fixed_lapse_source),
+            m_p.fixed_lapse_source, m_p.ko_sigma),
         a_soln, a_rhs, EXCLUDE_GHOST_CELLS, disable_simd());
     if (m_p.physical_radial_boundaries)
     {

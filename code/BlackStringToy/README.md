@@ -297,6 +297,43 @@ production repair. Its bounded classification is
 `DISSIPATION_PATH_DEFECT_IDENTIFIED`; the tangent spectrum and whether the
 observed instability is a bulk or closure-localized mode remain unmeasured.
 
+D11 restores that missing term with the project-owned
+`BlackStringKODissipation` helper. It reproduces the locked upstream
+seven-point stencil
+`[1,-6,15,-20,15,-6,1] sigma/(64 dx)`, but requests only radial stride 0
+and compact stride 1 and applies it to all 18 reduced slots. It is fused into
+the existing live RHS cell compute after the direct target-`d=4` CCZ4,
+gauge, and fixed-source work and before the outer valid-surface override.
+There is still one direct target evaluation and one volume `BoxLoop` per
+stage. No hidden stride, second RHS evaluation, per-cell allocation,
+logging, counter, or runtime-polymorphic dispatch is introduced. The
+`sigma=0` early return is bitwise identical to the pre-D11 live RHS and
+does not access input strides.
+
+`ko_sigma` is a required, finite, nonnegative project parameter. Every real
+evolution parameter file sets it explicitly; historical check fixtures use
+zero. The calibration reference is `sigma_ref=0.3`, the conventional
+positive value in locked GRChombo
+`Examples/KerrBH/params_cheap.txt` and
+`Examples/BinaryBH/params_very_cheap.txt` (the locked base default is
+`0.1`). The algebraic fixture verifies degree-five annihilation, exact
+negative Nyquist damping in both grid directions, mixed-mode additivity,
+all-slot coverage, linear scaling, zero-sigma equivalence, and rejection of
+omitted-slot and reversed-sign mutations.
+
+On `x=[0.5,4.5]`, `L_z=8`, CFL `0.05`, and `t_f=8`, `sigma=0.3` needs no
+doubling: the `dx=1/8` run remains valid with maximum drift `0.06048`,
+Hamiltonian maximum `0.3036`, and radial Nyquist fraction `0.1436`; the
+`dx=1/12` run improves to maximum drift `0.009710`, Hamiltonian maximum
+`0.06863`, and Nyquist fraction `0.1393`. Neither crosses drift `0.1`, both
+retain zero measured `z` span, and neither enters the zero-dissipation
+baseline's rapid late growth. The fine run is smaller and has the lower
+late drift slope (`0.09344` versus `0.12883`). The two new runs took
+`26.16 s`/`11.1 MiB` and `74.64 s`/`13.4 MiB`; the medium timing is about
+`4.35%` above the reused D7 zero-KO timing midpoint and is too small and
+noisy for a precise kernel cost. D11 is therefore classified
+`KO_PATH_RESTORED_AND_BACKGROUND_STABILIZED`.
+
 Locked upstream `BoundaryConditions.cpp` dynamically allocates three
 `std::vector<int>` component lists per boundary-driver invocation. The
 boundary `Box` objects themselves are stack objects. This is upstream

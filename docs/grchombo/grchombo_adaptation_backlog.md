@@ -374,6 +374,22 @@ change, and classification `DISSIPATION_PATH_DEFECT_IDENTIFIED`. A future
 separately authorized repair must establish a grid-dimension-safe
 dissipation owner before tangent-mode identification resumes.
 
+D11 completes that separately authorized repair without changing locked
+GRChombo/Chombo. `BlackStringKODissipation` owns the upstream-equivalent
+seven-point normalization and damping sign, but its fixed loop covers the 18
+project slots and its direction set is exactly the two Chombo grid strides
+`x,z`. The addition is fused into the existing RHS cell compute, between the
+fixed lapse source and outer valid-surface override. Required project
+parameter `ko_sigma` is finite and nonnegative; real evolution files set it
+explicitly. The reference `0.3` is sourced from the locked KerrBH cheap and
+BinaryBH very-cheap example parameters. Algebraic and live zero-sigma gates
+pass, and positive-sigma GP controls through `t=8` at `dx=1/8,1/12` remain
+valid, avoid drift `0.1`, control radial Nyquist content, and improve on
+refinement. The repair is classified
+`KO_PATH_RESTORED_AND_BACKGROUND_STABILIZED`. This clears the KO ownership
+item only; physical radial-boundary acceptance, renewed perturbation work,
+sustained evolution, AMR/MPI, and horizons remain open.
+
 | Priority / order | Adaptation item | GRChombo source to reuse | Project-specific work | Dependency | Acceptance / exit criterion |
 |---|---|---|---|---|---|
 | P0-1 | Reproducible GRChombo/Chombo core lock | Current origin, locked CI, Chombo Make infrastructure | Keep the tracked GRChombo commit and qualified official Chombo commit; disclose that historical SHA/container provenance is unresolved; keep PETSc separate until AHFinder | None | Project lock is detached/clean; four serial DIM2 libraries, real `2/4/4` target probe, and stock compile/smoke checks pass |
@@ -387,7 +403,7 @@ dissipation owner before tangent-mode identification resumes.
 | P1-8 | Fixed GP-holding lapse source (pointwise complete) | Direct locked `MovingPunctureGauge` | Add field-independent `S_alpha=3 sqrt(r0/x^3)` after raw gauge evaluation | P1-7 | Raw lapse is `-3 lambda`, source-adjusted GP lapse vanishes, shift/B are untouched, and the source has zero evolved-field derivative |
 | P1-9 | Compact periodic `z` production domain (E1 complete) | GRChombo periodic boundary/domain parameters, `LevelData::exchange`, and derivative classes | Lock direction 0 radial/direction 1 compact; use real ghost ownership with no translation sign flip | P1-4b | Both seam wraps, multi-box exchange, scalar/one-`z` fourth-order convergence, and nonperiodic radial ghosts pass |
 | P1-9a | `2/4/4` GRAMR grid-dimension adapter (define complete) | `SetupFunctions`, `GRAMRLevel`, `BoundaryConditions`, and Chombo `ProblemDomain`/grid types | Scope grid loops to `CH_SPACEDIM` only in black-string infrastructure; forbid fake hidden coordinates and generic bulk derivative paths | P1-9 | Real `GRAMRLevel::define` succeeds under checked access; radial/periodic ownership is exact; stock DIM3 is unchanged; dependencies stay clean |
-| P1-10 | Unperturbed background evolution (E2 bounded diagnostic and matched-domain convergence complete; production qualification blocked by D10) | `GRAMR`, RK4, ghost fill, boundaries, checkpointing, and grid-safe KO kernels | Configure target grid, source, hidden RHS, diagnostics, conservative validation window, and explicit dissipation ownership | P1-7 through P1-9a | E2 remains valid for its bounded window; D10 requires a reviewed `CH_SPACEDIM` KO repair before sustained qualification, followed by accepted physical radial boundary and restart smoke |
+| P1-10 | Unperturbed background evolution (E2 bounded diagnostic and matched-domain convergence complete; D11 KO path restored and bounded background stabilized) | `GRAMR`, RK4, ghost fill, boundaries, checkpointing, and grid-safe KO kernels | Configure target grid, source, hidden RHS, diagnostics, conservative validation window, and explicit dissipation ownership | P1-7 through P1-9a | D11's reviewed `CH_SPACEDIM` KO repair passes algebraic/live gates and the focused `t=8` controls; sustained qualification still requires an accepted physical radial boundary and restart smoke |
 | P2-11 | Fourier perturbation initialization (first level-zero fixture complete; production family open) | Initial-data BoxLoop plus periodic grid | Test-only normalized compact even/odd SO(3)-scalar seed with the one-z slots on sine | P1-10 | First parity leakage and bounded linear-amplitude run pass; production parameter family remains open |
 | P2-12 | Fourier amplitude diagnostics (first level-zero fixture complete; AMR output open) | Level-zero storage and reductions | Test-only cosine/sine radial-RMS quadratures of `0.5 log(hww/chi)`, phase-neutral amplitude, and paired controls at cadence eight | P2-11 | Quadrature rotation invariance, leakage, and two-epsilon normalized histories pass; AMR-consistent persistent output remains open |
 | P2-13 | Growth-rate extraction (transient diagnosis complete; physical rate open) | Project fixture analysis | Signed odd/even response, rolling width-`0.5/1.0` log slopes, linearity, constraint, and budgeted transient reporting | P2-12 | `k=pi/4` has a linear late-time instability whose physical identity is unresolved; exploding constraints/control drift forbid a GL identification, D9 shows deeper excision is insufficient, and D10 identifies missing live KO dissipation before modal isolation; no negative plateau, bracket, asymptotic rate, or physical-rate acceptance follows |

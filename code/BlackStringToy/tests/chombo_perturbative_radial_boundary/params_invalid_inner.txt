@@ -23,6 +23,7 @@ hi_boundary = 0 0
 r_0 = 1.0
 black_string_coordinate_minimum = 1.0 0.0
 fixed_lapse_source = 1
+ko_sigma = 0.0
 constraint_diagnostic_cadence = 0
 background_preserving_gp_radial_ghosts = 0
 physical_radial_boundaries = 1

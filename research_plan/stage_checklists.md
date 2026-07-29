@@ -984,6 +984,21 @@ simulation and radiation diagnostics exist.
   stop is classified `DISSIPATION_PATH_DEFECT_IDENTIFIED`: no tangent-map
   fixture, iteration, or evolution is run, no production code is repaired,
   and bulk-versus-boundary modal identity remains unresolved.
+- [x] Stage 4AO-D11 dimension-safe KO restoration and focused calibration.
+  The project-owned seven-point helper uses the locked
+  `[1,-6,15,-20,15,-6,1] sigma/(64 dx)` operator, explicitly requests only
+  radial and compact grid strides, and covers all 18 slots in the existing
+  RHS cell pass. Ordering is direct target-`d=4` CCZ4, gauge, fixed lapse
+  source, KO, then the outer valid-surface override. Required project
+  parameter `ko_sigma` is finite/nonnegative and explicit in real evolution
+  files; `sigma_ref=0.3` comes from locked KerrBH cheap and BinaryBH
+  very-cheap examples. Algebraic, mutation, direction, and zero-sigma live
+  equivalence gates pass. At `t_f=8`, sigma `0.3` prevents invalid metrics
+  and drift-`0.1` crossings at `dx=1/8` and `1/12`; maximum drift improves
+  from `0.06048` to `0.009710`, constraints remain bounded, and radial
+  Nyquist content remains controlled. The classification is
+  `KO_PATH_RESTORED_AND_BACKGROUND_STABILIZED`. The zero-KO D7 baseline is
+  reused, not rerun; the optional doubled-sigma run is not needed.
 - [ ] Stage 4AO-D-F sustained unperturbed/perturbed evolution and boundary
   qualification. Converged `k_cr_0`, sustained nonlinear evolution,
   physical radial-boundary acceptance, AMR/MPI qualification,

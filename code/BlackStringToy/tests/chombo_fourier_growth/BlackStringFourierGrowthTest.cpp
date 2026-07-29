@@ -1421,7 +1421,7 @@ class D8FrozenGaugeLevel : public FourierGrowthLevel<mode_number>
         BoxLoops::loop(
             FrozenCompute(this->m_p.r0, this->m_dx,
                           this->m_p.coordinate_offset(), this->m_p.gauge,
-                          this->m_p.fixed_lapse_source),
+                          this->m_p.fixed_lapse_source, this->m_p.ko_sigma),
             solution, rhs, EXCLUDE_GHOST_CELLS, disable_simd());
         if (this->m_p.physical_radial_boundaries)
         {
@@ -1651,7 +1651,10 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
 {
     constexpr int secondary_mode_number = mode_number == 1 ? 2 : 1;
     const std::string mode(mode_name);
-    d9_live_variant = mode.rfind("d9_", 0) == 0 ? mode_name : nullptr;
+    d9_live_variant =
+        mode.rfind("d9_", 0) == 0 || mode.rfind("d11_", 0) == 0
+            ? mode_name
+            : nullptr;
     const bool exact_gp_control =
         mode == "d7_exact_gp" || mode == "d8_exact_gp" ||
         mode == "d8_exact_abort" || mode == "d8_combined" ||
@@ -1735,7 +1738,7 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
             "radial policy performed a duplicate periodic exchange");
     require(counts.diagnostic_evaluations == level->samples().size(),
             "diagnostic cadence count differs from collected samples");
-    if (mode.rfind("d9_", 0) == 0)
+    if (mode.rfind("d9_", 0) == 0 || mode.rfind("d11_", 0) == 0)
     {
         require(level->d9_ghost_audit_complete(),
                 "D9 did not audit its first radial ghost fill");
@@ -1799,6 +1802,7 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
               << " CFL=" << parameters.dt_multiplier
               << " final_time=" << level->samples().back().time
               << " epsilon=" << run_configuration.epsilon
+              << " ko_sigma=" << parameters.ko_sigma
               << " profile_center=" << profile_center
               << " profile_half_width=" << profile_half_width << '\n';
     std::cout << "FOURIER_SEED_CHECK mode=" << mode_name
@@ -2017,7 +2021,8 @@ int main(int argc, char *argv[])
              "<unstable|stable|scan|transient-low|transient-high|"
              "d7-exact-gp|d7-frozen-gauge|d7-half-cfl|d7-fine|"
              "d8-exact-abort|d8-exact-gp|d8-frozen-gauge|d8-combined|"
-             "d9-medium|d9-fine|d9-exact-gp> "
+             "d9-medium|d9-fine|d9-exact-gp|"
+             "d11-ref|d11-double|d11-fine> "
              "<control|seeded|legacy-gammaz> <epsilon>");
     }
     const std::string kind(argv[3]);
@@ -2144,8 +2149,33 @@ int main(int argc, char *argv[])
                 "D9 controls must remain unperturbed");
         return run_case<1, D9ControlLevel>(parameters, "d9_exact_gp");
     }
+    if (mode == "d11-ref")
+    {
+        require(run_configuration.kind == RunKind::control,
+                "D11 controls must remain unperturbed");
+        require(parameters.ko_sigma > 0.0,
+                "D11 reference control requires positive KO");
+        return run_case<1, D9ControlLevel>(parameters, "d11_ref");
+    }
+    if (mode == "d11-double")
+    {
+        require(run_configuration.kind == RunKind::control,
+                "D11 controls must remain unperturbed");
+        require(parameters.ko_sigma > 0.0,
+                "D11 doubled control requires positive KO");
+        return run_case<1, D9ControlLevel>(parameters, "d11_double");
+    }
+    if (mode == "d11-fine")
+    {
+        require(run_configuration.kind == RunKind::control,
+                "D11 controls must remain unperturbed");
+        require(parameters.ko_sigma > 0.0,
+                "D11 fine control requires positive KO");
+        return run_case<1, D9ControlLevel>(parameters, "d11_fine");
+    }
     fail("mode must be unstable, stable, scan, transient-low, or "
          "transient-high, d7-exact-gp, d7-frozen-gauge, d7-half-cfl, or "
          "d7-fine, d8-exact-abort, d8-exact-gp, d8-frozen-gauge, or "
-         "d8-combined, d9-medium, d9-fine, or d9-exact-gp");
+         "d8-combined, d9-medium, d9-fine, d9-exact-gp, d11-ref, "
+         "d11-double, or d11-fine");
 }

@@ -123,10 +123,16 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   `sigma`, the adapter base hard-wires zero, and effective coverage is
   `0/18`. Record `DISSIPATION_PATH_DEFECT_IDENTIFIED`; do not run the tangent
   iteration or repair production during D10.
-- [ ] In a separately authorized repair, add explicit, reviewed
-  `CH_SPACEDIM` KO ownership for the 18-slot reduced state and then resume the
-  D10 tangent-mode isolation. Do not call the generic target-wide derivative
-  overload, which would select nonexistent hidden grid strides.
+- [x] Complete D11's explicitly authorized dimension-safe KO repair. The
+  project helper reproduces the locked seven-point sign, normalization, and
+  spacing while requesting only `x,z` strides and covering all 18 rows in
+  the existing RHS cell pass. Required `ko_sigma` is project-owned and
+  explicit; `sigma_ref=0.3` is sourced from locked GRChombo examples.
+  Algebraic/mutation/direction/zero-sigma gates pass, and the medium/fine
+  `t=8` controls avoid invalid metrics and drift `0.1` with improving state
+  drift and bounded constraints. Record
+  `KO_PATH_RESTORED_AND_BACKGROUND_STABILIZED`; do not yet resume the
+  tangent or Fourier scans.
 - [ ] Establish a provisional `k_-<k_+` sign bracket in a separately
   authorized follow-up. The current evidence supplies no late-time negative
   endpoint and supports no conclusion about whether `k_cr r0` is above or
