@@ -390,6 +390,17 @@ refinement. The repair is classified
 item only; physical radial-boundary acceptance, renewed perturbation work,
 sustained evolution, AMR/MPI, and horizons remain open.
 
+D12 leaves that production repair untouched and adds only fixture-side
+signed Fourier analysis. Ten bounded evolutions at two resolutions confirm
+that the KO-stabilized GP controls remain valid through `t=8`. The signed
+`q`, `hww/chi`, `K`, `Aww`, and `GammaX` responses are linear by odd/even
+subtraction and far above control leakage, but they do not share a credible
+late slope: the apparent positive `k=pi/4` `q` interval is not reproduced by
+the other physical fields, and `k=pi/2` still turns over. D12 therefore
+records `NO_CREDIBLE_MODE_PLATEAU`, with no accepted radial eigenfunction
+and no critical-wavenumber claim. The physical radial boundary and sustained
+mode-identification items remain open.
+
 | Priority / order | Adaptation item | GRChombo source to reuse | Project-specific work | Dependency | Acceptance / exit criterion |
 |---|---|---|---|---|---|
 | P0-1 | Reproducible GRChombo/Chombo core lock | Current origin, locked CI, Chombo Make infrastructure | Keep the tracked GRChombo commit and qualified official Chombo commit; disclose that historical SHA/container provenance is unresolved; keep PETSc separate until AHFinder | None | Project lock is detached/clean; four serial DIM2 libraries, real `2/4/4` target probe, and stock compile/smoke checks pass |

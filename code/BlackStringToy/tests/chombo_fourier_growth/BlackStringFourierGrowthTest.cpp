@@ -167,11 +167,16 @@ template <int mode_number> class FourierInitialData
 
 struct Sample
 {
+    static constexpr int mode_field_count = 4;
+
     struct RadialFourier
     {
         double x = 0.0;
         double q_cosine = 0.0;
         double q_sine = 0.0;
+        // hww/chi, K, Aww, and GammaX, in that order.
+        std::array<double, mode_field_count> field_cosine{};
+        std::array<double, mode_field_count> field_sine{};
         std::array<double, 3> constraint_cosine{};
         std::array<double, 3> constraint_sine{};
     };
@@ -632,6 +637,26 @@ class FourierGrowthLevel : public BlackStringToyLevel
             static_cast<std::size_t>(radial_cells), 0.0);
         std::vector<double> secondary_sine_sum(
             static_cast<std::size_t>(radial_cells), 0.0);
+        std::array<std::vector<double>, Sample::mode_field_count>
+            mode_field_cosine_sum;
+        std::array<std::vector<double>, Sample::mode_field_count>
+            mode_field_sine_sum;
+        std::array<std::vector<double>, Sample::mode_field_count>
+            secondary_mode_field_cosine_sum;
+        std::array<std::vector<double>, Sample::mode_field_count>
+            secondary_mode_field_sine_sum;
+        for (int field = 0; field < Sample::mode_field_count; ++field)
+        {
+            const auto slot = static_cast<std::size_t>(field);
+            mode_field_cosine_sum[slot].assign(
+                static_cast<std::size_t>(radial_cells), 0.0);
+            mode_field_sine_sum[slot].assign(
+                static_cast<std::size_t>(radial_cells), 0.0);
+            secondary_mode_field_cosine_sum[slot].assign(
+                static_cast<std::size_t>(radial_cells), 0.0);
+            secondary_mode_field_sine_sum[slot].assign(
+                static_cast<std::size_t>(radial_cells), 0.0);
+        }
         std::vector<int> compact_count(
             static_cast<std::size_t>(radial_cells), 0);
         std::array<std::vector<double>, NUM_VARS> variable_cosine_sum;
@@ -731,6 +756,29 @@ class FourierGrowthLevel : public BlackStringToyLevel
                     secondary_sine_sum
                         [static_cast<std::size_t>(radial_index)] +=
                         areal_log * secondary_sine;
+                    const std::array<double, Sample::mode_field_count>
+                        mode_fields = {hww / chi, state(point, c_K),
+                                       state(point, c_Aww),
+                                       state(point, c_GammaX)};
+                    for (int field = 0;
+                         field < Sample::mode_field_count; ++field)
+                    {
+                        const auto field_slot =
+                            static_cast<std::size_t>(field);
+                        const auto radial_slot =
+                            static_cast<std::size_t>(radial_index);
+                        const double value = mode_fields[field_slot];
+                        mode_field_cosine_sum[field_slot][radial_slot] +=
+                            value * cosine;
+                        mode_field_sine_sum[field_slot][radial_slot] +=
+                            value * sine;
+                        secondary_mode_field_cosine_sum[field_slot]
+                                                       [radial_slot] +=
+                            value * secondary_cosine;
+                        secondary_mode_field_sine_sum[field_slot]
+                                                     [radial_slot] +=
+                            value * secondary_sine;
+                    }
                     ++compact_count[static_cast<std::size_t>(radial_index)];
                 }
 
@@ -917,6 +965,17 @@ class FourierGrowthLevel : public BlackStringToyLevel
             radial_fourier.x = x;
             radial_fourier.q_cosine = cosine_coefficient;
             radial_fourier.q_sine = sine_coefficient;
+            for (int field = 0; field < Sample::mode_field_count; ++field)
+            {
+                const auto field_slot = static_cast<std::size_t>(field);
+                const auto radial_slot = static_cast<std::size_t>(radial);
+                radial_fourier.field_cosine[field_slot] =
+                    2.0 * mode_field_cosine_sum[field_slot][radial_slot] /
+                    static_cast<double>(count);
+                radial_fourier.field_sine[field_slot] =
+                    2.0 * mode_field_sine_sum[field_slot][radial_slot] /
+                    static_cast<double>(count);
+            }
             for (std::size_t diagnostic = 0;
                  diagnostic < constraint_components.size(); ++diagnostic)
             {
@@ -937,6 +996,19 @@ class FourierGrowthLevel : public BlackStringToyLevel
             secondary_radial_fourier.q_cosine =
                 secondary_cosine_coefficient;
             secondary_radial_fourier.q_sine = secondary_sine_coefficient;
+            for (int field = 0; field < Sample::mode_field_count; ++field)
+            {
+                const auto field_slot = static_cast<std::size_t>(field);
+                const auto radial_slot = static_cast<std::size_t>(radial);
+                secondary_radial_fourier.field_cosine[field_slot] =
+                    2.0 *
+                    secondary_mode_field_cosine_sum[field_slot][radial_slot] /
+                    static_cast<double>(count);
+                secondary_radial_fourier.field_sine[field_slot] =
+                    2.0 *
+                    secondary_mode_field_sine_sum[field_slot][radial_slot] /
+                    static_cast<double>(count);
+            }
             for (std::size_t diagnostic = 0;
                  diagnostic < constraint_components.size(); ++diagnostic)
             {
@@ -1652,7 +1724,8 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
     constexpr int secondary_mode_number = mode_number == 1 ? 2 : 1;
     const std::string mode(mode_name);
     d9_live_variant =
-        mode.rfind("d9_", 0) == 0 || mode.rfind("d11_", 0) == 0
+        mode.rfind("d9_", 0) == 0 || mode.rfind("d11_", 0) == 0 ||
+                mode.rfind("d12_", 0) == 0
             ? mode_name
             : nullptr;
     const bool exact_gp_control =
@@ -1738,7 +1811,8 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
             "radial policy performed a duplicate periodic exchange");
     require(counts.diagnostic_evaluations == level->samples().size(),
             "diagnostic cadence count differs from collected samples");
-    if (mode.rfind("d9_", 0) == 0 || mode.rfind("d11_", 0) == 0)
+    if (mode.rfind("d9_", 0) == 0 || mode.rfind("d11_", 0) == 0 ||
+        mode.rfind("d12_", 0) == 0)
     {
         require(level->d9_ghost_audit_complete(),
                 "D9 did not audit its first radial ghost fill");
@@ -1933,7 +2007,8 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
                     << '\n';
             }
         }
-        if (std::string(mode_name) == "transient")
+        if (std::string(mode_name) == "transient" ||
+            std::string(mode_name).rfind("d12_", 0) == 0)
         {
             const auto print_radial =
                 [&](const std::vector<Sample::RadialFourier> &values,
@@ -1950,6 +2025,14 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
                         << " t=" << sample.time << " radial_index=" << radial
                         << " x=" << value.x << " qC=" << value.q_cosine
                         << " qS=" << value.q_sine
+                        << " ratioC=" << value.field_cosine[0]
+                        << " ratioS=" << value.field_sine[0]
+                        << " KC=" << value.field_cosine[1]
+                        << " KS=" << value.field_sine[1]
+                        << " AwwC=" << value.field_cosine[2]
+                        << " AwwS=" << value.field_sine[2]
+                        << " GammaXC=" << value.field_cosine[3]
+                        << " GammaXS=" << value.field_sine[3]
                         << " HC=" << value.constraint_cosine[0]
                         << " HS=" << value.constraint_sine[0]
                         << " MxC=" << value.constraint_cosine[1]
@@ -2022,7 +2105,7 @@ int main(int argc, char *argv[])
              "d7-exact-gp|d7-frozen-gauge|d7-half-cfl|d7-fine|"
              "d8-exact-abort|d8-exact-gp|d8-frozen-gauge|d8-combined|"
              "d9-medium|d9-fine|d9-exact-gp|"
-             "d11-ref|d11-double|d11-fine> "
+             "d11-ref|d11-double|d11-fine|d12-low|d12-high> "
              "<control|seeded|legacy-gammaz> <epsilon>");
     }
     const std::string kind(argv[3]);
@@ -2173,9 +2256,21 @@ int main(int argc, char *argv[])
                 "D11 fine control requires positive KO");
         return run_case<1, D9ControlLevel>(parameters, "d11_fine");
     }
+    if (mode == "d12-low")
+    {
+        require(parameters.ko_sigma == 0.3,
+                "D12 requires ko_sigma=0.3");
+        return run_case<1, D9ControlLevel>(parameters, "d12_low");
+    }
+    if (mode == "d12-high")
+    {
+        require(parameters.ko_sigma == 0.3,
+                "D12 requires ko_sigma=0.3");
+        return run_case<2, D9ControlLevel>(parameters, "d12_high");
+    }
     fail("mode must be unstable, stable, scan, transient-low, or "
          "transient-high, d7-exact-gp, d7-frozen-gauge, d7-half-cfl, or "
          "d7-fine, d8-exact-abort, d8-exact-gp, d8-frozen-gauge, or "
          "d8-combined, d9-medium, d9-fine, d9-exact-gp, d11-ref, "
-         "d11-double, or d11-fine");
+         "d11-double, d11-fine, d12-low, or d12-high");
 }

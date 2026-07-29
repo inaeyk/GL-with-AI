@@ -1,0 +1,157 @@
+Stage 4AO-D12 KO-stabilized signed Fourier response
+Date: 2026-07-29
+Starting commit: b63ad39 (clean committed D11)
+
+SCOPE AND CONFIGURATION
+- Production equations, radial boundary, KO helper, and hot path unchanged.
+- Lz=8, x=[0.5,4.5], CFL=0.05, ko_sigma=0.3, tf=8.
+- epsilon=1e-8; k=pi/4 (mode 1) and pi/2 (mode 2).
+- Medium: Nx=32, Nz=64, dx=dz=1/8, dt=0.00625.
+- Fine: Nx=48, Nz=96, dx=dz=1/12, dt=1/240.
+- Diagnostic cadence gives sample spacing 0.025 at both resolutions.
+- Exactly ten evolutions: one control and four signed cases per resolution.
+- No E1/E2, boundary, D6--D11, adaptive-scan, or comparison rerun.
+
+SIGNED ANALYSIS
+- odd=(plus-minus)/(2 epsilon).
+- even=(plus+minus-2 control)/(2 epsilon).
+- q=log(hww/chi)/2 uses both Fourier quadratures and hypot amplitudes.
+- Additional phase-neutral fields: hww/chi, K, Aww, GammaX.
+- Linearized H, Mx, Mz, secondary harmonic, and radial Nyquist projections
+  are fixture-only.
+- Rolling log-slope widths: 0.5 and 1.0, stepped by 0.25.
+- Joint acceptance requires the prescribed q gates plus compatible slopes in
+  all four additional fields.
+
+BACKGROUND CONTROLS
+metric                         medium             fine
+final state maximum            6.047631754645e-02 9.710080165279e-03
+final state L2                 8.975164271328e-03 9.258540854376e-04
+drift 0.1 crossing             NONE               NONE
+raw radial Nyquist             1.288863847205e-03 1.289555627173e-04
+Nyquist/state-L2 fraction      1.436033712856e-01 1.392828143717e-01
+determinant maximum            6.661338147751e-16 4.440892098501e-16
+weighted-trace maximum         8.881784197001e-16 4.440892098501e-16
+invalid metric                 NONE               NONE
+background gate                PASS               PASS
+
+Q ODD-AMPLITUDE HISTORIES
+time   low medium    low fine      high medium   high fine
+0.0    1.073676e-01  1.073484e-01  1.073676e-01  1.073484e-01
+2.0    1.786740e-02  1.888923e-02  3.558688e-02  3.664577e-02
+4.0    4.152448e-02  3.862037e-02  6.738955e-02  6.524815e-02
+6.0    5.595453e-02  5.820339e-02  2.749007e-02  2.617085e-02
+7.0    5.353026e-02  5.411520e-02  3.402749e-02  3.466712e-02
+7.5    6.309127e-02  6.237062e-02  2.947310e-02  2.986834e-02
+8.0    7.050036e-02  6.995771e-02  3.097581e-02  3.140804e-02
+
+FINAL LINEAR-RESPONSE DIAGNOSTICS
+quantity                         low medium  low fine    high medium high fine
+q even/odd                       7.917e-07   7.747e-07   2.375e-06  1.795e-06
+q seeded/control leakage ratio   5.106e+09   5.344e+10   3.126e+09  4.489e+10
+q control-subtracted raw drift   7.050e-10   6.996e-10   3.098e-10  3.141e-10
+q radial Nyquist fraction        5.708e-02   2.580e-02   4.735e-02  3.317e-02
+q spurious harmonic fraction     6.046e-07   7.002e-07   2.297e-06  1.546e-06
+H odd                            6.690e-01   6.662e-01   9.691e-01  1.023e+00
+Mx odd                           1.724e-01   1.886e-01   4.096e-01  4.507e-01
+Mz odd                           7.680e-02   7.840e-02   2.267e-01  2.332e-01
+phase                            +pi          -pi          +pi         +pi
+
+Late [7,8] constraint log-slopes:
+quantity  low medium  low fine   high medium high fine
+H         +0.2774     +0.2736    +0.0341     +0.0490
+Mx        -0.0540     +0.2979    +0.4431     +0.4586
+Mz        -0.1874     -0.0052    +0.3926     +0.1819
+These responses do not enter the rapid multi-order background blow-up seen
+before KO, but their final amplitudes also do not improve systematically
+with resolution. They cannot support a physical mode identification.
+
+PHYSICAL-FIELD ODD AMPLITUDES
+Rows give t=0,4,8.
+resolution/mode field     t=0           t=4           t=8
+medium low     hww/chi    2.147352e-01  8.310897e-02  1.412997e-01
+medium low     K          0              5.258951e-01  1.623441e-01
+medium low     Aww        5.726273e-02  8.106091e-02  2.795685e-02
+medium low     GammaX     7.793444e-01  6.902755e-01  6.822464e-01
+fine low       hww/chi    2.146968e-01  7.724755e-02  1.399362e-01
+fine low       K          0              5.491614e-01  1.675939e-01
+fine low       Aww        5.725248e-02  7.807037e-02  2.840760e-02
+fine low       GammaX     7.945328e-01  7.292453e-01  7.042005e-01
+medium high    hww/chi    2.147352e-01  1.348753e-01  6.208136e-02
+medium high    K          0              4.126595e-01  3.274055e-01
+medium high    Aww        5.726273e-02  6.837529e-02  4.217031e-02
+medium high    GammaX     8.015222e-01  6.949616e-01  6.912159e-01
+fine high      hww/chi    2.146968e-01  1.305083e-01  6.282520e-02
+fine high      K          0              4.262673e-01  3.452988e-01
+fine high      Aww        5.725248e-02  7.458474e-02  4.960043e-02
+fine high      GammaX     8.162898e-01  7.147166e-01  7.264288e-01
+
+REPRESENTATIVE LATE ONE-UNIT SLOPES [7,8]
+field     low medium (SE,R2)          low fine (SE,R2)
+q         +2.797878e-01 (4.718e-03,0.9890)
+          +2.608729e-01 (2.382e-03,0.9968)
+hww/chi   +2.805564e-01 (4.719e-03,0.9891)
+          +2.609085e-01 (2.383e-03,0.9968)
+K         -2.838651e-01 (1.251e-02,0.9295)
+          -1.497295e-01 (7.456e-03,0.9118)
+Aww       -2.935929e-01 (2.660e-02,0.7575)
+          +7.183151e-02 (2.748e-02,0.1491)
+GammaX    +9.486131e-02 (2.320e-03,0.9772)
+          +3.234166e-02 (1.037e-03,0.9615)
+
+The low-q windows alone exhibit a positive late interval, but K has the
+opposite sign, Aww is negative or unsettled, and GammaX is much slower.
+Thus the required compatible physical-field slopes fail at both resolutions.
+
+HIGH-MODE LATE TURNOVER
+- Medium q width-0.5 slopes ending at 7.0,7.25,7.5,7.75,8.0:
+  +0.1146, -0.1454, -0.3030, -0.2070, +0.1024.
+- Fine q width-0.5 slopes over the same endings:
+  +0.1967, -0.1418, -0.3165, -0.1990, +0.1041.
+- Medium q width-1.0 slopes ending at 7.0,7.25,7.5,7.75,8.0:
+  +0.2612, +0.0976, -0.1137, -0.2242, -0.1406.
+- Fine q width-1.0 slopes:
+  +0.3516, +0.1686, -0.0909, -0.2256, -0.1413.
+No three-window same-sign, <20%-variation plateau survives both widths.
+
+RADIAL EIGENFUNCTION GATE
+- No joint multi-field plateau was accepted.
+- Therefore there are no final three accepted samples, normalized radial
+  eigenfunctions, or defensible maximum location to report.
+- Emitting a q-only profile after the cross-field failure would falsely label
+  a transient projection as an identified eigenmode.
+
+PERFORMANCE
+run                 wall s  peak RSS KiB  seconds/(valid cell RHS)
+medium control      26.28   11676         2.506256e-06
+medium low plus     26.30   11916         2.508163e-06
+medium low minus    26.37   11860         2.514839e-06
+medium high plus    26.18   11876         2.496719e-06
+medium high minus   26.40   12020         2.517700e-06
+fine control        74.46   14608         2.104017e-06
+fine low plus       75.37   14704         2.129731e-06
+fine low minus      74.84   14824         2.114755e-06
+fine high plus      74.56   14840         2.106843e-06
+fine high minus     74.20   14572         2.096671e-06
+total wall: 504.96 s
+peak RSS: 14840 KiB (14.49 MiB)
+
+HOT PATH AND SCOPE
+- CodeGraph/live fixture: one direct target-d=4 RHS evaluation and one fused
+  KO addition per cell/stage; no second RHS evaluation.
+- No production logging, transform, fitting, counters, or allocations added.
+- Default production diagnostic cadence remains zero.
+- No physical GL-mode or k_cr r0 inference is supported.
+
+CLASSIFICATION
+NO_CREDIBLE_MODE_PLATEAU
+
+VALIDATION
+- D12 fixture strict build: PASS.
+- D12 signed-response evolutions: PASS (exactly 10/10).
+- Project warning-negative compile: PASS.
+- Locked GRChombo/Chombo dependency cleanliness: PASS.
+- git diff --check: PASS.
+- staged-diff hygiene: PASS; no staged changes.
+- Fixture executable, object, dependency, and Python-cache artifacts cleaned.
+- One focused D12 audit requested after classification.

@@ -334,6 +334,31 @@ late drift slope (`0.09344` versus `0.12883`). The two new runs took
 noisy for a precise kernel cost. D11 is therefore classified
 `KO_PATH_RESTORED_AND_BACKGROUND_STABILIZED`.
 
+D12 reuses the signed transient fixture at `ko_sigma=0.3` without changing
+the production path. Exactly ten runs cover one control and signed
+`epsilon=1e-8` pairs for `k=pi/4,pi/2` at `dx=1/8` and `1/12`, all on
+`x=[0.5,4.5]`, `L_z=8`, CFL `0.05`, through `t=8`. Samples are separated by
+`0.025`. The fixture forms phase-neutral odd/even Fourier responses for
+`q=log(hww/chi)/2`, `hww/chi`, `K`, `Aww`, and `GammaX`, plus the three
+linearized constraints and radial profiles.
+
+Both resolutions remain interpretable and the controls reproduce D11:
+neither has an invalid metric or drift-`0.1` crossing, determinant and
+weighted trace stay below `9e-16`, and the fine control reduces the state
+and raw Nyquist drifts. Even/odd contamination is below `3e-6`, signal to
+control leakage exceeds `3e9` for `q`, and spurious harmonics remain below
+`2.4e-6`. Nevertheless, no multi-field eigenmode plateau passes. The
+`k=pi/4` `q` response has a late positive interval (representative
+one-unit-window slopes `0.280` medium and `0.261` fine), but `K` is negative
+(`-0.284,-0.150`), `Aww` is negative or unsettled
+(`-0.294,+0.0718`), and `GammaX` grows much more slowly
+(`0.0949,0.0323`). The `k=pi/2` response changes slope sign within the last
+unit at both resolutions. Because the required physical-field compatibility
+fails, there are no accepted final eigenfunction samples or maximum
+location to report. D12 is bounded as `NO_CREDIBLE_MODE_PLATEAU`; it does
+not identify a growing or decaying physical mode and does not support a
+critical-wavenumber inference.
+
 Locked upstream `BoundaryConditions.cpp` dynamically allocates three
 `std::vector<int>` component lists per boundary-driver invocation. The
 boundary `Box` objects themselves are stack objects. This is upstream

@@ -999,6 +999,16 @@ simulation and radiation diagnostics exist.
   Nyquist content remains controlled. The classification is
   `KO_PATH_RESTORED_AND_BACKGROUND_STABILIZED`. The zero-KO D7 baseline is
   reused, not rerun; the optional doubled-sigma run is not needed.
+- [x] Stage 4AO-D12 KO-stabilized signed Fourier mode diagnostic. Exactly
+  five medium and five fine evolutions use the shared `L_z=8`,
+  `x=[0.5,4.5]`, CFL `0.05`, `ko_sigma=0.3`, and `t_f=8` configuration.
+  Both controls pass the D11 stability gates, and both signed mode pairs have
+  small even/odd contamination, overwhelming signal-to-leakage ratios, and
+  controlled spurious harmonics. No required multi-field plateau passes:
+  late positive `q` slopes for `k=pi/4` conflict with `K`, `Aww`, and
+  `GammaX`, while `k=pi/2` continues to turn over. Consequently there are no
+  accepted three-sample eigenfunctions, and the bounded classification is
+  `NO_CREDIBLE_MODE_PLATEAU`. Do not infer `k_cr r0` or resume a scan.
 - [ ] Stage 4AO-D-F sustained unperturbed/perturbed evolution and boundary
   qualification. Converged `k_cr_0`, sustained nonlinear evolution,
   physical radial-boundary acceptance, AMR/MPI qualification,

@@ -133,6 +133,14 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   drift and bounded constraints. Record
   `KO_PATH_RESTORED_AND_BACKGROUND_STABILIZED`; do not yet resume the
   tangent or Fourier scans.
+- [x] Complete D12's bounded KO-stabilized signed-mode diagnostic. Run
+  exactly five medium and five fine cases for `k=pi/4,pi/2`; keep the
+  production equations, boundary, KO helper, and hot path unchanged. Both
+  controls retain the D11 stability result and both signed responses are
+  linear and above leakage, but the required physical-field slopes are
+  incompatible and the high mode continues to turn over. Record
+  `NO_CREDIBLE_MODE_PLATEAU`; there are no accepted radial eigenfunction
+  samples and no `k_cr r0` inference.
 - [ ] Establish a provisional `k_-<k_+` sign bracket in a separately
   authorized follow-up. The current evidence supplies no late-time negative
   endpoint and supports no conclusion about whether `k_cr r0` is above or
