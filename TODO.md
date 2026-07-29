@@ -115,6 +115,18 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   `t=8`, the fine run fails earlier, and the optional exact-GP control also
   fails. Preserve the three positive ghost coordinates and all valid cells.
   Classify `EXCISION_PLACEMENT_NOT_SUFFICIENT`.
+- [x] Complete the D10 production radial-operator trace and stop on the
+  concrete dissipation-path defect. The explicit `x,z` derivative path and
+  algebraic hidden expansion have no hidden grid access, but direct
+  `CCZ4RHS::rhs_equation` evaluation bypasses the upstream
+  `add_dissipation` call in `CCZ4RHS::compute`. Project parameters do not own
+  `sigma`, the adapter base hard-wires zero, and effective coverage is
+  `0/18`. Record `DISSIPATION_PATH_DEFECT_IDENTIFIED`; do not run the tangent
+  iteration or repair production during D10.
+- [ ] In a separately authorized repair, add explicit, reviewed
+  `CH_SPACEDIM` KO ownership for the 18-slot reduced state and then resume the
+  D10 tangent-mode isolation. Do not call the generic target-wide derivative
+  overload, which would select nonexistent hidden grid strides.
 - [ ] Establish a provisional `k_-<k_+` sign bracket in a separately
   authorized follow-up. The current evidence supplies no late-time negative
   endpoint and supports no conclusion about whether `k_cr r0` is above or

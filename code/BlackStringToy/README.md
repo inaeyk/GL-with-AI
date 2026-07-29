@@ -268,6 +268,35 @@ keep the three inner ghost coordinates positive, and retain zero measured
 `z` span. D9 therefore returns `EXCISION_PLACEMENT_NOT_SUFFICIENT`; it does
 not show that the glancing old face caused the late-time instability.
 
+D10 stops at the required production-operator trace because it identifies a
+concrete dissipation-path defect. The live `BlackStringLive::RHSCompute`
+computes fourth-order `x,z` first, second, and mixed derivatives with only
+the two `CH_SPACEDIM` strides, expands hidden derivatives algebraically, and
+calls locked `CCZ4RHS::rhs_equation` directly. Locked GRChombo adds its
+seven-point KO term only in `CCZ4RHS::compute`, after `rhs_equation`; that
+wrapper is not on the black-string call path. The adapter also constructs its
+otherwise inaccessible base with `sigma=0`, while the local
+`SimulationParameters` derives from `ChomboParameters` and never loads or
+owns `sigma`. Effective production dissipation is therefore zero with
+coverage `0/18`, including the radial direction. This is not a wrong sign or
+spacing in an active stencil: the correct upstream negative-semidefinite
+stencil is simply never invoked. Calling the generic upstream wrapper is not
+a safe shortcut because its bulk derivative/advection/dissipation overloads
+use target-wide `FOR` loops to select grid strides, which would request hidden
+directions 2 and 3 from a two-dimensional grid.
+
+The rest of the traced path remains dimension-consistent: shift advection is
+`beta^x partial_x U + beta^z partial_z U` for every stored slot; the
+background-subtracted degree-four radial ghost closure fills three layers
+from five valid cells; the outer valid surface overwrites all 18 RHS rows
+with the one-sided GP-subtracted outgoing formula; and hidden-aware
+determinant/trace cleanup runs after every Chombo RK update. No hidden
+direction selects a grid stride. Per the diagnostic stop rule, D10 performs
+zero tangent-map configurations and no nonlinear evolutions, and makes no
+production repair. Its bounded classification is
+`DISSIPATION_PATH_DEFECT_IDENTIFIED`; the tangent spectrum and whether the
+observed instability is a bulk or closure-localized mode remain unmeasured.
+
 Locked upstream `BoundaryConditions.cpp` dynamically allocates three
 `std::vector<int>` component lists per boundary-driver invocation. The
 boundary `Box` objects themselves are stack objects. This is upstream

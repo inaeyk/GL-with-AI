@@ -22,7 +22,11 @@ supplies transient Fourier evidence; the former stable/unstable short-window
 interpretation is superseded. D9 finds that the old inner face is not
 strictly outside the conservative fastest lapse envelope, but deeper
 excision fails to stabilize either matched provisional-boundary resolution
-or the optional exact-GP control. Sustained evolution, physical
+or the optional exact-GP control. D10 then finds that the live direct
+`rhs_equation` path bypasses the only locked upstream call that adds KO
+dissipation; effective coverage is `0/18`, so the tangent probe stops before
+numerical iteration with `DISSIPATION_PATH_DEFECT_IDENTIFIED`. Sustained
+evolution, physical
 radial-boundary acceptance, a converged threshold, refinement, MPI, broader
 diagnostics, and horizons remain open.
 
@@ -150,7 +154,7 @@ They are valid gridded loops and need no target-tensor widening.
 | `BoundaryConditions.cpp:699-756,716,742` | Incompatible mixed use; intended gridded loop | Extrapolation clamps two-dimensional `IntVect`s with four-direction `FOR`. Its radius calls use the coordinate wrapper. | The provisional adapter uses only stock RHS-ghost extrapolation; project-owned solution ghosts never use the stock `sqrt(x^2+z^2)` radius. |
 | `BoundaryConditions.cpp:800,854,929,1027,1074,1114` | Incompatible mixed use; intended gridded loop | Copy, coarse/fine interpolation, boundary-box growth, and `ProblemDomain` growth all traverse Chombo directions with tensor bounds. | Copy/fill is level-zero downstream; interpolation and grown-grid paths become relevant with AMR or Sommerfeld/mixed boundaries. |
 | `utils/Coordinates.hpp:38-49,73-103` | Incompatible target coordinate wrapper | Stock code has branches for `3/3`, `2/3` Cartoon, and `2/2`, but not `CH_SPACEDIM=2,DEFAULT_TENSOR_DIM=4`. Its static CH2 radius treats both grid directions as a Euclidean plane. | The application-local wrapper supplies `(x,z)` and prevents fake hidden coordinates, but its generic radius is still not a black-string radial-boundary policy. |
-| `FourthOrderDerivatives.hpp:77,249,349,405` and `SixthOrderDerivatives.hpp:80,280,386,470` | Incompatible mixed use | Bulk first/second derivative, advection, and dissipation overloads return physical tensors but index `m_in_stride[CH_SPACEDIM]` with `FOR`. Only grid directions may select a stride; hidden derivatives require target-specific expansion. | Likely downstream if a generic compute class is used. E1 is safe because `BlackStringLive` calls explicit direction-0/1 kernels and supplies hidden jets in the accepted target expansion. Sixth order is disabled. |
+| `FourthOrderDerivatives.hpp:77,249,349,405` and `SixthOrderDerivatives.hpp:80,280,386,470` | Incompatible mixed use; D10 exposes a live omission | Bulk first/second derivative, advection, and dissipation overloads return physical tensors but index `m_in_stride[CH_SPACEDIM]` with `FOR`. Only grid directions may select a stride; hidden derivatives require target-specific expansion. | E1's explicit direction-0/1 derivative kernels and algebraic hidden jets avoid hidden grid access. D10 confirms, however, that direct `rhs_equation` evaluation also bypasses `CCZ4RHS::compute` and therefore its `add_dissipation` call. Effective live KO coverage is `0/18`; a future repair needs a thin `CH_SPACEDIM` dissipation adapter rather than the unsafe generic overload. Sixth order is disabled. |
 | `ChiTaggingCriterion.hpp:27,30`, `PhiAndKTaggingCriterion.hpp:30-37`, and `ComputeModGrad.hpp:31-39` | Incompatible mixed use; intended gridded norm | The criteria request derivative directions 2 and 3 from two grid strides and contract them as if they were gridded. | Not on E1: the black-string level owns a zero criterion. Must remain unavailable unless adapted. |
 | `ChiExtractionTaggingCriterion.hpp:59-63`, `ChiPunctureExtractionTaggingCriterion.hpp:69-73`, and `ChiAndPhiTaggingCriterion.hpp:50-62` | Incompatible mixed use | They call the unsafe bulk second-derivative overload and contract all tensor directions as grid Hessian directions. Coordinate-radius tagging also assumes stock spherical/cartoon geometry. | Extraction and puncture tagging are disabled and irrelevant to the first unperturbed level-zero path. |
 | `SimulationParametersBase.hpp:258-268` | Incompatible mixed use; intended gridded loop | Extraction-center validation indexes `CH_SPACEDIM` center/domain arrays with `FOR`. | Dormant while extraction is disabled; required before extraction qualification. |
@@ -343,6 +347,33 @@ three radial ghost coordinates positive. The bounded classification is
 `EXCISION_PLACEMENT_NOT_SUFFICIENT`; production remains unchanged and the
 `k` scan stays suspended.
 
+D10 traces the complete radial semidiscrete path before constructing the
+requested tangent map. `BlackStringLive::make_pointwise_input` applies the
+locked fourth-order centered `d1`, `d2`, and mixed kernels using only the
+explicit `x` and `z` strides for every stored slot. The target expansion
+synthesizes the two hidden directions algebraically, and all physical
+target-`d=4` loops remain tensor-only. Shift advection covers all 18 slots as
+`beta^x d_x U + beta^z d_z U`. The provisional policy fills three radial
+ghost layers with five-point background-subtracted extrapolation; after the
+interior RHS the outer valid surface receives the all-component
+GP-subtracted backward outgoing RHS. Hidden-aware cleanup follows every RK
+update.
+
+The same trace finds the decisive omission. Locked
+`CCZ4RHS::compute` calls `rhs_equation` and then
+`FourthOrderDerivatives::add_dissipation`, but the live adapter calls
+`rhs_equation` directly. Its base is constructed with `sigma=0`, and the
+project parameter class does not inherit `SimulationParametersBase`, load
+`sigma`, or expose a dissipation owner. Thus no KO term reaches any of the 18
+RHS rows in either grid direction. The upstream seven-point operator itself
+has the expected negative Nyquist sign, `1/dx` scaling, and component-wide
+mapping; it is inactive, and its generic `FOR` stride loop is unsafe for
+hidden directions on this `CH_SPACEDIM=2` grid. D10 consequently obeys the
+defect stop: zero tangent configurations and zero evolutions, no production
+change, and classification `DISSIPATION_PATH_DEFECT_IDENTIFIED`. A future
+separately authorized repair must establish a grid-dimension-safe
+dissipation owner before tangent-mode identification resumes.
+
 | Priority / order | Adaptation item | GRChombo source to reuse | Project-specific work | Dependency | Acceptance / exit criterion |
 |---|---|---|---|---|---|
 | P0-1 | Reproducible GRChombo/Chombo core lock | Current origin, locked CI, Chombo Make infrastructure | Keep the tracked GRChombo commit and qualified official Chombo commit; disclose that historical SHA/container provenance is unresolved; keep PETSc separate until AHFinder | None | Project lock is detached/clean; four serial DIM2 libraries, real `2/4/4` target probe, and stock compile/smoke checks pass |
@@ -356,10 +387,10 @@ three radial ghost coordinates positive. The bounded classification is
 | P1-8 | Fixed GP-holding lapse source (pointwise complete) | Direct locked `MovingPunctureGauge` | Add field-independent `S_alpha=3 sqrt(r0/x^3)` after raw gauge evaluation | P1-7 | Raw lapse is `-3 lambda`, source-adjusted GP lapse vanishes, shift/B are untouched, and the source has zero evolved-field derivative |
 | P1-9 | Compact periodic `z` production domain (E1 complete) | GRChombo periodic boundary/domain parameters, `LevelData::exchange`, and derivative classes | Lock direction 0 radial/direction 1 compact; use real ghost ownership with no translation sign flip | P1-4b | Both seam wraps, multi-box exchange, scalar/one-`z` fourth-order convergence, and nonperiodic radial ghosts pass |
 | P1-9a | `2/4/4` GRAMR grid-dimension adapter (define complete) | `SetupFunctions`, `GRAMRLevel`, `BoundaryConditions`, and Chombo `ProblemDomain`/grid types | Scope grid loops to `CH_SPACEDIM` only in black-string infrastructure; forbid fake hidden coordinates and generic bulk derivative paths | P1-9 | Real `GRAMRLevel::define` succeeds under checked access; radial/periodic ownership is exact; stock DIM3 is unchanged; dependencies stay clean |
-| P1-10 | Unperturbed background evolution (E2 bounded diagnostic and matched-domain convergence complete; production qualification open) | `GRAMR`, RK4, ghost fill, boundaries, checkpointing | Configure target grid, source, hidden RHS, diagnostics, and conservative validation window | P1-7 through P1-9a | E2: 4/8/16-step matched-domain stationarity and constraint convergence pass with exact-background radial ghosts; remaining exit: accepted physical radial boundary, sustained window, and restart smoke |
+| P1-10 | Unperturbed background evolution (E2 bounded diagnostic and matched-domain convergence complete; production qualification blocked by D10) | `GRAMR`, RK4, ghost fill, boundaries, checkpointing, and grid-safe KO kernels | Configure target grid, source, hidden RHS, diagnostics, conservative validation window, and explicit dissipation ownership | P1-7 through P1-9a | E2 remains valid for its bounded window; D10 requires a reviewed `CH_SPACEDIM` KO repair before sustained qualification, followed by accepted physical radial boundary and restart smoke |
 | P2-11 | Fourier perturbation initialization (first level-zero fixture complete; production family open) | Initial-data BoxLoop plus periodic grid | Test-only normalized compact even/odd SO(3)-scalar seed with the one-z slots on sine | P1-10 | First parity leakage and bounded linear-amplitude run pass; production parameter family remains open |
 | P2-12 | Fourier amplitude diagnostics (first level-zero fixture complete; AMR output open) | Level-zero storage and reductions | Test-only cosine/sine radial-RMS quadratures of `0.5 log(hww/chi)`, phase-neutral amplitude, and paired controls at cadence eight | P2-11 | Quadrature rotation invariance, leakage, and two-epsilon normalized histories pass; AMR-consistent persistent output remains open |
-| P2-13 | Growth-rate extraction (transient diagnosis complete; physical rate open) | Project fixture analysis | Signed odd/even response, rolling width-`0.5/1.0` log slopes, linearity, constraint, and budgeted transient reporting | P2-12 | `k=pi/4` has a linear late-time instability whose physical identity is unresolved; exploding constraints/control drift forbid a GL identification, D8 leaves the core radial source unresolved, and D9 shows deeper excision is not sufficient; no negative plateau, bracket, asymptotic rate, or physical-rate acceptance follows |
+| P2-13 | Growth-rate extraction (transient diagnosis complete; physical rate open) | Project fixture analysis | Signed odd/even response, rolling width-`0.5/1.0` log slopes, linearity, constraint, and budgeted transient reporting | P2-12 | `k=pi/4` has a linear late-time instability whose physical identity is unresolved; exploding constraints/control drift forbid a GL identification, D9 shows deeper excision is insufficient, and D10 identifies missing live KO dissipation before modal isolation; no negative plateau, bracket, asymptotic rate, or physical-rate acceptance follows |
 | P2-14 | Production convergence workflow | GRChombo AMR/restart/output machinery | Reproducible multi-resolution parameter sets and comparison tables | P1-10, P2-13 | Background, constraints, perturbations, and rate show documented convergence |
 | P3-15 | String MOTS/horizon adapter | `AHFinder`, `PETScAHSolver`, `AHStringGeometry`, interpolation | Supply target variables, `S2 x S1` geometry, hidden expansion terms, PETSc configuration | P1-7, PETSc source lock | Uniform `x=r0` MOTS recovered with convergent residual; restart supported |
 | P3-16 | `R_H`, minimum radius, and horizon area | AH surface data, interpolation, reductions, `SmallDataIO` | Evaluate `R_H=h sqrt(hww/chi)`, minimum over z, correct string area | P3-15 | Uniform analytic values and perturbed manufactured profiles converge |

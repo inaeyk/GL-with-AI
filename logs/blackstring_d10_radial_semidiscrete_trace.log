@@ -1,0 +1,150 @@
+BLACKSTRING STAGE 4AO-D10 RADIAL SEMIDISCRETE TRACE
+date=2026-07-29
+base_commit=96db60e
+scope=production-operator static trace with required defect stop
+production_equations_changed=false
+production_boundary_changed=false
+production_hot_path_changed=false
+new_numerical_probe_configurations=0
+new_nonlinear_evolutions=0
+
+STOP RESULT
+classification=DISSIPATION_PATH_DEFECT_IDENTIFIED
+
+The production trace finds that the live direct target-d=4 RHS omits
+Kreiss-Oliger dissipation. Per the D10 stop rule, the fixture-only tangent
+map, dominant-mode iterations, and medium-resolution variants were not built
+or run. No production repair is made in this stage.
+
+ACTUAL PRODUCTION CALL PATH
+1. Chombo LevelRK4::advance evaluates four RHS stages and performs seven
+   updateODE calls per complete step (four accumulated-solution updates and
+   three stage predictors).
+2. GRAMRLevel::evalRHS calls soln.exchange(m_exchange_copier), performs any
+   coarse interpolation (dormant at level zero), calls the black-string
+   radial-only fillBdyGhosts, then calls specificEvalRHS.
+3. BlackStringToyLevel::specificEvalRHS loops BlackStringLive::RHSCompute over
+   valid cells, then applies the project outer valid-surface RHS to Interval
+   0..17 when physical radial boundaries are active.
+4. GRAMRLevel then calls locked BoundaryConditions::fill_rhs_boundaries for
+   its configured nonperiodic RHS ghosts.
+5. GRAMRLevel::updateODE performs soln.plus(rhs,dt,m_grown_grids), invokes
+   BlackStringToyLevel::specificUpdateODE, and refills boundaries.
+6. specificUpdateODE applies hidden-aware determinant normalization,
+   weighted trace removal, and chi/lapse floors on valid cells after every RK
+   update.
+
+GRID DERIVATIVES AND ADVECTION
+source=code/BlackStringToy/BlackStringLive.hpp:70-99
+operator=locked FourthOrderDerivatives
+grid_dimensions=CH_SPACEDIM=2
+radial_direction=0
+compact_direction=1
+component_loop=0..17
+
+For each stored slot, make_pointwise_input explicitly obtains only
+m_in_stride[0] and m_in_stride[1], then computes:
+  d_x  = (f[-2]-8f[-1]+8f[+1]-f[+2])/(12 dx)
+  d_z  = the same stencil on the compact stride
+  d_xx = (-f[-2]+16f[-1]-30f[0]+16f[+1]-f[+2])/(12 dx^2)
+  d_zz = the same stencil on the compact stride
+  d_xz = the locked tensor-product fourth-order mixed stencil
+
+The live grid is isotropic, so the one m_dx supplied to the locked kernels is
+the radial and compact spacing. Shift advection is assembled for every stored
+slot as beta^x*d_x U + beta^z*d_z U and mapped to the target tensor row.
+
+TARGET DIMENSION AND HIDDEN ACCESS
+source=code/BlackStringToy/BlackStringTargetCCZ4Pointwise.hpp:340-653
+target_dimension=4
+gridded_dimension=2
+
+Physical loops over target_dimension operate only on already-expanded tensor
+objects. The two hidden directions are supplied by algebraic modified-cartoon
+relations in set_scalar_jet, set_vector_jet, and
+add_hidden_tensor_derivatives. No hidden direction selects a Cell stride,
+IntVect coordinate, or grid pointer. The active derivative path therefore
+contains no direction-2/3 grid access.
+
+RADIAL BOUNDARY PATH
+source=code/BlackStringToy/BlackStringPerturbativeRadialBoundary.hpp:31-211
+inner_solution_ghosts=three layers
+inner_source_points=five valid cells
+inner_formula=U_GP(ghost)+degree-four extrapolation of (U-U_GP)
+outer_solution_ghosts=same background-subtracted five-point closure
+outer_valid_surface_components=0..17
+outer_valid_surface_formula=-c_out*(D_x_backward_fourth(delta U)+delta U/x)
+
+The degree-four extrapolation weights for ghost distances one through three
+are:
+  [5,-10,10,-5,1]
+  [15,-40,45,-24,5]
+  [35,-105,126,-70,15]
+All storage components are covered, including one-copy hww/Aww. Chombo owns
+the pure-z exchange; project code fills radial strips and radial-periodic
+corners. The outer valid-surface formula intentionally overwrites all 18
+pointwise RHS rows at that surface.
+
+DISSIPATION TRACE
+locked_source=external/GRChombo/Source/CCZ4/CCZ4RHS.impl.hpp:39-54
+locked_stencil=external/GRChombo/Source/BoxUtils/FourthOrderDerivatives.hpp:360-414
+live_direct_source=code/BlackStringToy/BlackStringTargetCCZ4Pointwise.hpp:227-237,728-736
+parameter_source=code/BlackStringToy/SimulationParameters.hpp:13-72
+
+Locked CCZ4RHS::compute performs:
+  load vars
+  bulk diff1/diff2/advection
+  rhs_equation
+  m_deriv.add_dissipation(rhs,current_cell,m_sigma)
+  store rhs
+
+The live LockedRHSAccess instead exposes rhs_equation and evaluate_direct calls
+that protected equation directly. CCZ4RHS::compute is never invoked.
+LockedRHSAccess also constructs its otherwise unused base with a_sigma=0.0.
+The project SimulationParameters derives from ChomboParameters, not
+SimulationParametersBase, and neither loads nor stores sigma. The upstream
+SimulationParametersBase default sigma=0.1 and the obsolete stage-2 smoke
+file sigma=0.3 have no ownership of the live BlackStringToy RHS.
+
+effective_KO_coefficient=0
+effective_KO_component_coverage=0/18
+effective_radial_KO_coverage=0/18
+effective_compact_KO_coverage=0/18
+
+The inactive locked KO term is the seven-point stencil
+  sigma/dx * [1,-6,15,-20,15,-6,1]/64.
+At the radial Nyquist mode its symbol is -sigma/dx, so its sign is damping;
+its scaling is 1/dx; enum_mapping covers every variable in the supplied Vars.
+There is no active sign, spacing, or partial-component error because the term
+is absent from the live path.
+
+The generic no-direction add_dissipation overload uses target-wide FOR(dir)
+and then m_in_stride[dir]. Under CH_SPACEDIM=2 and DEFAULT_TENSOR_DIM=4 it
+would request nonexistent hidden grid strides. Therefore replacing the direct
+call with generic CCZ4RHS::compute is not an admissible repair. A future
+repair needs explicit CH_SPACEDIM direction ownership for the reduced 18-slot
+state.
+
+CLEANUP TIMING
+source=external/Chombo/lib/src/AMRTimeDependent/LevelRK4.H:100-165
+source=external/GRChombo/Source/GRChomboCore/GRAMRLevel.cpp:901-965
+source=code/BlackStringToy/BlackStringToyLevel.cpp:92-108
+
+Cleanup follows each updateODE, not evalRHS. It sees the just-updated valid
+state, normalizes the full d=4 determinant with the two hidden hww copies,
+removes the weighted d=4 A trace, stores one hww/Aww copy, applies positivity
+floors, and is followed by a radial ghost refresh.
+
+NUMERICAL PROBE BUDGET
+allowed_configurations=8
+executed_configurations=0
+tangent_iterations=0
+long_evolutions=0
+runtime=not_applicable_static_stop
+peak_RSS=not_applicable_static_stop
+
+No amplification factors, growth rates, overlaps, component fractions,
+profiles, Nyquist fractions, or linearized constraints are reported because
+running those probes after identifying the concrete production
+dissipation-path defect would violate the requested stop rule. Bulk versus
+boundary modal identity remains unresolved.

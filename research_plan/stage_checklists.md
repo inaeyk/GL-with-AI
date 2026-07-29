@@ -970,6 +970,20 @@ simulation and radiation diagnostics exist.
   and all 18 slots, and all three ghost coordinates remain positive. The
   stabilization gate fails and the bounded classification is
   `EXCISION_PLACEMENT_NOT_SUFFICIENT`.
+- [x] Stage 4AO-D10 production radial-operator trace and required early stop.
+  The live adapter computes fourth-order derivatives with explicit radial and
+  compact `CH_SPACEDIM` strides for all 18 slots, synthesizes hidden
+  derivatives without grid reads, and calls locked
+  `CCZ4RHS::rhs_equation` directly. Upstream KO dissipation is added only by
+  `CCZ4RHS::compute`, which the live path bypasses. The adapter's inaccessible
+  base is constructed with `sigma=0`, and project `SimulationParameters`
+  neither loads nor owns `sigma`; effective KO coverage is therefore `0/18`.
+  The inactive upstream seven-point stencil has the correct damping sign and
+  `1/dx` scaling, but is never invoked. Its generic target-wide stride loop
+  also cannot be enabled directly on the `2/4/4` grid. The required defect
+  stop is classified `DISSIPATION_PATH_DEFECT_IDENTIFIED`: no tangent-map
+  fixture, iteration, or evolution is run, no production code is repaired,
+  and bulk-versus-boundary modal identity remains unresolved.
 - [ ] Stage 4AO-D-F sustained unperturbed/perturbed evolution and boundary
   qualification. Converged `k_cr_0`, sustained nonlinear evolution,
   physical radial-boundary acceptance, AMR/MPI qualification,
