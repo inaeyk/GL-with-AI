@@ -18,7 +18,8 @@ convergence with exact background-preserving radial ghost data. A separate
 minimal GP-subtracted extrapolation/Sommerfeld policy now enables the first
 small perturbative boundary smoke. A fixture-only compact Fourier initializer,
 cadenced projection, and two-boundary/three-resolution short evolution now
-supply the first stable/unstable sign evidence. Sustained evolution, physical
+supplies transient Fourier evidence; the former stable/unstable short-window
+interpretation is superseded. Sustained evolution, physical
 radial-boundary acceptance, a converged threshold, refinement, MPI, broader
 diagnostics, and horizons remain open.
 
@@ -255,9 +256,59 @@ at every resolution, boundary, and at `epsilon=1e-9,5e-10`; the largest
 epsilon-normalized history difference is `6.62e-7` under a `5e-4` tolerance.
 Paired unperturbed leakage is at most `4.14e-21`, and the seeded/leakage ratio
 is at least `2.75e10`. Paired constraint differences are reported directly;
-`Mz` is not labeled roundoff or convergent. This is short-window sign
-evidence, not a threshold, asymptotic rate, sustained evolution, or
-physical-boundary qualification.
+`Mz` is not labeled roundoff or convergent. The common turnover diagnosis
+supersedes the physical positive/negative interpretation: these are
+short-window transient fits, not stable/unstable classifications, a
+threshold, an asymptotic rate, sustained evolution, or physical-boundary
+qualification.
+
+The fixture-only adaptive extension screens the fundamental mode at requested
+and actual `k=0.82,0.86,0.90,0.94`, then adds `0.78,0.75` because the initial
+set contains no sign change. Legal block-factor-four grids preserve each
+requested physical `Lz=2*pi/k`; actual `dx=dz` differs from the requested
+`1/8` by at most 2.9%. At `x_out=4.5`, CFL `0.05`, and `t_final=0.8`, all six
+candidates have three negative fits satisfying `|Omega|>=3 SE`, while seeded
+amplitudes remain at least `3.42e9` above paired-control leakage. The
+authoritative scan consumes 12 evolutions and returns `AMBIGUOUS`. With no
+positive endpoint, endpoint-only resolution, outer-boundary, and
+second-amplitude runs are correctly skipped. No numerical bracket,
+interpolated threshold, `k_cr_0`, or checkpoint promotion is claimed. All six
+preserved histories rise initially and turn over near `t=0.3-0.4` before
+decaying, so their late negative fits are inconclusive transient evidence,
+not physical stability. They support no conclusion about whether `k_cr*r0`
+is above or below `0.75`.
+
+The exact-domain antisymmetric diagnostic then runs one control and signed
+`epsilon=1e-8` pairs at `k=pi/4,pi/2` on `Lz=8`, `0.5<=x<=4.5`,
+`(Nx,Nz)=(32,64)`, `dx=dz=1/8`, and CFL `0.05`. Neither mode meets the
+rolling-slope plateau rules by `t=4`. The permitted control and `k=pi/4`
+extension to `t=8` yields final width-`0.5` slopes
+`2.656,2.732,2.880` and width-`1.0` slopes `2.476,2.587,2.737`, with
+variation below `10.1%`, slope errors smaller than the slopes, maximum
+even/odd contamination `1.26e-6`, and no noise-floor crossing. A signed
+`epsilon=5e-9` pair agrees within `3.44e-6`. This establishes linearity and
+is reclassified as
+`LATE_TIME_LINEAR_INSTABILITY_DETECTED — PHYSICAL IDENTITY UNRESOLVED` for
+`k=pi/4`; `k=pi/2` is
+`NO_MODE_PLATEAU_WITHIN_TESTED_TIME`. Background control drift reaches
+`1.97` at `t=8`, and the linearized constraint response grows explosively.
+Those failures prevent identification as a GL mode. No negative plateau,
+critical bracket, asymptotic rate, or physical-boundary qualification
+follows, and the `k` scan remains suspended.
+
+D7 reuses the existing `t=8` unperturbed series and consumes its full budget
+of four new controls. The exact-GP radial-ghost attempt terminates on an
+invalid reduced metric before it can test a cure. The available
+zero-coefficient gauge parameters freeze lapse and shift but not `B^i`,
+because the locked gauge RHS retains the `Gamma^i`-RHS coupling; this is not a
+complete frozen-gauge isolation. Half CFL reproduces the baseline onset and
+final drift to a ratio of `1.0007`. Fine `dx=dz=1/12` reduces early drift but
+raises the final drift ratio to `3.244` and steepens late growth, showing
+spatial sensitivity without convergence or a cure. All completed controls
+remain `z` independent, with maximum Fourier content `5.03e-16`, and retain
+machine-scale determinant/weighted-trace cleanup. The allowed classification
+is `MULTIPLE_OR_UNRESOLVED`; spatial-discretization sensitivity is the
+strongest surviving clue, not a unique diagnosis.
 
 | Priority / order | Adaptation item | GRChombo source to reuse | Project-specific work | Dependency | Acceptance / exit criterion |
 |---|---|---|---|---|---|
@@ -275,7 +326,7 @@ physical-boundary qualification.
 | P1-10 | Unperturbed background evolution (E2 bounded diagnostic and matched-domain convergence complete; production qualification open) | `GRAMR`, RK4, ghost fill, boundaries, checkpointing | Configure target grid, source, hidden RHS, diagnostics, and conservative validation window | P1-7 through P1-9a | E2: 4/8/16-step matched-domain stationarity and constraint convergence pass with exact-background radial ghosts; remaining exit: accepted physical radial boundary, sustained window, and restart smoke |
 | P2-11 | Fourier perturbation initialization (first level-zero fixture complete; production family open) | Initial-data BoxLoop plus periodic grid | Test-only normalized compact even/odd SO(3)-scalar seed with the one-z slots on sine | P1-10 | First parity leakage and bounded linear-amplitude run pass; production parameter family remains open |
 | P2-12 | Fourier amplitude diagnostics (first level-zero fixture complete; AMR output open) | Level-zero storage and reductions | Test-only cosine/sine radial-RMS quadratures of `0.5 log(hww/chi)`, phase-neutral amplitude, and paired controls at cadence eight | P2-11 | Quadrature rotation invariance, leakage, and two-epsilon normalized histories pass; AMR-consistent persistent output remains open |
-| P2-13 | Growth-rate extraction (first bounded sign diagnostic complete; physical rate open) | Project fixture analysis | Three declared short log-amplitude windows with slope error/R2, resolution, boundary, and amplitude reporting | P2-12 | Opposite signs persist across the focused matrix; asymptotic eigenmode-rate and physical-rate acceptance remain open |
+| P2-13 | Growth-rate extraction (transient diagnosis complete; physical rate open) | Project fixture analysis | Signed odd/even response, rolling width-`0.5/1.0` log slopes, linearity, constraint, and budgeted transient reporting | P2-12 | `k=pi/4` has a linear late-time instability whose physical identity is unresolved; exploding constraints/control drift forbid a GL identification, and D7 classifies its source `MULTIPLE_OR_UNRESOLVED`; no negative plateau, bracket, asymptotic rate, or physical-rate acceptance follows |
 | P2-14 | Production convergence workflow | GRChombo AMR/restart/output machinery | Reproducible multi-resolution parameter sets and comparison tables | P1-10, P2-13 | Background, constraints, perturbations, and rate show documented convergence |
 | P3-15 | String MOTS/horizon adapter | `AHFinder`, `PETScAHSolver`, `AHStringGeometry`, interpolation | Supply target variables, `S2 x S1` geometry, hidden expansion terms, PETSc configuration | P1-7, PETSc source lock | Uniform `x=r0` MOTS recovered with convergent residual; restart supported |
 | P3-16 | `R_H`, minimum radius, and horizon area | AH surface data, interpolation, reductions, `SmallDataIO` | Evaluate `R_H=h sqrt(hww/chi)`, minimum over z, correct string area | P3-15 | Uniform analytic values and perturbed manufactured profiles converge |
@@ -685,7 +736,8 @@ isolated E1 application integration:
 
 Bounded serial level-zero GP evolution and matched-domain convergence are now
 implemented and validated. The minimal physical radial-boundary smoke and the
-first bounded Fourier stable/unstable sign diagnostic are also implemented.
+bounded Fourier transient diagnostic are also implemented. The former
+short-window stable/unstable interpretation is superseded.
 Sustained evolution, physical radial-boundary acceptance, a converged
 `k_cr_0`, AMR/MPI, broader diagnostics, horizons/PETSc, final scoring, Stage
 4AO-D, and Checkpoint G remain open.

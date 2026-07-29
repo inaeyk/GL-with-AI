@@ -1,0 +1,132 @@
+BLACKSTRING FOURIER TRANSIENT DIAGNOSTIC
+date=2026-07-29
+base_commit=0d28d8d
+scope=fixture-only
+production_evolution_changed=false
+radial_boundary_changed=false
+
+INTERPRETATION CORRECTION
+The preserved adaptive-scan histories all rise initially and turn over near
+t=0.3-0.4 before decaying:
+k     a(0)/eps  a(0.2)/eps  a(0.4)/eps  a(0.8)/eps
+0.75  0.10813   0.11411     0.11493     0.04077
+0.78  0.10699   0.11284     0.11692     0.04663
+0.82  0.10928   0.11525     0.11387     0.03607
+0.86  0.10585   0.11138     0.11623     0.04770
+0.90  0.10751   0.11294     0.11424     0.04245
+0.94  0.10892   0.11447     0.11310     0.03615
+The negative late-window slopes are retained as mathematical fit results but
+are reclassified as inconclusive transient evidence. They do not classify
+physical stability and support no inference that k_cr*r0 lies above or below
+0.75. The original scan data remain in blackstring_adaptive_k_scan.log.
+
+DOMAIN AND SAMPLING
+Lz=8
+x_in=0.5
+x_out=4.5
+Nx=32
+Nz=64
+dx=dz=0.125
+CFL=0.05
+dt=0.00625
+constraint_diagnostic_cadence=4
+sample_interval=0.025
+epsilon=1e-8
+k_low=pi/4=0.7853981633974
+k_high=pi/2=1.570796326795
+
+RESPONSE DEFINITIONS
+q=0.5*log(hww/chi)
+delta_q_odd=(q(+epsilon)-q(-epsilon))/(2*epsilon)
+delta_q_even=(q(+epsilon)+q(-epsilon)-2*q(0))/(2*epsilon)
+ordinary=(q(+epsilon)-q(0))/epsilon
+Each response is Fourier projected at every radial point. Signed radial-RMS
+cosine/sine quadratures form the phase-neutral amplitude with hypot(C,S).
+The same signed subtraction is applied to Fourier projections of H,Mx,Mz.
+
+EVOLUTIONS
+1 control t=4
+2 k=pi/4 +1e-8 t=4
+3 k=pi/4 -1e-8 t=4
+4 k=pi/2 +1e-8 t=4
+5 k=pi/2 -1e-8 t=4
+No mode meets both rolling-width plateau rules at t=4.
+6 control t=8
+7 k=pi/4 +1e-8 t=8
+8 k=pi/4 -1e-8 t=8
+The k=pi/4 extension meets the provisional positive-plateau rule.
+9 k=pi/4 +5e-9 t=8
+10 k=pi/4 -5e-9 t=8
+total_evolutions=10
+hard_limit=10
+
+SELECTED PHASE-NEUTRAL RESPONSE
+label  t    odd_amp      even/odd    ordinary_amp phase       H_odd    Mx_odd   Mz_odd   control_drift
+low    0.0  1.07368e-1  9.46e-18    1.07368e-1   pi          9.935     0.230    0.128    0
+low    0.5  1.09851e-1  4.12e-13    1.09851e-1   pi          5.525     2.946    0.608    5.411e-2
+low    1.0  4.00721e-2  9.71e-12    4.00721e-2   ~0          6.333     2.217    0.336    5.756e-2
+low    2.0  1.78443e-2  2.91e-7     1.78443e-2   ~0          4.875     2.546    0.653    5.433e-2
+low    4.0  4.79677e-2  7.26e-7     4.79677e-2   -pi         7.553    11.619    5.380    4.042e-2
+low    6.0  2.28801e-1  5.22e-7     2.28801e-1   -pi        99.390   116.783   52.883    1.044e-1
+low    8.0  2.55966e1   3.24e-7     2.55966e1    pi       19835.124 12141.592 2208.927  1.970
+high   0.0  1.07368e-1  6.28e-18    1.07368e-1   pi         10.167     0.215    0.262    0
+high   1.0  6.20288e-2  2.30e-12    6.20288e-2   ~0          6.631     2.246    0.666    5.756e-2
+high   2.0  3.47856e-2  1.40e-7     3.47856e-2   pi          4.721     2.542    1.276    5.433e-2
+high   3.0  5.29881e-2  3.03e-7     5.29881e-2   pi          5.173     3.132    2.437    4.988e-2
+high   4.0  7.33217e-2  5.10e-7     7.33217e-2   -pi         8.209    11.859   10.970    4.042e-2
+
+The phase switches between equivalent 0 and +/-pi branches as the coherent
+quadrature changes sign; hypot(C,S) remains phase neutral. The ordinary
+seeded-minus-control amplitude agrees closely with the odd response.
+Minimum odd-response signal/noise is 7.03e9 for the low mode and 9.43e9 for
+the high mode. No zero or noise-floor crossing occurs.
+
+FINAL THREE ROLLING WINDOWS
+label width end   slope      SE         R2
+low   0.5   7.50  2.655958   0.100055   0.973744
+low   0.5   7.75  2.732314   0.098375   0.975962
+low   0.5   8.00  2.880054   0.102105   0.976676
+low   1.0   7.50  2.475713   0.044187   0.987729
+low   1.0   7.75  2.587183   0.038805   0.991302
+low   1.0   8.00  2.737256   0.037399   0.992772
+high  0.5   3.50  0.087523   0.029770   0.312682
+high  0.5   3.75  0.215895   0.050984   0.485532
+high  0.5   4.00  0.577502   0.034939   0.934977
+high  1.0   3.50  0.138727   0.009096   0.856415
+high  1.0   3.75  0.180062   0.013476   0.820712
+high  1.0   4.00  0.308203   0.023113   0.820116
+
+The low-mode final triplets have a common positive sign, slope errors below
+the slope magnitudes, and variations 8.13% (width 0.5) and 10.06% (width
+1.0). The high-mode slope variation exceeds 20%, so it has no plateau.
+Low-mode maximum even/odd contamination is 1.2583e-6. The epsilon=5e-9
+signed response differs from the epsilon=1e-8 history by at most 3.4401e-6,
+below the established 5e-4 linearity tolerance.
+
+PERFORMANCE AND COUNTS
+t4_wall_seconds=12.37_to_12.53_per_evolution
+t8_wall_seconds=24.78_to_25.36_per_evolution
+total_wall_seconds=187.10
+peak_rss_kb=10636
+t4_rhs_evaluations=2560
+t4_periodic_exchanges=2722
+t4_inner_calls=t4_outer_calls=11682
+t4_diagnostic_evaluations=161
+t8_rhs_evaluations=5120
+t8_periodic_exchanges=5442
+t8_inner_calls=t8_outer_calls=23362
+t8_diagnostic_evaluations=321
+All counters and radial Fourier output are compile-time fixture instrumentation.
+Production evolution and boundary files are unchanged.
+
+BOUNDED CONCLUSION
+k=pi/4: LATE_TIME_LINEAR_INSTABILITY_DETECTED — PHYSICAL IDENTITY UNRESOLVED
+k=pi/2: NO_MODE_PLATEAU_WITHIN_TESTED_TIME
+The positive linear instability meets the declared numerical rolling-slope,
+contamination, noise-floor, and amplitude-linearity rules. Half-amplitude
+agreement and small even/odd contamination establish linearity. The t=8
+background drift and explosively growing linearized constraint response
+prevent identification as a GL mode. There is no tested late-time negative
+endpoint, so no k_cr*r0 bracket, asymptotic rate, physical-boundary
+acceptance, or conclusion about whether k_cr*r0 is above or below 0.75
+follows. The k scan remains suspended.

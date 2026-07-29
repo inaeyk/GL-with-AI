@@ -888,14 +888,59 @@ simulation and radiation diagnostics exist.
   Both Fourier quadratures of `0.5 log(hww/chi)` enter
   `ak=hypot(Ck,Sk)` and the phase is reported; this supersedes the
   cosine-only result. Fits on `[0.1,0.4]`, `[0.15,0.4]`, and `[0.2,0.4]`
-  retain positive `k=pi/4` and negative `k=pi/2` signs at all resolutions,
-  boundaries, and amplitudes. Identical unperturbed controls put leakage
+  retain positive `k=pi/4` and negative `k=pi/2` short-window signs at all
+  resolutions, boundaries, and amplitudes. Identical unperturbed controls put leakage
   below `4.14e-21` and the minimum seeded/leakage ratio above `2.75e10`.
   Epsilon-normalized histories agree within `6.62e-7` under the declared
   `5e-4` tolerance. Paired drift and `H,Mx,Mz` differences are reported;
-  `Mz` is not called roundoff or convergent. This is bounded sign evidence
-  only, not an asymptotic eigenmode rate, `k_cr_0`, or physical-boundary
-  acceptance.
+  `Mz` is not called roundoff or convergent. The later common turnover
+  supersedes the physical stable/unstable interpretation: this is transient
+  fit evidence only, not an asymptotic eigenmode rate, `k_cr_0`, or
+  physical-boundary acceptance.
+- [x] Fixture-only adaptive critical-wavenumber screening harness and bounded
+  attempt. The fundamental mode preserves each requested `Lz=2*pi/k`, uses
+  legal block-factor-four grids with actual `dx=dz` within 2.9% of `1/8`,
+  paired controls, phase-neutral amplitude, and the declared
+  `[0.2,0.8]`, `[0.3,0.8]`, `[0.4,0.8]` fits. Requested and actual
+  `k=0.82,0.86,0.90,0.94` plus the allowed lower additions `0.78,0.75`
+  all have negative late-window fits. Every preserved amplitude rises first
+  and turns over near `t=0.3-0.4`, so those signs do not classify physical
+  stability. The authoritative runner uses 12 evolutions and returns
+  `AMBIGUOUS`; Pass 2 is not run.
+  This implements the budgeted scan/stop policy but does not complete a
+  provisional bracket, locate `k_cr*r0` above or below `0.75`, or change any
+  threshold/physical-boundary status.
+- [x] Exact-domain antisymmetric transient diagnostic. Ten fixture-only
+  evolutions use `Lz=8`, `0.5<=x<=4.5`, `(Nx,Nz)=(32,64)`, `dx=dz=1/8`,
+  CFL `0.05`, signed seeds, one shared control, and rolling widths `0.5,1.0`.
+  Neither mode has a plateau at `t=4`. The permitted `k=pi/4` extension has
+  a bounded `LATE_TIME_LINEAR_INSTABILITY_DETECTED — PHYSICAL IDENTITY
+  UNRESOLVED` indication by `t=8`; both final
+  three-window slope families vary by at most `10.1%`, errors are smaller
+  than slopes, maximum even/odd contamination is `1.26e-6`, and the
+  `epsilon=5e-9` signed pair agrees within `3.44e-6`. The `k=pi/2` result is
+  `NO_MODE_PLATEAU_WITHIN_TESTED_TIME`. Half-amplitude agreement and small
+  even/odd contamination establish linearity, but control drift reaches
+  `1.97` and the linearized constraints grow explosively by `t=8`. The
+  physical identity is therefore unresolved: this is not identified as a GL
+  mode. No negative endpoint, critical bracket, asymptotic rate, or
+  physical-boundary acceptance follows, and the `k` scan remains suspended.
+- [x] Stage 4AO-D7 focused unperturbed-control isolation, with one reused D6
+  baseline and four new evolution attempts on `Lz=8`, `0.5<=x<=4.5`,
+  `t_final=8`. The exact-GP radial-ghost control terminates on an invalid
+  reduced metric before supplying a cure test. The existing zero-coefficient
+  gauge-parameter seam freezes lapse and shift but not `B^i`, whose locked
+  equation retains the `Gamma^i`-RHS coupling, so it is not a complete
+  frozen-gauge isolation. Halving CFL leaves the onset and final drift
+  essentially unchanged (`1.0007` final-drift ratio). Refining
+  `dx=dz` from `1/8` to `1/12` lowers early drift but increases the final
+  drift ratio to `3.244` and the late growth rate, demonstrating
+  non-convergent spatial sensitivity rather than a cure. All completed
+  controls remain `z` independent to measured span zero and Fourier content
+  below `5.03e-16`; determinant and weighted-trace errors remain below
+  `8.89e-16`. The bounded classification is `MULTIPLE_OR_UNRESOLVED`, with
+  spatial-discretization sensitivity the strongest surviving clue. No
+  perturbed growth is identified as a GL signal.
 - [ ] Stage 4AO-D-F sustained unperturbed/perturbed evolution and boundary
   qualification. Converged `k_cr_0`, sustained nonlinear evolution,
   physical radial-boundary acceptance, AMR/MPI qualification,

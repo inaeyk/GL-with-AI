@@ -166,14 +166,53 @@ template <int mode_number> class FourierInitialData
 
 struct Sample
 {
+    struct RadialFourier
+    {
+        double x = 0.0;
+        double q_cosine = 0.0;
+        double q_sine = 0.0;
+        std::array<double, 3> constraint_cosine{};
+        std::array<double, 3> constraint_sine{};
+    };
+
     double time = 0.0;
     double cosine = 0.0;
     double sine = 0.0;
     double amplitude = 0.0;
     double phase = 0.0;
     std::array<double, NUM_DIAGNOSTIC_VARS> constraints{};
+    std::array<double, NUM_DIAGNOSTIC_VARS> constraint_l2{};
+    std::array<int, NUM_DIAGNOSTIC_VARS> constraint_maximum_radial{};
     double state_drift = 0.0;
+    double state_l2 = 0.0;
+    std::array<double, NUM_VARS> variable_maximum{};
+    std::array<double, NUM_VARS> variable_l2{};
+    std::array<int, NUM_VARS> variable_maximum_radial{};
+    std::array<double, NUM_VARS> variable_z_span{};
+    std::array<double, NUM_VARS> variable_fourier_amplitude{};
+    double determinant_error = 0.0;
+    double determinant_l2 = 0.0;
+    int determinant_maximum_radial = 0;
+    double weighted_trace_error = 0.0;
+    double weighted_trace_l2 = 0.0;
+    int weighted_trace_maximum_radial = 0;
+    std::vector<RadialFourier> radial_fourier;
+    std::vector<RadialFourier> secondary_radial_fourier;
 };
+
+const char *maximum_region(const int radial_index, const int radial_cells)
+{
+    constexpr int boundary_band_cells = 5;
+    if (radial_index < boundary_band_cells)
+    {
+        return "inner_boundary";
+    }
+    if (radial_index >= radial_cells - boundary_band_cells)
+    {
+        return "outer_boundary";
+    }
+    return "bulk";
+}
 
 struct Fit
 {
@@ -193,6 +232,14 @@ struct FitWindow
 constexpr std::array<FitWindow, 3> fit_windows = {
     FitWindow{0.10, fit_end}, FitWindow{0.15, fit_end},
     FitWindow{0.20, fit_end}};
+constexpr std::array<FitWindow, 3> adaptive_scan_fit_windows = {
+    FitWindow{0.20, 0.80}, FitWindow{0.30, 0.80},
+    FitWindow{0.40, 0.80}};
+constexpr std::array<FitWindow, 3> extended_scan_fit_windows = {
+    FitWindow{0.40, 1.60}, FitWindow{0.60, 1.60},
+    FitWindow{0.80, 1.60}};
+// These fixed windows preserve the earlier bounded checkpoint output. They
+// describe short-time transients and are not physical stable/unstable labels.
 
 struct ParityReport
 {
@@ -383,11 +430,12 @@ class FourierGrowthLevel : public BlackStringToyLevel
             }
         }
         require(points > 0, "initial parity inspection visited no cells");
-        require(run_configuration.epsilon > 0.0,
+        require(run_configuration.epsilon != 0.0,
                 "parity inspection requires a seeded run");
         const double normalization =
             2.0 /
-            (run_configuration.epsilon * static_cast<double>(points));
+            (std::abs(run_configuration.epsilon) *
+             static_cast<double>(points));
         return {std::abs(even_cosine) * normalization,
                 std::abs(even_sine) * normalization,
                 std::abs(one_z_sine) * normalization,
@@ -457,17 +505,74 @@ class FourierGrowthLevel : public BlackStringToyLevel
         const int radial_cells = domain.size(0);
         const double compact_length = m_dx * compact_cells;
         const double k = 2.0 * pi * mode_number / compact_length;
+        constexpr int secondary_mode_number = mode_number == 1 ? 2 : 1;
+        const double secondary_k =
+            2.0 * pi * secondary_mode_number / compact_length;
         const auto offset = m_p.coordinate_offset();
         std::vector<double> cosine_sum(
             static_cast<std::size_t>(radial_cells), 0.0);
         std::vector<double> sine_sum(
             static_cast<std::size_t>(radial_cells), 0.0);
+        std::vector<double> secondary_cosine_sum(
+            static_cast<std::size_t>(radial_cells), 0.0);
+        std::vector<double> secondary_sine_sum(
+            static_cast<std::size_t>(radial_cells), 0.0);
         std::vector<int> compact_count(
             static_cast<std::size_t>(radial_cells), 0);
+        std::array<std::vector<double>, NUM_VARS> variable_cosine_sum;
+        std::array<std::vector<double>, NUM_VARS> variable_sine_sum;
+        std::array<std::vector<double>, NUM_VARS> variable_minimum;
+        std::array<std::vector<double>, NUM_VARS> variable_maximum;
+        for (int component = 0; component < NUM_VARS; ++component)
+        {
+            const auto slot = static_cast<std::size_t>(component);
+            variable_cosine_sum[slot].assign(
+                static_cast<std::size_t>(radial_cells), 0.0);
+            variable_sine_sum[slot].assign(
+                static_cast<std::size_t>(radial_cells), 0.0);
+            variable_minimum[slot].assign(
+                static_cast<std::size_t>(radial_cells),
+                std::numeric_limits<double>::infinity());
+            variable_maximum[slot].assign(
+                static_cast<std::size_t>(radial_cells),
+                -std::numeric_limits<double>::infinity());
+        }
+        constexpr std::array<int, 3> constraint_components = {
+            c_Ham, c_MomX, c_MomZ};
+        std::array<std::vector<double>, 3> constraint_cosine_sum;
+        std::array<std::vector<double>, 3> constraint_sine_sum;
+        std::array<std::vector<double>, 3>
+            secondary_constraint_cosine_sum;
+        std::array<std::vector<double>, 3>
+            secondary_constraint_sine_sum;
+        for (std::size_t diagnostic = 0;
+             diagnostic < constraint_components.size(); ++diagnostic)
+        {
+            constraint_cosine_sum[diagnostic].assign(
+                static_cast<std::size_t>(radial_cells), 0.0);
+            constraint_sine_sum[diagnostic].assign(
+                static_cast<std::size_t>(radial_cells), 0.0);
+            secondary_constraint_cosine_sum[diagnostic].assign(
+                static_cast<std::size_t>(radial_cells), 0.0);
+            secondary_constraint_sine_sum[diagnostic].assign(
+                static_cast<std::size_t>(radial_cells), 0.0);
+        }
 
         Sample sample;
         sample.time = m_time;
         sample.constraints.fill(0.0);
+        sample.constraint_l2.fill(0.0);
+        sample.constraint_maximum_radial.fill(0);
+        sample.variable_maximum.fill(0.0);
+        sample.variable_l2.fill(0.0);
+        sample.variable_maximum_radial.fill(0);
+        sample.variable_z_span.fill(0.0);
+        sample.variable_fourier_amplitude.fill(0.0);
+        double state_square_sum = 0.0;
+        double determinant_square_sum = 0.0;
+        double weighted_trace_square_sum = 0.0;
+        std::array<double, NUM_DIAGNOSTIC_VARS> constraint_square_sum{};
+        std::size_t valid_points = 0;
         const DataIterator iterator = m_state_new.dataIterator();
         for (int ibox = 0; ibox < iterator.size(); ++ibox)
         {
@@ -484,6 +589,11 @@ class FourierGrowthLevel : public BlackStringToyLevel
                 const double z =
                     BlackStringCoordinates::cell_centered<double>(
                         point[1], m_dx, offset[1]);
+                const int radial_index = point[0] - domain.smallEnd(0);
+                const double cosine = std::cos(k * z);
+                const double sine = std::sin(k * z);
+                const double secondary_cosine = std::cos(secondary_k * z);
+                const double secondary_sine = std::sin(secondary_k * z);
                 const double chi = state(point, c_chi);
                 const double hww = state(point, c_hww);
                 m_finite = m_finite && std::isfinite(chi) &&
@@ -491,12 +601,16 @@ class FourierGrowthLevel : public BlackStringToyLevel
                 if (chi > 0.0 && hww > 0.0)
                 {
                     const double areal_log = 0.5 * std::log(hww / chi);
-                    const int radial_index =
-                        point[0] - domain.smallEnd(0);
                     cosine_sum[static_cast<std::size_t>(radial_index)] +=
-                        areal_log * std::cos(k * z);
+                        areal_log * cosine;
                     sine_sum[static_cast<std::size_t>(radial_index)] +=
-                        areal_log * std::sin(k * z);
+                        areal_log * sine;
+                    secondary_cosine_sum
+                        [static_cast<std::size_t>(radial_index)] +=
+                        areal_log * secondary_cosine;
+                    secondary_sine_sum
+                        [static_cast<std::size_t>(radial_index)] +=
+                        areal_log * secondary_sine;
                     ++compact_count[static_cast<std::size_t>(radial_index)];
                 }
 
@@ -505,27 +619,142 @@ class FourierGrowthLevel : public BlackStringToyLevel
                         m_p.r0, x);
                 for (int component = 0; component < NUM_VARS; ++component)
                 {
+                    const auto slot = static_cast<std::size_t>(component);
                     const double value = state(point, component);
                     m_finite = m_finite && std::isfinite(value);
+                    const double difference =
+                        value - background[static_cast<std::size_t>(component)];
+                    const double absolute_difference = std::abs(difference);
+                    if (absolute_difference > sample.variable_maximum[slot])
+                    {
+                        sample.variable_maximum[slot] = absolute_difference;
+                        sample.variable_maximum_radial[slot] = radial_index;
+                    }
+                    sample.variable_l2[slot] += difference * difference;
+                    state_square_sum += difference * difference;
                     sample.state_drift =
-                        std::max(sample.state_drift,
-                                 std::abs(value -
-                                          background[static_cast<std::size_t>(
-                                              component)]));
+                        std::max(sample.state_drift, absolute_difference);
+                    variable_cosine_sum[slot]
+                                       [static_cast<std::size_t>(
+                                           radial_index)] += value * cosine;
+                    variable_sine_sum[slot]
+                                     [static_cast<std::size_t>(
+                                         radial_index)] += value * sine;
+                    variable_minimum[slot]
+                                    [static_cast<std::size_t>(radial_index)] =
+                        std::min(variable_minimum[slot]
+                                                [static_cast<std::size_t>(
+                                                    radial_index)],
+                                 value);
+                    variable_maximum[slot]
+                                    [static_cast<std::size_t>(radial_index)] =
+                        std::max(variable_maximum[slot]
+                                                [static_cast<std::size_t>(
+                                                    radial_index)],
+                                 value);
                 }
                 for (int component = 0; component < NUM_DIAGNOSTIC_VARS;
                      ++component)
                 {
+                    const auto slot = static_cast<std::size_t>(component);
                     const double value = constraints(point, component);
                     m_finite = m_finite && std::isfinite(value);
-                    sample.constraints[static_cast<std::size_t>(component)] =
-                        std::max(
-                            sample.constraints[static_cast<std::size_t>(
-                                component)],
-                            std::abs(value));
+                    const double absolute_value = std::abs(value);
+                    if (absolute_value > sample.constraints[slot])
+                    {
+                        sample.constraints[slot] = absolute_value;
+                        sample.constraint_maximum_radial[slot] = radial_index;
+                    }
+                    constraint_square_sum[slot] += value * value;
                 }
+                for (std::size_t diagnostic = 0;
+                     diagnostic < constraint_components.size(); ++diagnostic)
+                {
+                    const double value =
+                        constraints(point, constraint_components[diagnostic]);
+                    constraint_cosine_sum[diagnostic]
+                                         [static_cast<std::size_t>(
+                                             radial_index)] += value * cosine;
+                    constraint_sine_sum[diagnostic]
+                                       [static_cast<std::size_t>(
+                                           radial_index)] += value * sine;
+                    secondary_constraint_cosine_sum[diagnostic]
+                                                       [static_cast<std::size_t>(
+                                                           radial_index)] +=
+                        value * secondary_cosine;
+                    secondary_constraint_sine_sum[diagnostic]
+                                                     [static_cast<std::size_t>(
+                                                         radial_index)] +=
+                        value * secondary_sine;
+                }
+
+                const double hxx = state(point, c_hxx);
+                const double hxz = state(point, c_hxz);
+                const double hzz = state(point, c_hzz);
+                const double block_determinant = hxx * hzz - hxz * hxz;
+                const double determinant =
+                    block_determinant * hww * hww;
+                const double determinant_error = std::abs(determinant - 1.0);
+                if (determinant_error > sample.determinant_error)
+                {
+                    sample.determinant_error = determinant_error;
+                    sample.determinant_maximum_radial = radial_index;
+                }
+                determinant_square_sum +=
+                    determinant_error * determinant_error;
+
+                double weighted_trace =
+                    std::numeric_limits<double>::infinity();
+                if (block_determinant != 0.0 && hww != 0.0)
+                {
+                    weighted_trace =
+                        (hzz * state(point, c_Axx) -
+                         2.0 * hxz * state(point, c_Axz) +
+                         hxx * state(point, c_Azz)) /
+                            block_determinant +
+                        2.0 * state(point, c_Aww) / hww;
+                }
+                const double weighted_trace_error =
+                    std::abs(weighted_trace);
+                m_finite =
+                    m_finite && std::isfinite(determinant_error) &&
+                    std::isfinite(weighted_trace_error);
+                if (weighted_trace_error > sample.weighted_trace_error)
+                {
+                    sample.weighted_trace_error = weighted_trace_error;
+                    sample.weighted_trace_maximum_radial = radial_index;
+                }
+                weighted_trace_square_sum +=
+                    weighted_trace_error * weighted_trace_error;
+                ++valid_points;
             }
         }
+        require(valid_points ==
+                    static_cast<std::size_t>(radial_cells * compact_cells),
+                "control diagnostic did not visit every valid cell");
+        for (int component = 0; component < NUM_VARS; ++component)
+        {
+            const auto slot = static_cast<std::size_t>(component);
+            sample.variable_l2[slot] =
+                std::sqrt(sample.variable_l2[slot] /
+                          static_cast<double>(valid_points));
+        }
+        for (int component = 0; component < NUM_DIAGNOSTIC_VARS; ++component)
+        {
+            const auto slot = static_cast<std::size_t>(component);
+            sample.constraint_l2[slot] =
+                std::sqrt(constraint_square_sum[slot] /
+                          static_cast<double>(valid_points));
+        }
+        sample.state_l2 =
+            std::sqrt(state_square_sum /
+                      static_cast<double>(valid_points * NUM_VARS));
+        sample.determinant_l2 =
+            std::sqrt(determinant_square_sum /
+                      static_cast<double>(valid_points));
+        sample.weighted_trace_l2 =
+            std::sqrt(weighted_trace_square_sum /
+                      static_cast<double>(valid_points));
         m_maximum_state_drift =
             std::max(m_maximum_state_drift, sample.state_drift);
 
@@ -553,11 +782,88 @@ class FourierGrowthLevel : public BlackStringToyLevel
             const double sine_coefficient =
                 2.0 * sine_sum[static_cast<std::size_t>(radial)] /
                 static_cast<double>(count);
+            const double secondary_cosine_coefficient =
+                2.0 *
+                secondary_cosine_sum[static_cast<std::size_t>(radial)] /
+                static_cast<double>(count);
+            const double secondary_sine_coefficient =
+                2.0 * secondary_sine_sum[static_cast<std::size_t>(radial)] /
+                static_cast<double>(count);
+            Sample::RadialFourier radial_fourier;
+            radial_fourier.x = x;
+            radial_fourier.q_cosine = cosine_coefficient;
+            radial_fourier.q_sine = sine_coefficient;
+            for (std::size_t diagnostic = 0;
+                 diagnostic < constraint_components.size(); ++diagnostic)
+            {
+                radial_fourier.constraint_cosine[diagnostic] =
+                    2.0 * constraint_cosine_sum[diagnostic]
+                                                [static_cast<std::size_t>(
+                                                    radial)] /
+                    static_cast<double>(count);
+                radial_fourier.constraint_sine[diagnostic] =
+                    2.0 * constraint_sine_sum[diagnostic]
+                                              [static_cast<std::size_t>(
+                                                  radial)] /
+                    static_cast<double>(count);
+            }
+            sample.radial_fourier.push_back(radial_fourier);
+            Sample::RadialFourier secondary_radial_fourier;
+            secondary_radial_fourier.x = x;
+            secondary_radial_fourier.q_cosine =
+                secondary_cosine_coefficient;
+            secondary_radial_fourier.q_sine = secondary_sine_coefficient;
+            for (std::size_t diagnostic = 0;
+                 diagnostic < constraint_components.size(); ++diagnostic)
+            {
+                secondary_radial_fourier.constraint_cosine[diagnostic] =
+                    2.0 *
+                    secondary_constraint_cosine_sum[diagnostic]
+                                                       [static_cast<std::size_t>(
+                                                           radial)] /
+                    static_cast<double>(count);
+                secondary_radial_fourier.constraint_sine[diagnostic] =
+                    2.0 *
+                    secondary_constraint_sine_sum[diagnostic]
+                                                     [static_cast<std::size_t>(
+                                                         radial)] /
+                    static_cast<double>(count);
+            }
+            sample.secondary_radial_fourier.push_back(
+                secondary_radial_fourier);
             cosine_square_sum += cosine_coefficient * cosine_coefficient;
             sine_square_sum += sine_coefficient * sine_coefficient;
             cosine_sign_sum += cosine_coefficient;
             sine_sign_sum += sine_coefficient;
             ++analysis_count;
+        }
+        for (int component = 0; component < NUM_VARS; ++component)
+        {
+            const auto slot = static_cast<std::size_t>(component);
+            double fourier_square_sum = 0.0;
+            for (int radial = 0; radial < radial_cells; ++radial)
+            {
+                const auto radial_slot = static_cast<std::size_t>(radial);
+                const int count = compact_count[radial_slot];
+                require(count == compact_cells,
+                        "z-independence sampler missed compact cells");
+                const double cosine_coefficient =
+                    2.0 * variable_cosine_sum[slot][radial_slot] /
+                    static_cast<double>(count);
+                const double sine_coefficient =
+                    2.0 * variable_sine_sum[slot][radial_slot] /
+                    static_cast<double>(count);
+                fourier_square_sum +=
+                    cosine_coefficient * cosine_coefficient +
+                    sine_coefficient * sine_coefficient;
+                sample.variable_z_span[slot] =
+                    std::max(sample.variable_z_span[slot],
+                             variable_maximum[slot][radial_slot] -
+                                 variable_minimum[slot][radial_slot]);
+            }
+            sample.variable_fourier_amplitude[slot] =
+                std::sqrt(fourier_square_sum /
+                          static_cast<double>(radial_cells));
         }
         require(analysis_count > 0,
                 "Fourier analysis window contains no cells");
@@ -600,10 +906,22 @@ class FourierGrowthLevel : public BlackStringToyLevel
 template <int mode_number>
 int run_case(SimulationParameters &parameters, const char *mode_name)
 {
-    require(parameters.physical_radial_boundaries,
-            "physical radial boundary policy must be enabled");
-    require(!parameters.background_preserving_gp_radial_ghosts,
-            "exact-GP diagnostic radial policy must be disabled");
+    constexpr int secondary_mode_number = mode_number == 1 ? 2 : 1;
+    const bool exact_gp_control =
+        std::string(mode_name) == "d7_exact_gp";
+    if (exact_gp_control)
+    {
+        require(parameters.background_preserving_gp_radial_ghosts &&
+                    !parameters.physical_radial_boundaries,
+                "D7 exact-GP control requires only exact-GP radial ghosts");
+    }
+    else
+    {
+        require(parameters.physical_radial_boundaries,
+                "physical radial boundary policy must be enabled");
+        require(!parameters.background_preserving_gp_radial_ghosts,
+                "exact-GP diagnostic radial policy must be disabled");
+    }
     require(parameters.constraint_diagnostic_cadence > 0,
             "growth fixture requires an explicit positive diagnostic cadence");
     require(parameters.max_level == 0,
@@ -618,10 +936,11 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
     auto *level = dynamic_cast<Level *>(levels[0]);
     require(level != nullptr, "growth fixture factory returned wrong level");
     const SeedReport seed = level->inspect_gamma_z_seed();
+    const double epsilon_magnitude = std::abs(run_configuration.epsilon);
     const double seed_tolerance =
-        std::max(1.0e-24, run_configuration.epsilon * 1.0e-10);
+        std::max(1.0e-24, epsilon_magnitude * 1.0e-10);
     require(seed.legacy_gamma_z_maximum_difference >
-                run_configuration.epsilon * 1.0e-3 ||
+                epsilon_magnitude * 1.0e-3 ||
                 !run_configuration.seeded(),
             "Gamma-z seed audit does not distinguish the legacy mutation");
     require(seed.corrected_gamma_z_maximum_error <= seed_tolerance,
@@ -657,8 +976,10 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
     require(counts.low_radial_fills == counts.ghost_fill_calls &&
                 counts.high_radial_fills == counts.ghost_fill_calls,
             "radial ghosts were not filled exactly once per refresh");
-    require(counts.outer_radiative_rhs_calls == counts.rhs_calls,
-            "outer radial RHS was not applied once per live RHS");
+    require(parameters.physical_radial_boundaries
+                ? counts.outer_radiative_rhs_calls == counts.rhs_calls
+                : counts.outer_radiative_rhs_calls == 0,
+            "outer radial RHS count disagrees with boundary policy");
     require(counts.rhs_periodic_exchanges == counts.rhs_calls,
             "framework periodic exchange count differs from live RHS count");
     require(counts.periodic_exchanges ==
@@ -717,7 +1038,7 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
     {
         const double normalized_amplitude =
             run_configuration.seeded()
-                ? sample.amplitude / run_configuration.epsilon
+                ? sample.amplitude / epsilon_magnitude
                 : sample.amplitude;
         std::cout << "FOURIER_SAMPLE mode=" << mode_name
                   << " kind=" << kind_name
@@ -732,10 +1053,131 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
                   << " Mx=" << sample.constraints[c_MomX]
                   << " Mz=" << sample.constraints[c_MomZ]
                   << " state_drift=" << sample.state_drift << '\n';
+        if (std::string(mode_name).rfind("d7_", 0) == 0)
+        {
+            const auto maximum_variable =
+                static_cast<int>(std::distance(
+                    sample.variable_maximum.begin(),
+                    std::max_element(sample.variable_maximum.begin(),
+                                     sample.variable_maximum.end())));
+            const auto maximum_z_variable =
+                static_cast<int>(std::distance(
+                    sample.variable_z_span.begin(),
+                    std::max_element(sample.variable_z_span.begin(),
+                                     sample.variable_z_span.end())));
+            const auto maximum_fourier_variable =
+                static_cast<int>(std::distance(
+                    sample.variable_fourier_amplitude.begin(),
+                    std::max_element(
+                        sample.variable_fourier_amplitude.begin(),
+                        sample.variable_fourier_amplitude.end())));
+            std::cout
+                << "D7_SAMPLE variant=" << mode_name
+                << " t=" << sample.time
+                << " state_max=" << sample.state_drift
+                << " state_l2=" << sample.state_l2
+                << " state_max_variable="
+                << UserVariables::variable_names[static_cast<std::size_t>(
+                       maximum_variable)]
+                << " state_max_location="
+                << maximum_region(
+                       sample.variable_maximum_radial
+                           [static_cast<std::size_t>(maximum_variable)],
+                       radial_cells)
+                << " H_max=" << sample.constraints[c_Ham]
+                << " H_l2=" << sample.constraint_l2[c_Ham]
+                << " H_location="
+                << maximum_region(
+                       sample.constraint_maximum_radial[c_Ham], radial_cells)
+                << " Mx_max=" << sample.constraints[c_MomX]
+                << " Mx_l2=" << sample.constraint_l2[c_MomX]
+                << " Mx_location="
+                << maximum_region(
+                       sample.constraint_maximum_radial[c_MomX], radial_cells)
+                << " Mz_max=" << sample.constraints[c_MomZ]
+                << " Mz_l2=" << sample.constraint_l2[c_MomZ]
+                << " Mz_location="
+                << maximum_region(
+                       sample.constraint_maximum_radial[c_MomZ], radial_cells)
+                << " determinant_max=" << sample.determinant_error
+                << " determinant_l2=" << sample.determinant_l2
+                << " determinant_location="
+                << maximum_region(sample.determinant_maximum_radial,
+                                  radial_cells)
+                << " weighted_trace_max=" << sample.weighted_trace_error
+                << " weighted_trace_l2=" << sample.weighted_trace_l2
+                << " weighted_trace_location="
+                << maximum_region(sample.weighted_trace_maximum_radial,
+                                  radial_cells)
+                << " maximum_z_span="
+                << sample.variable_z_span[static_cast<std::size_t>(
+                       maximum_z_variable)]
+                << " maximum_z_span_variable="
+                << UserVariables::variable_names[static_cast<std::size_t>(
+                       maximum_z_variable)]
+                << " maximum_fourier="
+                << sample.variable_fourier_amplitude
+                       [static_cast<std::size_t>(maximum_fourier_variable)]
+                << " maximum_fourier_variable="
+                << UserVariables::variable_names[static_cast<std::size_t>(
+                       maximum_fourier_variable)]
+                << '\n';
+            for (int component = 0; component < NUM_VARS; ++component)
+            {
+                const auto slot = static_cast<std::size_t>(component);
+                std::cout
+                    << "D7_VARIABLE variant=" << mode_name
+                    << " t=" << sample.time << " slot=" << component
+                    << " name=" << UserVariables::variable_names[slot]
+                    << " maximum=" << sample.variable_maximum[slot]
+                    << " l2=" << sample.variable_l2[slot]
+                    << " location="
+                    << maximum_region(sample.variable_maximum_radial[slot],
+                                      radial_cells)
+                    << " z_span=" << sample.variable_z_span[slot]
+                    << " fourier=" << sample.variable_fourier_amplitude[slot]
+                    << '\n';
+            }
+        }
+        if (std::string(mode_name) == "transient")
+        {
+            const auto print_radial =
+                [&](const std::vector<Sample::RadialFourier> &values,
+                    const int output_mode_number)
+            {
+                for (std::size_t radial = 0; radial < values.size(); ++radial)
+                {
+                    const auto &value = values[radial];
+                    std::cout
+                        << "FOURIER_RADIAL_SAMPLE mode=" << mode_name
+                        << " kind=" << kind_name
+                        << " mode_number=" << output_mode_number
+                        << " epsilon=" << run_configuration.epsilon
+                        << " t=" << sample.time << " radial_index=" << radial
+                        << " x=" << value.x << " qC=" << value.q_cosine
+                        << " qS=" << value.q_sine
+                        << " HC=" << value.constraint_cosine[0]
+                        << " HS=" << value.constraint_sine[0]
+                        << " MxC=" << value.constraint_cosine[1]
+                        << " MxS=" << value.constraint_sine[1]
+                        << " MzC=" << value.constraint_cosine[2]
+                        << " MzS=" << value.constraint_sine[2] << '\n';
+                }
+            };
+            print_radial(sample.radial_fourier, mode_number);
+            print_radial(sample.secondary_radial_fourier,
+                         secondary_mode_number);
+        }
     }
-    if (run_configuration.seeded())
+    if (run_configuration.seeded() &&
+        std::string(mode_name) != "transient")
     {
-        for (const FitWindow window : fit_windows)
+        const bool scan_mode = std::string(mode_name) == "scan";
+        const auto &selected_fit_windows =
+            scan_mode && parameters.stop_time > 1.0
+                ? extended_scan_fit_windows
+                : (scan_mode ? adaptive_scan_fit_windows : fit_windows);
+        for (const FitWindow window : selected_fit_windows)
         {
             const Fit fit = fit_growth(level->samples(), window);
             std::cout << "FOURIER_FIT mode=" << mode_name
@@ -782,14 +1224,16 @@ int main(int argc, char *argv[])
     if (argc != 5)
     {
         fail("usage: BlackStringFourierGrowthTest <params> "
-             "<unstable|stable> <control|seeded|legacy-gammaz> <epsilon>");
+             "<unstable|stable|scan|transient-low|transient-high|"
+             "d7-exact-gp|d7-frozen-gauge|d7-half-cfl|d7-fine> "
+             "<control|seeded|legacy-gammaz> <epsilon>");
     }
     const std::string kind(argv[3]);
     char *epsilon_end = nullptr;
     const double epsilon = std::strtod(argv[4], &epsilon_end);
     require(epsilon_end != argv[4] && *epsilon_end == '\0' &&
-                std::isfinite(epsilon) && epsilon >= 0.0,
-            "epsilon must be a finite nonnegative number");
+                std::isfinite(epsilon),
+            "epsilon must be a finite number");
     if (kind == "control")
     {
         require(epsilon == 0.0, "control run requires epsilon=0");
@@ -797,7 +1241,7 @@ int main(int argc, char *argv[])
     }
     else if (kind == "seeded")
     {
-        require(epsilon > 0.0, "seeded run requires positive epsilon");
+        require(epsilon != 0.0, "seeded run requires nonzero epsilon");
         run_configuration = {RunKind::seeded, epsilon};
     }
     else if (kind == "legacy-gammaz")
@@ -820,5 +1264,51 @@ int main(int argc, char *argv[])
     {
         return run_case<2>(parameters, "stable");
     }
-    fail("mode must be unstable or stable");
+    if (mode == "scan")
+    {
+        return run_case<1>(parameters, "scan");
+    }
+    if (mode == "transient-low")
+    {
+        return run_case<1>(parameters, "transient");
+    }
+    if (mode == "transient-high")
+    {
+        return run_case<2>(parameters, "transient");
+    }
+    if (mode == "d7-exact-gp")
+    {
+        require(run_configuration.kind == RunKind::control,
+                "D7 controls must remain unperturbed");
+        return run_case<1>(parameters, "d7_exact_gp");
+    }
+    if (mode == "d7-frozen-gauge")
+    {
+        require(run_configuration.kind == RunKind::control,
+                "D7 controls must remain unperturbed");
+        require(!parameters.fixed_lapse_source &&
+                    parameters.gauge.lapse_advec_coeff == 0.0 &&
+                    parameters.gauge.lapse_coeff == 0.0 &&
+                    parameters.gauge.shift_Gamma_coeff == 0.0 &&
+                    parameters.gauge.shift_advec_coeff == 0.0 &&
+                    parameters.gauge.eta == 0.0,
+                "D7 frozen gauge requires the existing zero-coefficient "
+                "gauge-parameter seam");
+        return run_case<1>(parameters, "d7_frozen_gauge");
+    }
+    if (mode == "d7-half-cfl")
+    {
+        require(run_configuration.kind == RunKind::control,
+                "D7 controls must remain unperturbed");
+        return run_case<1>(parameters, "d7_half_cfl");
+    }
+    if (mode == "d7-fine")
+    {
+        require(run_configuration.kind == RunKind::control,
+                "D7 controls must remain unperturbed");
+        return run_case<1>(parameters, "d7_fine");
+    }
+    fail("mode must be unstable, stable, scan, transient-low, or "
+         "transient-high, d7-exact-gp, d7-frozen-gauge, d7-half-cfl, or "
+         "d7-fine");
 }

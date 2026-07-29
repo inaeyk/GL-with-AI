@@ -1,0 +1,221 @@
+BLACKSTRING STAGE 4AO-D7 INSTABILITY ISOLATION
+date=2026-07-29
+base_commit=0d28d8d
+scope=fixture-only
+production_evolution_changed=false
+radial_boundary_changed=false
+
+D6 RECLASSIFICATION
+k=pi/4:
+LATE_TIME_LINEAR_INSTABILITY_DETECTED — PHYSICAL IDENTITY UNRESOLVED
+
+The signed half-amplitude histories agree within 3.4401e-6 and maximum
+even/odd contamination is 1.2583e-6. These establish linearity. The
+unperturbed drift reaches 1.969929951638 at t=8, while the signed linearized
+constraints grow explosively. The physical identity is therefore unresolved
+and the growth is not identified as a GL mode. The preserved k scan remains
+suspended. No numerical evidence from D6 or the earlier scan was deleted.
+
+CONTROL DOMAIN
+Lz=8
+x_in=0.5
+x_out=4.5
+baseline_Nx=32
+baseline_Nz=64
+baseline_dx=baseline_dz=0.125
+baseline_CFL=0.05
+final_time=8
+sample_interval=0.025 for new completed controls
+
+RUN ACCOUNTING
+reused_evolutions=1
+new_evolution_attempts=4
+new_completed_evolutions=3
+new_failed_evolutions=1
+perturbed_evolutions=0
+
+The reused D6 baseline was not rerun. Its retained output supplies maximum
+state drift every 0.25, but the original per-variable and constraint streams
+were temporary and are unavailable. They were not regenerated because the
+request explicitly forbids rerunning the baseline. The exact-GP attempt
+aborted before a complete diagnostic stream was flushed.
+
+NEW CONTROL OUTCOMES
+exact_gp:
+  radial_ghosts=diagnostic exact GP
+  gauge=live
+  result=INVALID_REDUCED_METRIC
+  exception="black-string cleanup requires a finite positive-definite nonsingular reduced metric"
+  completed_time=unavailable after early abort
+  cure_test=not established
+
+frozen_gauge_attempt:
+  radial_ghosts=provisional physical closure
+  zero_parameters=fixed lapse source,lapse coefficient,lapse advection,
+                  shift-Gamma coefficient,shift advection,eta
+  lapse_and_shift_drift=0
+  Bx_final_drift=3.408889753831
+  result=INCOMPLETE_B_EVOLVES
+  reason=locked moving-puncture B RHS retains the Gamma-RHS coupling
+
+half_cfl:
+  radial_ghosts=provisional physical closure
+  gauge=live
+  CFL=0.025
+  dt=0.003125
+  result=completed
+
+fine:
+  radial_ghosts=provisional physical closure
+  gauge=live
+  Nx=48
+  Nz=96
+  dx=dz=1/12
+  CFL=0.05
+  dt=1/240
+  result=completed
+
+REUSED BASELINE MAXIMUM STATE DRIFT
+t       maximum
+0       0
+1       5.755769927597e-2
+2       5.432936418825e-2
+4       4.041538433268e-2
+5       3.204320672293e-2
+6       1.044345596031e-1
+7       3.446259038601e-1
+8       1.969929951638
+
+SELECTED NEW-CONTROL TIME SERIES
+variant t state_max state_L2 state_location H_max H_L2 H_location Mx_max Mx_L2 Mx_location Mz_max Mz_location
+frozen 0 0 0 inner 1.746e-14 1.708e-14 outer 3.053e-1 5.572e-2 inner 6.632e-16 inner
+frozen 1 8.044e-2 5.152e-3 inner 4.589e-1 9.542e-2 inner 1.597e-1 3.520e-2 inner 1.304e-14 inner
+frozen 2 9.652e-2 7.038e-3 inner 4.056e-1 8.800e-2 inner 1.558e-1 3.600e-2 inner 2.406e-14 inner
+frozen 4 3.299e-1 4.224e-2 outer 3.074e-1 6.588e-2 inner 1.041e-1 4.266e-2 inner 2.631e-14 inner
+frozen 6 1.157 3.019e-1 inner 3.044 7.275e-1 inner 1.435 4.863e-1 inner 6.817e-14 inner
+frozen 8 3.409 5.447e-1 inner 9.527e-1 2.111e-1 inner 3.149e-1 9.738e-2 inner 3.258e-14 inner
+half_cfl 0 0 0 inner 1.746e-14 1.708e-14 outer 3.053e-1 5.572e-2 inner 6.632e-16 inner
+half_cfl 1 5.756e-2 3.938e-3 inner 5.477e-1 1.021e-1 inner 1.993e-1 3.739e-2 inner 2.105e-15 outer
+half_cfl 2 5.433e-2 3.925e-3 inner 4.768e-1 8.894e-2 inner 1.958e-1 3.689e-2 inner 2.782e-15 outer
+half_cfl 4 4.041e-2 3.369e-3 inner 2.587e-1 5.183e-2 inner 1.368e-1 2.600e-2 inner 6.864e-15 bulk
+half_cfl 6 1.045e-1 1.292e-2 inner 3.612e-1 1.182e-1 inner 2.025e-1 7.045e-2 inner 7.889e-15 inner
+half_cfl 8 1.971 2.459e-1 bulk 7.960 2.392 inner 6.334 1.589 inner 9.903e-15 bulk
+fine 0 0 0 inner 3.952e-14 3.882e-14 outer 6.486e-2 1.017e-2 inner 1.711e-15 inner
+fine 1 1.189e-2 7.262e-4 inner 1.009e-1 1.640e-2 inner 3.627e-2 5.918e-3 inner 5.857e-15 outer
+fine 2 1.075e-2 7.064e-4 inner 8.175e-2 1.347e-2 inner 3.400e-2 5.689e-3 inner 7.307e-15 bulk
+fine 4 1.031e-2 7.156e-4 inner 5.355e-2 9.382e-3 inner 2.818e-2 4.991e-3 inner 2.333e-14 bulk
+fine 6 7.242e-2 7.936e-3 bulk 2.394e-1 6.662e-2 inner 2.370e-1 6.366e-2 inner 7.560e-14 inner
+fine 8 6.391 5.303e-1 bulk 44.455 9.844 bulk 13.952 4.115 bulk 9.856e-14 inner
+
+The t=0 nonzero Mx values are the finite-resolution GP constraint residual,
+not state drift. Algebraic cleanup holds throughout. At t=8:
+variant determinant_max determinant_L2 determinant_location trace_max trace_L2 trace_location
+frozen 4.441e-16 2.490e-16 bulk 5.551e-17 2.334e-17 inner
+half_cfl 4.441e-16 2.483e-16 inner 4.441e-16 1.483e-16 inner
+fine 6.661e-16 2.604e-16 bulk 8.882e-16 2.222e-16 inner
+
+FINAL PER-VARIABLE DRIFT: MAXIMUM, L2, MAXIMUM LOCATION
+variable frozen_max frozen_L2 location half_cfl_max half_cfl_L2 location fine_max fine_L2 location
+chi 7.103e-1 4.855e-1 inner 1.393e-1 5.579e-2 inner 2.334e-1 8.452e-2 inner
+hxx 1.297 8.607e-1 bulk 4.454e-1 1.578e-1 bulk 9.575e-1 2.953e-1 inner
+hxz 1.039e-13 9.028e-14 bulk 6.357e-16 4.088e-16 bulk 3.421e-15 1.533e-15 inner
+hzz 8.321e-1 5.964e-1 inner 1.494e-1 5.986e-2 inner 2.492e-1 9.040e-2 inner
+hww 1.906 5.195e-1 inner 1.037e-1 3.528e-2 bulk 1.751e-1 5.855e-2 inner
+K 3.201 1.014 inner 1.737 5.427e-1 bulk 3.811 1.010 bulk
+Axx 1.828 4.551e-1 inner 1.971 7.068e-1 bulk 6.391 1.720 bulk
+Axz 3.642e-14 2.717e-14 bulk 1.161e-15 4.439e-16 bulk 1.739e-14 4.763e-15 inner
+Azz 9.057e-1 2.860e-1 inner 4.592e-1 1.558e-1 bulk 9.944e-1 2.716e-1 bulk
+Aww 1.120 3.158e-1 inner 4.762e-1 1.428e-1 bulk 1.074 2.619e-1 bulk
+Theta 3.492e-1 2.715e-1 bulk 1.124 3.958e-1 bulk 2.857 8.196e-1 bulk
+GammaX 3.409 1.060 inner 6.197e-1 1.713e-1 inner 1.055 2.767e-1 inner
+GammaZ 4.229e-13 9.405e-14 inner 2.371e-15 5.520e-16 inner 5.774e-15 1.369e-15 inner
+lapse 0 0 inner 1.517e-1 6.291e-2 bulk 3.261e-1 1.193e-1 bulk
+shiftX 0 0 inner 2.945e-2 9.108e-3 inner 9.075e-2 2.184e-2 inner
+shiftZ 0 0 inner 7.277e-16 2.696e-16 inner 2.165e-15 6.932e-16 inner
+Bx 3.409 1.060 inner 5.804e-1 1.641e-1 inner 9.723e-1 2.680e-1 inner
+Bz 4.229e-13 9.405e-14 inner 1.401e-15 2.745e-16 inner 3.907e-15 1.115e-15 inner
+
+STATE-DRIFT FIRST CROSSINGS
+variant      1e-3   1e-2   1e-1  1
+baseline     0.25   0.25   6.0   7.75
+frozen       0.025  0.05   2.225 5.9
+half_cfl     0.025  0.05   6.0   7.65
+fine         0.025  0.2    6.2   7.425
+
+The baseline crossings are limited to the retained 0.25 cadence, whereas new
+controls use 0.025 samples. Sub-cadence differences at the two smallest
+thresholds are therefore not interpreted.
+
+ROLLING WIDTH-ONE LOG GROWTH RATES
+variant metric interval slope SE R2
+frozen state 5-6 0.7415 0.0120 0.9898
+frozen state 6-7 1.0155 0.0518 0.9080
+frozen state 7-8 0.0440 0.0166 0.1530
+frozen H 5-6 2.0223 0.0289 0.9921
+frozen H 6-7 -0.6207 0.0989 0.5025
+frozen H 7-8 0.6435 0.2625 0.1335
+frozen Mx 5-6 2.0641 0.0210 0.9960
+frozen Mx 6-7 -0.5186 0.1073 0.3747
+frozen Mx 7-8 0.2726 0.2260 0.0360
+frozen Mz 5-6 0.9059 0.0589 0.8585
+frozen Mz 6-7 -1.9320 0.1842 0.7383
+frozen Mz 7-8 -0.7080 0.1123 0.5049
+half_cfl state 5-6 1.1459 0.0417 0.9509
+half_cfl state 6-7 1.3014 0.0528 0.9397
+half_cfl state 7-8 1.6894 0.0470 0.9707
+half_cfl H 5-6 0.9455 0.1327 0.5656
+half_cfl H 6-7 1.1464 0.0716 0.8679
+half_cfl H 7-8 1.6297 0.0892 0.8953
+half_cfl Mx 5-6 0.9140 0.1872 0.3793
+half_cfl Mx 6-7 1.3047 0.0845 0.8594
+half_cfl Mx 7-8 1.6908 0.1177 0.8411
+half_cfl Mz 5-6 0.1178 0.1033 0.0323
+half_cfl Mz 6-7 0.6261 0.0947 0.5283
+half_cfl Mz 7-8 0.2802 0.1359 0.0983
+fine state 5-6 1.6564 0.0339 0.9839
+fine state 6-7 1.7409 0.0374 0.9823
+fine state 7-8 2.5698 0.0688 0.9728
+fine H 5-6 1.4283 0.0693 0.9160
+fine H 6-7 1.7377 0.0373 0.9824
+fine H 7-8 2.9888 0.1238 0.9373
+fine Mx 5-6 1.5389 0.0969 0.8660
+fine Mx 6-7 1.7329 0.0394 0.9802
+fine Mx 7-8 2.5203 0.0832 0.9592
+fine Mz 5-6 0.4826 0.0685 0.5596
+fine Mz 6-7 -0.6924 0.1085 0.5107
+fine Mz 7-8 0.9488 0.0694 0.8274
+
+Mz remains tiny in these exactly z-independent controls and its rolling
+log-slopes fluctuate in sign; it is not used to assign a cause.
+
+Z-INDEPENDENCE
+variant maximum_z_span maximum_nonzero_Fourier
+frozen 0 2.794362180825e-16
+half_cfl 0 1.883750914103e-16
+fine 0 5.022621131062e-16
+
+RUNTIME
+variant wall_seconds peak_RSS_kB
+exact_gp_attempt approximately_6.24 unavailable_after_abort
+frozen_gauge_attempt 24.46 11176
+half_cfl 41.87 11252
+fine 69.37 13484
+total_observed_wall_seconds approximately_141.94
+maximum_observed_peak_RSS_kB 13484
+
+INDICATORS
+exact-GP ghosts cure or delay: not testable; control aborts
+frozen gauge cures or delays: not testable; B gauge driver remains live
+half CFL materially changes onset/growth: no
+fine spacing materially changes evolution: yes, but it lowers early drift
+  and worsens late onset/growth rather than converging toward a cure
+
+BOUNDED ROOT-CAUSE CLASSIFICATION
+MULTIPLE_OR_UNRESOLVED
+
+The half-CFL result rules out timestep size as the dominant source at this
+scale. Fine spacing demonstrates strong spatial-discretization sensitivity,
+but its non-monotone early/late behavior does not uniquely identify a
+spatial truncation instability. The boundary and full-gauge isolation tests
+did not complete their intended comparisons. No perturbed growth is called a
+GL signal in D7.

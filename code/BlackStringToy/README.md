@@ -155,10 +155,12 @@ sample every eight steps. The `x_out=4.5` sequence uses
 `k=pi/4`, the `[0.1,0.4]` fitted rates at either boundary are approximately
 `0.3063,0.1636,0.1640`; for `k=pi/2` they are approximately
 `-0.08593,-0.2287,-0.2290`. On the finest grid, moving the fit start through
-`0.10,0.15,0.20` preserves the signs: the unstable slopes are
-`0.1640,0.1464,0.1285`, while the stable slopes are
-`-0.2290,-0.2956,-0.3379`. These are bounded sign fits, not asymptotic
-eigenmode rates or threshold data.
+`0.10,0.15,0.20` preserves those short-window signs: the `k=pi/4` slopes are
+`0.1640,0.1464,0.1285`, while the `k=pi/2` slopes are
+`-0.2290,-0.2956,-0.3379`. The later common turnover diagnosis supersedes
+the former positive/negative physical interpretation: these are transient
+fit values, not stable/unstable classifications, asymptotic eigenmode rates,
+or threshold data.
 
 Every resolution/domain/mode case now has an identical unperturbed control.
 At final time its unseeded mode leakage lies between `8.21e-23` and
@@ -174,14 +176,66 @@ every radial refresh contains one low and one high fill with no
 boundary-owned periodic exchange. Diagnostics run every eight steps only in
 this fixture; production still defaults to disabled.
 
+The fixture-only `run_adaptive_k_scan.sh` extension performs a bounded
+fundamental-mode sign screen without changing the production level or radial
+policy. It preserves each requested `Lz=2*pi/k`, rounds `Nx,Nz` to legal
+block-factor-four grids, and keeps the resulting `dx=dz` within 2.9% of the
+requested `1/8`. At `x_out=4.5`, CFL `0.05`, and `t_final=0.8`, the requested
+and actual values `k=0.82,0.86,0.90,0.94` have negative fits over
+`[0.2,0.8]`, `[0.3,0.8]`, and `[0.4,0.8]`. The allowed lower additions
+`k=0.78,0.75` also have negative late-window fits. However, every preserved
+amplitude first rises and then decays after a turnover near `t=0.3-0.4`.
+Those negative fits therefore do not classify any candidate as physically
+stable. Leakage is
+`6.82e-22` to `1.06e-20`, seeded/leakage is at least `3.42e9`, and paired
+constraint differences remain finite and bounded. The authoritative runner
+uses 12 evolutions and reports `AMBIGUOUS`; no positive endpoint exists, so
+fine-resolution, far-boundary, and second-amplitude endpoint validation is
+not invoked. The data are retained as inconclusive transient evidence. They
+do not establish a provisional bracket, classify stability, or support any
+conclusion about whether `k_cr*r0` lies above or below `0.75`.
+
+The compact signed-response diagnostic uses the exact shared domain
+`Lz=8`, `x_in=0.5`, `x_out=4.5`, `(Nx,Nz)=(32,64)`, `dx=dz=1/8`, and CFL
+`0.05`. One control and signed `epsilon=1e-8` pairs at `k=pi/4,pi/2` run to
+`t=4`; neither mode has a plateau there. Only the control and `k=pi/4` pair
+are extended to `t=8`. Rolling width-`0.5` slopes over the final three
+windows are `2.656,2.732,2.880`, and width-`1.0` slopes are
+`2.476,2.587,2.737`, with standard errors below `0.103`, variation below
+`10.1%`, and high `R2`. The signed half-amplitude pair agrees within
+`3.44e-6`, while maximum even/odd contamination is `1.26e-6`. This establishes
+linearity and meets the fixture's bounded
+`LATE_TIME_LINEAR_INSTABILITY_DETECTED — PHYSICAL IDENTITY UNRESOLVED`
+rule for `k=pi/4`;
+`k=pi/2` remains `NO_MODE_PLATEAU_WITHIN_TESTED_TIME`. The `t=8` background
+control drift reaches `1.97` and the linearized constraint response grows
+explosively, so the instability is not identified as a GL mode. This does not
+establish a physical growth rate, a negative endpoint, or any `k_cr*r0`
+bracket, and the `k` scan remains suspended.
+
+The D7 unperturbed-control matrix reuses that `t=8` control and attempts only
+four additional evolutions. Exact-GP radial ghosts terminate early when the
+live cleanup rejects an invalid reduced metric, so they supply no boundary
+cure. The zero-coefficient gauge-parameter attempt freezes lapse and shift,
+but not `B^i`: the locked moving-puncture equation retains the
+`Gamma^i`-RHS coupling. It therefore does not isolate a fully frozen gauge.
+At half CFL, the `0.1` drift onset remains `t=6` and final drift changes from
+`1.96993` to `1.97131`. At `dx=dz=1/12`, early drift is reduced but the
+`0.1` crossing moves only to `t=6.2`, final drift rises to `6.39081`, and
+the final width-one slope rises to `2.56982`. Completed controls preserve
+zero measured `z` span, Fourier leakage below `5.03e-16`, and algebraic
+cleanup errors below `8.89e-16`. These mixed and incomplete isolations give
+the bounded classification `MULTIPLE_OR_UNRESOLVED`; spatial sensitivity is
+the strongest clue, not a unique root-cause identification.
+
 Locked upstream `BoundaryConditions.cpp` dynamically allocates three
 `std::vector<int>` component lists per boundary-driver invocation. The
 boundary `Box` objects themselves are stack objects. This is upstream
 per-invocation overhead, not project-introduced and not per-cell; therefore
 the end-to-end boundary path is not literally allocation-free.
 
-This remains an inexpensive provisional finite-domain boundary and first
-sign diagnostic, not an exact characteristic/WKB condition or a converged
+This remains an inexpensive provisional finite-domain boundary and transient
+diagnostic, not an exact characteristic/WKB condition or a converged
 physical GL spectrum. It does not establish `k_cr_0`, long-time stability,
 constraint-preserving radial data, nonlinear mode transparency, or accepted
 boundary physics. Sustained evolution, AMR, MPI, horizons/AHFinder, broader

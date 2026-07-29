@@ -82,6 +82,28 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   `x_in<r0`, plus componentwise GP-subtracted outer Sommerfeld. The focused
   GP/scalar/one-z fixture passes without radial wrap, duplicate exchange, or
   runtime diagnostics. This is not the deferred WKB/spectral boundary.
+- [x] Add and execute the fixture-only adaptive Fourier sign-screen policy.
+  The requested `k=0.82,0.86,0.90,0.94` and allowed additions `0.78,0.75`
+  all rise initially and turn over near `t=0.3-0.4`. Their negative
+  late-window fits are preserved as inconclusive transient evidence; 12
+  authoritative evolutions return `AMBIGUOUS`.
+- [x] Diagnose the turnover with one control and signed pairs on the exact
+  `Lz=8`, `dx=dz=1/8` domain. The ten-run hard stop yields
+  `LATE_TIME_LINEAR_INSTABILITY_DETECTED — PHYSICAL IDENTITY UNRESOLVED`
+  for `k=pi/4` at `t=8`, while
+  `k=pi/2` has `NO_MODE_PLATEAU_WITHIN_TESTED_TIME` at `t=4`. Strong
+  background drift and exploding linearized constraints prevent a GL-mode
+  identification despite the half-amplitude and even/odd linearity checks.
+- [x] Complete the D7 four-control isolation budget without rerunning the D6
+  baseline. Half CFL is neutral; fine spacing is strongly but non-convergently
+  sensitive; exact-GP ghosts fail on an invalid reduced metric; and the
+  available zero-coefficient gauge parameters leave `B^i` evolving. Record
+  the bounded result as `MULTIPLE_OR_UNRESOLVED`, and keep the `k` scan
+  suspended.
+- [ ] Establish a provisional `k_-<k_+` sign bracket in a separately
+  authorized follow-up. The current evidence supplies no late-time negative
+  endpoint and supports no conclusion about whether `k_cr r0` is above or
+  below `0.75`.
 - [ ] Stage 4AO-D-F: qualify sustained unperturbed/perturbed evolution,
   boundary-location systematics, and constraint behavior. Keep AMR/MPI,
   growth-rate claims, horizons, PETSc/AHFinder, and final scoring deferred.

@@ -178,12 +178,9 @@ awk -v linearity_tolerance=5.0e-4 '
           print "missing multi-window fit" > "/dev/stderr"
           exit 1
         }
-        expected_sign = mode == "unstable" ? 1.0 : -1.0
-        if (!(expected_sign * omega[large_fit] > 0.0 &&
-              expected_sign * omega[small_fit] > 0.0)) {
-          print "Fourier fitted sign robustness acceptance failed" > "/dev/stderr"
-          exit 1
-        }
+        # Preserve the short-window slopes as numerical data, but do not use
+        # their signs as physical stable/unstable classifications. The common
+        # turnover seen by the later scan supersedes that interpretation.
       }
     }
     if (!(maximum_linearity_error <= linearity_tolerance)) {
@@ -193,7 +190,7 @@ awk -v linearity_tolerance=5.0e-4 '
     if (minimum_seed_to_leakage == 1.0e300) {
       minimum_seed_to_leakage = 1.0e300
     }
-    printf("FOURIER_ACCEPTANCE corrected_seed=PASS legacy_mutation=PASS quadratures=PASS phase_rotation=PASS paired_controls=PASS linearity=PASS robust_fit_signs=PASS maximum_linearity_error=%.12e minimum_seed_to_leakage=%.12e\n",
+    printf("FOURIER_ACCEPTANCE corrected_seed=PASS legacy_mutation=PASS quadratures=PASS phase_rotation=PASS paired_controls=PASS linearity=PASS short_window_fits=RECORDED_INCONCLUSIVE_TRANSIENT maximum_linearity_error=%.12e minimum_seed_to_leakage=%.12e\n",
            maximum_linearity_error, minimum_seed_to_leakage)
   }
 ' "${all_logs[@]}"
