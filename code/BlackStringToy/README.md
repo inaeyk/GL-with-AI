@@ -248,6 +248,26 @@ The optional exact-GP/frozen-gauge combination also becomes inadmissible near
 `NEITHER_CONTROL_CURES — CORE_RADIAL_EVOLUTION_UNRESOLVED`. Neither a GL
 interpretation nor resumption of the `k` scan follows.
 
+D9 checks the inner-face placement without changing production physics. The
+locked local speed envelope contains physical and Z4 speeds `1`, transverse
+and longitudinal `d=4` shift-driver speeds `sqrt(0.75)` and
+`sqrt(1.125)`, and the fastest lapse speed `sqrt(2)`. With
+`v_+=-sqrt(r0/x)+c`, the old `x_in=0.5` face is glancing in the lapse
+envelope and its first valid cell has `v_+=0.08088`; this is not strict
+outflow. The matched `x_in=0.375` face has margin `0.21878`, and its medium
+and fine first valid cells have margins `0.09764` and `0.13498`. This is a
+conservative frozen-coefficient check, not a complete characteristic proof.
+
+The deeper placement does not stabilize the GP control. The provisional
+medium and fine runs first acquire invalid `hxx` in valid bulk cells at
+`t=6.3625` and `t=6.18333`, respectively; their last sampled state drifts are
+`60.0` and `94.9`, constraints and radial Nyquist content are uncontrolled,
+and the finer run fails earlier. The permitted exact-GP deeper-domain control
+fails at `t=0.93125`. All three ghost audits preserve all 18 valid-cell slots,
+keep the three inner ghost coordinates positive, and retain zero measured
+`z` span. D9 therefore returns `EXCISION_PLACEMENT_NOT_SUFFICIENT`; it does
+not show that the glancing old face caused the late-time instability.
+
 Locked upstream `BoundaryConditions.cpp` dynamically allocates three
 `std::vector<int>` component lists per boundary-driver invocation. The
 boundary `Box` objects themselves are stack objects. This is upstream

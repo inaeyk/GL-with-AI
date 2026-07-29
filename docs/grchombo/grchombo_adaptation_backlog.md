@@ -19,7 +19,10 @@ minimal GP-subtracted extrapolation/Sommerfeld policy now enables the first
 small perturbative boundary smoke. A fixture-only compact Fourier initializer,
 cadenced projection, and two-boundary/three-resolution short evolution now
 supplies transient Fourier evidence; the former stable/unstable short-window
-interpretation is superseded. Sustained evolution, physical
+interpretation is superseded. D9 finds that the old inner face is not
+strictly outside the conservative fastest lapse envelope, but deeper
+excision fails to stabilize either matched provisional-boundary resolution
+or the optional exact-GP control. Sustained evolution, physical
 radial-boundary acceptance, a converged threshold, refinement, MPI, broader
 diagnostics, and horizons remain open.
 
@@ -325,6 +328,21 @@ The bounded classification is
 equations and boundaries remain unchanged and the `k` scan remains
 suspended.
 
+D9 inspects the locked live-gauge and CCZ4 principal terms. The conservative
+local envelope contains `c=1` physical/constraint sectors,
+`c=sqrt(0.75),sqrt(1.125)` transverse/longitudinal shift sectors, and fastest
+`c_max=sqrt(2)` lapse propagation. The old `x_in=0.5` face is glancing in
+that envelope and its first valid cell has an incoming `v_+`; the matched
+`x_in=0.375` domain has strict margin at its face and first valid cells. This
+is not a complete principal-system diagonalization. Nevertheless, medium and
+fine provisional controls lose metric admissibility at `t=6.3625` and
+`6.18333`, with exploding constraints and radial Nyquist content; the fine
+run fails earlier. The allowed exact-GP control fails at `t=0.93125`. Ghost
+audits preserve all 18 slots, do not overwrite valid cells, and keep all
+three radial ghost coordinates positive. The bounded classification is
+`EXCISION_PLACEMENT_NOT_SUFFICIENT`; production remains unchanged and the
+`k` scan stays suspended.
+
 | Priority / order | Adaptation item | GRChombo source to reuse | Project-specific work | Dependency | Acceptance / exit criterion |
 |---|---|---|---|---|---|
 | P0-1 | Reproducible GRChombo/Chombo core lock | Current origin, locked CI, Chombo Make infrastructure | Keep the tracked GRChombo commit and qualified official Chombo commit; disclose that historical SHA/container provenance is unresolved; keep PETSc separate until AHFinder | None | Project lock is detached/clean; four serial DIM2 libraries, real `2/4/4` target probe, and stock compile/smoke checks pass |
@@ -341,7 +359,7 @@ suspended.
 | P1-10 | Unperturbed background evolution (E2 bounded diagnostic and matched-domain convergence complete; production qualification open) | `GRAMR`, RK4, ghost fill, boundaries, checkpointing | Configure target grid, source, hidden RHS, diagnostics, and conservative validation window | P1-7 through P1-9a | E2: 4/8/16-step matched-domain stationarity and constraint convergence pass with exact-background radial ghosts; remaining exit: accepted physical radial boundary, sustained window, and restart smoke |
 | P2-11 | Fourier perturbation initialization (first level-zero fixture complete; production family open) | Initial-data BoxLoop plus periodic grid | Test-only normalized compact even/odd SO(3)-scalar seed with the one-z slots on sine | P1-10 | First parity leakage and bounded linear-amplitude run pass; production parameter family remains open |
 | P2-12 | Fourier amplitude diagnostics (first level-zero fixture complete; AMR output open) | Level-zero storage and reductions | Test-only cosine/sine radial-RMS quadratures of `0.5 log(hww/chi)`, phase-neutral amplitude, and paired controls at cadence eight | P2-11 | Quadrature rotation invariance, leakage, and two-epsilon normalized histories pass; AMR-consistent persistent output remains open |
-| P2-13 | Growth-rate extraction (transient diagnosis complete; physical rate open) | Project fixture analysis | Signed odd/even response, rolling width-`0.5/1.0` log slopes, linearity, constraint, and budgeted transient reporting | P2-12 | `k=pi/4` has a linear late-time instability whose physical identity is unresolved; exploding constraints/control drift forbid a GL identification, and D8 classifies its source `NEITHER_CONTROL_CURES — CORE_RADIAL_EVOLUTION_UNRESOLVED`; no negative plateau, bracket, asymptotic rate, or physical-rate acceptance follows |
+| P2-13 | Growth-rate extraction (transient diagnosis complete; physical rate open) | Project fixture analysis | Signed odd/even response, rolling width-`0.5/1.0` log slopes, linearity, constraint, and budgeted transient reporting | P2-12 | `k=pi/4` has a linear late-time instability whose physical identity is unresolved; exploding constraints/control drift forbid a GL identification, D8 leaves the core radial source unresolved, and D9 shows deeper excision is not sufficient; no negative plateau, bracket, asymptotic rate, or physical-rate acceptance follows |
 | P2-14 | Production convergence workflow | GRChombo AMR/restart/output machinery | Reproducible multi-resolution parameter sets and comparison tables | P1-10, P2-13 | Background, constraints, perturbations, and rate show documented convergence |
 | P3-15 | String MOTS/horizon adapter | `AHFinder`, `PETScAHSolver`, `AHStringGeometry`, interpolation | Supply target variables, `S2 x S1` geometry, hidden expansion terms, PETSc configuration | P1-7, PETSc source lock | Uniform `x=r0` MOTS recovered with convergent residual; restart supported |
 | P3-16 | `R_H`, minimum radius, and horizon area | AH surface data, interpolation, reductions, `SmallDataIO` | Evaluate `R_H=h sqrt(hww/chi)`, minimum over z, correct string area | P3-15 | Uniform analytic values and perturbed manufactured profiles converge |

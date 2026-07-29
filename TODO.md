@@ -107,6 +107,14 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   true frozen-gauge RHS policy; all lapse/shift/`B` drift is exactly zero but
   rapid radial growth remains, and the combined control also fails. Record
   `NEITHER_CONTROL_CURES — CORE_RADIAL_EVOLUTION_UNRESOLVED`.
+- [x] Complete D9 inner-excision placement isolation. Record that the
+  conservative fastest lapse envelope is glancing at the old `x_in=0.5`
+  face and incoming at its first valid cell, but do not claim a complete
+  characteristic proof. Move only the fixture domain to `x_in=0.375` at
+  `dx=1/8,1/12`; both provisional controls lose metric admissibility before
+  `t=8`, the fine run fails earlier, and the optional exact-GP control also
+  fails. Preserve the three positive ghost coordinates and all valid cells.
+  Classify `EXCISION_PLACEMENT_NOT_SUFFICIENT`.
 - [ ] Establish a provisional `k_-<k_+` sign bracket in a separately
   authorized follow-up. The current evidence supplies no late-time negative
   endpoint and supports no conclusion about whether `k_cr r0` is above or

@@ -956,6 +956,20 @@ simulation and radiation diagnostics exist.
   `t=2.36`. The bounded classification is
   `NEITHER_CONTROL_CURES — CORE_RADIAL_EVOLUTION_UNRESOLVED`. The `k` scan
   remains suspended and no perturbative growth is identified as a GL mode.
+- [x] Stage 4AO-D9 inner-excision placement check. The locked
+  frozen-coefficient envelope has physical/constraint speed `1`, lapse speed
+  `sqrt(2)`, transverse shift speed `sqrt(0.75)`, and longitudinal `d=4`
+  shift speed `sqrt(1.125)`. Thus the old `x_in=0.5` face is glancing for the
+  fastest envelope and its first valid cell has an incoming branch, while
+  the `x_in=0.375` face and first valid cells have strict positive outflow
+  margin. This is not a complete principal-system proof. On the matched
+  deeper domain, provisional `dx=1/8` and `1/12` controls become inadmissible
+  in valid bulk cells at `t=6.3625` and `6.18333`; the finer run fails earlier
+  with larger final sampled drift and constraints. The allowed exact-GP
+  control fails at `t=0.93125`. All radial ghost audits preserve valid cells
+  and all 18 slots, and all three ghost coordinates remain positive. The
+  stabilization gate fails and the bounded classification is
+  `EXCISION_PLACEMENT_NOT_SUFFICIENT`.
 - [ ] Stage 4AO-D-F sustained unperturbed/perturbed evolution and boundary
   qualification. Converged `k_cr_0`, sustained nonlinear evolution,
   physical radial-boundary acceptance, AMR/MPI qualification,

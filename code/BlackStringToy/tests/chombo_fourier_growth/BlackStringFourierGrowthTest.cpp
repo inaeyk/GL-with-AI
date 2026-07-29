@@ -55,6 +55,7 @@ struct RunConfiguration
 };
 
 RunConfiguration run_configuration;
+const char *d9_live_variant = nullptr;
 
 [[noreturn]] void fail(const std::string &message)
 {
@@ -190,6 +191,7 @@ struct Sample
     std::array<int, NUM_VARS> variable_maximum_radial{};
     std::array<double, NUM_VARS> variable_z_span{};
     std::array<double, NUM_VARS> variable_fourier_amplitude{};
+    std::array<double, NUM_VARS> variable_radial_nyquist{};
     double determinant_error = 0.0;
     double determinant_l2 = 0.0;
     int determinant_maximum_radial = 0;
@@ -212,6 +214,97 @@ const char *maximum_region(const int radial_index, const int radial_cells)
         return "outer_boundary";
     }
     return "bulk";
+}
+
+void print_d9_sample(const char *variant, const Sample &sample,
+                     const int radial_cells)
+{
+    const auto maximum_variable = static_cast<int>(std::distance(
+        sample.variable_maximum.begin(),
+        std::max_element(sample.variable_maximum.begin(),
+                         sample.variable_maximum.end())));
+    const auto maximum_z_variable = static_cast<int>(std::distance(
+        sample.variable_z_span.begin(),
+        std::max_element(sample.variable_z_span.begin(),
+                         sample.variable_z_span.end())));
+    const auto maximum_fourier_variable = static_cast<int>(std::distance(
+        sample.variable_fourier_amplitude.begin(),
+        std::max_element(sample.variable_fourier_amplitude.begin(),
+                         sample.variable_fourier_amplitude.end())));
+    const auto maximum_nyquist_variable = static_cast<int>(std::distance(
+        sample.variable_radial_nyquist.begin(),
+        std::max_element(sample.variable_radial_nyquist.begin(),
+                         sample.variable_radial_nyquist.end())));
+    std::cout
+        << "D9_SAMPLE variant=" << variant << " t=" << sample.time
+        << " state_max=" << sample.state_drift
+        << " state_l2=" << sample.state_l2
+        << " state_max_variable="
+        << UserVariables::variable_names[static_cast<std::size_t>(
+               maximum_variable)]
+        << " state_max_location="
+        << maximum_region(
+               sample.variable_maximum_radial
+                   [static_cast<std::size_t>(maximum_variable)],
+               radial_cells)
+        << " H_max=" << sample.constraints[c_Ham]
+        << " H_l2=" << sample.constraint_l2[c_Ham]
+        << " H_location="
+        << maximum_region(sample.constraint_maximum_radial[c_Ham],
+                          radial_cells)
+        << " Mx_max=" << sample.constraints[c_MomX]
+        << " Mx_l2=" << sample.constraint_l2[c_MomX]
+        << " Mx_location="
+        << maximum_region(sample.constraint_maximum_radial[c_MomX],
+                          radial_cells)
+        << " Mz_max=" << sample.constraints[c_MomZ]
+        << " Mz_l2=" << sample.constraint_l2[c_MomZ]
+        << " Mz_location="
+        << maximum_region(sample.constraint_maximum_radial[c_MomZ],
+                          radial_cells)
+        << " determinant_max=" << sample.determinant_error
+        << " determinant_l2=" << sample.determinant_l2
+        << " determinant_location="
+        << maximum_region(sample.determinant_maximum_radial, radial_cells)
+        << " weighted_trace_max=" << sample.weighted_trace_error
+        << " weighted_trace_l2=" << sample.weighted_trace_l2
+        << " weighted_trace_location="
+        << maximum_region(sample.weighted_trace_maximum_radial, radial_cells)
+        << " maximum_z_span="
+        << sample.variable_z_span[static_cast<std::size_t>(
+               maximum_z_variable)]
+        << " maximum_z_span_variable="
+        << UserVariables::variable_names[static_cast<std::size_t>(
+               maximum_z_variable)]
+        << " maximum_fourier="
+        << sample.variable_fourier_amplitude[static_cast<std::size_t>(
+               maximum_fourier_variable)]
+        << " maximum_fourier_variable="
+        << UserVariables::variable_names[static_cast<std::size_t>(
+               maximum_fourier_variable)]
+        << " maximum_radial_nyquist="
+        << sample.variable_radial_nyquist[static_cast<std::size_t>(
+               maximum_nyquist_variable)]
+        << " maximum_radial_nyquist_variable="
+        << UserVariables::variable_names[static_cast<std::size_t>(
+               maximum_nyquist_variable)]
+        << '\n';
+    for (int component = 0; component < NUM_VARS; ++component)
+    {
+        const auto slot = static_cast<std::size_t>(component);
+        std::cout << "D9_VARIABLE variant=" << variant
+                  << " t=" << sample.time << " slot=" << component
+                  << " name=" << UserVariables::variable_names[slot]
+                  << " maximum=" << sample.variable_maximum[slot]
+                  << " l2=" << sample.variable_l2[slot]
+                  << " location="
+                  << maximum_region(sample.variable_maximum_radial[slot],
+                                    radial_cells)
+                  << " z_span=" << sample.variable_z_span[slot]
+                  << " fourier=" << sample.variable_fourier_amplitude[slot]
+                  << " radial_nyquist="
+                  << sample.variable_radial_nyquist[slot] << '\n';
+    }
 }
 
 struct Fit
@@ -473,6 +566,14 @@ class FourierGrowthLevel : public BlackStringToyLevel
         return result;
     }
 
+    bool d9_ghost_audit_complete() const { return false; }
+    bool d9_valid_cells_unchanged() const { return false; }
+    double d9_minimum_inner_ghost_x() const
+    {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    std::array<double, 3> d9_inner_ghost_coordinates() const { return {}; }
+
   protected:
     void fillIntralevelGhosts(const Interval &components) override
     {
@@ -535,6 +636,8 @@ class FourierGrowthLevel : public BlackStringToyLevel
             static_cast<std::size_t>(radial_cells), 0);
         std::array<std::vector<double>, NUM_VARS> variable_cosine_sum;
         std::array<std::vector<double>, NUM_VARS> variable_sine_sum;
+        std::array<std::vector<double>, NUM_VARS>
+            variable_radial_difference_sum;
         std::array<std::vector<double>, NUM_VARS> variable_minimum;
         std::array<std::vector<double>, NUM_VARS> variable_maximum;
         for (int component = 0; component < NUM_VARS; ++component)
@@ -543,6 +646,8 @@ class FourierGrowthLevel : public BlackStringToyLevel
             variable_cosine_sum[slot].assign(
                 static_cast<std::size_t>(radial_cells), 0.0);
             variable_sine_sum[slot].assign(
+                static_cast<std::size_t>(radial_cells), 0.0);
+            variable_radial_difference_sum[slot].assign(
                 static_cast<std::size_t>(radial_cells), 0.0);
             variable_minimum[slot].assign(
                 static_cast<std::size_t>(radial_cells),
@@ -582,6 +687,7 @@ class FourierGrowthLevel : public BlackStringToyLevel
         sample.variable_maximum_radial.fill(0);
         sample.variable_z_span.fill(0.0);
         sample.variable_fourier_amplitude.fill(0.0);
+        sample.variable_radial_nyquist.fill(0.0);
         double state_square_sum = 0.0;
         double determinant_square_sum = 0.0;
         double weighted_trace_square_sum = 0.0;
@@ -654,6 +760,10 @@ class FourierGrowthLevel : public BlackStringToyLevel
                     variable_sine_sum[slot]
                                      [static_cast<std::size_t>(
                                          radial_index)] += value * sine;
+                    variable_radial_difference_sum[slot]
+                                                  [static_cast<std::size_t>(
+                                                      radial_index)] +=
+                        difference;
                     variable_minimum[slot]
                                     [static_cast<std::size_t>(radial_index)] =
                         std::min(variable_minimum[slot]
@@ -855,6 +965,7 @@ class FourierGrowthLevel : public BlackStringToyLevel
         {
             const auto slot = static_cast<std::size_t>(component);
             double fourier_square_sum = 0.0;
+            double radial_nyquist_sum = 0.0;
             for (int radial = 0; radial < radial_cells; ++radial)
             {
                 const auto radial_slot = static_cast<std::size_t>(radial);
@@ -870,6 +981,12 @@ class FourierGrowthLevel : public BlackStringToyLevel
                 fourier_square_sum +=
                     cosine_coefficient * cosine_coefficient +
                     sine_coefficient * sine_coefficient;
+                const double radial_mean_difference =
+                    variable_radial_difference_sum[slot][radial_slot] /
+                    static_cast<double>(count);
+                radial_nyquist_sum +=
+                    (radial % 2 == 0 ? 1.0 : -1.0) *
+                    radial_mean_difference;
                 sample.variable_z_span[slot] =
                     std::max(sample.variable_z_span[slot],
                              variable_maximum[slot][radial_slot] -
@@ -878,6 +995,9 @@ class FourierGrowthLevel : public BlackStringToyLevel
             sample.variable_fourier_amplitude[slot] =
                 std::sqrt(fourier_square_sum /
                           static_cast<double>(radial_cells));
+            sample.variable_radial_nyquist[slot] =
+                std::abs(radial_nyquist_sum) /
+                static_cast<double>(radial_cells);
         }
         require(analysis_count > 0,
                 "Fourier analysis window contains no cells");
@@ -907,6 +1027,11 @@ class FourierGrowthLevel : public BlackStringToyLevel
                 std::max(m_maximum_phase_rotation_error,
                          std::abs(rotated_amplitude - sample.amplitude) /
                              scale);
+        }
+        if (d9_live_variant != nullptr)
+        {
+            print_d9_sample(d9_live_variant, sample, radial_cells);
+            std::cout.flush();
         }
         m_samples.push_back(sample);
     }
@@ -1310,15 +1435,227 @@ class D8FrozenGaugeLevel : public FourierGrowthLevel<mode_number>
     }
 };
 
+template <int mode_number>
+class D9ControlLevel : public FourierGrowthLevel<mode_number>
+{
+    friend class DefaultLevelFactory<D9ControlLevel<mode_number>>;
+    using Base = FourierGrowthLevel<mode_number>;
+
+  protected:
+    using Base::Base;
+
+    void fillBdyGhosts(
+        GRLevelData &state,
+        const Interval &components = Interval(0, NUM_VARS - 1)) override
+    {
+        if (m_ghost_audit_complete)
+        {
+            BlackStringToyLevel::fillBdyGhosts(state, components);
+            return;
+        }
+
+        require(components.begin() == 0 && components.end() == NUM_VARS - 1,
+                "D9 first ghost audit must preserve all 18 stored slots");
+        const Box domain = this->m_problem_domain.domainBox();
+        std::vector<ValidState> valid_before;
+        const DataIterator iterator = state.dataIterator();
+        for (int ibox = 0; ibox < iterator.size(); ++ibox)
+        {
+            const DataIndex data_index = iterator[ibox];
+            const FArrayBox &fab = state[data_index];
+            const Box valid = this->m_grids[data_index] & domain;
+            for (BoxIterator bit(valid); bit.ok(); ++bit)
+            {
+                ValidState saved;
+                saved.point = bit();
+                for (int component = 0; component < NUM_VARS; ++component)
+                {
+                    saved.values[static_cast<std::size_t>(component)] =
+                        fab(saved.point, component);
+                }
+                valid_before.push_back(saved);
+            }
+        }
+
+        BlackStringToyLevel::fillBdyGhosts(state, components);
+
+        std::size_t valid_cursor = 0;
+        std::size_t radial_ghost_cells = 0;
+        std::size_t radial_corner_cells = 0;
+        std::size_t pure_z_ghost_cells = 0;
+        for (int ibox = 0; ibox < iterator.size(); ++ibox)
+        {
+            const DataIndex data_index = iterator[ibox];
+            const FArrayBox &fab = state[data_index];
+            const Box valid = this->m_grids[data_index] & domain;
+            for (BoxIterator bit(valid); bit.ok(); ++bit)
+            {
+                const ValidState &saved = valid_before[valid_cursor++];
+                for (int component = 0; component < NUM_VARS; ++component)
+                {
+                    if (fab(saved.point, component) !=
+                        saved.values[static_cast<std::size_t>(component)])
+                    {
+                        m_valid_cells_unchanged = false;
+                    }
+                }
+            }
+            for (BoxIterator bit(fab.box()); bit.ok(); ++bit)
+            {
+                const IntVect point = bit();
+                if (domain.contains(point))
+                {
+                    continue;
+                }
+                const bool radial_ghost =
+                    point[0] < domain.smallEnd(0) ||
+                    point[0] > domain.bigEnd(0);
+                const bool compact_ghost =
+                    point[1] < domain.smallEnd(1) ||
+                    point[1] > domain.bigEnd(1);
+                if (!radial_ghost)
+                {
+                    ++pure_z_ghost_cells;
+                }
+                else if (compact_ghost)
+                {
+                    ++radial_corner_cells;
+                }
+                else
+                {
+                    ++radial_ghost_cells;
+                }
+            }
+        }
+        require(valid_cursor == valid_before.size(),
+                "D9 ghost audit did not revisit every valid cell");
+
+        const auto offset = this->m_p.coordinate_offset();
+        for (int layer = 1; layer <= 3; ++layer)
+        {
+            m_inner_ghost_coordinates[static_cast<std::size_t>(layer - 1)] =
+                BlackStringCoordinates::cell_centered<double>(
+                    domain.smallEnd(0) - layer, this->m_dx, offset[0]);
+        }
+        m_minimum_inner_ghost_x =
+            *std::min_element(m_inner_ghost_coordinates.begin(),
+                              m_inner_ghost_coordinates.end());
+        m_ghost_audit_complete = true;
+        std::cout << std::scientific << std::setprecision(12)
+                  << "D9_GHOST_AUDIT variant=" << d9_live_variant
+                  << " components_begin=" << components.begin()
+                  << " components_end=" << components.end()
+                  << " radial_ghost_cells=" << radial_ghost_cells
+                  << " radial_corner_cells=" << radial_corner_cells
+                  << " pure_z_ghost_cells=" << pure_z_ghost_cells
+                  << " valid_cells_overwritten="
+                  << (m_valid_cells_unchanged ? 0 : 1)
+                  << " inner_ghost_x_near=" << m_inner_ghost_coordinates[0]
+                  << " inner_ghost_x_middle="
+                  << m_inner_ghost_coordinates[1]
+                  << " inner_ghost_x_far=" << m_inner_ghost_coordinates[2]
+                  << " minimum_inner_ghost_x=" << m_minimum_inner_ghost_x
+                  << " ordering=chombo_exchange_then_radial_fill\n";
+    }
+
+    void specificUpdateODE(GRLevelData &solution, const GRLevelData &rhs,
+                           const Real dt) override
+    {
+        this->instrumentation().record_update();
+        (void)rhs;
+        ++m_update_calls;
+        const Box domain = this->m_problem_domain.domainBox();
+        const DataIterator iterator = solution.dataIterator();
+        for (int ibox = 0; ibox < iterator.size(); ++ibox)
+        {
+            const DataIndex data_index = iterator[ibox];
+            const FArrayBox &fab = solution[data_index];
+            const Box valid = this->m_grids[data_index] & domain;
+            for (BoxIterator bit(valid); bit.ok(); ++bit)
+            {
+                const IntVect point = bit();
+                const auto metric = d8_metric_snapshot(fab, point);
+                if (d8_admissible_metric(metric))
+                {
+                    continue;
+                }
+                const std::size_t update_in_step =
+                    (m_update_calls - 1) % updates_per_step + 1;
+                const std::size_t timestep =
+                    (m_update_calls - 1) / updates_per_step + 1;
+                const int rk_stage =
+                    update_in_step <= 2
+                        ? 1
+                        : (update_in_step <= 4
+                               ? 2
+                               : (update_in_step <= 6 ? 3 : 4));
+                std::cout << "D9_INVALID_METRIC variant=" << d9_live_variant
+                          << " first_failing_timestep=" << timestep
+                          << " rk_stage=" << rk_stage
+                          << " update_in_step=" << update_in_step
+                          << " base_time=" << this->m_time
+                          << " full_dt=" << this->m_dt
+                          << " update_dt=" << dt
+                          << " index_x=" << point[0]
+                          << " index_z=" << point[1]
+                          << " valid_cell=1 ghost_cell=0 region="
+                          << d8_point_region(point, domain)
+                          << " offending_field="
+                          << d8_offending_metric_field(metric) << '\n';
+                d8_print_metric("d9_after_rk_update_before_cleanup", metric);
+                std::cout.flush();
+                std::exit(87);
+            }
+        }
+        BoxLoops::loop(
+            BlackStringLive::CleanupCompute(this->m_p.min_chi,
+                                            this->m_p.min_lapse),
+            solution, solution, EXCLUDE_GHOST_CELLS, disable_simd());
+        this->instrumentation().record_cleanup();
+    }
+
+  public:
+    bool d9_ghost_audit_complete() const { return m_ghost_audit_complete; }
+    bool d9_valid_cells_unchanged() const
+    {
+        return m_valid_cells_unchanged;
+    }
+    double d9_minimum_inner_ghost_x() const
+    {
+        return m_minimum_inner_ghost_x;
+    }
+    std::array<double, 3> d9_inner_ghost_coordinates() const
+    {
+        return m_inner_ghost_coordinates;
+    }
+
+  private:
+    struct ValidState
+    {
+        IntVect point;
+        std::array<double, NUM_VARS> values{};
+    };
+
+    static constexpr std::size_t updates_per_step = 7;
+    bool m_ghost_audit_complete = false;
+    bool m_valid_cells_unchanged = true;
+    double m_minimum_inner_ghost_x =
+        std::numeric_limits<double>::infinity();
+    std::array<double, 3> m_inner_ghost_coordinates{};
+    std::size_t m_update_calls = 0;
+};
+
 template <int mode_number,
           template <int> class level_template = FourierGrowthLevel>
 int run_case(SimulationParameters &parameters, const char *mode_name)
 {
     constexpr int secondary_mode_number = mode_number == 1 ? 2 : 1;
     const std::string mode(mode_name);
+    d9_live_variant = mode.rfind("d9_", 0) == 0 ? mode_name : nullptr;
     const bool exact_gp_control =
         mode == "d7_exact_gp" || mode == "d8_exact_gp" ||
-        mode == "d8_exact_abort" || mode == "d8_combined";
+        mode == "d8_exact_abort" || mode == "d8_combined" ||
+        mode == "d9_exact_gp";
     if (exact_gp_control)
     {
         require(parameters.background_preserving_gp_radial_ghosts &&
@@ -1398,6 +1735,24 @@ int run_case(SimulationParameters &parameters, const char *mode_name)
             "radial policy performed a duplicate periodic exchange");
     require(counts.diagnostic_evaluations == level->samples().size(),
             "diagnostic cadence count differs from collected samples");
+    if (mode.rfind("d9_", 0) == 0)
+    {
+        require(level->d9_ghost_audit_complete(),
+                "D9 did not audit its first radial ghost fill");
+        require(level->d9_valid_cells_unchanged(),
+                "D9 radial ghost fill overwrote a valid cell");
+        require(level->d9_minimum_inner_ghost_x() > 0.0,
+                "D9 radial ghost coordinate is not strictly positive");
+        const auto ghost_x = level->d9_inner_ghost_coordinates();
+        std::cout << "D9_GHOST_CHECK variant=" << mode_name
+                  << " valid_cells_overwritten=0"
+                  << " inner_ghost_x_near=" << ghost_x[0]
+                  << " inner_ghost_x_middle=" << ghost_x[1]
+                  << " inner_ghost_x_far=" << ghost_x[2]
+                  << " minimum_inner_ghost_x="
+                  << level->d9_minimum_inner_ghost_x()
+                  << " all_positive=1 all_18_slots_preserved=1\n";
+    }
     if (mode == "d8_frozen_gauge" || mode == "d8_combined")
     {
         constexpr double frozen_tolerance = 1.0e-14;
@@ -1661,7 +2016,8 @@ int main(int argc, char *argv[])
         fail("usage: BlackStringFourierGrowthTest <params> "
              "<unstable|stable|scan|transient-low|transient-high|"
              "d7-exact-gp|d7-frozen-gauge|d7-half-cfl|d7-fine|"
-             "d8-exact-abort|d8-exact-gp|d8-frozen-gauge|d8-combined> "
+             "d8-exact-abort|d8-exact-gp|d8-frozen-gauge|d8-combined|"
+             "d9-medium|d9-fine|d9-exact-gp> "
              "<control|seeded|legacy-gammaz> <epsilon>");
     }
     const std::string kind(argv[3]);
@@ -1770,8 +2126,26 @@ int main(int argc, char *argv[])
                 "D8 controls must remain unperturbed");
         return run_case<1, D8FrozenGaugeLevel>(parameters, "d8_combined");
     }
+    if (mode == "d9-medium")
+    {
+        require(run_configuration.kind == RunKind::control,
+                "D9 controls must remain unperturbed");
+        return run_case<1, D9ControlLevel>(parameters, "d9_medium");
+    }
+    if (mode == "d9-fine")
+    {
+        require(run_configuration.kind == RunKind::control,
+                "D9 controls must remain unperturbed");
+        return run_case<1, D9ControlLevel>(parameters, "d9_fine");
+    }
+    if (mode == "d9-exact-gp")
+    {
+        require(run_configuration.kind == RunKind::control,
+                "D9 controls must remain unperturbed");
+        return run_case<1, D9ControlLevel>(parameters, "d9_exact_gp");
+    }
     fail("mode must be unstable, stable, scan, transient-low, or "
          "transient-high, d7-exact-gp, d7-frozen-gauge, d7-half-cfl, or "
          "d7-fine, d8-exact-abort, d8-exact-gp, d8-frozen-gauge, or "
-         "d8-combined");
+         "d8-combined, d9-medium, d9-fine, or d9-exact-gp");
 }

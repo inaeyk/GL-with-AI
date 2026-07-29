@@ -1,0 +1,225 @@
+BLACKSTRING STAGE 4AO-D9 EXCISION CHARACTERISTIC CHECK
+date=2026-07-29
+base_commit=1269786
+scope=existing Fourier/transient fixture only
+production_equations_changed=false
+production_boundary_changed=false
+gp_initializer_changed=false
+production_hot_path_changed=false
+reused_xin_0.5_baseline_rerun=false
+
+LOCKED LIVE PARAMETERS
+alpha_GP=1
+beta_x_GP=sqrt(r0/x)
+lapse_advec_coeff=0
+lapse_power=1
+lapse_coeff=2
+shift_Gamma_coeff=0.75
+shift_advec_coeff=0
+eta=1
+kappa1=0.1
+kappa2=0
+kappa3=1
+covariantZ4=true
+fixed_GP_lapse_source=3*sqrt(r0/x^3)
+
+The fixed lapse source and kappa damping terms are lower order and do not
+increase the frozen-coefficient principal-speed envelope. Using the requested
+coordinate-speed convention v_+ = -beta_x+c and v_- = -beta_x-c gives:
+
+sector c
+physical 1
+constraint_Z4 1
+lapse sqrt(2)=1.414213562373
+shift_transverse sqrt(0.75)=0.866025403784
+shift_longitudinal_d4 sqrt(0.75*(2-2/4))=1.060660171780
+
+Thus c_max=sqrt(2), from the lapse sector. This is a conservative local
+frozen-coefficient envelope, not a complete characteristic diagonalization
+of the reduced live system. In particular, no complete principal-system
+proof is claimed.
+
+CHARACTERISTIC MARGINS
+position x beta_x c_max v_plus v_minus outflow_margin=beta_x-c_max
+old_face 0.5 1.414213562373 1.414213562373 0 -2.828427124746 0
+old_first_valid 0.5625 1.333333333333 1.414213562373 0.080880229040 -2.747546895706 -0.080880229040
+new_face 0.375 1.632993161855 1.414213562373 -0.218779599482 -3.047206724229 0.218779599482
+new_medium_first_valid 0.4375 1.511857892037 1.414213562373 -0.097644329664 -2.926071454410 0.097644329664
+new_fine_first_valid 0.416666666667 1.549193338483 1.414213562373 -0.134979776110 -2.963406900856 0.134979776110
+
+The old face is glancing for the fastest envelope and its first valid cell has
+an incoming v_+ branch. It therefore lacks strict outflow margin under this
+check. The deeper face and both first-valid locations have strict positive
+margin.
+
+CONTROL DOMAIN AND BUDGET
+Lz=8
+x_in=0.375
+x_out=4.375
+CFL=0.05
+medium=(Nx,Nz)=(32,64), dx=dz=0.125, dt=0.00625
+fine=(Nx,Nz)=(48,96), dx=dz=1/12, dt=1/240
+requested_final_time=8
+new_evolution_attempts=3
+hard_cap=3
+
+The optional medium exact-GP radial-ghost run was needed because both
+provisional-boundary controls failed the stabilization gate.
+
+GHOST OWNERSHIP AUDIT
+variant inner_ghost_coordinates minimum valid_overwrite components
+medium 0.3125,0.1875,0.0625 0.0625 0 0..17
+fine 0.333333333333,0.25,0.166666666667 0.166666666667 0 0..17
+exact_GP 0.3125,0.1875,0.0625 0.0625 0 0..17
+
+All three inner ghost coordinates are strictly positive in every run.
+Chombo exchange owns pure-z ghosts and precedes the radial-only plus
+radial-periodic-corner fill. No valid cell is overwritten.
+
+REUSED x_in=0.5 BASELINE
+source=D6/D7/D8 recorded unperturbed control
+rerun=false
+final_time=8
+final_state_max=1.969929951638
+crossing_1e-3=0.25_at_retained_cadence
+crossing_1e-2=0.25_at_retained_cadence
+crossing_1e-1=6.0
+crossing_1=7.75
+detailed_constraints=unavailable_and_not_regenerated
+
+DEEPER-DOMAIN CROSSINGS AND INVALID METRICS
+variant t(1e-3) t(1e-2) t(1e-1) t(1) first_invalid
+medium 0.025 0.025 0.05 5.20 t=6.3625_step1019_RK3_valid_bulk_(12,0)_x=1.9375_hxx
+fine 0.025 0.025 4.025 5.275 t=6.183333_step1485_RK3_valid_bulk_(15,0)_x=1.666667_hxx
+exact_GP 0.025 0.025 0.05 0.475 t=0.93125_step150_RK1_valid_inner_(1,0)_x=0.5625_hxx
+
+No invalid metric originates in a ghost. The fine provisional control becomes
+invalid 0.1791667 earlier than the medium control. Exact-GP radial ghosts make
+the deeper-domain failure substantially earlier, so they do not provide a
+cure.
+
+LAST ADMISSIBLE SAMPLES
+variant t state_max state_L2 H_max H_L2 Mx_max Mx_L2 Mz_max Mz_L2
+medium 6.35 60.00693275970 5.357206960382 2964.880165427 535.4837069739 395.3749713962 73.03225849802 2.4306e-13 5.7868e-14
+fine 6.175 94.91111271946 7.486620129901 8639.997792080 1266.995045402 2826.442866653 413.0092529493 9.5801e-13 2.0975e-13
+exact_GP 0.925 23.12983260578 1.998890774552 5206.854902130 923.0138308990 1358.211454159 244.0264064816 1.4443e-13 2.5588e-14
+
+At those cleaned samples:
+variant determinant_max weighted_trace_max radial_Nyquist maximum_z_span nonzero_Fourier
+medium 6.6613e-16 5.3291e-15 1.085044865327 0 2.3535e-15
+fine 6.6613e-16 7.1054e-15 0.841655637888 0 5.4864e-15
+exact_GP 4.4409e-16 3.5527e-15 0.897423063506 0 6.9030e-16
+
+The algebraic cleanup remains accurate at completed samples, but state,
+constraints, and radial alternating-cell content are uncontrolled. All runs
+remain z-independent to measured span zero; the listed Fourier content is the
+largest nonzero compact-direction diagnostic.
+
+PEAK DRIFT BY STORED VARIABLE
+variant=medium
+variable maximum L2_at_peak maximum_location
+chi 5.689588336969e-1 2.490724033557e-1 inner_boundary
+hxx 6.963124486706 1.868238167132 inner_boundary
+hxz 5.458421869472e-15 1.617079358961e-15 inner_boundary
+hzz 6.035324968479e-1 2.714843721378e-1 inner_boundary
+hww 5.081201997650e-1 1.879004731748e-1 bulk
+K 1.472494251782e1 5.179357721594 bulk
+Axx 6.000693275970e1 2.048176932623e1 inner_boundary
+Axz 9.729978260663e-14 2.465937937420e-14 inner_boundary
+Azz 6.338045003923 1.467344992199 bulk
+Aww 7.586504751693 1.850093526844 bulk
+Theta 1.261619739820e1 4.853366314207 bulk
+GammaX 1.571663265217e1 4.497453650861 bulk
+GammaZ 5.576965992367e-14 1.235334726310e-14 inner_boundary
+lapse 8.865659852747e-1 4.647805180877e-1 bulk
+shiftX 8.825410301070e-1 3.438807262019e-1 bulk
+shiftZ 2.373607473725e-15 4.844697558685e-16 inner_boundary
+Bx 1.453991127869e1 4.112363906595 bulk
+Bz 5.601407424710e-14 1.211626850283e-14 inner_boundary
+
+variant=fine
+variable maximum L2_at_peak maximum_location
+chi 5.835777904190e-1 2.390086507450e-1 inner_boundary
+hxx 8.137525514843 1.894983384155 inner_boundary
+hxz 1.531050003398e-14 3.042330389009e-15 inner_boundary
+hzz 6.175821712529e-1 2.516773969330e-1 inner_boundary
+hww 4.749277793420e-1 1.726196701061e-1 bulk
+K 3.527098446629e1 8.585833511516 bulk
+Axx 9.491111271946e1 2.766892568596e1 inner_boundary
+Axz 2.512759703186e-13 6.101688574840e-14 inner_boundary
+Azz 2.381109111002e1 3.678805222107 bulk
+Aww 2.792552476260e1 4.418621169685 bulk
+Theta 2.124564427156e1 7.556794623748 bulk
+GammaX 2.072532526285e1 5.740058236709 bulk
+GammaZ 7.707360606446e-14 1.739493485997e-14 inner_boundary
+lapse 9.176659824371e-1 4.575293391579e-1 bulk
+shiftX 9.888868158939e-1 3.556445511613e-1 bulk
+shiftZ 3.511362570238e-15 8.620118896921e-16 inner_boundary
+Bx 1.944423934677e1 5.376009226066 bulk
+Bz 7.763097195037e-14 1.690195890745e-14 inner_boundary
+
+variant=exact_GP
+variable maximum L2_at_peak maximum_location
+chi 4.536713393196e-1 8.549490144718e-2 inner_boundary
+hxx 1.070911788248 2.547207552495e-1 inner_boundary
+hxz 1.612560321857e-16 3.328665587590e-17 inner_boundary
+hzz 7.318524240229e-1 1.465553794939e-1 inner_boundary
+hww 1.247950422641 2.227738975250e-1 inner_boundary
+K 1.414514381091e1 2.670273028418 inner_boundary
+Axx 2.312983260578e1 4.154039939876 inner_boundary
+Axz 7.971286088802e-16 1.772635460831e-16 inner_boundary
+Azz 5.861346356869 1.073949737334 inner_boundary
+Aww 5.368535338336 1.157081803287 inner_boundary
+Theta 8.892385114527 1.904311780381 inner_boundary
+GammaX 2.289515052935e1 4.667012174474 inner_boundary
+GammaZ 1.964354600357e-15 4.090314195153e-16 inner_boundary
+lapse 4.994452289108e-1 1.036203193700e-1 inner_boundary
+shiftX 9.537695635599e-1 1.941259588535e-1 inner_boundary
+shiftZ 5.472486098592e-17 1.327610228029e-17 inner_boundary
+Bx 2.162345777794e1 4.409355840293 inner_boundary
+Bz 1.891388119043e-15 3.922781433703e-16 inner_boundary
+
+ROLLING LATE-TIME LOG SLOPES
+variant width interval state H Mx radial_Nyquist
+medium 0.5 5.75-6.25 5.28728 6.41334 5.79284 2.76998
+medium 1.0 5.25-6.25 4.02961 3.85822 3.34338 3.54679
+fine 0.5 5.50-6.00 5.76854 5.84233 4.37553 8.65461
+fine 1.0 5.00-6.00 3.92738 3.93812 3.38021 5.81778
+exact_GP 0.5 0.25-0.75 3.69090 1.41674 2.41772 4.07024
+
+The complete rolling series, standard errors, R2 values, sampled time series,
+and per-variable Nyquist values are generated by
+tests/chombo_fourier_growth/analyze_d9_controls.py.
+
+PERFORMANCE
+variant wall_seconds peak_RSS_kB terminal_time
+medium 19.86 18944 6.3625
+fine 54.06 21172 6.183333
+exact_GP 2.53 18348 0.93125
+total_wall_seconds=76.45
+maximum_peak_RSS_kB=21172
+reused_baseline_evolutions=1
+new_evolution_attempts=3
+
+The reused t=8 baseline previously cost about 24.78-25.36 seconds and
+10.6 MB. D9 runs terminate at different times and add fixture-only metric,
+Nyquist, and live abort diagnostics, so their timings are not direct
+production performance comparisons.
+
+STABILIZATION GATE
+no_invalid_metric_through_t8=false
+no_drift_0.1_crossing_before_t8=false
+finer_does_not_develop_faster=false
+constraints_controlled=false
+radial_grid_scale_content_controlled=false
+
+CLASSIFICATION
+EXCISION_PLACEMENT_NOT_SUFFICIENT
+
+The old placement is not strictly outside the conservative fastest envelope,
+but moving the face inward to x=0.375 does not cure the instability. Both
+provisional-boundary resolutions become inadmissible before t=8, the fine
+run fails earlier, constraints and radial Nyquist content explode, and the
+optional exact-GP control fails still earlier. D9 therefore does not confirm
+excision placement as the cause. Perturbations and the k scan remain
+suspended.
