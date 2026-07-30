@@ -19,14 +19,16 @@ D16 closes further fixture-only spectral projection because the instantaneous
 constraint nullspace is not sufficiently invariant under the live tangent
 map.
 
-- [ ] **Milestone 1 — Cluster execution baseline:** active planning; no
-  implementation has begun. Freeze the committed 18-variable, one-level,
+- [ ] **Milestone 1 — Cluster execution baseline:** active. M1-A passed after
+  all three builds, serial/MPI-1 startup, a legal MPI-2 one-step launch, and
+  MPI/HDF5 output qualified; M1-B is next.
+  Freeze the committed 18-variable, one-level,
   exact-GP configuration at `2/4/4`, `ko_sigma=0.3`, periodic `z`,
   provisional radial boundaries, no perturbation/AHFinder, and default-off
   diagnostics.
-  - [ ] **M1-A:** reproducible optimized serial/no-HDF5, MPI/no-HDF5, and
-    MPI/HDF5 builds with full provenance, flags, hashes, startup/HDF5 checks,
-    and clean-build commands.
+  - [x] **M1-A:** three ABI-separated optimized builds, bounded startup
+    evidence, a legal two-rank periodic-`z` decomposition, and HDF5 evidence
+    are qualified.
   - [ ] **M1-B:** matched serial, MPI-1, MPI-2, and MPI-4 level-zero
     evolution where available; compare all 18 fields, ownership, constraints,
     drift, RHS/ghost counts, and direction safety.

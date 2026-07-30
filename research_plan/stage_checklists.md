@@ -50,8 +50,9 @@ Current claim partition:
 
 #### Milestone 1 — Cluster execution baseline
 
-Status: active planning; no Milestone 1 implementation, build, or numerical
-launch has begun. D16 is closed with
+Status: M1-A is complete with
+`M1-A PASS — MPI/HDF5 build baseline qualified`; active implementation may
+proceed to M1-B. D16 is closed with
 `CONSTRAINT_NULLSPACE_NOT_INVARIANT`, the open-ended D-series is finished,
 G-Engineering is passed, and G-Physics plus overall Checkpoint G remain
 blocked.
@@ -70,16 +71,27 @@ blocked.
 
 ##### M1-A — Reproducible cluster build
 
-- [ ] Qualify an optimized serial build with HDF5 disabled.
-- [ ] Qualify an optimized MPI build with HDF5 disabled.
-- [ ] Qualify an optimized MPI build with HDF5 enabled.
-- [ ] Record compiler, MPI, HDF5, and Fortran provenance; GRChombo and Chombo
+- [x] Qualify an optimized serial build with HDF5 disabled.
+- [x] Qualify an optimized MPI build with HDF5 disabled.
+- [x] Qualify an optimized MPI build with HDF5 enabled.
+- [x] Record compiler, MPI, HDF5, and Fortran provenance; GRChombo and Chombo
   commits; compile and link flags; executable hashes; minimal startup and
   HDF5 checks; and reproducible clean-build commands.
 
 Exit: all three build variants have reproducible provenance and the applicable
 minimal startup/HDF5 evidence. A build alone is not MPI evolution acceptance.
 No substantive audit occurs after M1-A alone.
+
+Current result:
+`M1-A PASS — MPI/HDF5 build baseline qualified`. All three ABI-separated
+builds, serial startup, MPI-1 startup, the legal MPI-2 one-step startup, and
+the MPI/HDF5 checkpoint write/read-open passed. The legal MPI-2 layout uses
+two 8-by-8 boxes split only along periodic `z`; every physical-boundary box
+retains eight radial cells for the five-cell closure footprint, and both ranks
+own one box. The first illegal four-cell layout and the later removal of the
+qualified executable before retry are retained as nontechnical historical
+interruptions, not active blockers. See
+`docs/grchombo/milestone1a_cluster_build_qualification.md`. M1-B may begin.
 
 ##### M1-B — Distributed level-zero evolution
 
@@ -164,6 +176,11 @@ the complete M1-A through M1-E evidence and the proposed M1-F classification.
 8. Do not audit M1-A alone.
 9. Run a full suite only after shared production-core changes.
 10. Documentation-only repairs require no second audit.
+11. Qualified executables may be retained until the current stage closes.
+    Artifact cleanup must not destroy an artifact required by a pending
+    acceptance check. Final cleanup occurs after the stage commit, or after
+    preserving the artifact's deterministic hash and reproducible rebuild
+    command.
 
 #### Milestone 2 — Physical radial and constraint strategy
 

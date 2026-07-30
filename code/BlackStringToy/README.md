@@ -34,8 +34,12 @@ framework is allowed without explicit human approval.
 
 ## Milestone 1 — Cluster execution baseline
 
-Milestone 1 is documented but not implemented. Its frozen workload is the
-committed 18-variable core with `CH_SPACEDIM=2`, `GR_SPACEDIM=4`,
+Milestone 1 is active. M1-A passed after qualifying all three ABI-separated
+builds, serial/MPI-1 startup, a legal MPI-2 one-step launch using two 8-by-8
+boxes split only along periodic `z`, and MPI/HDF5 checkpoint output. M1-B is
+the next active stage.
+Its frozen workload is the committed 18-variable core with
+`CH_SPACEDIM=2`, `GR_SPACEDIM=4`,
 `DEFAULT_TENSOR_DIM=4`, exact GP, `ko_sigma=0.3`, periodic compact `z`, the
 provisional radial boundary, one AMR level, no perturbation/AHFinder, and
 diagnostics disabled unless an acceptance test requires them. Production

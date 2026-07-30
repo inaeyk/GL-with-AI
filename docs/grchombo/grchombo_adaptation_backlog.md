@@ -64,7 +64,9 @@ mapped into the five milestones.
 
 ## Active Milestone 1 delivery plan
 
-Status remains planning-only. The frozen workload uses
+M1-A is complete with `M1-A PASS — MPI/HDF5 build baseline qualified`: all
+three ABI-separated builds, serial/MPI-1 startup, a legal MPI-2 one-step
+launch, and MPI/HDF5 output passed. M1-B may begin. The frozen workload uses
 `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`, the committed
 18-variable production core, `ko_sigma=0.3`, exact GP, periodic compact `z`,
 the provisional radial boundary, one AMR level, no perturbation/AHFinder, and
