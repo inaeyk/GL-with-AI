@@ -1037,6 +1037,20 @@ simulation and radiation diagnostics exist.
   candidate passes the physical filter, so no fine matrix is authorized.
   Classification: `CONSTRAINT_GAUGE_OR_BOUNDARY_SPECTRUM_DOMINATES`. Keep
   the scan suspended and make no GL identity or threshold claim.
+- [x] Stage 4AO-D15 reduced-spectrum sector isolation. Reuse the committed
+  D14 `k=pi/4` baseline hash without reconstruction, then build only a native
+  `416x416` frozen-gauge operator and a `576x576` exact-GP-radial-ghost
+  operator that preserves the provisional outer valid-surface RHS override.
+  Frozen gauge replaces the D14 leader with a `91.6%` boundary-band,
+  constraint-`0.680` mode; exact-GP ghosts replace it with an `87.4%`
+  boundary-band, constraint-`8.78` mode. Numerical-floor, direct-residual,
+  parity, and Fourier-roundtrip gates reject artifacts before ranking.
+  An independent parser recomputes all rankings and profile matching and
+  finds zero individually bulk-eligible candidates in either variant.
+  Classification:
+  `NO_BULK_PHYSICAL_CANDIDATE_AFTER_SECTOR_ISOLATION`. Boundary/constraint
+  contamination remains unresolved; do not identify a GL mode or resume the
+  wavenumber scan.
 - [ ] Stage 4AO-D-F sustained unperturbed/perturbed evolution and boundary
   qualification. Converged `k_cr_0`, sustained nonlinear evolution,
   physical radial-boundary acceptance, AMR/MPI qualification,

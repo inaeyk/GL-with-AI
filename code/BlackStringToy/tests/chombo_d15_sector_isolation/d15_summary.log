@@ -1,0 +1,19 @@
+STAGE4AO_D15_REPAIRED_REDUCED_SPECTRUM_SECTOR_ISOLATION
+configuration k=pi/4 Lz=8 x=[0.5,4.5] Nx=32 Nz=64 dx=dz=0.125 CFL=0.05 ko_sigma=0.3
+baseline reused=1 reconstructed=0 size=576 eigenvalues=576 hash=0x73c003dd70b673c6 tangent_actions=0 floor=6.94188e-6
+matrix frozen_gauge size=416 eigenvalues=416 bytes=1384448 hash=0xc435f8701a968876 scaling=0xf8e15e3dc3d8bb43 direct_difference=3.094524308119e-7 epsilon_difference=1.487788475467e-7 parity=5.301496639589e-8 harmonic=1.411179607264e-15 floor=3.094524308119e-6 retained=302 rejected=114
+matrix exact_gp_ghosts size=576 eigenvalues=576 bytes=2654208 hash=0x220e75be6cf311f7 scaling=0xe217c18f1ddb1483 direct_difference=4.104427205522e-7 epsilon_difference=1.573394568614e-7 parity=5.847791161265e-8 harmonic=3.128216891576e-15 floor=4.104427205522e-6 retained=282 rejected=294
+frozen_gate native_13Nx=1 embedded_576_mutation=REJECTED gauge_basis_coordinates=0 gauge_rhs_max=0 Theta_live=1 GammaX_live=1 GammaZ_live=1
+ghost_gate radial_tangent_ghosts_zero=1 maximum_policy_difference=3.495784101082e-7 periodic_exchange_owner=framework rhs_calls=8808 outer_override_calls=8808 outer_override_preserved=1 disabled_override_mutation=REJECTED
+artifact_gate lambda_floor_formula=10x_max_epsilon_dense_direct residual_lt=1e-7 forbidden_parity_lt=1e-5 reconstruction_lt=1e-7 reconstruction=max_roundtrip_identity_and_unwanted_harmonic rejected_with_reason=408
+leader frozen_gauge index=315 lambda=(1.001214898599,0) Omega=(0.1942657931257,0) residual=6.188493528708e-8 parity=8.584136466492e-9 reconstruction=2.041255880518e-16 boundary=0.9158281902737 constraints=(0.6453581619823,0.2063951826918,0.05190872469507) total_constraint=0.6795444388523 nyquist=0.007932877788827 conditioning_proxy=656.3860908291 maximum_radial=0 profile_hash=0x8fa18ece1314e3a1
+leader exact_gp_ghosts index=475 lambda=(1.006131807705,0) Omega=(0.9780935472889,0) residual=9.679363227551e-8 parity=6.478395980064e-9 reconstruction=2.565615654174e-16 boundary=0.8742740791588 constraints=(1.661176949573,0.4326402619849,8.612353247195) total_constraint=8.781760353628 nyquist=0.005054511574018 conditioning_proxy=16.68061158097 maximum_radial=2 profile_hash=0xe6d11df3edd0f2f3
+rank frozen_gauge smallest_constraint index=412 Omega_real=-0.5519991786776 constraint=0.2381242577961 boundary=0.5562613163220
+rank frozen_gauge smallest_boundary index=342 Omega_real=-0.07205473500015 constraint=0.7840366132348 boundary=0.3592003240713 maximum_radial=0
+rank exact_gp_ghosts smallest_constraint index=129 Omega_real=-14.00078024862 constraint=0.2056062131923 boundary=0.9999640805218
+rank exact_gp_ghosts smallest_boundary index=211 Omega_real=-1.500628062821 constraint=0.7211422336910 boundary=0.1278157927639 maximum_radial=7
+bulk_gate boundary_lt=0.40 constraint_lt=0.0500752 nyquist_lt=0.20 physical_fields_ge=3 bulk_maximum=1 overlap_gt=0.90 rate_tolerance=0.20 radial_maximum_separation_le=2
+parser frozen_bulk_eligible=0 exact_bulk_eligible=0 qualifying_shared_candidate=0 fixture_match_boolean_read=0
+efficiency new_matrices=2 tangent_actions=1882 signed_live_steps=3764 fixture_wall_seconds=139.627566646 runner_wall_seconds=144.19 process_peak_rss_kib=354952 seconds_per_tangent_action=0.07419105560361
+classification NO_BULK_PHYSICAL_CANDIDATE_AFTER_SECTOR_ISOLATION
+limitations sole_source=unresolved GL_identity=0 kcr_inference=0 Fourier_scan_resumed=0 production_code_changed=0

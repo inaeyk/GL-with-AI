@@ -1,0 +1,102 @@
+BLACKSTRING STAGE 4AO-D15 REPAIRED REDUCED-SPECTRUM SECTOR ISOLATION
+Date: 2026-07-30
+
+SCOPE
+- Fixture-only k=pi/4 comparison at Lz=8, x=[0.5,4.5], Nx=32, Nz=64,
+  dx=dz=1/8, CFL=0.05, and ko_sigma=0.3.
+- The committed D14 baseline is reused from hash 0x73c003dd70b673c6;
+  it is not reconstructed and performs zero new tangent actions.
+- Only two new matrices are built: native frozen gauge and exact-GP radial
+  perturbation ghosts. Production equations, KO, gauge, boundaries, and hot
+  path are unchanged.
+
+CORRECTED OPERATORS
+- Frozen gauge is genuinely 13*Nx=416. Basis, projection, dense storage, and
+  LAPACK diagonalization are all 416-dimensional. Lapse, shiftX, shiftZ, Bx,
+  and Bz are absent; their RHS perturbations are zeroed at every RK stage.
+  Theta, GammaX, and GammaZ remain live. LAPACK returns exactly 416
+  eigenvalues. An embedded 576-coordinate mutation is rejected.
+- Exact-GP ghosts is 18*Nx=576. Chombo still owns pure-z exchange, radial
+  tangent ghost perturbations vanish, and the provisional outer valid-surface
+  RHS override remains active. Exact and provisional ghost values differ by
+  3.49578e-7; every one of 8,808 RHS calls executes the outer override. A
+  mutation disabling the override is rejected.
+
+MATRIX VALIDATION
+variant          dimension/eigenvalues  matrix hash          eps discrepancy  dense/direct  floor
+frozen gauge     416/416                c435f8701a968876     1.48779e-7       3.09452e-7   3.09452e-6
+exact GP ghosts  576/576                220e75be6cf311f7     1.57339e-7       4.10443e-7   4.10443e-6
+- The numerical floor is 10*max(epsilon-halving,dense/direct discrepancy).
+- Matrix construction parity/harmonic leakage is at most
+  5.84779e-8/3.12822e-15. Entries are finite and twelve representative
+  columns per new matrix pass epsilon halving.
+
+ARTIFACT-FIRST SEARCH
+- No log(lambda)/dt is evaluated below the numerical floor.
+- Retention also requires matrix-free residual<1e-7, forbidden parity<1e-5,
+  and Fourier reconstruction defect<1e-7. Reconstruction is the maximum of
+  requested-sector round-trip error and unwanted-harmonic leakage.
+- The fixture emits a reason for all 408 exclusions: 114 frozen and 294
+  exact-GP. Retained counts are 302 and 282.
+- Each retained record contains eigenvalue/rate, direct residual, parity and
+  reconstruction defects, boundary/constraint/Nyquist measures, radial
+  maximum, physical component fractions, conditioning proxy, and profile
+  hash. Bulk-eligible records also retain their common 18-field coefficients.
+- Rankings are emitted separately by largest ReOmega, smallest normalized
+  constraint, and smallest boundary fraction.
+
+LEADERS AND RANKS
+variant          ReOmega   residual    boundary  constraint  Nyquist   radial max
+frozen leader    0.194266  6.1885e-8   0.9158    0.6795      0.00793   0
+exact-GP leader  0.978094  9.6794e-8   0.8743    8.7818      0.00505   2
+- The frozen lowest-constraint retained candidate has constraint 0.2381 and
+  boundary 0.5563. Its lowest-boundary pair has boundary 0.3592 but
+  constraint 0.7840 and an inner-boundary maximum.
+- The exact-GP lowest-constraint retained pair has constraint 0.2056 but
+  boundary 0.99996. Its lowest-boundary pair has boundary 0.1278 and a bulk
+  maximum, but constraint 0.7211.
+- Thus leader identities change, but every ranked alternative remains
+  boundary- or constraint-heavy.
+
+INDEPENDENT MATCHING
+- The parser does not read the fixture's precomputed match boolean. It parses
+  retained candidates, independently reproduces the three rankings, applies
+  all individual bulk gates, and computes physical-profile overlap directly
+  from emitted common-space coefficients.
+- Individual bulk gates require boundary<0.40, constraint<0.0500752,
+  Nyquist<0.20, at least three physical fields, and a radial maximum outside
+  the first/last three cells. Cross-variant matching additionally requires
+  overlap>0.90, ReOmega agreement within 20%, and maxima within two cells.
+- Frozen bulk eligible: 0. Exact-GP bulk eligible: 0. Shared matches: 0.
+
+CLASSIFICATION
+NO_BULK_PHYSICAL_CANDIDATE_AFTER_SECTOR_ISOLATION
+
+INTERPRETATION
+- The repaired sector isolation still exposes no credible shared bulk
+  physical candidate. Boundary/constraint content dominates both variants.
+- This does not identify live gauge or the provisional radial closure as the
+  sole source. It does not identify a GL mode or support k_cr r0.
+- The Fourier scan remains suspended.
+
+EFFICIENCY AND HOT PATH
+- New tangent actions: 1,882; signed live steps: 3,764.
+- Fixture wall: 139.63 s; full runner wall including rebuild: 144.19 s.
+- Process peak RSS: 354,952 KiB. Fixture-reported post-run RSS: 42,816 KiB.
+- Dense bytes: 1,384,448 frozen; 2,654,208 exact GP.
+- Approximate fixture cost: 0.07419 s/tangent action.
+- Production remains one direct target-d=4 RHS and one fused KO addition per
+  cell/stage, with no second RHS evaluation or production diagnostics added.
+
+EVIDENCE
+- Raw repaired output:
+  code/BlackStringToy/tests/chombo_d15_sector_isolation/d15_run.log
+- Independent parser output:
+  code/BlackStringToy/tests/chombo_d15_sector_isolation/d15_analysis.log
+- Compact results:
+  code/BlackStringToy/tests/chombo_d15_sector_isolation/d15_summary.log
+
+BOUNDED STATUS
+- Physical radial-boundary acceptance, sustained evolution, GL identity,
+  k_cr r0, AMR/MPI, horizons/AHFinder, and final scoring remain open.
+- Request one focused D15 audit after this repaired classification.

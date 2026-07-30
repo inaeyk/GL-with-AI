@@ -441,6 +441,56 @@ unresolved clustered `k=pi/2` block, not convergence to an accepted physical
 mode. No GL identity or `k_cr r0` inference follows, and the Fourier scan
 remains suspended.
 
+D15 isolates the `k=pi/4` reduced spectrum without changing production code.
+The committed D14 baseline is reused from hash `0x73c003dd70b673c6` and is
+not reconstructed. The repaired frozen-gauge operator is natively
+`13*32=416`: its basis, projection, dense storage, and LAPACK solve all omit
+lapse, shift, and `B^i`, while `Theta` and both `hat Gamma` fields remain
+live. A mutation restoring an embedded `576x576` operator is rejected. The
+exact-GP-ghost operator remains `18*32=576`; only radial tangent ghost
+perturbations are zeroed, Chombo still owns pure-periodic-z exchange, and the
+same provisional outer valid-surface RHS override remains active. Its ghost
+policy changes ghost values by `3.50e-7`, while all `8,808` RHS invocations
+retain the outer override. The two new matrix hashes are
+`0xc435f8701a968876` (frozen) and `0x220e75be6cf311f7` (exact GP).
+
+The D14 leader is not preserved by either isolation. Frozen gauge replaces it
+with a real mode having `Re(Omega)=0.19427`, boundary fraction `0.9158`,
+combined normalized constraints `0.6795`, and its maximum at the first
+radial cell. Exact-GP ghosts replace it with a real mode having
+`Re(Omega)=0.97809`, boundary fraction `0.8743`, constraint measure `8.782`,
+and its maximum in the inner three-cell band. The smallest-boundary
+exact-GP pair reaches `0.1278`, but its constraint measure is `0.721`, still
+more than an order of magnitude above the `0.0500752` bulk gate.
+
+Artifact rejection precedes ranking and matching. Each variant derives its
+eigenvalue floor as ten times the larger epsilon-halving or dense/direct
+discrepancy: `3.09e-6` frozen and `4.10e-6` exact GP. Eigenvalues below that
+floor are never passed through `log(lambda)/dt`; all candidates also require
+matrix-free residual below `1e-7`, forbidden parity below `1e-5`, and Fourier
+round-trip/unwanted-harmonic defect below `1e-7`. The fixture emits a reason
+for all 408 rejected candidates. The independent parser reconstructs the
+three rankings from retained records and recomputes cross-variant matching
+from emitted 18-field profile coefficients, without reading the fixture's
+boolean. Neither corrected variant has even one individually bulk-eligible
+candidate, so no pair can meet the additional profile-overlap `>0.90`, rate
+agreement within `20%`, and radial-maximum separation within two cells.
+D15 is therefore classified
+`NO_BULK_PHYSICAL_CANDIDATE_AFTER_SECTOR_ISOLATION`. The evidence supports an
+unresolved boundary/constraint-dominated spectrum; it does not isolate live
+gauge or the provisional closure as the sole source and does not identify a
+GL mode.
+
+The two new matrices use 1,882 tangent actions (3,764 signed live steps) in
+`139.63 s` fixture time (`144.19 s` including the strict rebuild), with
+`354,952 KiB` process peak RSS. Dense storage is `1,384,448` bytes for
+`416x416` and `2,654,208` bytes for `576x576`. Twelve epsilon-halving columns
+per new matrix agree within `1.58e-7`; dense/direct probes agree within
+`4.11e-7`; construction parity and harmonic leakage stay below `5.85e-8`
+and `3.13e-15`. The fixture changes no production code:
+the hot path remains one direct target-`d=4` RHS, one fused two-grid-direction
+KO addition, and no second RHS evaluation.
+
 Locked upstream `BoundaryConditions.cpp` dynamically allocates three
 `std::vector<int>` component lists per boundary-driver invocation. The
 boundary `Box` objects themselves are stack objects. This is upstream

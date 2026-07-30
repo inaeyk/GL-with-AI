@@ -1,0 +1,21 @@
+D15_PARSER_RANK variant=frozen_gauge metric=largest_ReOmega rank=1 eigen_index=315 ReOmega=1.942657931257e-01 constraint=6.795444388523e-01 boundary=9.158281902737e-01 profile_hash=0x8fa18ece1314e3a1
+D15_PARSER_RANK variant=frozen_gauge metric=largest_ReOmega rank=2 eigen_index=413 ReOmega=-4.288887940002e-02 constraint=6.508524536017e-01 boundary=6.351845612044e-01 profile_hash=0x81589ad3287c5988
+D15_PARSER_RANK variant=frozen_gauge metric=largest_ReOmega rank=3 eigen_index=316 ReOmega=-6.021361240664e-02 constraint=9.072245487863e-01 boundary=5.974480511159e-01 profile_hash=0xd5ec838c696b97ab
+D15_PARSER_RANK variant=frozen_gauge metric=smallest_constraint rank=1 eigen_index=412 ReOmega=-5.519991786776e-01 constraint=2.381242577961e-01 boundary=5.562613163220e-01 profile_hash=0xadf88c1fb4cc1ae6
+D15_PARSER_RANK variant=frozen_gauge metric=smallest_constraint rank=2 eigen_index=76 ReOmega=-1.874360273307e+01 constraint=5.429755931744e-01 boundary=9.999708328236e-01 profile_hash=0xc0be03e7a10bbf93
+D15_PARSER_RANK variant=frozen_gauge metric=smallest_constraint rank=3 eigen_index=77 ReOmega=-1.874360273307e+01 constraint=5.429755931744e-01 boundary=9.999708328236e-01 profile_hash=0xaf3b354f79841493
+D15_PARSER_RANK variant=frozen_gauge metric=smallest_boundary rank=1 eigen_index=342 ReOmega=-7.205473500015e-02 constraint=7.840366132348e-01 boundary=3.592003240713e-01 profile_hash=0x51be16f5b0f53f8c
+D15_PARSER_RANK variant=frozen_gauge metric=smallest_boundary rank=2 eigen_index=343 ReOmega=-7.205473500015e-02 constraint=7.840366132348e-01 boundary=3.592003240713e-01 profile_hash=0xec1beefb30883a8c
+D15_PARSER_RANK variant=frozen_gauge metric=smallest_boundary rank=3 eigen_index=330 ReOmega=-1.999352363118e-01 constraint=1.997615434222e+00 boundary=4.722055949370e-01 profile_hash=0x580f928d36b9990b
+D15_PARSER_RANK variant=exact_gp_ghosts metric=largest_ReOmega rank=1 eigen_index=475 ReOmega=9.780935472889e-01 constraint=8.781760353628e+00 boundary=8.742740791588e-01 profile_hash=0xe6d11df3edd0f2f3
+D15_PARSER_RANK variant=exact_gp_ghosts metric=largest_ReOmega rank=2 eigen_index=14 ReOmega=6.218322304540e-01 constraint=8.185126220070e+00 boundary=7.399225806322e-01 profile_hash=0xbd46f4bc20b1f17a
+D15_PARSER_RANK variant=exact_gp_ghosts metric=largest_ReOmega rank=3 eigen_index=15 ReOmega=6.218322304540e-01 constraint=8.185126220070e+00 boundary=7.399225806322e-01 profile_hash=0x942768accbe75f7a
+D15_PARSER_RANK variant=exact_gp_ghosts metric=smallest_constraint rank=1 eigen_index=129 ReOmega=-1.400078024862e+01 constraint=2.056062131923e-01 boundary=9.999640805218e-01 profile_hash=0xa2a1d4c3c70899e5
+D15_PARSER_RANK variant=exact_gp_ghosts metric=smallest_constraint rank=2 eigen_index=130 ReOmega=-1.400078024862e+01 constraint=2.056062131923e-01 boundary=9.999640805218e-01 profile_hash=0xebe08172fb7360e5
+D15_PARSER_RANK variant=exact_gp_ghosts metric=smallest_constraint rank=3 eigen_index=128 ReOmega=-1.612857461313e+01 constraint=2.114764378173e-01 boundary=9.999907908355e-01 profile_hash=0x91148f2c7b651bcb
+D15_PARSER_RANK variant=exact_gp_ghosts metric=smallest_boundary rank=1 eigen_index=211 ReOmega=-1.500628062821e+00 constraint=7.211422336910e-01 boundary=1.278157927639e-01 profile_hash=0x3d45f9cb26c6f830
+D15_PARSER_RANK variant=exact_gp_ghosts metric=smallest_boundary rank=2 eigen_index=212 ReOmega=-1.500628062821e+00 constraint=7.211422336910e-01 boundary=1.278157927639e-01 profile_hash=0x2904258d995da530
+D15_PARSER_RANK variant=exact_gp_ghosts metric=smallest_boundary rank=3 eigen_index=484 ReOmega=-7.475567089397e-01 constraint=4.144830213657e+00 boundary=1.343343527576e-01 profile_hash=0x73719df549f80cec
+D15_PARSER_SUMMARY frozen_retained=302 exact_retained=282 artifact_rejections=408 frozen_bulk_eligible=0 exact_bulk_eligible=0 qualifying_shared_candidate=0 fixture_match_boolean_read=0
+D15_CLASSIFICATION NO_BULK_PHYSICAL_CANDIDATE_AFTER_SECTOR_ISOLATION
+BLACKSTRING_D15_LOG_REANALYSIS_PASS

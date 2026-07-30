@@ -157,8 +157,17 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   candidate passes, so do not construct a fine matrix or identify a GL mode.
   Correct the physical left-vector transform to `D^{-1}w_s`; retain the
   classification but do not attribute D13 to severe leader nonorthogonality.
+- [x] Complete D15's fixture-only `k=pi/4` sector isolation with baseline,
+  frozen-gauge, and exact-GP-perturbation-ghost operators. Reuse the D14
+  baseline hash without reconstruction; diagonalize a true `416x416`
+  frozen-gauge matrix and a `576x576` exact-GP-ghost-only matrix that retains
+  the provisional outer RHS override. Reject artifacts before independently
+  parsed rankings and profile matching. Record
+  `NO_BULK_PHYSICAL_CANDIDATE_AFTER_SECTOR_ISOLATION`: neither corrected
+  variant contains an individually bulk-eligible candidate. Keep production
+  unchanged and the Fourier scan suspended.
 - [ ] Establish a provisional `k_-<k_+` sign bracket in a separately
-  authorized follow-up only after the D14 boundary/constraint-dominated
+  authorized follow-up only after the D15 boundary/constraint-dominated
   spectrum is resolved. The current evidence supplies no accepted mode
   endpoint and supports no conclusion about whether `k_cr r0` is above or
   below `0.75`.

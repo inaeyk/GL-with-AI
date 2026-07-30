@@ -1516,7 +1516,7 @@ ModeSummary analyze_spectrum(D13TangentLevel &level,
     return summary;
 }
 
-int run_d14(SimulationParameters &parameters)
+[[maybe_unused]] int run_d14(SimulationParameters &parameters)
 {
     d14_require(parameters.max_level == 0, "D14 requires max_level=0");
     d14_require(parameters.coarsest_dx == 0.125,
@@ -1681,6 +1681,7 @@ int run_d14(SimulationParameters &parameters)
 }
 } // namespace
 
+#ifndef BLACKSTRING_D14_REUSE_WITHOUT_ENTRY
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -1691,3 +1692,4 @@ int main(int argc, char *argv[])
     SimulationParameters parameters(pp);
     return run_d14(parameters);
 }
+#endif
