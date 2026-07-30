@@ -50,16 +50,120 @@ Current claim partition:
 
 #### Milestone 1 — Cluster execution baseline
 
-- [ ] Build and run the black-string application with MPI on multiple ranks.
-- [ ] Validate distributed periodic, radial, and radial-periodic ghost
-  correctness and ownership.
-- [ ] Qualify parallel HDF5 output and checkpoint/restart.
-- [ ] Establish serial/MPI equivalence at matched decomposition-independent
-  resolution.
-- [ ] Measure memory, communication, strong scaling, and weak scaling.
+Status: active planning; no Milestone 1 implementation, build, or numerical
+launch has begun. D16 is closed with
+`CONSTRAINT_NULLSPACE_NOT_INVARIANT`, the open-ended D-series is finished,
+G-Engineering is passed, and G-Physics plus overall Checkpoint G remain
+blocked.
 
-Exit: a reproducible cluster execution baseline with no physical GL claim
-required.
+##### Frozen Milestone 1 reference
+
+- Dimensions: `CH_SPACEDIM=2`, `GR_SPACEDIM=4`,
+  `DEFAULT_TENSOR_DIM=4`.
+- State and physics: committed 18-variable production core, exact GP
+  background, `ko_sigma=0.3`, periodic compact `z`, and the provisional radial
+  boundary.
+- Execution: one AMR level, no perturbation, no AHFinder, and diagnostics
+  disabled unless an acceptance test explicitly requires them.
+- Freeze rule: production physics remains unchanged throughout Milestone 1
+  unless a directly demonstrated MPI/HDF5 defect requires a scoped repair.
+
+##### M1-A — Reproducible cluster build
+
+- [ ] Qualify an optimized serial build with HDF5 disabled.
+- [ ] Qualify an optimized MPI build with HDF5 disabled.
+- [ ] Qualify an optimized MPI build with HDF5 enabled.
+- [ ] Record compiler, MPI, HDF5, and Fortran provenance; GRChombo and Chombo
+  commits; compile and link flags; executable hashes; minimal startup and
+  HDF5 checks; and reproducible clean-build commands.
+
+Exit: all three build variants have reproducible provenance and the applicable
+minimal startup/HDF5 evidence. A build alone is not MPI evolution acceptance.
+No substantive audit occurs after M1-A alone.
+
+##### M1-B — Distributed level-zero evolution
+
+- [ ] Run matched serial, MPI-1, MPI-2, and MPI-4 configurations where the
+  environment supports them.
+- [ ] Keep one identical physical domain and global resolution.
+- [ ] Verify all 18 registered variables and correct global valid-cell
+  ownership.
+- [ ] Compare serial/MPI fields, constraints, and state drift.
+- [ ] Verify no duplicate RHS/ghost work and no hidden grid-direction access.
+
+Exit: decomposition-independent level-zero evolution evidence across every
+available rank count.
+
+##### M1-C — Distributed ghosts and boundaries
+
+- [ ] Validate internal radial and compact-`z` seams.
+- [ ] Validate periodic exchange across rank boundaries.
+- [ ] Validate first, second, and mixed `xz` derivatives plus KO stencils.
+- [ ] Validate radial-boundary ownership and radial-periodic corners.
+- [ ] Cover all 18 components.
+
+Exit: distributed exchange, stencil, and physical-boundary ownership are
+correct for the frozen workload.
+
+**Audit M1-ABC:** schedule the first substantive Milestone 1 audit after M1-C.
+It covers M1-A through M1-C together; there is no audit after M1-A alone.
+
+##### M1-D — HDF5, checkpoint, and restart
+
+- [ ] Produce valid plot and checkpoint output using existing Chombo/GRChombo
+  formats; no custom checkpoint format is allowed.
+- [ ] Retain all 18 fields.
+- [ ] Restore time, timestep, parameters, and layout.
+- [ ] Establish continuous-versus-restarted equivalence.
+- [ ] Prove restart does not reinitialize the state.
+- [ ] Store provenance with the output.
+
+##### M1-E — Performance and scaling
+
+- [ ] Measure time per RK step and valid-cell RHS evaluations per second.
+- [ ] Measure peak RSS per rank and total memory.
+- [ ] Measure ghost/communication time where exposed.
+- [ ] Separate checkpoint and plot-write costs from evolution cost and record
+  file sizes.
+- [ ] Measure strong and weak scaling.
+
+Production budgets:
+
+- one target-`d=4` RHS evaluation per cell/stage;
+- one fused KO addition;
+- no per-cell allocation, logging, counters, or mutexes;
+- diagnostics disabled by default; and
+- output cost reported separately from evolution cost.
+
+##### M1-F — Milestone closure
+
+Return exactly one:
+
+- `CLUSTER_EXECUTION_BASELINE_ACCEPTED`
+- `CLUSTER_EXECUTION_BASELINE_PARTIAL`
+- `CLUSTER_EXECUTION_BASELINE_BLOCKED`
+
+`ACCEPTED` requires correct MPI evolution, distributed ghost and physical
+radial-boundary ownership, serial/MPI numerical equivalence, HDF5,
+checkpoint/restart, and measured scaling and memory. It does not require AMR
+refinement, AHFinder, physical GL identification, `k_cr r0`, or nonlinear
+pinch-off.
+
+**Audit M1 closure:** schedule one milestone-closing audit after M1-E, covering
+the complete M1-A through M1-E evidence and the proposed M1-F classification.
+
+##### Milestone 1 workflow limits
+
+1. Maximum two repair cycles per M1 stage.
+2. Maximum 30 numerical launches before milestone review.
+3. No AMR refinement, horizon, Fourier, spectral, or physical-mode work.
+4. Use Chombo MPI ownership and exchange; add no MPI abstraction.
+5. Use existing HDF5/checkpoint formats.
+6. Run delta-based tests only.
+7. Reuse committed serial and KO evidence.
+8. Do not audit M1-A alone.
+9. Run a full suite only after shared production-core changes.
+10. Documentation-only repairs require no second audit.
 
 #### Milestone 2 — Physical radial and constraint strategy
 

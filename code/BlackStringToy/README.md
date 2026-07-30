@@ -32,6 +32,38 @@ scaling measurement at every production milestone. New diagnostics must
 enable a named production decision; no new eigensolver or dense spectral
 framework is allowed without explicit human approval.
 
+## Milestone 1 — Cluster execution baseline
+
+Milestone 1 is documented but not implemented. Its frozen workload is the
+committed 18-variable core with `CH_SPACEDIM=2`, `GR_SPACEDIM=4`,
+`DEFAULT_TENSOR_DIM=4`, exact GP, `ko_sigma=0.3`, periodic compact `z`, the
+provisional radial boundary, one AMR level, no perturbation/AHFinder, and
+diagnostics disabled unless an acceptance test requires them. Production
+physics remains frozen unless a demonstrated MPI/HDF5 defect requires repair.
+
+- **M1-A:** reproduce optimized serial/no-HDF5, MPI/no-HDF5, and MPI/HDF5
+  builds with toolchain/dependency/flag provenance, executable hashes, startup
+  and HDF5 checks, and clean-build commands.
+- **M1-B:** compare matched serial, MPI-1, MPI-2, and MPI-4 level-zero
+  evolution where available, including all 18 fields, ownership, constraints,
+  drift, duplicate-work, and hidden-direction gates.
+- **M1-C:** validate distributed seams, periodic rank exchange, derivative
+  and KO stencils, radial ownership, radial-periodic corners, and every
+  component. Audit M1-A through M1-C only after M1-C.
+- **M1-D:** validate existing-format plots/checkpoints and restart equivalence
+  without reinitialization.
+- **M1-E:** measure RK/RHS throughput, memory, communication, output cost and
+  size, and strong/weak scaling.
+- **M1-F:** return `CLUSTER_EXECUTION_BASELINE_ACCEPTED`,
+  `CLUSTER_EXECUTION_BASELINE_PARTIAL`, or
+  `CLUSTER_EXECUTION_BASELINE_BLOCKED`; acceptance requires MPI evolution/
+  ownership/equivalence, HDF5, restart, scaling, and memory.
+
+The milestone allows two repair cycles per stage and 30 numerical launches
+before review. It excludes AMR refinement, horizons, Fourier/spectral/physical
+mode work, and new MPI/checkpoint abstractions. It uses delta tests and
+committed serial/KO evidence. A milestone-closing audit follows M1-E.
+
 ## Historical implementation and diagnostic ledger
 
 The implementation began as the isolated Stage 4AO-D-E1 black-string

@@ -20,9 +20,9 @@ Completed work is consolidated into four packages:
 
 The KO-stabilized serial production core is functional. No credible
 boundary-independent, constraint-compatible GL mode has been identified, and
-D16 demonstrates that the instantaneous constraint nullspace is not
-sufficiently invariant under the live tangent map. Further fixture-only
-spectral projection is stopped.
+D16 is closed as `CONSTRAINT_NULLSPACE_NOT_INVARIANT`: the instantaneous
+constraint nullspace is not sufficiently invariant under the live tangent
+map. Further fixture-only spectral projection is stopped.
 
 Active work is organized by five deliverables:
 
@@ -48,6 +48,42 @@ No D17 or automatic D-series continuation is active. The old Stage 4AO-D-F,
 Stage 4AP–4AU, Checkpoints H/I, and Stage 5–9 labels below are retained as
 historical planning provenance; their deliverables are remapped into the five
 milestones.
+
+### Milestone 1 — Cluster execution baseline
+
+Active work begins with a frozen, unperturbed, one-level GP workload using
+`CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`, the committed
+18-variable core, `ko_sigma=0.3`, periodic compact `z`, the provisional radial
+boundary, no AHFinder, and diagnostics disabled except where an acceptance
+test needs them. Production physics is frozen unless a demonstrated MPI/HDF5
+defect requires a scoped repair.
+
+- **M1-A:** reproduce optimized serial/no-HDF5, MPI/no-HDF5, and MPI/HDF5
+  builds with complete toolchain, dependency, flag, hash, startup, and
+  clean-build provenance.
+- **M1-B:** compare serial, MPI-1, MPI-2, and MPI-4 level-zero evolution at one
+  global domain/resolution, including 18-field ownership, constraints, drift,
+  duplicate-work, and hidden-direction gates.
+- **M1-C:** qualify distributed radial/compact seams, periodic rank exchange,
+  first/second/mixed derivatives, KO, radial ownership, corners, and all 18
+  components. The first substantive audit covers M1-A through M1-C here.
+- **M1-D:** qualify existing-format HDF5 plots/checkpoints and continuous
+  versus restarted evolution without reinitialization.
+- **M1-E:** measure RK and RHS throughput, per-rank/total memory,
+  communication, output costs/file sizes, and strong/weak scaling.
+- **M1-F:** classify the result as
+  `CLUSTER_EXECUTION_BASELINE_ACCEPTED`,
+  `CLUSTER_EXECUTION_BASELINE_PARTIAL`, or
+  `CLUSTER_EXECUTION_BASELINE_BLOCKED`. Acceptance requires MPI evolution,
+  distributed ownership, serial/MPI equivalence, HDF5, restart, scaling, and
+  memory; it does not require AMR refinement, AHFinder, GL identification, a
+  critical wavenumber, or pinch-off.
+
+The milestone permits at most two repair cycles per substage and 30 numerical
+launches before review. It adds no MPI abstraction or checkpoint format,
+reuses committed serial/KO evidence, runs delta-based tests, and schedules one
+milestone-closing audit after M1-E. Exact gates and classifications remain
+authoritative only in [stage_checklists.md](stage_checklists.md).
 
 ## Historical project narrative
 

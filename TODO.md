@@ -19,9 +19,32 @@ D16 closes further fixture-only spectral projection because the instantaneous
 constraint nullspace is not sufficiently invariant under the live tangent
 map.
 
-- [ ] **Milestone 1 — Cluster execution baseline:** MPI multi-rank evolution,
-  distributed ghosts, HDF5, checkpoint/restart, serial/MPI equivalence,
-  memory, communication, strong scaling, and weak scaling.
+- [ ] **Milestone 1 — Cluster execution baseline:** active planning; no
+  implementation has begun. Freeze the committed 18-variable, one-level,
+  exact-GP configuration at `2/4/4`, `ko_sigma=0.3`, periodic `z`,
+  provisional radial boundaries, no perturbation/AHFinder, and default-off
+  diagnostics.
+  - [ ] **M1-A:** reproducible optimized serial/no-HDF5, MPI/no-HDF5, and
+    MPI/HDF5 builds with full provenance, flags, hashes, startup/HDF5 checks,
+    and clean-build commands.
+  - [ ] **M1-B:** matched serial, MPI-1, MPI-2, and MPI-4 level-zero
+    evolution where available; compare all 18 fields, ownership, constraints,
+    drift, RHS/ghost counts, and direction safety.
+  - [ ] **M1-C:** distributed seams, periodic rank exchange, first/second/
+    mixed derivatives, KO, radial ownership/corners, and all 18 components.
+    Audit M1-A through M1-C only after this stage.
+  - [ ] **M1-D:** existing-format HDF5 plots/checkpoints, 18-field retention,
+    restored time/timestep/parameters/layout, no reinitialization, and
+    continuous/restarted equivalence.
+  - [ ] **M1-E:** RK/RHS throughput, per-rank and total memory,
+    communication, output costs/file sizes, and strong/weak scaling.
+  - [ ] **M1-F:** return `CLUSTER_EXECUTION_BASELINE_ACCEPTED`,
+    `CLUSTER_EXECUTION_BASELINE_PARTIAL`, or
+    `CLUSTER_EXECUTION_BASELINE_BLOCKED`; audit milestone closure after M1-E.
+  - Limits: two repair cycles per substage, 30 launches before review, no AMR
+    refinement/horizon/Fourier/spectral/physical-mode work, no new MPI or
+    checkpoint abstraction, delta tests only, committed serial/KO evidence
+    reused, and full suites only after shared-core changes.
 - [ ] **Milestone 2 — Physical radial and constraint strategy:** choose one
   production strategy before implementation, use at most two repair cycles,
   add no general spectral framework, and require each substage to change

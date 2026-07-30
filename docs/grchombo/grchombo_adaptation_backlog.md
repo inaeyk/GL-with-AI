@@ -62,6 +62,39 @@ No D17 or automatic D-series continuation is active. Historical priority and
 stage labels below are provenance only; their unresolved deliverables are
 mapped into the five milestones.
 
+## Active Milestone 1 delivery plan
+
+Status remains planning-only. The frozen workload uses
+`CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`, the committed
+18-variable production core, `ko_sigma=0.3`, exact GP, periodic compact `z`,
+the provisional radial boundary, one AMR level, no perturbation/AHFinder, and
+default-off diagnostics. Production physics changes only for a directly
+demonstrated MPI/HDF5 defect.
+
+| Stage | Deliverable | Exit evidence |
+|---|---|---|
+| M1-A | Optimized serial/no-HDF5, MPI/no-HDF5, and MPI/HDF5 builds | Compiler/MPI/HDF5/Fortran provenance, dependency commits, flags, executable hashes, clean-build commands, startup checks, and the applicable HDF5 check |
+| M1-B | Serial, MPI-1, MPI-2, and MPI-4 matched level-zero runs where available | One domain/global resolution; all 18 fields and global valid-cell ownership; field/constraint/drift equivalence; no duplicate RHS/ghost work or hidden-direction access |
+| M1-C | Distributed ghost and boundary qualification | Radial/compact seams, periodic rank exchange, first/second/mixed derivatives, KO, radial ownership, corners, and all 18 components |
+| M1-D | Existing-format HDF5/checkpoint/restart | Valid plot/checkpoint files, all fields and metadata restored, continuous/restarted equivalence, no reinitialization, and output provenance |
+| M1-E | Performance and scaling | RK time, valid-cell RHS/s, per-rank and total memory, exposed communication time, output costs and sizes, strong scaling, and weak scaling |
+| M1-F | Closure decision | `CLUSTER_EXECUTION_BASELINE_ACCEPTED`, `CLUSTER_EXECUTION_BASELINE_PARTIAL`, or `CLUSTER_EXECUTION_BASELINE_BLOCKED` |
+
+Acceptance requires correct MPI evolution, distributed ghost/physical-boundary
+ownership, serial/MPI equivalence, HDF5, checkpoint/restart, scaling, and
+memory. AMR refinement, AHFinder, physical GL identification, `k_cr r0`, and
+pinch-off are outside Milestone 1.
+
+Audit M1-A through M1-C together after M1-C; do not audit M1-A alone. Audit
+milestone closure after M1-E. Each substage permits at most two repair cycles,
+and the milestone stops for review after 30 numerical launches. Reuse Chombo
+MPI ownership/exchange and existing HDF5/checkpoint formats; add no new MPI
+abstraction. Use delta tests and committed serial/KO evidence. Full suites are
+reserved for shared production-core changes. Production budgets remain one
+target-`d=4` RHS per cell/stage, one fused KO addition, no per-cell allocation/
+logging/counters/mutexes, default-off diagnostics, and separately measured
+output cost.
+
 ## Historical priority rules
 
 - **P0** establishes a reproducible authority and prevents convention drift.
