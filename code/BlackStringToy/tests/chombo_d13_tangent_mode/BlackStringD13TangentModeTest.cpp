@@ -283,6 +283,13 @@ struct ActionResult
     double harmonic_leakage = 0.0;
 };
 
+#ifdef BLACKSTRING_D16_CONSTRAINT_PROBE
+constexpr int d16_constraint_count = 5;
+using D16ConstraintRow = std::array<double, d16_constraint_count>;
+using D16RadialConstraints =
+    std::array<D16ConstraintRow, radial_cells>;
+#endif
+
 class D13TangentLevel : public BlackStringToyLevel
 {
     friend class DefaultLevelFactory<D13TangentLevel>;
@@ -377,6 +384,58 @@ class D13TangentLevel : public BlackStringToyLevel
         return project_difference(positive, negative, mode_number, epsilon);
     }
 
+#ifdef BLACKSTRING_D16_CONSTRAINT_PROBE
+    D16RadialConstraints
+    evaluate_constraint_tangent(const RadialVector &input,
+                                const int mode_number,
+                                const double epsilon)
+    {
+        require(mode_number == 1 || mode_number == 2,
+                "D16 constraints support only k=pi/4 and pi/2");
+        require(epsilon > 0.0 && std::isfinite(epsilon),
+                "D16 constraint epsilon must be finite and positive");
+        const std::vector<double> positive =
+            capture_unstepped_constraints(input, mode_number, epsilon);
+        const std::vector<double> negative =
+            capture_unstepped_constraints(input, mode_number, -epsilon);
+        ++m_constraint_actions;
+
+        D16RadialConstraints result{};
+        const Box domain = m_problem_domain.domainBox();
+        const auto offset = m_p.coordinate_offset();
+        const double k = 2.0 * pi * mode_number / 8.0;
+        const double factor = 2.0 / (compact_cells * 2.0 * epsilon);
+        for (int compact = 0; compact < compact_cells; ++compact)
+        {
+            IntVect point = domain.smallEnd();
+            point[1] += compact;
+            const double z =
+                BlackStringGPInitialData::cell_centered_coordinates(
+                    point, m_dx, offset)
+                    .z;
+            const double cosine = std::cos(k * z);
+            const double sine = std::sin(k * z);
+            for (int radial = 0; radial < radial_cells; ++radial)
+            {
+                for (int component = 0; component < d16_constraint_count;
+                     ++component)
+                {
+                    const std::size_t index =
+                        d16_constraint_index(radial, compact, component);
+                    const double delta = positive[index] - negative[index];
+                    const bool odd = component == 2;
+                    result[static_cast<std::size_t>(radial)]
+                          [static_cast<std::size_t>(component)] +=
+                        factor * delta * (odd ? sine : cosine);
+                }
+            }
+        }
+        return result;
+    }
+
+    std::size_t constraint_actions() const { return m_constraint_actions; }
+#endif
+
     std::size_t tangent_actions() const { return m_tangent_actions; }
     std::size_t live_steps() const { return 2 * m_tangent_actions; }
 
@@ -398,6 +457,18 @@ class D13TangentLevel : public BlackStringToyLevel
                    constraint_count +
                static_cast<std::size_t>(component);
     }
+
+#ifdef BLACKSTRING_D16_CONSTRAINT_PROBE
+    static std::size_t d16_constraint_index(const int radial,
+                                            const int compact,
+                                            const int component)
+    {
+        return (static_cast<std::size_t>(radial) * compact_cells +
+                static_cast<std::size_t>(compact)) *
+                   d16_constraint_count +
+               static_cast<std::size_t>(component);
+    }
+#endif
 
     void reset_state(const RadialVector &input, const int mode_number,
                      const double signed_epsilon)
@@ -439,6 +510,60 @@ class D13TangentLevel : public BlackStringToyLevel
         m_time = 0.0;
         fillAllGhosts();
     }
+
+#ifdef BLACKSTRING_D16_CONSTRAINT_PROBE
+    std::vector<double>
+    capture_unstepped_constraints(const RadialVector &input,
+                                  const int mode_number,
+                                  const double signed_epsilon)
+    {
+        reset_state(input, mode_number, signed_epsilon);
+        BoxLoops::loop(
+            BlackStringLive::ConstraintCompute(m_dx, m_p.coordinate_offset()),
+            m_state_new, m_state_diagnostics, EXCLUDE_GHOST_CELLS,
+            disable_simd());
+
+        std::vector<double> result(
+            static_cast<std::size_t>(radial_cells) * compact_cells *
+            d16_constraint_count);
+        const Box domain = m_problem_domain.domainBox();
+        const DataIterator iterator = m_state_new.dataIterator();
+        for (int ibox = 0; ibox < iterator.size(); ++ibox)
+        {
+            const DataIndex data_index = iterator[ibox];
+            const FArrayBox &state = m_state_new[data_index];
+            const FArrayBox &constraints = m_state_diagnostics[data_index];
+            const Box valid = m_grids[data_index] & domain;
+            for (BoxIterator bit(valid); bit.ok(); ++bit)
+            {
+                const IntVect point = bit();
+                const int radial = point[0] - domain.smallEnd(0);
+                const int compact = point[1] - domain.smallEnd(1);
+                result[d16_constraint_index(radial, compact, 0)] =
+                    constraints(point, c_Ham);
+                result[d16_constraint_index(radial, compact, 1)] =
+                    constraints(point, c_MomX);
+                result[d16_constraint_index(radial, compact, 2)] =
+                    constraints(point, c_MomZ);
+
+                const BlackStringToy::ConformalCartoonAlgebra::ConformalMetric
+                    h{state(point, c_hxx), state(point, c_hxz),
+                      state(point, c_hzz), state(point, c_hww)};
+                const BlackStringToy::ConformalCartoonAlgebra::
+                    ConformalExtrinsicCurvature
+                        A{state(point, c_Axx), state(point, c_Axz),
+                          state(point, c_Azz), state(point, c_Aww)};
+                result[d16_constraint_index(radial, compact, 3)] =
+                    BlackStringToy::ConformalCartoonAlgebra::determinant_4d(
+                        h) -
+                    1.0;
+                result[d16_constraint_index(radial, compact, 4)] =
+                    BlackStringToy::ConformalCartoonAlgebra::trace(A, h);
+            }
+        }
+        return result;
+    }
+#endif
 
     FullSnapshot step_and_capture(const RadialVector &input,
                                   const int mode_number,
@@ -566,6 +691,9 @@ class D13TangentLevel : public BlackStringToyLevel
     }
 
     std::size_t m_tangent_actions = 0;
+#ifdef BLACKSTRING_D16_CONSTRAINT_PROBE
+    std::size_t m_constraint_actions = 0;
+#endif
 };
 
 enum class SeedKind

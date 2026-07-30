@@ -1,0 +1,44 @@
+STAGE4AO_D16_CONSTRAINT_AWARE_REDUCED_SPECTRUM
+configuration Lz=8 x=[0.5,4.5] Nx=32 Nz=64 dx=0.125 dz=0.125 CFL=0.05 ko_sigma=0.3 k=pi/4
+
+tangent_matrix rows=576 columns=576 hash=0x73c003dd70b673c6
+tangent_matrix_basis_actions=576
+tangent_epsilon_validation_actions=12
+tangent_random_dense_direct_probe_actions=1
+tangent_candidate_full_map_residual_actions=5
+candidate_all_cell_real_leader_actions=1
+candidate_all_cell_real_lowest_constraint_actions=1
+candidate_interior_complex_leader_signed_component_actions=2
+candidate_interior_real_lowest_constraint_actions=1
+tangent_actions=594 signed_live_steps=1188
+
+constraint_rows H Mx Mz determinant weighted_trace
+encoded_Z_hatGamma_consistency=omitted_no_existing_validated_live_helper
+
+constraint_all rows=160 columns=576 hash=0x467857d44d1b516a epsilon_discrepancy=1.635643456312e-08
+constraint_all rank=160 nullity=416 singular_max=3.086021845415e+03 singular_min=4.200903287649e-01
+constraint_all rank_tolerance=5.047631437490e-04 nullspace_defect=7.476175228653e-14
+constraint_all projected_hash=0x8eb828dbbc3beefc eta=7.013131751379e-02
+constraint_all leader ReOmega=8.865103273044e+01 ImOmega=0 full_matrix_free_residual=1.494080170318e-01 boundary_fraction=3.484530e-01 radial_max=0 nyquist=2.829730e-01
+constraint_all lowest_constraint full_matrix_free_residual=5.898349e-04 boundary_fraction=9.988140e-01 radial_max=31
+
+constraint_interior rows=130 columns=576 hash=0x0c67ddd102ae9f11 epsilon_discrepancy=9.322136466065e-09
+constraint_interior rank=130 nullity=446 singular_max=1.104427053408e+03 singular_min=4.747824030723e-01
+constraint_interior rank_tolerance=1.029561970868e-04 nullspace_defect=4.864109283171e-14
+constraint_interior projected_hash=0xbac618c7793d3d6f eta=5.682392577903e-02
+constraint_interior leader ReOmega=8.016617305234e+00 ImOmega=3.270552185307e+01 full_matrix_free_residual=2.018919101948e-02 boundary_fraction=7.849650e-02 radial_max=12 nyquist=2.312690e-02
+constraint_interior lowest_constraint full_matrix_free_residual=3.902230e-03 boundary_fraction=9.999610e-01 radial_max=30
+
+cross_projection leader_profile_overlap=2.096961886204e-01 qualifying_bulk_matches=0
+constraint_basis_actions=576 constraint_epsilon_validation_actions=12
+constraint_actions=588 signed_constraint_evaluations=1176
+fixture_wall_seconds=75.6128 executable_peak_rss_kib=49048
+
+classification=CONSTRAINT_NULLSPACE_NOT_INVARIANT
+interpretation=accurate_algebraic_nullspaces_are_not_invariant_under_the_live_tangent_map
+projected_rates_are_not_full_map_mode_evidence
+production_changes=none
+focused_audit=PASS
+audit_caveat=inherited_D15_layout_label_exact_gp_ghosts_is_display_only_baseline_hash_and_D13_prepare_are_authoritative
+audit_caveat=lowest_constraint_cross_projection_overlap_not_retained_one_matrix_cap_prevents_reconstruction
+audit_classification_impact=none

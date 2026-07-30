@@ -1384,7 +1384,7 @@ D15Spectrum run_variant(SimulationParameters &parameters,
     return spectrum;
 }
 
-int run_d15(SimulationParameters &parameters)
+[[maybe_unused]] int run_d15(SimulationParameters &parameters)
 {
     d15_require(parameters.max_level == 0, "D15 requires max_level=0");
     d15_require(parameters.coarsest_dx == 0.125,
@@ -1473,6 +1473,7 @@ int run_d15(SimulationParameters &parameters)
 }
 } // namespace
 
+#ifndef BLACKSTRING_D15_REUSE_WITHOUT_ENTRY
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -1483,3 +1484,4 @@ int main(int argc, char *argv[])
     SimulationParameters parameters(pp);
     return run_d15(parameters);
 }
+#endif

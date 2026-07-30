@@ -2,20 +2,160 @@
 
 These checklists are gatekeeping tools and the current status/checkpoint
 authority for the project. They do not replace the reproduction plan or project
-outline. Each stage should be reviewed before moving to the next. For
-code-generating agents, completion requires human review and approval, not just
-self-review.
+outline. Each active milestone must satisfy its exit gate before closure. For
+code-generating agents, milestone completion requires human review and
+approval, not just self-review.
 
 Future physics or physics-design stages should include a polished physics-stage PDF note under `docs/physics_notes/` when they contain substantive physics reasoning. Build-only and infrastructure stages do not need full physics PDFs unless they include nontrivial physics design.
 
-Global guardrails: compilation alone is not physical validation; local
-validation harnesses are not production Stage 4AR/4AS wiring; no physical GL
-evolution correctness, Pau diagnostic reproduction, or radiation extraction is
-claimed yet. GRChombo/internal consistency is the convention authority, not
-Pau. Stage 4AO-D and Checkpoint G remain incomplete, but the custom spectral
-branch is no longer a prerequisite for the GRChombo production adaptation.
+Global guardrails: compilation alone is not physical validation; fixture-only
+analysis is not production acceptance; no physical GL mode, critical
+wavenumber, nonlinear transition, horizon, or radiation claim is established.
+GRChombo/internal consistency is the convention authority, not Pau.
 
-## Roadmap authority after dependency qualification
+## Current roadmap after D16
+
+This section is the single current-status authority. All older numbered
+`Stage`/`D`/priority labels retained later in this file are a
+historical/diagnostic ledger, not an automatic execution queue. No D17 exists
+in the active roadmap, and no further open-ended D-series continuation is
+authorized.
+
+### Completed package consolidation
+
+| Completed package | Historical work absorbed | Closure |
+|---|---|---|
+| 1. Mathematical and dependency foundation | Stages 0–4AO-C, dependency/source locks, convention and GP-background work, custom frozen-gauge oracle, comparison batches 1–4 | Mathematical conventions, the qualified GRChombo/Chombo tuple, target `2/4/4` dimensions, and independent reference oracles are established. Deferred custom WKB/spectral-boundary research remains historical and is not active. |
+| 2. Production-core adaptation | GRChombo production pivot, storage/Vars/initializer, E1, E2, periodic ownership, cleanup, gauge/source, provisional radial policy | The bounded serial 18-slot level-zero production path is implemented with one direct target-`d=4` RHS evaluation and framework-owned periodic exchange. |
+| 3. Production stabilization | D7–D11 radial diagnosis, characteristic/excision checks, semidiscrete trace, and project-owned dimension-safe KO | The KO-stabilized serial GP production core is functional. This is engineering acceptance, not physical-boundary or GL-mode acceptance. |
+| 4. Physical-mode investigation — **closed inconclusive** | Corrected Fourier seed and paired controls; transient, adaptive, signed-response, tangent, dense-spectrum, sector-isolation, and constraint-aware D1–D16 evidence | No credible boundary-independent, constraint-compatible GL mode has been identified. D16 shows that the instantaneous constraint nullspace is not sufficiently invariant under the live tangent map. Further fixture-only spectral projection is stopped. |
+
+Historical D1–D16 evidence, numerical values, logs, mutations, classifications,
+and commit references remain intact in the ledger below. Closure means that
+the investigation no longer generates another diagnostic stage; it does not
+erase or upgrade that evidence.
+
+Current claim partition:
+
+- **Engineering evidence:** the committed, KO-stabilized serial production
+  core is functional.
+- **Numerical evidence:** D16's instantaneous constraint nullspaces have
+  substantial live-map leakage and their projected candidates fail direct
+  full-map residual gates.
+- **Physical interpretation:** no credible boundary-independent,
+  constraint-compatible GL mode has been identified; the investigation is
+  inconclusive, not a negative GL-existence result.
+
+### Active deliverable milestones
+
+#### Milestone 1 — Cluster execution baseline
+
+- [ ] Build and run the black-string application with MPI on multiple ranks.
+- [ ] Validate distributed periodic, radial, and radial-periodic ghost
+  correctness and ownership.
+- [ ] Qualify parallel HDF5 output and checkpoint/restart.
+- [ ] Establish serial/MPI equivalence at matched decomposition-independent
+  resolution.
+- [ ] Measure memory, communication, strong scaling, and weak scaling.
+
+Exit: a reproducible cluster execution baseline with no physical GL claim
+required.
+
+#### Milestone 2 — Physical radial and constraint strategy
+
+- [ ] Choose and document one explicit production radial/constraint strategy
+  before implementation.
+- [ ] Allow at most two production repair cycles for this subsystem.
+- [ ] Add no new general spectral-analysis framework.
+- [ ] Require every substage either to modify production behavior or to close
+  a recorded roadmap decision.
+
+Exit: one reviewed production strategy with bounded repair history and
+documented acceptance/rejection evidence.
+
+#### Milestone 3 — Linear GL acceptance
+
+- [ ] Maintain a stable GP control.
+- [ ] Test one low-`k` and one high-`k` case.
+- [ ] Fit one common exponent across several physical fields.
+- [ ] Keep linearized constraints controlled and demonstrate amplitude
+  linearity.
+- [ ] Repeat at two resolutions and two outer-domain locations.
+- [ ] Only after all preceding gates pass, form a provisional `k_cr r0`
+  bracket.
+
+Exit: bounded linear physical evidence satisfying every gate. No fixture-only
+spectral candidate can substitute for these requirements.
+
+#### Milestone 4 — Nonlinear and observable readiness
+
+- [ ] Demonstrate sustained evolution.
+- [ ] Qualify AMR and MPI under refinement.
+- [ ] Implement and validate apparent horizons.
+- [ ] Validate horizon-radius and Fourier observables.
+- [ ] Qualify restart, output, and extraction workflows.
+
+#### Milestone 5 — Scientific release gate
+
+- [ ] Demonstrate convergence plus boundary and resolution systematics.
+- [ ] Supply reproducibility and performance budgets.
+- [ ] Complete a cluster benchmark.
+- [ ] Compare with accepted physical results.
+
+Exit: a reviewed scientific-release evidence package.
+
+### Checkpoint G split
+
+- [x] **G-Engineering:** passed after the committed KO-stabilized production
+  core (`b63ad39`).
+- [ ] **G-Physics:** blocked because no boundary-independent,
+  constraint-compatible GL mode or accepted physical radial/constraint
+  strategy exists.
+- [ ] **Overall Checkpoint G:** blocked until both G-Engineering and G-Physics
+  pass. The original scientific acceptance standard is unchanged.
+
+### Permanent workflow policy
+
+1. Use deliverable-based stages, not one stage per diagnostic attempt.
+2. Every proposed diagnostic must state its hypothesis, the decision it will
+   enable, maximum runtime/run count, and the production action for every
+   possible outcome.
+3. Permit at most two failed repair cycles per subsystem before an
+   architecture review.
+4. Add no fixture-only analysis stage unless it directly informs a production
+   decision.
+5. Use delta-based tests and audits: test changed components only, reuse
+   committed evidence, and run full suites only at major checkpoints or after
+   shared-core changes.
+6. Request independent audit only for production equations, boundaries,
+   gauge, AMR/MPI, horizons, scientific acceptance, or milestone closure.
+7. Documentation-only repairs require no second audit.
+8. Preserve production performance budgets: one target-`d=4` RHS per
+   cell/stage; no test instrumentation in the release layout; no per-cell
+   allocation or logging; configurable diagnostic cadence; and runtime,
+   memory, and scaling measurements at every production milestone.
+9. Stop uncontrolled framework growth: prefer extending an existing fixture,
+   and add no eigensolver or dense spectral framework without explicit human
+   approval.
+10. Separate every scientific statement into engineering evidence, numerical
+    evidence, and physical interpretation.
+
+### Legacy-label disposition
+
+`Stage 4AO-D-F`, a prospective D17, the old Stage 4AP–4AU execution chain,
+Checkpoints H/I, and the old Stage 5–9 scheduling labels are deactivated as
+active stage names. Their still-relevant deliverables are mapped into
+Milestones 2–5. Historical text remains below for provenance and must not be
+read as authorization to continue those sequences automatically.
+
+## Historical roadmap and diagnostic ledger
+
+The remainder of this file preserves the project history. Statements such as
+`next`, `future`, or unchecked legacy stage items describe their historical
+context unless the deliverable is explicitly present in the current milestone
+roadmap above.
+
+### Historical roadmap authority after dependency qualification
 
 Historical dependency provenance and the production lock are separate:
 
@@ -44,9 +184,10 @@ Stage 4AO-C is split without changing its original objective:
   boundary-bearing spectral operator, eigensolver/shift-invert, custom
   threshold and `k_cr_0`, and custom spectral MOTS map.
 
-The original full custom spectral gate did not pass. Its branch is frozen as
-deferred research and is superseded only as a prerequisite for the active
-production path. Stage 4AO-D and Checkpoint G remain incomplete.
+At that historical checkpoint, the full custom spectral gate had not passed,
+its branch was frozen, and Stage 4AO-D plus the then-unsplit Checkpoint G were
+incomplete. The current package closure and split-G status above supersede
+only that scheduling statement, not the evidence.
 
 Completed production-adaptation foundations are the GRChombo source lock,
 project-qualified Chombo lock, dependency verifier and target-header probe,
@@ -64,7 +205,7 @@ unperturbed and perturbed production evolution, growth/decay diagnostics,
 horizon/`R_H` diagnostics, MPI qualification, and PETSc/AHFinder
 qualification.
 
-### Locked active production sequence
+### Historical locked production sequence
 
 1. [complete] `Cell`/`FArrayBox` storage seam: a thin wrapper around the
    validated 18-slot reduced Vars and GP point initializer, with no physics
@@ -81,7 +222,7 @@ qualification.
    custom analytic oracle.
 5. [complete] Pointwise hidden-aware cleanup and constraints.
 6. [complete] Pointwise production-style fixed lapse-source hook.
-7. [next] Live BoxLoop RHS/cleanup/source wiring and periodic `z` ghost
+7. [historical next; now complete] Live BoxLoop RHS/cleanup/source wiring and periodic `z` ghost
    ownership.
 8. Unperturbed GP evolution: stationarity, constraint convergence, and
    gauge-source validation.
@@ -371,7 +512,8 @@ established.
 Outer and aggregate boundary validation, the boundary-bearing operator, exact
 quadratic-pencil representation, MOTS mapping, eigensolver/shift-invert,
 threshold results, and the primary-source convention map are still blocked.
-Stage 4AO-D is unstarted, and Checkpoint G has not passed.
+At this historical snapshot Stage 4AO-D was unstarted and the then-unsplit
+Checkpoint G had not passed.
 
 Project decision: freeze the custom stationary outer-boundary problem as
 deferred research. The next phase inventories custom-solver/GRChombo overlap,
@@ -641,24 +783,29 @@ trace-free curvature/lapse, and `hat_Gamma^x` work:
 - [x] Stage 4AO-C stationary-symbol documentation audit: extract the complete sparse `M0,M1,M2` radial system, including `1/x`, `1/x^2`, encoded-Z, hidden-sphere, and Gamma terms, in both parity sectors. Independent comparison at `q={0.31,0.73,1.11}`, `X={7,13,29}`, and both parities has maximum source-versus-matrix mismatch `2.44e-16`. The listed right/left vectors are verified kernel vectors of a generically singular leading symbol with nullity three; that nullity neither establishes generalized chains nor excludes coincident leading vectors with distinct subleading series. A rank-four `A_-`, nine-row physical annihilator, and four-row PDE dual have not been derived. No endpoint or solver work is authorized; all outer and downstream gates remain false. Evidence: `docs/derivations/stage4AO_C_stationary_wkb_basis.md`.
 - [x] Stage 4AO-C diagnostic outer transform/projector helper: implement the validation-only `Y=(U,D_xU)` characteristic map with hidden multiplicity two and single representative `ww` ownership, plus scalar profile diagnostics. The stored four columns are explicitly one-hot in the nominal outgoing amplitudes; their orthogonal complement tests only the selector-coordinate algebra. It does not validate decaying/growing WKB jets, Jordan exclusion, parity, constraints, or endpoint ownership. Diagnostic helper flags alone are true; all accepted outer and downstream gates remain false.
 - [ ] Stage 4AO-C corrected `k>0` outer boundary: frozen as deferred research. The rejected patch added valid mirrored second-order outer derivatives and useful `13+0/13+0/4+9` radial row-layout scaffolding, but its one-hot scalar-profile columns do not define a physical WKB boundary. No accepted determinant factorization, branch classification, rank-four decaying basis, nine-row physical annihilator, or retained-PDE dual exists. Higher-order solvability or an independently justified regularized first-order radial system would be required before reconsidering the boundary. The nine direct characteristic selectors and four amplitude-coordinate PDE projections remain diagnostic only. No polynomial or nonlinear eigensolver work is authorized.
-- [ ] Stage 4AO-D: live-gauge/full acceptance. Confirm the physical GL eigenvalue agrees with frozen gauge, separate physical/gauge/constraint modes, check constraint-subsystem decay against the derived CCZ4 formulation, check inner-boundary characteristics, seed the eigenvector in time evolution and reproduce the spectral growth rate, and run the full convergence battery.
-- [ ] Stage 4AO hard rules for the deferred custom branch: flat tests alone
+- [x] Historical Stage 4AO-D closure: the live production core and
+  stabilization work completed, while the physical-mode investigation closed
+  inconclusive after D16. No credible boundary-independent,
+  constraint-compatible GL mode was identified, so the former full physical
+  acceptance objective did not pass and is now owned by Milestones 2–3 rather
+  than another D-stage.
+- [x] Historical Stage 4AO hard rules retained for the deferred custom branch:
+  flat tests alone
   are insufficient; dedicated 4AO-B/C/D validation harnesses may construct
   and evaluate the actual RHS, perform finite-difference Jacobian checks,
   solve the frozen/live spectral systems, and run the seeded-eigenvector
-  evolution bridge. Checkpoint G still passes only after 4AO-D; Pau is not the
-  convention authority; the physical growth observable must be geometric and
-  not `hat_Gamma^x` alone. The former rule making 4AO-D a prerequisite for
-  production adaptation is superseded by the locked GRChombo sequence above.
-- [ ] Checkpoint G / Claude Audit G: review Stages 4AM-4AO-D. Checkpoint G passes only after 4AO-D, and Pau is not the convention authority.
-- [ ] Stage 4AP: validate actual grid-level or ghost-cell regularity for `h_xz=O(x)`, `h_xx-h_ww=O(x^2)`, `W_x=O(x)`, and `chi_x=O(x)` using real grid or ghost data, not only hand-built polynomial fixtures.
-- [ ] Stage 4AQ: implement finite-axis source evaluation and regularized limits with explicit analytic parity/limit treatment; do not use epsilon replacement or silent clamping, and keep turduckening of the physical singularity distinct from cartoon-axis regularity.
-- [ ] Stage 4AR: integrate reviewed local RHS source blocks without live evolution wiring.
-- [ ] Checkpoint H / Claude Audit H: review Stages 4AP-4AR before live evolution; hard blockers include real grid regularity validation, finite-axis source evaluation, and no smoke-only hidden freeze in the physics mode.
-- [ ] Stage 4AS: add live evolution wiring only behind an explicit default-off parameter after Checkpoint H.
-- [ ] Stage 4AT: remove or replace the smoke-only hidden freeze before any real hidden-sector physics path is used.
-- [ ] Stage 4AU: perform the final Stage 4 exit review before any Stage 5/Pau diagnostic reproduction.
-- [ ] Checkpoint I / Claude Audit I: final review of Stages 4AS-4AU, including default-off evolution controls and removal/replacement of the smoke-only hidden freeze in physics mode.
+  evolution bridge. The historical unsplit Checkpoint G rule is superseded by
+  G-Engineering/G-Physics; Pau is not the convention authority, and the
+  physical growth observable must be geometric and not `hat_Gamma^x` alone.
+  The former rule making 4AO-D a prerequisite for production adaptation is
+  superseded by the completed GRChombo adaptation package.
+- [x] Historical unsplit Checkpoint G label superseded by current
+  G-Engineering (passed) and G-Physics (blocked). Overall Checkpoint G remains
+  blocked until both pass; Pau is not the convention authority.
+- [x] Legacy Stage 4AP–4AU and Checkpoints H/I labels deactivated. Their
+  proposed grid regularity, finite-axis, controlled-source, live-wiring,
+  release-layout, and review deliverables are retained historically and
+  remapped into Milestones 2–5; they are not an execution chain.
 - [ ] Superseded duplicate: future hidden-sector RHS work must disable or replace the Stage 4D smoke-only freeze. Replacement owner is Stage 4AT.
 - [ ] Derive/list remaining modified-cartoon source terms beyond local Stage 4AL. Owner: Stage 4AR controlled local RHS integration after 4AO-D/4AP/4AQ blockers.
 - [ ] Identify exact production `CCZ4RHS` modification seam. Partial evidence in Stage 4H; production owner: Stage 4AR.
@@ -794,7 +941,13 @@ Goal: turn validated simulations and radiation diagnostics into scientific concl
 All unchecked Stage 9 items remain missing. Owner: Stage 9 after validated
 simulation and radiation diagnostics exist.
 
-## Custom solver / GRChombo comparison batches
+## Historical/diagnostic ledger — custom solver through D16
+
+This ledger preserves the exact D1–D16 path, numerical evidence, mutations,
+classifications, and commit/log references. It is not an active diagnostic
+sequence and has no automatic D17 successor.
+
+### Custom solver / GRChombo comparison batches
 
 - [x] Batch 1: lock source/state/dimension mapping and compare directly
   callable conformal algebra, visible contracted connection, and physical
@@ -1051,11 +1204,21 @@ simulation and radiation diagnostics exist.
   `NO_BULK_PHYSICAL_CANDIDATE_AFTER_SECTOR_ISOLATION`. Boundary/constraint
   contamination remains unresolved; do not identify a GL mode or resume the
   wavenumber scan.
-- [ ] Stage 4AO-D-F sustained unperturbed/perturbed evolution and boundary
-  qualification. Converged `k_cr_0`, sustained nonlinear evolution,
-  physical radial-boundary acceptance, AMR/MPI qualification,
-  horizons/PETSc, Stage 4AO-D completion, Checkpoint G, and final scoring
-  remain open. Dimension-safe
+- [x] Stage 4AO-D16 constraint-aware reduced spectrum at `k=pi/4`. Construct
+  the baseline `576x576` tangent map once (reproducing hash
+  `0x73c003dd70b673c6`) and two signed-difference constraint maps using the
+  existing Hamiltonian, momentum, determinant, and weighted-trace
+  evaluators. The all-cell/interior maps have ranks `160/130`, nullities
+  `416/446`, and nullspace defects below `7.5e-14`, but their live-map
+  leakage is `7.01e-2/5.68e-2`. Apparent projected leaders fail direct
+  full-map residual checks (`1.49e-1/2.02e-2`), so the reduction is not
+  dynamically invariant. Classification:
+  `CONSTRAINT_NULLSPACE_NOT_INVARIANT`. Do not interpret projected rates,
+  identify a GL mode, or resume the scan.
+- [x] Historical `Stage 4AO-D-F` label deactivated after D16. Its unresolved
+  deliverables—sustained evolution, physical radial-boundary acceptance,
+  AMR/MPI qualification, horizons/PETSc, convergence, and scientific
+  release—are owned by Milestones 1–5. Dimension-safe
   `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` is
   implemented and validated, and the former `RealVect m_center[i=2]`
   over-index blocker is cleared. E1 remains check-only; sustained evolution,

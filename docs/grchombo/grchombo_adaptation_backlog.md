@@ -1,6 +1,8 @@
 # GRChombo Adaptation Backlog for GL Production
 
-Status: prioritized design backlog with comparison-batch 1-4 evidence.
+Status: historical implementation backlog with comparison-batch 1-4 and
+D1–D16 evidence. Current status and execution order are owned exclusively by
+`research_plan/stage_checklists.md`.
 Production must reuse mature GRChombo infrastructure and adapt only
 black-string-specific physics, configuration, and diagnostics. Do not
 independently rebuild RK4, AMR, MPI/OpenMP, checkpoint/restart, ghost exchange,
@@ -40,9 +42,27 @@ neutral with large constraint response, and no preliminary physical candidate
 passes. Its bounded result is
 `CONSTRAINT_GAUGE_OR_BOUNDARY_SPECTRUM_DOMINATES`. Physical radial-boundary
 acceptance, a converged threshold, refinement, MPI, broader diagnostics, and
-horizons remain open.
+horizons remain open. D15 finds no shared bulk candidate after gauge/boundary
+sector isolation. D16 then finds that the instantaneous constraint nullspaces
+are not sufficiently invariant under the live tangent map. The physical-mode
+investigation is therefore closed inconclusive: the KO-stabilized serial
+production core is functional, no credible boundary-independent,
+constraint-compatible GL mode has been identified, and further fixture-only
+spectral projection is stopped.
 
-## Priority rules
+The active deliverables are now:
+
+1. cluster execution baseline;
+2. one explicit physical radial/constraint strategy;
+3. linear GL acceptance;
+4. nonlinear and observable readiness; and
+5. scientific release.
+
+No D17 or automatic D-series continuation is active. Historical priority and
+stage labels below are provenance only; their unresolved deliverables are
+mapped into the five milestones.
+
+## Historical priority rules
 
 - **P0** establishes a reproducible authority and prevents convention drift.
 - **P1** creates the minimum stationary black-string production path.
@@ -79,7 +99,7 @@ rank-nine annihilator, boundary-bearing operator, eigensolver/shift-invert,
 custom `k_cr_0`, and spectral MOTS map are deferred research. The original
 spectral objective did not pass; it is simply nonblocking for production.
 
-The locked production order is:
+The historical locked production order was:
 
 1. [complete] thin `Cell`/`FArrayBox` storage seam around the reduced 18-slot
    Vars and GP point initializer;
@@ -107,11 +127,13 @@ The locked production order is:
 12. horizon and nonlinear diagnostics after PETSc/AHFinder and observable
     conventions are qualified.
 
-Substantive independent audits occur only after the assembled storage plus
-`BoxLoop` initializer, the passing complete adapted 13-row RHS, integrated
-cleanup/constraints plus fixed source, the first passing unperturbed
-evolution, and the first passing perturbed growth-rate run. Documentation
-consistency is folded into those audits; no per-substep audit is added.
+Current workflow is deliverable-based. Diagnostics must state a hypothesis,
+decision, run budget, and production action for every result. At most two
+failed repair cycles are allowed per subsystem before architecture review.
+Validation is delta-based and reuses committed evidence. Independent audits
+are reserved for production equations, boundaries, gauge, AMR/MPI, horizons,
+scientific acceptance, and milestone closure; documentation-only repairs
+require no second audit.
 
 ## `2/4/4` GRAMR dimensional-blocker audit
 
@@ -462,10 +484,11 @@ classification is `CONSTRAINT_GAUGE_OR_BOUNDARY_SPECTRUM_DOMINATES`.
 | P2-13a | Matrix-free KO-stabilized mode extraction (bounded D13 probe complete; accepted mode open) | Actual level-zero one-step map plus fixture-only signed projection | Three independent parity-compatible seeds, two epsilon values, raw/scaled norms, profiles, component fractions, and linearized constraints at `k=pi/4,pi/2` | P2-13 and D11 | No independent seed pair converges to one profile/rate; `NONNORMAL_OR_NO_CONVERGED_MODE`, with no GL identity or threshold inference |
 | P2-13b | Reduced KO-stabilized Fourier spectrum (bounded D14 extraction complete; accepted mode open) | Existing Chombo-linked LAPACK `dgeev` plus D13 tangent action | Two fixture-only `576x576` field-scaled similarity transforms; complete complex spectra, physical left/right residuals and conditioning proxies, profiles, all-field fractions, constraints, boundary and Nyquist ranks | P2-13a | Boundary/constraint spectral radius and an unresolved clustered block reject the candidates; corrected conditioning does not alone explain D13; `CONSTRAINT_GAUGE_OR_BOUNDARY_SPECTRUM_DOMINATES`, with no physical-mode or threshold inference |
 | P2-13c | `k=pi/4` reduced-spectrum sector isolation (bounded D15 complete; source and accepted mode open) | D14 tangent/LAPACK fixture plus existing frozen-gauge and exact-GP ghost seams | Reused D14 baseline hash, native `416x416` frozen-gauge operator, and `576x576` exact-GP-radial-ghost operator retaining the provisional outer RHS override; artifact-first ranked records and independently parsed profile matching | P2-13b | Both corrected variants remain boundary/constraint heavy and contain no individually bulk-eligible candidate; `NO_BULK_PHYSICAL_CANDIDATE_AFTER_SECTOR_ISOLATION`, with no sole-source, GL-mode, or threshold inference |
-| P2-14 | Production convergence workflow | GRChombo AMR/restart/output machinery | Reproducible multi-resolution parameter sets and comparison tables | P1-10, P2-13 | Background, constraints, perturbations, and rate show documented convergence |
-| P3-15 | String MOTS/horizon adapter | `AHFinder`, `PETScAHSolver`, `AHStringGeometry`, interpolation | Supply target variables, `S2 x S1` geometry, hidden expansion terms, PETSc configuration | P1-7, PETSc source lock | Uniform `x=r0` MOTS recovered with convergent residual; restart supported |
-| P3-16 | `R_H`, minimum radius, and horizon area | AH surface data, interpolation, reductions, `SmallDataIO` | Evaluate `R_H=h sqrt(hww/chi)`, minimum over z, correct string area | P3-15 | Uniform analytic values and perturbed manufactured profiles converge |
-| P3-17 | Nonlinear GL production workflow | All mature GRChombo runtime infrastructure | Parameter families, perturbation sweep, constraints/horizon monitoring, failure criteria, archival metadata | P2-14, P3-16 | Reviewed end-to-end runbook; unperturbed and small-perturbation gates pass first |
+| P2-13d | Constraint-aware `k=pi/4` reduced spectrum (bounded D16 complete; invariant constrained dynamics open) | D14/D15 tangent matrix plus existing live constraint and conformal-algebra evaluators and Chombo-linked LAPACK `dgesvd` | One `576x576` map and all-cell/interior signed constraint maps; orthonormal SVD nullspaces, invariance leakage, projected spectra, and direct full-map residuals | P2-13c | Both nullspaces are algebraically accurate but dynamically non-invariant (`eta=7.01e-2,5.68e-2`), and projected leaders fail direct residual gates; `CONSTRAINT_NULLSPACE_NOT_INVARIANT`, with no projected-rate, GL-mode, or threshold inference |
+| P2-14 (historical label; Milestone 5) | Production convergence workflow | GRChombo AMR/restart/output machinery | Reproducible multi-resolution parameter sets and comparison tables | P1-10, P2-13 | Background, constraints, perturbations, and rate show documented convergence |
+| P3-15 (historical label; Milestone 4) | String MOTS/horizon adapter | `AHFinder`, `PETScAHSolver`, `AHStringGeometry`, interpolation | Supply target variables, `S2 x S1` geometry, hidden expansion terms, PETSc configuration | P1-7, PETSc source lock | Uniform `x=r0` MOTS recovered with convergent residual; restart supported |
+| P3-16 (historical label; Milestone 4) | `R_H`, minimum radius, and horizon area | AH surface data, interpolation, reductions, `SmallDataIO` | Evaluate `R_H=h sqrt(hww/chi)`, minimum over z, correct string area | P3-15 | Uniform analytic values and perturbed manufactured profiles converge |
+| P3-17 (historical backlog ID, not D17; Milestones 4–5) | Nonlinear GL production workflow | All mature GRChombo runtime infrastructure | Parameter families, perturbation sweep, constraints/horizon monitoring, failure criteria, archival metadata | P2-14, P3-16 | Reviewed end-to-end runbook; unperturbed and small-perturbation gates pass first |
 | Deferred | Custom stationary outer boundary | None accepted | Preserve documentation/scaffolding only | Not on production path | Reopen only through a separate research decision |
 
 ## Batch-1 backlog update
@@ -874,8 +897,10 @@ implemented and validated. The minimal physical radial-boundary smoke and the
 bounded Fourier transient diagnostic are also implemented. The former
 short-window stable/unstable interpretation is superseded.
 Sustained evolution, physical radial-boundary acceptance, a converged
-`k_cr_0`, AMR/MPI, broader diagnostics, horizons/PETSc, final scoring, Stage
-4AO-D, and Checkpoint G remain open.
+`k_cr_0`, AMR/MPI, broader diagnostics, horizons/PETSc, and final scoring
+remain open under Milestones 1–5. The historical Stage 4AO-D investigation is
+closed inconclusive; G-Engineering passes, while G-Physics and overall
+Checkpoint G remain blocked.
 Dimension-safe
 `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` is
 implemented and validated, and the former

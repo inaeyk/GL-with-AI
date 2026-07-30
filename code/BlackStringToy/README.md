@@ -1,6 +1,41 @@
 # BlackStringToy
 
-Isolated Stage 4AO-D-E1 black-string application seam.
+Current status authority is
+`research_plan/stage_checklists.md`. After D16, completed work is consolidated
+into mathematical/dependency foundation, production-core adaptation,
+production stabilization, and a physical-mode investigation closed
+inconclusive.
+
+The KO-stabilized serial production core is functional. No credible
+boundary-independent, constraint-compatible GL mode has been identified.
+D16 shows that the instantaneous constraint nullspace is not sufficiently
+invariant under the live tangent map, so further fixture-only spectral
+projection is stopped.
+
+Active work is deliverable-based:
+
+1. cluster execution baseline;
+2. one explicit physical radial/constraint strategy;
+3. linear GL acceptance;
+4. nonlinear and observable readiness; and
+5. scientific release.
+
+G-Engineering passed with committed KO stabilization (`b63ad39`).
+G-Physics and overall Checkpoint G remain blocked. No D17 or automatic
+D-series continuation is active. The E1–D16 descriptions below are retained
+as the historical/diagnostic ledger, not as a current execution sequence.
+
+Production workflow budgets remain one direct target-`d=4` RHS evaluation per
+cell/stage, no test instrumentation in the release layout, no per-cell
+allocation or logging, configurable diagnostic cadence, and runtime/memory/
+scaling measurement at every production milestone. New diagnostics must
+enable a named production decision; no new eigensolver or dense spectral
+framework is allowed without explicit human approval.
+
+## Historical implementation and diagnostic ledger
+
+The implementation began as the isolated Stage 4AO-D-E1 black-string
+application seam.
 
 The application is compiled with `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, and
 `DEFAULT_TENSOR_DIM=4`. Direction 0 is radial `x`; direction 1 is compact and
@@ -490,6 +525,50 @@ per new matrix agree within `1.58e-7`; dense/direct probes agree within
 and `3.13e-15`. The fixture changes no production code:
 the hot path remains one direct target-`d=4` RHS, one fused two-grid-direction
 KO addition, and no second RHS evaluation.
+
+D16 constructs the `k=pi/4` baseline tangent map once and reproduces the
+committed D14/D15 hash `0x73c003dd70b673c6`. Its constraint map uses only
+existing evaluators: `H`, `M_x`, `M_z`, `det(h)-1`, and the weighted
+trace-free constraint. No validated live helper exists for an encoded
+`Z/hat_Gamma` consistency row, so D16 omits that optional row instead of
+introducing a new formula.
+
+The all-cell map is `160x576`, has hash `0x467857d44d1b516a`, rank `160`,
+and nullity `416`; the map excluding the first and last three radial cells is
+`130x576`, has hash `0x0c67ddd102ae9f11`, rank `130`, and nullity `446`.
+Their epsilon-halving discrepancies are `1.64e-8` and `9.32e-9`, and
+`||CN||/||N||` is `7.48e-14` and `4.86e-14`.
+
+Neither nullspace is invariant under the live map. The leakage measures are
+`eta=7.01e-2` (all cells) and `5.68e-2` (interior only), both far above the
+declared `1e-3` gate. The apparent projected leaders have
+`Re(Omega)=88.65` and `8.02`, but their direct full-map residuals are
+`1.49e-1` and `2.02e-2`; even the lowest-constraint representatives have
+direct residuals `5.90e-4` and `3.90e-3`. Their cross-projection profile
+overlap is only `0.210`. Consequently these compressed eigenvalues are not
+interpreted as full-map modes, and D16 is classified
+`CONSTRAINT_NULLSPACE_NOT_INVARIANT`.
+
+D16 used 576 tangent-matrix basis actions, 12 epsilon-validation tangent
+actions, one random dense/direct tangent probe, and five candidate full-map
+residual tangent actions: one each for the real all-cell leader and real
+all-cell lowest-constraint candidate, two signed component actions for the
+complex interior leader, and one for the real interior lowest-constraint
+candidate. Thus `576+12+1+5=594` tangent actions correspond to 1,188 signed
+live steps. Constraint accounting remains `576+12=588` actions and 1,176
+signed constraint evaluations. The run took `75.61 s` and peaked at
+`49,048 KiB` RSS. The fixture and independent retained-evidence parser agree.
+Production remains unchanged, the Fourier scan remains suspended, and no
+GL-mode or threshold claim follows. A focused read-only audit passed the
+construction and classification. It noted that the inherited D15 progress
+record labels the layout `exact_gp_ghosts`, although D13 preparation and the
+baseline hash prove that D16 used the provisional baseline; this is a
+display-label defect only.
+The retained cross-projection overlap is for the leaders. The corresponding
+lowest-constraint overlap was not retained, and the one-matrix cap forbids a
+reconstruction solely to recover it; this cannot affect the result because
+both nullspaces fail the invariance gate and all four reported candidates
+fail the direct `1e-6` full-map residual gate.
 
 Locked upstream `BoundaryConditions.cpp` dynamically allocates three
 `std::vector<int>` component lists per boundary-driver invocation. The

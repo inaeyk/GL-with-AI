@@ -2,11 +2,58 @@
 
 Long-term goal: compute gravitational-wave/radiation profiles during the 5D Gregory-Laflamme transition using a reproducible GRChombo-based workflow.
 
-For stage-by-stage gates and current checkpoint status, see
+For deliverable gates and current checkpoint status, see
 [stage_checklists.md](stage_checklists.md). That checklist is the current
 status authority when older summaries disagree.
 Physics and physics-design stages also produce polished review notes under
 `docs/physics_notes/` when they contain substantive physics reasoning.
+
+## Current deliverable roadmap after D16
+
+The active roadmap is no longer an open-ended diagnostic stage sequence.
+Completed work is consolidated into four packages:
+
+1. mathematical and dependency foundation;
+2. production-core adaptation;
+3. production stabilization; and
+4. physical-mode investigation, closed inconclusive.
+
+The KO-stabilized serial production core is functional. No credible
+boundary-independent, constraint-compatible GL mode has been identified, and
+D16 demonstrates that the instantaneous constraint nullspace is not
+sufficiently invariant under the live tangent map. Further fixture-only
+spectral projection is stopped.
+
+Active work is organized by five deliverables:
+
+1. cluster execution baseline: MPI, distributed ghosts, HDF5,
+   checkpoint/restart, equivalence, memory, communication, and scaling;
+2. one explicit physical radial/constraint strategy, with at most two
+   production repair cycles;
+3. linear GL acceptance using stable controls, common multi-field exponents,
+   controlled constraints, amplitude linearity, two resolutions, and two
+   outer domains before any provisional bracket;
+4. nonlinear/observable readiness: sustained evolution, AMR/MPI refinement,
+   horizons, observables, restart/output/extraction; and
+5. scientific release: convergence, systematics, reproducibility, performance
+   budgets, a cluster benchmark, and comparison with accepted physical
+   results.
+
+G-Engineering passed with committed KO stabilization (`b63ad39`).
+G-Physics and therefore overall Checkpoint G remain blocked. The scientific
+acceptance standard is unchanged. The exact workflow and milestone gates live
+only in [stage_checklists.md](stage_checklists.md).
+
+No D17 or automatic D-series continuation is active. The old Stage 4AO-D-F,
+Stage 4AP–4AU, Checkpoints H/I, and Stage 5–9 labels below are retained as
+historical planning provenance; their deliverables are remapped into the five
+milestones.
+
+## Historical project narrative
+
+The numbered stage sections below preserve how the project reached D16. They
+are not the active execution order when they conflict with the current
+deliverable roadmap.
 
 ## Stage 0: Infrastructure And Reproducibility
 
@@ -142,8 +189,9 @@ Physics and physics-design stages also produce polished review notes under
   Missing functionality will be adapted directly. The unresolved custom outer
   spectral boundary is deferred and nonblocking. This supersedes that gate
   only for the active production path; it does not claim the original
-  Stage 4AO-C spectral objective passed. Stage 4AO-D and Checkpoint G remain
-  incomplete. See
+  Stage 4AO-C spectral objective passed. The later D1–D16 physical-mode
+  investigation closed inconclusive; current G-Engineering passes while
+  G-Physics and overall Checkpoint G remain blocked. See
   `docs/grchombo/roadmap_decision_after_dependency_qualification.md`.
 - Dependency state: the historical Chombo SHA is unavailable and only
   inferred. The project-qualified official tuple is GRChombo
@@ -173,23 +221,24 @@ Physics and physics-design stages also produce polished review notes under
   fourth-order first-, second-, and mixed-derivative stencils crossing both
   sides of the internal two-box seam. Radial-boundary cells are excluded, so
   this evidence does not qualify physical radial-boundary behavior.
-- Active sequence: [complete] `Cell`/`FArrayBox` storage seam; [complete]
+- Historical production sequence through D16: [complete] `Cell`/`FArrayBox`
+  storage seam; [complete]
   isolated GP `BoxLoop` compute/traversal; [complete] pointwise
   hidden/cartoon RHS and separately reported complete 13-row equivalence;
   [complete] pointwise hidden-aware cleanup/constraints and fixed lapse
   source; [complete] live BoxLoop RHS/cleanup/source wiring and periodic
-  `z`/ghost ownership; [next] bounded unperturbed GP evolution and radial
-  boundary qualification; perturbed Fourier-mode evolution and a
-  first threshold estimate; then horizon/nonlinear diagnostics after
-  PETSc/AHFinder qualification.
+  `z`/ghost ownership; [complete] bounded unperturbed evolution and KO
+  stabilization; [closed inconclusive] D1–D16 physical-mode investigation.
+  Current follow-up uses Milestones 1–5 rather than this sequence.
 - GP `BoxLoop` checkpoint repair: accepted only after real test-policy
   instrumentation observes one 18-slot adapter call per requested cell and
   the numerically exact direct-write bypass observes none. Project-owned code
   remains under strict `-Werror`; dependency headers alone are `-isystem`.
-- Audit policy: substantive independent audits follow the assembled
-  storage-plus-`BoxLoop` initializer, complete hidden/cartoon 13-row
-  equivalence, integrated cleanup/constraints/fixed source, first unperturbed
-  evolution, and first perturbed growth-rate run. Avoid per-substep audits.
+- Current audit policy: independent review is reserved for production
+  equations, boundaries, gauge, AMR/MPI, horizons, scientific acceptance, and
+  milestone closure. Documentation-only repair requires no second audit.
+  Delta-based validation reuses committed evidence and tests only changed
+  components except at major checkpoints or shared-core changes.
 - Completed pointwise cleanup/constraint/source checkpoint: hidden determinant
   and trace multiplicity are two, the projection denominator is four, exactly
   `H,Mx,Mz` are emitted, the Hamiltonian is
@@ -198,12 +247,12 @@ Physics and physics-design stages also produce polished review notes under
   the independent long-double source-convention oracle under the locked
   tolerance, including a non-trace-free discriminator and genuine Fourier
   parity projections.
-- Current infrastructure status: dimension-safe
+- D16-closure infrastructure status: dimension-safe
   `AMR::define -> GRAMRLevel::define -> BoundaryConditions::define` is
   implemented and validated. The former `RealVect m_center[i=2]` over-index
-  blocker is cleared, while E1 remains check-only. Radial-boundary physics,
-  time evolution, AMR refinement, MPI, extraction, diagnostics, and AHFinder
-  remain incomplete.
+  blocker is cleared and the KO-stabilized serial GP core is functional.
+  Physical radial/constraint acceptance, linear GL acceptance, AMR
+  refinement, MPI, extraction, diagnostics, and AHFinder remain incomplete.
 - Infrastructure policy: reuse GRChombo RK4, AMR, MPI/OpenMP,
   checkpoint/restart, ghost exchange, parameter parsing, interpolation,
   reductions, and AH framework. Do not independently rebuild them.
@@ -224,32 +273,37 @@ Physics and physics-design stages also produce polished review notes under
   mutation. PETSc/container provenance and evolution qualification remain
   unresolved.
 
-## Stage 5: Pau Diagnostic Reproduction
+## Historical Stage 5: Pau Diagnostic Reproduction
 
 - Goal: reproduce the first scientific milestone: Pau / Figueras-Andrade-Franca-Gu style 5D black-string horizon diagnostics.
 - Main deliverables: `L10_med` reproduction, horizon-analysis pipeline, multi-`L` sweep, generation tables, Fourier diagnostics, reproduction memo.
-- Current status: not started.
+- Current disposition: legacy label deactivated; accepted comparison and
+  observable deliverables are owned by Milestones 4–5.
 
-## Stage 6: Convergence And Validation
+## Historical Stage 6: Convergence And Validation
 
 - Goal: establish that the reproduction diagnostics are numerically robust.
 - Main deliverables: `L10_low/med/high` campaign, area convergence, `R_min` convergence, pinch-off fit stability, Fourier/generation-time convergence notes.
-- Current status: not started.
+- Current disposition: legacy label deactivated; convergence and systematics
+  are owned by Milestone 5.
 
-## Stage 7: Radiation/Wave-Extraction Design
+## Historical Stage 7: Radiation/Wave-Extraction Design
 
 - Goal: choose and validate a radiation-extraction strategy appropriate for the 5D GL transition.
 - Main deliverables: extraction design memo, observable definitions, boundary/large-radius requirements, validation tests.
-- Current status: not started.
+- Current disposition: legacy label deactivated; extraction readiness is
+  owned by Milestone 4 and release acceptance by Milestone 5.
 
-## Stage 8: Waveform/Spectrum/Radiated-Energy/Angular-Distribution Computation
+## Historical Stage 8: Waveform/Spectrum/Radiated-Energy/Angular-Distribution Computation
 
 - Goal: compute the radiation observables from validated simulations.
 - Main deliverables: waveform pipeline, spectra, radiated energy by mode, angular distribution, dependence on generation times and Fourier modes.
-- Current status: not started.
+- Current disposition: legacy label deactivated; these scientific outputs are
+  downstream of Milestones 4–5.
 
-## Stage 9: Physics Interpretation And Paper/Thesis Writeup
+## Historical Stage 9: Physics Interpretation And Paper/Thesis Writeup
 
 - Goal: interpret the numerical results and prepare publishable documentation.
 - Main deliverables: physics narrative, figures/tables, uncertainty budget, paper or thesis chapters.
-- Current status: not started.
+- Current disposition: legacy label deactivated; scientific interpretation is
+  permitted only after Milestone 5.

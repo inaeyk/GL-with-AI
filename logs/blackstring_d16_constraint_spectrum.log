@@ -1,0 +1,82 @@
+Stage 4AO-D16 constraint-aware reduced spectrum
+================================================
+
+Scope
+-----
+The fixture reconstructed the baseline k=pi/4, 576x576 signed one-step
+tangent map once at Nx=32, Nz=64, dx=dz=1/8, CFL=0.05, and KO sigma=0.3.
+The deterministic matrix hash is 0x73c003dd70b673c6, matching committed
+D14/D15 evidence.
+
+Constraint construction
+-----------------------
+The signed constraint action reuses the live Hamiltonian and momentum
+evaluator and the existing conformal determinant and weighted-trace helpers.
+It introduces no new constraint formula. The optional encoded Z/hat-Gamma
+row is omitted because no existing validated live helper supplies that
+consistency relation.
+
+The all-cell C is 160x576 with hash 0x467857d44d1b516a, epsilon-halving
+discrepancy 1.635643456312e-08, rank 160, and nullity 416. Its largest and
+smallest retained singular values are 3.086021845415e+03 and
+4.200903287649e-01. The rank tolerance is 5.047631437490e-04 and
+||CN||/||N|| is 7.476175228653e-14.
+
+The boundary-excluded C is 130x576 with hash 0x0c67ddd102ae9f11,
+epsilon-halving discrepancy 9.322136466065e-09, rank 130, and nullity 446.
+Its largest and smallest retained singular values are 1.104427053408e+03
+and 4.747824030723e-01. The rank tolerance is 1.029561970868e-04 and
+||CN||/||N|| is 4.864109283171e-14.
+
+Invariance and direct residuals
+-------------------------------
+The all-cell and interior nullspace leakage measures are respectively
+7.013131751379e-02 and 5.682392577903e-02, far above the declared 1e-3
+invariance gate. The all-cell projected leader has apparent
+Re(Omega)=88.6510 but direct full-map residual 1.494080170318e-01. The
+interior projected leader has apparent Re(Omega)=8.01662,
+Im(Omega)=32.7055, and direct full-map residual 2.018919101948e-02.
+Lowest-constraint representatives still have direct residuals
+5.898349e-04 and 3.902230e-03, above the 1e-6 candidate gate.
+
+The leader profiles overlap by only 0.209696. There are no qualifying
+cross-projection bulk matches. The retained-evidence parser independently
+recomputes the non-invariance result from emitted leakage and direct
+residuals rather than trusting the fixture classification string.
+
+Focused audit
+-------------
+A read-only focused audit passed the construction, SVD, leakage formula,
+direct residuals, accounting, and classification. The inherited D15 layout
+prints `variant=exact_gp_ghosts` in the retained matrix progress record even
+though D13 preparation enforces the provisional baseline and the matrix hash
+matches committed baseline evidence. This is a misleading display label, not
+a numerical provenance defect.
+
+Only the leader cross-projection overlap was retained. The corresponding
+lowest-constraint overlap was not emitted. Reconstructing the matrix solely
+for that non-classification-bearing number would violate D16's one-matrix
+cap. The omission cannot alter the bounded classification: both nullspaces
+fail the invariance gate and all four leader/lowest-constraint
+representatives fail the `1e-6` direct full-map residual gate.
+
+Efficiency
+----------
+The run used 576 tangent-matrix basis actions, 12 epsilon-validation tangent
+actions, one random dense/direct tangent probe, and five candidate full-map
+residual tangent actions: one each for the real all-cell leader and real
+all-cell lowest-constraint candidate, two signed component actions for the
+complex interior leader, and one for the real interior lowest-constraint
+candidate. Thus `576+12+1+5=594` tangent actions produce 1,188 signed live
+steps. Constraint accounting remains `576+12=588` actions and 1,176 signed
+constraint evaluations. Fixture wall time was 75.6128 seconds and executable
+peak RSS was 49,048 KiB.
+
+Classification
+--------------
+CONSTRAINT_NULLSPACE_NOT_INVARIANT
+
+The SVD nullspaces satisfy C N approximately zero, but the live tangent map
+does not preserve either subspace. Projected eigenvalues therefore are not
+interpreted as full-map modes. No GL-mode identity or critical-wavenumber
+inference is made, and the Fourier scan remains suspended.

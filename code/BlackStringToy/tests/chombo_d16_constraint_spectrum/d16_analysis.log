@@ -1,0 +1,5 @@
+D16_PARSER_PROJECTION projection=all_cells rank=160 nullspace=416 constraint_hash=0x467857d44d1b516a eta=7.013131751379e-02 leader_ReOmega=8.865103273044e+01 leader_full_matrix_free_residual=1.494080170318e-01 leader_boundary=3.484531948965e-01
+D16_PARSER_PROJECTION projection=interior_only rank=130 nullspace=446 constraint_hash=0x0c67ddd102ae9f11 eta=5.682392577903e-02 leader_ReOmega=8.016617305234e+00 leader_full_matrix_free_residual=2.018919101948e-02 leader_boundary=7.849654662828e-02
+D16_PARSER_SUMMARY invariant=0 leader_residuals_good=0 qualifying_matches=0 fixture_classification_read=0
+D16_CLASSIFICATION CONSTRAINT_NULLSPACE_NOT_INVARIANT
+BLACKSTRING_D16_RETAINED_EVIDENCE_PASS
