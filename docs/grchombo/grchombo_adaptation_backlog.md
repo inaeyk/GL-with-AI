@@ -32,9 +32,15 @@ time-domain plateau. D13 then applies the actual KO-stabilized one-step map
 matrix-free at `k=pi/4,pi/2`: epsilon and Fourier-sector checks pass, but
 independent seeds have cross-profile overlaps only `0.5846` and `0.5572` and
 do not share rates or norm/constraint behavior. Its bounded result is
-`NONNORMAL_OR_NO_CONVERGED_MODE`. Physical radial-boundary acceptance, a
-converged threshold, refinement, MPI, broader diagnostics, and horizons
-remain open.
+`NONNORMAL_OR_NO_CONVERGED_MODE`. D14 then builds the complete two
+fixture-only `576x576` Fourier-block spectra through the existing
+Chombo/LAPACK link. The only resolved positive spectral leader is
+inner-boundary/constraint dominated, the other block is clustered near
+neutral with large constraint response, and no preliminary physical candidate
+passes. Its bounded result is
+`CONSTRAINT_GAUGE_OR_BOUNDARY_SPECTRUM_DOMINATES`. Physical radial-boundary
+acceptance, a converged threshold, refinement, MPI, broader diagnostics, and
+horizons remain open.
 
 ## Priority rules
 
@@ -417,6 +423,25 @@ raw/field-scaled rates, component amplification, and normalized constraints
 fail the physical-mode gate. The Fourier scan therefore remains suspended
 under `NONNORMAL_OR_NO_CONVERGED_MODE`.
 
+D14 keeps the same production lock and replaces seed iteration with complete
+fixture-only reduced matrices. One cosine/sine coefficient per radial
+cell/slot produces `n=576` for each requested wavenumber. Field scaling is a
+similarity transform, and comparison with the unscaled diagonalization
+confirms eigenvalue identity. Twelve epsilon-halving columns, Fourier
+roundtrip, dense-versus-direct action, finite-entry, residual, parity, and
+harmonic gates pass. The `k=pi/4` spectral leader is a real
+`Re(Omega)=0.0486917` mode, but it peaks at the first valid cell with boundary
+fraction `0.820` and normalized constraint norm `0.501`. Correctly
+transforming LAPACK's left vector by `D^{-1}` changes its physical-coordinate
+conditioning proxy from the superseded scaled-coordinate `1522.43` to
+`308.63`; the `k=pi/2` leader changes from `12.03` to `4.56`. The latter
+leader and neighbors are unresolved near neutral, clustered, and constraint
+heavy. Their corrected proxies do not establish severe leader
+nonorthogonality, so conditioning alone no longer explains D13's local
+alignments. No candidate passes the
+preliminary physical filter, the optional fine matrix is skipped, and the
+classification is `CONSTRAINT_GAUGE_OR_BOUNDARY_SPECTRUM_DOMINATES`.
+
 | Priority / order | Adaptation item | GRChombo source to reuse | Project-specific work | Dependency | Acceptance / exit criterion |
 |---|---|---|---|---|---|
 | P0-1 | Reproducible GRChombo/Chombo core lock | Current origin, locked CI, Chombo Make infrastructure | Keep the tracked GRChombo commit and qualified official Chombo commit; disclose that historical SHA/container provenance is unresolved; keep PETSc separate until AHFinder | None | Project lock is detached/clean; four serial DIM2 libraries, real `2/4/4` target probe, and stock compile/smoke checks pass |
@@ -435,6 +460,7 @@ under `NONNORMAL_OR_NO_CONVERGED_MODE`.
 | P2-12 | Fourier amplitude diagnostics (first level-zero fixture complete; AMR output open) | Level-zero storage and reductions | Test-only cosine/sine radial-RMS quadratures of `0.5 log(hww/chi)`, phase-neutral amplitude, and paired controls at cadence eight | P2-11 | Quadrature rotation invariance, leakage, and two-epsilon normalized histories pass; AMR-consistent persistent output remains open |
 | P2-13 | Growth-rate extraction (transient diagnosis complete; physical rate open) | Project fixture analysis | Signed odd/even response, rolling width-`0.5/1.0` log slopes, linearity, constraint, and budgeted transient reporting | P2-12 | `k=pi/4` has a linear late-time instability whose physical identity is unresolved; exploding constraints/control drift forbid a GL identification, D9 shows deeper excision is insufficient, and D10 identifies missing live KO dissipation before modal isolation; no negative plateau, bracket, asymptotic rate, or physical-rate acceptance follows |
 | P2-13a | Matrix-free KO-stabilized mode extraction (bounded D13 probe complete; accepted mode open) | Actual level-zero one-step map plus fixture-only signed projection | Three independent parity-compatible seeds, two epsilon values, raw/scaled norms, profiles, component fractions, and linearized constraints at `k=pi/4,pi/2` | P2-13 and D11 | No independent seed pair converges to one profile/rate; `NONNORMAL_OR_NO_CONVERGED_MODE`, with no GL identity or threshold inference |
+| P2-13b | Reduced KO-stabilized Fourier spectrum (bounded D14 extraction complete; accepted mode open) | Existing Chombo-linked LAPACK `dgeev` plus D13 tangent action | Two fixture-only `576x576` field-scaled similarity transforms; complete complex spectra, physical left/right residuals and conditioning proxies, profiles, all-field fractions, constraints, boundary and Nyquist ranks | P2-13a | Boundary/constraint spectral radius and an unresolved clustered block reject the candidates; corrected conditioning does not alone explain D13; `CONSTRAINT_GAUGE_OR_BOUNDARY_SPECTRUM_DOMINATES`, with no physical-mode or threshold inference |
 | P2-14 | Production convergence workflow | GRChombo AMR/restart/output machinery | Reproducible multi-resolution parameter sets and comparison tables | P1-10, P2-13 | Background, constraints, perturbations, and rate show documented convergence |
 | P3-15 | String MOTS/horizon adapter | `AHFinder`, `PETScAHSolver`, `AHStringGeometry`, interpolation | Supply target variables, `S2 x S1` geometry, hidden expansion terms, PETSc configuration | P1-7, PETSc source lock | Uniform `x=r0` MOTS recovered with convergent residual; restart supported |
 | P3-16 | `R_H`, minimum radius, and horizon area | AH surface data, interpolation, reductions, `SmallDataIO` | Evaluate `R_H=h sqrt(hww/chi)`, minimum over z, correct string area | P3-15 | Uniform analytic values and perturbed manufactured profiles converge |

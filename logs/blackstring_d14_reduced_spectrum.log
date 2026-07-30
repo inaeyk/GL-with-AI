@@ -1,0 +1,216 @@
+BLACKSTRING STAGE 4AO-D14 REDUCED KO-STABILIZED FOURIER SPECTRUM
+date=2026-07-29
+base_commit=ac0cb23
+production_equations_changed=false
+production_KO_changed=false
+production_gauge_changed=false
+production_boundary_changed=false
+production_hot_path_changed=false
+new_dependency=false
+
+LINEAR ALGEBRA
+locked_Chombo_USE_LAPACK=true
+system_symbol=dgeev_
+fixture_routine=dgeev
+link_source=locked Chombo syslibflags (-lblas -llapack)
+
+CONFIGURATION
+Lz=8
+x_in=0.5
+x_out=4.5
+Nx=32
+Nz=64
+dx=0.125
+dz=0.125
+CFL=0.05
+dt=0.00625
+ko_sigma=0.3
+k_values=pi/4,pi/2
+epsilon_values=1e-8,5e-9
+reduced_size=18*32=576
+matrix_dimensions=576x576
+matrix_memory_each_bytes=2654208
+dense_matrices=2
+optional_fine_matrix=not_run_no_medium_candidate_passed
+
+ACTION AND COORDINATES
+Each column reconstructs one parity-compatible real Fourier coefficient,
+applies the validated D13 signed real one-step map, projects back to the same
+Fourier block, and stores one reduced column. The action includes framework
+periodic exchange, project radial ghost fill, direct target-d=4 RHS, live
+gauge, fixed lapse source, sigma=0.3 KO, outer valid-surface override, locked
+four-stage RK, and cleanup. The field-scaled matrix is D^-1 M D, so it is a
+similarity transform and has the same eigenvalues as the physical-coordinate
+matrix. LAPACK's packed right and left eigenvectors transform as
+v=D v_s and w=D^-1 w_s. The reported physical-coordinate
+eigenvalue-conditioning proxy is ||w|| ||v|| / |w_s^dagger v_s|; it is not
+labeled a formal condition number.
+
+DETERMINISTIC HASHES
+field_scaling_fnv1a64=0xe217c18f1ddb1483
+secondary_scaling_fnv1a64=0x9766346554c8b284
+matrix_pi_over_4_fnv1a64=0x73c003dd70b673c6
+matrix_pi_over_2_fnv1a64=0x04a47085bead3f46
+
+MATRIX VALIDATION
+k       roundtrip       eps-column max  dense/direct   parity max    harmonic max
+pi/4    2.79925e-16     1.04327e-7     6.94188e-7     7.22487e-8   3.12822e-15
+pi/2    3.28879e-16     2.31881e-7     7.38853e-7     8.22942e-8   8.14084e-15
+
+LEFT/RIGHT SCALING REGRESSION
+quantity                                      pi/4          pi/2
+max physical right residual                   5.589e-14     4.810e-14
+max physical left residual                    4.590e-14     4.012e-14
+max denominator relative error                1.506e-14     2.612e-14
+max second-scaling proxy relative error       3.207e-14     3.261e-14
+leading unscaled right overlap                1.0           1.0
+leading unscaled left overlap                 1.0           1.0
+leading unscaled right residual               9.914e-15     9.224e-15
+leading unscaled left residual                5.932e-15     4.963e-15
+packed complex eigenvectors checked           496           502
+
+The deterministic formula mutation gives physical proxy 19.1401 and old
+scaled-coordinate proxy 5.79318, a 69.7% difference, and is rejected.
+Across the actual spectra the maximum old/corrected difference is 849% and
+879%. The identity w^dagger v=w_s^dagger v_s and a second deterministic
+diagonal-similarity transformation pass for every real and packed-complex
+eigenvector. Direct diagonalization of the unscaled matrix validates both
+transformed leading left and right eigenvectors.
+
+Six representative columns per sector, twelve total, are checked at both
+epsilon values. All matrix entries are finite. The fixture emits all 576
+complex eigenvalues and Omega=log(lambda)/dt values for each sector.
+The conservative resolved-rate gate is |Re(Omega)| >= 2e-4, based on the
+dense/direct action discrepancy divided by dt. Near-neutral signs below this
+gate remain reported but are not classified as growth or decay. Eigenvalues
+whose magnitude is not at least ten direct residuals also cannot pass.
+
+SEPARATE RANK LEADERS
+k       rank                 lambda                         ReOmega    ImOmega
+pi/4    largest ReOmega      1.000304369575 + 0i           4.86917e-2 0
+pi/4    smallest constraint -3.636999e-9 - 5.696109e-10i -3.10720e3 -4.77798e2
+pi/4    weakest boundary     0.999999787754 + 0i          -3.39593e-5 0
+pi/2    largest ReOmega      1.000000028736 + 0i           4.59779e-6 0
+pi/2    smallest constraint -1.469226e-8 + 0i             -2.88575e3 5.02655e2
+pi/2    weakest boundary     0.999999774662 + 0i          -3.60541e-5 0
+
+The smallest-constraint eigenvalues have magnitudes below their matrix-free
+residuals and cannot be credible modes. The weakest-boundary and k=pi/2
+growth leaders have unresolved near-neutral signs and substantial constraint
+responses.
+
+LEADING GROWTH CANDIDATES
+k=pi/4:
+lambda=1.000304369575
+Omega=(0.0486917222524,0)
+dense_residual=1.68978e-14
+direct_matrix_free_residual=6.21042e-8
+physical_left_right_overlap=0.00324011468
+physical_coordinate_eigenvalue_conditioning_proxy=308.631051730
+superseded_scaled_coordinate_proxy=1522.427125862
+physical_right_residual=3.35855e-14
+physical_left_residual=1.26798e-14
+denominator_relative_error=6.60248e-16
+secondary_scaling_proxy_relative_error=1.10508e-15
+physical_right_hash=0x62b7172782ebdabf
+physical_left_hash=0x05b88d02115e496a
+boundary_first_last_three_fraction=0.819825
+radial_nyquist_fraction=0.00534597
+parity_leakage=9.47615e-9
+harmonic_leakage=6.29830e-17
+H_over_state=0.480452
+Mx_over_state=0.122556
+Mz_over_state=0.0699934
+combined_constraint_over_state=0.500752
+maximum_radial_index=0
+maximum_x=0.5625
+scaling_eigenvalue_difference=1.40110e-13
+scaling_profile_overlap=1
+component_fractions=chi:0.002462,hxx:0.010618,hxz:0.021310,
+hzz:0.037959,hww:0.002169,K:0.003899,Axx:0.195067,Axz:0.363726,
+Azz:0.171006,Aww:0.003256,Theta:0.000429,GammaX:0.015684,
+GammaZ:0.108443,lapse:0.000224,shiftX:0.008014,shiftZ:0.055465,
+Bx:0.0000338,Bz:0.000234
+
+k=pi/2:
+lambda=1.000000028736
+Omega=(4.59779028e-6,0)
+dense_residual=5.51290e-15
+direct_matrix_free_residual=1.23907e-7
+physical_left_right_overlap=0.219253070
+physical_coordinate_eigenvalue_conditioning_proxy=4.56093956
+superseded_scaled_coordinate_proxy=12.0315361
+physical_right_residual=1.90753e-14
+physical_left_residual=5.69409e-15
+denominator_relative_error=0
+secondary_scaling_proxy_relative_error=0
+physical_right_hash=0x10ac4cc827402664
+physical_left_hash=0xa42131176d300c95
+boundary_first_last_three_fraction=0.0905935
+radial_nyquist_fraction=0.000362167
+parity_leakage=1.19066e-8
+harmonic_leakage=1.01305e-16
+H_over_state=0.741004
+Mx_over_state=0.0901738
+Mz_over_state=0.0413180
+combined_constraint_over_state=0.747613
+maximum_radial_index=21
+maximum_x=3.1875
+scaling_eigenvalue_difference=3.33067e-15
+scaling_profile_overlap=1
+component_fractions=chi:0.009680,hxx:0.147612,hxz:0.064181,
+hzz:0.067605,hww:0.014242,K:0.000345,Axx:0.003151,Axz:0.005872,
+Azz:0.012691,Aww:0.000458,Theta:0.0000750,GammaX:0.654831,
+GammaZ:0.001203,lapse:0.0000336,shiftX:0.017344,shiftZ:0.000677,
+Bx:1.80e-10,Bz:7.31e-12
+
+SPECTRAL INTERPRETATION
+k=pi/4 leading_ReOmega_gap=0.0486665
+k=pi/2 leading_ReOmega_gap=6.72604e-6
+leading_physical_conditioning_proxy_pi_over_4=308.631
+leading_physical_conditioning_proxy_pi_over_2=4.56094
+superseded_leading_scaled_proxy_pi_over_4=1522.43
+superseded_leading_scaled_proxy_pi_over_2=12.0315
+maximum_physical_conditioning_proxy_pi_over_4=1.33551e4
+maximum_physical_conditioning_proxy_pi_over_2=1.52838e4
+superseded_maximum_scaled_proxy_pi_over_4=1.23663e5
+superseded_maximum_scaled_proxy_pi_over_2=1.30558e5
+k_pi_over_2_cluster_physical_proxies=4.56094,9.29317,9.29317,24.2300,24.4734,22.7971
+complex_leading_mode=false,false
+physical_prefilter_passing=0,0
+
+The resolved positive k=pi/4 spectral leader is an inner-boundary/constraint
+mode. The k=pi/2 spectral leader is unresolved-near-neutral and constraint
+heavy, with nearby rates clustered. The corrected relevant-mode proxies do
+not establish severe leader nonorthogonality, so conditioning alone no
+longer explains D13's local alignments. The supported interpretation is
+limited to boundary/constraint spectral-radius rejection plus an unresolved
+clustered block. No candidate passes the preliminary physical filter.
+Both per-mode summaries report severe_leader_nonnormality=false. The
+aggregate interpretation now uses those leader tests; spectrum-wide large
+proxies are reported separately and are not promoted into a D13 explanation.
+
+EFFICIENCY
+matrix_columns=1152
+tangent_actions=1194
+signed_live_steps=2388
+wall_seconds=93.575905838
+peak_rss_kib=54488
+seconds_per_tangent_action=0.0783717804
+
+HOT_PATH
+direct_target_d4_evaluations_per_cell_stage=1
+fused_ko_additions_per_cell_stage=1
+second_rhs_evaluations=0
+production_logging_added=0
+production_allocations_added=0
+production_counters_added=0
+production_transforms_added=0
+
+CLASSIFICATION
+CONSTRAINT_GAUGE_OR_BOUNDARY_SPECTRUM_DOMINATES
+
+No candidate is identified as the physical GL mode. No critical-wavenumber
+inference is made, and the Fourier scan remains suspended. Request one
+focused audit of the reduced matrix, eigensystem diagnostics, and physical
+filter.

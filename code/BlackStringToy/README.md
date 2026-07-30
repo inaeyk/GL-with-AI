@@ -393,6 +393,54 @@ seeds passes the required profile/rate gate. D13 is therefore classified
 `NONNORMAL_OR_NO_CONVERGED_MODE`; it does not identify either candidate as
 the physical GL mode and supplies no `k_cr r0` inference.
 
+D14 resolves the D13 ambiguity with two fixture-only dense reductions of the
+same signed one-step map. Locked Chombo already enables LAPACK and links the
+system BLAS/LAPACK libraries, so the fixture calls `dgeev` without a new
+dependency. Each `k=pi/4,pi/2` block has one parity-compatible Fourier
+coefficient for every radial cell and evolved slot: `18*32=576` real
+coordinates and a `576x576` nonsymmetric map. The field-scaled map is the
+similarity transform `M_s=D^{-1} M D`. D14 transforms LAPACK's right and
+left eigenvectors as `v=D v_s` and `w=D^{-1} w_s`; the reported
+physical-coordinate eigenvalue-conditioning proxy is
+`||w|| ||v|| / |w_s^dagger v_s|`. Diagonalizing the corresponding unscaled
+map confirms both transformed vectors for the leading modes, while
+degenerate scale-sensitive profiles remain rejected.
+
+All 1,152 basis columns use the validated D13 lifecycle. Twelve representative
+columns agree between `epsilon=1e-8` and `5e-9` within `2.32e-7`; independent
+dense-versus-matrix-free vectors agree within `7.39e-7`. Fourier round trips
+are below `3.3e-16`, forbidden-parity leakage is below `8.3e-8`, and retained
+harmonic leakage is below `8.2e-15`. The fixture emits the complete complex
+spectrum and separately ranks growth, constraint response, and boundary
+localization.
+
+At `k=pi/4`, the largest-growth eigenvalue is real:
+`lambda=1.000304369575`, `Re(Omega)=0.0486917`. Its direct matrix-free
+residual is `6.21e-8`, but `82.0%` of its energy lies in the first/last three
+radial cells, it peaks at the first valid cell, its normalized combined
+constraint response is `0.501`, and its corrected physical-coordinate
+conditioning proxy is `308.63` (the superseded scaled-coordinate value was
+`1522.43`). At `k=pi/2`, the largest-growth value is unresolved-near-neutral
+(`Re(Omega)=4.60e-6`) and has combined constraint response `0.748`. The next
+leading rates form a cluster with gap `6.73e-6`; their corrected proxies are
+`4.56,9.29,9.29,24.23,24.47,22.80` rather than evidence of severe
+leader nonorthogonality. Spectrum-wide maxima are `1.34e4` and `1.53e4`,
+down from the superseded `1.24e5` and `1.31e5`, but occur outside the
+accepted leading physical candidates. A conservative
+`|Re(Omega)|>=2e-4` resolution gate follows from the measured direct-action
+error divided by `dt`; it prevents numerical-zero map eigenvalues and
+unresolved neutral signs from being mislabeled as growth or decay.
+
+No medium candidate passes the complete residual, resolvability, boundary,
+Nyquist, parity, multi-field, constraint, and scale-identity filter, so the
+optional fine matrix is not constructed. D14 is classified
+`CONSTRAINT_GAUGE_OR_BOUNDARY_SPECTRUM_DOMINATES`. D13's local alignments are
+not explained by the corrected conditioning proxy alone. The supported
+interpretation is limited to a boundary/constraint spectral leader plus an
+unresolved clustered `k=pi/2` block, not convergence to an accepted physical
+mode. No GL identity or `k_cr r0` inference follows, and the Fourier scan
+remains suspended.
+
 Locked upstream `BoundaryConditions.cpp` dynamically allocates three
 `std::vector<int>` component lists per boundary-driver invocation. The
 boundary `Box` objects themselves are stack objects. This is upstream

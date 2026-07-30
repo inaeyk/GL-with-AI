@@ -1021,6 +1021,22 @@ simulation and radiation diagnostics exist.
   physical-mode gate. Classification:
   `NONNORMAL_OR_NO_CONVERGED_MODE`. Do not label a GL mode or infer
   `k_cr r0`; keep the Fourier scan suspended.
+- [x] Stage 4AO-D14 reduced KO-stabilized Fourier spectrum. Locked Chombo's
+  existing LAPACK link supplies `dgeev`; no dependency is added. Two
+  fixture-only `576x576` field-scaled similarity transforms exhaust the
+  `k=pi/4,pi/2` single-parity blocks using 1,152 D13 tangent columns.
+  Fourier identity, twelve epsilon-halving columns, direct matrix-free
+  residuals, left/right conditioning, all-field fractions, constraints,
+  boundary weight, and Nyquist content are reported. The `k=pi/4` spectral
+  leader has `Re(Omega)=0.04869` but is `82.0%` boundary-band energy with
+  combined normalized constraints `0.501`. Correct left-vector scaling gives
+  physical-coordinate conditioning proxy `308.63`, superseding the old
+  scaled-coordinate `1522.43`; the `k=pi/2` leader changes from `12.03` to
+  `4.56`. The `k=pi/2` leader is unresolved-near-neutral and constraint
+  heavy. No
+  candidate passes the physical filter, so no fine matrix is authorized.
+  Classification: `CONSTRAINT_GAUGE_OR_BOUNDARY_SPECTRUM_DOMINATES`. Keep
+  the scan suspended and make no GL identity or threshold claim.
 - [ ] Stage 4AO-D-F sustained unperturbed/perturbed evolution and boundary
   qualification. Converged `k_cr_0`, sustained nonlinear evolution,
   physical radial-boundary acceptance, AMR/MPI qualification,

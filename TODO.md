@@ -148,10 +148,20 @@ Current status and checkpoint authority: `research_plan/stage_checklists.md`.
   pair shares a profile and rate; record
   `NONNORMAL_OR_NO_CONVERGED_MODE`. Keep production unchanged and do not call
   any sequence a physical GL mode.
+- [x] Complete D14's fixture-only reduced spectrum at `k=pi/4,pi/2`.
+  Use existing Chombo-linked `dgeev` on two `576x576` field-scaled
+  similarity transforms, validate all columns and the matrix-free residual,
+  and record `CONSTRAINT_GAUGE_OR_BOUNDARY_SPECTRUM_DOMINATES`. The resolved
+  positive spectral leader is inner-boundary/constraint dominated; the
+  second sector is clustered near neutral and constraint heavy. No medium
+  candidate passes, so do not construct a fine matrix or identify a GL mode.
+  Correct the physical left-vector transform to `D^{-1}w_s`; retain the
+  classification but do not attribute D13 to severe leader nonorthogonality.
 - [ ] Establish a provisional `k_-<k_+` sign bracket in a separately
-  authorized follow-up only after the D13 nonnormal/no-convergence result is
-  resolved. The current evidence supplies no accepted mode endpoint and
-  supports no conclusion about whether `k_cr r0` is above or below `0.75`.
+  authorized follow-up only after the D14 boundary/constraint-dominated
+  spectrum is resolved. The current evidence supplies no accepted mode
+  endpoint and supports no conclusion about whether `k_cr r0` is above or
+  below `0.75`.
 - [ ] Stage 4AO-D-F: qualify sustained unperturbed/perturbed evolution,
   boundary-location systematics, and constraint behavior. Keep AMR/MPI,
   growth-rate claims, horizons, PETSc/AHFinder, and final scoring deferred.
