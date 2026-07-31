@@ -1,0 +1,101 @@
+{
+  "schema": "blackstring-m1d-sidecar-v1",
+  "role": "M1-D HDF5 checkpoint and restart qualification",
+  "source_checkpoint": "191dae42158f1f1f79514fea7d1d7008c70faaa5",
+  "dependencies": {
+    "grchombo_commit": "37e659523830418b210acea1661dac0e00bb1b75",
+    "chombo_commit": "8684f2e000106f1abadb72642e1d15351867f98f"
+  },
+  "toolchain": {
+    "cxx": "g++ 15.2.0 (Ubuntu 15.2.0-16ubuntu1)",
+    "fortran": "gfortran-15 15.2.0 (Ubuntu 15.2.0-16ubuntu1)",
+    "mpi": "Open MPI 5.0.10",
+    "hdf5": "HDF5 1.14.6 OpenMPI, parallel enabled",
+    "blas": "3.12.1-7ubuntu1",
+    "lapack": "3.12.1-7ubuntu1"
+  },
+  "executable": {
+    "path": "code/BlackStringToy/Main_BlackStringToy2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M1D_MPI_HDF.ex",
+    "bytes": 2017648,
+    "sha256": "4288e1213976841b7a113c37eb30a4a5a4dc35e5101b56768fc4b738b6b3464d",
+    "mpi_ranks": 2
+  },
+  "configuration": {
+    "CH_SPACEDIM": 2,
+    "GR_SPACEDIM": 4,
+    "DEFAULT_TENSOR_DIM": 4,
+    "N_x": 8,
+    "N_z": 16,
+    "L_x": 1.0,
+    "L_z": 2.0,
+    "dx": 0.125,
+    "dz": 0.125,
+    "dt": 0.00625,
+    "cfl": 0.05,
+    "ko_sigma": 0.3,
+    "diagnostic_cadence": 0,
+    "background": "exact GP",
+    "radial_boundary": "provisional physical radial boundary",
+    "compact_boundary": "periodic z",
+    "amr_levels": 1,
+    "perturbation": "none",
+    "ahfinder": "disabled",
+    "boxes": [
+      {"lo": [0, 0], "hi": [7, 7], "rank": 0},
+      {"lo": [0, 8], "hi": [7, 15], "rank": 1}
+    ]
+  },
+  "parameter_files": [
+    {
+      "role": "continuous",
+      "path": ".m1d-work/continuous.params",
+      "sha256": "e811fe4d9749cee260f4ce955cdcaa2af864d5d143aee4abacf42f3fa1bd36d7"
+    },
+    {
+      "role": "checkpoint_segment",
+      "path": ".m1d-work/segment.params",
+      "sha256": "8c326a273a155b8d6a6df976034e090caddbbbfa39d22ceb90628d2c59cff4c4"
+    },
+    {
+      "role": "restart",
+      "path": ".m1d-work/restart.params",
+      "sha256": "b6c9a0ba42ce1861534fb804a1e1a44555b2dd8a475813857175c9aad82b69e4"
+    }
+  ],
+  "outputs": [
+    {
+      "role": "continuous_final_checkpoint",
+      "path": ".m1d-work/continuous/hdf5/m1d_cont_chk_000008.2d.hdf5",
+      "created": "2026-07-31T16:54:31.292979166+08:00",
+      "bytes": 67752,
+      "sha256": "271222da68d22d9339992466054965fc65195fe8759ad7545258951634b82ddf"
+    },
+    {
+      "role": "checkpoint_segment_midpoint",
+      "path": ".m1d-work/segment/hdf5/m1d_mid_chk_000004.2d.hdf5",
+      "created": "2026-07-31T16:55:04.702467610+08:00",
+      "bytes": 67752,
+      "sha256": "88ef0a6143eef945f3fc05b46462e8f5106089c1a6c2d255076e335fc5f23c02"
+    },
+    {
+      "role": "restart_final_checkpoint",
+      "path": ".m1d-work/restart_cwd/hdf5/m1d_restart_chk_000008.2d.hdf5",
+      "created": "2026-07-31T16:57:19.858107414+08:00",
+      "bytes": 67752,
+      "sha256": "321a7463ef5d7c4f773a571beb68212ac0dbf79783e1ddfa068762988971637f"
+    },
+    {
+      "role": "continuous_final_plot",
+      "path": ".m1d-work/continuous/hdf5/m1d_cont_plt_000008.2d.hdf5",
+      "created": "2026-07-31T16:54:31.292070721+08:00",
+      "bytes": 29664,
+      "sha256": "ae9a6b894414516bfc606e521780a0d8b12a5ab73ea37f6b9e20c72ef6923430"
+    }
+  ],
+  "deterministic_valid_state": {
+    "ordering": "z,x,component",
+    "initial_sha256": "67d5e58be9e94e5fe770a06ecf3faa577d80bb8d144d5847702f55e637d69e2d",
+    "continuous_final_sha256": "578829dffdf2b382917fd9950df2a566722d5fdd679ed1b302bebd2016ce8177",
+    "restart_final_sha256": "578829dffdf2b382917fd9950df2a566722d5fdd679ed1b302bebd2016ce8177"
+  }
+}

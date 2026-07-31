@@ -50,9 +50,9 @@ Current claim partition:
 
 #### Milestone 1 — Cluster execution baseline
 
-Status: M1-A, M1-B, and M1-C are complete; M1-C closed with
-`M1-C PASS — distributed ghost and boundary ownership qualified`, and the
-first substantive M1-ABC audit may begin. D16 is closed with
+Status: M1-A through M1-D are complete; M1-D closed with
+`M1-D PASS — HDF5 checkpoint and restart qualified`, M1-E may begin, and the
+first substantive M1-ABC audit remains scheduled. D16 is closed with
 `CONSTRAINT_NULLSPACE_NOT_INVARIANT`, the open-ended D-series is finished,
 G-Engineering is passed, and G-Physics plus overall Checkpoint G remain
 blocked.
@@ -147,13 +147,28 @@ The audit may now begin.
 
 ##### M1-D — HDF5, checkpoint, and restart
 
-- [ ] Produce valid plot and checkpoint output using existing Chombo/GRChombo
+- [x] Produce valid plot and checkpoint output using existing Chombo/GRChombo
   formats; no custom checkpoint format is allowed.
-- [ ] Retain all 18 fields.
-- [ ] Restore time, timestep, parameters, and layout.
-- [ ] Establish continuous-versus-restarted equivalence.
-- [ ] Prove restart does not reinitialize the state.
-- [ ] Store provenance with the output.
+- [x] Retain all 18 fields.
+- [x] Restore time, timestep, parameters, and layout.
+- [x] Establish continuous-versus-restarted equivalence.
+- [x] Prove restart does not reinitialize the state.
+- [x] Store provenance with the output.
+
+Current result:
+`M1-D PASS — HDF5 checkpoint and restart qualified`. At `N_x=8`, `N_z=16`,
+MPI-2, `dx=dz=1/8`, CFL 0.05, and `ko_sigma=0.3`, an eight-step continuous
+run is bitwise identical in all 18 global valid fields to a four-step
+checkpoint plus four-step restart. The restart loaded iteration 4 and
+`t=0.025` from an explicit path in a different working directory, did not
+call the GP initializer on the restored level, retained the two-box rank map,
+and reached iteration 8 and `t=0.05`. Existing-format checkpoints and a
+distinct 18-field plot pass structural inspection; parameter/toolchain
+provenance not stored upstream is retained in a sidecar. One initial restart
+attempt exposed only the locked path's requirement that a restart output
+directory already exist; precreating it closed the run without any code or
+numerical change. See
+`docs/grchombo/milestone1d_hdf5_checkpoint_restart.md`. M1-E may begin.
 
 ##### M1-E — Performance and scaling
 
