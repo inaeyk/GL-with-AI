@@ -50,9 +50,9 @@ Current claim partition:
 
 #### Milestone 1 — Cluster execution baseline
 
-Status: M1-A is complete with
-`M1-A PASS — MPI/HDF5 build baseline qualified`; active implementation may
-proceed to M1-B. D16 is closed with
+Status: M1-A and M1-B are complete; M1-B closed with
+`M1-B PASS — distributed level-zero evolution qualified`, and active
+implementation may proceed to M1-C. D16 is closed with
 `CONSTRAINT_NULLSPACE_NOT_INVARIANT`, the open-ended D-series is finished,
 G-Engineering is passed, and G-Physics plus overall Checkpoint G remain
 blocked.
@@ -95,16 +95,26 @@ interruptions, not active blockers. See
 
 ##### M1-B — Distributed level-zero evolution
 
-- [ ] Run matched serial, MPI-1, MPI-2, and MPI-4 configurations where the
+- [x] Run matched serial, MPI-1, MPI-2, and MPI-4 configurations where the
   environment supports them.
-- [ ] Keep one identical physical domain and global resolution.
-- [ ] Verify all 18 registered variables and correct global valid-cell
+- [x] Keep one identical physical domain and global resolution.
+- [x] Verify all 18 registered variables and correct global valid-cell
   ownership.
-- [ ] Compare serial/MPI fields, constraints, and state drift.
-- [ ] Verify no duplicate RHS/ghost work and no hidden grid-direction access.
+- [x] Compare serial/MPI fields, algebraic constraints, and state drift.
+- [x] Verify no duplicate RHS/ghost work and no hidden grid-direction access.
 
 Exit: decomposition-independent level-zero evolution evidence across every
 available rank count.
+
+Current result:
+`M1-B PASS — distributed level-zero evolution qualified`. One four-box
+periodic-`z` layout at `N_x=8`, `N_z=32`, `dx=dz=1/8`, CFL 0.05 completed
+four RK4 steps to `t=0.025` in serial, MPI-1, MPI-2, and MPI-4. Every global
+valid cell had exactly one owner, all 18 final fields were bitwise identical
+to serial, and determinant/weighted-trace defects remained at roundoff. No
+repair or retry was used. See
+`docs/grchombo/milestone1b_distributed_level_zero_evolution.md`. M1-C may
+begin; manufactured seam/stencil acceptance remains M1-C work.
 
 ##### M1-C — Distributed ghosts and boundaries
 
