@@ -50,9 +50,9 @@ Current claim partition:
 
 #### Milestone 1 — Cluster execution baseline
 
-Status: M1-A and M1-B are complete; M1-B closed with
-`M1-B PASS — distributed level-zero evolution qualified`, and active
-implementation may proceed to M1-C. D16 is closed with
+Status: M1-A, M1-B, and M1-C are complete; M1-C closed with
+`M1-C PASS — distributed ghost and boundary ownership qualified`, and the
+first substantive M1-ABC audit may begin. D16 is closed with
 `CONSTRAINT_NULLSPACE_NOT_INVARIANT`, the open-ended D-series is finished,
 G-Engineering is passed, and G-Physics plus overall Checkpoint G remain
 blocked.
@@ -118,17 +118,32 @@ begin; manufactured seam/stencil acceptance remains M1-C work.
 
 ##### M1-C — Distributed ghosts and boundaries
 
-- [ ] Validate internal radial and compact-`z` seams.
-- [ ] Validate periodic exchange across rank boundaries.
-- [ ] Validate first, second, and mixed `xz` derivatives plus KO stencils.
-- [ ] Validate radial-boundary ownership and radial-periodic corners.
-- [ ] Cover all 18 components.
+- [x] Validate internal radial and compact-`z` seams.
+- [x] Validate periodic exchange across rank boundaries.
+- [x] Validate first, second, and mixed `xz` derivatives plus KO stencils.
+- [x] Validate radial-boundary ownership and radial-periodic corners.
+- [x] Cover all 18 components.
 
 Exit: distributed exchange, stencil, and physical-boundary ownership are
 correct for the frozen workload.
 
+Current result:
+`M1-C PASS — distributed ghost and boundary ownership qualified`. One fixed
+`32 x 32`, `dx=dz=1/8` manufactured problem passed the serial reference,
+compact-seam MPI-2, radial-seam MPI-2, and combined-seam MPI-4 layouts. All
+first, second, and mixed derivative seam errors were zero; KO-reference
+differences were at most `2.665e-16`; all 18 slots were covered; all radial
+and periodic corners had exactly their intended owner; and no valid cell was
+overwritten. The pre-repair serial preflight exposed one genuine ownership
+defect: the provisional radial filler attempted to reshape an internal box
+before testing physical-strip intersection. The single scoped repair adds
+only the nonintersection skip and leaves every boundary coefficient and
+formula unchanged. See
+`docs/grchombo/milestone1c_distributed_ghost_boundary_ownership.md`.
+
 **Audit M1-ABC:** schedule the first substantive Milestone 1 audit after M1-C.
 It covers M1-A through M1-C together; there is no audit after M1-A alone.
+The audit may now begin.
 
 ##### M1-D — HDF5, checkpoint, and restart
 

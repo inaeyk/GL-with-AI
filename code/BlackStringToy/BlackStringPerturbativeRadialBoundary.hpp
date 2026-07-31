@@ -43,13 +43,23 @@ class BlackStringPerturbativeRadialBoundary
             Box ghosts = fab.box();
             if (side == Side::Lo)
             {
-                ghosts.setBig(radial_direction,
-                              domain.smallEnd(radial_direction) - 1);
+                const int outermost_ghost =
+                    domain.smallEnd(radial_direction) - 1;
+                if (ghosts.smallEnd(radial_direction) > outermost_ghost)
+                {
+                    continue;
+                }
+                ghosts.setBig(radial_direction, outermost_ghost);
             }
             else
             {
-                ghosts.setSmall(radial_direction,
-                                domain.bigEnd(radial_direction) + 1);
+                const int innermost_ghost =
+                    domain.bigEnd(radial_direction) + 1;
+                if (ghosts.bigEnd(radial_direction) < innermost_ghost)
+                {
+                    continue;
+                }
+                ghosts.setSmall(radial_direction, innermost_ghost);
             }
             ghosts &= fab.box();
             if (ghosts.isEmpty())
