@@ -128,14 +128,14 @@ multiple physical fields are retained. If a validated Gamma/Z helper is not
 available, M2 must validate one or explicitly exclude that condition from its
 claim.
 
-- **M2-A — Design and convention lock:** pin the exact evolved variables,
-  gauge parameters, principal speeds, characteristic definitions or precise
-  approximation, boundary classification, discrete constraint operator,
-  interfaces, cost, failures, and fallbacks. Current status is
-  `M2-A DESIGN NOT READY — the live radial characteristic derivation,
-  inner/outer incoming-field classification, and validated discrete Gamma/Z
-  constraint helper or explicit exclusion are not yet locked`. No production
-  implementation begins before review.
+- **M2-A — Design and convention lock:** `M2-A DESIGN BLOCKED — the complete
+  locked live first-order radial principal matrix has a
+  determinant/weighted-trace Jordan block at coordinate speed -beta^x
+  (algebraic multiplicity two, geometric multiplicity one), so no complete
+  characteristic transform or inverse exists for either radial normal`.
+  The repaired documents give the exact 26-entry matrix, both normals, fixed
+  Gamma/Z test, and seed hard stop. The QR and SAT fallbacks are removed.
+  Human roadmap review is required; M2-B may not begin.
 - **M2-B — Production implementation:** make the smallest production diff;
   preserve exact GP stability, MPI seam ownership and rank independence,
   checkpoint/restart, one target-`d=4` RHS plus one fused KO addition per
@@ -173,7 +173,9 @@ resolution-robust linear result with compatible physical-field rates and
 controlled constraints. A final `k_cr r0` bracket is not required. Milestone
 2 does not attempt a full `k_cr r0` scan, nonlinear evolution, AMR, apparent
 horizons, or radiation extraction. G-Physics and overall Checkpoint G remain
-blocked, and no implementation has begun.
+blocked, and no implementation has begun. M2-A is blocked by the complete
+live principal-system Jordan defect and awaits focused audit and human
+roadmap review.
 
 ## Historical project narrative
 

@@ -257,7 +257,8 @@ The closing audit is complete. The final classification is
 
 #### Milestone 2 — Physical radial and constraint strategy
 
-Status: planning and design lock only. Milestone 1 is
+Status: M2-A design repair complete and blocked before implementation;
+substantive audit required. Milestone 1 is
 `CLUSTER_EXECUTION_BASELINE_ACCEPTED`; G-Engineering is passed; G-Physics and
 overall Checkpoint G remain blocked. The D12–D16 spectral investigation is
 closed inconclusive. It does not authorize an automatic return to Fourier
@@ -272,12 +273,17 @@ supporting a boundary-independent, constraint-controlled linear GL
 perturbation. Milestone 2 does not attempt a full `k_cr r0` scan, nonlinear
 evolution, AMR, apparent horizons, or radiation extraction.
 
-Current result:
-`M2-A DESIGN NOT READY — the live radial characteristic derivation,
-inner/outer incoming-field classification, and validated discrete Gamma/Z
-constraint helper or explicit exclusion are not yet locked`. M2-B and M2-C
-have not started. No Milestone 2 closure classification has been returned,
-and no production implementation may begin until M2-A is reviewed.
+Current result: `M2-A DESIGN BLOCKED — the complete locked live first-order
+radial principal matrix has a determinant/weighted-trace Jordan block at
+coordinate speed -beta^x (algebraic multiplicity two, geometric multiplicity
+one), so no complete characteristic transform or inverse exists for either
+radial normal`. The exact 26-entry matrix, spectrum, Jordan chain, both-normal
+signs, and face speeds are in
+`docs/derivations/milestone2a_radial_characteristic_derivation.md`; constraint,
+Gamma/Z, seed, and hard-stop dispositions are in
+`docs/grchombo/milestone2a_characteristic_constraint_design.md`. M2-B and M2-C
+have not started. Human roadmap review is required; no production
+implementation may begin.
 
 ##### Selected strategy A — Radial boundaries
 
@@ -333,6 +339,16 @@ not acceptance.
 
 ##### M2-A — Design and convention lock
 
+Locked decision: `M2-A DESIGN BLOCKED — the complete locked live first-order
+radial principal matrix has a determinant/weighted-trace Jordan block at
+coordinate speed -beta^x (algebraic multiplicity two, geometric multiplicity
+one), so no complete characteristic transform or inverse exists for either
+radial normal`. Strict excision and a mixed characteristic boundary are both
+unapproved. The former QR reconstruction and SAT fallback are withdrawn, and
+the one-time seed SVD is blocked because its boundary rows do not exist.
+Gamma/Z remains `HELPER_CAN_BE_VALIDATED_WITHIN_M2-B` under fixed tests and
+tolerances, but M2-B itself may not begin.
+
 Documentation and derivation deliverables:
 
 - exact 18 evolved variables and exact live gauge parameters;
@@ -348,10 +364,14 @@ No production implementation begins until M2-A is reviewed. M2-A returns
 exactly one:
 
 - `M2-A DESIGN READY`
-- `M2-A DESIGN NOT READY — <exact missing derivation or helper>`
+- `M2-A DESIGN BLOCKED — <exact unresolved principal-system or reconstruction issue>`
 
-**Audit M2-A:** one substantive audit follows the design lock. A
-documentation-only correction requires no second audit.
+**Audit M2-A:** the next focused substantive audit must verify the complete
+principal matrix, the determinant/weighted-trace Jordan defect, both-normal
+classification, Gamma/Z gate, and the absence of an approved reconstruction
+or seed path. It must not invent the missing eigenvector. Production
+implementation is blocked. A documentation-only correction requires no
+second audit.
 
 ##### M2-B — Production implementation
 

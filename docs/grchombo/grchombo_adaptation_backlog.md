@@ -111,7 +111,8 @@ output cost.
 
 Current status remains owned by `research_plan/stage_checklists.md`.
 Milestone 1 is `CLUSTER_EXECUTION_BASELINE_ACCEPTED`; G-Engineering is passed;
-G-Physics and overall Checkpoint G remain blocked. Milestone 2 is design-only:
+G-Physics and overall Checkpoint G remain blocked. M2-A is blocked after its
+only design-repair pass and awaits focused audit plus human roadmap review;
 no production implementation has begun.
 
 The selected production strategy is **Characteristic-aware radial boundaries
@@ -151,11 +152,14 @@ amplitude linearity, `+epsilon/-epsilon`, one robust bulk observable, and
 multiple physical acceptance fields. If no validated Gamma/Z helper exists,
 validate one or explicitly exclude that condition from the claim.
 
-Current classification:
-`M2-A DESIGN NOT READY — the live radial characteristic derivation,
-inner/outer incoming-field classification, and validated discrete Gamma/Z
-constraint helper or explicit exclusion are not yet locked`. M2-A uses zero
-numerical launches. No implementation begins until its substantive audit.
+Current classification: `M2-A DESIGN BLOCKED — the complete locked live
+first-order radial principal matrix has a determinant/weighted-trace Jordan
+block at coordinate speed -beta^x (algebraic multiplicity two, geometric
+multiplicity one), so no complete characteristic transform or inverse exists
+for either radial normal`. The exact matrix and hard stop are in the repaired
+M2-A documents. The former QR reconstruction and SAT fallback are removed;
+no seed or boundary implementation is authorized. M2-A used zero numerical
+launches. Focused audit and human roadmap review are required.
 
 ### M2-B — Production implementation
 

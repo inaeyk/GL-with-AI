@@ -83,9 +83,10 @@ The selected production strategy is **Characteristic-aware radial boundaries
 plus discretely constraint-compatible initial perturbations**. Its objective
 is to replace the provisional physical setup with one production strategy
 capable of supporting a boundary-independent, constraint-controlled linear GL
-perturbation. This is planning only: no Milestone 2 production implementation
-has begun. A full `k_cr r0` scan, nonlinear evolution, AMR, apparent horizons,
-and radiation extraction are outside this milestone.
+perturbation. M2-A is blocked after its only design-repair pass, and no
+Milestone 2 production implementation has begun. A full `k_cr r0` scan,
+nonlinear evolution, AMR, apparent horizons, and radiation extraction are
+outside this milestone.
 
 **M2-A — Design and convention lock.** Derive the frozen-coefficient radial
 characteristic fields and coordinate speeds from the actual live CCZ4/gauge
@@ -109,11 +110,15 @@ amplitude linearity, one robust bulk observable, and several physical fields.
 If no validated Gamma/Z helper exists, validate one or explicitly exclude it
 from the claim.
 
-Current classification is
-`M2-A DESIGN NOT READY — the live radial characteristic derivation,
-inner/outer incoming-field classification, and validated discrete Gamma/Z
-constraint helper or explicit exclusion are not yet locked`. No production
-implementation begins before M2-A review, and M2-A uses no numerical launches.
+Current classification is `M2-A DESIGN BLOCKED — the complete locked live
+first-order radial principal matrix has a determinant/weighted-trace Jordan
+block at coordinate speed -beta^x (algebraic multiplicity two, geometric
+multiplicity one), so no complete characteristic transform or inverse exists
+for either radial normal`. The repaired derivation records the exact matrix,
+both normals, and face speeds. The former QR reconstruction and SAT fallback
+are removed; no boundary or seed implementation is authorized. Gamma/Z
+remains `HELPER_CAN_BE_VALIDATED_WITHIN_M2-B`, but M2-B may not begin. M2-A
+used no numerical launches.
 
 **M2-B — Production implementation.** Make the smallest production diff and
 gate exact GP stability, physical-boundary/MPI-seam ownership, rank
