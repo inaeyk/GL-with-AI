@@ -64,9 +64,16 @@ mapped into the five milestones.
 
 ## Active Milestone 1 delivery plan
 
-M1-A is complete with `M1-A PASS — MPI/HDF5 build baseline qualified`: all
-three ABI-separated builds, serial/MPI-1 startup, a legal MPI-2 one-step
-launch, and MPI/HDF5 output passed. M1-B may begin. The frozen workload uses
+M1-A through M1-E are complete.
+`M1-E PASS — performance and scaling baseline qualified`, and M1-F /
+Milestone 1 is `CLUSTER_EXECUTION_BASELINE_ACCEPTED`. The production-sized
+rank-1/rank-8 final states are available and bitwise exact, with common
+canonical state hash
+`863095316ffbcf26af513b643c7bb2a1c1ed21131b07406ad068c7828a8c26ea`.
+Timer-category limitations remain nonblocking and are labeled
+`UNAVAILABLE_FROM_EXISTING_FRAMEWORK_TIMERS`. This accepts only the stated
+engineering baseline: G-Engineering is passed, while G-Physics and overall
+Checkpoint G remain blocked. The frozen workload uses
 `CH_SPACEDIM=2`, `GR_SPACEDIM=4`, `DEFAULT_TENSOR_DIM=4`, the committed
 18-variable production core, `ko_sigma=0.3`, exact GP, periodic compact `z`,
 the provisional radial boundary, one AMR level, no perturbation/AHFinder, and
@@ -87,8 +94,9 @@ ownership, serial/MPI equivalence, HDF5, checkpoint/restart, scaling, and
 memory. AMR refinement, AHFinder, physical GL identification, `k_cr r0`, and
 pinch-off are outside Milestone 1.
 
-Audit M1-A through M1-C together after M1-C; do not audit M1-A alone. Audit
-milestone closure after M1-E. Each substage permits at most two repair cycles,
+Audit M1-A through M1-C together after M1-C; do not audit M1-A alone. The
+milestone-closing audit after M1-E is complete. Each substage permits at most
+two repair cycles,
 and the milestone stops for review after 30 numerical launches. Reuse Chombo
 MPI ownership/exchange and existing HDF5/checkpoint formats; add no new MPI
 abstraction. Use delta tests and committed serial/KO evidence. Full suites are

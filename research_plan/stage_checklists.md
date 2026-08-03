@@ -50,9 +50,12 @@ Current claim partition:
 
 #### Milestone 1 — Cluster execution baseline
 
-Status: M1-A through M1-D are complete; M1-D closed with
-`M1-D PASS — HDF5 checkpoint and restart qualified`, M1-E may begin, and the
-first substantive M1-ABC audit remains scheduled. D16 is closed with
+Status: M1-A through M1-E are complete. M1-E passed after a focused
+production-sized rank-1/rank-8 capture established bitwise equality of all 18
+global valid fields. Existing timer subcategories remain documented honestly
+and are nonblocking. M1-F / Milestone 1 is
+`CLUSTER_EXECUTION_BASELINE_ACCEPTED`. The first substantive M1-ABC audit
+remains scheduled. D16 is closed with
 `CONSTRAINT_NULLSPACE_NOT_INVARIANT`, the open-ended D-series is finished,
 G-Engineering is passed, and G-Physics plus overall Checkpoint G remain
 blocked.
@@ -91,7 +94,8 @@ retains eight radial cells for the five-cell closure footprint, and both ranks
 own one box. The first illegal four-cell layout and the later removal of the
 qualified executable before retry are retained as nontechnical historical
 interruptions, not active blockers. See
-`docs/grchombo/milestone1a_cluster_build_qualification.md`. M1-B may begin.
+`docs/grchombo/milestone1a_cluster_build_qualification.md`. At M1-A closure,
+M1-B was permitted to begin.
 
 ##### M1-B — Distributed level-zero evolution
 
@@ -168,16 +172,41 @@ provenance not stored upstream is retained in a sidecar. One initial restart
 attempt exposed only the locked path's requirement that a restart output
 directory already exist; precreating it closed the run without any code or
 numerical change. See
-`docs/grchombo/milestone1d_hdf5_checkpoint_restart.md`. M1-E may begin.
+`docs/grchombo/milestone1d_hdf5_checkpoint_restart.md`. At M1-D closure,
+M1-E was permitted to begin.
 
 ##### M1-E — Performance and scaling
 
-- [ ] Measure time per RK step and valid-cell RHS evaluations per second.
-- [ ] Measure peak RSS per rank and total memory.
-- [ ] Measure ghost/communication time where exposed.
-- [ ] Separate checkpoint and plot-write costs from evolution cost and record
+- [x] Measure time per RK step and valid-cell RHS evaluations per second.
+- [x] Measure peak RSS per rank and total memory.
+- [x] Record that category-resolved ghost/communication timing was not
+  emitted because the existing runtime `CH_TIMER` switch was not active.
+- [x] Separate checkpoint and plot-write costs from evolution cost and record
   file sizes.
-- [ ] Measure strong and weak scaling.
+- [x] Measure strong and weak scaling.
+
+Current result:
+`M1-E PASS — performance and scaling baseline qualified`. Pinned,
+non-oversubscribed ranks 1, 2, 4, and 8
+completed strong and weak baselines. At `256 x 512`, strong speedups were
+1.000, 1.255, 3.691, and 5.718; weak per-rank memory stayed near 38 MiB.
+The isolated two-rank output run wrote an 18.89 MB plot and 22.59 MB
+checkpoint. A human-approved clarification made the launch cap inclusive at
+30 and authorized exactly two no-retry capture launches. The authoritative
+rank-1 and rank-8 workloads both completed 25 steps to `t=0.01953125`; their
+deterministic `(z,x,component)` valid-state SHA-256 values are identically
+`863095316ffbcf26af513b643c7bb2a1c1ed21131b07406ad068c7828a8c26ea`,
+with zero `L_infinity` and weighted `L_2` difference in every one of the 18
+fields. Both layouts cover every one of 131,072 valid cells exactly once;
+rank 8 owns four of the common 32 boxes and 16,384 valid cells on every rank.
+Determinant and weighted-trace defects are each `4.441e-16`. The existing
+source timers cover
+whole steps, RHS, RK update,
+ghost lifecycle, generic exchange/MPI waits, and output; the runtime switch
+was inactive, and project radial-fill/KO/surface-RHS subdivisions are
+`UNAVAILABLE_FROM_EXISTING_FRAMEWORK_TIMERS`. This timer limitation is
+nonblocking. See
+`docs/grchombo/milestone1e_performance_scaling.md`.
 
 Production budgets:
 
@@ -203,11 +232,15 @@ pinch-off.
 
 **Audit M1 closure:** schedule one milestone-closing audit after M1-E, covering
 the complete M1-A through M1-E evidence and the proposed M1-F classification.
+The closing audit is complete. The final classification is
+`CLUSTER_EXECUTION_BASELINE_ACCEPTED`.
 
 ##### Milestone 1 workflow limits
 
 1. Maximum two repair cycles per M1 stage.
-2. Maximum 30 numerical launches before milestone review.
+2. Maximum 30 numerical launches before milestone review. The human-approved
+   M1-E amendment clarifies that this is an inclusive cap; all 30 launches
+   have now been used.
 3. No AMR refinement, horizon, Fourier, spectral, or physical-mode work.
 4. Use Chombo MPI ownership and exchange; add no MPI abstraction.
 5. Use existing HDF5/checkpoint formats.

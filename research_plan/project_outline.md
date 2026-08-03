@@ -85,6 +85,17 @@ reuses committed serial/KO evidence, runs delta-based tests, and schedules one
 milestone-closing audit after M1-E. Exact gates and classifications remain
 authoritative only in [stage_checklists.md](stage_checklists.md).
 
+M1-A through M1-E are now complete.
+`M1-E PASS — performance and scaling baseline qualified`, and M1-F /
+Milestone 1 is `CLUSTER_EXECUTION_BASELINE_ACCEPTED`. The production-sized
+rank-1/rank-8 final states are available and bitwise exact, with common
+canonical state hash
+`863095316ffbcf26af513b643c7bb2a1c1ed21131b07406ad068c7828a8c26ea`.
+Timer-category limitations remain nonblocking and are labeled
+`UNAVAILABLE_FROM_EXISTING_FRAMEWORK_TIMERS`. This accepts only the stated
+engineering baseline: G-Engineering is passed, while G-Physics and overall
+Checkpoint G remain blocked.
+
 ## Historical project narrative
 
 The numbered stage sections below preserve how the project reached D16. They

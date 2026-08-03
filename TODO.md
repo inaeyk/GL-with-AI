@@ -19,9 +19,15 @@ D16 closes further fixture-only spectral projection because the instantaneous
 constraint nullspace is not sufficiently invariant under the live tangent
 map.
 
-- [ ] **Milestone 1 — Cluster execution baseline:** active. M1-A passed after
-  all three builds, serial/MPI-1 startup, a legal MPI-2 one-step launch, and
-  MPI/HDF5 output qualified; M1-B is next.
+- [x] **Milestone 1 — Cluster execution baseline:** M1-A through M1-E are
+  complete. `M1-E PASS — performance and scaling baseline qualified`, and
+  M1-F / Milestone 1 is `CLUSTER_EXECUTION_BASELINE_ACCEPTED`. The
+  production-sized rank-1/rank-8 final states are available and bitwise exact,
+  with common canonical state hash
+  `863095316ffbcf26af513b643c7bb2a1c1ed21131b07406ad068c7828a8c26ea`.
+  Timer-category limitations remain nonblocking and are labeled
+  `UNAVAILABLE_FROM_EXISTING_FRAMEWORK_TIMERS`. G-Engineering is passed;
+  G-Physics and overall Checkpoint G remain blocked.
   Freeze the committed 18-variable, one-level,
   exact-GP configuration at `2/4/4`, `ko_sigma=0.3`, periodic `z`,
   provisional radial boundaries, no perturbation/AHFinder, and default-off
@@ -29,20 +35,19 @@ map.
   - [x] **M1-A:** three ABI-separated optimized builds, bounded startup
     evidence, a legal two-rank periodic-`z` decomposition, and HDF5 evidence
     are qualified.
-  - [ ] **M1-B:** matched serial, MPI-1, MPI-2, and MPI-4 level-zero
+  - [x] **M1-B:** matched serial, MPI-1, MPI-2, and MPI-4 level-zero
     evolution where available; compare all 18 fields, ownership, constraints,
     drift, RHS/ghost counts, and direction safety.
-  - [ ] **M1-C:** distributed seams, periodic rank exchange, first/second/
+  - [x] **M1-C:** distributed seams, periodic rank exchange, first/second/
     mixed derivatives, KO, radial ownership/corners, and all 18 components.
     Audit M1-A through M1-C only after this stage.
-  - [ ] **M1-D:** existing-format HDF5 plots/checkpoints, 18-field retention,
+  - [x] **M1-D:** existing-format HDF5 plots/checkpoints, 18-field retention,
     restored time/timestep/parameters/layout, no reinitialization, and
     continuous/restarted equivalence.
-  - [ ] **M1-E:** RK/RHS throughput, per-rank and total memory,
-    communication, output costs/file sizes, and strong/weak scaling.
-  - [ ] **M1-F:** return `CLUSTER_EXECUTION_BASELINE_ACCEPTED`,
-    `CLUSTER_EXECUTION_BASELINE_PARTIAL`, or
-    `CLUSTER_EXECUTION_BASELINE_BLOCKED`; audit milestone closure after M1-E.
+  - [x] **M1-E:** local ranks 1/2/4/8 RK/RHS throughput, memory,
+    strong/weak scaling, and isolated I/O measured; the final-state gate and
+    documented nonblocking framework-timer limitations qualify the baseline.
+  - [x] **M1-F:** `CLUSTER_EXECUTION_BASELINE_ACCEPTED`.
   - Limits: two repair cycles per substage, 30 launches before review, no AMR
     refinement/horizon/Fourier/spectral/physical-mode work, no new MPI or
     checkpoint abstraction, delta tests only, committed serial/KO evidence

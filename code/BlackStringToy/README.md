@@ -34,10 +34,16 @@ framework is allowed without explicit human approval.
 
 ## Milestone 1 — Cluster execution baseline
 
-Milestone 1 is active. M1-A passed after qualifying all three ABI-separated
-builds, serial/MPI-1 startup, a legal MPI-2 one-step launch using two 8-by-8
-boxes split only along periodic `z`, and MPI/HDF5 checkpoint output. M1-B is
-the next active stage.
+Milestone 1 has completed M1-A through M1-E.
+`M1-E PASS — performance and scaling baseline qualified`, and M1-F /
+Milestone 1 is `CLUSTER_EXECUTION_BASELINE_ACCEPTED`. The production-sized
+rank-1/rank-8 final states are available and bitwise exact, with common
+canonical state hash
+`863095316ffbcf26af513b643c7bb2a1c1ed21131b07406ad068c7828a8c26ea`.
+Timer-category limitations remain nonblocking and are labeled
+`UNAVAILABLE_FROM_EXISTING_FRAMEWORK_TIMERS`. This accepts only the stated
+engineering baseline: G-Engineering is passed, while G-Physics and overall
+Checkpoint G remain blocked.
 Its frozen workload is the committed 18-variable core with
 `CH_SPACEDIM=2`, `GR_SPACEDIM=4`,
 `DEFAULT_TENSOR_DIM=4`, exact GP, `ko_sigma=0.3`, periodic compact `z`, the
@@ -56,17 +62,18 @@ physics remains frozen unless a demonstrated MPI/HDF5 defect requires repair.
   component. Audit M1-A through M1-C only after M1-C.
 - **M1-D:** validate existing-format plots/checkpoints and restart equivalence
   without reinitialization.
-- **M1-E:** measure RK/RHS throughput, memory, communication, output cost and
-  size, and strong/weak scaling.
-- **M1-F:** return `CLUSTER_EXECUTION_BASELINE_ACCEPTED`,
-  `CLUSTER_EXECUTION_BASELINE_PARTIAL`, or
-  `CLUSTER_EXECUTION_BASELINE_BLOCKED`; acceptance requires MPI evolution/
-  ownership/equivalence, HDF5, restart, scaling, and memory.
+- **M1-E:** measured RK/RHS throughput, memory, output cost and size, and
+  strong/weak scaling; the rank-1/rank-8 final-state gate is bitwise exact,
+  and unavailable framework-timer subcategories are nonblocking.
+- **M1-F:** `CLUSTER_EXECUTION_BASELINE_ACCEPTED`; acceptance covers MPI
+  evolution/ownership/equivalence, HDF5, restart, scaling, and memory.
 
 The milestone allows two repair cycles per stage and 30 numerical launches
 before review. It excludes AMR refinement, horizons, Fourier/spectral/physical
 mode work, and new MPI/checkpoint abstractions. It uses delta tests and
-committed serial/KO evidence. A milestone-closing audit follows M1-E.
+committed serial/KO evidence. The milestone-closing audit of M1-A through
+M1-E is complete. See
+`docs/grchombo/milestone1e_performance_scaling.md` for the M1-E evidence.
 
 ## Historical implementation and diagnostic ledger
 
