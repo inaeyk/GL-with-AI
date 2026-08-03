@@ -22,7 +22,9 @@ The KO-stabilized serial production core is functional. No credible
 boundary-independent, constraint-compatible GL mode has been identified, and
 D16 is closed as `CONSTRAINT_NULLSPACE_NOT_INVARIANT`: the instantaneous
 constraint nullspace is not sufficiently invariant under the live tangent
-map. Further fixture-only spectral projection is stopped.
+map. Further fixture-only spectral projection is stopped. The D12–D16
+spectral investigation is closed inconclusive; there is no automatic return
+to Fourier scans, dense spectra, or constraint-nullspace projection.
 
 Active work is organized by five deliverables:
 
@@ -95,6 +97,83 @@ Timer-category limitations remain nonblocking and are labeled
 `UNAVAILABLE_FROM_EXISTING_FRAMEWORK_TIMERS`. This accepts only the stated
 engineering baseline: G-Engineering is passed, while G-Physics and overall
 Checkpoint G remain blocked.
+
+### Milestone 2 — Physical radial and constraint strategy
+
+Milestone 2 replaces the provisional physical setup with one production
+strategy capable of supporting a boundary-independent,
+constraint-controlled linear GL perturbation. The selected strategy is
+**Characteristic-aware radial boundaries plus discretely
+constraint-compatible initial perturbations**. It couples:
+
+1. a frozen-coefficient characteristic radial treatment derived from the
+   actual live CCZ4/gauge principal system around the GP background; and
+2. a single-`k`, parity-compatible perturbation corrected with the same
+   discrete variables, derivatives, domain, and boundary strategy used in
+   live evolution.
+
+The radial design must classify incoming/outgoing fields and speeds at both
+boundaries, impose data only on incoming fields, require complete strict
+outflow before calling the inner face excision, and use background-subtracted
+radiative data for incoming physical/gauge/constraint characteristics at the
+outer face. It retains periodic `z`, the fourth-order interior and fused KO
+path, surface-only work, and no second volume RHS pass.
+
+The perturbation design must control the discrete linearized Hamiltonian,
+momentum, determinant, trace-free, and validated Gamma/Z conditions to a
+declared tolerance without evolving in an algebraically projected constraint
+nullspace. Correction is initial-data preparation only; paired
+`+epsilon/-epsilon`, amplitude linearity, one robust bulk observable, and
+multiple physical fields are retained. If a validated Gamma/Z helper is not
+available, M2 must validate one or explicitly exclude that condition from its
+claim.
+
+- **M2-A — Design and convention lock:** pin the exact evolved variables,
+  gauge parameters, principal speeds, characteristic definitions or precise
+  approximation, boundary classification, discrete constraint operator,
+  interfaces, cost, failures, and fallbacks. Current status is
+  `M2-A DESIGN NOT READY — the live radial characteristic derivation,
+  inner/outer incoming-field classification, and validated discrete Gamma/Z
+  constraint helper or explicit exclusion are not yet locked`. No production
+  implementation begins before review.
+- **M2-B — Production implementation:** make the smallest production diff;
+  preserve exact GP stability, MPI seam ownership and rank independence,
+  checkpoint/restart, one target-`d=4` RHS plus one fused KO addition per
+  cell/stage, surface-only boundary cost, and default-off diagnostics. Focused
+  gates cover characteristic ownership, GP preservation, manufactured radial
+  waves, seed residuals, all 18 slots/parity, and affected MPI/restart paths.
+- **M2-C — Scientific acceptance:** use only one likely unstable low-`k`
+  case, one high-`k` control, one GP control, two resolutions, two outer
+  boundaries, and two amplitudes where needed. Require compatible multi-field
+  rates, phase-neutral amplitude, stable radial profile, amplitude linearity,
+  controlled constraints, boundary/resolution robustness, and no growing
+  boundary/grid contamination. No additional `k` scan precedes this gate.
+
+M2-A permits no numerical launches; initial M2-B work permits 10, M2-C
+permits 12, and each of at most two production repair cycles permits 6, for a
+hard cap of 34. Audits follow the M2-A design lock, M2-B focused gates, and
+M2-C closure. Every repair records the failed gate, hypothesis, exact change,
+bounded run count, and stop criteria; two failed repairs return the roadmap to
+human review. No failure authorizes a new spectral framework, dense
+eigensolver campaign, open-ended sweep, or diagnostic-only stage sequence.
+
+Performance remains measured against accepted M1: one full target-`d=4` RHS,
+one fused KO addition, no second volume pass, no production spectral/fitting
+code, no per-cell allocation/logging/counters/mutexes/virtual dispatch,
+`O(N_z)` boundary work, and one-time initial-data correction outside the hot
+path. A slowdown above 15% requires explanation and approval.
+
+Milestone closure returns exactly one of
+`PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_ACCEPTED`,
+`PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_PARTIAL`, or
+`PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_BLOCKED`. Acceptance requires the
+characteristic boundaries and discrete perturbation to be validated, the GP
+background to remain stable, and at least one boundary- and
+resolution-robust linear result with compatible physical-field rates and
+controlled constraints. A final `k_cr r0` bracket is not required. Milestone
+2 does not attempt a full `k_cr r0` scan, nonlinear evolution, AMR, apparent
+horizons, or radiation extraction. G-Physics and overall Checkpoint G remain
+blocked, and no implementation has begun.
 
 ## Historical project narrative
 
