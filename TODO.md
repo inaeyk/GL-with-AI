@@ -59,18 +59,19 @@ projection.
   constraint-compatible initial perturbations**. Replace the provisional
   setup with one production strategy capable of supporting a
   boundary-independent, constraint-controlled linear GL perturbation. This
-  has a repaired but blocked M2-A design; no production implementation has
-  begun. It does not attempt a full `k_cr r0` scan, nonlinear evolution, AMR,
+  has a revised, algorithm-consistent M2-A design lock; no production
+  implementation has begun. It does not attempt a full `k_cr r0` scan,
+  nonlinear evolution, AMR,
   apparent horizons, or radiation extraction.
-  - [ ] **M2-A — Design and convention lock:** `M2-A DESIGN BLOCKED — the
-    complete locked live first-order radial principal matrix has a
-    determinant/weighted-trace Jordan block at coordinate speed -beta^x
-    (algebraic multiplicity two, geometric multiplicity one), so no complete
-    characteristic transform or inverse exists for either radial normal`.
-    The prior QR reconstruction and SAT fallback are removed; seed correction
-    cannot acquire complete boundary rows. Human roadmap review is required.
-    Gamma/Z remains `HELPER_CAN_BE_VALIDATED_WITHIN_M2-B`, but M2-B may not
-    begin. M2-A launches: zero.
+  - [x] **M2-A — Design and convention lock:** `M2-A DESIGN READY`. The raw
+    26-variable symbol remains historically defective in its determinant/
+    weighted-trace Jordan sector. The revised design explicitly eliminates
+    `hww,Aww`, reconstructs them nonlinearly, and supplies a complete,
+    bounded 23-variable tangent-space basis for both normals. It locks the
+    mixed inner boundary, incoming-only outer treatment, three-layer ghosts,
+    dependent boundary RHS, differential-constraint seed SVD, and Gamma/Z
+    gate. A focused design audit is required before the first M2-B
+    implementation cycle. M2-A launches: zero.
   - [ ] **M2-B — Production implementation:** smallest possible diff;
     incoming-field-only radial data, strict-outflow-only inner excision,
     background-subtracted outer data, periodic `z`, exact GP preservation,

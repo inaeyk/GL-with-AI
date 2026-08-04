@@ -111,9 +111,9 @@ output cost.
 
 Current status remains owned by `research_plan/stage_checklists.md`.
 Milestone 1 is `CLUSTER_EXECUTION_BASELINE_ACCEPTED`; G-Engineering is passed;
-G-Physics and overall Checkpoint G remain blocked. M2-A is blocked after its
-only design-repair pass and awaits focused audit plus human roadmap review;
-no production implementation has begun.
+G-Physics and overall Checkpoint G remain blocked. M2-A is
+`M2-A DESIGN READY` after the algebraic-constraint-manifold revision and
+awaits its focused design audit; no production implementation has begun.
 
 The selected production strategy is **Characteristic-aware radial boundaries
 plus discretely constraint-compatible initial perturbations**. Its objective
@@ -152,14 +152,16 @@ amplitude linearity, `+epsilon/-epsilon`, one robust bulk observable, and
 multiple physical acceptance fields. If no validated Gamma/Z helper exists,
 validate one or explicitly exclude that condition from the claim.
 
-Current classification: `M2-A DESIGN BLOCKED — the complete locked live
-first-order radial principal matrix has a determinant/weighted-trace Jordan
-block at coordinate speed -beta^x (algebraic multiplicity two, geometric
-multiplicity one), so no complete characteristic transform or inverse exists
-for either radial normal`. The exact matrix and hard stop are in the repaired
-M2-A documents. The former QR reconstruction and SAT fallback are removed;
-no seed or boundary implementation is authorized. M2-A used zero numerical
-launches. Focused audit and human roadmap review are required.
+Current classification: `M2-A DESIGN READY`. The failed raw 26-variable
+Jordan calculation remains historical. Explicit positive-branch `hww` and
+weighted-trace `Aww` reconstruction removes the algebraic pair from the
+independent state; the resulting 23-variable tangent symbol has complete
+both-normal transforms and maximum scaled `kappa_2=36.701446` on the locked
+domain. The mixed inner boundary, incoming-only outer treatment, three-layer
+ghost reconstruction, dependent surface RHS, differential-constraint seed
+SVD, and Gamma/Z gate are fixed. The SAT fallback remains removed. M2-A used
+zero numerical launches; a focused audit precedes the first implementation
+cycle.
 
 ### M2-B — Production implementation
 

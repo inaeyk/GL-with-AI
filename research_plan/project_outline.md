@@ -128,14 +128,15 @@ multiple physical fields are retained. If a validated Gamma/Z helper is not
 available, M2 must validate one or explicitly exclude that condition from its
 claim.
 
-- **M2-A — Design and convention lock:** `M2-A DESIGN BLOCKED — the complete
-  locked live first-order radial principal matrix has a
-  determinant/weighted-trace Jordan block at coordinate speed -beta^x
-  (algebraic multiplicity two, geometric multiplicity one), so no complete
-  characteristic transform or inverse exists for either radial normal`.
-  The repaired documents give the exact 26-entry matrix, both normals, fixed
-  Gamma/Z test, and seed hard stop. The QR and SAT fallbacks are removed.
-  Human roadmap review is required; M2-B may not begin.
+- **M2-A — Design and convention lock:** `M2-A DESIGN READY`. The failed raw
+  26-variable determinant/weighted-trace Jordan result remains historical.
+  The revised algorithm-consistent design explicitly reconstructs
+  `hww,Aww`, derives a complete 23-variable tangent-space characteristic
+  basis for both normals, and bounds the scaled transform by
+  `kappa_2<=36.701446` on the locked domain. It fixes mixed-inner and
+  incoming-only outer data, three ghost layers, dependent surface RHS,
+  differential-only seed correction, and Gamma/Z validation. The SAT
+  fallback remains removed; a focused design audit precedes M2-B.
 - **M2-B — Production implementation:** make the smallest production diff;
   preserve exact GP stability, MPI seam ownership and rank independence,
   checkpoint/restart, one target-`d=4` RHS plus one fused KO addition per
@@ -173,9 +174,8 @@ resolution-robust linear result with compatible physical-field rates and
 controlled constraints. A final `k_cr r0` bracket is not required. Milestone
 2 does not attempt a full `k_cr r0` scan, nonlinear evolution, AMR, apparent
 horizons, or radiation extraction. G-Physics and overall Checkpoint G remain
-blocked, and no implementation has begun. M2-A is blocked by the complete
-live principal-system Jordan defect and awaits focused audit and human
-roadmap review.
+blocked, and no implementation has begun. M2-A is `M2-A DESIGN READY` and
+awaits the focused algebraic-manifold design audit before M2-B.
 
 ## Historical project narrative
 

@@ -83,8 +83,9 @@ The selected production strategy is **Characteristic-aware radial boundaries
 plus discretely constraint-compatible initial perturbations**. Its objective
 is to replace the provisional physical setup with one production strategy
 capable of supporting a boundary-independent, constraint-controlled linear GL
-perturbation. M2-A is blocked after its only design-repair pass, and no
-Milestone 2 production implementation has begun. A full `k_cr r0` scan,
+perturbation. M2-A is `M2-A DESIGN READY` after the algorithm-consistent
+algebraic-manifold revision, and no Milestone 2 production implementation has
+begun. A full `k_cr r0` scan,
 nonlinear evolution, AMR, apparent horizons, and radiation extraction are
 outside this milestone.
 
@@ -110,15 +111,17 @@ amplitude linearity, one robust bulk observable, and several physical fields.
 If no validated Gamma/Z helper exists, validate one or explicitly exclude it
 from the claim.
 
-Current classification is `M2-A DESIGN BLOCKED — the complete locked live
-first-order radial principal matrix has a determinant/weighted-trace Jordan
-block at coordinate speed -beta^x (algebraic multiplicity two, geometric
-multiplicity one), so no complete characteristic transform or inverse exists
-for either radial normal`. The repaired derivation records the exact matrix,
-both normals, and face speeds. The former QR reconstruction and SAT fallback
-are removed; no boundary or seed implementation is authorized. Gamma/Z
-remains `HELPER_CAN_BE_VALIDATED_WITHIN_M2-B`, but M2-B may not begin. M2-A
-used no numerical launches.
+Current classification is `M2-A DESIGN READY`. The failed full-state
+26-variable Jordan derivation is retained as historical evidence. The revised
+design uses explicit positive-branch `hww` and weighted-trace `Aww`
+reconstruction, a complete 23-variable algebraic-tangent characteristic
+basis for both normals, and a bounded transform (`kappa_2<=36.701446` on the
+locked domain). It locks the mixed inner boundary, incoming-only outer data,
+three-layer independent ghosts, dependent boundary RHS, differential-only
+seed correction, and fixed Gamma/Z validation. The SAT fallback remains
+removed. A focused design audit is required before the first M2-B
+implementation cycle. M2-A used no numerical launches and no implementation
+has begun.
 
 **M2-B — Production implementation.** Make the smallest production diff and
 gate exact GP stability, physical-boundary/MPI-seam ownership, rank

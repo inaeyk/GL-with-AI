@@ -1,22 +1,35 @@
-# M2-A complete live radial principal-system repair
+# M2-A algebraic-manifold radial characteristic derivation
 
-Status: `M2-A DESIGN BLOCKED — the complete locked live first-order radial
-principal matrix has a determinant/weighted-trace Jordan block at coordinate
-speed -beta^x (algebraic multiplicity two, geometric multiplicity one), so no
-complete characteristic transform or inverse exists for either radial normal`
+Status: `M2-A DESIGN READY`
 
-This is the only M2-A design-repair pass before another audit. It replaces the
-former homogeneous-shift/blockwise boundary proposal. It is a source-derived
-continuum calculation, not numerical evidence and not an implementation.
+This is the revised, algorithm-consistent M2-A design. It does not discard
+the failed full-state calculation: Appendix A preserves its state, polynomial,
+and Jordan chain as historical evidence. The repair is to analyse the tangent
+space on which the production algorithm actually starts every derivative
+evaluation, after determinant and weighted-trace cleanup. No production code,
+test, parameter, build file, dependency, or numerical evidence is changed.
 
-## 1. Source and convention lock
+## 1. Locked source path and conventions
 
-The source path is the committed
-`BlackStringToyLevel::specificEvalRHS -> BlackStringLive::RHSCompute ->
-BlackStringTargetCCZ4Pointwise::LockedRHSAccess -> CCZ4RHS::rhs_equation`,
-followed by `MovingPunctureGauge::rhs_gauge`, the project-owned fixed GP lapse
-source, and one KO addition. The principal calculation uses the actual target
-dimension `d=4`, `USE_CCZ4`,
+The committed path is
+
+```text
+BlackStringToyLevel::specificEvalRHS
+  -> BlackStringLive::RHSCompute
+  -> BlackStringTargetCCZ4Pointwise::LockedRHSAccess
+  -> CCZ4RHS::rhs_equation
+  -> MovingPunctureGauge::rhs_gauge
+  -> project-owned fixed GP lapse source
+  -> one fused KO addition
+```
+
+`BlackStringToyLevel::specificUpdateODE` then applies the standard
+determinant and hidden-aware weighted-trace cleanup after every RK update.
+The framework performs periodic/internal exchange before the next derivative
+consumer. Internal MPI seams are exchange-owned and never physical-boundary
+owned.
+
+The target has `d=4`, `USE_CCZ4`, and
 
 ```text
 kappa1=0.1, kappa2=0, kappa3=1, covariant_z4=true, Lambda=0,
@@ -24,14 +37,14 @@ lapse_advec_coeff=0, lapse_power=1, lapse_coeff=2,
 shift_Gamma_coeff=F=3/4, shift_advec_coeff=0, eta=1.
 ```
 
-The 18 stored variables remain
+The 18 stored slots are
 
 ```text
 (chi,hxx,hxz,hzz,hww,K,Axx,Axz,Azz,Aww,Theta,GammaX,GammaZ,
  alpha,betaX,betaZ,Bx,Bz).
 ```
 
-At the frozen GP point,
+At a frozen GP point, in units retained explicitly through `r0`,
 
 ```text
 alpha=chi=hxx=hzz=hww=1, hxz=0, betaX=b=sqrt(r0/x), betaZ=0,
@@ -40,334 +53,597 @@ K=3 lambda/2,
 Theta=GammaX=GammaZ=Bx=Bz=0, lambda=sqrt(r0/x^3).
 ```
 
-The GP extrinsic-curvature coefficients multiply first radial derivatives in
-several un-reduced equations. After the first-order reduction below those
-terms are algebraic in the reduced state, not coefficients of
-`partial_x V`, and therefore are lower order. The fixed lapse source,
-`kappa` damping, GP coefficient gradients, tangential Fourier terms, and
-explicit cartoon `1/x` terms are also lower order in the radial principal
-matrix. The two hidden `w` directions are never grid directions: `dww` and
-`Aww` occur once in storage and twice in target traces.
+The fixed lapse source, damping, GP coefficient gradients, `z` Fourier
+terms, and explicit cartoon `1/x` terms are lower order in the radial symbol.
+The two hidden `w` directions contribute algebraic multiplicity two only;
+they are never grid derivatives.
 
 The sign convention is
 
 ```text
-partial_t V + A^x partial_x V = lower order.
+partial_t V + A_alg^x partial_x V = lower order.
 ```
 
-## 2. Complete first-order state and matrix
+## 2. Explicit algebraic elimination
 
-Introduce only radial grid derivatives:
+Let
+
+```text
+Delta = hxx*hzz-hxz^2.
+```
+
+The independent stored variables omit `hww` and `Aww`. On the positive
+metric branch the exact nonlinear reconstruction is
+
+```text
+hww = Delta^(-1/2) > 0,
+N   = hzz*Axx-2*hxz*Axz+hxx*Azz,
+Aww = -N/(2*Delta^(3/2)).
+```
+
+These formulas enforce
+
+```text
+Delta*hww^2=1,
+h^xx Axx+2 h^xz Axz+h^zz Azz+2 Aww/hww=0
+```
+
+identically, including the two hidden tensor copies. The admissibility gate
+requires every input finite, `hxx>0`, `hzz>0`, `Delta>0`,
+
+```text
+Delta >= 1e-14*max(hxx,hzz)^2,
+kappa_2([[hxx,hxz],[hxz,hzz]]) <= 1e8.
+```
+
+Failure is `M2-B ALGEBRAIC_RECONSTRUCTION_ADMISSIBILITY_FAILURE`; no absolute
+value, branch switch, clamp, or continued stencil evaluation is allowed.
+
+At GP the tangent relations are
+
+```text
+delta hww = -(delta hxx+delta hzz)/2,
+partial_x delta hww = -(dxx+dzz)/2,
+
+delta Aww = -(delta Axx+delta Azz)/2
+             -(3 lambda/4) delta hxx-(lambda/2) delta hzz.
+```
+
+Only the first two `A` terms remain in the first-order radial principal
+relation; the background-`A` metric variations are algebraic lower order.
+These explicit relations are the tangent projector `P_alg`; no abstract
+nullspace basis and no evolution-space projection are used.
+
+## 3. Reduced first-order principal matrix
+
+Introduce
 
 ```text
 qchi=partial_x delta chi,
-(dxx,dxz,dzz,dww)=partial_x(delta hxx,delta hxz,delta hzz,delta hww),
+(dxx,dxz,dzz)=partial_x(delta hxx,delta hxz,delta hzz),
 qalpha=partial_x delta alpha,
 (rx,rz)=partial_x(delta betaX,delta betaZ).
 ```
 
-The derivative/dynamical state, in the exact matrix order used below, is
+The independent derivative/dynamical state is
 
 ```text
-W=(qchi,dxx,dxz,dzz,dww,K,Axx,Axz,Azz,Aww,Theta,
-   GammaX,GammaZ,qalpha,rx,rz,Bx,Bz)^T.                 (18 entries)
+W=(qchi,dxx,dxz,dzz,K,Axx,Axz,Azz,Theta,
+   GammaX,GammaZ,qalpha,rx,rz,Bx,Bz)^T.               (16)
 ```
 
-The remaining zero-order position state is
+The independent zero-order state is
 
 ```text
-U=(delta chi,delta hxx,delta hxz,delta hzz,delta hww,
-   delta alpha,delta betaX,delta betaZ)^T.              (8 entries)
+U=(delta chi,delta hxx,delta hxz,delta hzz,
+   delta alpha,delta betaX,delta betaZ)^T.            (7)
 ```
 
-Thus `V=(W,U)^T` has 26 entries. Define `M` by
-`partial_t W=M partial_x W+lower order`; then `A_W^x=-M`. The following 18
-rows are the complete sparse definition of `M`; a missing entry is exactly
-zero:
+Thus `V_alg=(W,U)^T` has 23 entries. Define
+`partial_t W=M_alg partial_x W+lower order`; then `A_W^x=-M_alg`.
+The complete sparse definition is
 
 ```text
 partial_t qchi = b partial_x qchi
                + 1/2 partial_x K - 1/2 partial_x rx,
 
-partial_t dxx  = b partial_x dxx - 2 partial_x Axx
-               + 3/2 partial_x rx,
-partial_t dxz  = b partial_x dxz - 2 partial_x Axz + partial_x rz,
-partial_t dzz  = b partial_x dzz - 2 partial_x Azz
-               - 1/2 partial_x rx,
-partial_t dww  = b partial_x dww - 2 partial_x Aww
-               - 1/2 partial_x rx,
+partial_t dxx = b partial_x dxx - 2 partial_x Axx
+              + 3/2 partial_x rx,
+partial_t dxz = b partial_x dxz - 2 partial_x Axz + partial_x rz,
+partial_t dzz = b partial_x dzz - 2 partial_x Azz
+              - 1/2 partial_x rx,
 
 partial_t K = b partial_x K
-            + partial_x(3 qchi - dxx/2 - dzz/2 - dww
-                        + GammaX - qalpha),
-
+            + partial_x(3 qchi+GammaX-qalpha),
 partial_t Axx = b partial_x Axx
-              + partial_x(3 qchi/4 - 3 dxx/8 + dzz/8 + dww/4
-                          + 3 GammaX/4 - 3 qalpha/4),
+              + partial_x(3 qchi/4-dxx/2
+                          +3 GammaX/4-3 qalpha/4),
 partial_t Axz = b partial_x Axz
-              + partial_x(-dxz/2 + GammaZ/2),
+              + partial_x(-dxz/2+GammaZ/2),
 partial_t Azz = b partial_x Azz
-              + partial_x(-qchi/4 + dxx/8 - 3 dzz/8 + dww/4
-                          - GammaX/4 + qalpha/4),
-partial_t Aww = b partial_x Aww
-              + partial_x(-qchi/4 + dxx/8 + dzz/8 - dww/4
-                          - GammaX/4 + qalpha/4),
-
+              + partial_x(-qchi/4-dzz/2
+                          -GammaX/4+qalpha/4),
 partial_t Theta = b partial_x Theta
-                + partial_x(3 qchi/2 - dxx/4 - dzz/4 - dww/2
-                            + GammaX/2),
+                + partial_x(3 qchi/2+GammaX/2),
 
 partial_t GammaX = b partial_x GammaX
-                 + partial_x(-3 K/2 + 2 Theta + 3 rx/2),
+                 + partial_x(-3 K/2+2 Theta+3 rx/2),
 partial_t GammaZ = b partial_x GammaZ + partial_x rz,
-
-partial_t qalpha = partial_x(-2 K + 4 Theta),
+partial_t qalpha = partial_x(-2 K+4 Theta),
 partial_t rx = F partial_x Bx,
 partial_t rz = F partial_x Bz,
-
 partial_t Bx = b partial_x GammaX
-             + partial_x(-3 K/2 + 2 Theta + 3 rx/2),
+             + partial_x(-3 K/2+2 Theta+3 rx/2),
 partial_t Bz = b partial_x GammaZ + partial_x rz.
 ```
 
-These rows include all requested couplings:
-
-- `qalpha_x` is the live lapse Hessian in `K` and the four trace-free `A`
-  rows;
-- `K_x`, `Theta_x`, and the longitudinal/transverse shift Hessians enter the
-  two `Gamma` rows with the target-`d=4` coefficients `3/2`, `3/2`, and `1`;
-- the complete `Gamma` principal rows, not homogeneous substitutes, are
-  copied into `B`; and
-- `dww`/`Aww` carry coefficient two only where a four-dimensional trace
-  requires the two hidden tensor copies.
-
-The zero-order block is
+This includes the lapse Hessian in `K,Axx,Azz`, all `K,Theta` and shift
+Hessians in `Gamma`, and the complete `Gamma` principal rows copied into
+`B`. The eliminated `dww,Aww` contributions are already present through the
+relations in section 2. The zero-order block is
 
 ```text
-A_U^x=diag(-b,-b,-b,-b,-b,0,0,0).
+A_U^x=diag(-b,-b,-b,-b,0,0,0),
+A_alg^x=diag(-M_alg,A_U^x).
 ```
 
-There is no principal `partial_x W` term in the `U` rows and no principal
-`partial_x U` term in the `W` rows, so the full matrix is explicitly
+Direct substitution verifies that the dependent `dww,Aww` rows are the time
+derivatives of the tangent relations at principal order. Therefore this is
+equivalently the restriction of `P_alg A^x P_alg` to the explicit independent
+coordinates.
+
+## 4. Spectrum and complete characteristic basis
+
+The reduced characteristic polynomial is
 
 ```text
-A^x = [ -M    0 ],
-      [  0   A_U^x ].
+p_alg(lambda_x)=lambda_x^5 (lambda_x+b)^4
+ ((lambda_x+b)^2-1)^4
+ (lambda_x^2+b lambda_x-2)
+ (lambda_x^2+b lambda_x-3/4)
+ (lambda_x^2+b lambda_x-9/8).
 ```
 
-This is a mathematically complete matrix recipe with fixed ordering and no
-runtime eigensystem.
+It has 23 independent eigenvectors. The coordinate speeds and multiplicities
+are
 
-## 3. Spectrum and the exact obstruction
+| coordinate speed `lambda_x` | family | multiplicity |
+|---|---|---:|
+| `-b+1`, `-b-1` | physical/Z4 light | 4 each |
+| `(-b +/- sqrt(b^2+8))/2` | lapse | 1 each |
+| `(-b +/- sqrt(b^2+3))/2` | transverse shift | 1 each |
+| `(-b +/- sqrt(b^2+9/2))/2` | longitudinal shift | 1 each |
+| `-b` | independent advected `chi,hxx,hxz,hzz` | 4 |
+| `0` | `Bx-GammaX`, `Bz-GammaZ`, lapse and two shifts | 5 |
 
-The characteristic polynomial of the full 26-by-26 `A^x` is
-
-```text
-p(lambda_x) = lambda_x^5 (lambda_x+b)^7
-              ((lambda_x+b)^2-1)^4
-              (lambda_x^2+b lambda_x-2)
-              (lambda_x^2+b lambda_x-3/4)
-              (lambda_x^2+b lambda_x-9/8).
-```
-
-The exact multiplicities are:
-
-| coordinate eigenvalue | family | algebraic multiplicity | geometric multiplicity |
-|---|---|---:|---:|
-| `-b+1`, `-b-1` | coupled physical/Z4 light cones | 4 each | 4 each |
-| `(-b+/-sqrt(b^2+8))/2` | live lapse | 1 each | 1 each |
-| `(-b+/-sqrt(b^2+3))/2` | complete transverse shift sector | 1 each | 1 each |
-| `(-b+/-sqrt(b^2+9/2))/2` | complete longitudinal shift sector | 1 each | 1 each |
-| `0` | `Bx-GammaX`, `Bz-GammaZ`, and zero-order lapse/shifts | 5 | 5 |
-| `-b` | derivative algebraic pair plus five zero-order advected fields | 7 | **6** |
-
-The defect is already present in the 18-by-18 `W` block. In the equivalent
-`M` matrix the eigenvalue is `mu=b`, with algebraic multiplicity two and
-geometric multiplicity one. One right eigenvector is
-
-```text
-R0: qchi=1, dxx=3, dzz=1, dww=1; all other entries zero.
-```
-
-One generalized right vector satisfying `(M-bI)R1=R0` is
-
-```text
-R1: dxx=8b/3, K=3, Axx=Azz=Aww=-3/4, Theta=3/2,
-    GammaX=4b/3, rx=1, Bx=4b/3; all other entries zero.
-```
-
-The sole left eigenfield and a generalized left field are
-
-```text
-C_A/2 = (Axx+Azz+2Aww)/2,
--D_h/4 = -(dxx+dzz+2dww)/4,
-
-partial_t(C_A/2) = b partial_x(C_A/2) + lower order,
-partial_t(-D_h/4) = b partial_x(-D_h/4)
-                     + partial_x(C_A/2) + lower order.
-```
-
-`D_h` is the radial derivative of the linearized conformal determinant
-constraint `C_h=hxx+hzz+2hww`. Therefore `C_h` and `C_A` are not two
-independent incoming characteristic rows that cleanup permits the boundary to
-ignore. They form the missing-eigenvector Jordan chain in the complete live
-principal system. Valid-cell cleanup restricts the state after RK updates,
-but it does not diagonalize the unprojected RHS principal matrix used during
-an RK stage and is not a continuum boundary equation.
-
-Consequently every putative full left or right characteristic matrix has
-
-```text
-rank <= 25, sigma_min=0, kappa_2=infinity
-```
-
-for every finite `b>0`. There is no inverse transformation and no finite
-conditioning bound anywhere on the intended radial domain. A complete
-strongly-hyperbolic characteristic boundary cannot be obtained without a
-human-approved formulation change or an explicitly derived constrained
-principal system that removes the algebraic pair. Neither is authorized in
-M2-A or delegated to M2-B.
-
-## 4. Exact `B-Gamma` companions and shift sign
-
-The copied live rows give, without approximation,
+The `B-Gamma` companions follow exactly from the copied live rows:
 
 ```text
 partial_t(Bx-GammaX)=lower order,
 partial_t(Bz-GammaZ)=lower order.
 ```
 
-Both companions have coordinate principal speed zero. The transverse
-five-variable sector
+### 4.1 Exact scalar transform
+
+Permute the scalar block to
 
 ```text
-(dxz,Axz,GammaZ,rz,Bz)
+S=(qchi,dxx,dzz,K,Axx,Azz,Theta,GammaX,qalpha,rx,Bx)^T.
 ```
 
-is independently diagonalizable and is useful for checking the shift sign.
-For an `M`-eigenvalue `mu` satisfying
+Let `sigma=+1,-1`, `mu_sigma=b+sigma`, and define these right columns:
 
 ```text
-mu^2-b mu-F=0, F=3/4,
+R_X(sigma)=(0,-2 sigma,0,0,1,0,0,0,0,0,0)^T,
+R_Z(sigma)=(0,0,-2 sigma,0,0,1,0,0,0,0,0)^T,
+
+R_C(sigma)=(-(4b+sigma)/4, 9sigma/8,-3sigma/8,
+            -sigma(8b-sigma)/4,0,0,
+            -sigma(8b-sigma)/8,mu_sigma,0,3/4,mu_sigma)^T.
 ```
 
-the exact left shift characteristic is
+For either lapse root `mu^2-b mu=2`,
 
 ```text
-W_beta_z(mu) = rz + b GammaZ + (mu-b) Bz
-             = rz + mu GammaZ + (F/mu)(Bz-GammaZ).
+R_L(mu)=(-1/3,1,-1/3,-7/(12mu),-7/(16mu),7/(48mu),
+         0,1,7/(6mu^2),3/(4mu),1)^T.
 ```
 
-Direct multiplication gives `L M=mu L`. In coordinate-speed notation
-`lambda_x=-mu`, the coefficient of `Bz` is `-(lambda_x+b)`. This corrects the
-sign in the former homogeneous-shift proposal. The other transverse rows are
+For either longitudinal-shift root `mu^2-b mu=9/8`,
 
 ```text
-mu=b+1:  W=-dxz+2Axz+GammaZ,
-mu=b-1:  W=-dxz-2Axz+GammaZ,
-mu=0:    W=Bz-GammaZ.
+R_S(mu)=(-1/3,1,-1/3,0,0,0,0,1,0,3/(4mu),1)^T.
 ```
 
-The longitudinal shift roots in section 3 come from the complete coupled
-scalar matrix, including `K`, `Theta`, `GammaX`, `rx`, and the copied `Bx`
-row. They cannot be assembled into a full invertible transform because of
-the algebraic Jordan block; no homogeneous longitudinal field is retained as
-a boundary prescription.
-
-The former frozen-gauge labels `J,F,G` are not silently omitted. At radial
-principal order, `z_z=(GammaZ-dxz)/2`, so
-`J=dxz+2z_z=GammaZ`; the live `rz/Bz` couplings place it inside the complete
-transverse light/shift/zero sector rather than leave an independent advected
-`J` field. The live lapse block likewise mixes the former
-`F=p_xx+p_T-2Theta` into the lapse/scalar eigenvectors, and the longitudinal
-shift block mixes the former generalized `G` into the scalar/shift rows. Thus
-none of `J,F,G` is an additional independent outer incoming characteristic
-row of the complete live matrix. Their exact disposition is “absorbed into
-the complete coupled sectors”; the only surviving `-b` Jordan obstruction is
-the determinant/weighted-trace pair derived in section 3.
-
-## 5. Both radial normals and face classifications
-
-For outward normal `n_x`, define
+The scalar zero-speed right column is
 
 ```text
-A^(n)=n_x A^x,
-lambda_n=n_x lambda_x,
-beta^n=n_x b,
-c_n=(lambda_n+beta^n)/alpha=n_x(lambda_x+b), alpha=1.
+R_0=(1/2,-3/2,1/2,0,0,0,0,-3/2,0,b,0)^T.
 ```
 
-Thus the two normal matrices are explicitly
+For every column, `M_alg R=mu R`; the coordinate eigenvalue is
+`lambda_x=-mu`. Order the columns as
 
 ```text
-outer: n_x=+1, A^(+)=A^x,
-inner: n_x=-1, A^(-)=-A^x.
+R_s=[R_X(+),R_Z(+),R_C(+),R_X(-),R_Z(-),R_C(-),
+     R_L(mu_L+),R_L(mu_L-),R_S(mu_S+),R_S(mu_S-),R_0].
 ```
 
-Every existing right/left eigenvector is unchanged by multiplying the matrix
-by `-1`, while every eigenvalue changes sign. This is a matrix identity, not a
-prose relabeling. The defective Jordan block remains defective for both
-normals.
+The following explicit left rows span the same eigenspaces:
 
-The reference geometry is `r0=1`, `x_in=0.5`, `x_out=4.5`, `dx=0.125`.
+```text
+ell_X(sigma)=(-3sigma/2,-sigma/2,0,-3/4,1,0,0,0,0,0,0),
+ell_Z(sigma)=( sigma/2,0,-sigma/2,1/4,0,1,0,0,0,0,0),
+ell_C(sigma)=(3,0,0,0,0,0,2sigma,1,0,0,0),
+
+ell_L(mu)=(0,0,0,-mu,0,0,2mu,0,1,0,0).
+```
+
+For a longitudinal-shift root put `D=64mu^2-81` and use
+
+```text
+ell_S(mu)=(1792mu^4,0,0,32mu^3 D,0,0,
+           -128mu^3(32mu^2-51),
+           7(256mu^4-408mu^2+243),
+           -32mu^2 D,28mu D,21D).
+
+ell_0=(0,0,0,0,0,0,0,-1,0,0,1).
+```
+
+These signs come from direct multiplication by the locked principal matrix.
+In particular, no homogeneous shift formula is imported.
+
+The exact left transformation requires no unresolved normalization. For each
+light sign define
+
+```text
+L_sigma=[ell_X(sigma);ell_Z(sigma);ell_C(sigma)],
+G_sigma=[[2,0,3sigma*b-3/8],
+         [0,2,1/8-sigma*b],
+         [0,0,sigma/2-4b]],
+
+G_sigma^(-1)=[[1/2,0,3sigma/8],
+               [0,1/2,-sigma/8],
+               [0,0,-2/(8b-sigma)]].
+```
+
+The three normalized light rows are `G_sigma^(-1)L_sigma`. The normalized
+lapse, longitudinal-shift, and zero rows are respectively
+
+```text
+ell_L(mu) / [7(mu^2+2)/(12mu^2)],
+ell_S(mu) / [7(64mu^2-81)(8mu^2+9)/3],
+(2/3)ell_0.
+```
+
+Putting those rows in the column order above gives `T_s`, and direct
+multiplication gives
+
+```text
+T_s R_s=I_11,  T_s M_s R_s=diag(mu),  T_s=R_s^(-1).
+```
+
+Thus both the transform and inverse are explicit functions of `b`; no
+runtime eigensystem, sign choice, pivot choice, or arbitrary nullspace basis
+remains.
+
+### 4.2 Exact transverse transform
+
+For
+
+```text
+Z=(dxz,Axz,GammaZ,rz,Bz)^T
+```
+
+the right columns are
+
+```text
+R_z,light(sigma)=(-2sigma,1,0,0,0)^T,
+R_z,shift(mu)=(1,0,1,3/(4mu),1)^T,
+R_z,0=(-1,0,-1,b,0)^T,
+```
+
+where the shift roots satisfy `mu^2-b mu=3/4`. The dual rows are
+
+```text
+T_z,light(sigma)=(-1,2sigma,1,0,0)/(4sigma),
+T_z,shift(mu)=(0,0,b,1,mu-b)/(2mu-b),
+T_z,0=(0,0,-1,0,1).
+```
+
+The locked shift field is therefore
+
+```text
+rz+b GammaZ+(mu-b)Bz
+=rz+mu GammaZ+(3/(4mu))(Bz-GammaZ),
+```
+
+which verifies the corrected sign directly. With columns/rows ordered
+`light(+),light(-),shift(+),shift(-),zero`, `T_z R_z=I_5`.
+
+The four advected and three zero-speed `U` transforms are identity. A fixed
+permutation between `(S,Z,U)` and the stated `V_alg` ordering completes the
+23-by-23 `T_+` and `R_+=T_+^{-1}`.
+
+### 4.3 Both radial normals
+
+Let `D_-` multiply exactly
+
+```text
+(qchi,dxx,dxz,dzz,qalpha,rx,rz)
+```
+
+by `-1` and leave every dynamical and zero-order entry unchanged; let
+`D_+=I`. With outward-normal derivative variables `V_n=D_n V_x`, the two
+normal symbols and transforms are explicitly
+
+```text
+A_alg^(n)=n D_n A_alg^x D_n,
+R_n=D_n R_+,
+T_n=T_+ D_n,
+T_n R_n=I,
+lambda_n=n lambda_x.
+```
+
+This is the implemented inner transform, not a prose sign reversal. Since
+`D_-` is orthogonal, both normals have identical singular values and
+condition numbers.
+
+## 5. Strong-hyperbolicity and conditioning gate
+
+Scale all `W` entries by `r0` and leave dimensionless `U` entries unchanged,
+then normalize every right column to unit two-norm. On the complete locked
+domain `x/r0 in [0.5,4.5]`, hence
+`b in [sqrt(2/9),sqrt(2)]`, a deterministic 200001-point monotone audit plus
+the exact denominator checks above gives
+
+| block | maximum `kappa_2` | location |
+|---|---:|---|
+| scalar 11-by-11 | `36.701446` | `x/r0=0.5` |
+| transverse 5-by-5 | `6.964910` | `x/r0=0.5` |
+| full 23-by-23 | `36.701445735` | `x/r0=0.5` |
+
+The full values are `35.539033` at the first inner valid cell,
+`kappa_2(b=1)=31.112685441` at `x=r0`, `26.826276` at the first outer valid
+cell, and `26.825692` at the outer face. The horizon crossing `b=1` is semisimple:
+five permanent zero-speed characteristic fields are joined by four light-speed
+fields that additionally become zero there. The total zero-eigenvalue
+algebraic multiplicity is nine and the total geometric multiplicity is nine;
+all nine eigenvectors remain independent, and the reduced 23-by-23 transform
+remains full rank and diagonalizable at the horizon. The only positive-`b`
+transform denominator collision is `b=1/8`, outside the locked domain. Both
+normals pass the fixed `kappa_2<=1e3` gate with a factor greater than 27 margin.
+M2-B hard-fails on nonfinite coefficients, rank below 23 at relative threshold
+`1e-12`, `kappa_2>1e3`, or transform/inverse residual above `5e-12`.
+
+## 6. Both-face classification and margins
+
 Negative `lambda_n` is incoming, positive is outgoing, and zero is glancing.
-The displayed margin is `|lambda_n|`.
+The reference geometry is `r0=1`, `x_in=0.5`, `x_out=4.5`, `dx=0.125`.
 
-| face/sample | family, coordinate speeds | normal speeds `lambda_n` | classification and minimum margin |
-|---|---|---|---|
-| inner face `x=0.5`, `b=1.414214` | light `-0.414214,-2.414214` | `0.414214,2.414214` | both outgoing; `0.414214` |
-| inner first cell `x=0.5625`, `b=1.333333` | light `-0.333333,-2.333333` | `0.333333,2.333333` | both outgoing; `0.333333` |
-| inner face | lapse `0.874032,-2.288246`; shift-z `0.410927,-1.825141`; shift-x `0.567648,-1.981862` | `-0.874032,2.288246`; `-0.410927,1.825141`; `-0.567648,1.981862` | one incoming per gauge pair; incoming margin `0.410927` |
-| inner first cell | lapse `0.896805,-2.230139`; shift-z `0.426240,-1.759573`; shift-x `0.586108,-1.919441` | `-0.896805,2.230139`; `-0.426240,1.759573`; `-0.586108,1.919441` | one incoming per gauge pair; incoming margin `0.426240` |
-| inner face/first cell | defective advected `-b` | `1.414214` / `1.333333` | outgoing eigenvalue, but one field missing; field-coverage margin zero |
-| outer face `x=4.5`, `b=0.471405` | light `0.528595,-1.471405` | same | one outgoing/one incoming; incoming margin `1.471405` |
-| outer first cell `x=4.4375`, `b=0.474713` | light `0.525287,-1.474713` | same | one outgoing/one incoming; incoming margin `1.474713` |
-| outer face | lapse `1.198019,-1.669423`; shift-z `0.661825,-1.133230`; shift-x `0.850831,-1.322236` | same | one outgoing/one incoming per pair; incoming margin `1.133230` |
-| outer first cell | lapse `1.196637,-1.671350`; shift-z `0.660607,-1.135320`; shift-x `0.849537,-1.324250` | same | one outgoing/one incoming per pair; incoming margin `1.135320` |
-| outer face/first cell | defective advected `-b` | `-0.471405` / `-0.474713` | incoming eigenvalue, but one field missing; field-coverage margin zero |
-| both faces | five zero-speed companions | `0` | glancing; speed margin zero |
+| sample | classification | minimum nonzero margin |
+|---|---|---:|
+| inner face, `b=1.414214` | both light branches, four advected fields, and the positive lapse/shift roots outgoing; negative lapse, transverse-shift, and longitudinal-shift roots incoming; five zero fields glancing | incoming `0.410927`; outgoing `0.414214` |
+| inner first cell, `b=1.333333` | same | incoming `0.426240`; outgoing `0.333333` |
+| outer face, `b=0.471405` | `mu=b+1` light quartet, positive lapse/shift roots, and four advected fields incoming; `mu=b-1` light quartet and negative lapse/shift roots outgoing; five zero fields glancing | incoming `0.471405`; outgoing `0.528595` |
+| outer first cell, `b=0.474713` | same | incoming `0.474713`; outgoing `0.525287` |
 
-Strict inner excision remains disallowed: three gauge fields enter at the
-inner face, and the full field inventory is incomplete because of the Jordan
-block. A mixed inner boundary also cannot be locked because there is no
-complete left transform with which to enumerate and preserve every incoming,
-outgoing, and glancing field.
-
-## 6. Boundary and reconstruction hard stop
-
-The former least-norm ghost proposal is withdrawn. A complete reconstruction
-would have used the exact ghost unknown ordering
+At the inner face the incoming normal speeds are exactly the negative roots
 
 ```text
-g=(delta U[-1,slot 0..17],
-   delta U[-2,slot 0..17],
-   delta U[-3,slot 0..17])^T                         (54 entries),
+-0.874032 (lapse), -0.410927 (transverse shift),
+-0.567648 (longitudinal shift),
 ```
 
-where `-1` is nearest the physical face on either side. A valid equation
-ordering would have to contain, in order, all incoming characteristic data,
-equality constraints for every outgoing characteristic extrapolant, explicit
-glancing/advected treatment, `C_h/C_A`, and GP fixed-point rows. The complete
-left transform needed to construct those rows has rank at most 25. Therefore
-the matrix `R` in
+and at the first valid cell they are `-0.896805,-0.426240,-0.586108`.
+Therefore strict excision is disallowed. The mixed inner boundary has complete
+coverage and is the locked design.
+
+## 7. Incoming data and outgoing ownership
+
+All conditions act on `delta U=U-U_GP`.
+
+At the inner face:
+
+- all light, advected-metric, and positive-root gauge fields are outgoing and
+  are fourth-order extrapolants of interior characteristic values;
+- the negative-root lapse, transverse-shift, and longitudinal-shift fields
+  are incoming and receive fixed GP gauge data, exactly zero in `delta U`;
+- `Bx-GammaX`, `Bz-GammaZ`, and zero-order lapse/shifts are glancing and use
+  equality to their fourth-order interior extrapolants.
+
+At the outer face:
+
+- the two scalar tensor rows `T_X(+),T_Z(+)` receive homogeneous
+  GP-subtracted radiative physical data;
+- the scalar `T_C(+)` and transverse `T_z,light(+)` rows receive homogeneous
+  constraint-preserving Z4 data;
+- the positive-root lapse and two shift rows receive fixed GP gauge data;
+- the four incoming advected `chi,hxx,hxz,hzz` rows receive fixed GP
+  background data;
+- every negative-root field is equality-constrained to its fourth-order
+  interior characteristic extrapolant; and
+- all five glancing fields use equality to their fourth-order interior
+  extrapolants.
+
+The algebraic determinant and weighted trace have no independent incoming
+rows on the reduced manifold. They are enforced exactly by reconstruction,
+not omitted because later cleanup happens. The former `J,F,G` inventory is
+also complete: transverse `J` is in `T_z,light`, lapse-coupled `F` is in the
+lapse/scalar rows, and longitudinal `G` is in the complete scalar shift row.
+
+## 8. Three-layer independent ghost reconstruction
+
+At each physical radial surface let `y` be distance into the domain divided
+by `dx`, so the first five valid centers are at
+`y=(1/2,3/2,5/2,7/2,9/2)`. For values `u0,...,u4` there, the fixed degree-four
+one-sided formulas are
 
 ```text
-R g = d
+u_face = (315u0-420u1+378u2-180u3+35u4)/128,
+
+partial_y u_face = -31u0/8+229u1/24-75u2/8+37u3/8-11u4/12,
+partial_n u_face = -partial_y u_face/dx.
 ```
 
-cannot be specified with complete field coverage, regardless of ghost-layer
-scaling, weighting, QR/SVD orientation, rank tolerance, residual tolerance,
-or conditioning limit. Any claimed factorization would either omit the
-Jordan companion or add a non-characteristic equation. The mandatory
-conditioning test fails identically (`kappa_2=infinity`), before a numerical
-rank threshold is applied.
+Use these formulas to evaluate outgoing and glancing characteristics. Insert
+the fixed incoming data above and apply the exact inverse transform. This
+yields at the boundary face:
 
-No inner data, outer data, outgoing equality constraint, valid-surface RHS
-replacement, or all-18-slot ghost map is approved by this design. The current
-provisional componentwise ghost fill and outer valid-surface override remain
-historical implementation state only; M2-A does not approve them for M2-B.
-There is no double application because no repaired boundary implementation
-is authorized.
+```text
+seven independent primitive values:
+  chi,hxx,hxz,hzz,alpha,betaX,betaZ;
+their seven outward-normal derivatives;
+nine independent dynamical values:
+  K,Axx,Axz,Azz,Theta,GammaX,GammaZ,Bx,Bz.
+```
 
-The production response is a hard stop and human roadmap review. An SAT
-fallback is not specified or authorized.
+For each primitive, put `s_face=-dx*partial_n u_face`. The unique degree-five
+polynomial is fixed by `(u_face,s_face)` plus its values `u0,...,u3` at the
+first four valid centers. Its three ghost values, nearest to farthest, are
+
+```text
+g1=-9088u_face/3675-64s_face/35+4u0-2u1/3+4u2/25-u3/49,
+g2=-18048u_face/245-192s_face/7+90u0-20u1+27u2/5-36u3/49,
+g3=-19840u_face/49-960s_face/7+500u0-125u1+36u2-250u3/49.
+```
+
+For each dynamical field, the unique degree-four polynomial is fixed by its
+face value `w_face` plus `w0,...,w3` at the first four valid centers:
+
+```text
+g1=128w_face/35-4w0+2w1-4w2/5+w3/7,
+g2=128w_face/7-30w0+20w1-9w2+12w3/7,
+g3=384w_face/7-100w0+75w1-36w2+50w3/7.
+```
+
+These rational coefficients are the complete fixed Hermite interpolation;
+there is no stencil choice left to M2-B. Equivalently, with independent
+ghost ordering
+
+```text
+g_alg=(layer_near slots
+       chi,hxx,hxz,hzz,K,Axx,Axz,Azz,Theta,GammaX,GammaZ,
+       alpha,betaX,betaZ,Bx,Bz;
+       layer_middle same order;
+       layer_far same order)^T                         (48)
+```
+
+the fixed formulas are the already-factorized square system
+`R_alg g_alg=d_alg` with `R_alg=I_48`. Coordinates are scaled by `r0`;
+primitive equations by
+their field scale; derivative equations by `r0` times that scale; curvature,
+Gamma, and `B` fields by `r0`. The norm is the resulting dimensionless
+weighted two-norm. Require 48 finite outputs, scaled formula residual
+`<=5e-12`, and the characteristic inverse gate from section 5. Any missing,
+nonfinite, or inconsistent reconstruction is a hard boundary-fill failure.
+
+After those 48 values are obtained, reconstruct `hww,Aww` in every ghost
+cell with section 2 before any live derivative or KO stencil reads it. Thus
+all 54 stored ghost values exist, but only 48 are independent, and every
+ghost cell satisfies determinant and weighted trace by construction.
+The interpolation is formally fourth order at the physical boundary and
+costs `O(N_z)` with fixed-size stack storage and no per-cell allocation,
+logging, virtual dispatch, or second volume RHS pass.
+
+## 9. Outer valid-surface RHS and cleanup lifecycle
+
+The locked outer implementation disables the provisional componentwise
+`apply_outer_rhs` owner. Incoming principal data are imposed only by the
+characteristic face/ghost reconstruction in section 8. The ordinary live
+target operator then evaluates the 16 independent valid-surface RHS slots
+once, using those ghosts, and fused KO remains part of that same evaluation.
+There is no post-hoc transform of a 16-slot RHS by the 23-state first-order
+matrix, no second RHS/KO evaluation, and no overwrite of outgoing fields.
+Thus the characteristic ghost owner supplies incoming data and the live
+operator owns every independent surface RHS. It never assigns an independent
+componentwise boundary RHS to `hww,Aww`. Let overdots denote that independent
+boundary RHS and set
+
+```text
+dotDelta=hzz*dothxx+hxx*dothzz-2*hxz*dothxz,
+dotN=dothzz*Axx+hzz*dotAxx
+     -2*(dothxz*Axz+hxz*dotAxz)
+     +dothxx*Azz+hxx*dotAzz,
+
+dothww=-(hww/(2Delta))*dotDelta,
+dotAww=-dotN/(2Delta^(3/2))+3N*dotDelta/(4Delta^(5/2)).
+```
+
+These are the exact time derivatives of the nonlinear reconstruction. They
+keep the valid-surface RHS tangent to the algebraic manifold. The subsequent
+standard cleanup is not a second boundary condition: it removes the finite-RK
+nonlinear drift after the update. No derivative, KO stencil, or exchange
+observes the state between RK update and cleanup.
+
+The exact lifecycle is
+
+1. periodic and internal exchange; MPI seams stop here;
+2. independent characteristic physical ghost fill;
+3. nonlinear `hww,Aww` ghost reconstruction;
+4. one live target-`d=4` RHS and one fused KO addition;
+5. retain the single boundary-conditioned live RHS for all independent outer
+   valid-surface slots and derive the dependent `hww,Aww` RHS by the chain
+   rule above; the provisional componentwise outer override is absent;
+6. RK update;
+7. the existing algebraic cleanup before any subsequent derivative access.
+
+Both physical boundaries have characteristic ghost fill only; the live outer
+valid-surface RHS owner runs once and only once. GP-subtracted zero data and analytic GP
+reconstruction make GP a fixed point to the fourth-order boundary truncation
+error.
+
+## 10. Gate and bounded fallback
+
+The reduced symbol is complete and bounded, so one M2-B implementation cycle
+may follow the required focused design audit. If transform rank, conditioning,
+roundtrip, characteristic ownership, algebraic reconstruction, or GP
+preservation fails, stop that cycle and make only the production change tied
+to the failed row/stencil/reconstruction formula. Do not introduce SAT, WKB,
+dense spectra, or a fixture-only projection.
+
+If implementation evidence instead disproves the reduced symbol or it cannot
+meet the locked conditioning gate, M2-A reclassifies
+`M2-A DESIGN BLOCKED — REDUCED PRINCIPAL SYSTEM NOT STRONGLY HYPERBOLIC` and
+returns to human review. The only remaining roadmap options are (1) a
+human-approved gauge modification near the inner boundary or (2) a different
+production inner geometry/treatment. No third characteristic formulation is
+started automatically.
+
+## Appendix A. Historical failed raw-state derivation
+
+The superseded raw first-order state was
+
+```text
+W_raw=(qchi,dxx,dxz,dzz,dww,K,Axx,Axz,Azz,Aww,Theta,
+       GammaX,GammaZ,qalpha,rx,rz,Bx,Bz),
+U_raw=(chi,hxx,hxz,hzz,hww,alpha,betaX,betaZ).
+```
+
+Its 26-by-26 characteristic polynomial was
+
+```text
+lambda_x^5 (lambda_x+b)^7 ((lambda_x+b)^2-1)^4
+(lambda_x^2+b lambda_x-2)
+(lambda_x^2+b lambda_x-3/4)
+(lambda_x^2+b lambda_x-9/8).
+```
+
+At `M_raw` eigenvalue `mu=b`, the derivative block had algebraic
+multiplicity two and geometric multiplicity one. Its sole left eigenfield and
+generalized companion were
+
+```text
+C_A/2=(Axx+Azz+2Aww)/2,
+-D_h/4=-(dxx+dzz+2dww)/4,
+
+partial_t(-D_h/4)=b partial_x(-D_h/4)
+                  +partial_x(C_A/2)+lower order.
+```
+
+This determinant/weighted-trace Jordan block made the raw transform rank at
+most 25 with infinite condition number. That conclusion remains correct for
+the unprojected slots; it is preserved as evidence, not reinterpreted as a
+complete raw characteristic basis. The revised design succeeds only because
+the actual post-RK cleanup algorithm restricts every subsequent derivative
+evaluation to the explicitly reconstructed algebraic-constraint manifold.
