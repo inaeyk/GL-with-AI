@@ -1,6 +1,7 @@
 #include "BlackStringToyLevel.hpp"
 
 #include "BlackStringGPInitialData.hpp"
+#include "BlackStringConstraintCorrectedSeed.hpp"
 #include "BlackStringLive.hpp"
 #include "BoxLoops.hpp"
 #include "BoxIterator.H"
@@ -57,6 +58,25 @@ void BlackStringToyLevel::initialData()
             m_p.r0, m_dx, m_p.coordinate_offset()),
         m_state_new, m_state_new, EXCLUDE_GHOST_CELLS, disable_simd());
 
+    if (m_p.constraint_corrected_fourier_seed)
+    {
+        const Box domain = m_problem_domain.domainBox();
+        const BlackStringConstraintCorrectedSeed::Configuration configuration{
+            domain.size(BlackStringLive::radial_direction),
+            domain.size(BlackStringLive::compact_direction),
+            m_p.fourier_seed_mode_number,
+            m_p.r0,
+            m_dx,
+            m_p.coordinate_minimum[BlackStringLive::radial_direction],
+            m_p.coordinate_minimum[BlackStringLive::compact_direction],
+            m_p.fourier_seed_amplitude};
+        const auto corrected_seed =
+            BlackStringConstraintCorrectedSeed::solve(configuration);
+        BlackStringConstraintCorrectedSeed::apply(
+            corrected_seed, m_state_new, m_problem_domain,
+            m_p.coordinate_offset());
+    }
+
     // The initializer owns valid cells only. Chombo owns intralevel exchange,
     // periodic z wrapping, coarse/fine fill, and configured radial boundaries.
     fillAllGhosts();
@@ -79,11 +99,12 @@ void BlackStringToyLevel::specificEvalRHS(GRLevelData &a_soln,
         a_soln, a_rhs, EXCLUDE_GHOST_CELLS, disable_simd());
     if (m_p.physical_radial_boundaries)
     {
-        BlackStringPerturbativeRadialBoundary::apply_outer_rhs(
-            a_soln, a_rhs, m_problem_domain, m_p.r0, m_dx,
-            m_p.coordinate_offset(), m_p.outer_sommerfeld_speed,
-            Interval(0, NUM_VARS - 1));
+        BlackStringPerturbativeRadialBoundary::apply_dependent_surface_rhs(
+            a_soln, a_rhs, m_problem_domain);
 #ifdef BLACKSTRING_E2_LEVEL_DIAGNOSTICS
+        // Retain the established diagnostic lifecycle counter. In M2-B it
+        // denotes the one boundary-surface dependent-row chain-rule update,
+        // not the retired componentwise radiative RHS.
         m_instrumentation.record_outer_radiative_rhs();
 #endif
     }

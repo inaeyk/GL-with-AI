@@ -1,0 +1,43 @@
+# M2-B cycle-1 restart from the current-revision midpoint checkpoint.
+N1 = 128
+N2 = 256
+L = 8.0
+max_level = 0
+regrid_interval = 0
+max_grid_size = 128
+block_factor = 8
+max_spatial_derivative_order = 4
+num_ghosts = 3
+dt_multiplier = 0.01
+stop_time = 0.01
+max_steps = 32
+checkpoint_interval = 16
+plot_interval = 32
+output_path = .
+restart_file = /tmp/m2b_cycle1_evidence/current_medium/evidence_chk000016.2d.hdf5
+chk_prefix = restart_chk
+plot_prefix = restart_plt
+verbosity = 0
+write_plot_ghosts = 0
+num_plot_vars = 21
+plot_vars = chi hxx hxz hzz hww K Axx Axz Azz Aww Theta GammaX GammaZ lapse shiftX shiftZ Bx Bz Ham MomX MomZ
+
+isPeriodic = 0 1
+lo_boundary = 0 0
+hi_boundary = 0 0
+
+r_0 = 1.0
+black_string_coordinate_minimum = 0.5 0.0
+fixed_lapse_source = 1
+ko_sigma = 0.3
+constraint_diagnostic_cadence = 0
+background_preserving_gp_radial_ghosts = 0
+physical_radial_boundaries = 1
+outer_sommerfeld_speed = 1.0
+
+lapse_advec_coeff = 0.0
+lapse_power = 1.0
+lapse_coeff = 2.0
+shift_Gamma_coeff = 0.75
+shift_advec_coeff = 0.0
+eta = 1.0

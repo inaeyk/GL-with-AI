@@ -257,8 +257,10 @@ The closing audit is complete. The final classification is
 
 #### Milestone 2 — Physical radial and constraint strategy
 
-Status: `M2-A DESIGN READY` after the algebraic-constraint-manifold revision;
-focused substantive audit required before implementation. Milestone 1 is
+Status: `M2-A DESIGN READY` after the algebraic-constraint-manifold revision.
+The focused M2-A audit, M2-B implementation gates, and authoritative retained
+cycle-1 evidence replay are qualified within the human-approved 16-attempt
+ceiling; M2-C has not started. Milestone 1 is
 `CLUSTER_EXECUTION_BASELINE_ACCEPTED`; G-Engineering is passed; G-Physics and
 overall Checkpoint G remain blocked. The D12–D16 spectral investigation is
 closed inconclusive. It does not authorize an automatic return to Fourier
@@ -281,8 +283,9 @@ face speeds are in
 Gamma/Z, seed, boundary-RHS, interface, and failure decisions are in
 `docs/grchombo/milestone2a_characteristic_constraint_design.md`. The reduced
 transform has maximum scaled `kappa_2=36.701446` on the locked domain. M2-B
-and M2-C have not started. One focused design audit must pass before the first
-M2-B implementation cycle.
+implementation, focused audit, bounded evolution, restart, matched
+performance, and retained cycle-1 evidence are qualified; M2-C has not
+started.
 
 ##### Selected strategy A — Radial boundaries
 
@@ -375,6 +378,16 @@ reduced symbol. The first M2-B implementation cycle begins only after this
 audit passes. A documentation-only correction requires no second audit.
 
 ##### M2-B — Production implementation
+
+Cycle-1 status: `M2-B CYCLE 1 PASS — authoritative retained evidence qualified
+within 16-attempt ceiling`. Launches 11 and 13 remain honestly recorded as
+pre-evolution aborts; Launch 12 is the accepted-M1 timing baseline, and
+Launches 14–16 retain matched M2-B performance, medium/fine GP evolution,
+bitwise checkpoint/restart equivalence, MPI ownership, and corrected-seed
+smoke evidence. The implementation and focused gates remain accepted.
+The retained launch ledger, provenance, results, and limitations are in
+`docs/grchombo/milestone2b_cycle1_evidence.md`. This does not start or
+substitute for M2-C.
 
 Implement the selected boundary and initial-data strategy with the smallest
 possible production diff.
