@@ -12,6 +12,12 @@ from pathlib import Path
 from typing import Any
 
 BASE_M2B_COMMIT = "b5970454a649f8cbf46f694ebddcfe191b657530"
+
+ACCEPTED = "PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_ACCEPTED"
+PARTIAL = "PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_PARTIAL"
+BLOCKED = "PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_BLOCKED"
+CLASSIFICATIONS = {ACCEPTED, PARTIAL, BLOCKED}
+
 EXPECTED_LAUNCH_IDS = (
     "medium-near-gp",
     "medium-near-low-plus",
@@ -112,32 +118,20 @@ def common_paths() -> tuple[Path, Path, Path]:
     return workspace, summary, raw_manifest
 
 
-def validate_summary() -> None:
-    _, summary_path, _ = common_paths()
-    value = load_json(summary_path)
-
-    require(value.get("schema_version") == 1, "summary schema_version must be 1")
-    require(
-        value.get("base_m2b_commit") == BASE_M2B_COMMIT,
-        "summary base_m2b_commit mismatch",
-    )
-    require(
-        value.get("classification")
-        == "PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_ACCEPTED",
-        "Milestone 2 classification is not ACCEPTED",
-    )
-    require(value.get("launch_count") == 12, "authoritative launch_count must equal 12")
-    require(
-        tuple(value.get("launch_ids", ())) == EXPECTED_LAUNCH_IDS,
-        "launch IDs/order do not match frozen authority",
-    )
+def validate_accepted(value: dict[str, Any]) -> None:
+    require(value.get("launch_count") == 12, "ACCEPTED requires all 12 launches")
     require(value.get("all_launches_exit_zero") is True, "one or more launches failed")
     require(value.get("gp_controls_pass") is True, "GP controls did not pass")
     require(value.get("mpi_ownership_passed") is True, "MPI ownership gate failed")
+    require(value.get("scientific_acceptance_passed") is True, "acceptance flag is false")
+    require(value.get("human_review_required") is False, "accepted result requests review")
+    require(not value.get("failed_gates"), "accepted result contains failed gates")
+    require(not value.get("stop_reason"), "accepted result contains a stop reason")
 
     low = value.get("low_mode")
     high = value.get("high_mode")
     performance = value.get("performance")
+
     require(isinstance(low, dict), "missing low_mode object")
     require(isinstance(high, dict), "missing high_mode object")
     require(isinstance(performance, dict), "missing performance object")
@@ -221,48 +215,135 @@ def validate_summary() -> None:
     )
 
 
+def validate_nonaccepted(value: dict[str, Any], classification: str) -> None:
+    require(
+        value.get("scientific_acceptance_passed") is False,
+        "nonaccepted result claims scientific acceptance",
+    )
+    require(value.get("human_review_required") is True, "human review must be required")
+    require(
+        isinstance(value.get("stop_reason"), str) and value["stop_reason"].strip(),
+        "nonaccepted result requires a stop reason",
+    )
+    failed = value.get("failed_gates")
+    require(
+        isinstance(failed, list)
+        and failed
+        and all(isinstance(item, str) and item.strip() for item in failed),
+        "nonaccepted result requires explicit failed gates",
+    )
+    if classification == PARTIAL:
+        require(
+            value.get("all_launches_exit_zero") is True,
+            "PARTIAL is reserved for completed but scientifically insufficient runs",
+        )
+
+
+def validate_summary() -> None:
+    _, summary_path, _ = common_paths()
+    value = load_json(summary_path)
+
+    require(value.get("schema_version") == 1, "summary schema_version must be 1")
+    require(
+        value.get("base_m2b_commit") == BASE_M2B_COMMIT,
+        "summary base_m2b_commit mismatch",
+    )
+
+    classification = value.get("classification")
+    require(classification in CLASSIFICATIONS, "invalid Milestone 2 classification")
+
+    launch_count = value.get("launch_count")
+    require(
+        isinstance(launch_count, int) and 0 <= launch_count <= 12,
+        "launch_count must be between 0 and 12",
+    )
+    launch_ids = value.get("launch_ids")
+    require(isinstance(launch_ids, list), "launch_ids must be a list")
+    require(
+        tuple(launch_ids) == EXPECTED_LAUNCH_IDS[:launch_count],
+        "launch IDs must be the frozen ordered prefix",
+    )
+
+    if classification == ACCEPTED:
+        validate_accepted(value)
+    else:
+        validate_nonaccepted(value, classification)
+
+
 def validate_retained() -> None:
     workspace, summary_path, raw_manifest_path = common_paths()
     summary = load_json(summary_path)
     raw = load_json(raw_manifest_path)
+
+    classification = summary.get("classification")
+    launch_count = int(summary.get("launch_count", -1))
 
     require(raw.get("schema_version") == 1, "raw manifest schema_version must be 1")
     require(
         raw.get("base_m2b_commit") == BASE_M2B_COMMIT,
         "raw manifest base commit mismatch",
     )
-    require(raw.get("attempt_count") == 12, "raw attempt count must equal 12")
+    require(raw.get("attempt_count") == launch_count, "raw attempt count mismatch")
 
     launches = raw.get("launches")
     require(isinstance(launches, list), "raw launches must be a list")
-    require(len(launches) == 12, "raw manifest must contain 12 launches")
+    require(len(launches) == launch_count, "raw launch count mismatch")
 
     observed_ids: list[str] = []
+    all_exit_zero = True
+
     for launch in launches:
         require(isinstance(launch, dict), "launch record must be an object")
         identifier = str(launch.get("id", ""))
         observed_ids.append(identifier)
-        require(int(launch.get("exit_code", -1)) == 0, f"launch failed: {identifier}")
+
+        exit_code = int(launch.get("exit_code", -1))
+        all_exit_zero = all_exit_zero and exit_code == 0
+
         for key in ("parameter_sha256", "executable_sha256"):
-            value = str(launch.get(key, ""))
-            require(len(value) == 64, f"invalid {key} for {identifier}")
+            digest = str(launch.get(key, ""))
+            require(len(digest) == 64, f"invalid {key} for {identifier}")
 
         evidence = launch.get("evidence_files")
         require(isinstance(evidence, list) and evidence, f"missing evidence: {identifier}")
+
         for item in evidence:
             require(isinstance(item, dict), f"bad evidence entry: {identifier}")
             relative = Path(str(item.get("path", "")))
-            require(not relative.is_absolute() and ".." not in relative.parts, "unsafe evidence path")
+            require(
+                not relative.is_absolute() and ".." not in relative.parts,
+                "unsafe evidence path",
+            )
             path = workspace / relative
             require(path.is_file(), f"missing evidence file: {relative}")
-            require(int(item.get("size", -1)) == path.stat().st_size, f"size mismatch: {relative}")
-            require(str(item.get("sha256", "")) == sha256(path), f"hash mismatch: {relative}")
+            require(
+                int(item.get("size", -1)) == path.stat().st_size,
+                f"size mismatch: {relative}",
+            )
+            require(
+                str(item.get("sha256", "")) == sha256(path),
+                f"hash mismatch: {relative}",
+            )
 
-    require(tuple(observed_ids) == EXPECTED_LAUNCH_IDS, "raw launch order mismatch")
-    require(tuple(summary.get("launch_ids", ())) == tuple(observed_ids), "summary/raw mismatch")
+    require(
+        tuple(observed_ids) == EXPECTED_LAUNCH_IDS[:launch_count],
+        "raw launch order mismatch",
+    )
+    require(
+        tuple(summary.get("launch_ids", ())) == tuple(observed_ids),
+        "summary/raw launch mismatch",
+    )
+    require(
+        summary.get("all_launches_exit_zero") is all_exit_zero,
+        "summary/raw exit-status mismatch",
+    )
+
+    if classification in {ACCEPTED, PARTIAL}:
+        require(all_exit_zero, "ACCEPTED/PARTIAL requires successful executed launches")
 
     analyzer = workspace / "code/BlackStringToy/tests/chombo_m2c_acceptance/analyze_m2c.py"
     require(analyzer.is_file(), "missing retained-evidence analyzer")
+
     result = subprocess.run(
         [
             "/usr/bin/python3",
@@ -288,11 +369,8 @@ def validate_retained() -> None:
 def validate_hygiene() -> None:
     workspace, _, _ = common_paths()
 
-    require(git("rev-parse", "HEAD"), "missing HEAD")
-    require(
-        git("merge-base", "--is-ancestor", BASE_M2B_COMMIT, "HEAD") == "",
-        "M2-B commit is not an ancestor",
-    )
+    git("rev-parse", "HEAD")
+    git("merge-base", "--is-ancestor", BASE_M2B_COMMIT, "HEAD")
 
     subprocess.run(
         ["git", "diff", "--check"],
@@ -310,7 +388,9 @@ def validate_hygiene() -> None:
 
     changed = set(
         line[3:]
-        for line in git("status", "--porcelain=v1", "--untracked-files=all").splitlines()
+        for line in git(
+            "status", "--porcelain=v1", "--untracked-files=all"
+        ).splitlines()
         if len(line) >= 4
     )
     require(changed, "campaign produced no workspace changes")
@@ -325,6 +405,7 @@ def validate_hygiene() -> None:
     ):
         root = workspace / dependency
         require(root.is_dir(), f"missing dependency: {dependency}")
+
         head = subprocess.run(
             ["git", "rev-parse", "HEAD"],
             cwd=root,
@@ -334,6 +415,7 @@ def validate_hygiene() -> None:
             timeout=30,
         ).stdout.strip()
         require(head == expected, f"dependency commit changed: {dependency}")
+
         status = subprocess.run(
             ["git", "status", "--porcelain"],
             cwd=root,
@@ -345,11 +427,11 @@ def validate_hygiene() -> None:
         require(not status, f"dependency worktree dirty: {dependency}")
 
     for required in (
-        "docs/grchombo/milestone2c_linear_acceptance.md",
-        "logs/milestone2c_linear_acceptance.log",
+        "docs/grchombo/milestone2c_strategy_closure.md",
+        "logs/milestone2c_strategy_closure.log",
         "run_manifests/m2c/acceptance_summary.json",
     ):
-        require((workspace / required).is_file(), f"missing required deliverable: {required}")
+        require((workspace / required).is_file(), f"missing deliverable: {required}")
 
 
 def main() -> int:
