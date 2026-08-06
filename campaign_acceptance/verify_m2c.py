@@ -108,7 +108,7 @@ def matches(path: str, patterns: tuple[str, ...]) -> bool:
 def common_paths() -> tuple[Path, Path, Path]:
     workspace = Path.cwd().resolve()
     summary = workspace / "run_manifests/m2c/acceptance_summary.json"
-    raw_manifest = workspace / ".m2c-work/raw_manifest.json"
+    raw_manifest = workspace / "tmp/m2c/raw_manifest.json"
     return workspace, summary, raw_manifest
 
 
