@@ -389,6 +389,15 @@ The retained launch ledger, provenance, results, and limitations are in
 `docs/grchombo/milestone2b_cycle1_evidence.md`. This does not start or
 substitute for M2-C.
 
+M2-C production repair cycle 1 generalizes only the outer-face parameter
+authority to the two M2-A-validated values `x_out/r0 in {3.5,4.5}` while
+retaining `x_in/r0=0.5`. The fresh focused audit passed: no hidden 4.5
+mathematical assumption or production hot-path change was found, and the
+3.5 transform, Gamma/Z, reconstruction, MPI ownership, and bounded 24x64 and
+36x96 GP controls qualify. Evidence is in
+`docs/grchombo/milestone2b_outer_face_generalization.md`. This repair does not
+constitute M2-C Fourier evidence and does not extend authority beyond 4.5.
+
 Implement the selected boundary and initial-data strategy with the smallest
 possible production diff.
 

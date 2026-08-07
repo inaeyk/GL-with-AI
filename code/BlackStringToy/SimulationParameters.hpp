@@ -191,11 +191,15 @@ class SimulationParameters : public ChomboParameters
                        64.0 * std::numeric_limits<double>::epsilon() *
                            std::max({1.0, std::abs(left), std::abs(right)});
             };
+            const double outer_ratio = outer_face / r0;
+            const bool supported_outer_face =
+                close(outer_ratio, 3.5) || close(outer_ratio, 4.5);
             if (!close(coordinate_minimum[0] / r0, 0.5) ||
-                !close(outer_face / r0, 4.5))
+                !supported_outer_face)
             {
                 MayDay::Error("M2-B characteristic boundary requires the "
-                              "locked x/r_0 domain [0.5,4.5]");
+                              "supported x/r_0 domain [0.5,3.5] or "
+                              "[0.5,4.5]");
             }
             if (!fixed_lapse_source || !close(gauge.lapse_advec_coeff, 0.0) ||
                 !close(gauge.lapse_power, 1.0) ||

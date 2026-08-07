@@ -86,7 +86,8 @@ void require(const bool condition, const std::string &message)
 
 void check_transform_and_classification()
 {
-    for (const double ratio : {0.5, 0.5625, 1.0, 2.0, 4.4375, 4.5})
+    for (const double ratio :
+         {0.5, 0.5625, 1.0, 2.0, 3.5, 4.4375, 4.5})
     {
         const double b = std::sqrt(1.0 / ratio);
         const auto rank_condition =
@@ -125,11 +126,25 @@ void check_transform_and_classification()
             }) == 9,
             "horizon does not have nine glancing fields");
     const auto outer = Characteristics::normal_speeds(std::sqrt(2.0 / 9.0), 1);
+    const auto near_outer =
+        Characteristics::normal_speeds(std::sqrt(2.0 / 7.0), 1);
     const auto inner = Characteristics::normal_speeds(std::sqrt(2.0), -1);
     require(std::count_if(outer.begin(), outer.end(), [](double value) {
                 return value < -5.0e-13;
             }) == 11,
             "outer incoming classification mismatch");
+    require(std::count_if(near_outer.begin(), near_outer.end(),
+                          [](double value) { return value < -5.0e-13; }) ==
+                11 &&
+                std::count_if(near_outer.begin(), near_outer.end(),
+                              [](double value) {
+                                  return value > 5.0e-13;
+                              }) == 7 &&
+                std::count_if(near_outer.begin(), near_outer.end(),
+                              [](double value) {
+                                  return std::abs(value) <= 5.0e-13;
+                              }) == 5,
+            "x/r0=3.5 incoming/outgoing/glancing classification mismatch");
     require(std::count_if(inner.begin(), inner.end(), [](double value) {
                 return value < -5.0e-13;
             }) == 3,
@@ -151,6 +166,14 @@ void check_algebraic_and_gamma()
 {
     Algebraic::validate_locked_gate(1.0);
     BlackStringGammaZHelper::validate_locked_gate(1.0);
+    const BlackStringGammaZHelper::IndependentMetricJet near_face_jet{
+        1.13, 0.09, 0.86, 0.17, -0.15, 0.08,
+        -0.12, 0.19, 0.11, 0.07, -0.05};
+    for (const int normal : {-1, 1})
+    {
+        BlackStringGammaZHelper::validate_case(3.5, normal, near_face_jet,
+                                                1.0);
+    }
     Reduced::Variables<double> vars{};
     vars.physical.h = {1.2, 0.1, 0.9, -77.0};
     vars.physical.A = {-0.3, 0.04, 0.2, 88.0};
@@ -175,8 +198,11 @@ void check_boundary_fields()
 {
     BlackStringPerturbativeRadialBoundary::validate_locked_gate(
         1.0, 0.125, 0.5, 4.5);
+    BlackStringPerturbativeRadialBoundary::validate_locked_gate(
+        1.0, 0.125, 0.5, 3.5);
     for (const auto face_normal :
          {std::array<double, 2>{0.5, -1.0},
+          std::array<double, 2>{3.5, 1.0},
           std::array<double, 2>{4.5, 1.0}})
     {
         const double face = face_normal[0];
@@ -379,6 +405,7 @@ void check_characteristic_controls()
 
     for (const auto face_normal :
          {std::array<double, 2>{0.5, -1.0},
+          std::array<double, 2>{3.5, 1.0},
           std::array<double, 2>{4.5, 1.0}})
     {
         const double face = face_normal[0];
@@ -449,18 +476,20 @@ void check_characteristic_controls()
     }
 }
 
-void check_leveldata_boundary_ownership()
+void check_leveldata_boundary_ownership(const int nx)
 {
-    constexpr int nx = 32;
     constexpr int nz = 16;
+    require(nx == 24 || nx == 32,
+            "ownership fixture requires an authorized radial size");
     ProblemDomain domain(Box(iv(0, 0), iv(nx - 1, nz - 1)));
     domain.setPeriodic(0, false);
     domain.setPeriodic(1, true);
+    const int split = nx / 2;
     Vector<Box> boxes;
-    boxes.push_back(Box(iv(0, 0), iv(15, 7)));
-    boxes.push_back(Box(iv(0, 8), iv(15, 15)));
-    boxes.push_back(Box(iv(16, 0), iv(31, 7)));
-    boxes.push_back(Box(iv(16, 8), iv(31, 15)));
+    boxes.push_back(Box(iv(0, 0), iv(split - 1, 7)));
+    boxes.push_back(Box(iv(0, 8), iv(split - 1, 15)));
+    boxes.push_back(Box(iv(split, 0), iv(nx - 1, 7)));
+    boxes.push_back(Box(iv(split, 8), iv(nx - 1, 15)));
     Vector<int> processors(4, 0);
     for (int index = 0; index < 4; ++index)
     {
@@ -494,6 +523,7 @@ void check_leveldata_boundary_ownership()
 
     std::vector<double> physical_ghost_snapshot;
     int local_physical_ghost_points = 0;
+    int local_internal_seam_points = 0;
     for (DataIterator dit = state.dataIterator(); dit.ok(); ++dit)
     {
         const Box valid = layout[dit];
@@ -524,6 +554,10 @@ void check_leveldata_boundary_ownership()
             }
             if (valid.contains(point) || domain.domainBox().contains(point))
             {
+                if (!valid.contains(point) && domain.domainBox().contains(point))
+                {
+                    ++local_internal_seam_points;
+                }
                 const auto expected = manufactured_state(point[0], point[1]);
                 for (int slot = 0; slot < Production::NUM_VARS; ++slot)
                 {
@@ -539,6 +573,18 @@ void check_leveldata_boundary_ownership()
     }
     require(local_physical_ghost_points > 0 || numProc() > 1,
             "medium layout exposed no local physical ghost points");
+    int total_physical_ghost_points = local_physical_ghost_points;
+    int total_internal_seam_points = local_internal_seam_points;
+#ifdef CH_MPI
+    MPI_Allreduce(&local_physical_ghost_points, &total_physical_ghost_points,
+                  1, MPI_INT, MPI_SUM, Chombo_MPI::comm);
+    MPI_Allreduce(&local_internal_seam_points, &total_internal_seam_points,
+                  1, MPI_INT, MPI_SUM, Chombo_MPI::comm);
+#endif
+    require(total_physical_ghost_points > 0,
+            "authorized layout exposed no physical radial ghost points");
+    require(numProc() == 1 || total_internal_seam_points > 0,
+            "MPI layout exposed no exchange-owned internal seam points");
 
     for (int radial : {0, nx - 1})
     {
@@ -596,6 +642,15 @@ void check_leveldata_boundary_ownership()
     }
     require(snapshot_index == physical_ghost_snapshot.size(),
             "physical ghost lifecycle snapshot mismatch");
+    if (procID() == 0)
+    {
+        std::cout << "M2B_MPI_OWNERSHIP outer_face="
+                  << 0.5 + static_cast<double>(nx) * 0.125
+                  << " ranks=" << numProc()
+                  << " physical_ghost_points=" << total_physical_ghost_points
+                  << " internal_seam_points=" << total_internal_seam_points
+                  << " internal_mpi_seams=exchange_only\n";
+    }
 }
 
 void check_seed()
@@ -662,7 +717,8 @@ int main(int argc, char **argv)
     check_boundary_fields();
     check_characteristic_controls();
     check_outgoing_manufactured_refinement();
-    check_leveldata_boundary_ownership();
+    check_leveldata_boundary_ownership(24);
+    check_leveldata_boundary_ownership(32);
     check_seed();
     if (procID() == 0)
     {
