@@ -111,6 +111,39 @@ def matches(path: str, patterns: tuple[str, ...]) -> bool:
     return any(fnmatch.fnmatchcase(path, pattern) for pattern in patterns)
 
 
+def changed_paths_from_porcelain(output: bytes) -> set[str]:
+    """Parse Git porcelain-v1 -z output, including two-path rename/copy records."""
+    entries = output.split(b"\0")
+    changed: set[str] = set()
+    index = 0
+    while index < len(entries):
+        entry = entries[index]
+        index += 1
+        if not entry:
+            continue
+        require(
+            len(entry) >= 4 and entry[2:3] == b" ",
+            "malformed Git porcelain-v1 -z record",
+        )
+        status = entry[:2]
+        changed.add(entry[3:].decode("utf-8", errors="surrogateescape"))
+        if b"R" in status or b"C" in status:
+            require(
+                index < len(entries) and bool(entries[index]),
+                "rename/copy Git porcelain record lacks its source path",
+            )
+            changed.add(entries[index].decode("utf-8", errors="surrogateescape"))
+            index += 1
+    return changed
+
+
+def validate_changed_paths(changed: set[str]) -> None:
+    require(changed, "campaign produced no workspace changes")
+    for path in sorted(changed):
+        require(not matches(path, PROTECTED_PATHS), f"protected path changed: {path}")
+        require(matches(path, ALLOWED_CHANGED_PATHS), f"out-of-scope path changed: {path}")
+
+
 def common_paths() -> tuple[Path, Path, Path]:
     workspace = Path.cwd().resolve()
     summary = workspace / "run_manifests/m2c/acceptance_summary.json"
@@ -386,18 +419,15 @@ def validate_hygiene() -> None:
     )
     require(cached.returncode == 0, "staged area must remain empty")
 
-    changed = set(
-        line[3:]
-        for line in git(
-            "status", "--porcelain=v1", "--untracked-files=all"
-        ).splitlines()
-        if len(line) >= 4
+    result = subprocess.run(
+        ["git", "status", "--porcelain=v1", "-z", "--untracked-files=all"],
+        cwd=workspace,
+        capture_output=True,
+        check=True,
+        timeout=60,
     )
-    require(changed, "campaign produced no workspace changes")
-
-    for path in sorted(changed):
-        require(not matches(path, PROTECTED_PATHS), f"protected path changed: {path}")
-        require(matches(path, ALLOWED_CHANGED_PATHS), f"out-of-scope path changed: {path}")
+    changed = changed_paths_from_porcelain(result.stdout)
+    validate_changed_paths(changed)
 
     for dependency, expected in (
         ("external/GRChombo", "37e659523830418b210acea1661dac0e00bb1b75"),
