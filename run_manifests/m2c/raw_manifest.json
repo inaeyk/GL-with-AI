@@ -1,0 +1,70 @@
+{
+  "attempt_count": 1,
+  "base_m2b_commit": "b5970454a649f8cbf46f694ebddcfe191b657530",
+  "launches": [
+    {
+      "evidence_files": [
+        {
+          "path": "run_manifests/m2c/launches/medium-near-gp/boxes.tsv",
+          "sha256": "d417453a144c6efebdb5a8a158abe18c877cc5c8ab52b839086685c32954ac32",
+          "size": 122
+        },
+        {
+          "path": "run_manifests/m2c/launches/medium-near-gp/command.txt",
+          "sha256": "291d482655bdaa63437e1bab00a7fef025ffe10178fc3f1ab2b22e66c8ee7129",
+          "size": 476
+        },
+        {
+          "path": "run_manifests/m2c/launches/medium-near-gp/launch_metadata.json",
+          "sha256": "ee20415f916d49d8061bd73057bc27d8c89c87650cc14acc9cfcdb6c7f55fb50",
+          "size": 924
+        },
+        {
+          "path": "run_manifests/m2c/launches/medium-near-gp/measurements.tsv",
+          "sha256": "da2712f64356d0f81ffaf6ca16c7d29c46ab7ab9836f50d36f2770b10d90cf17",
+          "size": 854896
+        },
+        {
+          "path": "run_manifests/m2c/launches/medium-near-gp/parameters.txt",
+          "sha256": "0b5a206f2ca536ee8aa3222b70de5892914a50772e051dad87f73dd2fe531162",
+          "size": 1100
+        },
+        {
+          "path": "run_manifests/m2c/launches/medium-near-gp/pout.0.log",
+          "sha256": "12b5bea4a714d24e198b4e9bc9e16b2032bc59951b97f86ded957cd0e87c4a1b",
+          "size": 36154
+        },
+        {
+          "path": "run_manifests/m2c/launches/medium-near-gp/pout.1.log",
+          "sha256": "f821a1e95c65e9af27d8b876ae21b86ae67892dd28ce1ff70d131b9d76b809f0",
+          "size": 36143
+        },
+        {
+          "path": "run_manifests/m2c/launches/medium-near-gp/profiles.tsv",
+          "sha256": "31a1854e63d4217ff8e73c1be150974e9f85513ebc9ce77e1a044480ccc3f478",
+          "size": 3425490
+        },
+        {
+          "path": "run_manifests/m2c/launches/medium-near-gp/status.tsv",
+          "sha256": "63ad8ebbfef06f9a1fe8e65292cb742161c91852bc99566326a3d0b57d8fd5a5",
+          "size": 30337
+        },
+        {
+          "path": "run_manifests/m2c/launches/medium-near-gp/stderr.log",
+          "sha256": "d35bfd99d719c335c91002f3ec955ea957a700203787399845db92f1ae02f589",
+          "size": 1797
+        },
+        {
+          "path": "run_manifests/m2c/launches/medium-near-gp/stdout.log",
+          "sha256": "d96825651bb3154b0eb54d063fae6688b444b21a1ca548c487d06c49ccec3d19",
+          "size": 26284
+        }
+      ],
+      "executable_sha256": "8b0f82ad3dc9cdf66f2118a40f65151001099d7b1fba4dc920230c08efd03856",
+      "exit_code": 1,
+      "id": "medium-near-gp",
+      "parameter_sha256": "0b5a206f2ca536ee8aa3222b70de5892914a50772e051dad87f73dd2fe531162"
+    }
+  ],
+  "schema_version": 1
+}

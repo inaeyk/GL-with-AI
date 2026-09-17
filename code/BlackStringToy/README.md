@@ -79,13 +79,24 @@ M1-E is complete. See
 
 ## Milestone 2 — Physical radial and constraint strategy
 
+Current closure is
+`PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_BLOCKED`. M2-A and M2-B remain
+qualified, including the bounded near/far outer-face authority. The exact
+M2-C v2 matrix, source hashes, and qualified read-only runtime provenance were
+retained. All focused pre-launch gates passed, but the first ordered GP control
+failed after its `t=2.5`, step-400 sample with the locked algebraic-
+reconstruction admissibility failure on both ranks. Launch count is one; no
+retry or later launch occurred. Human review is required and no physical
+conclusion is made.
+G-Physics and overall Checkpoint G remain blocked; Milestone 3 has not begun.
+
 The selected production strategy is **Characteristic-aware radial boundaries
 plus discretely constraint-compatible initial perturbations**. Its objective
 is to replace the provisional physical setup with one production strategy
 capable of supporting a boundary-independent, constraint-controlled linear GL
 perturbation. M2-A is `M2-A DESIGN READY` after the algorithm-consistent
-algebraic-manifold revision, and no Milestone 2 production implementation has
-begun. A full `k_cr r0` scan,
+algebraic-manifold revision, and the accepted M2-B production implementation
+is retained. A full `k_cr r0` scan,
 nonlinear evolution, AMR, apparent horizons, and radiation extraction are
 outside this milestone.
 

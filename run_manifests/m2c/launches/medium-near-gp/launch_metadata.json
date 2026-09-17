@@ -1,0 +1,26 @@
+{
+  "command": [
+    "/usr/bin/time",
+    "-v",
+    "/usr/bin/mpirun.openmpi",
+    "-np",
+    "2",
+    "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+    "run",
+    "medium-near-gp",
+    "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/parameters/medium-near-gp.txt",
+    "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/launches/medium-near-gp"
+  ],
+  "environment": {
+    "OMPI_MCA_rmaps_base_oversubscribe": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "executable_sha256": "8b0f82ad3dc9cdf66f2118a40f65151001099d7b1fba4dc920230c08efd03856",
+  "exit_code": 1,
+  "id": "medium-near-gp",
+  "ordered_attempt": 1,
+  "parameter_sha256": "0b5a206f2ca536ee8aa3222b70de5892914a50772e051dad87f73dd2fe531162",
+  "schema_version": 1,
+  "wall_seconds_outer": 4.875925779342651
+}

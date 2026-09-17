@@ -1,0 +1,26 @@
+M2-C pre-launch dependency and executable check
+date=2026-08-07
+repository_head=1f1ab5c8e4df80ef77e4fc949ed4ee2f1e167d73
+base_m2b_commit=b5970454a649f8cbf46f694ebddcfe191b657530
+base_is_ancestor=true
+workspace_clean_before_freeze=true
+numerical_launch_count=0
+network_operations=none
+
+external/GRChombo type=symbolic_link
+external/GRChombo target=/home/inaeyk/researchrepo/gl-m2-visible-campaign/workspace/external/GRChombo
+external/GRChombo target_exists=false
+external/GRChombo expected_head=37e659523830418b210acea1661dac0e00bb1b75
+
+external/Chombo type=symbolic_link
+external/Chombo target=/home/inaeyk/researchrepo/gl-m2-visible-campaign/workspace/external/Chombo
+external/Chombo target_exists=false
+external/Chombo expected_head=8684f2e000106f1abadb72642e1d15351867f98f
+
+qualified_m2c_executable_found=false
+qualified_m2b_focused_executable_found=false
+retained_local_dependency_or_executable_bundle_found=false
+build_attempted=false
+focused_prelaunch_gates_executed=false
+stop=PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_BLOCKED
+reason=Required protected dependency worktrees and qualified executables are unavailable locally. The no-network and no-dependency-modification rules prohibit recovery in this campaign.

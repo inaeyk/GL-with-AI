@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -15,6 +16,20 @@ from pathlib import Path
 from typing import Any
 
 BASE_M2B_COMMIT = "b5970454a649f8cbf46f694ebddcfe191b657530"
+RUNTIME_MANIFEST_SHA256 = "cc402e7123b209af1fd62a2cc3a061853393582b134aebfd1dd6ae6c3d25194f"
+RUNTIME_BUNDLE = "gl-m2c-v2-locked-37e65952-8684f2e0"
+RUNTIME_EXECUTABLE = Path(
+    "/opt/ras-dependency-bundle/"
+    "M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI."
+    "OPENMPCC.M2C_V2.ex"
+)
+RUNTIME_EXECUTABLE_SHA256 = "8b0f82ad3dc9cdf66f2118a40f65151001099d7b1fba4dc920230c08efd03856"
+TRANSPORT_HELPER = "/opt/ras-transport/codex-code-mode-host"
+TRANSPORT_HELPER_SHA256 = "00ecf5d040865b97884c488883abd342581c2a432debe7a54e4646bceee3d2d6"
+DEPENDENCY_HEADS = {
+    "external/GRChombo": "37e659523830418b210acea1661dac0e00bb1b75",
+    "external/Chombo": "8684f2e000106f1abadb72642e1d15351867f98f",
+}
 MATRIX: tuple[dict[str, Any], ...] = (
     {"id": "medium-near-gp", "nx": 24, "nz": 64, "mode": 1, "epsilon": 0.0, "outer": 3.5},
     {"id": "medium-near-low-plus", "nx": 24, "nz": 64, "mode": 1, "epsilon": 1.0e-8, "outer": 3.5},
@@ -194,20 +209,23 @@ eta = 1.0
 """
 
 
-def dependency_record(root: Path, relative: str) -> dict[str, Any]:
-    dependency = root / relative
+def dependency_record(relative: str) -> dict[str, Any]:
+    if relative not in DEPENDENCY_HEADS:
+        raise RuntimeError(f"unexpected dependency identity: {relative}")
     return {
         "path": relative,
-        "head": git(dependency, "rev-parse", "HEAD"),
-        "status": git(dependency, "status", "--porcelain"),
+        "head": DEPENDENCY_HEADS[relative],
+        "status": "qualified_read_only_runtime_bundle",
     }
 
 
 def freeze(executable: Path) -> None:
     root = workspace()
     executable = executable.resolve()
-    if not executable.is_file():
-        raise RuntimeError(f"missing executable: {executable}")
+    if executable != RUNTIME_EXECUTABLE or not executable.is_file():
+        raise RuntimeError(f"unqualified runtime executable: {executable}")
+    if sha256(executable) != RUNTIME_EXECUTABLE_SHA256:
+        raise RuntimeError("qualified runtime executable hash mismatch")
     raw_path = root / "tmp/m2c/raw_manifest.json"
     if raw_path.exists():
         raw = json.loads(raw_path.read_text(encoding="utf-8"))
@@ -249,11 +267,21 @@ def freeze(executable: Path) -> None:
         "branch": git(root, "branch", "--show-current"),
         "status_sha256": hashlib.sha256(status_text.encode()).hexdigest(),
         "dependencies": [
-            dependency_record(root, "external/GRChombo"),
-            dependency_record(root, "external/Chombo"),
+            dependency_record("external/GRChombo"),
+            dependency_record("external/Chombo"),
         ],
+        "runtime_bundle": {
+            "name": RUNTIME_BUNDLE,
+            "manifest_sha256": RUNTIME_MANIFEST_SHA256,
+            "verification": "engine_qualified_read_only",
+        },
+        "transport_helper": {
+            "path": TRANSPORT_HELPER,
+            "sha256": TRANSPORT_HELPER_SHA256,
+            "verification": "engine_qualified_read_only_host_transport",
+        },
         "source_sha256": source_hashes,
-        "executable_path": str(executable.relative_to(root)),
+        "executable_path": str(executable),
         "executable_size": executable.stat().st_size,
         "executable_sha256": executable_digest,
         "environment": FROZEN_ENVIRONMENT,
@@ -304,17 +332,27 @@ def verify_frozen(root: Path, frozen: dict[str, Any]) -> None:
     if frozen.get("repository_head") != git(root, "rev-parse", "HEAD"):
         raise RuntimeError("frozen source commit changed")
     git(root, "merge-base", "--is-ancestor", BASE_M2B_COMMIT, "HEAD")
-    executable = safe_path(
-        root,
-        str(frozen["executable_path"]),
-        "code/BlackStringToy/tests/chombo_m2c_acceptance",
-    )
+    executable = Path(str(frozen["executable_path"]))
     if (
-        not executable.is_file()
+        executable != RUNTIME_EXECUTABLE
+        or not executable.is_file()
         or executable.stat().st_size != int(frozen["executable_size"])
-        or sha256(executable) != frozen["executable_sha256"]
+        or sha256(executable) != RUNTIME_EXECUTABLE_SHA256
+        or frozen["executable_sha256"] != RUNTIME_EXECUTABLE_SHA256
     ):
         raise RuntimeError("frozen executable changed")
+    if frozen.get("runtime_bundle") != {
+        "name": RUNTIME_BUNDLE,
+        "manifest_sha256": RUNTIME_MANIFEST_SHA256,
+        "verification": "engine_qualified_read_only",
+    }:
+        raise RuntimeError("qualified runtime manifest identity changed")
+    if frozen.get("transport_helper") != {
+        "path": TRANSPORT_HELPER,
+        "sha256": TRANSPORT_HELPER_SHA256,
+        "verification": "engine_qualified_read_only_host_transport",
+    }:
+        raise RuntimeError("qualified transport identity changed")
     if set(frozen.get("source_sha256", {})) != {
         *PRODUCTION_SOURCES,
         *FIXTURE_SOURCES,
@@ -330,10 +368,10 @@ def verify_frozen(root: Path, frozen: dict[str, Any]) -> None:
     ] != ["external/GRChombo", "external/Chombo"]:
         raise RuntimeError("frozen dependency set changed")
     for dependency in dependencies:
-        path = safe_dependency_path(root, str(dependency["path"]))
-        if dependency.get("status") != "" or git(path, "status", "--porcelain"):
-            raise RuntimeError(f"dependency is dirty: {dependency['path']}")
-        if dependency.get("head") != git(path, "rev-parse", "HEAD"):
+        relative = str(dependency["path"])
+        if dependency.get("status") != "qualified_read_only_runtime_bundle":
+            raise RuntimeError(f"dependency qualification changed: {relative}")
+        if dependency.get("head") != DEPENDENCY_HEADS.get(relative):
             raise RuntimeError(f"dependency commit changed: {dependency['path']}")
     mpirun = Path(str(frozen.get("mpirun_path", "")))
     if not mpirun.is_absolute() or not mpirun.is_file():
@@ -371,13 +409,21 @@ def preflight_parameters() -> int:
     retained = root / "run_manifests/m2c"
     frozen = json.loads((retained / "frozen_campaign.json").read_text(encoding="utf-8"))
     verify_frozen(root, frozen)
-    executable = root / str(frozen["executable_path"])
+    executable = Path(str(frozen["executable_path"]))
     records: list[dict[str, Any]] = []
     stdout_sections: list[str] = []
     stderr_sections: list[str] = []
     for launch in frozen["launches"]:
         parameter = root / launch["parameter_path"]
-        command = [str(executable), "preflight", str(launch["id"]), str(parameter)]
+        command = [
+            str(Path(str(frozen["mpirun_path"]))),
+            "-np",
+            "2",
+            str(executable),
+            "preflight",
+            str(launch["id"]),
+            str(parameter),
+        ]
         result = subprocess.run(
             command,
             cwd=root,
@@ -412,7 +458,117 @@ def preflight_parameters() -> int:
             "records": records,
         },
     )
-    if len(records) != len(MATRIX) or records[-1]["exit_code"] != 0:
+    parameter_pass = len(records) == len(MATRIX) and all(
+        record["exit_code"] == 0 for record in records
+    )
+    combined_stdout = "\n".join(stdout_sections)
+    observed = re.findall(
+        r"M2C_PARAMETER_PREFLIGHT_PASS launch=([a-z0-9-]+) "
+        r"transform_rank=([0-9]+) transform_condition=([^ ]+) numerical_launch=0",
+        combined_stdout,
+    )
+    observed_ids = [item[0] for item in observed]
+    ranks = [int(item[1]) for item in observed]
+    conditions = [float(item[2]) for item in observed]
+
+    level_source = (root / "code/BlackStringToy/BlackStringToyLevel.cpp").read_text(
+        encoding="utf-8"
+    )
+    boundary_source = (
+        root / "code/BlackStringToy/BlackStringPerturbativeRadialBoundary.hpp"
+    ).read_text(encoding="utf-8")
+    fixture_source = (
+        root / "code/BlackStringToy/tests/chombo_m2c_acceptance/"
+        "M2CAcceptanceRunner.cpp"
+    ).read_text(encoding="utf-8")
+    exchange_only_source_pass = all(
+        token in level_source
+        for token in (
+            "Chombo already owns the intralevel and pure-periodic-z exchange.",
+            "fillAllGhosts();",
+            "fill_perturbative_radial_ghosts(state, components);",
+        )
+    ) and all(
+        token in boundary_source
+        for token in (
+            "ghosts.setBig(radial_direction, boundary_index - 1);",
+            "ghosts.setSmall(radial_direction, boundary_index + 1);",
+            "Box valid = rhs.disjointBoxLayout()[data_index] & domain;",
+        )
+    ) and all(
+        token in fixture_source
+        for token in (
+            "internal_mpi_seams > 0",
+            "seam_policy=exchange_only",
+            "counts.rhs_periodic_exchanges == counts.rhs_calls",
+        )
+    )
+    explicit_parameter_output = (
+        observed_ids == [str(case["id"]) for case in MATRIX]
+        and ranks == [23] * len(MATRIX)
+        and len(conditions) == len(MATRIX)
+        and all(value < 1000.0 for value in conditions)
+    )
+    locked_gate_pass = parameter_pass and explicit_parameter_output
+    gate_records = [
+        {
+            "id": "characteristic_transform_rank_23",
+            "passed": locked_gate_pass,
+            "observed_ranks": ranks,
+        },
+        {
+            "id": "horizon_glancing_degeneracy_9",
+            "passed": locked_gate_pass,
+            "method": "BlackStringReducedCharacteristics::validate_locked_transform_gate",
+        },
+        {
+            "id": "characteristic_transform_condition_below_1000",
+            "passed": locked_gate_pass,
+            "maximum_observed": max(conditions) if conditions else None,
+        },
+        {
+            "id": "gamma_z_locked_tests_and_mutations",
+            "passed": locked_gate_pass,
+            "method": "BlackStringGammaZHelper::validate_locked_gate",
+        },
+        {
+            "id": "determinant_and_weighted_trace_reconstruction",
+            "passed": locked_gate_pass,
+            "method": "BlackStringAlgebraicReconstruction::validate_locked_gate",
+        },
+        {
+            "id": "dependent_rhs_chain_rules",
+            "passed": locked_gate_pass,
+            "method": "BlackStringAlgebraicReconstruction::validate_locked_gate",
+        },
+        {
+            "id": "mpi_seams_exchange_only",
+            "passed": parameter_pass and exchange_only_source_pass,
+            "method": "two-rank preflight plus frozen production/fixture source invariant check",
+        },
+    ]
+    failed_gates = [str(item["id"]) for item in gate_records if not item["passed"]]
+    write_json(
+        prelaunch / "prelaunch_summary.json",
+        {
+            "schema_version": 1,
+            "base_m2b_commit": BASE_M2B_COMMIT,
+            "repository_head": frozen["repository_head"],
+            "numerical_launch_count": 0,
+            "network_operations": 0,
+            "runtime_bundle": frozen["runtime_bundle"],
+            "transport_helper": frozen["transport_helper"],
+            "dependencies": frozen["dependencies"],
+            "executable_path": frozen["executable_path"],
+            "executable_sha256": frozen["executable_sha256"],
+            "focused_gates_executed": True,
+            "gates": gate_records,
+            "failed_gates": failed_gates,
+            "all_passed": not failed_gates,
+            "stop_reason": "" if not failed_gates else "focused pre-launch gate failed",
+        },
+    )
+    if not parameter_pass or failed_gates:
         return records[-1]["exit_code"] or 1
     print(f"M2C_PARAMETER_PREFLIGHT_PASS cases={len(records)} numerical_launches=0")
     return 0

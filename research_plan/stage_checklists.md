@@ -257,10 +257,15 @@ The closing audit is complete. The final classification is
 
 #### Milestone 2 — Physical radial and constraint strategy
 
-Status: `M2-A DESIGN READY` after the algebraic-constraint-manifold revision.
-The focused M2-A audit, M2-B implementation gates, and authoritative retained
-cycle-1 evidence replay are qualified within the human-approved 16-attempt
-ceiling; M2-C has not started. Milestone 1 is
+Status: `PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_BLOCKED`. The focused M2-A
+audit, M2-B implementation gates, authoritative retained cycle-1 evidence,
+and bounded outer-face generalization remain qualified. The M2-C v2 campaign
+froze its exact twelve-case matrix and qualified read-only runtime provenance.
+All focused pre-launch gates passed with zero numerical attempts. The first
+ordered launch, `medium-near-gp`, then failed at its last completed sample
+`t=2.5`, step 400, with an algebraic-reconstruction admissibility failure on
+both ranks. It is retained as attempt 1 with exit code 1; the contract stopped
+attempts 2 through 12 without retry. Milestone 1 is
 `CLUSTER_EXECUTION_BASELINE_ACCEPTED`; G-Engineering is passed; G-Physics and
 overall Checkpoint G remain blocked. The D12–D16 spectral investigation is
 closed inconclusive. It does not authorize an automatic return to Fourier
@@ -275,7 +280,10 @@ supporting a boundary-independent, constraint-controlled linear GL
 perturbation. Milestone 2 does not attempt a full `k_cr r0` scan, nonlinear
 evolution, AMR, apparent horizons, or radiation extraction.
 
-Current result: `M2-A DESIGN READY`. The exact raw 26-entry matrix, failed
+Current result: `PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_BLOCKED`; human
+review is required after the first frozen GP control failed. Partial retained
+GP data are numerical failure evidence, not a physical claim. The exact raw
+26-entry matrix, failed
 determinant/weighted-trace Jordan chain, explicit algebraic elimination,
 complete reduced 23-entry symbol, both-normal transforms, conditioning, and
 face speeds are in
@@ -284,8 +292,8 @@ Gamma/Z, seed, boundary-RHS, interface, and failure decisions are in
 `docs/grchombo/milestone2a_characteristic_constraint_design.md`. The reduced
 transform has maximum scaled `kappa_2=36.701446` on the locked domain. M2-B
 implementation, focused audit, bounded evolution, restart, matched
-performance, and retained cycle-1 evidence are qualified; M2-C has not
-started.
+performance, and retained cycle-1 evidence are qualified; the M2-C launch
+count is one and the remaining frozen launches were not invoked.
 
 ##### Selected strategy A — Radial boundaries
 
@@ -424,6 +432,18 @@ Required focused tests:
 boundary/seed gates.
 
 ##### M2-C — Scientific acceptance campaign
+
+Current result: `PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_BLOCKED`. The frozen
+twelve-run order, domains, resolutions, amplitudes, common bulk region, source
+hashes, runtime identity, and transport identity are retained under
+`run_manifests/m2c/`. All focused pre-launch gates passed. The first launch,
+`medium-near-gp`, failed after its `t=2.5`, step-400 sample with
+`M2-B ALGEBRAIC_RECONSTRUCTION_ADMISSIBILITY_FAILURE`; its command, exit code,
+stdout/stderr, field/constraint summaries, ownership, profiles, runtime, RSS,
+and hashes are retained. `tmp/m2c/raw_manifest.json` records
+`attempt_count=1`. No retry or later launch occurred. No evidence was
+fabricated or reconstructed. G-Physics and overall Checkpoint G remain
+blocked, and Milestone 3 has not begun.
 
 Use only one likely unstable low-`k` case, one high-`k` control, one
 unperturbed GP control, two resolutions, two outer-boundary locations, and two

@@ -100,6 +100,16 @@ Checkpoint G remain blocked.
 
 ### Milestone 2 — Physical radial and constraint strategy
 
+Current closure: `PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_BLOCKED`. M2-A and
+M2-B remain qualified, including the bounded `x_out/r0 in {3.5,4.5}` repair.
+The M2-C v2 matrix and qualified read-only runtime provenance were frozen and
+all focused pre-launch gates passed. The first ordered GP-control launch failed
+at its last completed sample `t=2.5`, step 400, with the locked algebraic-
+reconstruction admissibility failure on both ranks. Launch count is one; no
+retry or later launch occurred. Human review is required. No M2-C physical
+conclusion follows, G-Physics and overall Checkpoint G remain blocked, and
+Milestone 3 has not begun.
+
 Milestone 2 replaces the provisional physical setup with one production
 strategy capable of supporting a boundary-independent,
 constraint-controlled linear GL perturbation. The selected strategy is
@@ -174,8 +184,8 @@ resolution-robust linear result with compatible physical-field rates and
 controlled constraints. A final `k_cr r0` bracket is not required. Milestone
 2 does not attempt a full `k_cr r0` scan, nonlinear evolution, AMR, apparent
 horizons, or radiation extraction. G-Physics and overall Checkpoint G remain
-blocked, and no implementation has begun. M2-A is `M2-A DESIGN READY` and
-awaits the focused algebraic-manifold design audit before M2-B.
+blocked. M2-A and M2-B are qualified; M2-C is blocked before launch as stated
+above.
 
 ## Historical project narrative
 

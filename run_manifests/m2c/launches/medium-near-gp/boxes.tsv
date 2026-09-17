@@ -1,0 +1,3 @@
+box	owner	lo_x	hi_x	lo_z	hi_z	valid_cells	touches_low_face	touches_high_face
+0	0	0	23	0	31	768	1	1
+1	1	0	23	32	63	768	1	1

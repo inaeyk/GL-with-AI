@@ -1,0 +1,85 @@
+{
+  "all_passed": true,
+  "base_m2b_commit": "b5970454a649f8cbf46f694ebddcfe191b657530",
+  "dependencies": [
+    {
+      "head": "37e659523830418b210acea1661dac0e00bb1b75",
+      "path": "external/GRChombo",
+      "status": "qualified_read_only_runtime_bundle"
+    },
+    {
+      "head": "8684f2e000106f1abadb72642e1d15351867f98f",
+      "path": "external/Chombo",
+      "status": "qualified_read_only_runtime_bundle"
+    }
+  ],
+  "executable_path": "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+  "executable_sha256": "8b0f82ad3dc9cdf66f2118a40f65151001099d7b1fba4dc920230c08efd03856",
+  "failed_gates": [],
+  "focused_gates_executed": true,
+  "gates": [
+    {
+      "id": "characteristic_transform_rank_23",
+      "observed_ranks": [
+        23,
+        23,
+        23,
+        23,
+        23,
+        23,
+        23,
+        23,
+        23,
+        23,
+        23,
+        23
+      ],
+      "passed": true
+    },
+    {
+      "id": "horizon_glancing_degeneracy_9",
+      "method": "BlackStringReducedCharacteristics::validate_locked_transform_gate",
+      "passed": true
+    },
+    {
+      "id": "characteristic_transform_condition_below_1000",
+      "maximum_observed": 26.96654810229121,
+      "passed": true
+    },
+    {
+      "id": "gamma_z_locked_tests_and_mutations",
+      "method": "BlackStringGammaZHelper::validate_locked_gate",
+      "passed": true
+    },
+    {
+      "id": "determinant_and_weighted_trace_reconstruction",
+      "method": "BlackStringAlgebraicReconstruction::validate_locked_gate",
+      "passed": true
+    },
+    {
+      "id": "dependent_rhs_chain_rules",
+      "method": "BlackStringAlgebraicReconstruction::validate_locked_gate",
+      "passed": true
+    },
+    {
+      "id": "mpi_seams_exchange_only",
+      "method": "two-rank preflight plus frozen production/fixture source invariant check",
+      "passed": true
+    }
+  ],
+  "network_operations": 0,
+  "numerical_launch_count": 0,
+  "repository_head": "1f1ab5c8e4df80ef77e4fc949ed4ee2f1e167d73",
+  "runtime_bundle": {
+    "manifest_sha256": "cc402e7123b209af1fd62a2cc3a061853393582b134aebfd1dd6ae6c3d25194f",
+    "name": "gl-m2c-v2-locked-37e65952-8684f2e0",
+    "verification": "engine_qualified_read_only"
+  },
+  "schema_version": 1,
+  "stop_reason": "",
+  "transport_helper": {
+    "path": "/opt/ras-transport/codex-code-mode-host",
+    "sha256": "00ecf5d040865b97884c488883abd342581c2a432debe7a54e4646bceee3d2d6",
+    "verification": "engine_qualified_read_only_host_transport"
+  }
+}

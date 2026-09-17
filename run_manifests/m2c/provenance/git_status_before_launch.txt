@@ -1,0 +1,27 @@
+M TODO.md
+ M code/BlackStringToy/README.md
+ M code/BlackStringToy/tests/chombo_m2c_acceptance/run_campaign.py
+ M docs/grchombo/grchombo_adaptation_backlog.md
+ M research_plan/project_outline.md
+ M research_plan/stage_checklists.md
+?? docs/grchombo/milestone2c_strategy_closure.md
+?? logs/milestone2c_strategy_closure.log
+?? run_manifests/m2c/acceptance_summary.json
+?? run_manifests/m2c/analysis.json
+?? run_manifests/m2c/frozen_campaign.json
+?? run_manifests/m2c/frozen_campaign.sha256
+?? run_manifests/m2c/parameters/fine-near-gp.txt
+?? run_manifests/m2c/parameters/fine-near-high-plus.txt
+?? run_manifests/m2c/parameters/fine-near-low-plus.txt
+?? run_manifests/m2c/parameters/medium-far-gp.txt
+?? run_manifests/m2c/parameters/medium-far-high-plus.txt
+?? run_manifests/m2c/parameters/medium-far-low-plus.txt
+?? run_manifests/m2c/parameters/medium-near-gp.txt
+?? run_manifests/m2c/parameters/medium-near-high-minus.txt
+?? run_manifests/m2c/parameters/medium-near-high-plus.txt
+?? run_manifests/m2c/parameters/medium-near-low-half.txt
+?? run_manifests/m2c/parameters/medium-near-low-minus.txt
+?? run_manifests/m2c/parameters/medium-near-low-plus.txt
+?? run_manifests/m2c/prelaunch/dependency_check.log
+?? run_manifests/m2c/prelaunch/prelaunch_summary.json
+?? run_manifests/m2c/raw_manifest.json

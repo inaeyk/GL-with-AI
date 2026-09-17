@@ -1,0 +1,107 @@
+===== medium-near-gp =====
+[1786619487.968410] [LAPTOP-B1I0UOLV:9    :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+[1786619487.968410] [LAPTOP-B1I0UOLV:10   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+ number_procs = 2
+ threads = 1
+ mpi provided thread support = single
+ simd width (doubles) = 2
+M2C_PARAMETER_PREFLIGHT_PASS launch=medium-near-gp transform_rank=23 transform_condition=26.96654810229121 numerical_launch=0
+
+===== medium-near-low-plus =====
+[1786619489.313939] [LAPTOP-B1I0UOLV:21   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+[1786619489.313945] [LAPTOP-B1I0UOLV:20   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+ number_procs = 2
+ threads = 1
+ mpi provided thread support = single
+ simd width (doubles) = 2
+M2C_PARAMETER_PREFLIGHT_PASS launch=medium-near-low-plus transform_rank=23 transform_condition=26.96654810229121 numerical_launch=0
+
+===== medium-near-low-minus =====
+[1786619490.661121] [LAPTOP-B1I0UOLV:32   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+[1786619490.661156] [LAPTOP-B1I0UOLV:31   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+ number_procs = 2
+ threads = 1
+ mpi provided thread support = single
+ simd width (doubles) = 2
+M2C_PARAMETER_PREFLIGHT_PASS launch=medium-near-low-minus transform_rank=23 transform_condition=26.96654810229121 numerical_launch=0
+
+===== medium-near-high-plus =====
+[1786619492.005229] [LAPTOP-B1I0UOLV:43   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+[1786619492.005415] [LAPTOP-B1I0UOLV:42   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+ number_procs = 2
+ threads = 1
+ mpi provided thread support = single
+ simd width (doubles) = 2
+M2C_PARAMETER_PREFLIGHT_PASS launch=medium-near-high-plus transform_rank=23 transform_condition=26.96654810229121 numerical_launch=0
+
+===== medium-near-high-minus =====
+[1786619493.369267] [LAPTOP-B1I0UOLV:54   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+[1786619493.372996] [LAPTOP-B1I0UOLV:53   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+ number_procs = 2
+ threads = 1
+ mpi provided thread support = single
+ simd width (doubles) = 2
+M2C_PARAMETER_PREFLIGHT_PASS launch=medium-near-high-minus transform_rank=23 transform_condition=26.96654810229121 numerical_launch=0
+
+===== fine-near-gp =====
+[1786619494.727073] [LAPTOP-B1I0UOLV:64   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+[1786619494.727111] [LAPTOP-B1I0UOLV:65   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+ number_procs = 2
+ threads = 1
+ mpi provided thread support = single
+ simd width (doubles) = 2
+M2C_PARAMETER_PREFLIGHT_PASS launch=fine-near-gp transform_rank=23 transform_condition=26.96654810229121 numerical_launch=0
+
+===== fine-near-low-plus =====
+[1786619496.074428] [LAPTOP-B1I0UOLV:76   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+[1786619496.074428] [LAPTOP-B1I0UOLV:75   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+ number_procs = 2
+ threads = 1
+ mpi provided thread support = single
+ simd width (doubles) = 2
+M2C_PARAMETER_PREFLIGHT_PASS launch=fine-near-low-plus transform_rank=23 transform_condition=26.96654810229121 numerical_launch=0
+
+===== fine-near-high-plus =====
+[1786619497.428741] [LAPTOP-B1I0UOLV:86   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+[1786619497.429051] [LAPTOP-B1I0UOLV:87   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+ number_procs = 2
+ threads = 1
+ mpi provided thread support = single
+ simd width (doubles) = 2
+M2C_PARAMETER_PREFLIGHT_PASS launch=fine-near-high-plus transform_rank=23 transform_condition=26.96654810229121 numerical_launch=0
+
+===== medium-far-gp =====
+[1786619498.774801] [LAPTOP-B1I0UOLV:98   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+[1786619498.774800] [LAPTOP-B1I0UOLV:97   :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+ number_procs = 2
+ threads = 1
+ mpi provided thread support = single
+ simd width (doubles) = 2
+M2C_PARAMETER_PREFLIGHT_PASS launch=medium-far-gp transform_rank=23 transform_condition=26.825691506909308 numerical_launch=0
+
+===== medium-far-low-plus =====
+[1786619500.117359] [LAPTOP-B1I0UOLV:108  :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+[1786619500.117760] [LAPTOP-B1I0UOLV:109  :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+ number_procs = 2
+ threads = 1
+ mpi provided thread support = single
+ simd width (doubles) = 2
+M2C_PARAMETER_PREFLIGHT_PASS launch=medium-far-low-plus transform_rank=23 transform_condition=26.825691506909308 numerical_launch=0
+
+===== medium-far-high-plus =====
+[1786619501.460132] [LAPTOP-B1I0UOLV:119  :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+[1786619501.460646] [LAPTOP-B1I0UOLV:120  :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+ number_procs = 2
+ threads = 1
+ mpi provided thread support = single
+ simd width (doubles) = 2
+M2C_PARAMETER_PREFLIGHT_PASS launch=medium-far-high-plus transform_rank=23 transform_condition=26.825691506909308 numerical_launch=0
+
+===== medium-near-low-half =====
+[1786619502.807480] [LAPTOP-B1I0UOLV:130  :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+[1786619502.807480] [LAPTOP-B1I0UOLV:131  :0]       tcp_iface.c:989  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+ number_procs = 2
+ threads = 1
+ mpi provided thread support = single
+ simd width (doubles) = 2
+M2C_PARAMETER_PREFLIGHT_PASS launch=medium-near-low-half transform_rank=23 transform_condition=26.96654810229121 numerical_launch=0

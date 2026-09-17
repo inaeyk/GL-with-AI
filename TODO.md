@@ -59,8 +59,12 @@ projection.
   constraint-compatible initial perturbations**. Replace the provisional
   setup with one production strategy capable of supporting a
   boundary-independent, constraint-controlled linear GL perturbation. This
-  has a revised, algorithm-consistent M2-A design lock; no production
-  implementation has begun. It does not attempt a full `k_cr r0` scan,
+  has a revised, algorithm-consistent M2-A design lock and accepted M2-B
+  implementation. M2-C v2 closed
+  `PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_BLOCKED`: its qualified runtime and
+  focused pre-launch gates passed, but the first ordered GP control failed at
+  `t=2.5`, step 400, with the algebraic-reconstruction admissibility gate on
+  both ranks. Launch count is one with no retry. It does not attempt a full `k_cr r0` scan,
   nonlinear evolution, AMR,
   apparent horizons, or radiation extraction.
   - [x] **M2-A — Design and convention lock:** `M2-A DESIGN READY`. The raw
@@ -70,22 +74,29 @@ projection.
     bounded 23-variable tangent-space basis for both normals. It locks the
     mixed inner boundary, incoming-only outer treatment, three-layer ghosts,
     dependent boundary RHS, differential-constraint seed SVD, and Gamma/Z
-    gate. A focused design audit is required before the first M2-B
-    implementation cycle. M2-A launches: zero.
-  - [ ] **M2-B — Production implementation:** smallest possible diff;
+    gate. The focused audit and implementation cycle are qualified. M2-A
+    launches: zero.
+  - [x] **M2-B — Production implementation:** smallest possible diff;
     incoming-field-only radial data, strict-outflow-only inner excision,
     background-subtracted outer data, periodic `z`, exact GP preservation,
     correct MPI seam ownership/rank independence, intact restart, all 18
     slots/parity, surface-only boundary work, one target-`d=4` RHS and one
     fused KO addition, default-off diagnostics, and focused boundary/wave/seed
-    tests. Initial launch cap: 10.
-  - [ ] **M2-C — Scientific acceptance:** one likely unstable low-`k`, one
+    tests. The authoritative cycle-1 evidence and outer-face generalization
+    are qualified.
+  - [x] **M2-C — Scientific acceptance closure:**
+    `PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_BLOCKED`. The exact matrix,
+    qualified runtime, source hashes, pre-launch pass, and failed first launch
+    are retained. Launch 1 (`medium-near-gp`) exited 1 after `t=2.5`, step 400;
+    later launches were not invoked. Launch count: one; human review required. The intended
+    matrix remains one likely unstable low-`k`, one
     high-`k` control, one GP control, two resolutions, two outer boundaries,
     and two amplitudes where needed, within 12 launches. Require a common
     multi-field rate, phase-neutral amplitude, stable radial profile,
     amplitude linearity, controlled constraints, boundary/resolution
-    robustness, and no growing boundary/grid contamination. Scan no other
-    `k` before this passes.
+    robustness, and no growing boundary/grid contamination. None of these
+    scientific gates was completed. Scan no other `k` before a future
+    authorized decision.
   - Limits: at most two post-M2-B repair cycles of at most six launches each;
     every repair records failed gate, hypothesis, exact production change,
     bounded runs, and stop criteria. After two failures, stop for human review.

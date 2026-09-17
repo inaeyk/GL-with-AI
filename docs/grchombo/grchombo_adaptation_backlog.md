@@ -111,9 +111,14 @@ output cost.
 
 Current status remains owned by `research_plan/stage_checklists.md`.
 Milestone 1 is `CLUSTER_EXECUTION_BASELINE_ACCEPTED`; G-Engineering is passed;
-G-Physics and overall Checkpoint G remain blocked. M2-A is
-`M2-A DESIGN READY` after the algebraic-constraint-manifold revision and
-awaits its focused design audit; no production implementation has begun.
+G-Physics and overall Checkpoint G remain blocked. M2-A and the accepted M2-B
+implementation remain qualified. M2-C v2 is
+`PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_BLOCKED`: its exact matrix, source
+provenance, and qualified runtime were retained and all focused pre-launch
+gates passed. The first ordered GP control then failed after `t=2.5`, step 400,
+with the algebraic-reconstruction admissibility failure on both ranks.
+Numerical launch count is one with no retry, human review is required, and
+Milestone 3 has not begun.
 
 The selected production strategy is **Characteristic-aware radial boundaries
 plus discretely constraint-compatible initial perturbations**. Its objective

@@ -1,0 +1,34 @@
+{
+  "dependency_identities": {
+    "Chombo": "8684f2e000106f1abadb72642e1d15351867f98f",
+    "GRChombo": "37e659523830418b210acea1661dac0e00bb1b75"
+  },
+  "executable": {
+    "path": "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+    "sha256": "8b0f82ad3dc9cdf66f2118a40f65151001099d7b1fba4dc920230c08efd03856",
+    "verification": "live_hashed_in_worker_sandbox"
+  },
+  "historical_obstructions": [
+    {
+      "resolution": "qualified read-only runtime bundle supplied without a scientific launch",
+      "worker": "worker-r000"
+    },
+    {
+      "resolution": "engine-qualified standalone code-mode transport supplied without a scientific launch",
+      "worker": "worker-r001"
+    }
+  ],
+  "network_operations": 0,
+  "numerical_launch_count_at_continuation": 0,
+  "runtime_bundle": {
+    "manifest_sha256": "cc402e7123b209af1fd62a2cc3a061853393582b134aebfd1dd6ae6c3d25194f",
+    "name": "gl-m2c-v2-locked-37e65952-8684f2e0",
+    "verification": "engine_qualified_read_only"
+  },
+  "schema_version": 1,
+  "transport_helper": {
+    "path": "/opt/ras-transport/codex-code-mode-host",
+    "sha256": "00ecf5d040865b97884c488883abd342581c2a432debe7a54e4646bceee3d2d6",
+    "verification": "engine_qualified_read_only_host_transport"
+  }
+}

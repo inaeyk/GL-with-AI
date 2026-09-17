@@ -1,0 +1,329 @@
+{
+  "base_m2b_commit": "b5970454a649f8cbf46f694ebddcfe191b657530",
+  "branch": "custodian/m2c-v2-campaign",
+  "dependencies": [
+    {
+      "head": "37e659523830418b210acea1661dac0e00bb1b75",
+      "path": "external/GRChombo",
+      "status": "qualified_read_only_runtime_bundle"
+    },
+    {
+      "head": "8684f2e000106f1abadb72642e1d15351867f98f",
+      "path": "external/Chombo",
+      "status": "qualified_read_only_runtime_bundle"
+    }
+  ],
+  "environment": {
+    "OMPI_MCA_rmaps_base_oversubscribe": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "executable_path": "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+  "executable_sha256": "8b0f82ad3dc9cdf66f2118a40f65151001099d7b1fba4dc920230c08efd03856",
+  "executable_size": 1947608,
+  "launches": [
+    {
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "/usr/bin/mpirun.openmpi",
+        "-np",
+        "2",
+        "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+        "run",
+        "medium-near-gp",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/parameters/medium-near-gp.txt",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/launches/medium-near-gp"
+      ],
+      "epsilon": 0.0,
+      "evidence_directory": "run_manifests/m2c/launches/medium-near-gp",
+      "id": "medium-near-gp",
+      "mode": 1,
+      "nx": 24,
+      "nz": 64,
+      "outer": 3.5,
+      "parameter_path": "run_manifests/m2c/parameters/medium-near-gp.txt",
+      "parameter_sha256": "0b5a206f2ca536ee8aa3222b70de5892914a50772e051dad87f73dd2fe531162"
+    },
+    {
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "/usr/bin/mpirun.openmpi",
+        "-np",
+        "2",
+        "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+        "run",
+        "medium-near-low-plus",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/parameters/medium-near-low-plus.txt",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/launches/medium-near-low-plus"
+      ],
+      "epsilon": 1e-08,
+      "evidence_directory": "run_manifests/m2c/launches/medium-near-low-plus",
+      "id": "medium-near-low-plus",
+      "mode": 1,
+      "nx": 24,
+      "nz": 64,
+      "outer": 3.5,
+      "parameter_path": "run_manifests/m2c/parameters/medium-near-low-plus.txt",
+      "parameter_sha256": "709c916400a4561b8f007ecfa080f40aa708239ea284b071825227b5aea55229"
+    },
+    {
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "/usr/bin/mpirun.openmpi",
+        "-np",
+        "2",
+        "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+        "run",
+        "medium-near-low-minus",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/parameters/medium-near-low-minus.txt",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/launches/medium-near-low-minus"
+      ],
+      "epsilon": -1e-08,
+      "evidence_directory": "run_manifests/m2c/launches/medium-near-low-minus",
+      "id": "medium-near-low-minus",
+      "mode": 1,
+      "nx": 24,
+      "nz": 64,
+      "outer": 3.5,
+      "parameter_path": "run_manifests/m2c/parameters/medium-near-low-minus.txt",
+      "parameter_sha256": "9b7a837883ade93da9ca36acc2f227a6c38e1d86dfaa4eb1ae9d1ad538725410"
+    },
+    {
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "/usr/bin/mpirun.openmpi",
+        "-np",
+        "2",
+        "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+        "run",
+        "medium-near-high-plus",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/parameters/medium-near-high-plus.txt",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/launches/medium-near-high-plus"
+      ],
+      "epsilon": 1e-08,
+      "evidence_directory": "run_manifests/m2c/launches/medium-near-high-plus",
+      "id": "medium-near-high-plus",
+      "mode": 2,
+      "nx": 24,
+      "nz": 64,
+      "outer": 3.5,
+      "parameter_path": "run_manifests/m2c/parameters/medium-near-high-plus.txt",
+      "parameter_sha256": "4aa7de6725a182da364606f68db458d589e1fc7d7439301244d0e8ff13841194"
+    },
+    {
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "/usr/bin/mpirun.openmpi",
+        "-np",
+        "2",
+        "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+        "run",
+        "medium-near-high-minus",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/parameters/medium-near-high-minus.txt",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/launches/medium-near-high-minus"
+      ],
+      "epsilon": -1e-08,
+      "evidence_directory": "run_manifests/m2c/launches/medium-near-high-minus",
+      "id": "medium-near-high-minus",
+      "mode": 2,
+      "nx": 24,
+      "nz": 64,
+      "outer": 3.5,
+      "parameter_path": "run_manifests/m2c/parameters/medium-near-high-minus.txt",
+      "parameter_sha256": "d2238685a12354a2cc12b3562edebf117b238e22318852a0309aaf8e8aa5c1af"
+    },
+    {
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "/usr/bin/mpirun.openmpi",
+        "-np",
+        "2",
+        "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+        "run",
+        "fine-near-gp",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/parameters/fine-near-gp.txt",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/launches/fine-near-gp"
+      ],
+      "epsilon": 0.0,
+      "evidence_directory": "run_manifests/m2c/launches/fine-near-gp",
+      "id": "fine-near-gp",
+      "mode": 1,
+      "nx": 36,
+      "nz": 96,
+      "outer": 3.5,
+      "parameter_path": "run_manifests/m2c/parameters/fine-near-gp.txt",
+      "parameter_sha256": "c2c2dd4b3c7c23648dacebc9a62a28f3e733ac8f18974589f494d6640fbcca89"
+    },
+    {
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "/usr/bin/mpirun.openmpi",
+        "-np",
+        "2",
+        "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+        "run",
+        "fine-near-low-plus",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/parameters/fine-near-low-plus.txt",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/launches/fine-near-low-plus"
+      ],
+      "epsilon": 1e-08,
+      "evidence_directory": "run_manifests/m2c/launches/fine-near-low-plus",
+      "id": "fine-near-low-plus",
+      "mode": 1,
+      "nx": 36,
+      "nz": 96,
+      "outer": 3.5,
+      "parameter_path": "run_manifests/m2c/parameters/fine-near-low-plus.txt",
+      "parameter_sha256": "c766b47aefc21217f307d37e055d116e6c75eae4ef187e247a0291e36bc63f45"
+    },
+    {
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "/usr/bin/mpirun.openmpi",
+        "-np",
+        "2",
+        "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+        "run",
+        "fine-near-high-plus",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/parameters/fine-near-high-plus.txt",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/launches/fine-near-high-plus"
+      ],
+      "epsilon": 1e-08,
+      "evidence_directory": "run_manifests/m2c/launches/fine-near-high-plus",
+      "id": "fine-near-high-plus",
+      "mode": 2,
+      "nx": 36,
+      "nz": 96,
+      "outer": 3.5,
+      "parameter_path": "run_manifests/m2c/parameters/fine-near-high-plus.txt",
+      "parameter_sha256": "9f200a3ba0e18ef62404937a806539af1e4ec344b03b5953f8ed17e826ea3576"
+    },
+    {
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "/usr/bin/mpirun.openmpi",
+        "-np",
+        "2",
+        "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+        "run",
+        "medium-far-gp",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/parameters/medium-far-gp.txt",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/launches/medium-far-gp"
+      ],
+      "epsilon": 0.0,
+      "evidence_directory": "run_manifests/m2c/launches/medium-far-gp",
+      "id": "medium-far-gp",
+      "mode": 1,
+      "nx": 32,
+      "nz": 64,
+      "outer": 4.5,
+      "parameter_path": "run_manifests/m2c/parameters/medium-far-gp.txt",
+      "parameter_sha256": "745e3803b565fb1efeb0e540b6555b35c657d8a751b4b827bdf3d22c7a26f31f"
+    },
+    {
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "/usr/bin/mpirun.openmpi",
+        "-np",
+        "2",
+        "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+        "run",
+        "medium-far-low-plus",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/parameters/medium-far-low-plus.txt",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/launches/medium-far-low-plus"
+      ],
+      "epsilon": 1e-08,
+      "evidence_directory": "run_manifests/m2c/launches/medium-far-low-plus",
+      "id": "medium-far-low-plus",
+      "mode": 1,
+      "nx": 32,
+      "nz": 64,
+      "outer": 4.5,
+      "parameter_path": "run_manifests/m2c/parameters/medium-far-low-plus.txt",
+      "parameter_sha256": "601d907a8747b970ea9d57a55601e60609d733cc02d4003d7e427b69e8874597"
+    },
+    {
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "/usr/bin/mpirun.openmpi",
+        "-np",
+        "2",
+        "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+        "run",
+        "medium-far-high-plus",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/parameters/medium-far-high-plus.txt",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/launches/medium-far-high-plus"
+      ],
+      "epsilon": 1e-08,
+      "evidence_directory": "run_manifests/m2c/launches/medium-far-high-plus",
+      "id": "medium-far-high-plus",
+      "mode": 2,
+      "nx": 32,
+      "nz": 64,
+      "outer": 4.5,
+      "parameter_path": "run_manifests/m2c/parameters/medium-far-high-plus.txt",
+      "parameter_sha256": "641bb7c271797b88bacdbb1f37fe9b220bd2d0d7ec42db45ae70f37bea6d4531"
+    },
+    {
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "/usr/bin/mpirun.openmpi",
+        "-np",
+        "2",
+        "/opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex",
+        "run",
+        "medium-near-low-half",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/parameters/medium-near-low-half.txt",
+        "/home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/launches/medium-near-low-half"
+      ],
+      "epsilon": 5e-09,
+      "evidence_directory": "run_manifests/m2c/launches/medium-near-low-half",
+      "id": "medium-near-low-half",
+      "mode": 1,
+      "nx": 24,
+      "nz": 64,
+      "outer": 3.5,
+      "parameter_path": "run_manifests/m2c/parameters/medium-near-low-half.txt",
+      "parameter_sha256": "4e5fab351970c7f9a98da4d8f8d8e5ec28a847a88d556c81cc817993c515df00"
+    }
+  ],
+  "mpirun_path": "/usr/bin/mpirun.openmpi",
+  "repository_head": "1f1ab5c8e4df80ef77e4fc949ed4ee2f1e167d73",
+  "runtime_bundle": {
+    "manifest_sha256": "cc402e7123b209af1fd62a2cc3a061853393582b134aebfd1dd6ae6c3d25194f",
+    "name": "gl-m2c-v2-locked-37e65952-8684f2e0",
+    "verification": "engine_qualified_read_only"
+  },
+  "schema_version": 1,
+  "source_sha256": {
+    "code/BlackStringToy/BlackStringAlgebraicReconstruction.hpp": "c9eb79fc41fcad56008658f1b8f57555a09cd9a6907c4ebf3bd0eddedab7a751",
+    "code/BlackStringToy/BlackStringConstraintCorrectedSeed.hpp": "bfd862dad95e99f4e52df9f6d2debc3d0204262f1f48e40ab7669916046a9e7f",
+    "code/BlackStringToy/BlackStringGammaZHelper.hpp": "565bc181b7ba5a6cd5f5a885223d38f4220a93de19a5bc1f95ebed25a6905acb",
+    "code/BlackStringToy/BlackStringPerturbativeRadialBoundary.hpp": "ec345b1ba162426a1e26a201e8bc7b5e64a6a071ad1b7817d6b817e64ecc2c94",
+    "code/BlackStringToy/BlackStringReducedCharacteristics.hpp": "4495cadc77b451f5841117cd9bbd448a9e6a30b1242663b8cafa4fb0113babfc",
+    "code/BlackStringToy/BlackStringToyLevel.cpp": "34436433d93fa84da41c36ca1e702ecbc4ce5a306c003ec8cd0c26a305c81388",
+    "code/BlackStringToy/SimulationParameters.hpp": "f28244b1bb6f962eff8823219501e7dea4da04fa4242deeef4a6117e3180963f",
+    "code/BlackStringToy/tests/chombo_m2c_acceptance/GNUmakefile": "29afebd253166fba167ef586f7d521e3467d917a71fdf9b7e56743f096e99fce",
+    "code/BlackStringToy/tests/chombo_m2c_acceptance/M2CAcceptanceRunner.cpp": "8d060ca2cce70c7c8bc6b4a024162308332a2ed8e2fee31be4b259f4ef52804f",
+    "code/BlackStringToy/tests/chombo_m2c_acceptance/analyze_m2c.py": "8366152d045542b961e0ab77de27df1dd3e356ff4194225aab8cd0f84010e734",
+    "code/BlackStringToy/tests/chombo_m2c_acceptance/run_campaign.py": "08470d3b792908bc6076273fd5d34c541b65a810c1170812abc39681bdc06a2e"
+  },
+  "status_sha256": "d20f2ea1ddfe6b25a35dbec96c5e7ba45f137e37a6312a72fa344531d854b855",
+  "transport_helper": {
+    "path": "/opt/ras-transport/codex-code-mode-host",
+    "sha256": "00ecf5d040865b97884c488883abd342581c2a432debe7a54e4646bceee3d2d6",
+    "verification": "engine_qualified_read_only_host_transport"
+  }
+}

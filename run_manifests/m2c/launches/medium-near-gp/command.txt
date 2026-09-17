@@ -1,0 +1,2 @@
+environment OMPI_MCA_rmaps_base_oversubscribe=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+/usr/bin/time -v /usr/bin/mpirun.openmpi -np 2 /opt/ras-dependency-bundle/M2CAcceptanceRunner2d_ch.Linux.64.mpicxx.gfortran-15.OPT.MPI.OPENMPCC.M2C_V2.ex run medium-near-gp /home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/parameters/medium-near-gp.txt /home/inaeyk/researchrepo/gl-m2-visible-campaign-v2/workspace/run_manifests/m2c/launches/medium-near-gp

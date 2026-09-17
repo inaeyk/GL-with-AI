@@ -1,0 +1,27 @@
+{
+  "all_launches_exit_zero": false,
+  "base_m2b_commit": "b5970454a649f8cbf46f694ebddcfe191b657530",
+  "classification": "PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_BLOCKED",
+  "comparison_region": {
+    "x_max": 3.0,
+    "x_min": 1.25
+  },
+  "failed_gates": [
+    "launch_exit_zero:medium-near-gp"
+  ],
+  "gp_controls_pass": false,
+  "human_review_required": true,
+  "launch_count": 1,
+  "launch_ids": [
+    "medium-near-gp"
+  ],
+  "mpi_ownership_passed": false,
+  "performance": {
+    "slowdown_fraction": -0.00116695,
+    "status": "reused_m2b"
+  },
+  "restart_regression_status": "reused_m2b",
+  "schema_version": 1,
+  "scientific_acceptance_passed": false,
+  "stop_reason": "numerical launch failed: medium-near-gp"
+}

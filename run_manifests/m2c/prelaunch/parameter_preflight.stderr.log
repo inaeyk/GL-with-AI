@@ -1,0 +1,35 @@
+===== medium-near-gp =====
+hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.
+
+===== medium-near-low-plus =====
+hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.
+
+===== medium-near-low-minus =====
+hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.
+
+===== medium-near-high-plus =====
+hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.
+
+===== medium-near-high-minus =====
+hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.
+
+===== fine-near-gp =====
+hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.
+
+===== fine-near-low-plus =====
+hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.
+
+===== fine-near-high-plus =====
+hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.
+
+===== medium-far-gp =====
+hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.
+
+===== medium-far-low-plus =====
+hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.
+
+===== medium-far-high-plus =====
+hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.
+
+===== medium-near-low-half =====
+hwloc/linux: failed to find sysfs cpu topology directory, aborting linux discovery.

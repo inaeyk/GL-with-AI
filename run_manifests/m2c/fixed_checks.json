@@ -1,0 +1,43 @@
+{
+  "classification": "PHYSICAL_RADIAL_AND_CONSTRAINT_STRATEGY_BLOCKED",
+  "launch_count": 1,
+  "schema_version": 1,
+  "tests": [
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "campaign_acceptance/verify_m2c.py",
+        "--mode",
+        "summary"
+      ],
+      "exit_code": 0,
+      "id": "m2c-summary",
+      "stderr": "",
+      "stdout": "M2C_ACCEPTANCE_PASS mode=summary\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "campaign_acceptance/verify_m2c.py",
+        "--mode",
+        "retained"
+      ],
+      "exit_code": 0,
+      "id": "m2c-retained",
+      "stderr": "",
+      "stdout": "M2C_ACCEPTANCE_PASS mode=retained\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "campaign_acceptance/verify_m2c.py",
+        "--mode",
+        "hygiene"
+      ],
+      "exit_code": 0,
+      "id": "m2c-hygiene",
+      "stderr": "",
+      "stdout": "M2C_ACCEPTANCE_PASS mode=hygiene\n"
+    }
+  ]
+}
