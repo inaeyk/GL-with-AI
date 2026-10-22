@@ -114,3 +114,7 @@ Two separate AI derivational audits are preserved with their limitations;
 they are not external human reviews. Result/closing commit references are
 recorded in `goals/GLR-GOAL-001_REPORT.md` and the final task delivery.
 
+Pinned executed scientific result:
+`7110bc2cb3c0496dd62dc97d37b34d11ec780a17` (33 research-only blobs,
+no deletions/outside changes, verified against the input tree).
+

@@ -35,8 +35,10 @@ approved plans. No production spacetime simulations are authorized here.
 8. [verification/INDEX.md](verification/INDEX.md): checks, negative results,
    proof obligations, and independent review status.
 9. [goals/GLR-GOAL-001.md](goals/GLR-GOAL-001.md) and
-   [goals/LAUNCH.md](goals/LAUNCH.md): ambitious ready-to-start Codex goal,
-   not launched by creation of these files.
+   [goals/GLR-GOAL-001_REPORT.md](goals/GLR-GOAL-001_REPORT.md): executed
+   goal, MEANINGFUL_PARTIAL; exact quadratic source and retarded integral,
+   four numerical transfer estimates, unresolved rigorous enclosure and
+   finite-A gates. `goals/LAUNCH.md` is historical.
 10. [handoffs/MICHAEL_START_HERE.md](handoffs/MICHAEL_START_HERE.md): two-way collaboration.
 
 ## Scientific priorities

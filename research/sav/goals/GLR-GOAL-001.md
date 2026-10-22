@@ -253,3 +253,14 @@ Final classification must be one of:
   by this ledger. Closing report gives exact commit provenance and precise
   next mathematical gate.
 
+### 2026-10-22 — committed scientific milestone and closure
+
+- Scientific result commit: `7110bc2cb3c0496dd62dc97d37b34d11ec780a17`.
+  Remote tree comparison verified33 changed/added blobs, all under
+  research/sav/**, no deletions or outside changes; branch advanced with
+  expected input-head lease.
+- Closing report and Michael science-only handoff record the exact source,
+  C0 estimates, independent review limitations and finite-A obstruction.
+  Closing commit SHA is supplied in final delivery; no commit can embed
+  its own hash. No new analysis campaign or production action was started.
+
