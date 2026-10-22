@@ -9,11 +9,11 @@ simulation is initiated by this file.
 - Repository: `inaeyk/GL-with-AI`
 - Working branch: `research/sav-radiation`
 - Default Codex configuration: **GPT-6.1 Sol / High / standard speed**
-- Read at minimum `research/sav/AGENTS.md`, `README.md`,
-  `NOTATION.md`, `STATUS.md`,
-  `literature/PAST_WORK.md`,
-  `goals/GLR-GOAL-001.md` and
-  `verification/INDEX.md`.
+- Read at minimum `research/sav/AGENTS.md`,
+  `research/sav/README.md`, `research/sav/NOTATION.md`,
+  `research/sav/STATUS.md`, `research/sav/literature/PAST_WORK.md`,
+  `research/sav/goals/GLR-GOAL-001.md` and
+  `research/sav/verification/INDEX.md`.
 - Do not start Codex from main or Michael's supervised/frozen branches.
 - The Codex agent may write only `research/sav/**`, on the selected
   research branch. Do not merge back automatically.
@@ -26,26 +26,22 @@ changes. Set model/effort above if the app exposes those selectors.
 Read the Goal and paste the complete launch prompt below as one extended
 task, not multiple tiny tasks. Do not select any "run simulation" workflow.
 
-## If using an already cloned local working copy
-
-Before handing it to Codex, confirm local uncommitted changes are safe.
-If needed use a fresh worktree instead of changing Michael's checkout:
+## For a fresh dedicated local clone (safer than altering Michael's checkout)
 
 ```bash
-git fetch origin research/sav-radiation
-git worktree add -b glr-goal-001-work ../GL-with-AI-sav \
-  origin/research/sav-radiation
+git clone https://github.com/inaeyk/GL-with-AI.git ../GL-with-AI-sav
 cd ../GL-with-AI-sav
+git fetch origin
+git switch --track origin/research/sav-radiation
 git status --short
 ```
 
-This optional local worktree name `glr-goal-001-work` is for a *local*
-workspace only. When publishing, commit/push to the intended
-`research/sav-radiation` branch via the ordinary reviewed workflow;
-do **not** push a new remote branch or overwrite a ref inadvertently.
-If the remote research branch changed, fetch and reconcile explicitly.
-Alternatively, checkout the remote research branch in a clean dedicated
-clone. Do not execute any GRChombo build/run.
+Confirm the branch is exactly `research/sav-radiation` and the working
+tree is clean. If the remote branch changes during the Codex run, stop and
+reconcile before pushing; do not force-push or merge into `main`.
+For an existing checkout with uncommitted changes, use an isolated clean
+worktree or fresh clone instead of switching Michael's working branch.
+Do not execute any GRChombo build/run.
 
 ## Copy this complete Codex task prompt
 
