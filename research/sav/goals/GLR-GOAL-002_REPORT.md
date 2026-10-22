@@ -292,3 +292,15 @@ constant. Use the charge-fixed constraint framework to complete one
 specified GL-plus-scalar finite-slice family, then bound its fourth-order
 scalar radiation trace. This is a mathematical continuation proposal;
 it is not a newly launched Goal or Michael production request.
+
+## Closing provenance amendment — 2026-10-22
+
+Scientific result commit: **6eb617e4d22b1ca8e8641dcf1f80ca5d9c64e681**
+([GitHub](https://github.com/inaeyk/GL-with-AI/commit/6eb617e4d22b1ca8e8641dcf1f80ca5d9c64e681)).
+Its tree e8f5a1e45cdb9b69bc75fd407093e9bf14283ff2 was compared against
+the immutable input recursive tree: **31 added/changed blobs, zero
+removed blobs, zero changes outside research/sav/**. The branch advanced
+with expected-head lease from 8d4163cd876b33752f7fb6938bb7861fe221b7c0;
+no force update or merge. This closing provenance/pointer amendment is
+the second and final execution commit; its self-SHA appears in final
+chat delivery. No scientific result is changed by this amendment.

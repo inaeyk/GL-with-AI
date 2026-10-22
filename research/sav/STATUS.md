@@ -122,3 +122,10 @@ No production code, numerical parameters, other branches, or simulations
 were changed. No merge or Overleaf/manuscript work occurred. Michael's
 updated science-only interface is `handoffs/MICHAEL_START_HERE.md`.
 
+
+## GOAL-002 publication closure
+
+Scientific result commit **6eb617e4d22b1ca8e8641dcf1f80ca5d9c64e681**
+on research/sav-radiation. Tree scope verified: 31 research-only blobs,
+zero deletions/outside changes. The final commit only pins provenance and
+closing pointers. MEANINGFUL_PARTIAL; no follow-on Goal or production action.

@@ -181,3 +181,12 @@ MEANINGFUL_PARTIAL; no controlled finite-A or first-bulge fraction.
 Research-only publication uses Git-tree API, base-tree comparison and a
 named-branch expected-head lease, following the existing desktop mirror
 workflow. Scientific result SHA is pinned in the closing amendment.
+
+### GOAL-002 published scientific milestone
+
+Scientific result **6eb617e4d22b1ca8e8641dcf1f80ca5d9c64e681**, tree
+**e8f5a1e45cdb9b69bc75fd407093e9bf14283ff2**. Verified 31 changed/added
+blobs, no deletions and no outside-path changes against the input tree.
+Only research/sav-radiation advanced, with expected input head and no
+force/merge. A subsequent research-only provenance/pointer commit closes
+the task; its exact SHA is in final chat delivery.

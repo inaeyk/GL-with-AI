@@ -180,3 +180,14 @@ first-bulge energy estimate are stretch directions, not solved results.
 No modification, additional diagnostics, parameter choice or production
 run is requested from Michael. The existing science-only data-interface
 questions remain open for later collaboration.
+
+## GOAL-002 published re-entry anchor
+
+Scientific result: [6eb617e4d22b1ca8e8641dcf1f80ca5d9c64e681](https://github.com/inaeyk/GL-with-AI/commit/6eb617e4d22b1ca8e8641dcf1f80ca5d9c64e681).
+The full report, two physics derivations, both independent audit scripts/
+records, three scalar configurations and all negative findings are in
+that research-only commit. The closing commit changes provenance/pointers
+only; its SHA is supplied in final delivery. Resume scientifically from
+the report's open n2-inverse/constraint-completion/N4 inequalities, not
+from the historical preparation instructions. No execution is authorized
+by this re-entry pointer.

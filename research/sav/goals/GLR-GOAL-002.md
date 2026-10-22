@@ -329,3 +329,9 @@ OPEN_NEEDS_APPROVAL.
   Scientific and closing commit refs appear in the closing provenance
   amendment/final delivery. No other paths, branches, production workflow,
   manuscripts/Overleaf, simulations, merges or subsequent Goal changed.
+
+- Publication milestone: scientific commit **6eb617e4d22b1ca8e8641dcf1f80ca5d9c64e681**,
+  tree e8f5a1e45cdb9b69bc75fd407093e9bf14283ff2; verified 31 changed/added
+  research blobs, zero removals/outside changes, expected-head branch
+  update without force. Closing amendment only pins provenance/pointers;
+  both execution commit SHAs are supplied in final chat delivery.

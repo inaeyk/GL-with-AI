@@ -86,3 +86,14 @@ performed them; no external human referee endorsement is implied.
 Input blob inventory: goal002_input_tree.json. Provenance additions,
 publication scope/commit refs and source-inspection limits are in SOURCES.md
 and goals/GLR-GOAL-002_REPORT.md. No unauthorized path/run/merge occurred.
+
+## Publication verification
+
+Scientific result commit 6eb617e4d22b1ca8e8641dcf1f80ca5d9c64e681 with parent
+8d4163cd876b33752f7fb6938bb7861fe221b7c0 and tree
+e8f5a1e45cdb9b69bc75fd407093e9bf14283ff2. A recursive path/SHA comparison
+before publication verified 31 changed/added blobs, no removed blobs,
+no outside research/sav/ changes and exact agreement with the intended
+publication path set. Branch update used expected_sha equal to the input
+and force=false. No PR, merge, other branch or production action occurred.
+The second commit is the closing provenance/pointer amendment only.
