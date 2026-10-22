@@ -1,0 +1,108 @@
+{
+  "python": "3.14.8",
+  "sympy": "1.14.0",
+  "checks": [
+    {
+      "name": "DIRECT_4D_SCALAR_CURVATURE_RADIAL_IDENTITY",
+      "status": "PASS"
+    },
+    {
+      "name": "DIRECT_RADIAL_MOMENTUM",
+      "status": "PASS"
+    },
+    {
+      "name": "DIRECT_TANGENTIAL_MOMENTUM",
+      "status": "PASS"
+    },
+    {
+      "name": "DIRECT_HAMILTONIAN_PARABOLIC_IDENTITY",
+      "status": "PASS"
+    },
+    {
+      "name": "OMITTED_RADIAL_LAPSE_GRADIENT_MUTATION",
+      "status": "REJECTED_MUTATION"
+    },
+    {
+      "name": "WRONG_SPATIAL_DIMENSION_Q2_FACTOR_MUTATION",
+      "status": "REJECTED_MUTATION"
+    },
+    {
+      "name": "BACKGROUND_HORIZON_CROSSING_HAMILTONIAN",
+      "status": "PASS"
+    },
+    {
+      "name": "BACKGROUND_HORIZON_CROSSING_MOMENTUM",
+      "status": "PASS"
+    },
+    {
+      "name": "NAIVE_FIXED_KAPPA_SIGMA_BAD_TAIL",
+      "status": "PASS"
+    },
+    {
+      "name": "NAIVE_BAD_TAIL_IS_NOT_R_MINUS_2",
+      "status": "REJECTED_MUTATION"
+    },
+    {
+      "name": "MODIFIED_RULE_EXACT_WEIGHTED_ENERGY_CANCELLATION",
+      "status": "PASS"
+    },
+    {
+      "name": "MODIFIED_RULE_SYMMETRIC_PRINCIPAL_SYMBOL",
+      "status": "PASS"
+    },
+    {
+      "name": "ORDERED_INVERSE_RECURSION_ORDER_1",
+      "status": "PASS"
+    },
+    {
+      "name": "ORDERED_INVERSE_RECURSION_ORDER_2",
+      "status": "PASS"
+    },
+    {
+      "name": "ORDERED_INVERSE_RECURSION_ORDER_3",
+      "status": "PASS"
+    },
+    {
+      "name": "COMMUTED_CUBIC_INVERSE_MUTATION",
+      "status": "REJECTED_MUTATION"
+    },
+    {
+      "name": "HARMONIC_CONVOLUTION_2_3_4",
+      "status": "PASS"
+    },
+    {
+      "name": "HALF_PERIOD_ALLOWS_FREE_ORDER_TWO_N6",
+      "status": "PASS"
+    },
+    {
+      "name": "AH_GRAPH_STABILITY_POTENTIAL",
+      "status": "PASS"
+    },
+    {
+      "name": "AH_DATA_EXPANSION_CANCELLATIONS",
+      "status": "PASS"
+    },
+    {
+      "name": "AH_GL_AREAL_RADIUS_BRIDGE",
+      "status": "PASS"
+    },
+    {
+      "name": "AH_COORDINATE_GRAPH_EQUALS_AREAL_RADIUS_MUTATION",
+      "status": "REJECTED_MUTATION"
+    },
+    {
+      "name": "UNSTABLE_TIME_DUHAMEL_GROWTH",
+      "status": "PASS"
+    },
+    {
+      "name": "QUARTIC_RADION_LOG_COMPLETION",
+      "status": "PASS"
+    },
+    {
+      "name": "OMITTED_QUARTIC_LOG_MUTATION",
+      "status": "REJECTED_MUTATION"
+    }
+  ],
+  "scope": "Exact/manufactured identities only; no global constraint family, finite amplitude theorem or physical evolution certified.",
+  "count": 25
+}

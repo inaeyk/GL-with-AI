@@ -1,0 +1,139 @@
+{
+  "python": "3.14.8",
+  "sympy": "1.14.0",
+  "scope": "Exact symbolic/manufactured checks; no physical ODE or numerical eigenvalue certification",
+  "tests": {
+    "EXACT_POSITIVE_SUPERSOLUTION": {
+      "pass": true,
+      "detail": ""
+    },
+    "ALL_SHIFTED_COEFFICIENTS_POSITIVE": {
+      "pass": true,
+      "detail": "4*aa**2*d**5 + 20*aa**2*d**4 + 40*aa**2*d**3 + 40*aa**2*d**2 + 20*aa**2*d + 4*aa**2 + 11*aa*d**5 + 48*aa*d**4 + 92*aa*d**3 + 90*aa*d**2 + 41*aa*d + 6*aa + 15*d**5/2 + 27*d**4 + 48*d**3 + 44*d**2 + 39*d/2 + 2"
+    },
+    "NAIVE_V_NONNEGATIVE_REJECTED": {
+      "pass": true,
+      "detail": "V/(r-1)=-11/10 at a=3/2"
+    },
+    "DEFORMATION_FACTOR_IDENTITY": {
+      "pass": true,
+      "detail": ""
+    },
+    "UNMODIFIED_TRIAL_FAILS_L10_REGION": {
+      "pass": true,
+      "detail": ""
+    },
+    "FORCED_TRACE_IDENTITY": {
+      "pass": true,
+      "detail": ""
+    },
+    "FORCED_DIVERGENCE_V_IDENTITY": {
+      "pass": true,
+      "detail": ""
+    },
+    "FORCED_DIVERGENCE_R_IDENTITY": {
+      "pass": true,
+      "detail": ""
+    },
+    "ALL_COMPONENT_SOURCE_BIANCHI_0": {
+      "pass": true,
+      "detail": ""
+    },
+    "ALL_COMPONENT_SOURCE_BIANCHI_1": {
+      "pass": true,
+      "detail": ""
+    },
+    "ALL_COMPONENT_SOURCE_BIANCHI_2": {
+      "pass": true,
+      "detail": ""
+    },
+    "PRIMARY_FORCED_MASTER_ARBITRARY_EF_METRIC": {
+      "pass": true,
+      "detail": ""
+    },
+    "SOURCE_AWARE_RECONSTRUCTION_T": {
+      "pass": true,
+      "detail": ""
+    },
+    "SOURCE_AWARE_RECONSTRUCTION_B": {
+      "pass": true,
+      "detail": ""
+    },
+    "SOURCE_AWARE_RECONSTRUCTION_C": {
+      "pass": true,
+      "detail": ""
+    },
+    "SOURCE_AWARE_RECONSTRUCTION_S": {
+      "pass": true,
+      "detail": ""
+    },
+    "OMITTED_FORCED_TRACE_REJECTED": {
+      "pass": true,
+      "detail": ""
+    },
+    "OMITTED_FORCED_DIVERGENCE_REJECTED": {
+      "pass": true,
+      "detail": ""
+    },
+    "OMITTED_SOURCE_LIFT_REJECTED": {
+      "pass": true,
+      "detail": ""
+    },
+    "OFF_SHELL_MASTER_IDENTITY_COEFFICIENT": {
+      "pass": true,
+      "detail": ""
+    },
+    "COMPLEX_HARMONIC_HALF": {
+      "pass": true,
+      "detail": ""
+    },
+    "DOUBLED_HARMONIC_REJECTED": {
+      "pass": true,
+      "detail": ""
+    },
+    "HALF_LIE_GAUGE_CANCELLATION": {
+      "pass": true,
+      "detail": ""
+    },
+    "OMITTED_HALF_LIE_REJECTED": {
+      "pass": true,
+      "detail": "spurious zero mode -1/2"
+    },
+    "GREEN_DERIVATIVE_JUMP_MINUS_ONE": {
+      "pass": true,
+      "detail": ""
+    },
+    "WRONG_GREEN_SIGN_REJECTED": {
+      "pass": true,
+      "detail": ""
+    },
+    "EQUAL_EXPONENT_FORCED_TAIL": {
+      "pass": true,
+      "detail": ""
+    },
+    "HOMOGENEOUS_OUTER_TAIL_REJECTED": {
+      "pass": true,
+      "detail": ""
+    },
+    "REGULAR_FROBENIUS_RECONSTRUCTION": {
+      "pass": true,
+      "detail": ""
+    },
+    "FINITE_MASTER_SINGULAR_RECONSTRUCTION_REJECTED": {
+      "pass": true,
+      "detail": "cc/2 - 5/6"
+    },
+    "GENERAL_RESIDUAL_BIANCHI_ELIMINATION": {
+      "pass": true,
+      "detail": ""
+    },
+    "GENERAL_HORIZON_POLE_EQUALS_BIANCHI": {
+      "pass": true,
+      "detail": ""
+    },
+    "NONCONSERVED_SOURCE_POLE_REJECTED": {
+      "pass": true,
+      "detail": ""
+    }
+  }
+}

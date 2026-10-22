@@ -1,0 +1,34 @@
+{
+  "python": "3.14.8",
+  "sympy": "1.14.0",
+  "scope": "Independent formal infinity coefficients for q>Omega>0, k\u00b2=q\u00b2\u2212Omega\u00b2; no remainder enclosure or BVP",
+  "tests": {
+    "TAIL_ANGULAR_LEADING_CONSTANT_CANCELS": {
+      "pass": true,
+      "detail": ""
+    },
+    "TAIL_ANGULAR_SUBLEADING_UNIVERSAL": {
+      "pass": true,
+      "detail": "-q/4"
+    },
+    "TAIL_LORENTZ_CONTRACTION": {
+      "pass": true,
+      "detail": ""
+    },
+    "TAIL_MASTER_SOURCE_UNIVERSAL": {
+      "pass": true,
+      "detail": "-7*q/16"
+    },
+    "TAIL_OMITTED_ANGULAR_TERM_REJECTED": {
+      "pass": true,
+      "detail": ""
+    },
+    "TAIL_FORCED_PARTICULAR_COEFFICIENT": {
+      "pass": true,
+      "detail": "7/64"
+    }
+  },
+  "Qtheta_over_u1_squared_leading": "-q/4/r",
+  "Schrodinger_source_over_u1_squared_leading": "-7*q/16/r**2",
+  "particular_coefficient": "7/64"
+}

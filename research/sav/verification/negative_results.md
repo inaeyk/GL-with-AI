@@ -147,3 +147,80 @@ by a rigorous interval proof or by a physical simulation waveform.
 Terminal classification MEANINGFUL_PARTIAL. Read GLR_GOAL002_CHECKS.md
 and both new audits; neither certifies a physical finite-A interval.
 
+
+## GLR-GOAL-003 execution negatives and exact limits (2026-10-22)
+
+19. **The bare n=2 potential is not nonnegative.** At a=K²=3/2,
+    V/(r−1) tends to −11/10 at the horizon. The trial w=r/(1+ar³)
+    gives H w/(f w)=a(ar³−2)/(1+ar³) and only proves a≥2, which misses
+    L10. A distinct successful repair w=e^-r/2 r/(1+ar³) proves H≥0 for
+    a≥3/2 by an exact polynomial/ground-state identity. This closes
+    nonresonance, not the physical source or nonlinear norm. These are
+    two analytical approaches, not a scan or a no-go argument.
+
+20. **Naive exact local constraints have unacceptable infinity data.**
+    Holding kappa/sigma at their background exterior prescription gives
+    q−q0=C r^-2/3, too slow for KK-flat extrinsic curvature. The lapse/mass
+    parameter alone cannot remove this momentum tail. The improved
+    kappa=−q/2+d closure has an exact exterior zeroth-order energy identity,
+    but differentiated global bounds, ADM limit and a nonzero mass-map
+    derivative remain unproved. Exact local GL/scalar data do not therefore
+    establish the requested global fixed-charge family.
+
+21. **No physical M2 or nonlinear A* from the new inverse alone.**
+    The effective regular-metric operator bound is established on explicit
+    weighted conserved sources. Actual L10 source/mode derivative and
+    endpoint errors, n=0 higher-derivative bounds and family-dependent
+    homogeneous data remain unenclosed. A point Laplace inverse also
+    does not bound arbitrary retarded transients. The proposed metric,
+    bootstrap and radiation inequalities have unknown constants; no
+    positive quantitative A*, controlled early energy or finite bulge
+    follows. The original empirical numbers retain their status.
+
+22. **Local existence is weaker than radiation differentiability.**
+    The fixed local all-orders free-data rule prevents arbitrary hidden
+    order-four additions on that collar. It does not prove a global C4
+    radiation map. A horizon-localized bump has regular derivative norm
+    independent of its width while its Killing energy tends to zero;
+    the latter cannot control the metric or redshift trace. On logarithmic
+    instability times, an evolution exponent sigma≥pOmega destroys the
+    naive uniform O(A^p) residual estimate (logarithm at equality).
+
+23. **Higher-order sources/memory and geometry are not closed dynamics.**
+    Cubic/quartic ordered connection polynomials and the completed phi4
+    source are derived. Their retarded solutions and radiation remainder
+    are not bounded. The projected memory kernel requires a physical
+    bounded adjoint/propagator and integrable weighted moment before a
+    local gamma is justified. The exact linear AH-radius coefficient
+    has no proved nonlinear remainder or outermost/event-horizon bridge;
+    no finite first-bulge event or fraction is covered.
+
+24. **Finite-window energy can cancel and massive transport differs.**
+    Omitting free/generated interference fails an exact destructive test.
+    A positive lower energy needs b_U<||Np||, presently unproved for the
+    requested global family. The separate EFT source/current includes
+    stress exchange and finite-worldtube storage; 2Omega>m_phi is not an
+    exponential emission switch. Small m_phi*r0 does not control
+    m_phi/Omega, threshold proximity or accumulated propagation phase.
+    Matching errors and quasi-bound contributions are unknown; massive
+    scalar flux is not massless Bondi news and no scalar quadrupole rule
+    follows from SO(3).
+
+25. **Audit corrections and bounded computational failures.**
+    Independent review required the initial energy of the *difference*
+    in the massless-limit estimate, a mixed local constraint-system energy
+    proof, and the shift derivative in the scalar-chart normal derivative.
+    These were corrected and rechecked. Generic expression simplification
+    and an algebraic-field source implementation were too costly; the
+    task's own slow operation was stopped and exact rational QQ_I quotient
+    differentiation completed the calculation. Raw source stdout/JSON
+    include an r^-4 coefficient from a truncated logarithmic-derivative
+    jet; it is not a verified coefficient of the full decaying solution.
+    Only the supported leading/subleading terms are used in scientific
+    conclusions. The independent universal leading-tail derivation is
+    separate evidence. No previous result/output was erased.
+
+These limits accompany a genuine forced-master and bounded-inverse result.
+Terminal **MEANINGFUL_PARTIAL**, not mathematical impossibility. See
+GLR_GOAL003_CHECKS.md, both new audits and GLR-GOAL-003_REPORT.md.
+No production repair or subsequent Goal is authorized by this record.

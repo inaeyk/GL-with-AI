@@ -558,3 +558,23 @@ source, flux normalization and matching here need their own derivation.
 
 Append execution milestones here only after an explicit launch, recording
 actual evidence, paths, errors, audit status and exact commit references.
+
+
+## 14. Execution ledger — explicitly launched 2026-10-22
+
+The owner launched T-20261022-GLR-GOAL-003 in this chat on the requested
+branch. The preparation statements above remain the historical launch
+contract, not the current task state. Actual input head:
+`ef646d56ab7d8bebca578afab53e62da5146ec05`, tree
+`97ddd8265a3b961d3999867ac800de29388df2f2`.
+
+Execution delivered the explicit forced master/all-constraint reconstruction,
+analytic nonresonance/effective regular inverse, exact qualitative local
+data, formal higher sources/memory, linear AH map and separate consistent
+massive-radion EFT. Two distinct adversarial scientific audits executed
+checks and wrong cases. Full global data, physical M2 and nonlinear
+radiation/A* remain open. Terminal **MEANINGFUL_PARTIAL**, under the
+unchanged definition in section 12. See [report](GLR-GOAL-003_REPORT.md),
+[checks](../verification/GLR_GOAL003_CHECKS.md), [input/publication
+provenance](../SOURCES.md) and the existing science handoff. No physical
+ODE/production simulation, manuscript, Overleaf or subsequent Goal.

@@ -1,0 +1,12 @@
+{
+  "python": "3.14.8",
+  "sympy": "1.14.0",
+  "checks": [
+    "generic supersolution identity",
+    "six shifted polynomial coefficients positive for a>=3/2",
+    "L10 lies in sufficient coercive region using pi>3.14",
+    "negative bare potential correctly detected",
+    "exterior comparison lower bound"
+  ],
+  "scope": "Exact analytical bound checks; no numerical profile or ODE."
+}

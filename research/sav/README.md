@@ -48,13 +48,14 @@ approved plans. No production spacetime simulations are authorized here.
     [GLR-GOAL-002_REPORT.md](goals/GLR-GOAL-002_REPORT.md): regular
     second-order equations/zero-mode quadratures and finite-data bounds;
     full n2 response, exact simultaneous GL data and finite-A remainder open.
-11. [goals/GLR-GOAL-003.md](goals/GLR-GOAL-003.md),
-    [review gates](goals/GLR-GOAL-003_REVIEW_GATES.md) and
-    [launch instructions](goals/GLR-GOAL-003_LAUNCH.md): **current prepared
-    next task; NOT LAUNCHED**. Forced n=2 gauge-invariant master and bounded
-    horizon-regular inverse; complete quadratic response; exact GL data;
-    higher-order/nonlinear closure and early radion flux; separate consistent
-    small-mass stabilization/EFT extension. Exact SO(3) is retained.
+11. [GOAL-003 report](goals/GLR-GOAL-003_REPORT.md): **current executed
+    scientific re-entry; MEANINGFUL_PARTIAL**. Explicit forced n=2 master,
+    bounded regular inverse, local exact GL/scalar data, formal higher
+    orders/memory and linear AH map, separate consistent radion EFT.
+    Global fixed-charge data, physical M2, nonlinear radiation and finite-A
+    closure remain open. [Controlling Goal](goals/GLR-GOAL-003.md) and
+    [review gates](goals/GLR-GOAL-003_REVIEW_GATES.md) retain their scope;
+    no subsequent Goal is launched.
 12. [handoffs/MICHAEL_START_HERE.md](handoffs/MICHAEL_START_HERE.md): two-way collaboration.
 
 ## Scientific priorities

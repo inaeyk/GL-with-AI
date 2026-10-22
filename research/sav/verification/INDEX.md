@@ -4,7 +4,28 @@ Date: 2026-10-22. Evidence categories:
 `CHECKED_SIMPLE_ALGEBRA`, `SOURCE_CONFIRMED`,
 `DERIVED_UNAUDITED`, `NOT_ATTEMPTED`, `FAILED`.
 
-## Prepared GLR-GOAL-003 review protocol — not executed
+## Executed GLR-GOAL-003 checks — 2026-10-22
+
+[Full ledger](GLR_GOAL003_CHECKS.md), [report](../goals/GLR-GOAL-003_REPORT.md),
+[Audit I](AUDIT_GOAL003_MASTER.md), [Audit II](AUDIT_GOAL003_FLUX_EFT.md).
+
+| Result | Evidence | Boundary |
+|---|---|---|
+| Forced master, affine lift and all seven equations | Generic primary elimination plus independent EF Ricci construction | K≠0,s>0; static/zero sectors separate |
+| Analytic nonresonance and effective regular metric inverse | Positive supersolution; EF source-Bianchi pole cancellation; derivative and exterior bounds | No certified L10 source norm/M2 or general retarded metric estimate |
+| Actual positive-k quadratic source/Bianchi control | Exact seven linear equations, both harmonics and all Bianchi; retained quadratic-jet coefficients | Local rational parameter control, not a physical eigenmode |
+| Exact simultaneous local data | Direct constraints; mixed local energy estimate; fixed all-orders rule | Global KK-flat/ADM tuning remains open |
+| Cubic/quartic sources, memory and linear AH map | Ordered exact algebra; two independent AH/constraint checks | Higher dynamics/memory boundedness and nonlinear geometry remain open |
+| Separate massive-radion EFT | Independent action/current, thresholds/tails/limits and wrong cases | Conditional on unknown stabilizer/KK matching |
+| Nonlinear radiation/A*/first bulge | NOT ESTABLISHED | Explicit open constants and next mathematical strategy in report |
+
+Primary elimination: 10 checks; independent parent bound check: 5; data:
+25; Audit I: 33; Audit II: 36 plus 19 rejected mutations. Sources, stdout,
+JSON and exact versions are retained. Six additional generic-parameter tail checks verify the actual leading
+source/particular coefficients and reject an omitted angular term. No physical ODE/production simulation ran.
+Earlier rows below are historical evidence, not revised claims.
+
+## Prepared GLR-GOAL-003 protocol — historical preparation
 
 [Goal](../goals/GLR-GOAL-003.md) and
 [acceptance/falsification gates](../goals/GLR-GOAL-003_REVIEW_GATES.md).

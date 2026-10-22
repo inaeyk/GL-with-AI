@@ -1,5 +1,48 @@
 # Source and provenance register
 
+## Executed GLR-GOAL-003 input provenance — 2026-10-22
+
+Repository **inaeyk/GL-with-AI**, branch **research/sav-radiation**.
+Actual execution head **ef646d56ab7d8bebca578afab53e62da5146ec05**, tree
+**97ddd8265a3b961d3999867ac800de29388df2f2**; parent
+554ceb968fb3f2549a80f1b1e953810d9e79744a. The complete recursive tree
+was inspected for path/scope metadata; production contents were not
+imported or modified. [Input manifest](verification/goal003_input_tree.json)
+pins all 79 research blobs, including the controllers, scoped contract,
+notation, prior reports, four audits, negatives and L10 sources/results.
+Hash verification and local-mirror/remote-branch distinctions are recorded
+in [the executed ledger](verification/GLR_GOAL003_CHECKS.md).
+
+Read the complete controlling Goal/gates and scoped AGENTS, STATUS,
+NOTATION, this source register, GOAL-001/002 reports, relevant linear,
+quadratic, retarded and finite-data derivations, all four prior audits and
+negative results. Existing L10 Omega/C0/scalar-transient/profile inputs
+were reused at their original empirical status; no new physical GL
+mode/ODE was computed or implicitly certified. Exact local on-shell
+positive-k controls are distinct from those physical inputs.
+
+Execution literature used as bounded primary-source comparisons:
+
+- [Collingbourne, §§3–4 and regularity appendix](https://arxiv.org/html/2007.08441):
+  homogeneous GL master/reconstruction and regularity benchmark. The new
+  sourced equation/nonresonance proof is derived and checked here.
+- [Rácz, Theorems 4.1/4.2 and §§3–4](https://arxiv.org/html/1508.01810v3):
+  local parabolic/hyperbolic constraint framework. Its hypotheses do not
+  supply global KK-flat data or automatically cover the modified closure;
+  a separate mixed estimate is given in the new data note.
+- [Koyama–Tomimatsu, II and III.2–4](https://arxiv.org/html/gr-qc/0103086v2):
+  free massive radial operator and intermediate/late tail regimes. No
+  uniform forced-tail remainder, matching coefficient or onset time is
+  imported. Current/sign/normalization are independently derived.
+
+The previously recorded Brito/Cardoso/Pani and static-string references
+remain historical comparisons; their homogeneous/static formulas are not
+used to assert a forced TT equation or a dynamical gamma. No unavailable
+chat content or manuscript/Overleaf source is assumed. Separate AI audits
+are linked in the ledger and report; this is not external peer review.
+All new science is confined to research/sav/**. Closing provenance below
+pins the actual publication and tree-scope check after it occurs.
+
 ## Prepared GLR-GOAL-003 provenance — 2026-10-22
 
 Preparation parent: research/sav-radiation@

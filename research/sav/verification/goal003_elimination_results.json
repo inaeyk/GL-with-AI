@@ -1,0 +1,17 @@
+{
+  "python": "3.14.8",
+  "sympy": "1.14.0",
+  "checks": {
+    "TR_ALGEBRAIC_RECONSTRUCTION": true,
+    "FORCED_MASTER_COMBINATION": true,
+    "ARBITRARY_Q_MASTER_IDENTITY": true,
+    "ARBITRARY_Q_B_RECONSTRUCTION": true,
+    "ARBITRARY_Q_T_RECONSTRUCTION": true,
+    "ARBITRARY_Q_S_RECONSTRUCTION": true,
+    "ARBITRARY_Q_C_RECONSTRUCTION": true,
+    "REMAINING_BIANCHI_ALGEBRAIC_CLOSURE": true,
+    "INHOMOGENEOUS_SCHRODINGER_SIGN": true,
+    "OMITTED_AFFINE_SOURCE_REJECTED": true
+  },
+  "scope": "Exact arbitrary-q curved Schwarzschild identities, K != 0, s != 0; no physical BVP or interval inputs."
+}

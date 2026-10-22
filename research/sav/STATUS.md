@@ -10,7 +10,38 @@
 `CONDITIONAL_MODEL` assumption-dependent estimate;
 `OPEN` unanswered.
 
-## GLR-GOAL-003 prepared — current next-task pointer
+## GLR-GOAL-003 executed — current scientific re-entry
+
+**MEANINGFUL_PARTIAL; no controlled positive finite-A interval or first-bulge fraction.**
+[Report](goals/GLR-GOAL-003_REPORT.md),
+[executed checks](verification/GLR_GOAL003_CHECKS.md),
+[forced master](physics/goal003_forced_master.md),
+[inverse and regular norm](physics/goal003_master_independent.md),
+[data/higher orders](physics/goal003_data_nonlinear.md),
+[separate stabilization EFT](physics/goal003_stabilized_radion.md).
+Input: research/sav-radiation@ef646d56ab7d8bebca578afab53e62da5146ec05.
+
+**PROVEN within stated spaces:** explicit source-aware n=2 master and
+all-constraint reconstruction; analytic L10 nonresonance and effective
+regular-metric inverse; exact qualitative finite-collar GL/scalar data
+with fixed local free-data rule; linear apparent-horizon geometry map.
+**FORMAL/CONDITIONAL:** full quadratic norm assembled from all sectors,
+third/fourth sources, memory equation, radiation remainder inequalities,
+and matched massive-radion transport. **OPEN:** physical L10 input/M2
+certification, global fixed-charge simultaneous data, nonlinear regular
+metric/radiation trace, quantitative A*, positive early-energy lower bound
+and finite first-bulge reach. Local data are not a global Cauchy family.
+
+Two distinct adversarial AI audits executed actual checks and mutations.
+No new physical ODE/BVP, wavelength/mass survey or spacetime evolution ran.
+The source controls are symbolic; one smooth-window FFT is manufactured.
+Exact SO(3) is retained: massless tensor news vanishes and scalar monopoles
+are allowed. The massive EFT leaves five-dimensional vacuum equations
+unchanged. Historical empirical Omega/C0/Q and all prior negatives retain
+their original status. See SOURCES.md for input and publication provenance.
+No next Goal, production action or workflow change is requested.
+
+## GLR-GOAL-003 preparation — retained historical text
 
 **READY FOR CODEX; NOT LAUNCHED. Documentation preparation only.**
 [Extended analytical program](goals/GLR-GOAL-003.md),

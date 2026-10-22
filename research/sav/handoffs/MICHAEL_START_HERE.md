@@ -4,7 +4,42 @@
 action requested.** Savdeep leads this analytical thread jointly with
 Michael; Pau Figueras advises. Michael retains numerical responsibility.
 
-## Prepared continuation: GOAL-003, not launched
+## Current scientific re-entry: GOAL-003 executed
+
+**MEANINGFUL_PARTIAL.** Read [the report](../goals/GLR-GOAL-003_REPORT.md)
+and [verification ledger](../verification/GLR_GOAL003_CHECKS.md). Input
+research/sav-radiation@ef646d56ab7d8bebca578afab53e62da5146ec05; exact
+publication refs are in the closing provenance. This is a science-only
+handoff; no implementation, production or subsequent task is requested.
+
+The n=2 obstruction has advanced substantially: an explicit forced
+invariant master and affine reconstruction solve all seven equations,
+and a positive-supersolution identity proves the L10 inverse nonresonant.
+Regular EF pole cancellation and effective derivative-loss bounds now
+control the full tensor for conserved weighted sources. This is not yet
+a certified norm for the empirical L10 source or a general retarded metric
+propagator. Full quadratic geometry includes n=0 quadratures/scalar data,
+charges and independent n=2 transients; all remain in the bound.
+
+The exact simultaneous GL/scalar construction is local on finite
+horizon-crossing collars, with a fixed all-orders free-data rule and a
+qualitative existence radius. Its global KK-flat/ADM-charge extension,
+constraint inverse and radiation map are open. Formal cubic/quartic
+sources, completed N4 and a data-dependent memory kernel are recorded.
+The linear apparent-horizon areal-radius map is
+`delta R_AH = -a_h/[4(1+k²)]` at r0=1; no finite bulge is covered.
+
+There is no positive quantitative A*, controlled physical early-energy
+number or first-bulge fraction. The separate stabilized-radion EFT derives
+massive timelike transport and its limits, with unknown stabilizer and
+near/far matching errors. It changes no 5D vacuum equation. Exact SO(3)
+forbids massless tensor news but allows scalar monopoles; compact n is
+not angular ell. No physical numerical refinement or production evolution
+was run. Two independent scientific AI audits checked equations and
+intentionally wrong cases. Resume scientifically from the report's precise
+open estimates; do not treat this pointer as authorization to execute them.
+
+## GOAL-003 preparation — retained historical text
 
 The current next-task pointer is [GLR-GOAL-003](../goals/GLR-GOAL-003.md),
 with [review gates](../goals/GLR-GOAL-003_REVIEW_GATES.md) and
@@ -22,7 +57,7 @@ No finite-A interval or radiation fraction has become established merely
 by preparing this program. No implementation, simulation, formulation,
 parameter or production-workflow change is requested. No task is launched.
 
-## Latest executed scientific result: GOAL-002, 2026-10-22
+## Previous scientific result: GOAL-002, 2026-10-22
 
 **MEANINGFUL_PARTIAL. No controlled finite-A GL interval or first-bulge
 emitted percentage.** Read [the report](../goals/GLR-GOAL-002_REPORT.md),

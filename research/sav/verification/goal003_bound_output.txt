@@ -1,0 +1,5 @@
+generic supersolution identity: PASS
+six shifted polynomial coefficients positive for a>=3/2: PASS
+L10 lies in sufficient coercive region using pi>3.14: PASS
+negative bare potential correctly detected: PASS
+exterior comparison lower bound: PASS
