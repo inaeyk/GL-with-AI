@@ -4,6 +4,24 @@ Date: 2026-10-22. Evidence categories:
 `CHECKED_SIMPLE_ALGEBRA`, `SOURCE_CONFIRMED`,
 `DERIVED_UNAUDITED`, `NOT_ATTEMPTED`, `FAILED`.
 
+## Executed GLR-GOAL-002 checks — 2026-10-22
+
+See GLR_GOAL002_CHECKS.md for all commands, versions, output paths and scope.
+
+| Check / claim | Evidence | Limit |
+|---|---|---|
+| Independent quadratic source and all reduced sources/constraints | goal002_sector_checks.py, full exact local on-shell Bianchi and both harmonics | Analytic specialization is not a physical global GL mode |
+| EF zero metric, n2 trace/divergence, full first-order horizon components | AUDIT_GOAL002_GEOMETRY.md, 17 independently implemented checks | n2 boundary inverse/global norm not solved |
+| Scalar finite-slice P/Z Green mismatch | goal002_scalar_response.py/JSON, three L10 configurations, Q≈80.8179176 | Empirical, no full interval enclosure or exact GL data completion |
+| Exact scalar-only horizon-crossing vacuum KK initial data | AUDIT_GOAL002_ENERGY.md, direct Hamiltonian/momentum constraints and lift | Does not superpose nonlinearly with GL |
+| GL leading energy non-universality | Exact homogeneous order-two scalar freedom | Constrained perturbative theorem; exact simultaneous-family extension conditional |
+| News energy inequality, regular-slice bound, amplitude convention, smooth spectrum controls | Energy audit: 18 checks, 11 rejected mutations | No physical full spectrum or finite-A error theorem |
+| Fully evaluated n2 response / finite-A interval / first-bulge fraction | NOT COMPLETED | Explicit source-tail, constraint-inverse and N4/data-family obstructions |
+
+Two distinct scientific AI agents ran the audits, not external human
+referees. All equations/numerical checks are non-production. No extra
+control wavelength, physical GL root, n2 grid, 5D evolution or merge.
+
 ## Executed GLR-GOAL-001 checks
 
 `EXACT_CHECKED_AND_REVIEWED` means an exact derivation/check plus separate

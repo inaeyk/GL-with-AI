@@ -1,0 +1,437 @@
+{
+  "commit": "8d4163cd876b33752f7fb6938bb7861fe221b7c0",
+  "files": [
+    {
+      "path": "research/sav/AGENTS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c0c007168f19d4122244208d5234f481a628dd37",
+      "size": 3395,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/c0c007168f19d4122244208d5234f481a628dd37"
+    },
+    {
+      "path": "research/sav/DECISIONS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6bf9cce10418381646a8e8500029023304e9477d",
+      "size": 2490,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/6bf9cce10418381646a8e8500029023304e9477d"
+    },
+    {
+      "path": "research/sav/NOTATION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9919307ca48861fa261ce2ca139f6754009c2cd6",
+      "size": 3741,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/9919307ca48861fa261ce2ca139f6754009c2cd6"
+    },
+    {
+      "path": "research/sav/QUESTIONS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9208cacffb14b1e435d4108ac8f7071a30d71e84",
+      "size": 3230,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/9208cacffb14b1e435d4108ac8f7071a30d71e84"
+    },
+    {
+      "path": "research/sav/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "47b8845fe50f0413699040a419a63ef5a0f44e00",
+      "size": 4282,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/47b8845fe50f0413699040a419a63ef5a0f44e00"
+    },
+    {
+      "path": "research/sav/SOURCES.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8beaef73e55b1c8da76d10dd3d719f33016f456d",
+      "size": 7568,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/8beaef73e55b1c8da76d10dd3d719f33016f456d"
+    },
+    {
+      "path": "research/sav/STATUS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "67c975197cb66519e022e63b68ced9a4e4483d54",
+      "size": 6379,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/67c975197cb66519e022e63b68ced9a4e4483d54"
+    },
+    {
+      "path": "research/sav/agenda/NOVEL_APPROACHES.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3af8e5aee0c2d791dced957000fee5de5c47212f",
+      "size": 3827,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/3af8e5aee0c2d791dced957000fee5de5c47212f"
+    },
+    {
+      "path": "research/sav/agenda/RESEARCH_ROADMAP.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ea487a349e95a256fb1a3457f553660de92f20be",
+      "size": 2757,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/ea487a349e95a256fb1a3457f553660de92f20be"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dff1f932c74222b3b381ec0f74b611b3705cbbd6",
+      "size": 14208,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/dff1f932c74222b3b381ec0f74b611b3705cbbd6"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-001_REPORT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7ccdb108591888cc70b62b6e5ff86adf9f75c5f3",
+      "size": 13361,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/7ccdb108591888cc70b62b6e5ff86adf9f75c5f3"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-002.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b57fec85b3e801ac4f9ba79f9266f0b18bd746cb",
+      "size": 18085,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/b57fec85b3e801ac4f9ba79f9266f0b18bd746cb"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-002_LAUNCH.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "285809603d3431c8d1b9560b138d5cadabc148fe",
+      "size": 4283,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/285809603d3431c8d1b9560b138d5cadabc148fe"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-002_REVIEW_GATES.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "89f11d758170b8a93d6b35a383af6dc277580f5c",
+      "size": 4726,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/89f11d758170b8a93d6b35a383af6dc277580f5c"
+    },
+    {
+      "path": "research/sav/goals/GOAL_TEMPLATE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "91f838702578cdd9a72abab882613a28accd44da",
+      "size": 2650,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/91f838702578cdd9a72abab882613a28accd44da"
+    },
+    {
+      "path": "research/sav/goals/LAUNCH.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "03d57ac0972cf3eba0f6ae7bbd09a80a38cbbf37",
+      "size": 4454,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/03d57ac0972cf3eba0f6ae7bbd09a80a38cbbf37"
+    },
+    {
+      "path": "research/sav/handoffs/ADVISOR_QUESTIONS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8981e015a4484afca2668afaab6bd8afbfdfa1ef",
+      "size": 1154,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/8981e015a4484afca2668afaab6bd8afbfdfa1ef"
+    },
+    {
+      "path": "research/sav/handoffs/MICHAEL_START_HERE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "72713a26d64e72d1f316513f208c86f2662435d1",
+      "size": 6239,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/72713a26d64e72d1f316513f208c86f2662435d1"
+    },
+    {
+      "path": "research/sav/literature/PAST_WORK.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "50f837b92eb9bf7f3f3f79ca6427871148d5e11e",
+      "size": 6882,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/50f837b92eb9bf7f3f3f79ca6427871148d5e11e"
+    },
+    {
+      "path": "research/sav/numerics/boundary_conditions.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8eeeb3ea2587eb981a2ed4aadc50f255d789669",
+      "size": 2094,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/f8eeeb3ea2587eb981a2ed4aadc50f255d789669"
+    },
+    {
+      "path": "research/sav/numerics/extraction_contract.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f4d45316ae8deff1c72c653d887b21591441f578",
+      "size": 3857,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/f4d45316ae8deff1c72c653d887b21591441f578"
+    },
+    {
+      "path": "research/sav/numerics/validation_matrix.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b8986cfff48516686b4d4e9cf533324a3dc44a8f",
+      "size": 2288,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/b8986cfff48516686b4d4e9cf533324a3dc44a8f"
+    },
+    {
+      "path": "research/sav/physics/early_amplitude_flux.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab01f0dd2f2c51cc360570b661f1b8b3f05804b6",
+      "size": 4046,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/ab01f0dd2f2c51cc360570b661f1b8b3f05804b6"
+    },
+    {
+      "path": "research/sav/physics/gl_linear_mode.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f53f363ef3da2b6f067737bc767a704ecbbc4c33",
+      "size": 11188,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/f53f363ef3da2b6f067737bc767a704ecbbc4c33"
+    },
+    {
+      "path": "research/sav/physics/kk_channels.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7694864cd705b80b1b9638896456645973fb73fc",
+      "size": 3559,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/7694864cd705b80b1b9638896456645973fb73fc"
+    },
+    {
+      "path": "research/sav/physics/quadratic_radion_source.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bf25af9110e9d7237514f5e9bc52c07e898d7714",
+      "size": 9007,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/bf25af9110e9d7237514f5e9bc52c07e898d7714"
+    },
+    {
+      "path": "research/sav/physics/radion_retarded_transfer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5520e9256e9f9e8fb5556e094525fd53fa1a0543",
+      "size": 9218,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/5520e9256e9f9e8fb5556e094525fd53fa1a0543"
+    },
+    {
+      "path": "research/sav/physics/radion_transfer_numerics.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "044f9480e6ba264eda6f4444c6de4020022c4ef6",
+      "size": 7566,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/044f9480e6ba264eda6f4444c6de4020022c4ef6"
+    },
+    {
+      "path": "research/sav/physics/so3_reduction.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "38b94944fd51cdf2e7ee6d0d10591de6e880240c",
+      "size": 3826,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/38b94944fd51cdf2e7ee6d0d10591de6e880240c"
+    },
+    {
+      "path": "research/sav/physics/timescales_energy.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8af7d3e830e3eb2932068305f1b0e6676b242bbd",
+      "size": 3966,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/8af7d3e830e3eb2932068305f1b0e6676b242bbd"
+    },
+    {
+      "path": "research/sav/verification/AUDIT_FOUNDATION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2c4056309dad131870bdfd202efa9d78178b1a73",
+      "size": 13817,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/2c4056309dad131870bdfd202efa9d78178b1a73"
+    },
+    {
+      "path": "research/sav/verification/AUDIT_SOURCE_RETARDED.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "220bf8d22b159c729bd5cff37e5de53d09afb20f",
+      "size": 20697,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/220bf8d22b159c729bd5cff37e5de53d09afb20f"
+    },
+    {
+      "path": "research/sav/verification/FOUNDATION_CHECKS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6dfb0c00e8affe36ec44313a48d06b6eb75a585a",
+      "size": 1511,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/6dfb0c00e8affe36ec44313a48d06b6eb75a585a"
+    },
+    {
+      "path": "research/sav/verification/GLR_GOAL001_CHECKS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c3991a20fcd3a1f693590f77634a1abe3a788a72",
+      "size": 4324,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/c3991a20fcd3a1f693590f77634a1abe3a788a72"
+    },
+    {
+      "path": "research/sav/verification/INDEX.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b4ae65557585339703cd4bf049d21a69b9e49279",
+      "size": 4597,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/b4ae65557585339703cd4bf049d21a69b9e49279"
+    },
+    {
+      "path": "research/sav/verification/audit_foundation_checks.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7eda5abc0d4d431b3cbb501077c5e73e9fc6d867",
+      "size": 4498,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/7eda5abc0d4d431b3cbb501077c5e73e9fc6d867"
+    },
+    {
+      "path": "research/sav/verification/audit_source_checks.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "45d7b8282980aa7800232d0584fae7f5b665ccf8",
+      "size": 3834,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/45d7b8282980aa7800232d0584fae7f5b665ccf8"
+    },
+    {
+      "path": "research/sav/verification/audit_source_transfer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1ccefb5faae2dcf8bcf00f3f8cc9bfe8baf384ff",
+      "size": 4870,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/1ccefb5faae2dcf8bcf00f3f8cc9bfe8baf384ff"
+    },
+    {
+      "path": "research/sav/verification/audit_source_transfer_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1fb089971a44fdda85c3ac1447fd0b257a57ed8c",
+      "size": 1256,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/1fb089971a44fdda85c3ac1447fd0b257a57ed8c"
+    },
+    {
+      "path": "research/sav/verification/check_foundation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cff2ef8fc8b8fdd49c7661432a250f205e877415",
+      "size": 1593,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/cff2ef8fc8b8fdd49c7661432a250f205e877415"
+    },
+    {
+      "path": "research/sav/verification/check_quadratic_source.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0b0ddfc2243b45d73e36c4329f858d2118df355f",
+      "size": 3793,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/0b0ddfc2243b45d73e36c4329f858d2118df355f"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_check.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9c1d17aaa34a0d182398b6acf7b3448f73d393bb",
+      "size": 483,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/9c1d17aaa34a0d182398b6acf7b3448f73d393bb"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_exact.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3d400c2f6d0e3ad00c4e5b873ccabd0f646c4497",
+      "size": 5589,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/3d400c2f6d0e3ad00c4e5b873ccabd0f646c4497"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_extended_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2793bcef98b44ea0749bf856d926a898144ba8ba",
+      "size": 3031,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/2793bcef98b44ea0749bf856d926a898144ba8ba"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_mode.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ea7cfa47348df29bc0003d7f92b02769c2a2ca54",
+      "size": 5190,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/ea7cfa47348df29bc0003d7f92b02769c2a2ca54"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_profile_L10.csv",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c854177b86e44e5733e1e9b989ebcdcfdd98ea0",
+      "size": 298766,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/7c854177b86e44e5733e1e9b989ebcdcfdd98ea0"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_profile_L12.csv",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2af67c14a26e5a8c1abc07c7451e8c5974985e2a",
+      "size": 298882,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/2af67c14a26e5a8c1abc07c7451e8c5974985e2a"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_profile_L16.csv",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f4ca27219fd86c73df72c57020c4b5a892cddfc",
+      "size": 299002,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/9f4ca27219fd86c73df72c57020c4b5a892cddfc"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_profile_L8.csv",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "71cc904fd549d7b8699bb0cea27f0e8398906ca3",
+      "size": 298582,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/71cc904fd549d7b8699bb0cea27f0e8398906ca3"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4b48286c6ea211fa56ee9212c946dd1594282f16",
+      "size": 1067,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/4b48286c6ea211fa56ee9212c946dd1594282f16"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_verification.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "970a5f718618fe4e57c73761087b686d0f8bd47e",
+      "size": 403,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/970a5f718618fe4e57c73761087b686d0f8bd47e"
+    },
+    {
+      "path": "research/sav/verification/negative_results.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d0694f9ec2a3b52bcac89dd8d0f7322d4d193be",
+      "size": 5192,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/4d0694f9ec2a3b52bcac89dd8d0f7322d4d193be"
+    },
+    {
+      "path": "research/sav/verification/radion_transfer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "29fc1812de0551dc6760637fe5c2130f73ed7a9c",
+      "size": 5822,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/29fc1812de0551dc6760637fe5c2130f73ed7a9c"
+    },
+    {
+      "path": "research/sav/verification/radion_transfer_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "577d910e8a9f72655ba39e1bd0213459d4a25cae",
+      "size": 13552,
+      "url": "https://api.github.com/repos/inaeyk/GL-with-AI/git/blobs/577d910e8a9f72655ba39e1bd0213459d4a25cae"
+    }
+  ]
+}

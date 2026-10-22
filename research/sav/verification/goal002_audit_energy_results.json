@@ -1,0 +1,81 @@
+{
+  "python": "3.14.8",
+  "sympy": "1.14.0",
+  "numpy": "2.4.6",
+  "scipy": "1.18.0",
+  "checks": [
+    "DIRECT_3D_SCALAR_CURVATURE_R_EQUALS_4_MPRIME_OVER_R2",
+    "DIRECT_RADIAL_MOMENTUM_DIVERGENCE",
+    "SCALAR_MOMENTUM_CONSTRAINT_SOLUTION",
+    "DIRECT_HAMILTONIAN_EXTRINSIC_CURVATURE_FACTORS",
+    "HORIZON_CROSSING_SCHWARZSCHILD_CONSTRAINTS",
+    "EXACT_SCALAR_PULSE_LINEAR_MASS_ODE",
+    "EXTERIOR_POSITIVE_SCALAR_MASS_SOURCE_DETERMINANT_EQUALS_F",
+    "SCALAR_KILLING_ENERGY_REDUCTION_WITH_BOUNDARY_TERM",
+    "HORIZON_CROSSING_KILLING_ENERGY_DENSITY",
+    "CENTRAL_SCALAR_SCRIPT_EF_TETRAD_ORTHONORMALITY",
+    "NULL_FLUX_EQUALS_NEWS_SQUARED_NO_EXTRA_HALF",
+    "TEN_PERCENT_ENERGY_L2_ERROR_THRESHOLD",
+    "CENTRAL_SCALAR_SCRIPT_TRANSIENT_WINDOW_ALGEBRA",
+    "CUBIC_AMPLITUDE_AND_CLOCK_REDEFINITION",
+    "FREE_SCALAR_DATA_NONUNIVERSAL_ENERGY_QUADRATIC",
+    "FOURTH_ORDER_FREE_RADION_UNBOUNDED_BY_LOWER_ORDER_DATA",
+    "SMOOTH_MEMORY_NEWS_POSITIVE_FREQUENCY_PARSEVAL",
+    "DISTINCT_SMOOTH_NEWS_DATA_INTERFERENCE_QUADRATURE"
+  ],
+  "rejected_mutations": [
+    "MOMENTUM_SOURCE_SIGN_MUTATION",
+    "HAMILTONIAN_SCALAR_FACTOR_TWO_MUTATION",
+    "OMIT_SCALAR_MOMENTUM_BACKREACTION_MUTATION",
+    "NEGATIVE_SCHWARZSCHILD_POTENTIAL_MUTATION",
+    "NEWS_FLUX_HALF_MUTATION",
+    "TEN_PERCENT_NEWS_IMPLIES_TEN_PERCENT_ENERGY_MUTATION",
+    "UPPER_BOUND_DENOMINATOR_HIERARCHY_MUTATION",
+    "COMPONENTWISE_SMALLNESS_IMPLIES_METRIC_SIGNATURE_MUTATION",
+    "GAMMA_INVARIANT_AT_FINITE_OMEGA_MUTATION",
+    "DROP_ENERGY_INTERFERENCE_MUTATION",
+    "TWO_SIDED_AS_POSITIVE_FREQUENCY_MUTATION"
+  ],
+  "energy_relative_news_tolerance": 0.04880884817015155,
+  "manufactured_gaussian_control": {
+    "time_bounds": [
+      -30.0,
+      30.0
+    ],
+    "base_integral": 4.15998772473784,
+    "free_integral": 0.2659615202676218,
+    "interference_inner_product": 0.9533048699511361,
+    "analytic_values": [
+      4.1599877247378405,
+      0.2659615202676218,
+      0.9533048699511362
+    ],
+    "gaussian_tail_bounds": [
+      2.1375175997808392e-94,
+      1e-300,
+      1.4620251707070023e-197
+    ],
+    "free_tail_analytic_log_upper": -753.4538756325113,
+    "quadpack_error_estimates": [
+      2.8970815014319495e-12,
+      2.9858807348701067e-13,
+      6.121113111457249e-13
+    ],
+    "two_choices": [
+      {
+        "free_data_parameter": 0.0,
+        "news_squared_integral": 4.15998772473784,
+        "quadpack_error_estimate": 2.8970815014319495e-12
+      },
+      {
+        "free_data_parameter": 1.0,
+        "news_squared_integral": 6.3325589849077355,
+        "quadpack_error_estimate": 2.9044200071962046e-12
+      }
+    ],
+    "scope": "Smooth manufactured flat-space news only; no Schwarzschild GL waveform inferred"
+  },
+  "verdict": "Conditional energy bounds and formal second-order non-universality verified; exact scalar-only constrained data construction verified. Exact simultaneous finite-A GL-seeded family and finite-A error bound NOT certified.",
+  "physical_GL_solves": 0,
+  "production_simulations": 0
+}

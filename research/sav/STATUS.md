@@ -10,7 +10,38 @@
 `CONDITIONAL_MODEL` assumption-dependent estimate;
 `OPEN` unanswered.
 
-## GLR-GOAL-002 prepared — 2026-10-22
+## GLR-GOAL-002 executed — 2026-10-22
+
+**Terminal classification: MEANINGFUL_PARTIAL.**
+[Final report](goals/GLR-GOAL-002_REPORT.md),
+[verification](verification/GLR_GOAL002_CHECKS.md),
+[geometry](physics/goal002_second_order.md) and
+[finite data/energy](physics/goal002_finite_data_energy.md).
+
+Nonzero controlled finite-A GL interval: **NO**. First-bulge emitted
+fraction: **NO**. GOAL-001 source survives an independent full quadratic
+connection/reduced-equation recheck. New results: all second-order radial
+equations/constraints; zero-mode EF metric quadratures; forced n2
+trace/divergence; all-component horizon checks; exact scalar-only
+constraint family; second-order GL energy non-universality with explicit
+exact-family caveat; regular-slice transient/news inequality.
+
+L10 only, saved GL profile reused, three new scalar configurations.
+Empirical P/Z mismatch Q≈80.8179176 and a transient-only comparison window
+T≈32.2843r0 are **conditional diagnostics**, not a physical nonlinear
+error bound. The n2 Green inverse/global norm, simultaneous exact
+GL-data constraint completion and fourth-order scalar remainder remain
+unbounded. Two separate AI mathematical audits ran actual checks and
+mutations and withhold finite-A/bulge certification. No cubic/bulge
+continuation was attempted through failed lower gates.
+
+Input branch SHA: 8d4163cd876b33752f7fb6938bb7861fe221b7c0.
+Authoritative publication uses research-only Git-tree commits on
+research/sav-radiation; local desktop is an uncommitted mirror. No other
+branch/code/production change, simulation, merge or subsequent Goal.
+Michael's updated science-only re-entry is handoffs/MICHAEL_START_HERE.md.
+
+## GLR-GOAL-002 prepared baseline — retained historical text
 
 **Status: READY FOR CODEX; not yet executed.** The next major problem is
 a controlled finite-amplitude bridge from the GOAL-001 quadratic radion

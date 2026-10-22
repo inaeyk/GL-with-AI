@@ -294,3 +294,38 @@ OPEN_NEEDS_APPROVAL.
 4. goals/GLR-GOAL-002_REPORT.md and updated scientific handoff for Michael.
 5. Exact list of commits on research/sav-radiation, no unapproved merge,
    no production simulation and clear closure classification.
+
+## Append-only execution ledger — 2026-10-22
+
+- Launched by explicit user instruction T-20261022-GLR-GOAL-002 in this
+  chat. Input branch SHA 8d4163cd876b33752f7fb6938bb7861fe221b7c0;
+  complete controlling goal/review matrix and scientific inputs read.
+- Milestone A: independent quadratic connection/warped-equation recheck
+  finds no substantive GOAL-001 source defect. Regular all-component EF
+  limits, gauge/charge conventions and source/linear tests recorded.
+- Milestone B: explicit seven-component radial generator, all-source
+  Bianchi control, zero-mode Einstein metric quadratures and forced n2
+  trace/divergence derived. Neither regular DAE nor covariant tensor
+  route evaluates the n2 boundary inverse/global norm. Gate B NOT PASSED.
+- Milestones C/D: explicit regular norm and missing inequalities; exact
+  scalar-only KK constraint family; second-order GL non-universality with
+  conditional exact-family extension; scalar transient Killing-energy
+  inequality. P/Z data are fixed at perturbative order, not an exact
+  simultaneous finite-A GL construction. Three L10 scalar configurations
+  give empirical Q≈80.8179176, conditional transient-only T≈32.2843r0.
+  No finite-A GL interval or physical emitted percentage certified.
+- Milestone E: lower gates incomplete, so no third-order forcing/gamma
+  or bulge campaign. Convention dependence checked, static/dynamic limits
+  separated, no A~1 or early-dominance extrapolation.
+- Milestone F: independent audit_geometry and audit_energy agents ran
+  separate actual symbolic/manufactured checks and mutations, then read
+  primary artifacts. They are AI scientific audits, not human referees.
+  Reports/results, negative record and science-only Michael handoff saved.
+- Budget: main L10 only, reused GOAL-001 profile/Omega; three scalar Green
+  refinements, no GL roots/new n2 grids/spacetime evolution. Two equation/
+  norm routes per central missing gate; no further repairs launched.
+- Terminal MEANINGFUL_PARTIAL. Full report GLR-GOAL-002_REPORT.md and
+  verification/GLR_GOAL002_CHECKS.md distinguish all failed gates.
+  Scientific and closing commit refs appear in the closing provenance
+  amendment/final delivery. No other paths, branches, production workflow,
+  manuscripts/Overleaf, simulations, merges or subsequent Goal changed.

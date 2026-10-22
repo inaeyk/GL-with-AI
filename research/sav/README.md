@@ -44,7 +44,10 @@ approved plans. No production spacetime simulations are authorized here.
     and [goals/GLR-GOAL-002_LAUNCH.md](goals/GLR-GOAL-002_LAUNCH.md):
     prepared next extended Codex Goal on finite-amplitude backreaction,
     admissible initial data, nonlinear amplitude and early radion energy.
-    **Ready; not launched by repository preparation.**
+    **Executed 2026-10-22: MEANINGFUL_PARTIAL.** See
+    [GLR-GOAL-002_REPORT.md](goals/GLR-GOAL-002_REPORT.md): regular
+    second-order equations/zero-mode quadratures and finite-data bounds;
+    full n2 response, exact simultaneous GL data and finite-A remainder open.
 11. [handoffs/MICHAEL_START_HERE.md](handoffs/MICHAEL_START_HERE.md): two-way collaboration.
 
 ## Scientific priorities

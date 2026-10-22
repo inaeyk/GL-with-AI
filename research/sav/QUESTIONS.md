@@ -57,3 +57,16 @@ and bounded numerical evidence, **not** interval-certified theorems.
     energy and time predictions still follow?
 21. Can GOAL-001 finite-k overlap positivity be rigorously enclosed
     without repeating the entire bounded spectral campaign?
+
+## GOAL-002 terminal re-entry — 2026-10-22
+
+Question 18 now has a rigorous second-order data-dependence answer and an
+exact scalar-only physical construction. Its exact GL-family version is
+conditional. Questions 16–17 remain open at the n2 inverse/global-norm,
+charge-fixed nonlinear constraint completion and fourth-order scalar trace
+gates. The positive scalar-energy estimate controls integrated transients,
+not the nonlinear metric. Question 19 is not answered by static branch
+coefficients; the cubic convention law is checked but no gamma computed.
+Question 20 has no bulge/energy closure. Exact remaining inequalities and
+one proposed continuation strategy are in goals/GLR-GOAL-002_REPORT.md.
+No follow-on task or production action is authorized by this pointer.

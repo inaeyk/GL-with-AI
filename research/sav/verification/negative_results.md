@@ -90,3 +90,60 @@ by a rigorous interval proof or by a physical simulation waveform.
     needed for those gates. This is not a gauge-invariance failure or a
     proved cancellation.
 
+## GLR-GOAL-002 execution negatives and unresolved gates (2026-10-22)
+
+12. **No controlled finite-A GL interval or bulge fraction.** Full n2
+    boundary inverse/global norm M2, exact simultaneous GL-data constraint
+    completion and fourth-order scalar news constant K4 remain unbounded.
+    Regular reduced DAE and covariant tensor routes give equations, not
+    an evaluated inverse. Regular-frame hierarchy and scalar energy give
+    separate useful controls, not nonlinear closure. No third repair,
+    cubic forcing, second wavelength or first-bulge extrapolation.
+
+13. **Physical data are not determined by epsilon/k/Omega.** Independent
+    order-two scalar Cauchy waves alter leading energy including interference
+    at fixed first-order GL mode. This is proved for the constrained
+    second-order solution class; exact simultaneous GL-family extension
+    needs the unproved constraint/radiation-map hypotheses. The exact
+    scalar-only KK data construction is not an exact GL superposition.
+    Even all h1/q2 data do not bound arbitrary free order-four scalar data.
+
+14. **Conditional transient numbers are not a finite-A acceptance.**
+    Q≈80.8179176 and T≈32.2843r0 for particular/zero-scalar data use
+    empirical saved-profile/Green inputs. The latter is a transient-only
+    sufficient integrated comparison, not a measured settling time or an
+    interval with all errors below ten percent. Horizon-degenerate Killing
+    energy cannot bound all regular metric derivatives. P data eliminate
+    this order-two scalar mismatch but not higher-order/data-completion errors.
+
+15. **Forced n2 is not trace free or automatically radiative.** Its
+    trace/divergence are sourced. Its exponential radial tail shares the
+    quadratic GL exponent, so homogeneous outer Robin data do not control
+    sourced polynomial/resonant tails. No massive-energy number follows.
+
+16. **Audit mutations and corrections retained.** Reject wrong source
+    Fourier/sign factors, using Ricci Q as a conserved Einstein source,
+    forced TT, wrong EF/Frobenius/gauge coefficients, scalar-constraint
+    factors, null-flux half, missing interference, invariant finite-Omega
+    gamma, upper-bound denominator in hierarchy ratios, entrywise metric
+    smallness and confusing ten-percent news with ten-percent energy.
+    Necessary-vs-sufficient wording and EF profile notation were corrected.
+
+17. **Exact algebra is not a physical interval.** New rational all-source
+    Bianchi control uses kappa=2/3, k²<0 with a finite reconstruction pole;
+    it is a local analytic identity test, not a globally regular physical
+    GL branch. The L10 source/coefficient remain strong floating evidence.
+    Third scalar configuration gives W drift 4.46e-10, not an error enclosure.
+    Saved-profile interpolation, GL and horizon-series/source tails remain
+    unvalidated. No exact physical cancellation was found; the prior
+    manufactured zero-overlap cancellation remains valid and retained.
+
+18. **Bounded symbolic implementation failures.** Audit 1 interrupted
+    two overly expensive general symbolic constructions and retained a
+    coefficient-extraction pitfall in its audit record before completing
+    smaller exact checks. These are computational/scope limitations,
+    not new physical failures or authorization for production repair.
+
+Terminal classification MEANINGFUL_PARTIAL. Read GLR_GOAL002_CHECKS.md
+and both new audits; neither certifies a physical finite-A interval.
+

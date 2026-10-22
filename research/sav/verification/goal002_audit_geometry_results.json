@@ -1,0 +1,110 @@
+{
+  "python": "3.14.8",
+  "sympy": "1.14.0",
+  "checks": [
+    {
+      "name": "FLAT_ON_SHELL_TT_ALL_LINEAR_RICCI",
+      "result": "PASS",
+      "scope": "manufactured standing plane wave"
+    },
+    {
+      "name": "FULL_QUADRATIC_EINSTEIN_SOURCE_BIANCHI",
+      "result": "PASS",
+      "scope": "flat on-shell TT source; all five divergences"
+    },
+    {
+      "name": "RADION_SOURCE_ZERO_AND_SECOND_COSINE_FACTORS",
+      "result": "PASS",
+      "scope": "Qzz0=-k\u00b2H\u00b2A\u00b2/8, Qzz_cos2=-3k\u00b2H\u00b2A\u00b2/8 with k=1,H\u00b2=2"
+    },
+    {
+      "name": "MUTATION_SOURCE_SIGN_AND_MISSING_COSINE_HALF_REJECTED",
+      "result": "PASS",
+      "scope": "exact deliberate source mutations"
+    },
+    {
+      "name": "MUTATION_DROP_EINSTEIN_TRACE_REJECTED",
+      "result": "PASS",
+      "scope": "Ricci Q alone is not the conserved Einstein source"
+    },
+    {
+      "name": "N2_UNITARY_RZZ_TRACE_IDENTITY",
+      "result": "PASS",
+      "scope": "arbitrary off-shell q_mu_nu(t,x) exp(iKz), q_zA=0"
+    },
+    {
+      "name": "N2_UNITARY_RMUZ_DIVERGENCE_IDENTITY",
+      "result": "PASS",
+      "scope": "all four mixed constraints"
+    },
+    {
+      "name": "N2_TENSOR_RICCI_OPERATOR_ALL_COMPONENTS",
+      "result": "PASS",
+      "scope": "flat commuted tensor identity; curved Riemann term analytically supplied"
+    },
+    {
+      "name": "MUTATION_IMPOSE_FORCED_N2_TRACE_ZERO_REJECTED",
+      "result": "PASS",
+      "scope": "unitary q_zA=0 does not imply homogeneous TT constraints for sourced q"
+    },
+    {
+      "name": "EF_MASS_LAPSE_THREE_CONSTRAINTS",
+      "result": "PASS",
+      "scope": "direct 2D Christoffels plus exact S\u00b2 warp; arbitrary mu,beta"
+    },
+    {
+      "name": "EF_ANGULAR_EINSTEIN_EQUATION",
+      "result": "PASS",
+      "scope": "independent angular residual equation, not inferred from Rzz"
+    },
+    {
+      "name": "MUTATION_EF_MASS_SIGN_AND_LAPSE_FACTOR_REJECTED",
+      "result": "PASS",
+      "scope": "deliberate radial-constraint errors"
+    },
+    {
+      "name": "EINSTEIN_FRAME_SOURCE_TRACE",
+      "result": "PASS",
+      "scope": "Weyl correction and scalar equation; tensor derivation in audit note"
+    },
+    {
+      "name": "ALL_EF_FIRST_ORDER_HORIZON_COMPONENTS_FINITE",
+      "result": "PASS",
+      "scope": "Frobenius through c2; overall e^{Omega v} e^{-Omega r} times leading y coefficient"
+    },
+    {
+      "name": "MUTATION_WRONG_FROBENIUS_COEFFICIENT_REJECTED",
+      "result": "PASS",
+      "scope": "spurious EF rr pole exposed; bounded regularity check is sensitive"
+    },
+    {
+      "name": "REGULAR_EF_PERIODIC_PURE_GAUGE_COMPLETION_ZERO",
+      "result": "PASS",
+      "scope": "smooth compactly supported b,c,d may be chosen; no static-chart singularities"
+    },
+    {
+      "name": "MUTATION_DROP_HALF_LIE_SQUARED_REJECTED",
+      "result": "PASS",
+      "scope": "spurious raw <qzz> or incomplete completion; orbit calculation sufficient for zz"
+    }
+  ],
+  "flat_plane_Qzz": {
+    "zero_mode": "-cos(t)**2/4",
+    "real_cos2": "-3*cos(t)**2/4"
+  },
+  "EF_Gtheta_theta_covariant": "r**2*Derivative(beta(v, r), r, v) + r*(r - r0)*Derivative(beta(v, r), (r, 2)) - r*Derivative(mu(v, r), (r, 2)) + (r + r0/2)*Derivative(beta(v, r), r)",
+  "horizon": {
+    "K": "k\u00b2 in r0=1",
+    "c1": "(K**2 + 2*K*Omega**2 + 5*K*Omega - 2*K + 2*Omega**2 - Omega)/((K + 1)*(2*Omega + 1))",
+    "c2": "(K**3 + 4*K**2*Omega**2 + 12*K**2*Omega + K**2 + 4*K*Omega**4 + 22*K*Omega**3 + 18*K*Omega**2 + 2*K*Omega + 4*Omega**4 - 2*Omega**3 + 2*Omega**2 + 2*Omega)/(4*(K + 1)*(Omega + 1)*(2*Omega + 1))",
+    "EF_limits": [
+      "Omega*(1 - 2*Omega)/(2*K*(K + 1))",
+      "(K + 2*Omega)/(2*K*(K + 1))",
+      "(-K**2 - 8*K*Omega - 8*Omega**2 - 2*Omega)/(2*K*(K + 1)*(Omega + 1)*(2*Omega + 1))",
+      "(-K - 2*Omega)/(2*K*(K + 1))"
+    ],
+    "wrong_c1_rr_residue": "(2*Omega + 1)/(K*(K + 1))"
+  },
+  "pure_gauge_raw_qzz0": "k**2*(2*r*b(r)*d(r) + r*c(r)**2 - r*d(r)**2 + r0*d(r)**2)/(2*r)",
+  "scope": "Exact identities and narrow independent controls only. No full n2 BVP, no continuum enclosure, no finite-A or physical energy theorem."
+}

@@ -39,7 +39,18 @@
 - Continued exclusions: no Michael production code, branches, runs,
   physical parameter changes, or simulation-workflow approvals.
 
-## Change policy
+## 2026-10-22: GLR-GOAL-002 executed with honest partial closure
+
+- Direct user authorization launched the scoped task in this chat.
+- Executed only L10 saved-profile symbolic/scalar 1D work and two distinct
+  adversarial scientific AI audits. No production or manuscript changes.
+- Terminal MEANINGFUL_PARTIAL: exact equations/zero-mode quadratures,
+  scalar-only exact data and conditional transient/non-universality results;
+  n2 inverse, exact simultaneous GL data and finite-A remainder remain open.
+- No cubic/bulge campaign through failed lower gates, no A~1 percentage,
+  no subsequent Goal, merge or Michael implementation request.
+
+## Change policy — retained
 
 Append dated, attributed scientific amendments. Do not silently rewrite
 historical decisions or numerical evidence. Future human approval of physics

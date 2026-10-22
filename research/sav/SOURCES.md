@@ -139,3 +139,45 @@ no deletions/outside changes, verified against the input tree).
 
 GOAL-002 is a proposed research task, not a numerical result. Its
 launch, checks and independent audits must be documented only when done.
+
+## Executed GLR-GOAL-002 provenance — 2026-10-22
+
+The user explicitly launched T-20261022-GLR-GOAL-002 in this session.
+Immutable input research/sav-radiation@8d4163cd876b33752f7fb6938bb7861fe221b7c0.
+Complete goal/review gates, current research contract/notation/status,
+GOAL-001 report/derivations, both audits, literature and negatives read.
+Local mirror compared against the recursive Git tree; 54 research blobs
+are pinned in verification/goal002_input_tree.json. Changed preparation
+files were materialized from the authoritative input before execution.
+No production files were fetched into the workspace or modified.
+
+Controlling blobs: goal b57fec85b3e801ac4f9ba79f9266f0b18bd746cb;
+review matrix 89f11d758170b8a93d6b35a383af6dc277580f5c;
+research AGENTS c0c007168f19d4122244208d5234f481a628dd37;
+L10 saved profile 7c854177b86e44e5733e1e9b989ebcdcfdd98ea0.
+Historical GOAL-001 core 7110bc2cb3c0496dd62dc97d37b34d11ec780a17
+and closure ec39904b833e5b7f9f32b80322bee298aaac7fc7 remain inputs.
+
+New sources inspected at stated scope, not copied as mathematical proof:
+
+- Collingbourne https://arxiv.org/html/2007.08441, section 3.4,
+  all-component future-EF regularity and exceptional gauge issues.
+- Gubser https://arxiv.org/pdf/hep-th/0110193, static perturbative
+  harmonic hierarchy, mass/wavenumber scheme freedom (page 13) and
+  cubic static sourced equations (pages 14–15), plus static phase
+  discussion. Initial HTML fetch failed; PDF text was available.
+  No dynamic gamma was imported or inferred.
+- Sorkin https://arxiv.org/html/hep-th/0402216, static ansatz eq(2),
+  perturbative branch/nonuniformity convention and phase comparison;
+  no dynamical waveform or growth-rate correction.
+- Figueras et al. https://arxiv.org/html/2210.13501v2, III.1 radiation/
+  horizon-area discussion rechecked. It is not measured scalar Bondi news.
+
+All new tensor, scalar-data and energy derivations are recorded in
+physics/goal002_second_order.md and goal002_finite_data_energy.md.
+The two independently implemented AI audits, exact scripts and numerical
+outputs have explicit scopes/limits; no external referee or novelty claim.
+MEANINGFUL_PARTIAL; no controlled finite-A or first-bulge fraction.
+Research-only publication uses Git-tree API, base-tree comparison and a
+named-branch expected-head lease, following the existing desktop mirror
+workflow. Scientific result SHA is pinned in the closing amendment.

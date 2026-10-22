@@ -1,0 +1,16 @@
+{
+  "python": "3.14.8",
+  "sympy": "1.14.0",
+  "exact_parameter_specialization": {
+    "kappa": "2/3",
+    "Omega": "1/7",
+    "physical_mode": false
+  },
+  "checks": [
+    "seven linear equations",
+    "quadratic n=0 and +/-2 source",
+    "three full on-shell quadratic Bianchi equations",
+    "zz mismatch mutation rejected"
+  ],
+  "scope": "Exact rational identities at one local on-shell specialization, not all-parameter proof or a solved q2 BVP. No radial discretizations."
+}

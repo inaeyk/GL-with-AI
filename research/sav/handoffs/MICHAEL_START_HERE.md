@@ -4,7 +4,69 @@
 action requested.** Savdeep leads this analytical thread jointly with
 Michael; Pau Figueras advises. Michael retains numerical responsibility.
 
-## Result and provenance
+## Current scientific re-entry: GOAL-002, 2026-10-22
+
+**MEANINGFUL_PARTIAL. No controlled finite-A GL interval or first-bulge
+emitted percentage.** Read [the report](../goals/GLR-GOAL-002_REPORT.md),
+[second-order geometry](../physics/goal002_second_order.md),
+[finite data/energy](../physics/goal002_finite_data_energy.md) and both
+new audits in verification/. Input SHA
+8d4163cd876b33752f7fb6938bb7861fe221b7c0; research-only scientific and
+closing result commits are pinned by the closing provenance amendment.
+
+The source/normalization survive independent rechecking. All reduced
+second-order equations and n2 inhomogeneous trace/divergence are derived;
+the zero-mode Einstein metric has regular mass/lapse quadratures. The
+full n2 boundary inverse and completed metric norm remain unevaluated.
+The scalar-only exact initial-data construction demonstrates physical
+free scalar freedom. For GL-seeded data, P (particular matched) and Z
+(zero scalar data) are constraint compatible through second order;
+an exact simultaneous nonlinear GL family is still a separate open gate.
+Do not treat a truncated metric as exact vacuum initial data.
+
+The useful finite-window test is
+`|E−Ep|/Ep <= 2 eta+eta²`, with
+`eta=||N−Np||_L2/||Np||_L2`; a sufficient ten-percent condition is
+`eta<=sqrt(1.1)−1≈0.04880885`. Free scalar news is bounded by its
+regular-slice Killing energy Q, but that degenerate norm cannot control
+the nonlinear metric. At L10 the saved-profile P/Z diagnostic is
+Q≈80.8179176 (unit scalar-order coefficient). Its transient-only
+comparison window [0,32.2843r0] uses empirically converged inputs and
+leaves nonlinear errors unbounded; it is not a selected physical window.
+The leading reference-radius mode has sampled near-horizon tetrad size
+about 39.47, another reason no ad hoc A=0.1 validity assumption is allowed.
+
+For a future **science-only** comparison, retain the original four data
+requirements below and additionally state:
+
+1. Exact/perturbative constraint-completion status and residual/error
+   order; growing/decaying GL projections; independent n2 initial data;
+   fixed ADM mass/tension conventions and KK momentum.
+2. Completed phi and its normal derivative on an identified regular
+   initial slice, with separate independent free scalar data and a
+   bound on their Q. No-incoming at infinity alone does not fix them.
+3. Higher-order scalar-data prescription/bound: free order-four scalar
+   data change N4 while leaving h1/q2 unchanged. Lower-order norms alone
+   do not determine a nonlinear radiation error.
+4. Bondi u/rho mapping, smooth observation taper w, boundary-clean causal
+   window and its initial-slice arrival map. Report Fourier[wN], not the
+   derivative of a sharply cut Phi or a horizon formation timestamp.
+5. The actual regular-frame metric/constraint and radiation-trace error
+   budget. A norm ratio needs a lower bound in its denominator; metric
+   signature needs operator/Frobenius control, not entrywise smallness.
+
+Do not subtract energies as if free/generated pieces did not interfere;
+subtract waveforms only with a defined data prescription and retain the
+cross term. Stationary charge shifts have no news. Forced n2 exponential
+fields are evanescent; independent massive real-frequency waves require
+their own timelike flux. No new production diagnostic/code/run request.
+
+Scientific next step proposed only: constrain and bound the n2 inverse
+and source tail, complete one charge-fixed GL-plus-scalar data family,
+then bound its fourth-order scalar news. No next Goal has been launched.
+Earlier GOAL-001 handoff and prepared-GOAL-002 text below are historical.
+
+## GOAL-001 result and provenance — retained
 
 GLR-GOAL-001 reached **MEANINGFUL_PARTIAL**. The complete quadratic n=0
 radion equation and its retarded transfer functional are derived and
