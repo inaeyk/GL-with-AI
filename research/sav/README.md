@@ -29,12 +29,15 @@ approved plans. No production spacetime simulations are authorized here.
 6. [numerics/extraction_contract.md](numerics/extraction_contract.md) and
    [numerics/validation_matrix.md](numerics/validation_matrix.md): **proposals** for
    future production extraction; not instructions to modify simulation code.
-7. [verification/INDEX.md](verification/INDEX.md): checks, negative results,
+7. [agenda/RESEARCH_ROADMAP.md](agenda/RESEARCH_ROADMAP.md) and
+   [agenda/NOVEL_APPROACHES.md](agenda/NOVEL_APPROACHES.md): longer-term
+   classical, AI-assisted, quantum and holographic directions, feasibility-ranked.
+8. [verification/INDEX.md](verification/INDEX.md): checks, negative results,
    proof obligations, and independent review status.
-8. [goals/GLR-GOAL-001.md](goals/GLR-GOAL-001.md) and
+9. [goals/GLR-GOAL-001.md](goals/GLR-GOAL-001.md) and
    [goals/LAUNCH.md](goals/LAUNCH.md): ambitious ready-to-start Codex goal,
    not launched by creation of these files.
-9. [handoffs/MICHAEL_START_HERE.md](handoffs/MICHAEL_START_HERE.md): two-way collaboration.
+10. [handoffs/MICHAEL_START_HERE.md](handoffs/MICHAEL_START_HERE.md): two-way collaboration.
 
 ## Scientific priorities
 

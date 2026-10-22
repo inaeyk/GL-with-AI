@@ -38,7 +38,7 @@
 ## Operating state
 
 Branch `research/sav-radiation`, based on
-`main@7d04b5b9882dcd476c1457b8d711ac7b5520b2c1`. Preparation of
-GLR-GOAL-001 is authorized; **Codex Goal not launched** at initial scaffold.
+`main@7d04b5b9882dcd476c1457b8d711ac7b5520b2c1`. GLR-GOAL-001 is prepared in full with launch instructions; **Codex Goal
+has not been launched** as of 2026-10-22.
 No production code, numerical parameters, existing branches, or simulations
 were changed to create these notes.
