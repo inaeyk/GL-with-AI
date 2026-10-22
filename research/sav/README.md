@@ -39,16 +39,25 @@ approved plans. No production spacetime simulations are authorized here.
    goal, MEANINGFUL_PARTIAL; exact quadratic source and retarded integral,
    four numerical transfer estimates, unresolved rigorous enclosure and
    finite-A gates. `goals/LAUNCH.md` is historical.
-10. [handoffs/MICHAEL_START_HERE.md](handoffs/MICHAEL_START_HERE.md): two-way collaboration.
+10. [goals/GLR-GOAL-002.md](goals/GLR-GOAL-002.md),
+    [goals/GLR-GOAL-002_REVIEW_GATES.md](goals/GLR-GOAL-002_REVIEW_GATES.md),
+    and [goals/GLR-GOAL-002_LAUNCH.md](goals/GLR-GOAL-002_LAUNCH.md):
+    prepared next extended Codex Goal on finite-amplitude backreaction,
+    admissible initial data, nonlinear amplitude and early radion energy.
+    **Ready; not launched by repository preparation.**
+11. [handoffs/MICHAEL_START_HERE.md](handoffs/MICHAEL_START_HERE.md): two-way collaboration.
 
 ## Scientific priorities
 
 - Establish exact SO(3) reduction and gauge-invariant radiative content.
 - Solve and normalize the linear GL growing mode with admissible horizon and
   asymptotic conditions.
-- Obtain the **complete quadratic n=0 radion source**, including second-order
-  gauge/constraint issues, its retarded transfer coefficient, and normalized
-  physical flux. The outgoing coefficient may vanish; this is a question.
+- Preserve the GOAL-001 **quadratic n=0 radion source**, gauge completion,
+  retarded transfer and strong numerical nonzero-overlap evidence as
+  mathematically audited input, subject to remaining interval/error checks.
+- Use GLR-GOAL-002 to investigate the full n=0/n=2 second-order response,
+  finite-time physical data and a demonstrably controlled amplitude/energy window.
+  A first-bulge emitted percentage remains unestablished.
 - Estimate early growth, nonlinear onset, bulge times, spectrum, and total
   emitted energy with explicit conditional assumptions and errors.
 - Provide an independently auditable extraction specification for future

@@ -22,6 +22,23 @@
 - Literature inference that earliest bulge is the dominant radiative stage
   is a conjecture until energy flux and errors are calculated.
 
+## 2026-10-22: GLR-GOAL-002 approved research direction and prepared task
+
+- Goal: bridge the mathematically audited quadratic scalar source and
+  nonzero-transfer numerical evidence from GLR-GOAL-001 to a quantified
+  weakly nonlinear amplitude interval and finite-time radion energy.
+- Scope: full second-order n=0 and n=2 backreaction/constraints,
+  horizon-regular gauges, independent zero-mode initial data/transients,
+  first omitted scalar order, and an ambitious cubic-mode/bulge bridge.
+- Standard of evidence: never infer E_early from C0 and A=1, or assume
+  the initial bulge dominates the neck cascade. Require a defined
+  physical initial-data class and error bounds. Preserve possible
+  obstruction/non-universality results.
+- Authored the complete GOAL-002 task, reviewer rubric and Codex prompt
+  in research/sav/goals/. **Codex has not been launched by preparation.**
+- Continued exclusions: no Michael production code, branches, runs,
+  physical parameter changes, or simulation-workflow approvals.
+
 ## Change policy
 
 Append dated, attributed scientific amendments. Do not silently rewrite

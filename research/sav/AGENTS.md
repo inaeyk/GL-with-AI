@@ -41,8 +41,11 @@ during the 5D Gregory–Laflamme transition.
 
 ## Goal work
 
-Use `goals/GLR-GOAL-001.md` and `goals/GOAL_TEMPLATE.md` for authorization
-and success/stop gates. Stage notes, derivations, verification and handoffs
+GLR-GOAL-001 is a closed historical mathematical task (MEANINGFUL_PARTIAL).
+For the prepared next investigation, use `goals/GLR-GOAL-002.md`,
+`goals/GLR-GOAL-002_REVIEW_GATES.md` and `goals/GOAL_TEMPLATE.md`
+as controlling scope, budgets, scientific gates and stop conditions.
+The task is not launched merely by committing its files. Stage notes, derivations, verification and handoffs
 may be added inside `research/sav/**` only. Prefer substantial coherent
 progress over many status-only commits. At the end of each milestone, update
 `STATUS.md`, `verification/INDEX.md`, `SOURCES.md`, and the goal's

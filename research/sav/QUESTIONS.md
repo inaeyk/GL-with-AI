@@ -35,3 +35,25 @@
     gauge/constraint/boundary artifacts?
 15. What causal extraction window is safe before first-generation evolution
     becomes contaminated by exterior boundaries?
+
+## GLR-GOAL-002 questions after the completed GOAL-001 (2026-10-22)
+
+Earlier questions above remain as the historical pre-GOAL-001 list. The
+quadratic source and positive C0 are now supported by audited analysis
+and bounded numerical evidence, **not** interval-certified theorems.
+
+16. Can the *complete* n=0 Einstein-frame metric and n=2 second-order
+    gravitational responses be constructed in a regular frame satisfying
+    every constraint, including charge and boundary freedom?
+17. Is there a nonzero invariant A_* with controlled first omitted
+    scalar term, metric norm and relative radiation error at L/r0=10?
+18. How much free n=0 scalar radiation may admissible finite-time
+    initial data contain at fixed GL growing-mode projection? Is a
+    unique early E/M intrinsically initial-data dependent?
+19. Is a local cubic amplitude equation justified given gauge/clock
+    dependence, horizon absorption and the continuous spectrum?
+20. Can a physically defined early bulge be reached within that
+    controlled interval; if not, what meaningful weakly nonlinear
+    energy and time predictions still follow?
+21. Can GOAL-001 finite-k overlap positivity be rigorously enclosed
+    without repeating the entire bounded spectral campaign?

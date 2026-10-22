@@ -105,3 +105,16 @@ second-order backreaction/transient bounds. Production formulation,
 extraction implementation or simulation decisions require separate human
 scientific authorization. This handoff requests no change to current work
 or a running environment.
+
+## Next independent theory goal — prepared, not a numerical request
+
+As of 2026-10-22 the proposed GLR-GOAL-002 task is ready in
+[GLR-GOAL-002.md](../goals/GLR-GOAL-002.md).
+It seeks the horizon-regular complete n=0/n=2 second-order backreaction,
+a controlled finite-amplitude interval, constraints-compatible finite-time
+data and scalar transient separation. A cubic GL amplitude model and
+first-bulge energy estimate are stretch directions, not solved results.
+
+No modification, additional diagnostics, parameter choice or production
+run is requested from Michael. The existing science-only data-interface
+questions remain open for later collaboration.

@@ -118,3 +118,24 @@ Pinned executed scientific result:
 `7110bc2cb3c0496dd62dc97d37b34d11ec780a17` (33 research-only blobs,
 no deletions/outside changes, verified against the input tree).
 
+
+## Prepared GLR-GOAL-002 (2026-10-22)
+
+- Scientific baseline: [GLR-GOAL-001 final report](goals/GLR-GOAL-001_REPORT.md)
+  with source/transfer equations, two independent AI audits, conditional
+  finite-time caveats and numerical C0 estimates.
+- Execution branch head reviewed before GOAL-002 creation:
+  ec39904b833e5b7f9f32b80322bee298aaac7fc7.
+- [Gubser 2002](https://arxiv.org/abs/hep-th/0110193):
+  static five-dimensional nonuniform-string perturbation near threshold
+  and evidence for a first-order transition. Do **not** equate static
+  perturbative branch coefficients with a dynamic cubic amplitude law.
+- [Sorkin 2004](https://arxiv.org/abs/hep-th/0402216):
+  critical-dimension phase-structure study, not a time-dependent
+  radion waveform or an early emitted-energy fraction.
+- [Figueras et al. 2023](https://arxiv.org/abs/2210.13501):
+  the nonlinear bulge/cascade horizon reference, not a measured early
+  KK-radion energy budget.
+
+GOAL-002 is a proposed research task, not a numerical result. Its
+launch, checks and independent audits must be documented only when done.

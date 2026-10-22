@@ -10,6 +10,24 @@
 `CONDITIONAL_MODEL` assumption-dependent estimate;
 `OPEN` unanswered.
 
+## GLR-GOAL-002 prepared — 2026-10-22
+
+**Status: READY FOR CODEX; not yet executed.** The next major problem is
+a controlled finite-amplitude bridge from the GOAL-001 quadratic radion
+source to actual early-time emitted energy, with no extrapolation to A~1.
+The prepared extended task is
+[GLR-GOAL-002](goals/GLR-GOAL-002.md), with
+[acceptance gates](goals/GLR-GOAL-002_REVIEW_GATES.md) and
+[launch instructions](goals/GLR-GOAL-002_LAUNCH.md).
+
+Principal open gates: regular full second-order n=0/n=2 response;
+independent scalar Cauchy transients for physical finite-time data;
+a physically normalized nonzero amplitude validity interval with an
+error/remainder estimate; and a defensible relation, if possible, to
+the initial nonlinear bulge. At present **no first-bulge E_rad/M_ADM
+percentage is established**. Codex preparation is not a numerical
+implementation or simulation, and prior work remains unchanged.
+
 ## GLR-GOAL-001 execution result — 2026-10-22
 
 **Terminal classification: MEANINGFUL_PARTIAL.** See
