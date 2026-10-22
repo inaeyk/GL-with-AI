@@ -1,0 +1,42 @@
+{
+  "python": "3.14.8",
+  "numpy": "2.4.6",
+  "scipy": "1.18.0",
+  "k": 0.6283185307179586,
+  "refinements": [
+    {
+      "sleft": -16.0,
+      "rmax": 30.0,
+      "tol": 2e-08,
+      "step": 0.2,
+      "omega": 0.0632811889898524,
+      "matching_residual": 3.3306690738754696e-16
+    },
+    {
+      "sleft": -22.0,
+      "rmax": 45.0,
+      "tol": 2e-10,
+      "step": 0.1,
+      "omega": 0.06328118897597709,
+      "matching_residual": 4.440892098500626e-16
+    },
+    {
+      "sleft": -28.0,
+      "rmax": 65.0,
+      "tol": 2e-12,
+      "step": 0.05,
+      "omega": 0.06328118897590773,
+      "matching_residual": -8.326672684688674e-16
+    }
+  ],
+  "kcritical": 0.8761604020340054,
+  "critical_residual": -3.3306690738754696e-16,
+  "profile": {
+    "scale": -12.963839955810833,
+    "normalization": 1.0,
+    "p_match": -0.47079910298061656,
+    "min_H_squared_reliable": 1.2780484845036527e-38,
+    "max_H_squared_reliable": 685.2412621141957,
+    "note": "Raw contraction is deliberately NaN for r-1<1e-5; near-horizon analytic cancellation required."
+  }
+}

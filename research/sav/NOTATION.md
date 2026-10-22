@@ -28,7 +28,7 @@
   `ds_5^2=e^{-2 phi/sqrt(3)} ds_{4,E}^2
     +e^{4 phi/sqrt(3)}(dz+2 A_mu dx^mu)^2`.
   `S_4=(16 pi G_4)^{-1} int sqrt(-g_E)
-   [R_E-2 (nabla phi)^2-e^{-2 sqrt(3) phi} F^2]`.
+   [R_E-2 (nabla phi)^2-e^{+2 sqrt(3) phi} F^2]`.
   At finite radius in a z-dependent geometry, extracting nonlinear phi
   requires an asymptotic gauge/KK projection, not raw log average g_zz.
 - Asymptotic zero-mode radion:
@@ -48,6 +48,23 @@
   `hat Omega=r_0 Omega_GL`; set `r_0=1` only in stated
   numerical conventions.
 
-Status: definitions and elementary algebra checked by inspection;
-derivation of nonlinear/asymptotic gauge invariance and canonical flux
-normalization from the full reduced action remain GOAL-001 proof obligations.
+GOAL-001 audit correction (2026-10-22): the positive vector exponent is
+required by the metric ansatz written above; the prior negative exponent
+was inconsistent. A=0 scalar calculations are unaffected. See
+`verification/AUDIT_FOUNDATION.md` for the constant-phi scaling check.
+
+Executed GOAL-001 mode convention: the unique nonzero-k unitary completion
+has h_zA=0. Normalize `H^U_theta theta/(2 r^2)=1` at background r=2r0;
+then A is the invariant first-order fractional sphere-radius perturbation
+there. This is not a coordinate chi or horizon-bulge amplitude. Define
+`r_*=r+r0 log(r/r0-1)` with no extra additive constant. The coefficient
+C0 quoted in the report uses A(u) with this clock/tortoise convention.
+
+Second-order expansion: `g=background+epsilon h+epsilon^2 q+...`, no
+factorial in q. The completed zero-mode scalar is
+`phi_0^(2)=sqrt(3) <q^U_zz>/4`; its full gauge completion and asymptotic
+matching, and independently checked flux, are in
+`physics/quadratic_radion_source.md` and `verification/AUDIT_FOUNDATION.md`.
+The scalar source is derived and audited; numerical C0 estimates are not
+interval-certified and no finite-A error window is established.
+

@@ -1,7 +1,8 @@
 # Exact SO(3) reduction: local action and degree of freedom count
 
-**Status:** continuum derivation recorded; independent symbolic and
-Hamiltonian audits pending. No numerical simulation claim.
+**Status:** bulk equations, boundary reduction and Hamiltonian count
+independently audited in GOAL-001; see `../verification/AUDIT_FOUNDATION.md`.
+No production numerical simulation claim.
 
 Start with `S_5=(16 pi G_5)^{-1} int sqrt(-g_5) R_5` and the
 most general SO(3)-invariant warped product
@@ -45,11 +46,14 @@ Compare independently with the direct Ricci conditions
 **Audit these signs and coefficients** against explicit Christoffels and
 the full 5D Einstein tensor before certifying the EOM.
 
-Local physical degree count: the 3D metric gives 6 configuration
-components plus one scalar R. Three first-class diffeomorphism constraints
-remove 6 phase-space dimensions, leaving
-`[2*(6+1)-2*3*2]/2=1` local configuration degree, away from singular
-gauge charts/degenerate orbits. 3D pure gravity has no local graviton;
+Local physical degree count: the spatial orbit metric has 3 configuration
+components plus one scalar R. Lapse and two shifts are multipliers.
+Three first-class Hamiltonian/momentum constraints remove 6 phase-space
+dimensions, leaving `(2*4-2*3)/2=1` local configuration degree, away from
+singular gauge charts/degenerate orbits. If lapse/shift canonical pairs
+are retained instead, count six primary-plus-secondary first-class
+constraints in a 14-dimensional phase space: `(14-2*6)/2=1`.
+The earlier explanation mixed these two counts. 3D pure gravity has no local graviton;
 coupling to R leaves a gravitational/dilaton scalar mode. This does not
 classify independent global charges or boundary excitations.
 
@@ -65,6 +69,17 @@ singlet/helicity-zero part of the massive 4D KK graviton.
 "no radiation"; one-dimensional wave motion in the radial direction
 persists even under exact S^2 rotations.
 
-GOAL-001 obligations: explicitly construct constraints/canonical count,
-match a linear gauge-invariant master variable in two gauges, and derive
-the boundary/symplectic flux, not merely restate the action.
+For a smooth non-null orbit boundary with fixed induced metric and R,
+integrating by parts the bulk term produces
+`-G5^-1 int epsilon sqrt(|h|) R n.grad R`. The 5D GHY term, with
+`K5=K3+2 n.grad R/R`, cancels this derivative term, leaving
+`S_bdy=(2G5)^-1 int epsilon sqrt(|h|) R^2 K3`. Null/corner terms require
+their own limits/terms. The audit gives explicit canonical constraints in
+the regular conformal frame `g3E=R^4 g3` and verifies the scalar flux by
+an independent five-dimensional TT current.
+
+GOAL-001 results: `gl_linear_mode.md` constructs two gauge descriptions
+of the same constrained master; `quadratic_radion_source.md` gives the
+closed quadratic scalar source. Numerical coefficients and unresolved
+finite-amplitude bounds are distinguished in the goal report.
+

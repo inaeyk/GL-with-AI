@@ -62,3 +62,55 @@ derivation index. This is a bounded absence claim, not an exhaustive census.
 Read original equations and normalizations before using them as input to
 symbolic computation; these references are a starting bibliography, not a
 substitute for derivations.
+
+## GLR-GOAL-001 execution provenance and inspected scope
+
+Execution input: `research/sav-radiation@0b0b2e1ee1df64a80e4474d6909173d4682564f3`.
+All controlling research notes, goal, verification records and Michael
+handoff were retrieved at that immutable commit. The local desktop began
+with an empty project Git repository; research files were materialized
+without checking out/changing another branch or importing production files.
+Result commits use the connected GitHub Git-tree API on the named research
+branch, preserving all other paths and checking the branch-head lease.
+
+Historical read-only reinspection: main stage checklist and D16 raw log
+at `7d04b5b9882dcd476c1457b8d711ac7b5520b2c1`, M2-B evidence on the
+named supervised branch, and frozen M2-C closure plus acceptance JSON.
+They preserve D16's failed invariance and M2-C's failed GP control. Their
+engineering test authority was not reused as continuum physics proof.
+
+Primary literature newly inspected (2026-10-22):
+
+- [GL1993](https://arxiv.org/html/hep-th/9301052), equations8–11:
+  TT physical mode, horizon/infinity branches and scaling. GL1994
+  [PDF](https://arxiv.org/pdf/hep-th/9404071), Figure3 and r+=2 convention
+  were inspected by the linear investigator; screenshot failure prevented
+  a precise digitized numerical growth benchmark. Do not claim one.
+- [Collingbourne](https://arxiv.org/html/2007.08441), §§3.2,3.4,4.1:
+  scalar master, admissible solution and gauge reconstruction. Candidate
+  v1 denominators were checked against direct Ricci equations rather than
+  copied; exact source derivations and error estimates are ours. The
+  explicit literature lower bound Omega*r0>1/(20sqrt10) over
+  0.3<=k*r0<=0.8 is a separate consistency check, not pointwise data.
+- [Kudoh2006](https://arxiv.org/html/hep-th/0602001), perturbation
+  classification and exceptional scalar l=0 section; no numerical C0
+  imported. [Gubser2002](https://arxiv.org/abs/hep-th/0110193) inspected
+  at abstract scope only during this run: static perturbative branch,
+  not a time-dependent waveform calculation.
+- [FFG&A2023](https://arxiv.org/html/2210.13501v2), III.1/Table2
+  rechecked: first-bulge timing is geometrical; early radiation remains a
+  conjecture. [Lehner–Pretorius2010](https://arxiv.org/html/1006.5960)
+  nonlinear-cascade discussion, not a radion transfer benchmark.
+- [Lü–Mao–Wu2019](https://arxiv.org/html/1909.00970v2), EMD/Bondi
+  structure and 5D lift consulted as context; our 4D/5D flux coefficient
+  was independently derived. [Harmark–Obers2004](https://arxiv.org/html/hep-th/0403103)
+  charge/tension definitions consulted; stationary charges do not replace
+  the dynamic scalar source.
+
+No exhaustive novelty search or claim is made. The new contribution here
+is the explicitly completed perturbative scalar source, exact checks,
+retarded normalization and reproducible bounded numerical evidence.
+Two separate AI derivational audits are preserved with their limitations;
+they are not external human reviews. Result/closing commit references are
+recorded in `goals/GLR-GOAL-001_REPORT.md` and the final task delivery.
+

@@ -3,6 +3,14 @@
 **Status:** leading KK scalar action and formal second-order construction;
 uncomputed physical Green-function coefficient. DO NOT quote E_rad percentage.
 
+**GOAL-001 execution update:** this introductory note is superseded for
+the source by `quadratic_radion_source.md`, for the retarded/flux derivation
+by `radion_retarded_transfer.md`, and for numerical estimates by
+`radion_transfer_numerics.md`. The complete scalar source is now derived
+and independently audited, and four floating C0 estimates exist. A rigorous
+finite-k overlap enclosure and controlled finite-A emitted fraction remain
+open. The old "uncomputed" statements below describe the initial record.
+
 ## Linear field and second-order zero mode
 
 Let `g=g_bg+A h_1 cos(kz)+A^2 h_2+...`,
@@ -79,3 +87,4 @@ unconditional subpercent upper bound is established.
 
 Massive KK modes need their *own* canonical symplectic energy flux.
 A near-zone n=2 coefficient is not automatically an observable E2.
+

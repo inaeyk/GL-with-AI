@@ -3,6 +3,12 @@
 **Status:** analytical foundation, gauge-invariant asymptotic definitions
 pending an independent second-order check.
 
+GOAL-001 execution update: the zero-mode scalar completion and source have
+now passed two independent derivational audits; see
+`quadratic_radion_source.md` and `../verification/AUDIT_SOURCE_RETARDED.md`.
+The massive-mode flux and full nonlinear bounds remain open. Historical
+open statements below are retained as the pre-execution record.
+
 ## SO(3) versus ordinary tensor radiation
 
 Exact SO(3) rotations of transverse S^2 rule out tensor (`l>=2`)
@@ -61,3 +67,4 @@ dispersive arrival times `v_g=q/omega`.
 Open: complete second-order constrained source, n!=0 canonical
 symplectic current/normalization, and possible cancellation of n=0
 outgoing amplitude.
+

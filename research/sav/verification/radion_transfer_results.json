@@ -1,0 +1,380 @@
+{
+  "python": "3.14.8",
+  "numpy": "2.4.6",
+  "scipy": "1.18.0",
+  "mpmath": "1.3.0",
+  "cases": [
+    {
+      "L": 8,
+      "k": 0.7853981633974483,
+      "refinements": [
+        {
+          "k": 0.7853981633974483,
+          "omega": 0.026458701887819607,
+          "C0": 28.29642286771481,
+          "quadrature_error_estimate": 5.797449492500762e-10,
+          "horizon_tail_leading_estimate": 2.3069635159141916e-06,
+          "infinity_integrand_endpoint": 6.851672063768535e-19,
+          "min_H_squared_sample": 2.235845278361358e-22,
+          "max_H_squared_sample": 1229.360967977571,
+          "normalization": 1.0,
+          "C0_scalar_tail_bracket": [
+            28.296417655724337,
+            28.2964280797072
+          ],
+          "scalar_minus_W_bracket": [
+            0.4652427844992725,
+            0.46524295588785153
+          ],
+          "scalar_tail_J": 0.0007381786938304523,
+          "scalar_E1_quadrature_error": 1.6108544927799156e-17,
+          "scalar_rmax": 80.0,
+          "config": {
+            "sleft": -16.0,
+            "rmax": 30.0,
+            "tol": 2e-08,
+            "step": 0.2
+          },
+          "scope": "Floating convergence and asymptotic tail estimates, not rigorous interval certification"
+        },
+        {
+          "k": 0.7853981633974483,
+          "omega": 0.026458701876817696,
+          "C0": 28.296424234301515,
+          "quadrature_error_estimate": 5.433529347940359e-13,
+          "horizon_tail_leading_estimate": 3.03035283269336e-09,
+          "infinity_integrand_endpoint": 6.655818526339992e-29,
+          "min_H_squared_sample": 4.0769921734996315e-33,
+          "max_H_squared_sample": 1229.3615075377866,
+          "normalization": 1.0,
+          "C0_scalar_tail_bracket": [
+            28.29642327819718,
+            28.296425190405913
+          ],
+          "scalar_minus_W_bracket": [
+            0.4652428701281381,
+            0.4652429015682063
+          ],
+          "scalar_tail_J": 0.0003280794196166212,
+          "scalar_E1_quadrature_error": 6.696277368249032e-18,
+          "scalar_rmax": 120.0,
+          "config": {
+            "sleft": -22.0,
+            "rmax": 45.0,
+            "tol": 2e-10,
+            "step": 0.1
+          },
+          "scope": "Floating convergence and asymptotic tail estimates, not rigorous interval certification"
+        },
+        {
+          "k": 0.7853981633974483,
+          "omega": 0.0264587018767603,
+          "C0": 28.29642393259899,
+          "quadrature_error_estimate": 3.568954796824361e-13,
+          "horizon_tail_leading_estimate": 3.980571824897601e-12,
+          "infinity_integrand_endpoint": 3.2751943862468556e-42,
+          "min_H_squared_sample": 3.2201583479988163e-47,
+          "max_H_squared_sample": 1229.3589484054596,
+          "normalization": 1.0,
+          "C0_scalar_tail_bracket": [
+            28.296423754896527,
+            28.29642411030145
+          ],
+          "scalar_minus_W_bracket": [
+            0.4652428879379507,
+            0.4652428937814317
+          ],
+          "scalar_tail_J": 0.00014581307538548129,
+          "scalar_E1_quadrature_error": 2.7153213736633783e-18,
+          "scalar_rmax": 180.0,
+          "config": {
+            "sleft": -28.0,
+            "rmax": 65.0,
+            "tol": 2e-12,
+            "step": 0.05
+          },
+          "scope": "Floating convergence and asymptotic tail estimates, not rigorous interval certification"
+        }
+      ]
+    },
+    {
+      "L": 10,
+      "k": 0.6283185307179586,
+      "refinements": [
+        {
+          "k": 0.6283185307179586,
+          "omega": 0.0632811889898524,
+          "C0": 12.307292062725338,
+          "quadrature_error_estimate": 8.237883680768993e-10,
+          "horizon_tail_leading_estimate": 9.573193810942918e-08,
+          "infinity_integrand_endpoint": 1.6064119066956175e-14,
+          "min_H_squared_sample": 1.608217659876826e-18,
+          "max_H_squared_sample": 685.2420507167665,
+          "normalization": 1.0,
+          "C0_scalar_tail_bracket": [
+            12.307291719545105,
+            12.30729240590559
+          ],
+          "scalar_minus_W_bracket": [
+            0.4642513061638926,
+            0.4642513320545401
+          ],
+          "scalar_tail_J": 0.0003086422728740444,
+          "scalar_E1_quadrature_error": 6.945176711104385e-18,
+          "scalar_rmax": 80.0,
+          "config": {
+            "sleft": -16.0,
+            "rmax": 30.0,
+            "tol": 2e-08,
+            "step": 0.2
+          },
+          "scope": "Floating convergence and asymptotic tail estimates, not rigorous interval certification"
+        },
+        {
+          "k": 0.6283185307179586,
+          "omega": 0.06328118897597709,
+          "C0": 12.307292007912194,
+          "quadrature_error_estimate": 1.672517871718155e-13,
+          "horizon_tail_leading_estimate": 5.19644163969284e-11,
+          "infinity_integrand_endpoint": 5.11850412106613e-22,
+          "min_H_squared_sample": 3.192289230045282e-27,
+          "max_H_squared_sample": 685.2413267729919,
+          "normalization": 1.0,
+          "C0_scalar_tail_bracket": [
+            12.307291943116994,
+            12.3072920727074
+          ],
+          "scalar_minus_W_bracket": [
+            0.4642513225658587,
+            0.46425132745422226
+          ],
+          "scalar_tail_J": 0.00013717434352965275,
+          "scalar_E1_quadrature_error": 2.3838381812523835e-18,
+          "scalar_rmax": 120.0,
+          "config": {
+            "sleft": -22.0,
+            "rmax": 45.0,
+            "tol": 2e-10,
+            "step": 0.1
+          },
+          "scope": "Floating convergence and asymptotic tail estimates, not rigorous interval certification"
+        },
+        {
+          "k": 0.6283185307179586,
+          "omega": 0.06328118897590773,
+          "C0": 12.30729197235746,
+          "quadrature_error_estimate": 1.6160593647955802e-13,
+          "horizon_tail_leading_estimate": 2.820688017829051e-14,
+          "infinity_integrand_endpoint": 5.678254811062723e-32,
+          "min_H_squared_sample": 1.2780484845036527e-38,
+          "max_H_squared_sample": 685.2427740551699,
+          "normalization": 1.0,
+          "C0_scalar_tail_bracket": [
+            12.307291959983408,
+            12.307291984731512
+          ],
+          "scalar_minus_W_bracket": [
+            0.4642513258875047,
+            0.4642513268210439
+          ],
+          "scalar_tail_J": 6.096637490213471e-05,
+          "scalar_E1_quadrature_error": 8.004175593852832e-19,
+          "scalar_rmax": 180.0,
+          "config": {
+            "sleft": -28.0,
+            "rmax": 65.0,
+            "tol": 2e-12,
+            "step": 0.05
+          },
+          "scope": "Floating convergence and asymptotic tail estimates, not rigorous interval certification"
+        }
+      ]
+    },
+    {
+      "L": 12,
+      "k": 0.5235987755982988,
+      "refinements": [
+        {
+          "k": 0.5235987755982988,
+          "omega": 0.0804427577672437,
+          "C0": 7.0255420849861325,
+          "quadrature_error_estimate": 1.2577393825262453e-09,
+          "horizon_tail_leading_estimate": 1.7627461154416473e-08,
+          "infinity_integrand_endpoint": 9.02111243660716e-12,
+          "min_H_squared_sample": 5.253099533034629e-16,
+          "max_H_squared_sample": 509.22479678512195,
+          "normalization": 1.0,
+          "C0_scalar_tail_bracket": [
+            7.02554196716412,
+            7.025542202808147
+          ],
+          "scalar_minus_W_bracket": [
+            0.4668903569043767,
+            0.46689037256436766
+          ],
+          "scalar_tail_J": 0.0002427968724855568,
+          "scalar_E1_quadrature_error": 7.711660948295604e-18,
+          "scalar_rmax": 80.0,
+          "config": {
+            "sleft": -16.0,
+            "rmax": 30.0,
+            "tol": 2e-08,
+            "step": 0.2
+          },
+          "scope": "Floating convergence and asymptotic tail estimates, not rigorous interval certification"
+        },
+        {
+          "k": 0.5235987755982988,
+          "omega": 0.08044275775072589,
+          "C0": 7.025542046784317,
+          "quadrature_error_estimate": 1.8374817970908708e-13,
+          "horizon_tail_leading_estimate": 6.338153841006254e-12,
+          "infinity_integrand_endpoint": 1.0726280466191011e-17,
+          "min_H_squared_sample": 2.2943010734036776e-23,
+          "max_H_squared_sample": 509.22267357278844,
+          "normalization": 1.0,
+          "C0_scalar_tail_bracket": [
+            7.025542024379357,
+            7.025542069189275
+          ],
+          "scalar_minus_W_bracket": [
+            0.4668903672730602,
+            0.4668903702509542
+          ],
+          "scalar_tail_J": 0.00010790972112684968,
+          "scalar_E1_quadrature_error": 5.110490638788508e-18,
+          "scalar_rmax": 120.0,
+          "config": {
+            "sleft": -22.0,
+            "rmax": 45.0,
+            "tol": 2e-10,
+            "step": 0.1
+          },
+          "scope": "Floating convergence and asymptotic tail estimates, not rigorous interval certification"
+        },
+        {
+          "k": 0.5235987755982988,
+          "omega": 0.08044275775065503,
+          "C0": 7.0255420334556735,
+          "quadrature_error_estimate": 8.997370966997295e-14,
+          "horizon_tail_leading_estimate": 2.2789541372901955e-15,
+          "infinity_integrand_endpoint": 1.4524216451544793e-25,
+          "min_H_squared_sample": 5.572341000418921e-33,
+          "max_H_squared_sample": 509.22412444730935,
+          "normalization": 1.0,
+          "C0_scalar_tail_bracket": [
+            7.025542029151766,
+            7.025542037759581
+          ],
+          "scalar_minus_W_bracket": [
+            0.46689036936317335,
+            0.4668903699352155
+          ],
+          "scalar_tail_J": 4.795987605641988e-05,
+          "scalar_E1_quadrature_error": 1.4356899860563576e-18,
+          "scalar_rmax": 180.0,
+          "config": {
+            "sleft": -28.0,
+            "rmax": 65.0,
+            "tol": 2e-12,
+            "step": 0.05
+          },
+          "scope": "Floating convergence and asymptotic tail estimates, not rigorous interval certification"
+        }
+      ]
+    },
+    {
+      "L": 16,
+      "k": 0.39269908169872414,
+      "refinements": [
+        {
+          "k": 0.39269908169872414,
+          "omega": 0.09161923084279339,
+          "C0": 3.321037079816437,
+          "quadrature_error_estimate": 6.191728308454083e-10,
+          "horizon_tail_leading_estimate": 3.838392834744809e-09,
+          "infinity_integrand_endpoint": 1.1203649386095871e-08,
+          "min_H_squared_sample": 6.263293804514378e-13,
+          "max_H_squared_sample": 387.8124925141455,
+          "normalization": 0.9999999999999999,
+          "C0_scalar_tail_bracket": [
+            3.321037037460341,
+            3.321037122172533
+          ],
+          "scalar_minus_W_bracket": [
+            0.46863620276459816,
+            0.46863621471845457
+          ],
+          "scalar_tail_J": 0.00021317849779281677,
+          "scalar_E1_quadrature_error": 9.000562947802657e-18,
+          "scalar_rmax": 80.0,
+          "config": {
+            "sleft": -16.0,
+            "rmax": 30.0,
+            "tol": 2e-08,
+            "step": 0.2
+          },
+          "scope": "Floating convergence and asymptotic tail estimates, not rigorous interval certification"
+        },
+        {
+          "k": 0.39269908169872414,
+          "omega": 0.09161923083009282,
+          "C0": 3.3210370640197384,
+          "quadrature_error_estimate": 1.3224620479947653e-11,
+          "horizon_tail_leading_estimate": 1.0554296572249342e-12,
+          "infinity_integrand_endpoint": 8.775125686210498e-13,
+          "min_H_squared_sample": 1.2769996898596125e-18,
+          "max_H_squared_sample": 387.8104960327787,
+          "normalization": 0.9999999999999999,
+          "C0_scalar_tail_bracket": [
+            3.3210370559365945,
+            3.3210370721028815
+          ],
+          "scalar_minus_W_bracket": [
+            0.4686362108461713,
+            0.4686362131274188
+          ],
+          "scalar_tail_J": 9.474599903216369e-05,
+          "scalar_E1_quadrature_error": 4.580874983256435e-18,
+          "scalar_rmax": 120.0,
+          "config": {
+            "sleft": -22.0,
+            "rmax": 45.0,
+            "tol": 2e-10,
+            "step": 0.1
+          },
+          "scope": "Floating convergence and asymptotic tail estimates, not rigorous interval certification"
+        },
+        {
+          "k": 0.39269908169872414,
+          "omega": 0.09161923083002341,
+          "C0": 3.321037059036972,
+          "quadrature_error_estimate": 3.934890617068923e-14,
+          "horizon_tail_leading_estimate": 2.9020772502319646e-16,
+          "infinity_integrand_endpoint": 3.0852225550531494e-18,
+          "min_H_squared_sample": 5.1074823743078076e-26,
+          "max_H_squared_sample": 387.81249553174496,
+          "normalization": 1.0,
+          "C0_scalar_tail_bracket": [
+            3.321037057479811,
+            3.3210370605941333
+          ],
+          "scalar_minus_W_bracket": [
+            0.46863621247161796,
+            0.4686362129110843
+          ],
+          "scalar_tail_J": 4.210933290321576e-05,
+          "scalar_E1_quadrature_error": 1.4489923939329554e-18,
+          "scalar_rmax": 180.0,
+          "config": {
+            "sleft": -28.0,
+            "rmax": 65.0,
+            "tol": 2e-12,
+            "step": 0.05
+          },
+          "scope": "Floating convergence and asymptotic tail estimates, not rigorous interval certification"
+        }
+      ]
+    }
+  ]
+}

@@ -4,6 +4,30 @@ Date: 2026-10-22. Evidence categories:
 `CHECKED_SIMPLE_ALGEBRA`, `SOURCE_CONFIRMED`,
 `DERIVED_UNAUDITED`, `NOT_ATTEMPTED`, `FAILED`.
 
+## Executed GLR-GOAL-001 checks
+
+`EXACT_CHECKED_AND_REVIEWED` means an exact derivation/check plus separate
+AI mathematical reviewer; it is not human referee certification.
+
+| Check | Result | Record |
+|---|---|---|
+| SO(3) action, GHY boundary cancellation, canonical DOF | EXACT_CHECKED_AND_REVIEWED | `AUDIT_FOUNDATION.md`, `audit_foundation_checks.py` |
+| Gauge-completed radion, pure-gauge null test | EXACT_CHECKED_AND_REVIEWED | audit I; omitting half Lie² rejected |
+| Full GL linear mode and two-gauge conversion | EXACT_CHECKED | `gl_linear_check.py`, `gl_linear_exact.py`, `gl_linear_verification.txt` |
+| Continuum GL modes / threshold | EMPIRICAL_CONVERGENCE | `gl_linear_results.json`, `gl_linear_extended_results.json`; no interval proof |
+| Complete quadratic scalar source | EXACT_CHECKED_AND_REVIEWED | `check_quadratic_source.py`, both audits, independent cubic action |
+| Retarded operator, W sign, static threshold positive overlap | EXACT_CHECKED_AND_REVIEWED | `AUDIT_SOURCE_RETARDED.md`, `audit_source_checks.py` |
+| Nonzero source can have exactly zero overlap | EXACT_MANUFACTURED_NEGATIVE | audit II executable; forbids source-only radiation claim |
+| Four C0 numerical overlaps | STRONG_NUMERICAL_EVIDENCE | `radion_transfer.py`, `radion_transfer_results.json`; analytic scalar-tail-only brackets |
+| Independent reference overlap | INDEPENDENT_NUMERICAL_AGREEMENT | `audit_source_transfer.py`, JSON; within7e-8 at L10, saved-profile pathway |
+| Radion flux from 4D action and 5D TT current | EXACT_CHECKED_AND_REVIEWED | audit I; factor-two mutation rejected |
+| Complete finite-k interval proof / finite-A error bound | NOT_COMPLETED | explicit obstruction in goal report; no invented emission percentage |
+
+Executed command/version/output references are in `GLR_GOAL001_CHECKS.md`.
+Four physical k values × three refinements are used; threshold separate.
+No production evolutions, cluster submissions, or Michael implementation
+changes. The table below is the preserved **initial** check baseline.
+
 | Check | Status | Evidence / limitation |
 |---|---|---|
 | cos(kz)^2 selection n=0 and +/-2 | CHECKED_SIMPLE_ALGEBRA | SymPy 1.14.0, Python 3.13.5, `check_foundation.py`. |
@@ -33,3 +57,4 @@ For a nontrivial new identity or coefficient: (1) analytic derivation;
 positive/negative tests; (4) adversarial mathematical reviewer not relying
 on the first derivation; (5) field normalization and dimensional checks.
 Retain failed attempts and boundary-condition obstructions in separate logs.
+

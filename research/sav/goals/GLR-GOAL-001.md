@@ -1,7 +1,7 @@
 # GLR-GOAL-001 — Second-order radion radiation from an unstable 5D black string
 
 **Task ID:** `T-20261022-GLR-GOAL-001`
-**State:** READY TO LAUNCH — NOT LAUNCHED BY THIS FILE
+**State:** EXECUTED 2026-10-22 — MEANINGFUL_PARTIAL; see execution ledger below
 **Environment:** Codex GPT-6.1 Sol, High reasoning effort, standard speed
 **Repository:** `inaeyk/GL-with-AI`
 **Branch:** `research/sav-radiation`
@@ -216,3 +216,40 @@ Final classification must be one of:
   and reproducibility.
 - Updated Michael scientific handoff for feasible future extraction.
 - Branch-scoped commits, clear stop verdict and next ambition.
+
+## Append-only execution ledger
+
+### 2026-10-22 — owner-authorized execution of T-20261022-GLR-GOAL-001
+
+- Input research commit: `0b0b2e1ee1df64a80e4474d6909173d4682564f3`.
+  Read complete controlling task/AGENTS and linked notation, evidence,
+  literature, checks and Michael handoff before calculation. Historical
+  failed numerical and AI notes were inputs for review, not proof.
+- A: independent SO(3) action/boundary/constraint audit; exact gauge
+  completion and all-component GL Ricci verification; threshold0.8761604020
+  and four growing modes. Exactly four physical k ×three refinements used,
+  reference L10 completed first. Precise published growth point not
+  digitized; literature lower-bound and threshold comparisons passed.
+- B: closed complete gauge-invariant quadratic scalar source derived:
+  `Box phi0=−sqrt(3) k² A² H_mu nu H^mu nu/16`, with Fourier1/2,
+  second-order completion, on-shell integrability and exceptional zero
+  modes distinguished. Exact horizon cancellations preserved.
+- C: explicit normalized −1/W retarded overlap; independent cubic-action
+  equality. Final four positive C0 estimates in the report. Two bounded
+  scalar-boundary approaches, final positive Volterra tail bracket;
+  independent saved-profile L10 check agrees within7e-8. Full interval
+  proof of physical overlap remains open.
+- D: scalar flux checked from 4D action and independent5D TT current;
+  conditional quartic energy law/windowed spectrum and onset shifts
+  calculated. No controlled numerical finite-A interval, full spectrum,
+  first-bulge radiated fraction or A~1 extrapolation established.
+- E: two separate adversarial mathematical reviews completed, plus exact
+  sign/Fourier/gauge/norm mutations and a manufactured cancellation.
+  Definite prior KK-vector exponent/counting errors corrected; failures
+  retained. Science-only Michael interface updated in closing deliverable.
+- Stop: `MEANINGFUL_PARTIAL`; no production evolution, cluster launch,
+  Michael setup change, merge, manuscript or Overleaf work. Finite analysis
+  allocation reached; no automatic continuation or repair is authorized
+  by this ledger. Closing report gives exact commit provenance and precise
+  next mathematical gate.
+
