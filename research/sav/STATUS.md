@@ -20,6 +20,8 @@
 [data/higher orders](physics/goal003_data_nonlinear.md),
 [separate stabilization EFT](physics/goal003_stabilized_radion.md).
 Input: research/sav-radiation@ef646d56ab7d8bebca578afab53e62da5146ec05.
+Scientific result: **6da8b1dc866c733e9e7022cb2154a7dc16ab0b8c**; research-only tree comparison and
+expected-head publication verified. See `verification/goal003_publication.json`.
 
 **PROVEN within stated spaces:** explicit source-aware n=2 master and
 all-constraint reconstruction; analytic L10 nonresonance and effective

@@ -269,3 +269,15 @@ limitations are preserved in [negative results](../verification/negative_results
 There is no proved impossibility, reproducibility failure or request for
 out-of-scope approval. Further mathematical strategies are recorded for
 scientific re-entry; no subsequent Goal is launched automatically.
+
+
+## 7. Verified publication
+
+Scientific commit: **6da8b1dc866c733e9e7022cb2154a7dc16ab0b8c**, tree **aa17243a8237a9dda0957c614152ede6b7b0bd77**, parent
+**ef646d56ab7d8bebca578afab53e62da5146ec05**. All 36 changed paths
+are under research/sav/**; zero deletions and zero outside changes. Each
+published blob was hash-checked against the local payload before the
+expected-head, non-forced fast-forward update succeeded. Commit parent/tree
+were read back. [Publication manifest](../verification/goal003_publication.json)
+pins the exact scientific blobs. The closure preserves these facts and
+aligns the Y_m source-norm index; no scientific acceptance is upgraded.

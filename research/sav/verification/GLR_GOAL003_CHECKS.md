@@ -157,3 +157,22 @@ links; the corrected Markdown-file-link check passes. The prepublication
 remote head remains ef646d56ab7d8bebca578afab53e62da5146ec05. App inventory
 again showed this research chat active and preparation/prior Goal chats
 idle or not loaded; no other work was interrupted.
+
+
+## GOAL-003 scientific publication — verified
+
+Scientific commit **6da8b1dc866c733e9e7022cb2154a7dc16ab0b8c**, tree **aa17243a8237a9dda0957c614152ede6b7b0bd77**, parent
+**ef646d56ab7d8bebca578afab53e62da5146ec05**, on
+**research/sav-radiation**. The recursive Git-tree comparison verified
+36 changed research paths (29 additions, seven modifications), zero
+deletions and zero changes outside research/sav/**. All 36 published
+blob hashes matched the local scientific payload. The branch update
+succeeded with the exact expected input SHA and force=false; the new
+commit's parent/tree were then read back and verified. Prior reports,
+scientific inputs, AGENTS, NOTATION and review gates remain unchanged.
+
+The closure records this immutable scientific result and the selected
+source-norm notation consistently: Y_m already includes m+3 source
+derivatives. It does not upgrade any scientific gate. The closure commit's
+own SHA is supplied in the task delivery. No production action or
+subsequent Goal accompanies publication.

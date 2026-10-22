@@ -578,3 +578,9 @@ unchanged definition in section 12. See [report](GLR-GOAL-003_REPORT.md),
 [checks](../verification/GLR_GOAL003_CHECKS.md), [input/publication
 provenance](../SOURCES.md) and the existing science handoff. No physical
 ODE/production simulation, manuscript, Overleaf or subsequent Goal.
+
+Publication milestone: scientific result **6da8b1dc866c733e9e7022cb2154a7dc16ab0b8c**, tree
+**aa17243a8237a9dda0957c614152ede6b7b0bd77**. All 36 changed paths verified research-only;
+non-forced expected-head update succeeded. Exact hashes and tree counts
+are in `../verification/goal003_publication.json`. The closing provenance
+commit records this result without launching further work.

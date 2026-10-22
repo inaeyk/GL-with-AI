@@ -9,7 +9,8 @@ Michael; Pau Figueras advises. Michael retains numerical responsibility.
 **MEANINGFUL_PARTIAL.** Read [the report](../goals/GLR-GOAL-003_REPORT.md)
 and [verification ledger](../verification/GLR_GOAL003_CHECKS.md). Input
 research/sav-radiation@ef646d56ab7d8bebca578afab53e62da5146ec05; exact
-publication refs are in the closing provenance. This is a science-only
+scientific result is **6da8b1dc866c733e9e7022cb2154a7dc16ab0b8c**; verified research-only
+publication details are in SOURCES.md and goal003_publication.json. This is a science-only
 handoff; no implementation, production or subsequent task is requested.
 
 The n=2 obstruction has advanced substantially: an explicit forced

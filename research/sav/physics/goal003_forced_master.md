@@ -291,9 +291,10 @@ first-bulge extrapolation.
 
 For the +2 sector use the source and regular-metric norms and effective
 constant constructed in the independent note, not a scalar-only norm.
+Here Y_m already includes m+3 source derivatives, as defined there.
 On a fixed tau interval, the exponential particular metric obeys
 
-$$\|q_{2,2}\|_{X_m([0,T])}\le e^{sT}C_{2,m}(a,s)\|Q_{2,2}\|_{Y_{m+3}}.$$
+$$\|q_{2,2}\|_{X_m([0,T])}\le e^{sT}C_{2,m}(a,s)\|Q_{2,2}\|_{Y_m}.$$
 
 Complex +2 and −2 reconstruct a real tensor with an upper-bound factor
 two. Independent homogeneous second-harmonic Cauchy data add their own
@@ -341,7 +342,7 @@ In particular, if C0,m denotes the explicit scalar-response/quadrature
 bound in the same regular norm, a full bound has the structure
 
 $$M_2(T)\le e^{sT}
- [C_{0,m}\|Q_{2,0}\|_{Y_0}+2C_{2,m}\|Q_{2,2}\|_{Y_{m+3}}]
+ [C_{0,m}\|Q_{2,0}\|_{Y_0}+2C_{2,m}\|Q_{2,2}\|_{Y_m}]
  +\|q_{2,hom}\|_{X_m([0,T])}+C_{charge}|\delta m|. \tag{9}$$
 
 Every term is needed. This is a conditional complete-geometry estimate;
