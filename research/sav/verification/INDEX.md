@@ -4,6 +4,20 @@ Date: 2026-10-22. Evidence categories:
 `CHECKED_SIMPLE_ALGEBRA`, `SOURCE_CONFIRMED`,
 `DERIVED_UNAUDITED`, `NOT_ATTEMPTED`, `FAILED`.
 
+## Prepared GLR-GOAL-003 review protocol — not executed
+
+[Goal](../goals/GLR-GOAL-003.md) and
+[acceptance/falsification gates](../goals/GLR-GOAL-003_REVIEW_GATES.md).
+Preparation reviewed existing reports/derivations and obtained bounded
+independent planning reviews of the master/inverse, nonlinear closure and
+EFT/symmetry. These are document reviews, not new scientific audits or
+executed GOAL-003 checks. Source/reconstruction equivalence, endpoint and
+inverse bounds, exact simultaneous GL data, nonlinear radiation trace and
+massive scalar transport are specified as future verification obligations.
+No scientific code or simulation ran for this preparation. Publication
+validation is limited to documentation links, content and Git-tree scope.
+Future commands/results belong in a new GLR_GOAL003_CHECKS.md when run.
+
 ## Executed GLR-GOAL-002 checks — 2026-10-22
 
 See GLR_GOAL002_CHECKS.md for all commands, versions, output paths and scope.
@@ -75,4 +89,5 @@ For a nontrivial new identity or coefficient: (1) analytic derivation;
 positive/negative tests; (4) adversarial mathematical reviewer not relying
 on the first derivation; (5) field normalization and dimensional checks.
 Retain failed attempts and boundary-condition obstructions in separate logs.
+
 

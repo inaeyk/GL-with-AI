@@ -10,6 +10,33 @@
 `CONDITIONAL_MODEL` assumption-dependent estimate;
 `OPEN` unanswered.
 
+## GLR-GOAL-003 prepared — current next-task pointer
+
+**READY FOR CODEX; NOT LAUNCHED. Documentation preparation only.**
+[Extended analytical program](goals/GLR-GOAL-003.md),
+[independent gates](goals/GLR-GOAL-003_REVIEW_GATES.md),
+[ready-to-paste launch](goals/GLR-GOAL-003_LAUNCH.md).
+Reviewed baseline: research/sav-radiation@
+554ceb968fb3f2549a80f1b1e953810d9e79744a, the GOAL-002 closing commit.
+
+First target: explicit forced n=2 gauge-invariant master, source-aware
+reconstruction and a bounded horizon-regular inverse with the forced
+infinity tail. Subsequent targets: complete quadratic norm; exact
+simultaneous GL-plus-scalar data; third/fourth-order and nonlinear
+closure; controlled early scalar news/energy; local-amplitude versus
+memory dynamics and a justified initial-bulge bridge if reachable.
+Independent formal analysis may proceed while lower bounds remain open;
+physical conclusions remain gated. GOAL-001/002 remain MEANINGFUL_PARTIAL.
+
+Exact SO(3) remains appropriate for this sector: scalar monopoles are
+allowed, massless tensor Bondi news vanishes, and compact n is distinct
+from angular ell. The owner's small radion mass observation is a separate
+stabilization/EFT track, with matching and massive timelike flux, leaving
+the five-dimensional vacuum equations unchanged. No new physical result,
+scientific check, calculation run, simulation or task launch is asserted.
+Only research/sav/** Markdown documentation is changed by this preparation;
+Michael's production work and all other branches remain untouched.
+
 ## GLR-GOAL-002 executed — 2026-10-22
 
 **Terminal classification: MEANINGFUL_PARTIAL.**
@@ -129,3 +156,4 @@ Scientific result commit **6eb617e4d22b1ca8e8641dcf1f80ca5d9c64e681**
 on research/sav-radiation. Tree scope verified: 31 research-only blobs,
 zero deletions/outside changes. The final commit only pins provenance and
 closing pointers. MEANINGFUL_PARTIAL; no follow-on Goal or production action.
+

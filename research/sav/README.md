@@ -48,7 +48,14 @@ approved plans. No production spacetime simulations are authorized here.
     [GLR-GOAL-002_REPORT.md](goals/GLR-GOAL-002_REPORT.md): regular
     second-order equations/zero-mode quadratures and finite-data bounds;
     full n2 response, exact simultaneous GL data and finite-A remainder open.
-11. [handoffs/MICHAEL_START_HERE.md](handoffs/MICHAEL_START_HERE.md): two-way collaboration.
+11. [goals/GLR-GOAL-003.md](goals/GLR-GOAL-003.md),
+    [review gates](goals/GLR-GOAL-003_REVIEW_GATES.md) and
+    [launch instructions](goals/GLR-GOAL-003_LAUNCH.md): **current prepared
+    next task; NOT LAUNCHED**. Forced n=2 gauge-invariant master and bounded
+    horizon-regular inverse; complete quadratic response; exact GL data;
+    higher-order/nonlinear closure and early radion flux; separate consistent
+    small-mass stabilization/EFT extension. Exact SO(3) is retained.
+12. [handoffs/MICHAEL_START_HERE.md](handoffs/MICHAEL_START_HERE.md): two-way collaboration.
 
 ## Scientific priorities
 
@@ -58,9 +65,13 @@ approved plans. No production spacetime simulations are authorized here.
 - Preserve the GOAL-001 **quadratic n=0 radion source**, gauge completion,
   retarded transfer and strong numerical nonzero-overlap evidence as
   mathematically audited input, subject to remaining interval/error checks.
-- Use GLR-GOAL-002 to investigate the full n=0/n=2 second-order response,
-  finite-time physical data and a demonstrably controlled amplitude/energy window.
-  A first-bulge emitted percentage remains unestablished.
+- Build on GLR-GOAL-002's equations and honest partial result through the
+  prepared GLR-GOAL-003 master/inverse and nonlinear analytical program.
+  A controlled finite GL amplitude window and first-bulge emitted percentage
+  remain unestablished; preparation does not change that status.
+- Keep realistic radion stabilization as a separate EFT, with its own
+  matched source, stress tensor and massive scalar timelike flux. SO(3)
+  allows scalar monopoles but forbids massless tensor Bondi news.
 - Estimate early growth, nonlinear onset, bulge times, spectrum, and total
   emitted energy with explicit conditional assumptions and errors.
 - Provide an independently auditable extraction specification for future
@@ -72,3 +83,4 @@ Only add to or change `research/sav/**` on `research/sav-radiation` unless
 explicitly authorized otherwise. No merges, production code, physics parameter
 changes, dependency edits, or numerical launches. See [AGENTS.md](AGENTS.md).
 Historical failed results are scientifically valuable and retained.
+

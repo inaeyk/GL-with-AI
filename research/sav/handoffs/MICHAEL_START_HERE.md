@@ -4,7 +4,25 @@
 action requested.** Savdeep leads this analytical thread jointly with
 Michael; Pau Figueras advises. Michael retains numerical responsibility.
 
-## Current scientific re-entry: GOAL-002, 2026-10-22
+## Prepared continuation: GOAL-003, not launched
+
+The current next-task pointer is [GLR-GOAL-003](../goals/GLR-GOAL-003.md),
+with [review gates](../goals/GLR-GOAL-003_REVIEW_GATES.md) and
+[launch instructions](../goals/GLR-GOAL-003_LAUNCH.md). It starts from the
+GOAL-002 closing commit 554ceb968fb3f2549a80f1b1e953810d9e79744a.
+The scientific result below remains the latest executed result.
+
+The proposed program seeks the forced n=2 invariant master and bounded
+regular inverse, full quadratic backreaction, exact GL-plus-scalar data,
+nonlinear remainder and early flux, with ambitious higher-order/amplitude
+analysis and a controlled bulge bridge if possible. A separate small-mass
+radion EFT preserves the vacuum theory and exact SO(3) selection rules;
+massive scalar monopoles require timelike propagation/flux treatment.
+No finite-A interval or radiation fraction has become established merely
+by preparing this program. No implementation, simulation, formulation,
+parameter or production-workflow change is requested. No task is launched.
+
+## Latest executed scientific result: GOAL-002, 2026-10-22
 
 **MEANINGFUL_PARTIAL. No controlled finite-A GL interval or first-bulge
 emitted percentage.** Read [the report](../goals/GLR-GOAL-002_REPORT.md),
@@ -191,3 +209,4 @@ only; its SHA is supplied in final delivery. Resume scientifically from
 the report's open n2-inverse/constraint-completion/N4 inequalities, not
 from the historical preparation instructions. No execution is authorized
 by this re-entry pointer.
+

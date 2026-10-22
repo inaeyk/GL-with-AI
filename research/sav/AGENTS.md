@@ -41,10 +41,15 @@ during the 5D Gregory–Laflamme transition.
 
 ## Goal work
 
-GLR-GOAL-001 is a closed historical mathematical task (MEANINGFUL_PARTIAL).
-For the prepared next investigation, use `goals/GLR-GOAL-002.md`,
-`goals/GLR-GOAL-002_REVIEW_GATES.md` and `goals/GOAL_TEMPLATE.md`
-as controlling scope, budgets, scientific gates and stop conditions.
+GLR-GOAL-001 and GLR-GOAL-002 are closed historical mathematical tasks
+(both MEANINGFUL_PARTIAL). The prepared next investigation is
+`goals/GLR-GOAL-003.md`, with `goals/GLR-GOAL-003_REVIEW_GATES.md`
+and `goals/GLR-GOAL-003_LAUNCH.md`. Use its explicit scope, budgets,
+scientific gates and stop conditions when the owner launches it;
+`goals/GOAL_TEMPLATE.md` supplies the general record structure.
+GOAL-003 permits independent formal higher-order analysis while lower
+bounds remain conditional, but gates all dependent physical claims.
+Its stabilized-radion EFT is separate from the unchanged 5D vacuum theory.
 The task is not launched merely by committing its files. Stage notes, derivations, verification and handoffs
 may be added inside `research/sav/**` only. Prefer substantial coherent
 progress over many status-only commits. At the end of each milestone, update
@@ -58,3 +63,4 @@ recorded.
 Michael leads numerical implementation; Pau is an advisor. Human scientific
 approval is needed for any change to the numerical formulation or production
 workflow. See `handoffs/MICHAEL_START_HERE.md`.
+

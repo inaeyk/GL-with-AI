@@ -1,5 +1,57 @@
 # Source and provenance register
 
+## Prepared GLR-GOAL-003 provenance — 2026-10-22
+
+Preparation parent: research/sav-radiation@
+**554ceb968fb3f2549a80f1b1e953810d9e79744a**, tree
+**a53c1da5bbddb285c1589210a6a4a05ddd626659**.
+GOAL-002 science: 6eb617e4d22b1ca8e8641dcf1f80ca5d9c64e681.
+GOAL-001 science/closure remain the pinned historical inputs below.
+
+Inspected the scoped contract, notation, status, README, goal template,
+GOAL-001/002 reports, GOAL-002 scope/launch/gates, linear mode, second-order
+geometry, finite-data/energy, SO(3)/KK notes, verification index, source
+register and science handoff at the immutable parent. The recursive tree
+was inspected for scope and structure; production source was not imported
+or modified. Prior audit outcomes were reviewed through their reports and
+index; this preparation does not claim to rerun or independently certify
+those audits. Three bounded independent planning reviews addressed master/
+inverse, nonlinear closure and mass/symmetry; two reviewed the final draft
+for substantive errors. These were planning reviews, not execution of
+GOAL-003 or scientific tests.
+
+The referenced ChatGPT conversation 6ada10b8-8c38-83ea-ac6c-1b8926722541
+was read through the connected chat tool. Its user observation about a
+small realistic radion mass and question about SO(3) are visible; earlier
+assistant analyses are only content-reference placeholders and were not
+available. No hidden conclusions from that chat are assumed.
+
+Primary literature consulted for planning, not new result certification:
+
+- [Collingbourne, 3.2–3.4 and 4.1](https://arxiv.org/html/2007.08441):
+  homogeneous master and all-component horizon regularity benchmark.
+  The forced inverse and quantitative norm remain our research targets.
+- [Gubser, 3.4–3.5](https://arxiv.org/pdf/hep-th/0110193): static harmonic
+  hierarchy and charge/scheme choices; no dynamical gamma imported.
+- [Figueras et al., III.1](https://arxiv.org/html/2210.13501v2): radiation
+  discussion and horizon context; not an early radion flux measurement.
+- [Brito, Cardoso and Pani, III–IV, equations (26)–(30)](https://arxiv.org/html/1304.6725v3):
+  homogeneous massive spin-2 monopole master/reconstruction comparison.
+  Its TT assumptions need the forced trace/divergence replacement.
+- [Koyama and Tomimatsu, II, equations (4)–(9)](https://arxiv.org/html/gr-qc/0103086v2):
+  massive scalar radial potential and Green framework; III distinguishes
+  small-mass/intermediate/late-time regimes. No source coefficient or
+  flux number is imported from this paper.
+
+The action with R−2(grad phi)^2−4U is a separately labeled EFT specification
+in GOAL-003, not a claim of a matched microscopic stabilizer. No new vacuum
+mass term, simulation, numerical result, first-bulge fraction, manuscript
+work, or subsequent task is authorized by preparing it. Documentation
+publication uses the connected Git-tree API, preserving the parent tree
+outside explicitly changed research/sav Markdown paths, with a checked
+branch-head lease. The publication commit is supplied in the chat delivery;
+its own SHA cannot be embedded without creating another commit.
+
 ## Repository, read-only sources reviewed 2026-10-22
 
 Authoritative repository: https://github.com/inaeyk/GL-with-AI
@@ -190,3 +242,4 @@ blobs, no deletions and no outside-path changes against the input tree.
 Only research/sav-radiation advanced, with expected input head and no
 force/merge. A subsequent research-only provenance/pointer commit closes
 the task; its exact SHA is in final chat delivery.
+
