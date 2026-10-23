@@ -4,10 +4,23 @@ Date: 2026-10-22. Evidence categories:
 `CHECKED_SIMPLE_ALGEBRA`, `SOURCE_CONFIRMED`,
 `DERIVED_UNAUDITED`, `NOT_ATTEMPTED`, `FAILED`.
 
-## Current continuity annotation — 2026-10-23
+## GOAL-004 preparation — 2026-10-23; no tests executed
 
-All three Goals completed MEANINGFUL_PARTIAL. No subsequent Goal is
-active or authorized. See [HANDOFF.md](../HANDOFF.md) and the
+The owner separately authorized GOAL-004 and a safe Sav-or-Michael
+execution runbook. [Goal](../goals/GLR-GOAL-004.md),
+[review gates](../goals/GLR-GOAL-004_REVIEW_GATES.md),
+[runbook](../goals/GLR-GOAL-004_RUN_BY_SAV_OR_MICHAEL.md),
+[launch prompt](../goals/GLR-GOAL-004_LAUNCH.md).
+Preparation is a research-document publication only: **no GOAL-004
+symbolic, numerical, audit or production checks have been run**.
+Prior verified evidence retains its original classification; see
+[GOAL-003 later review qualification](GOAL003_REVIEW_QUALIFICATIONS.md).
+
+## Earlier continuity annotation — 2026-10-23
+
+All three previous Goals completed MEANINGFUL_PARTIAL. At the time of
+this earlier continuity annotation no subsequent Goal was active or authorized.
+GOAL-004 was separately authorized afterward and is not yet executed. See [HANDOFF.md](../HANDOFF.md) and the
 [attributed later GOAL-003 review qualifications](GOAL003_REVIEW_QUALIFICATIONS.md),
 which narrow the description of independent verification without changing
 stored outputs or adding executed checks. Original audit records remain

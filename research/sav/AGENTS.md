@@ -44,9 +44,13 @@ during the 5D Gregory–Laflamme transition.
 GLR-GOAL-001, GLR-GOAL-002 and GLR-GOAL-003 are completed historical
 mathematical tasks, each with terminal **MEANINGFUL_PARTIAL** status.
 Read `HANDOFF.md`, `STATUS.md`, `NOTATION.md`, the relevant reports and
-`verification/INDEX.md` before resuming. No subsequent scientific Goal is
-authorized. Historical READY text, launch prompts, templates, open questions
-and available budgets do not authorize replay or new work.
+`verification/INDEX.md` before resuming. On 2026-10-23 the owner
+separately authorized **GLR-GOAL-004**, now prepared in
+`goals/GLR-GOAL-004.md`, with review gates, a Sav-or-Michael runbook and
+one-shot Codex launch prompt. The task has NOT been executed by its
+preparation. Only one active operator may write to the research branch.
+Historical READY text, older launch prompts, open questions and previous
+budgets do not authorize replay of Goals 001–003 or automatic follow-ups.
 
 The source-aware master and bounded point inverse do not close the global
 initial-data, physical source-norm, nonlinear radiation or first-bulge gates.
@@ -106,8 +110,10 @@ At meaningful scientific milestones update `STATUS.md`,
 `verification/INDEX.md`, `SOURCES.md`, the Goal's append-only ledger and the
 concise `HANDOFF.md`. Link full reports rather than duplicate them. Preserve
 original task contracts and reports with explicit completion annotations.
-The owner-approved continuity handoff supersedes the completed GOAL-003
-instruction against adding one; no new task pointer is needed or created.
+The owner-approved continuity handoff superseded the completed GOAL-003
+instruction against adding one. The later explicitly authorized
+GLR-GOAL-004 supplies the only current prospective task pointer; it does
+not itself authorize additional Goals or production numerical work.
 
 Workflow reference: [PROJECT_BOOTSTRAP.md at 85e7cad9](https://github.com/savsethi/research-template/blob/85e7cad9283b3c7b8aa38b0239b995641a19d728/PROJECT_BOOTSTRAP.md).
 Existing collaborator boundaries and explicit task authorization prevail.

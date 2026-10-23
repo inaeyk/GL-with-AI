@@ -17,9 +17,11 @@ approved plans. No production spacetime simulations are authorized here.
 
 Begin with [AGENTS.md](AGENTS.md) and the concise [HANDOFF.md](HANDOFF.md).
 Use `research/sav/` as the Codex working directory so the scoped contract
-is discovered. All three Goals are completed with MEANINGFUL_PARTIAL;
-no subsequent Goal is authorized. Historical prompts are retained for
-provenance, not automatic replay. Codex discovers instructions along the
+is discovered. GOAL-001/002/003 are completed MEANINGFUL_PARTIAL.
+The user authorized preparation of GLR-GOAL-004 on 2026-10-23; it is
+**ready for Savdeep OR Michael to launch**, but the preparation commits
+do not run Codex. Historical prompts are retained for provenance, not
+automatic replay. Codex discovers instructions along the
 Git-root-to-working-directory path; opening only the Git root does not
 load this descendant contract. See [instruction discovery](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
 
@@ -63,8 +65,15 @@ load this descendant contract. See [instruction discovery](https://learn.chatgpt
     Global fixed-charge data, physical M2, nonlinear radiation and finite-A
     closure remain open. [Controlling Goal](goals/GLR-GOAL-003.md) and
     [review gates](goals/GLR-GOAL-003_REVIEW_GATES.md) retain their scope;
-    no subsequent Goal is launched.
-12. [handoffs/MICHAEL_START_HERE.md](handoffs/MICHAEL_START_HERE.md): two-way collaboration.
+    no subsequent Goal was launched as part of GOAL-003.
+12. [GLR-GOAL-004](goals/GLR-GOAL-004.md),
+    [review gates](goals/GLR-GOAL-004_REVIEW_GATES.md),
+    [Sav-or-Michael runbook](goals/GLR-GOAL-004_RUN_BY_SAV_OR_MICHAEL.md)
+    and [launch prompt](goals/GLR-GOAL-004_LAUNCH.md): owner-authorized,
+    prepared extended analytical program for rigorous early-radiation
+    control plus an independently qualified semi-analytic first-bulge
+    model. **NOT YET EXECUTED.**
+13. [handoffs/MICHAEL_START_HERE.md](handoffs/MICHAEL_START_HERE.md): two-way collaboration.
 
 ## Scientific priorities
 
@@ -77,8 +86,9 @@ load this descendant contract. See [instruction discovery](https://learn.chatgpt
 - Preserve GOAL-003's executed master/inverse and local-data results, with
   formal higher orders and open global/nonlinear gates. A controlled finite
   GL amplitude window and first-bulge emitted percentage remain unestablished.
-  Future work requires separate authorization; read the
-  [later review qualifications](verification/GOAL003_REVIEW_QUALIFICATIONS.md).
+  GOAL-004 has now been separately authorized for analytical research;
+  read the [later review qualifications](verification/GOAL003_REVIEW_QUALIFICATIONS.md)
+  before upgrading any inverse/verification claim.
 - Keep realistic radion stabilization as a separate EFT, with its own
   matched source, stress tensor and massive scalar timelike flux. SO(3)
   allows scalar monopoles but forbids massless tensor Bondi news.

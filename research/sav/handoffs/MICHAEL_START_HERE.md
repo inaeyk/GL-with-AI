@@ -1,3 +1,26 @@
+## New owner-authorized independent analytical Goal — 2026-10-23
+
+Savdeep has prepared [GLR-GOAL-004](../goals/GLR-GOAL-004.md).
+**Either Savdeep or Michael may execute** this theoretical task in
+a separate clean research checkout, but only **one writer at a time**
+to research/sav-radiation. Please read the
+[runbook](../goals/GLR-GOAL-004_RUN_BY_SAV_OR_MICHAEL.md),
+[acceptance rubric](../goals/GLR-GOAL-004_REVIEW_GATES.md),
+[launch prompt](../goals/GLR-GOAL-004_LAUNCH.md),
+and [current scientific handoff](../HANDOFF.md).
+
+The mathematical target is quantitative source-evaluated q2,
+global fixed-charge GL initial data, a nonlinear radion-news bound,
+and a complementary semi-analytic first-bulge waveform model.
+A stabilized light radion is a **separate model-dependent EFT**.
+All numerical implementation, gauge/boundary decisions and
+production evolution remain Michael-led and require specific
+separate approval. GOAL-004 preparation has neither launched
+Codex nor run a simulation, nor requested a change to Michael's
+current numerical work.
+
+---
+
 # Michael Yan / AI environment — GL radiation science handoff
 
 2026-10-22. **Science-only interface; no implementation or simulation

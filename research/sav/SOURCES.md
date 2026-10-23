@@ -1,3 +1,34 @@
+## GLR-GOAL-004 preparation — 2026-10-23 (not executed)
+
+Authoritative analysis baseline on research/sav-radiation before
+GOAL-004 preparation: **97a52c42c39018ac9b41f70b0ba9b08cd67c05bc**.
+GOAL-001/002/003 completed MEANINGFUL_PARTIAL. Inspected current
+HANDOFF.md, AGENTS.md, STATUS.md, README.md, GOAL-003 final report,
+the later attributed GOAL003_REVIEW_QUALIFICATIONS.md, prior runbooks,
+source register and verification index. No GOAL-004 derivation,
+numerical check, validation or audit has been executed here.
+
+New controlling documents:
+- [GOAL-004](goals/GLR-GOAL-004.md)
+- [Review gates](goals/GLR-GOAL-004_REVIEW_GATES.md)
+- [Sav/Michael safety runbook](goals/GLR-GOAL-004_RUN_BY_SAV_OR_MICHAEL.md)
+- [One-shot Codex launch](goals/GLR-GOAL-004_LAUNCH.md)
+
+The purpose is to close the **documented** L10 source-norm/global
+constraint/retarded nonlinear-news gaps while developing a separate,
+clearly model-qualified first-bulge waveform. Existing references and
+literature in this register are inputs, not new proof. Microscopic
+radion stabilization is absent from pure 5D vacuum; the EFT remains a
+conditional independent workstream. No GRChombo simulation or changes
+outside research/sav/** are authorized.
+
+The commit proving preparation is the latest verified repository
+research-branch commit after this note; do not treat a future Codex
+execution SHA as known or invent one. Before launch, operators must
+refresh the branch and record the exact input SHA.
+
+---
+
 # Source and provenance register
 
 ## Executed GLR-GOAL-003 input provenance — 2026-10-22

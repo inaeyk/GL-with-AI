@@ -1,9 +1,28 @@
 # Research status — 2026-10-22
 
-## Current task state — continuity annotation, 2026-10-23
+## Current prospective Goal — 2026-10-23
+
+**GLR-GOAL-004: PREPARED, OWNER-AUTHORIZED, NOT EXECUTED.**
+The previous three Goals remain completed with terminal
+MEANINGFUL_PARTIAL status. The new ambitious task has a rigorous
+source-to-news program, independent semi-analytic first-bulge model
+and separate stabilized light-radion EFT extension. See
+[goal](goals/GLR-GOAL-004.md),
+[review gates](goals/GLR-GOAL-004_REVIEW_GATES.md),
+[shared-executor runbook](goals/GLR-GOAL-004_RUN_BY_SAV_OR_MICHAEL.md)
+and [Codex prompt](goals/GLR-GOAL-004_LAUNCH.md).
+
+Current result stays unchanged: NO controlled positive finite-A GL interval,
+NO physically certified first-bulge radion energy fraction, and NO
+production waveform. Nothing has been calculated for GOAL-004 by these
+preparation files. Single active Sav/Michael executor; only
+research/sav/** writes; no simulation authorization.
+
+## Prior continuity annotation — retained 2026-10-23
 
 GLR-GOAL-001, GOAL-002 and GOAL-003 are completed with terminal
-**MEANINGFUL_PARTIAL** outcomes. No subsequent scientific Goal is authorized.
+**MEANINGFUL_PARTIAL** outcomes. At the time of this earlier continuity
+entry no subsequent scientific Goal was authorized.
 [HANDOFF.md](HANDOFF.md) is the concise scientific re-entry;
 [AGENTS.md](AGENTS.md) sets local-first execution and checkpoint policy.
 The [later GOAL-003 review qualifications](verification/GOAL003_REVIEW_QUALIFICATIONS.md)

@@ -78,3 +78,30 @@ or simulation modifications must be recorded separately.
   newly verified mathematics. Original scientific evidence is unchanged.
 - No new Goal, production/code/workflow change, simulation, manuscript,
   Overleaf access or collaborator message is authorized by the restart.
+
+## 2026-10-23: GLR-GOAL-004 owner authorization and safe shared launch
+
+- The owner explicitly requested a more ambitious analytical Goal,
+  together with instructions so **either Savdeep Sethi or Michael Yan**
+  can launch and execute it.
+- The first rigorous route targets quantitative physical L10 quadratic
+  response/source norms, global KK-flat constraint-compatible data,
+  a nonlinear time-domain radiation trace, fourth-order radion response,
+  and a nonzero finite-amplitude early energy enclosure.
+- A **parallel independent semi-analytical first-bulge model** is required
+  even if rigorous closure fails; its assumptions/error status are
+  distinct from a theorem. Stabilized light-radion transport remains a
+  separate conditional EFT that changes no 5D vacuum field equation.
+- Only ONE designated research-branch writer at a time. Either operator
+  may run in a separate clean/sparse research checkout, subject to
+  actual permissions; the other reviews or supplies a local-only
+  patch. Coherent scoped checkpoint publications are authorized after
+  major scientific milestones, not simultaneous pushes or force updates.
+- Files prepared: goals/GLR-GOAL-004.md,
+  GLR-GOAL-004_REVIEW_GATES.md,
+  GLR-GOAL-004_RUN_BY_SAV_OR_MICHAEL.md and
+  GLR-GOAL-004_LAUNCH.md. The previous GOAL003 review qualification
+  is mandatory reading; historic reports and data are not rewritten.
+- Preparation **does not launch Codex**, start a production run, approve
+  numerical implementation, modify Michael's other branches, or send
+  any message to collaborators. No full 2+1 or 5D spacetime evolution.

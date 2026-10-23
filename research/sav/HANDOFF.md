@@ -4,7 +4,27 @@ Updated 2026-10-23 after owner-approved continuity review. Repository:
 [inaeyk/GL-with-AI](https://github.com/inaeyk/GL-with-AI), scientific branch
 `research/sav-radiation`, writable scope `research/sav/**` only.
 **GLR-GOAL-001, GOAL-002 and GOAL-003 are completed with MEANINGFUL_PARTIAL
-outcomes. No subsequent scientific Goal is authorized.**
+outcomes. On 2026-10-23 GLR-GOAL-004 was separately authorized and prepared;
+the Codex run is not yet launched.**
+
+## Next owner-authorized research task — READY, not launched
+
+[GLR-GOAL-004](goals/GLR-GOAL-004.md) is an extended independent
+analytic Goal linking the physical L10 q2 response and global
+constraint-compatible GL data to the fourth-order radion news,
+an epsilon-dependent nonlinear radiation trace and, if possible,
+a finite-time two-sided energy bound. In parallel it requires
+a falsifiable semi-analytical first-bulge source-to-waveform
+model and a distinct conditional light-radion EFT.
+
+**Either Savdeep or Michael can execute GOAL-004, but only one
+operator writes to the shared research branch at a time.** Read
+[the safety runbook](goals/GLR-GOAL-004_RUN_BY_SAV_OR_MICHAEL.md)
+and [one-shot launch prompt](goals/GLR-GOAL-004_LAUNCH.md).
+[Review gates](goals/GLR-GOAL-004_REVIEW_GATES.md) distinguish proofs,
+model predictions and unfunded simulation work. No production
+changes or simulation are authorized. The pre-GOAL-004 evidence
+and every historical result below are preserved.
 
 ## Current scientific state
 
@@ -68,7 +88,9 @@ failure remain negative evidence, not accepted physical waveforms.
 No production-code, CLAUDE.md, simulation-plan or historical-branch edits,
 manuscript/Overleaf work, or simulations are authorized by this restart.
 
-A future investigation needs separate owner authorization with scope,
-budgets, verification and checkpoint permissions. Candidate mathematics
-is catalogued in the GOAL-003 report's open-gates table; it is not an active
-task. Use meaningful local commits and the scoped publication policy.
+The previously unlaunched candidate mathematics from GOAL-003 has now
+been incorporated into the separately owner-authorized GOAL-004; its
+preparation and launch instructions above replace the historical
+no-future-Goal status. Use meaningful local commits and the scoped
+publication policy. No Codex run or simulation was launched merely
+by committing the Goal.
