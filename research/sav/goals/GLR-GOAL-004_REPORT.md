@@ -339,3 +339,15 @@ report cannot contain its own future commit hash. No publication is
 claimed solely from a clean local tree. The allowed completion is this
 honest **MEANINGFUL_PARTIAL**, not a claim that the physical objectives
 were achieved or mathematically impossible.
+
+### Verified scientific publication amendment
+
+Scientific result:
+[`2892808ccd9eccbf38f82899604c71642253b26d`](https://github.com/inaeyk/GL-with-AI/commit/2892808ccd9eccbf38f82899604c71642253b26d),
+tree `962735a7f21c74796fa90ba61ff51767d453c8a7`, parent the stated
+execution input. Normal fast-forward publication succeeded and the remote
+head/report blob were read back. All 54 changed paths are research/sav-only
+(46 additions, eight modifications), no deletions or outside changes.
+[Manifest](../verification/goal004_publication.json) pins the complete
+changed blob set and verification. The following provenance-only closing
+commit preserves the scientific assessment; its exact SHA is in final delivery.

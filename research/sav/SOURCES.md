@@ -58,6 +58,15 @@ EFT matching is conditional. No production or manuscript source was used.
 
 ## GLR-GOAL-004 preparation — historical, not executed by preparation
 
+> Execution publication amendment: scientific result
+> [2892808ccd9eccbf38f82899604c71642253b26d](https://github.com/inaeyk/GL-with-AI/commit/2892808ccd9eccbf38f82899604c71642253b26d),
+> tree 962735a7f21c74796fa90ba61ff51767d453c8a7, parent
+> 2f4648c379c474ed124e3ef10b62efcd4a783c66, was published by normal
+> fast-forward and read back from the remote. All 54 changed blob hashes
+> matched local payloads, with 46 additions/eight modifications and no
+> deletions/outside-scope changes. See goal004_publication.json. The
+> following preparation text remains historical.
+
 Authoritative analysis baseline on research/sav-radiation before
 GOAL-004 preparation: **97a52c42c39018ac9b41f70b0ba9b08cd67c05bc**.
 GOAL-001/002/003 completed MEANINGFUL_PARTIAL. Inspected current

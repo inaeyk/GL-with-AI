@@ -1,11 +1,306 @@
 {
-  "state": "PREPUBLICATION",
+  "state": "SCIENTIFIC_PUBLICATION_VERIFIED",
   "repository": "inaeyk/GL-with-AI",
   "branch": "research/sav-radiation",
   "executor": "Savdeep Sethi",
   "mode": "authorized sole writer",
   "input_commit": "2f4648c379c474ed124e3ef10b62efcd4a783c66",
+  "scientific_commit": "2892808ccd9eccbf38f82899604c71642253b26d",
+  "scientific_tree": "962735a7f21c74796fa90ba61ff51767d453c8a7",
+  "scientific_parent": "2f4648c379c474ed124e3ef10b62efcd4a783c66",
+  "scientific_commit_url": "https://github.com/inaeyk/GL-with-AI/commit/2892808ccd9eccbf38f82899604c71642253b26d",
+  "report_url": "https://github.com/inaeyk/GL-with-AI/blob/2892808ccd9eccbf38f82899604c71642253b26d/research/sav/goals/GLR-GOAL-004_REPORT.md",
   "scientific_verdict": "MEANINGFUL_PARTIAL",
-  "publication_verified": false,
-  "note": "Placeholder before the scientific commit; actual SHAs and remote readback are recorded only after publication."
+  "normal_fast_forward": true,
+  "publication_verified": true,
+  "remote_head_readback": "2892808ccd9eccbf38f82899604c71642253b26d",
+  "changed_paths": 54,
+  "additions": 46,
+  "modifications": 8,
+  "deletions": 0,
+  "outside_research_changes": 0,
+  "complete_binary_diff_bytes": 1626298,
+  "complete_binary_diff_sha256": "42f43b59fec921744de813677567186cca2c3840a439de7fffcc01aa86ef92f4",
+  "all_changed_blobs_verified_against_local": true,
+  "actual_publication_commands": [
+    "git fetch --no-tags origin refs/heads/research/sav-radiation:refs/remotes/origin/research/sav-radiation",
+    "git log --format='%H %P %s' origin/research/sav-radiation..HEAD",
+    "git diff --check origin/research/sav-radiation..HEAD",
+    "git push origin HEAD:refs/heads/research/sav-radiation",
+    "git fetch --no-tags origin refs/heads/research/sav-radiation:refs/remotes/origin/research/sav-radiation",
+    "git ls-remote origin refs/heads/research/sav-radiation"
+  ],
+  "files": [
+    {
+      "status": "M",
+      "path": "research/sav/HANDOFF.md",
+      "blob": "0a95ad72ca1644df32127cc4f5b724d4b8ffabdf"
+    },
+    {
+      "status": "M",
+      "path": "research/sav/README.md",
+      "blob": "05c7b6e3657150890372581d401ce60738232a06"
+    },
+    {
+      "status": "M",
+      "path": "research/sav/SOURCES.md",
+      "blob": "f55383b1dfdcbccb2c0be784910f62bb18d601a1"
+    },
+    {
+      "status": "M",
+      "path": "research/sav/STATUS.md",
+      "blob": "b5715002d9aba1f6e136b662b2fe19fc5fa38b65"
+    },
+    {
+      "status": "M",
+      "path": "research/sav/goals/GLR-GOAL-004.md",
+      "blob": "c3d557cd307c1cf1e2d9e35023e8508701dd6655"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/goals/GLR-GOAL-004_REPORT.md",
+      "blob": "1135448f8268459b128e58c2227976b9a1fdc126"
+    },
+    {
+      "status": "M",
+      "path": "research/sav/handoffs/MICHAEL_START_HERE.md",
+      "blob": "320a374e7fad93140ebad3d96274944c382ea5c0"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/physics/goal004_data_news.md",
+      "blob": "9757cfe0871729a27566af6cceb22db969ab4d62"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/physics/goal004_first_bulge_model.md",
+      "blob": "5309b5be584f5b31eb7216182341f0381bc51f53"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/physics/goal004_source_geometry.md",
+      "blob": "7e1fab20b158237be47dbb5c800340a4a3d32641"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/physics/goal004_stabilized_transport.md",
+      "blob": "c1bb02a82dce7742cf1e103f3972e184ced30e27"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/AUDIT_GOAL004_DYNAMICS.md",
+      "blob": "7a61a27d32aa43d14d27bead4bb0090d141b9b58"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/AUDIT_GOAL004_GEOMETRY.md",
+      "blob": "bbfc0626bed83094bcc90ec2ea4627a7c6723d06"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/GLR_GOAL004_CHECKS.md",
+      "blob": "f6071f4a219ff7e79b4cf9c02f2497d73eb41e82"
+    },
+    {
+      "status": "M",
+      "path": "research/sav/verification/INDEX.md",
+      "blob": "820135d3318f9b4def641bc0a8b7782d263af0e6"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_audit_dynamics.py",
+      "blob": "9898cec3f8b4c8bd0d3a02ecd22ab487efb1eaba"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_audit_dynamics_failures.txt",
+      "blob": "1802267ad56ec1429e42ef54fc808b0f659b003a"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_audit_dynamics_results.json",
+      "blob": "c3a0a38a4f59951123034a377b38879e2edc57f3"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_audit_dynamics_results.txt",
+      "blob": "c3a0a38a4f59951123034a377b38879e2edc57f3"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_audit_geometry.py",
+      "blob": "1913154cc541ad770b4844dc469f0c7b117ecdb3"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_audit_geometry_physical_point.json",
+      "blob": "d1b641aae0df479dc946b3c64be3d07309582d60"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_audit_geometry_physical_point.txt",
+      "blob": "0df5c0519f0680bf2e3dc26cc0425e9e51679f18"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_audit_geometry_results.json",
+      "blob": "7d11b35ee232664acd05495289acfbf1e83b948f"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_audit_geometry_results.txt",
+      "blob": "13876099933a8ea31a535eb4e914fc359b153bac"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_data_checks.py",
+      "blob": "aafc327405193adc8c892f1376bb8db09c640d70"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_data_checks_output.txt",
+      "blob": "f074516c5ed4ab61a20660ebe381acf44d96b4e6"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_data_checks_results.json",
+      "blob": "679b5eba9114b248ba6fc934094b9ed39af20c9c"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_figures.py",
+      "blob": "0d948b9b36da31cb7b8a9aedcfb70e2e6827ad0d"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_input_tree.json",
+      "blob": "5130c57f4378e40d3a62a6cf02235390e5b4cbd6"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_model.py",
+      "blob": "080c4c2e2b53a6303638b67704959c746f4aaf6d"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_model_comparison.png",
+      "blob": "c4d7aaaa0d2fa22421e57d31f8ef58b792a19ce3"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_model_output.txt",
+      "blob": "49b838d0f3ffeb997174ce417fecbf284686e141"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_model_p4_0.csv",
+      "blob": "be2ce8dbc84b824509fca57145995bc6d51a4921"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_model_p4_5.csv",
+      "blob": "fa12c5dc34d680ba3c9ae6df53482665bddca6f9"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_model_results.json",
+      "blob": "49b838d0f3ffeb997174ce417fecbf284686e141"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_publication.json",
+      "blob": "e6e8148aa43b194b78d11c04fa0749d4f7cb2fe1"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_source_geometry.py",
+      "blob": "5622fd7878394e134b35392c78f99da28b4b801e"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_source_geometry_diagnostics.json",
+      "blob": "a092d1836af8490c265ceec2f23abf73210ab792"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_source_geometry_diagnostics_output.txt",
+      "blob": "a092d1836af8490c265ceec2f23abf73210ab792"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_source_geometry_output.txt",
+      "blob": "a1153a6f0e2b5ab1a5f9de9d8900f5a28be03d8f"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_source_geometry_results.json",
+      "blob": "6bc9d934ab7e361dd744b4fd00d68f1e328ceacb"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_source_geometry_samples.npz",
+      "blob": "23ec97a5cd48fdf7d01b081a9193777678648918"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_spectrum_p4_0.csv",
+      "blob": "7872f32df1baf480c65d26b0142c7fb57541ad70"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_spectrum_p4_5.csv",
+      "blob": "22bd9db764b9b603efa949df92cd81c38ac7bae0"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_two_mode.py",
+      "blob": "39da9174313dee63ae65bf4577cf36a2dfb423e5"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_two_mode_output.txt",
+      "blob": "781432f780f94a8acad869143a44aac8e9140024"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_two_mode_p4_0.csv",
+      "blob": "a6e9297bd87487c8a14f62dbbe33072dae47b734"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_two_mode_p4_5.csv",
+      "blob": "becac4335c4a1da72c9811efafc2a20336b18cd3"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_two_mode_results.json",
+      "blob": "781432f780f94a8acad869143a44aac8e9140024"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_two_mode_spectrum_p4_0.csv",
+      "blob": "69bafe9c8b389ff36d97380f26785fa5bd1da6ff"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_two_mode_spectrum_p4_5.csv",
+      "blob": "db21c0b11f24da748838ed5a54722ab567fd99bb"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_validate_artifacts.py",
+      "blob": "375b90c91abd54d2b0cf7cb49c4d4e23618bbf06"
+    },
+    {
+      "status": "A",
+      "path": "research/sav/verification/goal004_validation.json",
+      "blob": "4f214a7d3b1acdfa470e3941054f9b801153505b"
+    },
+    {
+      "status": "M",
+      "path": "research/sav/verification/negative_results.md",
+      "blob": "05d1c27956ebc13c30e3281b2f22816392cd7f40"
+    }
+  ],
+  "provenance_closure": "This manifest records the actually verified scientific publication. Its subsequent provenance-only commit is identified by its parent and final delivery; it cannot embed its own SHA."
 }

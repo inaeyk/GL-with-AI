@@ -69,6 +69,10 @@ Historical GOAL-003 continuity source:
 GOAL-004 execution starts at `2f4648c379c474ed124e3ef10b62efcd4a783c66`;
 its actual publication is pinned in the executed ledger/manifest and Git
 history after verification, without a self-referential future hash.
+Verified scientific result:
+[`2892808ccd9eccbf38f82899604c71642253b26d`](https://github.com/inaeyk/GL-with-AI/commit/2892808ccd9eccbf38f82899604c71642253b26d).
+The [publication manifest](verification/goal004_publication.json) records
+54 research-only changes, no deletions/outside changes and remote readback.
 
 | Goal | Scientific result commit | Closing provenance commit |
 |---|---|---|

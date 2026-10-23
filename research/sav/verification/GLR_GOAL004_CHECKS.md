@@ -185,3 +185,34 @@ and require normal fast-forward. Any concurrent ref movement is a stop,
 not permission to merge/rewrite/force. Actual result/remote verification
 is appended after it happens and pinned in goal004_publication.json.
 No publication success is inferred from instructions alone.
+
+### Actual scientific publication — verified
+
+Commit **2892808ccd9eccbf38f82899604c71642253b26d**, tree
+962735a7f21c74796fa90ba61ff51767d453c8a7, parent/input
+2f4648c379c474ed124e3ef10b62efcd4a783c66. Fresh remote tip equalled
+that input immediately before the normal push. The complete outgoing
+set was exactly this one commit: 54 research-only paths, 46 additions,
+eight modifications, zero deletions/outside changes. All changed Git
+blob IDs matched local files; complete binary diff was 1,626,298 bytes,
+SHA256 42f43b59fec921744de813677567186cca2c3840a439de7fffcc01aa86ef92f4.
+
+Actual successful commands included:
+
+```sh
+git commit -m 'research(sav): execute GOAL-004 source and bulge-model analysis with audited partial closure'
+git fetch --no-tags origin refs/heads/research/sav-radiation:refs/remotes/origin/research/sav-radiation
+git log --format='%H %P %s' origin/research/sav-radiation..HEAD
+git diff --check origin/research/sav-radiation..HEAD
+git push origin HEAD:refs/heads/research/sav-radiation
+git fetch --no-tags origin refs/heads/research/sav-radiation:refs/remotes/origin/research/sav-radiation
+git ls-remote origin refs/heads/research/sav-radiation
+```
+
+Remote readback equalled the exact scientific commit; the intended report
+blob also matched. [goal004_publication.json](goal004_publication.json)
+pins every changed blob. The closing provenance-only commit records this
+already completed verification; its own SHA is reported in final delivery,
+since a commit cannot contain its own hash. No scientific check or claim
+is upgraded by this amendment. Final artifact validation is repeated only
+because these provenance records have changed.
