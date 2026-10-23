@@ -1,3 +1,45 @@
+## Prepared GLR-GOAL-005 — 2026-10-23 (not executed)
+
+Authoritative previous research-branch head:
+`96339836a1281c219917f900224e7c98cf62f3f8`
+(GOAL-004 closing science and handoff). All historical completed tasks
+001–004 retain MEANINGFUL_PARTIAL. GOAL-004 result and artifacts are
+read-only source inputs, particularly:
+
+- `goals/GLR-GOAL-004_REPORT.md`, physical L10 source/enclosure
+  diagnostic table and exact first missing weighted C5 -> C3 -> M2 inequality;
+- `physics/goal004_source_geometry.md`, two-ended matching identity,
+  Coulomb/horizon estimates and incomplete physical source response;
+- `physics/goal003_forced_master.md` and
+  `physics/goal003_master_independent.md`, all-constraint forced n2
+  scalar master and point-inverse theorem with its stated function spaces;
+- `verification/AUDIT_GOAL004_GEOMETRY.md` and
+  `verification/AUDIT_GOAL004_DYNAMICS.md`, actual identity checks
+  and independent evidence limits;
+- `verification/GOAL003_REVIEW_QUALIFICATIONS.md`, independent
+  derivation/auditor qualifications;
+- `verification/negative_results.md`, especially the nonconvergent
+  first-bulge few-mode model and lack of physical 2nd-order metric
+  and nonlinear radiation error enclosures.
+
+The owner has authorized preparation of the new targeted ambitious
+theoretical Goal, its independent review rubric, and safe Sav/Michael
+launch runbook. These are **planning documents**: zero new scientific
+calculations, numerical ODEs, simulations, or audits have been performed
+as part of the preparation.
+
+- [Full GOAL-005](goals/GLR-GOAL-005.md)
+- [Review and falsification gates](goals/GLR-GOAL-005_REVIEW_GATES.md)
+- [Run by Sav or Michael](goals/GLR-GOAL-005_RUN_BY_SAV_OR_MICHAEL.md)
+- [One-shot Codex prompt](goals/GLR-GOAL-005_LAUNCH.md)
+
+Read actual branch ref afresh when launching. No future execution result
+or commit SHA is invented. Preserve prior source records and every
+negative finding without silent promotion. No modifications outside
+research/sav/** are authorized.
+
+---
+
 ## GLR-GOAL-004 executed provenance — 2026-10-23
 
 Executor Savdeep Sethi; authorized sole publisher. Actual clean execution

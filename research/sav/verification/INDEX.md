@@ -4,6 +4,20 @@ Date: 2026-10-22. Evidence categories:
 `CHECKED_SIMPLE_ALGEBRA`, `SOURCE_CONFIRMED`,
 `DERIVED_UNAUDITED`, `NOT_ATTEMPTED`, `FAILED`.
 
+## GLR-GOAL-005 preparation — 2026-10-23
+
+Owner-authorized, not yet launched. New
+[mathematical Goal](../goals/GLR-GOAL-005.md),
+[falsification gates](../goals/GLR-GOAL-005_REVIEW_GATES.md),
+[operator-safe runbook](../goals/GLR-GOAL-005_RUN_BY_SAV_OR_MICHAEL.md),
+and [one-shot Codex prompt](../goals/GLR-GOAL-005_LAUNCH.md)
+target validated physical L10 eigenpair/EF C5 error,
+fully conserved C3 quadratic source and
+all-seven-equation forced n2/n0 full metric M2.
+**No GOAL-005 verification commands, new spectral root calculations,
+adversarial audits or production simulations have been executed
+during preparation.** No physical early-energy conclusion is upgraded.
+
 ## GOAL-004 executed — 2026-10-23
 
 **MEANINGFUL_PARTIAL**: [report](../goals/GLR-GOAL-004_REPORT.md),

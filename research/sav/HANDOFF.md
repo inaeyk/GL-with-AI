@@ -4,7 +4,27 @@ Updated 2026-10-23 after GOAL-004 execution. Repository:
 [inaeyk/GL-with-AI](https://github.com/inaeyk/GL-with-AI), scientific branch
 `research/sav-radiation`, writable scope `research/sav/**` only.
 **GLR-GOAL-001 through GOAL-004 are completed with MEANINGFUL_PARTIAL
-outcomes. No follow-on Goal is authorized or launched.**
+outcomes. GLR-GOAL-005 was separately owner-authorized for preparation
+on 2026-10-23; it is READY FOR CODEX and has NOT been launched.**
+
+## Next analytical task — GOAL-005 ready, not executed
+
+[GLR-GOAL-005](goals/GLR-GOAL-005.md) targets the first
+quantitatively *validated physical second-order Einstein geometry*:
+an enclosed nodeless L10 GL eigenpair and global weighted EF C5 mode
+input, fully conserved n=0 and n=2 quadratic sources, forced n=2
+master/affine reconstruction with all physical residuals and a
+source-evaluated M2. A certified C0/leading-energy coefficient is a
+strong continuation; a physical finite-time radion news theorem and
+first-bulge fraction remain separate long-range questions.
+
+Review the independent [acceptance gates](goals/GLR-GOAL-005_REVIEW_GATES.md),
+[shared Sav/Michael runbook](goals/GLR-GOAL-005_RUN_BY_SAV_OR_MICHAEL.md)
+and [one-shot launch prompt](goals/GLR-GOAL-005_LAUNCH.md).
+Exactly **one writer** at a time on research/sav-radiation.
+No Goal is running merely because these files were committed.
+Do not repeat GOAL-004's nonconvergent few-mode bulge fitting or
+turn its model numbers into physical energy fractions.
 
 ## Latest scientific result — GOAL-004, MEANINGFUL_PARTIAL
 
@@ -102,6 +122,8 @@ No production-code, CLAUDE.md, simulation-plan or historical-branch edits,
 manuscript/Overleaf work, or simulations are authorized by this restart.
 
 GOAL-004 used its bounded source/data/model approaches and has stopped.
-Open mathematics in its report is a proposal, not a task launch. A new
-owner authorization and finite budget are needed for further scientific
-execution. No production or manuscript work accompanies this handoff.
+A subsequent explicit owner request authorized preparation of GOAL-005
+with a new finite budget and rigorous error-enclosure target. This
+does **not** restart GOAL-004, run Codex automatically, or authorize
+production/manuscript work. The new task files at the top govern
+any intentional GOAL-005 execution.

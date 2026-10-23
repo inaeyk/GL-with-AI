@@ -1,3 +1,26 @@
+## New independent analytic Goal — GOAL-005 prepared, 2026-10-23
+
+[GLR-GOAL-005](../goals/GLR-GOAL-005.md) is owner-authorized
+for a sole Savdeep-or-Michael Codex operator but is NOT RUNNING simply
+because these files were committed. The target is rigorous physical
+L10 GL eigenfunction and EF C5 error, complete conserved
+second-order n0/n2 source, actual forced n2 Einstein residual and
+source-selected full quadratic metric M2. A radion C0 enclosure
+and weak radiation coefficients are strong extensions; there
+is **no** implied controlled nonlinear first-bulge energy fraction.
+
+Read the [review gates](../goals/GLR-GOAL-005_REVIEW_GATES.md),
+[Sav/Michael safety runbook](../goals/GLR-GOAL-005_RUN_BY_SAV_OR_MICHAEL.md),
+[launch prompt](../goals/GLR-GOAL-005_LAUNCH.md)
+and [canonical handoff](../HANDOFF.md).
+One active research-branch writer at a time. Michael can use
+a separate research-only checkout without touching GRChombo; if
+he lacks push rights, return a reviewed local-only patch to Savdeep.
+No production numerical implementation, simulation or workflow
+change is requested or approved here.
+
+---
+
 ## Latest science handoff — GOAL-004 executed, 2026-10-23
 
 Savdeep Sethi executed as the sole authorized publisher from

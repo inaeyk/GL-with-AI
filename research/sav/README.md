@@ -18,8 +18,11 @@ approved plans. No production spacetime simulations are authorized here.
 Begin with [AGENTS.md](AGENTS.md) and the concise [HANDOFF.md](HANDOFF.md).
 Use `research/sav/` as the Codex working directory so the scoped contract
 is discovered. GOAL-001/002/003/004 are completed MEANINGFUL_PARTIAL.
-Savdeep Sethi executed GOAL-004 on 2026-10-23 as authorized sole writer;
-its physical finite-A/energy/actual-first-bulge gates remain open.
+**GLR-GOAL-005 is now owner-authorized and ready for Codex, but not launched.**
+It prioritizes a validated physical L10 GL eigenfunction, conserved
+quadratic sources and a source-evaluated, horizon-regular n=2/full M2
+geometry. The first-bulge physical energy fraction remains open.
+Savdeep or Michael may execute as sole designated research writer.
 Historical prompts are retained for provenance, not
 automatic replay. Codex discovers instructions along the
 Git-root-to-working-directory path; opening only the Git root does not
@@ -78,7 +81,13 @@ load this descendant contract. See [instruction discovery](https://learn.chatgpt
     diagnostics, new constraint/endpoint identities, computed one/two-mode
     waveform models with failed convergence, separate EFT pulse transport.
     No numerical physical A_star or first-bulge fraction; no automatic replay.
-13. [handoffs/MICHAEL_START_HERE.md](handoffs/MICHAEL_START_HERE.md): two-way collaboration.
+13. [GLR-GOAL-005](goals/GLR-GOAL-005.md),
+    [review gates](goals/GLR-GOAL-005_REVIEW_GATES.md),
+    [Sav/Michael runbook](goals/GLR-GOAL-005_RUN_BY_SAV_OR_MICHAEL.md)
+    and [launch prompt](goals/GLR-GOAL-005_LAUNCH.md):
+    **prepared / NOT EXECUTED**, validated positive-k GL and sourced
+    quadratic Einstein response. Earlier Goals remain closed.
+14. [handoffs/MICHAEL_START_HERE.md](handoffs/MICHAEL_START_HERE.md): two-way collaboration.
 
 ## Scientific priorities
 

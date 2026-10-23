@@ -105,3 +105,31 @@ or simulation modifications must be recorded separately.
 - Preparation **does not launch Codex**, start a production run, approve
   numerical implementation, modify Michael's other branches, or send
   any message to collaborators. No full 2+1 or 5D spacetime evolution.
+
+## 2026-10-23: GLR-GOAL-005 chosen and prepared
+
+- Owner requested the next ambitious analytical Goal after the honest
+  MEANINGFUL_PARTIAL GOAL-004, with no acceptance of its nonconvergent
+  few-mode physical-energy predictions.
+- Primary scientific bottleneck is the **physical L10 GL mode's globally
+  weighted EF/tetrad C5 error**, needed to bound the C3 conserved
+  n0/n2 Einstein source, the forced n2 affine reconstruction and
+  the full source-selected second-order metric M2.
+- The Goal uses validated interval/Volterra/Taylor error methods or a
+  rigorously justified equivalent, with actual physical-positive-k
+  all-equation residuals. Floating ODE tolerances are not proofs.
+- C0/conditional leading radion energy may be certified after source
+  completion; a true finite-amplitude GL energy theorem requires
+  additional exact global initial data, nonlinear propagation and
+  fourth-order radiation control. Keep radion stabilization a separate
+  conditional EFT.
+- Exactly one active branch writer (Savdeep OR Michael); another
+  collaborator may review or execute LOCAL-ONLY without pushing.
+  Meaningful scoped checkpoints, verified normal fast-forward
+  publication and reproducible adversarial audits are preauthorized.
+- Files prepared: goals/GLR-GOAL-005.md,
+  GLR-GOAL-005_REVIEW_GATES.md,
+  GLR-GOAL-005_RUN_BY_SAV_OR_MICHAEL.md and
+  GLR-GOAL-005_LAUNCH.md. Preparation is **not a task launch**.
+- No root/simulation/GRChombo change, full spacetime calculation,
+  other branch write, manuscript/Overleaf task or automatic GOAL-006.

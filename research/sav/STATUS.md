@@ -1,5 +1,24 @@
 # Research status — 2026-10-22
 
+## GLR-GOAL-005 ready for one-person Codex launch — 2026-10-23
+
+**Owner-authorized preparation; not launched; no GOAL-005 checks executed.**
+[Goal](goals/GLR-GOAL-005.md),
+[review gates](goals/GLR-GOAL-005_REVIEW_GATES.md),
+[runbook for Savdeep or Michael](goals/GLR-GOAL-005_RUN_BY_SAV_OR_MICHAEL.md),
+[one-shot prompt](goals/GLR-GOAL-005_LAUNCH.md).
+
+Primary objective: physically validated nodeless L10 growing GL
+eigenpair and globally horizon-regular weighted C5 input; certified
+conserved C3 n0/n2 quadratic Einstein source; physical forced n2
+solution and all-Einstein residuals, including n0 sector and explicit
+source-selected M2. C0 enclosure and conditional leading radiation
+coefficient are continuations. A real finite-amplitude physical news
+theorem and first-bulge energy fraction remain **OPEN**, not implied by
+M2. GOAL-004 few-mode models are nonconvergent negative evidence.
+No production numerical work or other branch has been modified by
+preparation.
+
 ## Latest executed result — GLR-GOAL-004, 2026-10-23
 
 **MEANINGFUL_PARTIAL.** Savdeep Sethi, authorized sole publisher;

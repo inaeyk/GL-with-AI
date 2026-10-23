@@ -70,3 +70,28 @@ coefficients; the cubic convention law is checked but no gamma computed.
 Question 20 has no bulge/energy closure. Exact remaining inequalities and
 one proposed continuation strategy are in goals/GLR-GOAL-002_REPORT.md.
 No follow-on task or production action is authorized by this pointer.
+
+## GLR-GOAL-005 prioritized questions — 2026-10-23
+
+GOAL-004 made the source-inverse bottleneck explicit but did not
+certify physical M2 or early energy. Earlier questions above remain
+historical scientific inputs.
+
+22. Can one validate the physical L10 node-free GL eigenpair with a
+    rigorous matched-root interval, horizon/infinity remainders and a
+    weighted EF/tetrad C5 derivative enclosure?
+23. Does that enclosure yield a certified C3/Y0 estimate on the
+    complete *conserved* n=0 and n=2 second-order Einstein sources,
+    including Fourier normalization and off-shell interpolation error?
+24. Can the physically forced n=2 solution be reconstructed with
+    bounded EF cancellation, correct source/homogeneous tails and
+    full seven-equation/residual constraints, giving an explicit
+    source-selected metric M2?
+25. Can the leading n=0 radion C0 overlap be independently interval
+    enclosed in the same physical eigenfunction normalization?
+26. What exact missing *time-domain* norm remains between M2 and
+    physical finite-time radion news? Is any kinematic weak-amplitude
+    interval certified without claiming nonlinear evolution?
+27. What is the smallest future theory-to-data comparison Michael
+    could make without production changes, keeping free scalar
+    initial-data dependence and the failed few-mode model visible?
