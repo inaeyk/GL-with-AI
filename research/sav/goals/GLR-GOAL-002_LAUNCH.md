@@ -1,5 +1,12 @@
 # Launch GLR-GOAL-002 in Codex
 
+> Completion annotation — 2026-10-23: GLR-GOAL-002 executed on 2026-10-22
+> and completed with **MEANINGFUL_PARTIAL**. Read the [final report](GLR-GOAL-002_REPORT.md)
+> and its execution ledger for actual results and open gates. The original
+> launch prompt below is preserved as historical authorization text; READY or
+> NOT LAUNCHED statements describe preparation, not current permission.
+> No replay or subsequent Goal is authorized.
+
 **Ready-to-paste extended task. Preparing these files does not start Codex.**
 Use the existing repository research branch. The scientific goal permits
 non-production symbolic work and bounded one-dimensional perturbative

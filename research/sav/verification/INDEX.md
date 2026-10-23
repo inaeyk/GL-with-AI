@@ -4,6 +4,15 @@ Date: 2026-10-22. Evidence categories:
 `CHECKED_SIMPLE_ALGEBRA`, `SOURCE_CONFIRMED`,
 `DERIVED_UNAUDITED`, `NOT_ATTEMPTED`, `FAILED`.
 
+## Current continuity annotation — 2026-10-23
+
+All three Goals completed MEANINGFUL_PARTIAL. No subsequent Goal is
+active or authorized. See [HANDOFF.md](../HANDOFF.md) and the
+[attributed later GOAL-003 review qualifications](GOAL003_REVIEW_QUALIFICATIONS.md),
+which narrow the description of independent verification without changing
+stored outputs or adding executed checks. Original audit records remain
+historical evidence, with those qualifications read alongside them.
+
 ## Executed GLR-GOAL-003 checks — 2026-10-22
 
 [Full ledger](GLR_GOAL003_CHECKS.md), [report](../goals/GLR-GOAL-003_REPORT.md),
@@ -26,6 +35,10 @@ source/particular coefficients and reject an omitted angular term. No physical O
 Earlier rows below are historical evidence, not revised claims.
 
 ## Prepared GLR-GOAL-003 protocol — historical preparation
+
+> Superseded preparation protocol: GOAL-003 later executed; its actual
+> artifacts and checks are in GLR_GOAL003_CHECKS.md above. The future-tense
+> statements below describe preparation only.
 
 [Goal](../goals/GLR-GOAL-003.md) and
 [acceptance/falsification gates](../goals/GLR-GOAL-003_REVIEW_GATES.md).
@@ -95,6 +108,10 @@ changes. The table below is the preserved **initial** check baseline.
 | Nonzero outgoing projection coefficient C0 | NOT_ATTEMPTED | May vanish! Require clean retarded Green-function computation. |
 | Massive KK canonical energy flux | NOT_ATTEMPTED | Threshold is known; norm and physical master current are not. |
 | Full numerical GRChombo/AMR waveform extraction | NOT ATTEMPTED | Explicitly prohibited as production work in this research track. |
+
+> Historical baseline annotation (2026-10-23): the following statement
+> describes the initial pre-execution baseline only. It does not describe
+> the subsequently executed GOAL-001/002/003 checks above.
 
 The four checked source/algebra claims are narrow. There has been
 **no independent symbolic verification of the full Einstein expansion** and

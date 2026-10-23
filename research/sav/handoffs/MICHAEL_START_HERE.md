@@ -6,6 +6,13 @@ Michael; Pau Figueras advises. Michael retains numerical responsibility.
 
 ## Current scientific re-entry: GOAL-003 executed
 
+Continuity annotation, 2026-10-23: all three Goals are completed
+MEANINGFUL_PARTIAL; no subsequent Goal is authorized. The concise
+[canonical handoff](../HANDOFF.md) links the full reports and provenance.
+Read the [attributed later review qualifications](../verification/GOAL003_REVIEW_QUALIFICATIONS.md)
+alongside the original audit claims below. Numerical ownership and
+validation gates are unchanged; no implementation action is requested.
+
 **MEANINGFUL_PARTIAL.** Read [the report](../goals/GLR-GOAL-003_REPORT.md)
 and [verification ledger](../verification/GLR_GOAL003_CHECKS.md). Input
 research/sav-radiation@ef646d56ab7d8bebca578afab53e62da5146ec05; exact
@@ -41,6 +48,11 @@ intentionally wrong cases. Resume scientifically from the report's precise
 open estimates; do not treat this pointer as authorization to execute them.
 
 ## GOAL-003 preparation — retained historical text
+
+> Superseded preparation text: “current next-task” and “latest executed”
+> below describe the earlier baseline. GOAL-003 later executed; the current
+> scientific re-entry is above. Subsequent GOAL-002/001 sections preserve
+> their earlier results and proposals, not current execution instructions.
 
 The current next-task pointer is [GLR-GOAL-003](../goals/GLR-GOAL-003.md),
 with [review gates](../goals/GLR-GOAL-003_REVIEW_GATES.md) and

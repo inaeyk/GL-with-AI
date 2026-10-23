@@ -1,5 +1,15 @@
 # Research status — 2026-10-22
 
+## Current task state — continuity annotation, 2026-10-23
+
+GLR-GOAL-001, GOAL-002 and GOAL-003 are completed with terminal
+**MEANINGFUL_PARTIAL** outcomes. No subsequent scientific Goal is authorized.
+[HANDOFF.md](HANDOFF.md) is the concise scientific re-entry;
+[AGENTS.md](AGENTS.md) sets local-first execution and checkpoint policy.
+The [later GOAL-003 review qualifications](verification/GOAL003_REVIEW_QUALIFICATIONS.md)
+are attributed document review, with no newly executed scientific checks.
+Scientific reports, equations, evidence grades and negative results are retained.
+
 ## Evidence classes
 
 `PROVEN` direct mathematical derivation with independent audit;
@@ -44,6 +54,9 @@ their original status. See SOURCES.md for input and publication provenance.
 No next Goal, production action or workflow change is requested.
 
 ## GLR-GOAL-003 preparation — retained historical text
+
+> Superseded preparation state: the READY/NOT LAUNCHED language below
+> is historical. The task subsequently executed and completed MEANINGFUL_PARTIAL.
 
 **READY FOR CODEX; NOT LAUNCHED. Documentation preparation only.**
 [Extended analytical program](goals/GLR-GOAL-003.md),
@@ -95,6 +108,9 @@ unbounded. Two separate AI mathematical audits ran actual checks and
 mutations and withhold finite-A/bulge certification. No cubic/bulge
 continuation was attempted through failed lower gates.
 
+> Publication-method annotation, 2026-10-23: the following describes
+> historical execution. The current local-first workflow is in AGENTS.md.
+
 Input branch SHA: 8d4163cd876b33752f7fb6938bb7861fe221b7c0.
 Authoritative publication uses research-only Git-tree commits on
 research/sav-radiation; local desktop is an uncommitted mirror. No other
@@ -102,6 +118,9 @@ branch/code/production change, simulation, merge or subsequent Goal.
 Michael's updated science-only re-entry is handoffs/MICHAEL_START_HERE.md.
 
 ## GLR-GOAL-002 prepared baseline — retained historical text
+
+> Superseded preparation state: the READY/NOT LAUNCHED language below
+> is historical. The task subsequently executed and completed MEANINGFUL_PARTIAL.
 
 **Status: READY FOR CODEX; not yet executed.** The next major problem is
 a controlled finite-amplitude bridge from the GOAL-001 quadratic radion

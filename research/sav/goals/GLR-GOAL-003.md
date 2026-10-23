@@ -1,5 +1,15 @@
 # GLR-GOAL-003 — Forced master, nonlinear closure and early radion radiation
 
+> Completion annotation — 2026-10-23: GLR-GOAL-003 executed on 2026-10-22
+> and completed with **MEANINGFUL_PARTIAL**. Read the [final report](GLR-GOAL-003_REPORT.md)
+> and its execution ledger for actual results and open gates. The original
+> task specification below is preserved as historical authorization text; READY or
+> NOT LAUNCHED statements describe preparation, not current permission.
+> No replay or subsequent Goal is authorized.
+> The owner-approved continuity restart permits the concise canonical
+> `../HANDOFF.md`; the original no-duplicate-HANDOFF instruction remains
+> historical. No new task pointer is created.
+
 **Task:** T-20261022-GLR-GOAL-003  
 **State:** PREPARED / READY FOR CODEX — NOT LAUNCHED  
 **Repository:** inaeyk/GL-with-AI  

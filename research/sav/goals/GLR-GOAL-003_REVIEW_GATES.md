@@ -1,5 +1,12 @@
 # GLR-GOAL-003 — Independent acceptance and falsification gates
 
+> Completion annotation — 2026-10-23: GLR-GOAL-003 executed on 2026-10-22
+> and completed with **MEANINGFUL_PARTIAL**. Read the [final report](GLR-GOAL-003_REPORT.md)
+> and its execution ledger for actual results and open gates. The original
+> acceptance rubric below is preserved as historical authorization text; READY or
+> NOT LAUNCHED statements describe preparation, not current permission.
+> No replay or subsequent Goal is authorized.
+
 **PREPARED; no checks in this document have been run for GOAL-003.**
 Controlling task: [GLR-GOAL-003.md](GLR-GOAL-003.md).
 Baseline: research/sav-radiation@554ceb968fb3f2549a80f1b1e953810d9e79744a.

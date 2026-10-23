@@ -55,3 +55,26 @@
 Append dated, attributed scientific amendments. Do not silently rewrite
 historical decisions or numerical evidence. Future human approval of physics
 or simulation modifications must be recorded separately.
+
+## 2026-10-23: Owner-approved continuity restart and completed Goal state
+
+- GLR-GOAL-003 executed on 2026-10-22, science commit
+  `6da8b1dc866c733e9e7022cb2154a7dc16ab0b8c`, closure
+  `a3ed1137b19488a3f459cfc532288caeb6f573bb`, MEANINGFUL_PARTIAL.
+  GOAL-001 and GOAL-002 also remain completed MEANINGFUL_PARTIAL tasks.
+- The owner authorized a fresh independent partial/sparse checkout from the
+  verified closure, portable instruction/status annotations, a concise
+  canonical HANDOFF.md, and reviewed local commit/normal fast-forward
+  publication on research/sav-radiation. This supersedes GOAL-003's former
+  instruction against adding a handoff for this continuity purpose only.
+- All research/sav files, including the four verification CSV profiles,
+  are selected. Old workspaces, private setup records and unpublished local
+  initialization history remain untouched and outside the publication.
+- AGENTS.md records local-first work, explicitly authorized checkpoint
+  pushes, independent verification and future extended-Goal requirements,
+  following research-template@85e7cad9283b3c7b8aa38b0239b995641a19d728.
+- The later GOAL-003 read-only review is preserved as attributed
+  qualifications in verification/GOAL003_REVIEW_QUALIFICATIONS.md, not as
+  newly verified mathematics. Original scientific evidence is unchanged.
+- No new Goal, production/code/workflow change, simulation, manuscript,
+  Overleaf access or collaborator message is authorized by the restart.

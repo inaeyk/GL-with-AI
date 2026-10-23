@@ -1,5 +1,12 @@
 # GLR-GOAL-002 — predeclared acceptance and adversarial-review gates
 
+> Completion annotation — 2026-10-23: GLR-GOAL-002 executed on 2026-10-22
+> and completed with **MEANINGFUL_PARTIAL**. Read the [final report](GLR-GOAL-002_REPORT.md)
+> and its execution ledger for actual results and open gates. The original
+> acceptance rubric below is preserved as historical authorization text; READY or
+> NOT LAUNCHED statements describe preparation, not current permission.
+> No replay or subsequent Goal is authorized.
+
 This is the **scientific evaluation rubric**, not permission to run production
 simulations or modify numerical formulations.
 

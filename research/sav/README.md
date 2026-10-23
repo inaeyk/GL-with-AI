@@ -15,6 +15,14 @@ approved plans. No production spacetime simulations are authorized here.
 
 ## Start here
 
+Begin with [AGENTS.md](AGENTS.md) and the concise [HANDOFF.md](HANDOFF.md).
+Use `research/sav/` as the Codex working directory so the scoped contract
+is discovered. All three Goals are completed with MEANINGFUL_PARTIAL;
+no subsequent Goal is authorized. Historical prompts are retained for
+provenance, not automatic replay. Codex discovers instructions along the
+Git-root-to-working-directory path; opening only the Git root does not
+load this descendant contract. See [instruction discovery](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
+
 1. [STATUS.md](STATUS.md): honest distinction between accepted engineering,
    numerical failures, continuum physics, conjectures, and research deliverables.
 2. [NOTATION.md](NOTATION.md): coordinates, KK conventions, mode and energy normalization.
@@ -42,8 +50,8 @@ approved plans. No production spacetime simulations are authorized here.
 10. [goals/GLR-GOAL-002.md](goals/GLR-GOAL-002.md),
     [goals/GLR-GOAL-002_REVIEW_GATES.md](goals/GLR-GOAL-002_REVIEW_GATES.md),
     and [goals/GLR-GOAL-002_LAUNCH.md](goals/GLR-GOAL-002_LAUNCH.md):
-    prepared next extended Codex Goal on finite-amplitude backreaction,
-    admissible initial data, nonlinear amplitude and early radion energy.
+    historical task, acceptance rubric and launch prompt on finite-amplitude
+    backreaction, admissible data, nonlinear amplitude and early radion energy.
     **Executed 2026-10-22: MEANINGFUL_PARTIAL.** See
     [GLR-GOAL-002_REPORT.md](goals/GLR-GOAL-002_REPORT.md): regular
     second-order equations/zero-mode quadratures and finite-data bounds;
@@ -66,10 +74,11 @@ approved plans. No production spacetime simulations are authorized here.
 - Preserve the GOAL-001 **quadratic n=0 radion source**, gauge completion,
   retarded transfer and strong numerical nonzero-overlap evidence as
   mathematically audited input, subject to remaining interval/error checks.
-- Build on GLR-GOAL-002's equations and honest partial result through the
-  prepared GLR-GOAL-003 master/inverse and nonlinear analytical program.
-  A controlled finite GL amplitude window and first-bulge emitted percentage
-  remain unestablished; preparation does not change that status.
+- Preserve GOAL-003's executed master/inverse and local-data results, with
+  formal higher orders and open global/nonlinear gates. A controlled finite
+  GL amplitude window and first-bulge emitted percentage remain unestablished.
+  Future work requires separate authorization; read the
+  [later review qualifications](verification/GOAL003_REVIEW_QUALIFICATIONS.md).
 - Keep realistic radion stabilization as a separate EFT, with its own
   matched source, stress tensor and massive scalar timelike flux. SO(3)
   allows scalar monopoles but forbids massless tensor Bondi news.

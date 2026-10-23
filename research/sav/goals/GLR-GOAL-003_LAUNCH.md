@@ -1,5 +1,12 @@
 # GLR-GOAL-003 — Ready-to-paste launch instructions
 
+> Completion annotation — 2026-10-23: GLR-GOAL-003 executed on 2026-10-22
+> and completed with **MEANINGFUL_PARTIAL**. Read the [final report](GLR-GOAL-003_REPORT.md)
+> and its execution ledger for actual results and open gates. The original
+> launch prompt below is preserved as historical authorization text; READY or
+> NOT LAUNCHED statements describe preparation, not current permission.
+> No replay or subsequent Goal is authorized.
+
 **READY, NOT LAUNCHED.** Preparing or committing this file does not start
 Codex, create an active Goal, authorize a simulation, or interrupt another
 chat. Paste the prompt below only when the owner chooses to begin.

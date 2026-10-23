@@ -1,5 +1,12 @@
 # GLR-GOAL-002 — From linear GL growth to controlled early radion energy
 
+> Completion annotation — 2026-10-23: GLR-GOAL-002 executed on 2026-10-22
+> and completed with **MEANINGFUL_PARTIAL**. Read the [final report](GLR-GOAL-002_REPORT.md)
+> and its execution ledger for actual results and open gates. The original
+> task specification below is preserved as historical authorization text; READY or
+> NOT LAUNCHED statements describe preparation, not current permission.
+> No replay or subsequent Goal is authorized.
+
 **Task ID:** T-20261022-GLR-GOAL-002  
 **Status:** READY FOR CODEX — NOT YET LAUNCHED  
 **Repo:** inaeyk/GL-with-AI  

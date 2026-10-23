@@ -1,5 +1,10 @@
 # Launch instructions — GLR-GOAL-001
 
+> Completion annotation — 2026-10-23: this is the historical GOAL-001
+> launch prompt. GOAL-001 executed on 2026-10-22 and completed with
+> **MEANINGFUL_PARTIAL**; see [the report](GLR-GOAL-001_REPORT.md).
+> Its preparation language grants no current execution permission.
+
 **Prepared, not launched:** this Markdown is a ready-to-paste Codex brief.
 No automatic job, background task, production code change or numerical
 simulation is initiated by this file.
