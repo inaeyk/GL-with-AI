@@ -1,0 +1,11 @@
+{
+  "state": "PREPUBLICATION",
+  "repository": "inaeyk/GL-with-AI",
+  "branch": "research/sav-radiation",
+  "executor": "Savdeep Sethi",
+  "mode": "authorized sole writer",
+  "input_commit": "2f4648c379c474ed124e3ef10b62efcd4a783c66",
+  "scientific_verdict": "MEANINGFUL_PARTIAL",
+  "publication_verified": false,
+  "note": "Placeholder before the scientific commit; actual SHAs and remote readback are recorded only after publication."
+}

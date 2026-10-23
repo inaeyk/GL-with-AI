@@ -224,3 +224,83 @@ These limits accompany a genuine forced-master and bounded-inverse result.
 Terminal **MEANINGFUL_PARTIAL**, not mathematical impossibility. See
 GLR_GOAL003_CHECKS.md, both new audits and GLR-GOAL-003_REPORT.md.
 No production repair or subsequent Goal is authorized by this record.
+
+## GLR-GOAL-004 execution negatives and exact limits (2026-10-23)
+
+26. **No certified physical M2 from the physical source evaluation.**
+    The seven-component L10 positive-k source is evaluated, but the
+    point jets are imposed on shell. Sampled saved-profile defects are
+    4.6343e-6 (Riccati flow) and 4.7245e-7 (log amplitude), while local
+    Ricci/Bianchi residuals are far smaller. The latter do not bound
+    global input error. The missing regular weighted C5 mode error is
+    needed for the conserved C3 source norm and complete C0 metric
+    reconstruction. A sampled +2 tetrad maximum 92.66696 is not M2.
+    Full seven-equation residuals of the sampled forced q2 were not
+    evaluated/certified. Horizon divided differences, forced infinity
+    tails and family homogeneous data remain open. Three inverse
+    configurations/two source strategies were used; no hidden fourth.
+
+27. **Global GL constraints and nonlinear radiation remain open.**
+    A new exact spherical family proves the background mass derivative
+    M_lambda/M0=9/14 at Ri=3/4, refining the older item 20. What is
+    missing is the simultaneous global C1 mass map, not its base
+    transversality. The exact H1 commutators require integrable angular
+    lapse derivatives; E0 alone fails by an explicit Fourier sequence.
+    The linear r^-4 parabolic tail does not close the nonlinear Fourier
+    tower. No global right inverse, redshift/radiation trace, bounded
+    q3/N4 or numerical positive A_star follows. These are failed proof
+    steps/unevaluated constants, not a nonexistence theorem.
+
+28. **The first-bulge model is not a converged physical reduction.**
+    Two constitutive actions match weak linear/source data. The
+    one-mode full discarded residual is .630817/.634563. A second and
+    final mode repair derives the dynamic stable response rather than
+    using a static coefficient, but the next residual is .794902/.799682
+    and pulse energies change nearly tenfold. It reaches a *model*
+    contrast .2 but neither model reaches .3. Artificial equilibria are
+    not vacuum saturation. The EOS-radius map is not a nonlinear MOTS
+    theorem; the full physical q2 tensor/initial data are unmatched.
+    Viscous entropy feedback is omitted at the retained nonlinear
+    order. Scalar postprocessing leaves a mass residual equal to its
+    emitted energy; instantaneous far-power subtraction is not a cure.
+    Closure/kernel spread is not a physical uncertainty bound. No
+    first-bulge percentage or early-versus-cascade dominance is inferred.
+
+29. **Actual diagnostic/code failures, corrected and retained.**
+    The source probe first hit J/F operand dispatch; reversing operand
+    order repaired Python dispatch. Its EF contraction diagnostic used
+    2fBC instead of 4fBC, giving zz mismatch .3898909498 at r=2; full
+    Q was unaffected and the identity was corrected before source run.
+    Reviewer II caught a pressure-gradient sign/missing kinetic term
+    in the model residual, a log-radius-gradient label and full-versus-
+    half DC weight in spectral RMS. The ODE/waveform energy was already
+    correct; diagnostics were repaired and rerun. The audit itself hit
+    unexpanded SymPy coefficient extraction, retained in
+    goal004_audit_dynamics_failures.txt. These are computational/math
+    diagnostic failures, not new physical instability evidence.
+
+30. **Scalar data and massless/small-mass claims still need hypotheses.**
+    Homogeneous order-two interference can cancel a reference waveform;
+    order-four free data change N4 without lower jets. Two exact global
+    GL/scalar families were not constructed. Matching T(0) and T(2Omega)
+    does not fix the radiation kernel, as an exact three-delay mutation
+    shows. The separate EFT memory pulse has a linear small-mass
+    kinematic correction, defeating a universal O(m²) relative claim
+    without a low-frequency assumption. No matched stabilizer/source,
+    massive finite-window diagonal spectrum, 2Omega mass switch or
+    massive Bondi flux is asserted.
+
+31. **Operational limitations, not science.** The partial clone's lazy
+    blob fetch initially failed DNS in the restricted environment;
+    authorized retrieval then succeeded. A guessed blackfold arXiv ID
+    was unrelated and rejected; the corrected paper's HTML was
+    unavailable, so it was not used as equation evidence. Matplotlib
+    could not write default caches, used a permitted temporary cache,
+    and successfully produced the inspected figure. No default host
+    configuration, credentials or production files were changed.
+
+The full new records are goal004_source_geometry.md, goal004_data_news.md,
+goal004_first_bulge_model.md, goal004_stabilized_transport.md, the two
+AUDIT_GOAL004 records and GLR_GOAL004_CHECKS.md. **MEANINGFUL_PARTIAL**;
+the first-bulge physical-radiation gate remains open. Prior negatives
+above remain verbatim; no follow-on Goal is authorized by this pointer.

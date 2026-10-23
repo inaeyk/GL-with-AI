@@ -1,6 +1,41 @@
 # Research status — 2026-10-22
 
-## Current prospective Goal — 2026-10-23
+## Latest executed result — GLR-GOAL-004, 2026-10-23
+
+**MEANINGFUL_PARTIAL.** Savdeep Sethi, authorized sole publisher;
+input `2f4648c379c474ed124e3ef10b62efcd4a783c66`.
+[Report](goals/GLR-GOAL-004_REPORT.md),
+[ledger](verification/GLR_GOAL004_CHECKS.md),
+[source](physics/goal004_source_geometry.md),
+[data/news](physics/goal004_data_news.md),
+[computed models](physics/goal004_first_bulge_model.md),
+[separate EFT](physics/goal004_stabilized_transport.md).
+
+Exact independently checked improvements: source endpoint/monotone
+matching identities, weighted master comparison, background charge
+derivative M_lambda/M0=9/14, differentiated radial estimate and linear
+parabolic kernel. Physical positive-k L10 sources and three n=2 inverses
+are evaluated empirical diagnostics. First missing enclosure: regular
+weighted C5 physical input error -> C3 conserved source -> full M2.
+Global simultaneous C1/charge completion, nonlinear redshift/trace and
+bounded N4 remain open. **NO numerical positive A_star, NO physical
+finite-window energy enclosure, NO actual first-bulge fraction.**
+
+Two constitutive actions, one- and two-mode effective dynamics and two
+matched scalar kernels supply falsifiable waveform/energy/spectrum
+predictions. Retaining mode two changes energy by ~9x and leaves next
+mode residual ~.8; no converged physical bulge model. Separate EFT
+Gaussian transport ratios have linear versus quadratic small-mass
+scaling depending on memory; no matched stabilizer or physical mass.
+Two distinct AI audits executed independent identities, checks and wrong
+cases; shared old inputs/model assumptions are disclosed. Historical
+Goal evidence/negative results stay unchanged. No production evolution,
+other-branch write, manuscript/Overleaf, collaborator message or next Goal.
+
+## GOAL-004 preparation — retained historical text
+
+> Superseded by the executed result above. The following NOT EXECUTED
+> statements describe preparation only and do not authorize replay.
 
 **GLR-GOAL-004: PREPARED, OWNER-AUTHORIZED, NOT EXECUTED.**
 The previous three Goals remain completed with terminal

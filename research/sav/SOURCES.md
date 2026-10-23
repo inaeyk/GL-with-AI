@@ -1,4 +1,62 @@
-## GLR-GOAL-004 preparation — 2026-10-23 (not executed)
+## GLR-GOAL-004 executed provenance — 2026-10-23
+
+Executor Savdeep Sethi; authorized sole publisher. Actual clean execution
+input `research/sav-radiation@2f4648c379c474ed124e3ef10b62efcd4a783c66`.
+The checkout began at 97a52c42 and was advanced only after fetching,
+reviewing the three Sav-authored research-only preparation commits and
+reading the complete current controllers. Authenticated GitHub login
+`savsethi` (45701520) and Git author identity were inspected. No claim of
+cryptographic signature verification or exhaustive OS ownership audit.
+User's explicit sole-executor declaration governs publication.
+
+[The report](goals/GLR-GOAL-004_REPORT.md),
+[ledger](verification/GLR_GOAL004_CHECKS.md) and input manifest pin actual
+inputs, commands, versions, scopes and results. Prior source/GL/C0 inputs
+are reused with empirical status. Scientific publication SHA/tree and
+verified remote state are recorded after the actual push, not invented.
+
+Controlling GOAL/gates/runbook were read in full. The primary and bounded
+specialists inspected scoped AGENTS, handoff/status/notation/register,
+all three prior final reports, relevant linear/source/retarded/finite-data/
+forced-master/global-constraint/higher-order/EFT derivations and six prior
+adversarial audits. The GOAL003_REVIEW_QUALIFICATIONS.md attribution and
+shared-authorship caveats remain in force. The new source evaluation uses
+the established W equations; no W-versus-R independence is claimed.
+
+New primary-source reading, with precise use and limits:
+
+- [Gregory--Laflamme 1993, perturbation and horizon/asymptotic discussion](https://arxiv.org/html/hep-th/9301052):
+  physical instability context. No new benchmark digitization or growth scan.
+- [Collingbourne, sections 3.2, 3.4 and 4.1](https://arxiv.org/html/2007.08441):
+  master/regularity context; not a numerical enclosure of the saved profile.
+- [Gubser, sections 3.4--3.5](https://arxiv.org/pdf/hep-th/0110193):
+  static hierarchy/charge-scheme context only; no dynamic cubic imported.
+- [Lehner--Pretorius, nonlinear cascade discussion](https://arxiv.org/html/1006.5960)
+  and [Figueras et al., III.1 and Tables 1--2](https://arxiv.org/html/2210.13501v2):
+  geometry/formation and conjectural radiation comparisons, not extracted
+  radion flux or a calibration of this model's seed/retarded clock.
+- [Camps--Emparan--Haddad, (1.1)--(1.4), (2.44)--(2.47), (3.3)--(3.8)](https://arxiv.org/html/1003.3636):
+  EOS/viscosity/derivative expansion. The model threshold-matches its
+  gradient coefficient; finite-k nonlinear completions remain assumptions.
+- [Koyama--Tomimatsu, II and III.2--III.4](https://arxiv.org/html/gr-qc/0103086v2):
+  free massive radial/tail regimes only; no GL source/tail coefficient,
+  onset time or matched stabilizer is supplied.
+
+A guessed blackfold identifier 0912.2351 resolved to an unrelated paper
+and was rejected; search corrected the intended identifier to 0912.2352.
+Its HTML fetch failed, and that paper was not used as new equation evidence.
+The independently derived EOS and inspected viscosity paper suffice for
+the explicitly limited fluid input. No exhaustive literature/novelty claim.
+
+Two distinct AI reviewers derived identities before viewing new primary
+code, then inspected actual artifacts and executed negative controls.
+They share the old equations/model family and, in one physical point
+check, the empirical radial input; their actual independence is disclosed
+in the audits. They are not external human referees. Separate pulse-ratio
+formulas are derived here and checked independently; their fixed-amplitude
+EFT matching is conditional. No production or manuscript source was used.
+
+## GLR-GOAL-004 preparation — historical, not executed by preparation
 
 Authoritative analysis baseline on research/sav-radiation before
 GOAL-004 preparation: **97a52c42c39018ac9b41f70b0ba9b08cd67c05bc**.

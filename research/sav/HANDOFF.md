@@ -1,30 +1,37 @@
 # GL Radiation — scientific re-entry
 
-Updated 2026-10-23 after owner-approved continuity review. Repository:
+Updated 2026-10-23 after GOAL-004 execution. Repository:
 [inaeyk/GL-with-AI](https://github.com/inaeyk/GL-with-AI), scientific branch
 `research/sav-radiation`, writable scope `research/sav/**` only.
-**GLR-GOAL-001, GOAL-002 and GOAL-003 are completed with MEANINGFUL_PARTIAL
-outcomes. On 2026-10-23 GLR-GOAL-004 was separately authorized and prepared;
-the Codex run is not yet launched.**
+**GLR-GOAL-001 through GOAL-004 are completed with MEANINGFUL_PARTIAL
+outcomes. No follow-on Goal is authorized or launched.**
 
-## Next owner-authorized research task — READY, not launched
+## Latest scientific result — GOAL-004, MEANINGFUL_PARTIAL
 
-[GLR-GOAL-004](goals/GLR-GOAL-004.md) is an extended independent
-analytic Goal linking the physical L10 q2 response and global
-constraint-compatible GL data to the fourth-order radion news,
-an epsilon-dependent nonlinear radiation trace and, if possible,
-a finite-time two-sided energy bound. In parallel it requires
-a falsifiable semi-analytical first-bulge source-to-waveform
-model and a distinct conditional light-radion EFT.
+Savdeep Sethi executed GOAL-004 as authorized sole publisher from
+`2f4648c379c474ed124e3ef10b62efcd4a783c66`. Read the
+[final report](goals/GLR-GOAL-004_REPORT.md),
+[executed ledger](verification/GLR_GOAL004_CHECKS.md) and two new audits.
+The controlling Goal/runbook are completed historical instructions,
+not authorization to replay the task.
 
-**Either Savdeep or Michael can execute GOAL-004, but only one
-operator writes to the shared research branch at a time.** Read
-[the safety runbook](goals/GLR-GOAL-004_RUN_BY_SAV_OR_MICHAEL.md)
-and [one-shot launch prompt](goals/GLR-GOAL-004_LAUNCH.md).
-[Review gates](goals/GLR-GOAL-004_REVIEW_GATES.md) distinguish proofs,
-model predictions and unfunded simulation work. No production
-changes or simulation are authorized. The pre-GOAL-004 evidence
-and every historical result below are preserved.
+New exact results: endpoint/monotone Riccati matching identities;
+source-aware weighted master comparison; background mass transversality
+`partial_lambda M/M0=9/14`; differentiated exterior momentum estimate
+and linear angular lapse kernel. Actual physical L10 quadratic sources
+and three n=2 inverses were evaluated **empirically**, not enclosed.
+The first missing bound is a validated weighted regular C5 mode error,
+hence the C3 conserved source norm and full regular M2. The simultaneous
+global C1 charge map, nonlinear trace and bounded completed N4 remain open.
+
+Four explicit effective bulge ODEs produce waveforms/spectra/energies.
+Adding a stable shape mode changes pulse energies nearly tenfold and
+leaves discarded-mode residuals near .8: these are calibrated models,
+not controlled physical fractions. The separate EFT derives exact
+Gaussian pulse transport ratios with memory-dependent small-mass scaling;
+stabilizer/source matching is still conditional. **NO positive physical
+A_star, NO physical finite-window energy enclosure, NO certified actual
+first-bulge fraction.** See the report's quantitative/error tables.
 
 ## Current scientific state
 
@@ -37,6 +44,7 @@ formation. Michael Yan owns production numerics; Pau Figueras advises.
 | [GOAL-001 report](goals/GLR-GOAL-001_REPORT.md) | Audited quadratic zero-mode radion source, gauge completion, retarded functional and flux normalization; strong empirical evidence for nonzero overlap | Full finite-wavenumber interval enclosure and controlled finite amplitude remain open |
 | [GOAL-002 report](goals/GLR-GOAL-002_REPORT.md) | Second-order equations/constraints, zero-mode metric quadratures, free scalar data and finite-slice transient bounds | Scalar-data freedom affects leading energy; no certified physical finite-amplitude or bulge estimate |
 | [GOAL-003 report](goals/GLR-GOAL-003_REPORT.md) | Forced n=2 master/all-constraint reconstruction, analytic L10 nonresonance and effective regular-metric point inverse, local simultaneous data, linear horizon map | Global fixed-charge family, physical source-evaluated quadratic norm and nonlinear radiation estimates remain open |
+| [GOAL-004 report](goals/GLR-GOAL-004_REPORT.md) | Physical source diagnostics, endpoint/constraint identities and mass derivative, computed two-closure/modal waveform models and separate EFT pulse ratios; two audits | Physical C5/M2 enclosure, global GL family, nonlinear news trace/N4 and full constrained bulge model remain open |
 
 Formal cubic/quartic sources and memory relations do not solve and bound
 the full higher-order dynamics. The separate massive-radion EFT remains
@@ -56,10 +64,11 @@ Those qualifications are attributed record review, not new calculations.
 
 ## Exact scientific provenance
 
-Continuity source and last scientific closure:
+Historical GOAL-003 continuity source:
 [`a3ed1137b19488a3f459cfc532288caeb6f573bb`](https://github.com/inaeyk/GL-with-AI/commit/a3ed1137b19488a3f459cfc532288caeb6f573bb).
-The continuity update changes documentation only; its publication commit
-is identifiable from Git history, without a self-referential commit hash.
+GOAL-004 execution starts at `2f4648c379c474ed124e3ef10b62efcd4a783c66`;
+its actual publication is pinned in the executed ledger/manifest and Git
+history after verification, without a self-referential future hash.
 
 | Goal | Scientific result commit | Closing provenance commit |
 |---|---|---|
@@ -68,7 +77,7 @@ is identifiable from Git history, without a self-referential commit hash.
 | 003 | [6da8b1dc866c733e9e7022cb2154a7dc16ab0b8c](https://github.com/inaeyk/GL-with-AI/commit/6da8b1dc866c733e9e7022cb2154a7dc16ab0b8c) | [a3ed1137b19488a3f459cfc532288caeb6f573bb](https://github.com/inaeyk/GL-with-AI/commit/a3ed1137b19488a3f459cfc532288caeb6f573bb) |
 
 [SOURCES.md](SOURCES.md), the [verification index](verification/INDEX.md),
-the three executed check ledgers and
+the four executed check ledgers and
 [GOAL-003 publication manifest](verification/goal003_publication.json)
 pin inputs, commands, saved outputs, audit scope and prior publication.
 
@@ -88,9 +97,7 @@ failure remain negative evidence, not accepted physical waveforms.
 No production-code, CLAUDE.md, simulation-plan or historical-branch edits,
 manuscript/Overleaf work, or simulations are authorized by this restart.
 
-The previously unlaunched candidate mathematics from GOAL-003 has now
-been incorporated into the separately owner-authorized GOAL-004; its
-preparation and launch instructions above replace the historical
-no-future-Goal status. Use meaningful local commits and the scoped
-publication policy. No Codex run or simulation was launched merely
-by committing the Goal.
+GOAL-004 used its bounded source/data/model approaches and has stopped.
+Open mathematics in its report is a proposal, not a task launch. A new
+owner authorization and finite budget are needed for further scientific
+execution. No production or manuscript work accompanies this handoff.

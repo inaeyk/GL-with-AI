@@ -1,0 +1,187 @@
+{
+  "task": "T-20261023-GLR-GOAL-004",
+  "scope": "Non-production effective model, NOT 2+1/5D evolution",
+  "versions": {
+    "python": "3.14.8",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0"
+  },
+  "input_commit": "2f4648c379c474ed124e3ef10b62efcd4a783c66",
+  "sha256": {
+    "goal004_model.py": "25b6655b1b587add6b901ac72b90e98aa7da9376afb9a4a3c885227537951ec2",
+    "gl_linear_profile_L10.csv": "15ebc0aa3f13bb91942ac90aeffaaa234884df58d6ffc7ad874ed44e5064b64b",
+    "gl_linear_results.json": "fc6b46b8c958bcc217e74f4370120d3995189536e865d6da6de139aa29c5687f",
+    "radion_transfer_results.json": "67e5e2209e7e600c671a9d174d679b39cd16f9b9a97620fffc87f9ddb2c0adfc",
+    "radion_transfer.py": "af65ddb7650c0b876300d32443e651712a0548850ed2c8c8406ddb08fc42298e"
+  },
+  "inputs": {
+    "k": 0.6283185307179586,
+    "omega": 0.06328118897590773,
+    "kcritical": 0.8761604020340054,
+    "C0": 12.30729197235746,
+    "ah_extrapolations": [
+      -38.497412871294976,
+      -38.49741287130364,
+      -38.4974128713107
+    ],
+    "beta_AH_empirical": 6.900245488250364,
+    "static_frozen_shape_transfer": 13.277181173210433,
+    "static_quad_error_estimate": 1.288315015378594e-07,
+    "static_omitted_horizon_leading": 9.633209128794553e-13,
+    "static_outer_endpoint": 1.4769112491197815e-34,
+    "transfer_relaxation_time": 0.6226657731054412,
+    "transfer_delay": 0.599348176721669
+  },
+  "models": [
+    {
+      "p": 4.0,
+      "epsilon": 0.0001,
+      "nu_matched": 3.677565047701558,
+      "nu_longwave": 3.0,
+      "events": [
+        {
+          "contrast": 0.05,
+          "reached": true,
+          "time": 68.11251368171436,
+          "A_proxy": 0.007228048886901953,
+          "energy_relaxation": 5.084215652689893e-08,
+          "energy_delay": 5.0879375563605776e-08,
+          "linear_time": 67.64339132243006,
+          "heat": 0.0002841809386464503,
+          "source_rate_drift": 0.057985081198669186
+        },
+        {
+          "contrast": 0.1,
+          "reached": true,
+          "time": 80.56121417093595,
+          "A_proxy": 0.014348750513107338,
+          "energy_relaxation": 7.161311470474179e-07,
+          "energy_delay": 7.179164550408004e-07,
+          "linear_time": 78.47905577504363,
+          "heat": 0.001051769563304168,
+          "source_rate_drift": 0.23670819760605533
+        },
+        {
+          "contrast": 0.15,
+          "reached": true,
+          "time": 90.65740901166193,
+          "A_proxy": 0.02126000687272133,
+          "energy_relaxation": 2.7763077171963477e-06,
+          "energy_delay": 2.786122619381504e-06,
+          "linear_time": 84.69203685819295,
+          "heat": 0.002005985483236302,
+          "source_rate_drift": 0.5521771935772556
+        },
+        {
+          "contrast": 0.2,
+          "reached": false
+        },
+        {
+          "contrast": 0.3,
+          "reached": false
+        }
+      ],
+      "settled_contrast": 0.19668096398371912,
+      "peak_time": 89.10000000000001,
+      "peak_news": 0.0003474491733977174,
+      "half_height_news_width": 25.36,
+      "cumulative_energy_relaxation": 4.633963169203985e-06,
+      "cumulative_energy_delay": 4.640934611417487e-06,
+      "filter_Z_energy": 4.6339632018541055e-06,
+      "independent_pulse_energies": {
+        "-1.0": 9.076093405034676e-06,
+        "0.0": 4.63396316920405e-06,
+        "1.0": 9.459759271781526e-06
+      },
+      "energy_balance_max_drift": 2.2907522985014822e-17,
+      "omitted_emission_mass_residual": 4.633963169203985e-06,
+      "final_heat": 0.0024972555615593315,
+      "windowed_energy_time": 1.63169101388554e-06,
+      "windowed_energy_spectrum": 1.6316910138855392e-06,
+      "windowed_rms_omega": 0.06736858613943902,
+      "max_velocity": 0.015631194381759556,
+      "max_log_radius_gradient": 0.1594147543379592,
+      "max_ideal_second_harmonic_residual": 0.0188856373837789,
+      "max_complete_closure_second_harmonic_residual": 0.09776624730511776,
+      "max_complete_closure_relative_residual": 0.6308170309121391,
+      "max_Galerkin_projection_error": 4.1054879196713743e-17,
+      "max_input_amplitude_frame_proxy": 1.0831328341588549,
+      "scope": "EOS/linear-matched heuristic; no physical truncation error bound"
+    },
+    {
+      "p": 4.5,
+      "epsilon": 0.0001,
+      "nu_matched": 3.677565047701558,
+      "nu_longwave": 3.0,
+      "events": [
+        {
+          "contrast": 0.05,
+          "reached": true,
+          "time": 68.20824687743978,
+          "A_proxy": 0.007228048886902061,
+          "energy_relaxation": 5.0544716399333156e-08,
+          "energy_delay": 5.058870426640881e-08,
+          "linear_time": 67.64339132243006,
+          "heat": 0.0002825031002430952,
+          "source_rate_drift": 0.0695604024522547
+        },
+        {
+          "contrast": 0.1,
+          "reached": true,
+          "time": 81.07204385983081,
+          "A_proxy": 0.014348750513107337,
+          "energy_relaxation": 6.946261852837588e-07,
+          "energy_delay": 6.966184802302902e-07,
+          "linear_time": 78.47905577504363,
+          "heat": 0.0010221789806906174,
+          "source_rate_drift": 0.2883061367350642
+        },
+        {
+          "contrast": 0.15,
+          "reached": true,
+          "time": 93.15591799110464,
+          "A_proxy": 0.02126000687272156,
+          "energy_relaxation": 2.463695047732569e-06,
+          "energy_delay": 2.471494502836281e-06,
+          "linear_time": 84.69203685819295,
+          "heat": 0.0018286761971759127,
+          "source_rate_drift": 0.6925946913009319
+        },
+        {
+          "contrast": 0.2,
+          "reached": false
+        },
+        {
+          "contrast": 0.3,
+          "reached": false
+        }
+      ],
+      "settled_contrast": 0.1757935954597559,
+      "peak_time": 87.42,
+      "peak_news": 0.00028638824215820386,
+      "half_height_news_width": 24.960000000000008,
+      "cumulative_energy_relaxation": 3.0979218013438617e-06,
+      "cumulative_energy_delay": 3.102744318545294e-06,
+      "filter_Z_energy": 3.0979218339939478e-06,
+      "independent_pulse_energies": {
+        "-1.0": 6.038119175257958e-06,
+        "0.0": 3.097921801343899e-06,
+        "1.0": 6.3535680301176375e-06
+      },
+      "energy_balance_max_drift": 2.1956000582782823e-17,
+      "omitted_emission_mass_residual": 3.0979218013438617e-06,
+      "final_heat": 0.002001599109792335,
+      "windowed_energy_time": 9.873636985678071e-07,
+      "windowed_energy_spectrum": 9.873636985678067e-07,
+      "windowed_rms_omega": 0.06885224897304999,
+      "max_velocity": 0.014227041281253532,
+      "max_log_radius_gradient": 0.13564151362612473,
+      "max_ideal_second_harmonic_residual": 0.014980533672706256,
+      "max_complete_closure_second_harmonic_residual": 0.08869235014076887,
+      "max_complete_closure_relative_residual": 0.6345634203112378,
+      "max_Galerkin_projection_error": 3.427418876449695e-17,
+      "max_input_amplitude_frame_proxy": 0.9754110390687499,
+      "scope": "EOS/linear-matched heuristic; no physical truncation error bound"
+    }
+  ]
+}

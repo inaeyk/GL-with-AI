@@ -1,0 +1,14 @@
+GOAL-004 independent dynamics audit: retained implementation failure
+
+Command executed from research/sav:
+python3 verification/goal004_audit_dynamics.py > verification/goal004_audit_dynamics_results.txt
+
+An extended script run exited 1 at material_mass_zero_coefficient:
+AssertionError: material_mass_zero_coefficient: -1/(4*k**2)
+
+Cause: SymPy coefficient extraction was applied to the unexpanded rational
+expression massseries, so coeff(B,0) returned zero rather than the constant
+coefficient of its numerator polynomial divided by 2*k**2. This is a script
+expression-handling failure, not a failed physical equation. The repair
+expands massseries and Vseries before coefficient extraction. No model
+coefficient or scientific assertion was adjusted to make the check pass.

@@ -1,0 +1,696 @@
+{
+  "input_commit": "2f4648c379c474ed124e3ef10b62efcd4a783c66",
+  "input_tree": "e4beadd344921b29c183896a05bee5d2ff8943a8",
+  "research_entries": [
+    {
+      "path": "research/sav/AGENTS.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "bffb6340be0bb3bc1c0c45c293330a4e0305a280"
+    },
+    {
+      "path": "research/sav/DECISIONS.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "cbb3a60a9a2554df12f5512ec9fc3e6ae98ce142"
+    },
+    {
+      "path": "research/sav/HANDOFF.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ad1ce4ca2a6fef87d0367978c9d233a48e1f1241"
+    },
+    {
+      "path": "research/sav/NOTATION.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9919307ca48861fa261ce2ca139f6754009c2cd6"
+    },
+    {
+      "path": "research/sav/QUESTIONS.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d72ce81d474abb03bc59893e68f658beefe7b604"
+    },
+    {
+      "path": "research/sav/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "4970325585957e112f7ef81f72c5d5b246ad5e8c"
+    },
+    {
+      "path": "research/sav/SOURCES.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d1064f41c525f731f2dc9db511191681ee2f52be"
+    },
+    {
+      "path": "research/sav/STATUS.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f31ad8714ea30a6d622d7c78c44a68a5b259f703"
+    },
+    {
+      "path": "research/sav/agenda/NOVEL_APPROACHES.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "3af8e5aee0c2d791dced957000fee5de5c47212f"
+    },
+    {
+      "path": "research/sav/agenda/RESEARCH_ROADMAP.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ea487a349e95a256fb1a3457f553660de92f20be"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-001.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "dff1f932c74222b3b381ec0f74b611b3705cbbd6"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-001_REPORT.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "7ccdb108591888cc70b62b6e5ff86adf9f75c5f3"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-002.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "789ecd803ab7fbfb8eda345b7e36913a6c1f90f4"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-002_LAUNCH.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "40e23ce7cd360a835dd069891e4ad73ab8ee596f"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-002_REPORT.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "4c1de8878c1787caf90adc05080bef660e4df355"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-002_REVIEW_GATES.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "792ba0a45186259965ee9f79a1d89c0d3086b8b5"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-003.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9dfd90d244e857f2f883a5bda7c6a327cb218a98"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-003_LAUNCH.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "4614c9cd1821b63071a23389a47d102cdb1c334c"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-003_REPORT.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "873012f46b9cb313beab4488c31f837f776390d2"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-003_REVIEW_GATES.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "7622503c32b21fdd1c4d9598c38b027d6265ef4c"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-004.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9ea8cfd48290cd8210520885f55790167130e3d3"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-004_LAUNCH.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "8f64b7053f6e7ad9829fb5ed7608b592c55a99f6"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-004_REVIEW_GATES.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "997f48954548026b935c6c793634a567356877bb"
+    },
+    {
+      "path": "research/sav/goals/GLR-GOAL-004_RUN_BY_SAV_OR_MICHAEL.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "0130c0f63a89957f6d188af0e640bc1cbb504fc7"
+    },
+    {
+      "path": "research/sav/goals/GOAL_TEMPLATE.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "91f838702578cdd9a72abab882613a28accd44da"
+    },
+    {
+      "path": "research/sav/goals/LAUNCH.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "20cb75d0753b4da47a9e185a8ca2b300dc45b602"
+    },
+    {
+      "path": "research/sav/handoffs/ADVISOR_QUESTIONS.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "8981e015a4484afca2668afaab6bd8afbfdfa1ef"
+    },
+    {
+      "path": "research/sav/handoffs/MICHAEL_START_HERE.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ef93e3362cbf40c96cb7007b6f07e1be57a89958"
+    },
+    {
+      "path": "research/sav/literature/PAST_WORK.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "50f837b92eb9bf7f3f3f79ca6427871148d5e11e"
+    },
+    {
+      "path": "research/sav/numerics/boundary_conditions.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f8eeeb3ea2587eb981a2ed4aadc50f255d789669"
+    },
+    {
+      "path": "research/sav/numerics/extraction_contract.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f4d45316ae8deff1c72c653d887b21591441f578"
+    },
+    {
+      "path": "research/sav/numerics/validation_matrix.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "b8986cfff48516686b4d4e9cf533324a3dc44a8f"
+    },
+    {
+      "path": "research/sav/physics/early_amplitude_flux.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ab01f0dd2f2c51cc360570b661f1b8b3f05804b6"
+    },
+    {
+      "path": "research/sav/physics/gl_linear_mode.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f53f363ef3da2b6f067737bc767a704ecbbc4c33"
+    },
+    {
+      "path": "research/sav/physics/goal002_finite_data_energy.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "a4d95d32aef4adc00fd130c7497124638cff252b"
+    },
+    {
+      "path": "research/sav/physics/goal002_second_order.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "6737aeff772797bfad641bf72a9332342cf7421a"
+    },
+    {
+      "path": "research/sav/physics/goal003_data_nonlinear.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "53229c61a59643b91eb93ec4fb89044444b93ae9"
+    },
+    {
+      "path": "research/sav/physics/goal003_forced_master.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d47ea4d37bce387bca588599bd6f1ced0764d4f7"
+    },
+    {
+      "path": "research/sav/physics/goal003_master_independent.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "90aae870b231d61c0c6aa58c00611eff48f1331b"
+    },
+    {
+      "path": "research/sav/physics/goal003_stabilized_radion.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "18d052a7daabe91deefbe2bd590b7d0db265928a"
+    },
+    {
+      "path": "research/sav/physics/kk_channels.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "7694864cd705b80b1b9638896456645973fb73fc"
+    },
+    {
+      "path": "research/sav/physics/quadratic_radion_source.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "bf25af9110e9d7237514f5e9bc52c07e898d7714"
+    },
+    {
+      "path": "research/sav/physics/radion_retarded_transfer.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5520e9256e9f9e8fb5556e094525fd53fa1a0543"
+    },
+    {
+      "path": "research/sav/physics/radion_transfer_numerics.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "044f9480e6ba264eda6f4444c6de4020022c4ef6"
+    },
+    {
+      "path": "research/sav/physics/so3_reduction.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "38b94944fd51cdf2e7ee6d0d10591de6e880240c"
+    },
+    {
+      "path": "research/sav/physics/timescales_energy.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "8af7d3e830e3eb2932068305f1b0e6676b242bbd"
+    },
+    {
+      "path": "research/sav/verification/AUDIT_FOUNDATION.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2c4056309dad131870bdfd202efa9d78178b1a73"
+    },
+    {
+      "path": "research/sav/verification/AUDIT_GOAL002_ENERGY.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "a3414ef4b150097e90049de0b4699f52ed28fe30"
+    },
+    {
+      "path": "research/sav/verification/AUDIT_GOAL002_GEOMETRY.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "0d922cbfb02a2ac59a5fe67bcd472967ea8db5fc"
+    },
+    {
+      "path": "research/sav/verification/AUDIT_GOAL003_FLUX_EFT.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "284bc6049e551e20d3c08e6c726afe5e9e6df1ef"
+    },
+    {
+      "path": "research/sav/verification/AUDIT_GOAL003_MASTER.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "8e8a5a77f9412b6d056f0ff49dd97184196ea14e"
+    },
+    {
+      "path": "research/sav/verification/AUDIT_SOURCE_RETARDED.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "220bf8d22b159c729bd5cff37e5de53d09afb20f"
+    },
+    {
+      "path": "research/sav/verification/FOUNDATION_CHECKS.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "6dfb0c00e8affe36ec44313a48d06b6eb75a585a"
+    },
+    {
+      "path": "research/sav/verification/GLR_GOAL001_CHECKS.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "c3991a20fcd3a1f693590f77634a1abe3a788a72"
+    },
+    {
+      "path": "research/sav/verification/GLR_GOAL002_CHECKS.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "c9232d0e2afa565ab5851c212d414d4dbdc3fd34"
+    },
+    {
+      "path": "research/sav/verification/GLR_GOAL003_CHECKS.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d15a6efd4c7e5d5b17d6a62b269abb5203366568"
+    },
+    {
+      "path": "research/sav/verification/GOAL003_REVIEW_QUALIFICATIONS.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "09090408bff7e0271da833da745c4098de64e31f"
+    },
+    {
+      "path": "research/sav/verification/INDEX.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "339eb5f46e77e760732b6b10d6a77aa8ec6f3ced"
+    },
+    {
+      "path": "research/sav/verification/audit_foundation_checks.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "7eda5abc0d4d431b3cbb501077c5e73e9fc6d867"
+    },
+    {
+      "path": "research/sav/verification/audit_source_checks.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "45d7b8282980aa7800232d0584fae7f5b665ccf8"
+    },
+    {
+      "path": "research/sav/verification/audit_source_transfer.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "1ccefb5faae2dcf8bcf00f3f8cc9bfe8baf384ff"
+    },
+    {
+      "path": "research/sav/verification/audit_source_transfer_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "1fb089971a44fdda85c3ac1447fd0b257a57ed8c"
+    },
+    {
+      "path": "research/sav/verification/check_foundation.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "cff2ef8fc8b8fdd49c7661432a250f205e877415"
+    },
+    {
+      "path": "research/sav/verification/check_quadratic_source.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "0b0ddfc2243b45d73e36c4329f858d2118df355f"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_check.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9c1d17aaa34a0d182398b6acf7b3448f73d393bb"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_exact.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "3d400c2f6d0e3ad00c4e5b873ccabd0f646c4497"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_extended_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2793bcef98b44ea0749bf856d926a898144ba8ba"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_mode.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ea7cfa47348df29bc0003d7f92b02769c2a2ca54"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_profile_L10.csv",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "7c854177b86e44e5733e1e9b989ebcdcfdd98ea0"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_profile_L12.csv",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2af67c14a26e5a8c1abc07c7451e8c5974985e2a"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_profile_L16.csv",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9f4ca27219fd86c73df72c57020c4b5a892cddfc"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_profile_L8.csv",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "71cc904fd549d7b8699bb0cea27f0e8398906ca3"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "4b48286c6ea211fa56ee9212c946dd1594282f16"
+    },
+    {
+      "path": "research/sav/verification/gl_linear_verification.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "970a5f718618fe4e57c73761087b686d0f8bd47e"
+    },
+    {
+      "path": "research/sav/verification/goal002_audit_energy.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "44883b7597cf330fe204ce52d27fd783a35ee331"
+    },
+    {
+      "path": "research/sav/verification/goal002_audit_energy_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e0eadf998868f3c23e50f1ca7cffd5c92d09353a"
+    },
+    {
+      "path": "research/sav/verification/goal002_audit_energy_results.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d70ddc12ba54c5c33774ede249df1cc4f461e1f5"
+    },
+    {
+      "path": "research/sav/verification/goal002_audit_geometry.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5b33a96fdc30180ceef62a9da0b0d2e9ab58c50e"
+    },
+    {
+      "path": "research/sav/verification/goal002_audit_geometry_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "1c9132bd25bc32f6f7a0c2c5dd969ddb9d937d67"
+    },
+    {
+      "path": "research/sav/verification/goal002_audit_geometry_results.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ef4caf056e12df0d62fb7d655295431cb53ffa5c"
+    },
+    {
+      "path": "research/sav/verification/goal002_input_tree.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "c30392422279edb4fb20cedd2a5455075d5bff56"
+    },
+    {
+      "path": "research/sav/verification/goal002_prior_linear_recheck.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "970a5f718618fe4e57c73761087b686d0f8bd47e"
+    },
+    {
+      "path": "research/sav/verification/goal002_prior_retarded_recheck.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "7bcc186ef1d25c284d46c3da45ec9e564fa30a7e"
+    },
+    {
+      "path": "research/sav/verification/goal002_prior_source_recheck.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "11d2889610f23c9ee983a6c2ed80b43bad47e3cb"
+    },
+    {
+      "path": "research/sav/verification/goal002_scalar_response.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5b895c2fd98ecbcc9588adee388c701b0eb9392b"
+    },
+    {
+      "path": "research/sav/verification/goal002_scalar_response_output.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "eb49b439a4ba3dad614daaaa638a84fd519ee1d7"
+    },
+    {
+      "path": "research/sav/verification/goal002_scalar_response_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d5d9b81c012e40f17c24e5fe946726a3ae49bdf2"
+    },
+    {
+      "path": "research/sav/verification/goal002_sector_checks.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e23913a0764d1f8f8cb964771d803016690ec56d"
+    },
+    {
+      "path": "research/sav/verification/goal002_sector_output.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "938d656fda674cc8841b7a57ecaa6b073518d566"
+    },
+    {
+      "path": "research/sav/verification/goal002_sector_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d6db0f853541ba3523f117c7f18870497d83297d"
+    },
+    {
+      "path": "research/sav/verification/goal003_audit_flux.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "eb4afbc9989108824f13e2f7a5e2ab2429d1d47f"
+    },
+    {
+      "path": "research/sav/verification/goal003_audit_flux_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "dcb95c664be6b823a668e29da93b30dfd3e66588"
+    },
+    {
+      "path": "research/sav/verification/goal003_audit_flux_results.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "dcb95c664be6b823a668e29da93b30dfd3e66588"
+    },
+    {
+      "path": "research/sav/verification/goal003_audit_master.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "a5e1f276f208ce826616397308044448c03233de"
+    },
+    {
+      "path": "research/sav/verification/goal003_audit_master_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "8c3847439f8b67acd8ededf06e8db030b69dcd6d"
+    },
+    {
+      "path": "research/sav/verification/goal003_audit_master_results.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "b4fe810d1ffdeae57973aa5d2270ba1855e7e04c"
+    },
+    {
+      "path": "research/sav/verification/goal003_audit_master_tail_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "087e06cf9ee24a18b82d2c1c7981eef2a1a8ccfa"
+    },
+    {
+      "path": "research/sav/verification/goal003_audit_master_tail_results.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "cc89de01d3518149e895ec15b38c71e75b105bfd"
+    },
+    {
+      "path": "research/sav/verification/goal003_bound_checks.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9305f31bde2b3dc0393db98c1567bc9446326e29"
+    },
+    {
+      "path": "research/sav/verification/goal003_bound_output.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "53c39507de5960e318c48764876a38a51a21f19f"
+    },
+    {
+      "path": "research/sav/verification/goal003_bound_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "845be3dedff56f2a6cd92fd6e2088ed7df9383cd"
+    },
+    {
+      "path": "research/sav/verification/goal003_data_checks.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "37709b2b0b1f70d07a2d29b4b3bba175308bc922"
+    },
+    {
+      "path": "research/sav/verification/goal003_data_checks_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "c51824d1e277ad66cf291d7d444f3064d3bf0a82"
+    },
+    {
+      "path": "research/sav/verification/goal003_data_checks_results.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d3324afbe059b092dbb0dd6882fff8ff2187ee65"
+    },
+    {
+      "path": "research/sav/verification/goal003_eliminate.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "7016537e7e2d6560b65d782e9557059548b4de51"
+    },
+    {
+      "path": "research/sav/verification/goal003_elimination_output.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d445378b0b1fc4fec6e0581afd128eb822f73af5"
+    },
+    {
+      "path": "research/sav/verification/goal003_elimination_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "a8ed92f239a350d69b2e4b1121466b2239c8d53c"
+    },
+    {
+      "path": "research/sav/verification/goal003_input_tree.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "81dfa514cec5b5250215b42ace4db6cef466bbcc"
+    },
+    {
+      "path": "research/sav/verification/goal003_publication.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "826492757cde7517deea046ad92be4e402c09068"
+    },
+    {
+      "path": "research/sav/verification/goal003_source_checks.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "489104e11047a5a226ec70d6600dfa26f0518733"
+    },
+    {
+      "path": "research/sav/verification/goal003_source_output.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "cfdc03aa9a3740770c2a7b819a79714592c2b3ed"
+    },
+    {
+      "path": "research/sav/verification/goal003_source_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "b5ca208757e050ed7a51c330f2b66262a0e21d69"
+    },
+    {
+      "path": "research/sav/verification/negative_results.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5e701829ed780ddca2d8b13e8f28b9fddceef78b"
+    },
+    {
+      "path": "research/sav/verification/radion_transfer.py",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "29fc1812de0551dc6760637fe5c2130f73ed7a9c"
+    },
+    {
+      "path": "research/sav/verification/radion_transfer_results.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "577d910e8a9f72655ba39e1bd0213459d4a25cae"
+    }
+  ]
+}

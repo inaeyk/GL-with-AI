@@ -1,0 +1,57 @@
+{
+  "python": "3.14.8",
+  "sympy": "1.14.0",
+  "source_sample_sha256": "69ade7abb4fca52b487f8c072c4fd23d2d6377c77aed7dd7cc8f03b2e5c2bbce",
+  "final_script_sha256": "d7257d4d33b4b1a6aa63a72373fb96eaa9986b270b8338d1bf042196d58645ee",
+  "full_source_quadrature": {
+    "n0_beta_abs": 78.83490304801047,
+    "n0_mu_abs": 7.409241137911905,
+    "source_L2": 16.64667045315133,
+    "static_scalar_transfer": 13.277181663247742
+  },
+  "nested_coarse_quadrature": {
+    "n0_beta_abs": 78.83470201700408,
+    "n0_mu_abs": 7.409227012075649,
+    "source_L2": 16.646700753296933,
+    "static_scalar_transfer": 13.277179589664048
+  },
+  "absolute_nested_differences": {
+    "n0_beta_abs": 0.00020103100639801141,
+    "n0_mu_abs": 1.4125836255374224e-05,
+    "source_L2": 3.0300145603234796e-05,
+    "static_scalar_transfer": 2.073583694084391e-06
+  },
+  "supersolution_sample_Cw": 1210.265029674422,
+  "supersolution_sample_radius": 1.0482552813092796,
+  "empirical_match_function_derivative": 4.529894647903129,
+  "Coulomb_Volterra_endpoints": [
+    {
+      "R": 30.0,
+      "C_R": 7.193882681353022,
+      "eta": 0.20318292150508874,
+      "relative_envelope": 0.25499318098060364
+    },
+    {
+      "R": 45.0,
+      "C_R": 6.998399041284759,
+      "eta": 0.12879661624316321,
+      "relative_envelope": 0.1478375987106036
+    },
+    {
+      "R": 65.0,
+      "C_R": 6.879922049504535,
+      "eta": 0.08644413183414876,
+      "relative_envelope": 0.09462380446168321
+    }
+  ],
+  "sampled_saved_p_flow_defect": 4.634259913901054e-06,
+  "sampled_saved_log_amplitude_flow_defect": 4.7244862599882254e-07,
+  "checks": [
+    "exact Coulomb residual polynomial identity PASS",
+    "wrong Coulomb residual constant REJECTED",
+    "doubled Qzz without metric source REJECTED"
+  ],
+  "doubled_Qzz_Bianchi_mismatch_at_r2": 0.5542890394672327,
+  "actual_corrected_diagnostic_bug": "Initial EF H contraction used 2 f B C instead of 4 f B C. At r=2 zz identity mismatch 0.3898909498. Corrected before source/Green run; Q itself unaffected.",
+  "scope": "Postprocessing only: no new physical ODE. Nested differences and sample maxima are diagnostics, not certified errors or global suprema."
+}

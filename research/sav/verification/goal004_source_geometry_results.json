@@ -1,0 +1,130 @@
+{
+  "python": "3.14.8",
+  "numpy": "2.4.6",
+  "scipy": "1.18.0",
+  "mpmath": "1.3.0",
+  "L": 10,
+  "k": 0.6283185307179586,
+  "Omega": 0.06328118897590773,
+  "precision": 65,
+  "source_samples": 481,
+  "input_sha256": {
+    "gl_linear_results.json": "fc6b46b8c958bcc217e74f4370120d3995189536e865d6da6de139aa29c5687f",
+    "gl_linear_profile_L10.csv": "15ebc0aa3f13bb91942ac90aeffaaa234884df58d6ffc7ad874ed44e5064b64b",
+    "goal004_source_geometry.py": "56c55b27d0b27a3a3510989d443d5e15d9bb9be1ff17d79f8989a5cbd7c96d72"
+  },
+  "checks": [
+    {
+      "r": 1.0000000152299797,
+      "linear_max": 8.506245312824052e-51,
+      "scalar_source_error": 1.5192908393215678e-64,
+      "Bianchi_max": 1.431495734566559e-41,
+      "ah": -38.497412871359394
+    },
+    {
+      "r": 1.0067379469990854,
+      "linear_max": 7.662184731103438e-34,
+      "scalar_source_error": 0.0,
+      "Bianchi_max": 1.9411259501626277e-30,
+      "ah": -38.497412871359394
+    },
+    {
+      "r": 1.0439369336234074,
+      "linear_max": 3.114546220609214e-63,
+      "scalar_source_error": 1.5192908393215678e-64,
+      "Bianchi_max": 1.352776563331924e-60,
+      "ah": -38.497412871359394
+    },
+    {
+      "r": 2.0,
+      "linear_max": 1.0979250206034767e-65,
+      "scalar_source_error": 0.0,
+      "Bianchi_max": 3.7982270983039195e-65,
+      "ah": -38.497412871359394
+    },
+    {
+      "r": 64.99999999999997,
+      "linear_max": 1.0295115178936058e-84,
+      "scalar_source_error": 8.515919680016301e-109,
+      "Bianchi_max": 1.2973471387524834e-108,
+      "ah": -38.497412871359394
+    }
+  ],
+  "source_norm_truncated": 16.64667045315133,
+  "ah": -38.497412871359394,
+  "linear_AH_contrast_per_A": 6.900245488259092,
+  "horizon_frobenius_order": 18,
+  "normalization_delta": 0.005,
+  "n0_beta_at_r1": 78.83490304801037,
+  "n0_mu_at_r1": 7.409241137911898,
+  "n0_beta_abs_integral": 78.83490304801047,
+  "n0_mu_abs_integral": 7.409241137911905,
+  "configs": [
+    {
+      "log_left": -16.0,
+      "outer_r": 30.0,
+      "grid": 4001,
+      "rtol": 2e-08,
+      "max_W_drift": 8.522763108587128e-07,
+      "Wronskian": -0.27712582977999095,
+      "source_L2_truncated": 16.646668232720074,
+      "response_L2_truncated": 112.36105272417508,
+      "resolvent_bound_from_sampled_input": 1039.2453069166213,
+      "complex_plus2_tetrad_sample_max_r1p005_to10": 92.62660302923167,
+      "u_at_r2": -1.3079471680308934,
+      "qvv_at_r2": 0.027299186821106783,
+      "qvr_at_r2": 0.06153475575778891,
+      "qrr_at_r2": 0.3031291845807444,
+      "qS_at_r2": 2.329036268983963
+    },
+    {
+      "log_left": -18.0,
+      "outer_r": 45.0,
+      "grid": 8001,
+      "rtol": 2e-10,
+      "max_W_drift": 2.368226637017301e-08,
+      "Wronskian": -0.2864612651380445,
+      "source_L2_truncated": 16.6466682327062,
+      "response_L2_truncated": 113.1479337977824,
+      "resolvent_bound_from_sampled_input": 1039.2453069157552,
+      "complex_plus2_tetrad_sample_max_r1p005_to10": 92.66696690013656,
+      "u_at_r2": -1.3079738546224058,
+      "qvv_at_r2": 0.027303834188434396,
+      "qvr_at_r2": 0.06151805601521828,
+      "qrr_at_r2": 0.3031505932882628,
+      "qS_at_r2": 2.329036144966585
+    },
+    {
+      "log_left": -18.0,
+      "outer_r": 65.0,
+      "grid": 16001,
+      "rtol": 2e-12,
+      "max_W_drift": 2.0104840015022774e-10,
+      "Wronskian": -0.29244018487756174,
+      "source_L2_truncated": 16.646668232707267,
+      "response_L2_truncated": 113.14793379950268,
+      "resolvent_bound_from_sampled_input": 1039.2453069158219,
+      "complex_plus2_tetrad_sample_max_r1p005_to10": 92.6669607823435,
+      "u_at_r2": -1.3079831592430002,
+      "qvv_at_r2": 0.027304636733477043,
+      "qvr_at_r2": 0.06151390333647423,
+      "qrr_at_r2": 0.3031515029175992,
+      "qS_at_r2": 2.3290361872174743
+    }
+  ],
+  "source_columns": [
+    "Fhat_plus2",
+    "J_plus2",
+    "tau_plus2",
+    "jv_plus2",
+    "jrEF_plus2",
+    "Qvv_plus2",
+    "Qvr_plus2",
+    "Qrr_plus2",
+    "Qtheta_plus2",
+    "Trr_zero",
+    "Tvr_zero",
+    "H_contraction_EF"
+  ],
+  "scope": "EMPIRICAL physical saved-profile source/point inverse diagnostics only; no interval input, global norm, all-order data, retarded radiation or physical finite-amplitude enclosure."
+}

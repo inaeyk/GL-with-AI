@@ -1,0 +1,54 @@
+background_Z: PASS
+exact_global_spherical_constraint: PASS
+inner_exponential_lapse: PASS
+background_mass_derivative_9_over_14: PASS
+linear_lapse_coefficient: PASS
+linear_W_coefficient: PASS
+exact_parabolic_kernel: PASS
+memory_transport_derivative: PASS
+memory_massless_limit: PASS
+memory_small_mass_linear: PASS
+zero_memory_Gaussian_weight: PASS
+kernel_ambiguity_static: PASS
+kernel_ambiguity_GL_point: PASS
+{
+  "python": "3.14.8",
+  "sympy": "1.14.0",
+  "checks": [
+    "background_Z",
+    "exact_global_spherical_constraint",
+    "inner_exponential_lapse",
+    "background_mass_derivative_9_over_14",
+    "linear_lapse_coefficient",
+    "linear_W_coefficient",
+    "exact_parabolic_kernel",
+    "wrong_angular_diffusion_sign_REJECTED",
+    "memory_transport_derivative",
+    "memory_massless_limit",
+    "memory_small_mass_linear",
+    "zero_memory_Gaussian_weight",
+    "universal_quadratic_small_mass_error_REJECTED",
+    "kernel_ambiguity_static",
+    "kernel_ambiguity_GL_point",
+    "two_transfer_points_do_not_fix_kernel_REJECTED"
+  ],
+  "script_sha256": "fcb74490ea366932305700942742d58c2f83cfba3cd70b1f32b3594196a38a42",
+  "scope": "Exact identities/manufactured controls, not global GL closure",
+  "gaussian_transport": [
+    {
+      "mu": 0.1,
+      "memory_ratio": 0.8327379815166838,
+      "zero_memory_ratio": 0.9900498337491681
+    },
+    {
+      "mu": 0.5,
+      "memory_ratio": 0.3538548640314393,
+      "zero_memory_ratio": 0.7788007830714049
+    },
+    {
+      "mu": 1.0,
+      "memory_ratio": 0.08907385589078035,
+      "zero_memory_ratio": 0.36787944117144233
+    }
+  ]
+}

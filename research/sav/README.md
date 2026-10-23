@@ -17,10 +17,10 @@ approved plans. No production spacetime simulations are authorized here.
 
 Begin with [AGENTS.md](AGENTS.md) and the concise [HANDOFF.md](HANDOFF.md).
 Use `research/sav/` as the Codex working directory so the scoped contract
-is discovered. GOAL-001/002/003 are completed MEANINGFUL_PARTIAL.
-The user authorized preparation of GLR-GOAL-004 on 2026-10-23; it is
-**ready for Savdeep OR Michael to launch**, but the preparation commits
-do not run Codex. Historical prompts are retained for provenance, not
+is discovered. GOAL-001/002/003/004 are completed MEANINGFUL_PARTIAL.
+Savdeep Sethi executed GOAL-004 on 2026-10-23 as authorized sole writer;
+its physical finite-A/energy/actual-first-bulge gates remain open.
+Historical prompts are retained for provenance, not
 automatic replay. Codex discovers instructions along the
 Git-root-to-working-directory path; opening only the Git root does not
 load this descendant contract. See [instruction discovery](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
@@ -58,8 +58,8 @@ load this descendant contract. See [instruction discovery](https://learn.chatgpt
     [GLR-GOAL-002_REPORT.md](goals/GLR-GOAL-002_REPORT.md): regular
     second-order equations/zero-mode quadratures and finite-data bounds;
     full n2 response, exact simultaneous GL data and finite-A remainder open.
-11. [GOAL-003 report](goals/GLR-GOAL-003_REPORT.md): **current executed
-    scientific re-entry; MEANINGFUL_PARTIAL**. Explicit forced n=2 master,
+11. [GOAL-003 report](goals/GLR-GOAL-003_REPORT.md): **completed
+    MEANINGFUL_PARTIAL**. Explicit forced n=2 master,
     bounded regular inverse, local exact GL/scalar data, formal higher
     orders/memory and linear AH map, separate consistent radion EFT.
     Global fixed-charge data, physical M2, nonlinear radiation and finite-A
@@ -72,7 +72,12 @@ load this descendant contract. See [instruction discovery](https://learn.chatgpt
     and [launch prompt](goals/GLR-GOAL-004_LAUNCH.md): owner-authorized,
     prepared extended analytical program for rigorous early-radiation
     control plus an independently qualified semi-analytic first-bulge
-    model. **NOT YET EXECUTED.**
+    model. **EXECUTED: MEANINGFUL_PARTIAL.**
+    [Final report](goals/GLR-GOAL-004_REPORT.md) and
+    [executed ledger](verification/GLR_GOAL004_CHECKS.md): physical-source
+    diagnostics, new constraint/endpoint identities, computed one/two-mode
+    waveform models with failed convergence, separate EFT pulse transport.
+    No numerical physical A_star or first-bulge fraction; no automatic replay.
 13. [handoffs/MICHAEL_START_HERE.md](handoffs/MICHAEL_START_HERE.md): two-way collaboration.
 
 ## Scientific priorities
@@ -86,7 +91,7 @@ load this descendant contract. See [instruction discovery](https://learn.chatgpt
 - Preserve GOAL-003's executed master/inverse and local-data results, with
   formal higher orders and open global/nonlinear gates. A controlled finite
   GL amplitude window and first-bulge emitted percentage remain unestablished.
-  GOAL-004 has now been separately authorized for analytical research;
+  GOAL-004 has now executed with an honest partial result;
   read the [later review qualifications](verification/GOAL003_REVIEW_QUALIFICATIONS.md)
   before upgrading any inverse/verification claim.
 - Keep realistic radion stabilization as a separate EFT, with its own

@@ -1,0 +1,27 @@
+{
+  "python": "3.14.8",
+  "mpmath": "1.3.0",
+  "primary_script_sha256": "d7257d4d33b4b1a6aa63a72373fb96eaa9986b270b8338d1bf042196d58645ee",
+  "r": 2.0,
+  "k": 0.6283185307179586,
+  "Omega": 0.06328118897590773,
+  "tests": {
+    "PHYSICAL_POSITIVE_K_LORENTZ_CONTRACTION": true,
+    "PHYSICAL_POSITIVE_K_ZERO_FOURIER_WEIGHT": true,
+    "PHYSICAL_POSITIVE_K_COMPLETE_PLUS2_SOURCE": true,
+    "WRONG_PLUS2_FACTOR_REJECTED": true,
+    "WRONG_EUCLIDEAN_CONTRACTION_REJECTED": true
+  },
+  "primary_local_diagnostics": {
+    "r": 2.0,
+    "linear_max": 1.0979250206034767e-65,
+    "scalar_source_error": 0.0,
+    "Bianchi_max": 3.7982270983039195e-65,
+    "ah": -38.497412871359394
+  },
+  "independent_Rzz_zero": -0.5881189368857916,
+  "independent_Rzz_plus2": -0.8821784053286874,
+  "primary_complete_Rzz_plus2": -0.8821784053286874,
+  "Lorentz_Hsq": 11.917781361548352,
+  "scope": "Shared empirical GL radial input from primary regular_jets; independent block-metric Rzz/Fourier implementation. A physical-positive-k local algebra audit, not an independent eigenfunction, radial source derivation or global enclosure."
+}

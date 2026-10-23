@@ -161,3 +161,23 @@ Final task classification is exactly one of COMPLETE_VERIFIED, MEANINGFUL_PARTIA
 4. Update research/sav/STATUS.md, SOURCES.md, verification/INDEX.md, verification/negative_results.md, HANDOFF.md and handoffs/MICHAEL_START_HERE.md, without altering prior scientific reports or their evidence.
 5. A focused science handoff listing what Savdeep or Michael can test/measure eventually, with required invariant field normalization, initial-data preparation and finite-worldtube versus null-infinity channels. No numerical implementation or production action without separate approval.
 6. On the authorized research branch, coherent checkpoint/final commits with exact provenance and verified research/sav-only diffs; no merges, force pushes, production code edits, manuscript/Overleaf work, external collaborator messages or automatic next Goal.
+
+## Execution completion annotation — append-only, 2026-10-23
+
+The owner explicitly launched this task with EXECUTOR: Savdeep Sethi and
+PUBLICATION MODE: authorized sole writer. The preparation state at the
+top is historical. Execution input was the verified clean
+research/sav-radiation@2f4648c379c474ed124e3ef10b62efcd4a783c66.
+The bounded investigation has terminated **MEANINGFUL_PARTIAL**.
+
+[Final report](GLR-GOAL-004_REPORT.md),
+[executed append-only milestone ledger](../verification/GLR_GOAL004_CHECKS.md),
+[Audit I](../verification/AUDIT_GOAL004_GEOMETRY.md) and
+[Audit II](../verification/AUDIT_GOAL004_DYNAMICS.md) record actual
+derivations, commands, budget use, failures and qualifications. Physical
+C5/M2 enclosure, exact global simultaneous GL data, nonlinear radiation
+trace/N4 and actual first-bulge fraction remain open. Four explicit
+effective waveform models and separate EFT pulse identities are delivered
+with uncontrolled physical-error status. Three physical n=2 inverse
+configurations and the two bounded repair approaches are exhausted;
+no third approach, production action or subsequent Goal is launched.

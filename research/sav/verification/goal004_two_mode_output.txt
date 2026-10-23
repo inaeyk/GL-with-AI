@@ -1,0 +1,155 @@
+{
+  "versions": {
+    "python": "3.14.8",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0"
+  },
+  "source_sha256": "76b9e033d681ff80cb1d8b62bc683df24756169c0606d8d02bb63e5d86e4e536",
+  "input_sha256": "28e467f3049f95e171b3df22f56ac7a15a28ad9e0e6b479dc07f4f1a8974b0a9",
+  "models": [
+    {
+      "p": 4.0,
+      "nu": 3.677565047701558,
+      "weak_b2_over_b1_squared": 0.8094826291676496,
+      "static_instead_coefficient": 1.53785792806888,
+      "dynamic_denominator": 1.5856553868561511,
+      "events": [
+        {
+          "contrast": 0.05,
+          "reached": true,
+          "time": 67.79240070590865,
+          "b1": 0.10054720261089328,
+          "b2": 0.007985706174205987,
+          "energy": 5.393539529005215e-08,
+          "heat": 0.0002947647879654033,
+          "source_rate_drift": 0.003589881407381368
+        },
+        {
+          "contrast": 0.1,
+          "reached": true,
+          "time": 79.11523640436145,
+          "b1": 0.20409616711872636,
+          "b2": 0.03068564394956796,
+          "energy": 9.069316148679992e-07,
+          "heat": 0.0012168073650602503,
+          "source_rate_drift": 0.02914509393011533
+        },
+        {
+          "contrast": 0.15,
+          "reached": true,
+          "time": 86.29043820421148,
+          "b1": 0.31236301412993195,
+          "b2": 0.0646372731595184,
+          "energy": 4.8156691630385895e-06,
+          "heat": 0.0028126481133860415,
+          "source_rate_drift": 0.11387568367039436
+        },
+        {
+          "contrast": 0.2,
+          "reached": true,
+          "time": 92.3469510689412,
+          "b1": 0.42491172821301265,
+          "b2": 0.10477049335383254,
+          "energy": 1.5155636831673778e-05,
+          "heat": 0.004955704742439845,
+          "source_rate_drift": 0.30242936714898105
+        },
+        {
+          "contrast": 0.3,
+          "reached": false
+        }
+      ],
+      "settled_b": [
+        0.6272801262787135,
+        0.17253402419662084
+      ],
+      "settled_contrast": 0.29118691406358305,
+      "max_b2_over_b1": 0.27505099710421943,
+      "peak_time": 94.96000000000001,
+      "peak_news": 0.0011404449273085522,
+      "half_height_news_width": 20.840000000000003,
+      "energy": 4.109523843591106e-05,
+      "heat": 0.007851289545434802,
+      "energy_balance_drift": 4.679727993404451e-17,
+      "max_Galerkin_projection_error": 8.326672684688674e-17,
+      "max_discarded_relative_residual": 0.7949015164042496,
+      "max_third_harmonic_residual": 0.3203524984360786,
+      "windowed_rms_omega": 0.07992594314620075,
+      "windowed_energy_time": 1.9028615453170444e-05,
+      "windowed_energy_spectral": 1.9028615453170508e-05,
+      "scope": "Two-mode effective closure; q22/gravity/entropy/kernel errors uncontrolled"
+    },
+    {
+      "p": 4.5,
+      "nu": 3.677565047701558,
+      "weak_b2_over_b1_squared": 0.9055121333966507,
+      "static_instead_coefficient": 1.7202951158303335,
+      "dynamic_denominator": 1.5856553868561511,
+      "events": [
+        {
+          "contrast": 0.05,
+          "reached": true,
+          "time": 67.79518403218384,
+          "b1": 0.10063771213446138,
+          "b2": 0.008893064147977121,
+          "energy": 5.4165297204468494e-08,
+          "heat": 0.00029570915010156677,
+          "source_rate_drift": 0.0024859808662848204
+        },
+        {
+          "contrast": 0.1,
+          "reached": true,
+          "time": 79.14673573707542,
+          "b1": 0.20470330994416008,
+          "b2": 0.033751715217994624,
+          "energy": 9.17990414651971e-07,
+          "heat": 0.0012262059717498923,
+          "source_rate_drift": 0.03180509399863607
+        },
+        {
+          "contrast": 0.15,
+          "reached": true,
+          "time": 86.44826818579836,
+          "b1": 0.3138823316526119,
+          "b2": 0.06981561371597991,
+          "energy": 4.870077871515905e-06,
+          "heat": 0.0028200143988472474,
+          "source_rate_drift": 0.14109543000467462
+        },
+        {
+          "contrast": 0.2,
+          "reached": true,
+          "time": 92.9629883877053,
+          "b1": 0.42696037445698204,
+          "b2": 0.11057602655392315,
+          "energy": 1.4844372048530004e-05,
+          "heat": 0.00482709345484927,
+          "source_rate_drift": 0.39254380579885784
+        },
+        {
+          "contrast": 0.3,
+          "reached": false
+        }
+      ],
+      "settled_b": [
+        0.5692746517115161,
+        0.15764044738316774
+      ],
+      "settled_contrast": 0.2640477094994286,
+      "max_b2_over_b1": 0.2769145735001971,
+      "peak_time": 93.3,
+      "peak_news": 0.0009746820072090924,
+      "half_height_news_width": 20.08,
+      "energy": 2.8928727367433924e-05,
+      "heat": 0.006451582612450313,
+      "energy_balance_drift": 2.15953233659301e-17,
+      "max_Galerkin_projection_error": 6.013708050052931e-17,
+      "max_discarded_relative_residual": 0.7996822758563633,
+      "max_third_harmonic_residual": 0.2978668485863407,
+      "windowed_rms_omega": 0.083608349340619,
+      "windowed_energy_time": 1.2312520065812113e-05,
+      "windowed_energy_spectral": 1.2312520065812113e-05,
+      "scope": "Two-mode effective closure; q22/gravity/entropy/kernel errors uncontrolled"
+    }
+  ]
+}

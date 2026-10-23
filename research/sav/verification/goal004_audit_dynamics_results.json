@@ -1,0 +1,787 @@
+{
+  "kind": "independent non-production dynamics audit",
+  "input_commit": "2f4648c379c474ed124e3ef10b62efcd4a783c66",
+  "python": "3.14.8 (main, Sep 30 2026, 17:55:09) [Clang 21.0.0 (clang-2100.3.34.2)]",
+  "sympy": "1.14.0",
+  "numpy": "2.4.6",
+  "scipy": "1.18.0",
+  "source_sha256": {
+    "verification/goal004_audit_dynamics.py": "2dd9c8147fe9c46546f652981d7260a7b7d0a60588fcc515050549b4797d8bab",
+    "physics/goal003_data_nonlinear.md": "1b9d07d4fa4e28c82c9da61819eb684db3f206ebfa4074c9911577aa24e3b329",
+    "physics/goal003_stabilized_radion.md": "63beea48b9e472a335ade3f02c9fbdf6b2ec1344d9963c5b8084da69d4609825",
+    "verification/GOAL003_REVIEW_QUALIFICATIONS.md": "a969bb3304968fe4313d265f3e9d886573849fde30f29cfce94c6f6bb4cb8548",
+    "physics/goal004_first_bulge_model.md": "50237e09caade79f4261845675db32fc3f289626ae6d35bf498c9d981bde9bd2",
+    "physics/goal004_data_news.md": "d438d6c801afe3b74991498e5a293c55b7439aca50072ac9c64475bd95140631",
+    "physics/goal004_stabilized_transport.md": "50778ea598d7e35e313d73f85d4eb3d7429e6edb757d61fbf1ae6591866a866c",
+    "verification/goal004_model.py": "25b6655b1b587add6b901ac72b90e98aa7da9376afb9a4a3c885227537951ec2",
+    "verification/goal004_model_results.json": "28e467f3049f95e171b3df22f56ac7a15a28ad9e0e6b479dc07f4f1a8974b0a9",
+    "verification/goal004_model_p4_0.csv": "466c3d5c71d813444387640328b841dd131f8c107949bd0cfd4829fda8d64397",
+    "verification/goal004_model_p4_5.csv": "f4566a4523c098ee4bac9ab65114854883f1f2bbf7f2b25772e72baca4c9f352",
+    "verification/goal004_spectrum_p4_0.csv": "ca140bf84c7186d2319e24943e8f9d9e8aba051bdcb038517892083b335959c1",
+    "verification/goal004_spectrum_p4_5.csv": "8667a51802c31180b150b6fd71f328670c1ccb4f1739017a7c9c45f086c04b02",
+    "verification/goal004_two_mode.py": "76b9e033d681ff80cb1d8b62bc683df24756169c0606d8d02bb63e5d86e4e536",
+    "verification/goal004_two_mode_results.json": "dce9516297b9bf9ad41835c5c25e393ad849abf4c0f9b9fba1d7acabd8c22061",
+    "verification/goal004_two_mode_p4_0.csv": "15213af644852c02f2a1716571c5283ae0f93bcb15c75488b1532d84c640c326",
+    "verification/goal004_two_mode_p4_5.csv": "49314a8c5c142cd67e16e592b2276e6e8089f5d46182953b308683b0b4aaf828"
+  },
+  "checks": [
+    {
+      "name": "upper_energy_slack",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "lower_energy_slack_when_b_less_a",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "parallel_worst_relative_energy",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "ten_percent_sufficient_threshold",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "ten_percent_not_necessary_for_orthogonal_error",
+      "type": "manufactured_control",
+      "pass": true,
+      "error_norm_ratio": 0.31622776601683794,
+      "actual_relative_energy_error": 0.1,
+      "sufficient_ratio": 0.04880884817015155
+    },
+    {
+      "name": "unclipped_lower_bound_when_b_exceeds_a",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "1"
+    },
+    {
+      "name": "free_scalar_destructive_interference",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "adding_generated_and_free_energies_without_interference",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "2"
+    },
+    {
+      "name": "independent_scalar_constructive_interference",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "quartic_logarithm",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "raw_gzz_as_quartic_radion",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "-sqrt(3)*chi2**2/8"
+    },
+    {
+      "name": "quartic_news_clock_pullback",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "clock_pullback_omits_jacobian_term",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "-Derivative(Phi2(u), u)*Derivative(a(u), u)"
+    },
+    {
+      "name": "free_order_four_data_first_enters_energy_order_six",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "quartic_news_cannot_change_next_energy_coefficient",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "2*n2*q4"
+    },
+    {
+      "name": "ordered_gauge_exponential",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "commuting_Lie_generator_mutation",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "sqrt(2)/2"
+    },
+    {
+      "name": "quadratic_cosine_zero_mode",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "quartic_cosine_zero_mode",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "half_period_even_order_allows_independent_n6",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "parity_alone_implies_quadratic_harmonics_only",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "cos(6*z)"
+    },
+    {
+      "name": "Duhamel_residual_propagation",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "resonant_exponent_has_time_factor",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "resonant_exponent_no_log_loss",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "(t - 1)*exp(4*Omega*t)"
+    },
+    {
+      "name": "sigma_larger_than_pOmega_not_uniform",
+      "type": "manufactured_control",
+      "pass": true,
+      "p": 4,
+      "Omega": 1,
+      "Astar": 0.05,
+      "seeds": [
+        0.001,
+        1e-06
+      ],
+      "values": {
+        "3": [
+          6.124999999999998e-06,
+          6.249875000000002e-06
+        ],
+        "4": [
+          2.4450143783925905e-05,
+          6.762361427756428e-05
+        ],
+        "5": [
+          0.00030624999999999945,
+          0.31249375000000007
+        ]
+      }
+    },
+    {
+      "name": "sigma_equal_pOmega_log_growth",
+      "type": "manufactured_control",
+      "pass": true,
+      "ratio": 2.7657757302033383
+    },
+    {
+      "name": "stable_mode_retarded_response",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "growing_history_cubic_denominator",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "static_closure_denominator",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "-2/15"
+    },
+    {
+      "name": "small_residual_not_small_solution_error",
+      "type": "manufactured_control",
+      "pass": true,
+      "residual": 0.001,
+      "sigma": 1,
+      "time": 10,
+      "actual_error": 22.025465794806717
+    },
+    {
+      "name": "nonzero_source_zero_outgoing_overlap",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "zero_overlap_source_is_nonzero",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "7"
+    },
+    {
+      "name": "compact_control_endpoint_f",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "compact_control_endpoint_first_derivative",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "same_Laplace_point_distinct_causal_kernels",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "same_Laplace_point_implies_same_constant_response",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "C0*(exp(delay*s) - 1)"
+    },
+    {
+      "name": "massive_monochromatic_outward_current",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "monochromatic_current_missing_half",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "-momentum*omega/(2*G)"
+    },
+    {
+      "name": "massive_current_using_omega_squared",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "-1/G"
+    },
+    {
+      "name": "spherical_scalar_energy_exchange",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "finite_worldtube_psi_current",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "finite_worldtube_storage_omission",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "f*psi*psi_t/(G*r)"
+    },
+    {
+      "name": "worldtube_endpoint_storage_primitive",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "imaginary_frequency_no_threshold_at_m_equals_2Omega",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "false_2Omega_mass_threshold_rejected",
+      "type": "manufactured_control",
+      "pass": true,
+      "s": 2,
+      "mass": 3,
+      "exterior_decay_rate": 3.605551275463989,
+      "source_switch": false
+    },
+    {
+      "name": "massless_current_limit",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "small_mass_flux_weight",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "small_mass_group_delay",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "small_mass_long_distance_not_uniform",
+      "type": "manufactured_control",
+      "pass": true,
+      "mass": 0.01,
+      "omega": 1,
+      "distance": 10000000.0,
+      "leading_phase_error": 500.0
+    },
+    {
+      "name": "smooth_memory_news_Parseval",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "massless_fraction_normalization",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "massless_fraction_missing_M0_factor_two",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "sqrt(2)*sqrt(pi)/2"
+    },
+    {
+      "name": "massive_pulse_weight_band_bound",
+      "type": "manufactured_control",
+      "pass": true,
+      "mass": 0.5,
+      "band": [
+        1,
+        2
+      ],
+      "massless_energy_times_G4": 0.0011483040627120872,
+      "massive_energy_times_G4": 0.001083219826111378,
+      "ratio": 0.9433214261673933,
+      "quadrature_reported_absolute_errors": [
+        1.2748736096935689e-17,
+        1.2026155916793101e-17
+      ],
+      "certificate": false
+    },
+    {
+      "name": "material_mass_zero_coefficient",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "material_mass_quadratic_coefficient",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "reduced_potential_quadratic",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "reduced_potential_quartic",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "reduced_linear_growth",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "matched_viscosity_growth",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "local_EOS_gradient_power_nine_halves",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "frozen_EOS_gradient_power_four",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "fluid_kinetic_coefficient",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "ordinary_mass_density_in_place_of_enthalpy",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "-sqrt(J)/4"
+    },
+    {
+      "name": "ideal_fluid_unprojected_EL_sign_and_velocity_terms",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "ideal_fluid_wrong_pressure_gradient_sign",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "-1/8"
+    },
+    {
+      "name": "Eulerian_area_radius_gradient",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "Eulerian_log_radius_gradient",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "complete_gradient_variational_force",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "complete_viscous_variational_force",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "heat_is_quadratic_on_growing_history",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "model_static_minima_distinct",
+      "type": "manufactured_control",
+      "pass": true,
+      "source": "independent 256-point angular quadrature, not root model code",
+      "inputs": {
+        "L_over_r0": 10,
+        "kc_r0_empirical": 0.876160402034,
+        "Omega_r0_empirical": 0.06328119
+      },
+      "models": {
+        "4.0": {
+          "static_potential_minimum_b": 0.37871205736410407,
+          "static_contrast_proxy": 0.19668096398372273,
+          "derivative_residual": 3.1557059482906213e-17
+        },
+        "4.5": {
+          "static_potential_minimum_b": 0.3410476626057192,
+          "static_contrast_proxy": 0.17579359545975945,
+          "derivative_residual": -2.690176640479658e-18
+        }
+      },
+      "certificate": false,
+      "interpretation": "Potential minima only; inertial transients may overshoot, and fluid geometry is a model proxy."
+    },
+    {
+      "name": "Gaussian_memory_linear_mass_term",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "Gaussian_zero_memory_no_linear_mass_term",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "universal_quadratic_small_mass_error_with_memory",
+      "type": "negative_mutation",
+      "pass": true,
+      "nonzero_discrepancy": "-sqrt(pi)"
+    },
+    {
+      "name": "closed_memory_pulse_ratio_mu0.1",
+      "type": "manufactured_control",
+      "pass": true,
+      "direct_spectral_quadrature": 0.8327379815166422,
+      "closed_value": 0.8327379815166838,
+      "quadrature_reported_error": 7.088210018935115e-10
+    },
+    {
+      "name": "closed_zero_memory_pulse_ratio_mu0.1",
+      "type": "manufactured_control",
+      "pass": true,
+      "direct_spectral_quadrature": 0.9900498337491671,
+      "closed_value": 0.9900498337491681,
+      "quadrature_reported_error": 2.974320789661533e-11
+    },
+    {
+      "name": "closed_memory_pulse_ratio_mu0.5",
+      "type": "manufactured_control",
+      "pass": true,
+      "direct_spectral_quadrature": 0.3538548640314393,
+      "closed_value": 0.35385486403143934,
+      "quadrature_reported_error": 1.1159606572164193e-09
+    },
+    {
+      "name": "closed_zero_memory_pulse_ratio_mu0.5",
+      "type": "manufactured_control",
+      "pass": true,
+      "direct_spectral_quadrature": 0.7788007830714035,
+      "closed_value": 0.7788007830714049,
+      "quadrature_reported_error": 1.9047413646333666e-10
+    },
+    {
+      "name": "closed_memory_pulse_ratio_mu1.0",
+      "type": "manufactured_control",
+      "pass": true,
+      "direct_spectral_quadrature": 0.08907385589078193,
+      "closed_value": 0.08907385589078032,
+      "quadrature_reported_error": 8.308005672308383e-11
+    },
+    {
+      "name": "closed_zero_memory_pulse_ratio_mu1.0",
+      "type": "manufactured_control",
+      "pass": true,
+      "direct_spectral_quadrature": 0.3678794411714415,
+      "closed_value": 0.36787944117144233,
+      "quadrature_reported_error": 2.042023938830795e-09
+    },
+    {
+      "name": "two_mode_cubic_potential_coupling",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "two_mode_offdiagonal_inertia",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "two_mode_kinematic_quadratic_forcing",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "two_mode_dissipation_cross_term",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "two_mode_forced_denominator",
+      "type": "exact_identity",
+      "pass": true,
+      "residual": "0"
+    },
+    {
+      "name": "primary_saved_news_energy_p4.0",
+      "type": "manufactured_control",
+      "pass": true,
+      "independent_decimated_table_energy": 4.633963169206694e-06,
+      "primary_full_grid_energy": 4.633963169203985e-06,
+      "relative_difference": 5.846434447676074e-13
+    },
+    {
+      "name": "primary_settled_shape_matches_independent_potential_p4.0",
+      "type": "manufactured_control",
+      "pass": true,
+      "primary_final_b": 0.37871205736409763,
+      "independent_equilibrium_b": 0.37871205736410407
+    },
+    {
+      "name": "primary_weak_C0_limit_p4.0",
+      "type": "manufactured_control",
+      "pass": true,
+      "initial_news": 1.557640138168852e-08,
+      "matched_exponential_news": 1.5576401381688493e-08
+    },
+    {
+      "name": "primary_spectral_RMS_half_DC_p4.0",
+      "type": "manufactured_control",
+      "pass": true,
+      "independent_spectral_RMS": 0.06736858613943901,
+      "primary_RMS": 0.06736858613943902
+    },
+    {
+      "name": "primary_unprojected_residual_not_error_certificate_p4.0",
+      "type": "manufactured_control",
+      "pass": true,
+      "full_relative_residual": 0.6308170309121391,
+      "projected_equation_error": 4.1054879196713743e-17,
+      "interpretation": "Both values retained; no stability/error bound inferred."
+    },
+    {
+      "name": "primary_saved_news_energy_p4.5",
+      "type": "manufactured_control",
+      "pass": true,
+      "independent_decimated_table_energy": 3.09792180134603e-06,
+      "primary_full_grid_energy": 3.0979218013438617e-06,
+      "relative_difference": 6.998845947236987e-13
+    },
+    {
+      "name": "primary_settled_shape_matches_independent_potential_p4.5",
+      "type": "manufactured_control",
+      "pass": true,
+      "primary_final_b": 0.34104766260571273,
+      "independent_equilibrium_b": 0.3410476626057192
+    },
+    {
+      "name": "primary_weak_C0_limit_p4.5",
+      "type": "manufactured_control",
+      "pass": true,
+      "initial_news": 1.557640138168852e-08,
+      "matched_exponential_news": 1.5576401381688493e-08
+    },
+    {
+      "name": "primary_spectral_RMS_half_DC_p4.5",
+      "type": "manufactured_control",
+      "pass": true,
+      "independent_spectral_RMS": 0.06885224897304999,
+      "primary_RMS": 0.06885224897304999
+    },
+    {
+      "name": "primary_unprojected_residual_not_error_certificate_p4.5",
+      "type": "manufactured_control",
+      "pass": true,
+      "full_relative_residual": 0.6345634203112378,
+      "projected_equation_error": 3.427418876449695e-17,
+      "interpretation": "Both values retained; no stability/error bound inferred."
+    },
+    {
+      "name": "two_mode_weak_coefficient_p4.0",
+      "type": "manufactured_control",
+      "pass": true,
+      "independent": 0.8094826291676496,
+      "primary": 0.8094826291676496,
+      "static_instead": 1.53785792806888
+    },
+    {
+      "name": "two_mode_initial_particular_p4.0",
+      "type": "manufactured_control",
+      "pass": true
+    },
+    {
+      "name": "two_mode_saved_news_energy_p4.0",
+      "type": "manufactured_control",
+      "pass": true,
+      "independent": 4.109523843591164e-05,
+      "primary": 4.109523843591106e-05
+    },
+    {
+      "name": "two_mode_independent_EL_output_p4.0",
+      "type": "manufactured_control",
+      "pass": true,
+      "max_acceleration_difference_from_saved_velocity_spline": 3.05940861403467e-10,
+      "interpretation": "Finite table consistency, not a continuum solution enclosure."
+    },
+    {
+      "name": "two_mode_independent_mass_heat_balance_p4.0",
+      "type": "manufactured_control",
+      "pass": true,
+      "sampled_balance_range": 5.816786345287604e-16
+    },
+    {
+      "name": "two_mode_independent_contrast_extrema_p4.0",
+      "type": "manufactured_control",
+      "pass": true,
+      "max_contrast_difference": 1.734723475976807e-18
+    },
+    {
+      "name": "two_mode_nonconvergence_retained_p4.0",
+      "type": "manufactured_control",
+      "pass": true,
+      "discarded_relative_residual": 0.7949015164042496,
+      "interpretation": "Large residual remains despite projected ODE accuracy."
+    },
+    {
+      "name": "two_mode_weak_coefficient_p4.5",
+      "type": "manufactured_control",
+      "pass": true,
+      "independent": 0.9055121333966507,
+      "primary": 0.9055121333966507,
+      "static_instead": 1.7202951158303335
+    },
+    {
+      "name": "two_mode_initial_particular_p4.5",
+      "type": "manufactured_control",
+      "pass": true
+    },
+    {
+      "name": "two_mode_saved_news_energy_p4.5",
+      "type": "manufactured_control",
+      "pass": true,
+      "independent": 2.892872736743909e-05,
+      "primary": 2.8928727367433924e-05
+    },
+    {
+      "name": "two_mode_independent_EL_output_p4.5",
+      "type": "manufactured_control",
+      "pass": true,
+      "max_acceleration_difference_from_saved_velocity_spline": 7.843690323985908e-11,
+      "interpretation": "Finite table consistency, not a continuum solution enclosure."
+    },
+    {
+      "name": "two_mode_independent_mass_heat_balance_p4.5",
+      "type": "manufactured_control",
+      "pass": true,
+      "sampled_balance_range": 4.775160614768082e-16
+    },
+    {
+      "name": "two_mode_independent_contrast_extrema_p4.5",
+      "type": "manufactured_control",
+      "pass": true,
+      "max_contrast_difference": 1.111307226797642e-16
+    },
+    {
+      "name": "two_mode_nonconvergence_retained_p4.5",
+      "type": "manufactured_control",
+      "pass": true,
+      "discarded_relative_residual": 0.7996822758563633,
+      "interpretation": "Large residual remains despite projected ODE accuracy."
+    }
+  ],
+  "summary": {
+    "checks": 109,
+    "negative_mutations": 18,
+    "all_passed": true
+  },
+  "physical_ODE_configurations": 0,
+  "spacetime_evolutions": 0,
+  "interpretation": "Identities and manufactured controls only; no physical finite-A certification."
+}

@@ -4,7 +4,33 @@ Date: 2026-10-22. Evidence categories:
 `CHECKED_SIMPLE_ALGEBRA`, `SOURCE_CONFIRMED`,
 `DERIVED_UNAUDITED`, `NOT_ATTEMPTED`, `FAILED`.
 
-## GOAL-004 preparation — 2026-10-23; no tests executed
+## GOAL-004 executed — 2026-10-23
+
+**MEANINGFUL_PARTIAL**: [report](../goals/GLR-GOAL-004_REPORT.md),
+[actual checks/commands](GLR_GOAL004_CHECKS.md),
+[Audit I](AUDIT_GOAL004_GEOMETRY.md),
+[Audit II](AUDIT_GOAL004_DYNAMICS.md).
+
+| Result | Evidence | Boundary |
+|---|---|---|
+| Physical positive-k complete quadratic source, three n=2 point inverses | source geometry script, table and diagnostics; separate Rzz point audit | Empirical profile/jet/Green calculation; no C5 input enclosure or complete reconstructed residual/M2 |
+| Endpoint and weighted inverse improvements | exact Coulomb/horizon estimates, monotone root derivative, independent maximum principle | Missing normalization/propagation and derivative-source errors |
+| Background mass transversality and exterior tests | M_lambda/M0=9/14 exact subfamily; independent H1/KID identities; exact linear parabolic kernel | Not a global simultaneous C1 GL family or bounded constraint inverse |
+| Data/news and quartic hierarchy | exact conditional inequalities, full ordered-source dependence, hyperbolic gauge form | No global radiation trace, physical N4 bound or finite-A interval |
+| Falsifiable reduced models | two constitutive actions, one/two modes, waveforms and spectra, independent checks | Mode residual .63->.80, energy sensitivity ~9x; physical q2/entropy/kernel/reaction unclosed |
+| Separate EFT pulse ratios | exact Gaussian memory/zero-memory kinematic functions and independent quadrature | Conditional identical scattering amplitudes, no matched stabilizer or GL mass prediction |
+
+Audit I: 37 exact checks and five separate physical-input point checks;
+nine wrong cases total. Audit II: 109 independent exact/manufactured/
+artifact checks, 18 wrong cases. Counts are checks, not physical proofs.
+Three physical n=2 configurations; no new GL root, other k, physical n=0
+ODE, mass survey or spacetime/production evolution. Full failures and
+qualification of shared inputs are retained in audits/negative results.
+
+## GOAL-004 preparation — historical; no checks at preparation
+
+> Superseded by the execution above. Preparation-only statements below
+> remain the historical record and do not authorize another run.
 
 The owner separately authorized GOAL-004 and a safe Sav-or-Michael
 execution runbook. [Goal](../goals/GLR-GOAL-004.md),
@@ -20,7 +46,8 @@ Prior verified evidence retains its original classification; see
 
 All three previous Goals completed MEANINGFUL_PARTIAL. At the time of
 this earlier continuity annotation no subsequent Goal was active or authorized.
-GOAL-004 was separately authorized afterward and is not yet executed. See [HANDOFF.md](../HANDOFF.md) and the
+GOAL-004 was separately authorized afterward and subsequently executed
+as recorded above. See [HANDOFF.md](../HANDOFF.md) and the
 [attributed later GOAL-003 review qualifications](GOAL003_REVIEW_QUALIFICATIONS.md),
 which narrow the description of independent verification without changing
 stored outputs or adding executed checks. Original audit records remain

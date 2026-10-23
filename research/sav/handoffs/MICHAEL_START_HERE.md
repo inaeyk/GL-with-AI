@@ -1,4 +1,49 @@
-## New owner-authorized independent analytical Goal — 2026-10-23
+## Latest science handoff — GOAL-004 executed, 2026-10-23
+
+Savdeep Sethi executed as the sole authorized publisher from
+`2f4648c379c474ed124e3ef10b62efcd4a783c66`.
+**MEANINGFUL_PARTIAL; no implementation or simulation action requested.**
+Read the [report](../goals/GLR-GOAL-004_REPORT.md),
+[commands/evidence](../verification/GLR_GOAL004_CHECKS.md),
+two audits and [concise handoff](../HANDOFF.md). Prior Goals retain
+MEANINGFUL_PARTIAL. No replay or follow-on task is authorized.
+
+Physical L10 quadratic sources and three forced n=2 inverses now have
+reproducible empirical diagnostics. The exact missing input is a
+weighted horizon-regular C5 mode error and thus a C3 conserved-source
+enclosure, before the full regular metric M2 can be bounded. Full
+seven-equation residuals of the interpolated forced response are not
+certified. Source jet identities alone are insufficient.
+
+The mass-tuning background derivative is exactly M_lambda/M0=9/14 for
+the declared inner-lapse parameter. This helps an eventual implicit
+function theorem, but global GL continuation/C1 charge map, nonlinear
+redshift/trace and the completed fourth-order scalar news remain open.
+**NO controlled positive A_star, NO physical finite-window energy
+enclosure, NO actual first-bulge radiation fraction.**
+
+The explicit fluid models are useful discriminants, not production
+predictions. Adding the stable second shape mode changes pulse energy
+by ~9x; the next-mode residual remains near .8. They recover empirical
+linear growth and scalar C0, not the full physical constrained q2.
+For a later separately authorized comparison, the useful quantities are
+the unitary GL projection (Htheta/(2r²)=1 at r=2r0), radius contrast on
+a declared slice, independent scalar initial data, n=0/n=2 regular
+source/response, stable-mode history, source work and exterior storage.
+Model contrast .2 is not a certified physical MOTS event, and model
+arrival time is not the published geometric formation time.
+
+Massless radion news has N²/G4 at Bondi infinity. Stabilized scalar
+transport is a separate EFT using timelike current and real spectral
+threshold; no vacuum mass term or n=2 mass alteration. Gaussian-pulse
+examples show strong dependence on memory/low-frequency data. No
+stabilizer/source matching or early-versus-cascade dominance is proved.
+Michael retains numerical leadership; Pau advises. This handoff changes
+no gauge, boundary prescription, parameters, code or production workflow.
+
+## GOAL-004 preparation — retained historical text
+
+> Superseded by execution above; this prepared launch is historical.
 
 Savdeep has prepared [GLR-GOAL-004](../goals/GLR-GOAL-004.md).
 **Either Savdeep or Michael may execute** this theoretical task in
@@ -29,8 +74,8 @@ Michael; Pau Figueras advises. Michael retains numerical responsibility.
 
 ## Current scientific re-entry: GOAL-003 executed
 
-Continuity annotation, 2026-10-23: all three Goals are completed
-MEANINGFUL_PARTIAL; no subsequent Goal is authorized. The concise
+Historical continuity annotation, 2026-10-23: the first three Goals were
+completed MEANINGFUL_PARTIAL before GOAL-004 authorization. The concise
 [canonical handoff](../HANDOFF.md) links the full reports and provenance.
 Read the [attributed later review qualifications](../verification/GOAL003_REVIEW_QUALIFICATIONS.md)
 alongside the original audit claims below. Numerical ownership and
