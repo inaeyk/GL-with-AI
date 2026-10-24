@@ -133,3 +133,13 @@ or simulation modifications must be recorded separately.
   GLR-GOAL-005_LAUNCH.md. Preparation is **not a task launch**.
 - No root/simulation/GRChombo change, full spacetime calculation,
   other branch write, manuscript/Overleaf task or automatic GOAL-006.
+
+## GOAL-005 terminal decision — 2026-10-23
+
+Accept the independently audited nodeless root and coarse absolute
+coordinate C5, componentwise C3 and exact scalar-master enclosures at
+the scope in goals/GLR-GOAL-005_REPORT.md. Reject promotion to full Y0,
+physical M2 or finite-time/nonlinear radiation. Preserve the historical
+physical reconstruction as failed residual evidence, not a certified
+metric. Terminal MEANINGFUL_PARTIAL, no automatic follow-up or production
+change. Actual input0dd5be7818b2e71d28ebff2e122ac0a318a220f5.

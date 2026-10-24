@@ -1,3 +1,20 @@
+## GOAL-005 terminal execution status — 2026-10-23
+
+**MEANINGFUL_PARTIAL.** [Report](goals/GLR-GOAL-005_REPORT.md).
+Certified nodeless Omega r0 in [0.06328118,0.06328120] (width2e-8);
+global mixed coordinate C5<4e29; all-component source C3<1e110;
+exact +2 scalar u L2<5e129, sup<2e130. Full historical Y0,
+regular metric M2, zero/data completion, C0 and finite-time/nonlinear
+radiation gates remain unclosed. These huge absolute envelopes are not
+historical-profile error estimates. Independent spectral and geometry
+audits support the stated scope. Historical reconstructed q2 has large
+newly measured residuals caused in part by incompatible interpolants.
+
+See [checks](verification/GLR_GOAL005_CHECKS.md) and
+[publication record](verification/GOAL005_PUBLICATION.md).
+No automatic next Goal; no numerical implementation requested.
+Older preparation and task records below remain historical and unchanged.
+
 # Research status — 2026-10-22
 
 ## GLR-GOAL-005 ready for one-person Codex launch — 2026-10-23

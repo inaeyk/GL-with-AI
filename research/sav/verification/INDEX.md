@@ -1,3 +1,26 @@
+## GOAL-005 executed evidence — 2026-10-23
+
+Terminal **MEANINGFUL_PARTIAL**, superseding the historical preparation
+status below. [Report](../goals/GLR-GOAL-005_REPORT.md),
+[proof](../physics/goal005_enclosures.md),
+[commands/budget](GLR_GOAL005_CHECKS.md),
+[manifest](goal005_manifest.json), [publication](GOAL005_PUBLICATION.md).
+
+| Evidence | Scope |
+|---|---|
+| goal005_validate_gl.py / goal005_gl_results.json | Arb root, endpoint and finite-flow enclosure |
+| goal005_mode_bounds.py / .json | Absolute weighted physical C5 envelope |
+| goal005_source_bounds.py / .json | All-seven Ricci/Einstein C3 coefficient envelope |
+| goal005_master_bounds.py / .json | Exact separated scalar F L2 and u L2/sup bounds |
+| AUDIT_GOAL005_SPECTRAL.md; audit_goal005_spectral*.py/json/txt | Independent endpoint/identity controls; primary review hashes; manufactured flow |
+| AUDIT_GOAL005_GEOMETRY.md; audit_goal005_geometry*.py/json/txt | Direct 5D local checks, actual empirical q2 residuals, interpolation diagnosis, exact rational count review |
+| goal005_failures.txt; audit_goal005_geometry_failures.txt | Retained failures and repairs |
+
+Certificate claims are limited to the explicitly defined norms and
+assumptions. No full Y0/M2/C0/news/first-bulge certificate is present.
+Historical check counts and PASSes are not promoted to physics proofs.
+The older evidence index follows unchanged.
+
 # Verification index — scientific foundation
 
 Date: 2026-10-22. Evidence categories:

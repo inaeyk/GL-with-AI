@@ -1,3 +1,58 @@
+## GOAL-005 scientific handoff — executed 2026-10-23
+
+**MEANINGFUL_PARTIAL.** [Final report](../goals/GLR-GOAL-005_REPORT.md),
+[proof](../physics/goal005_enclosures.md),
+[two audits](../verification/INDEX.md),
+[publication](../verification/GOAL005_PUBLICATION.md).
+
+The L10 physical nodeless root is interval-certified:
+Omega r0 in [0.06328118,0.06328120]. The global regular mixed C5
+coordinate envelope is <4e29, converted to common tau EF <3.4e31.
+All seven n0/+2 source C3 norms are bounded by1e110; the exact +2
+scalar master is source-evaluated (u L2<5e129, sup<2e130).
+The enormous envelopes do not calibrate moderate-amplitude physics.
+Full metric M2, specified homogeneous-data corrections and C0 enclosure
+remain missing. The actual historical response fails large all-seven
+residual checks despite local equations passing.
+
+**Next mathematical inequality:** evaluate a compatibility-preserving
+regular affine-lift constant in the complete Y0 source norm or a proved
+anisotropic replacement, then include the zero-mode scalar/mass/lapse
+and data-selected homogeneous fields. This task does not launch that work.
+
+For a future **separately approved** extraction, scientifically useful
+observables and comparison errors would be:
+
+- The completed first-order unitary-gauge sphere coefficient at r=2r0,
+  its cosine projection and clock convention. Compare its weak-amplitude
+  growth to the Omega interval; retain gauge-completion, time and Fourier
+  normalization errors. Do not identify it with horizon bulge.
+- Regular EF radial Fourier coefficients of all four n=1 SO(3) fields
+  and the seven n0/n2 Einstein-source components. Compare radial
+  derivatives, constraints and Bianchi defects in explicitly common
+  coordinates/weights; a sampled maximum does not test a global C5/C3 bound.
+- The complex +2 invariant master and source-dependent metric reconstruction,
+  together with its conjugate, nonzero forced trace/divergence, both
+  Green integrals and endpoint residuals. Measure J[Q] consistency and
+  its derivative errors rather than fitting J and Q independently.
+- The zero-mode Einstein-frame radion phi0, areal radius rho and outgoing
+  coefficient Phi(u)=lim rho*phi0 with news dPhi/du, alongside ADM mass,
+  circle normalization and mass/lapse charge choices. Separate near-zone
+  constrained fields from outgoing news; retain finite-radius and
+  asymptotic extrapolation errors.
+- The independent scalar and n2 initial data and their homogeneous
+  transients. For scalar energy retain the interference term in
+  |Npart+Nhom|². Particular-matched and zero independent scalar
+  preparations are different experiments.
+- If massive KK radiation is investigated, use a suitable timelike
+  worldtube and real frequencies above2k. The imaginary-frequency
+  particular +2 response here does not supply such flux.
+
+No physical first-bulge fraction or nonlinear A* is predicted.
+No production implementation, simulation, collaborator communication or
+follow-up Goal is requested. Earlier handoff/preparation text follows
+unchanged as history.
+
 ## New independent analytic Goal — GOAL-005 prepared, 2026-10-23
 
 [GLR-GOAL-005](../goals/GLR-GOAL-005.md) is owner-authorized

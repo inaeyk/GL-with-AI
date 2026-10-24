@@ -1,0 +1,989 @@
+{
+  "start_sha": "0dd5be7818b2e71d28ebff2e122ac0a318a220f5",
+  "branch": "research/sav-radiation",
+  "classification": "MEANINGFUL_PARTIAL",
+  "python": "3.13.13",
+  "versions": {
+    "python-flint": "0.9.0",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0",
+    "sympy": "1.14.0",
+    "mpmath": "1.3.0"
+  },
+  "scope": "research/sav only; no physical rerun in this validation",
+  "historical_preservation": {
+    "HANDOFF.md": "original content preserved, newline-normalized; annotation only",
+    "STATUS.md": "original content preserved, newline-normalized; annotation only",
+    "SOURCES.md": "original content preserved, newline-normalized; annotation only",
+    "verification/INDEX.md": "original content preserved, newline-normalized; annotation only",
+    "handoffs/MICHAEL_START_HERE.md": "original content preserved, newline-normalized; annotation only",
+    "DECISIONS.md": "original content preserved, newline-normalized; annotation only",
+    "verification/negative_results.md": "original content preserved, newline-normalized; annotation only",
+    "goals/GLR-GOAL-005.md": "original content preserved, newline-normalized; annotation only"
+  },
+  "input_git_blobs": [
+    {
+      "path": "AGENTS.md",
+      "git_blob": "22c91447f3d23364615060cb0098f6527115d372"
+    },
+    {
+      "path": "DECISIONS.md",
+      "git_blob": "91fbdc07a7c3e1ffb443899852a2cb9a8b23effd"
+    },
+    {
+      "path": "HANDOFF.md",
+      "git_blob": "5574bb77196274369fa02eb91fa7fcbcc26d9b64"
+    },
+    {
+      "path": "NOTATION.md",
+      "git_blob": "9919307ca48861fa261ce2ca139f6754009c2cd6"
+    },
+    {
+      "path": "QUESTIONS.md",
+      "git_blob": "df94e99b8ab3f328229fa132c5322356df82020c"
+    },
+    {
+      "path": "README.md",
+      "git_blob": "9d6ce1f698016044d8f97c0b4b0fdfeb89b2d388"
+    },
+    {
+      "path": "SOURCES.md",
+      "git_blob": "e27aaaa34dafac4dd597687ade8b4d9114608289"
+    },
+    {
+      "path": "STATUS.md",
+      "git_blob": "d3fbd23e73c5eeadb756d3e905c4d422d457e7b4"
+    },
+    {
+      "path": "agenda/NOVEL_APPROACHES.md",
+      "git_blob": "3af8e5aee0c2d791dced957000fee5de5c47212f"
+    },
+    {
+      "path": "agenda/RESEARCH_ROADMAP.md",
+      "git_blob": "ea487a349e95a256fb1a3457f553660de92f20be"
+    },
+    {
+      "path": "goals/GLR-GOAL-001.md",
+      "git_blob": "dff1f932c74222b3b381ec0f74b611b3705cbbd6"
+    },
+    {
+      "path": "goals/GLR-GOAL-001_REPORT.md",
+      "git_blob": "7ccdb108591888cc70b62b6e5ff86adf9f75c5f3"
+    },
+    {
+      "path": "goals/GLR-GOAL-002.md",
+      "git_blob": "789ecd803ab7fbfb8eda345b7e36913a6c1f90f4"
+    },
+    {
+      "path": "goals/GLR-GOAL-002_LAUNCH.md",
+      "git_blob": "40e23ce7cd360a835dd069891e4ad73ab8ee596f"
+    },
+    {
+      "path": "goals/GLR-GOAL-002_REPORT.md",
+      "git_blob": "4c1de8878c1787caf90adc05080bef660e4df355"
+    },
+    {
+      "path": "goals/GLR-GOAL-002_REVIEW_GATES.md",
+      "git_blob": "792ba0a45186259965ee9f79a1d89c0d3086b8b5"
+    },
+    {
+      "path": "goals/GLR-GOAL-003.md",
+      "git_blob": "9dfd90d244e857f2f883a5bda7c6a327cb218a98"
+    },
+    {
+      "path": "goals/GLR-GOAL-003_LAUNCH.md",
+      "git_blob": "4614c9cd1821b63071a23389a47d102cdb1c334c"
+    },
+    {
+      "path": "goals/GLR-GOAL-003_REPORT.md",
+      "git_blob": "873012f46b9cb313beab4488c31f837f776390d2"
+    },
+    {
+      "path": "goals/GLR-GOAL-003_REVIEW_GATES.md",
+      "git_blob": "7622503c32b21fdd1c4d9598c38b027d6265ef4c"
+    },
+    {
+      "path": "goals/GLR-GOAL-004.md",
+      "git_blob": "c3d557cd307c1cf1e2d9e35023e8508701dd6655"
+    },
+    {
+      "path": "goals/GLR-GOAL-004_LAUNCH.md",
+      "git_blob": "8f64b7053f6e7ad9829fb5ed7608b592c55a99f6"
+    },
+    {
+      "path": "goals/GLR-GOAL-004_REPORT.md",
+      "git_blob": "e935ffe5be1b9ffa956a7e559e83d0706406d2ed"
+    },
+    {
+      "path": "goals/GLR-GOAL-004_REVIEW_GATES.md",
+      "git_blob": "997f48954548026b935c6c793634a567356877bb"
+    },
+    {
+      "path": "goals/GLR-GOAL-004_RUN_BY_SAV_OR_MICHAEL.md",
+      "git_blob": "0130c0f63a89957f6d188af0e640bc1cbb504fc7"
+    },
+    {
+      "path": "goals/GLR-GOAL-005.md",
+      "git_blob": "bfa4f458a3722c7627d834c6eff70c970c89c7fb"
+    },
+    {
+      "path": "goals/GLR-GOAL-005_LAUNCH.md",
+      "git_blob": "56b2eaed7f325b5a19bf92f7311e75c109c9e881"
+    },
+    {
+      "path": "goals/GLR-GOAL-005_REVIEW_GATES.md",
+      "git_blob": "d1edf09127673a070d2c879055e4572385ce38e7"
+    },
+    {
+      "path": "goals/GLR-GOAL-005_RUN_BY_SAV_OR_MICHAEL.md",
+      "git_blob": "b4e894df081585b117ff76a0455a90137401ce5e"
+    },
+    {
+      "path": "goals/GOAL_TEMPLATE.md",
+      "git_blob": "91f838702578cdd9a72abab882613a28accd44da"
+    },
+    {
+      "path": "goals/LAUNCH.md",
+      "git_blob": "20cb75d0753b4da47a9e185a8ca2b300dc45b602"
+    },
+    {
+      "path": "handoffs/ADVISOR_QUESTIONS.md",
+      "git_blob": "8981e015a4484afca2668afaab6bd8afbfdfa1ef"
+    },
+    {
+      "path": "handoffs/MICHAEL_START_HERE.md",
+      "git_blob": "ce03a16d4fd95701ff590ffb6f3063593c5bd063"
+    },
+    {
+      "path": "literature/PAST_WORK.md",
+      "git_blob": "50f837b92eb9bf7f3f3f79ca6427871148d5e11e"
+    },
+    {
+      "path": "numerics/boundary_conditions.md",
+      "git_blob": "f8eeeb3ea2587eb981a2ed4aadc50f255d789669"
+    },
+    {
+      "path": "numerics/extraction_contract.md",
+      "git_blob": "f4d45316ae8deff1c72c653d887b21591441f578"
+    },
+    {
+      "path": "numerics/validation_matrix.md",
+      "git_blob": "b8986cfff48516686b4d4e9cf533324a3dc44a8f"
+    },
+    {
+      "path": "physics/early_amplitude_flux.md",
+      "git_blob": "ab01f0dd2f2c51cc360570b661f1b8b3f05804b6"
+    },
+    {
+      "path": "physics/gl_linear_mode.md",
+      "git_blob": "f53f363ef3da2b6f067737bc767a704ecbbc4c33"
+    },
+    {
+      "path": "physics/goal002_finite_data_energy.md",
+      "git_blob": "a4d95d32aef4adc00fd130c7497124638cff252b"
+    },
+    {
+      "path": "physics/goal002_second_order.md",
+      "git_blob": "6737aeff772797bfad641bf72a9332342cf7421a"
+    },
+    {
+      "path": "physics/goal003_data_nonlinear.md",
+      "git_blob": "53229c61a59643b91eb93ec4fb89044444b93ae9"
+    },
+    {
+      "path": "physics/goal003_forced_master.md",
+      "git_blob": "d47ea4d37bce387bca588599bd6f1ced0764d4f7"
+    },
+    {
+      "path": "physics/goal003_master_independent.md",
+      "git_blob": "90aae870b231d61c0c6aa58c00611eff48f1331b"
+    },
+    {
+      "path": "physics/goal003_stabilized_radion.md",
+      "git_blob": "18d052a7daabe91deefbe2bd590b7d0db265928a"
+    },
+    {
+      "path": "physics/goal004_data_news.md",
+      "git_blob": "9757cfe0871729a27566af6cceb22db969ab4d62"
+    },
+    {
+      "path": "physics/goal004_first_bulge_model.md",
+      "git_blob": "5309b5be584f5b31eb7216182341f0381bc51f53"
+    },
+    {
+      "path": "physics/goal004_source_geometry.md",
+      "git_blob": "7e1fab20b158237be47dbb5c800340a4a3d32641"
+    },
+    {
+      "path": "physics/goal004_stabilized_transport.md",
+      "git_blob": "c1bb02a82dce7742cf1e103f3972e184ced30e27"
+    },
+    {
+      "path": "physics/kk_channels.md",
+      "git_blob": "7694864cd705b80b1b9638896456645973fb73fc"
+    },
+    {
+      "path": "physics/quadratic_radion_source.md",
+      "git_blob": "bf25af9110e9d7237514f5e9bc52c07e898d7714"
+    },
+    {
+      "path": "physics/radion_retarded_transfer.md",
+      "git_blob": "5520e9256e9f9e8fb5556e094525fd53fa1a0543"
+    },
+    {
+      "path": "physics/radion_transfer_numerics.md",
+      "git_blob": "044f9480e6ba264eda6f4444c6de4020022c4ef6"
+    },
+    {
+      "path": "physics/so3_reduction.md",
+      "git_blob": "38b94944fd51cdf2e7ee6d0d10591de6e880240c"
+    },
+    {
+      "path": "physics/timescales_energy.md",
+      "git_blob": "8af7d3e830e3eb2932068305f1b0e6676b242bbd"
+    },
+    {
+      "path": "verification/AUDIT_FOUNDATION.md",
+      "git_blob": "2c4056309dad131870bdfd202efa9d78178b1a73"
+    },
+    {
+      "path": "verification/AUDIT_GOAL002_ENERGY.md",
+      "git_blob": "a3414ef4b150097e90049de0b4699f52ed28fe30"
+    },
+    {
+      "path": "verification/AUDIT_GOAL002_GEOMETRY.md",
+      "git_blob": "0d922cbfb02a2ac59a5fe67bcd472967ea8db5fc"
+    },
+    {
+      "path": "verification/AUDIT_GOAL003_FLUX_EFT.md",
+      "git_blob": "284bc6049e551e20d3c08e6c726afe5e9e6df1ef"
+    },
+    {
+      "path": "verification/AUDIT_GOAL003_MASTER.md",
+      "git_blob": "8e8a5a77f9412b6d056f0ff49dd97184196ea14e"
+    },
+    {
+      "path": "verification/AUDIT_GOAL004_DYNAMICS.md",
+      "git_blob": "7a61a27d32aa43d14d27bead4bb0090d141b9b58"
+    },
+    {
+      "path": "verification/AUDIT_GOAL004_GEOMETRY.md",
+      "git_blob": "bbfc0626bed83094bcc90ec2ea4627a7c6723d06"
+    },
+    {
+      "path": "verification/AUDIT_SOURCE_RETARDED.md",
+      "git_blob": "220bf8d22b159c729bd5cff37e5de53d09afb20f"
+    },
+    {
+      "path": "verification/FOUNDATION_CHECKS.md",
+      "git_blob": "6dfb0c00e8affe36ec44313a48d06b6eb75a585a"
+    },
+    {
+      "path": "verification/GLR_GOAL001_CHECKS.md",
+      "git_blob": "c3991a20fcd3a1f693590f77634a1abe3a788a72"
+    },
+    {
+      "path": "verification/GLR_GOAL002_CHECKS.md",
+      "git_blob": "c9232d0e2afa565ab5851c212d414d4dbdc3fd34"
+    },
+    {
+      "path": "verification/GLR_GOAL003_CHECKS.md",
+      "git_blob": "d15a6efd4c7e5d5b17d6a62b269abb5203366568"
+    },
+    {
+      "path": "verification/GLR_GOAL004_CHECKS.md",
+      "git_blob": "7b6989f651c2aafa599489b1d60874b2ec75f4e3"
+    },
+    {
+      "path": "verification/GOAL003_REVIEW_QUALIFICATIONS.md",
+      "git_blob": "09090408bff7e0271da833da745c4098de64e31f"
+    },
+    {
+      "path": "verification/INDEX.md",
+      "git_blob": "3b6606cf45870cbb25848406a0e0281f9db4556e"
+    },
+    {
+      "path": "verification/audit_foundation_checks.py",
+      "git_blob": "7eda5abc0d4d431b3cbb501077c5e73e9fc6d867"
+    },
+    {
+      "path": "verification/audit_source_checks.py",
+      "git_blob": "45d7b8282980aa7800232d0584fae7f5b665ccf8"
+    },
+    {
+      "path": "verification/audit_source_transfer.py",
+      "git_blob": "1ccefb5faae2dcf8bcf00f3f8cc9bfe8baf384ff"
+    },
+    {
+      "path": "verification/audit_source_transfer_results.json",
+      "git_blob": "1fb089971a44fdda85c3ac1447fd0b257a57ed8c"
+    },
+    {
+      "path": "verification/check_foundation.py",
+      "git_blob": "cff2ef8fc8b8fdd49c7661432a250f205e877415"
+    },
+    {
+      "path": "verification/check_quadratic_source.py",
+      "git_blob": "0b0ddfc2243b45d73e36c4329f858d2118df355f"
+    },
+    {
+      "path": "verification/gl_linear_check.py",
+      "git_blob": "9c1d17aaa34a0d182398b6acf7b3448f73d393bb"
+    },
+    {
+      "path": "verification/gl_linear_exact.py",
+      "git_blob": "3d400c2f6d0e3ad00c4e5b873ccabd0f646c4497"
+    },
+    {
+      "path": "verification/gl_linear_extended_results.json",
+      "git_blob": "2793bcef98b44ea0749bf856d926a898144ba8ba"
+    },
+    {
+      "path": "verification/gl_linear_mode.py",
+      "git_blob": "ea7cfa47348df29bc0003d7f92b02769c2a2ca54"
+    },
+    {
+      "path": "verification/gl_linear_profile_L10.csv",
+      "git_blob": "7c854177b86e44e5733e1e9b989ebcdcfdd98ea0"
+    },
+    {
+      "path": "verification/gl_linear_profile_L12.csv",
+      "git_blob": "2af67c14a26e5a8c1abc07c7451e8c5974985e2a"
+    },
+    {
+      "path": "verification/gl_linear_profile_L16.csv",
+      "git_blob": "9f4ca27219fd86c73df72c57020c4b5a892cddfc"
+    },
+    {
+      "path": "verification/gl_linear_profile_L8.csv",
+      "git_blob": "71cc904fd549d7b8699bb0cea27f0e8398906ca3"
+    },
+    {
+      "path": "verification/gl_linear_results.json",
+      "git_blob": "4b48286c6ea211fa56ee9212c946dd1594282f16"
+    },
+    {
+      "path": "verification/gl_linear_verification.txt",
+      "git_blob": "970a5f718618fe4e57c73761087b686d0f8bd47e"
+    },
+    {
+      "path": "verification/goal002_audit_energy.py",
+      "git_blob": "44883b7597cf330fe204ce52d27fd783a35ee331"
+    },
+    {
+      "path": "verification/goal002_audit_energy_results.json",
+      "git_blob": "e0eadf998868f3c23e50f1ca7cffd5c92d09353a"
+    },
+    {
+      "path": "verification/goal002_audit_energy_results.txt",
+      "git_blob": "d70ddc12ba54c5c33774ede249df1cc4f461e1f5"
+    },
+    {
+      "path": "verification/goal002_audit_geometry.py",
+      "git_blob": "5b33a96fdc30180ceef62a9da0b0d2e9ab58c50e"
+    },
+    {
+      "path": "verification/goal002_audit_geometry_results.json",
+      "git_blob": "1c9132bd25bc32f6f7a0c2c5dd969ddb9d937d67"
+    },
+    {
+      "path": "verification/goal002_audit_geometry_results.txt",
+      "git_blob": "ef4caf056e12df0d62fb7d655295431cb53ffa5c"
+    },
+    {
+      "path": "verification/goal002_input_tree.json",
+      "git_blob": "c30392422279edb4fb20cedd2a5455075d5bff56"
+    },
+    {
+      "path": "verification/goal002_prior_linear_recheck.txt",
+      "git_blob": "970a5f718618fe4e57c73761087b686d0f8bd47e"
+    },
+    {
+      "path": "verification/goal002_prior_retarded_recheck.txt",
+      "git_blob": "7bcc186ef1d25c284d46c3da45ec9e564fa30a7e"
+    },
+    {
+      "path": "verification/goal002_prior_source_recheck.txt",
+      "git_blob": "11d2889610f23c9ee983a6c2ed80b43bad47e3cb"
+    },
+    {
+      "path": "verification/goal002_scalar_response.py",
+      "git_blob": "5b895c2fd98ecbcc9588adee388c701b0eb9392b"
+    },
+    {
+      "path": "verification/goal002_scalar_response_output.txt",
+      "git_blob": "eb49b439a4ba3dad614daaaa638a84fd519ee1d7"
+    },
+    {
+      "path": "verification/goal002_scalar_response_results.json",
+      "git_blob": "d5d9b81c012e40f17c24e5fe946726a3ae49bdf2"
+    },
+    {
+      "path": "verification/goal002_sector_checks.py",
+      "git_blob": "e23913a0764d1f8f8cb964771d803016690ec56d"
+    },
+    {
+      "path": "verification/goal002_sector_output.txt",
+      "git_blob": "938d656fda674cc8841b7a57ecaa6b073518d566"
+    },
+    {
+      "path": "verification/goal002_sector_results.json",
+      "git_blob": "d6db0f853541ba3523f117c7f18870497d83297d"
+    },
+    {
+      "path": "verification/goal003_audit_flux.py",
+      "git_blob": "eb4afbc9989108824f13e2f7a5e2ab2429d1d47f"
+    },
+    {
+      "path": "verification/goal003_audit_flux_results.json",
+      "git_blob": "dcb95c664be6b823a668e29da93b30dfd3e66588"
+    },
+    {
+      "path": "verification/goal003_audit_flux_results.txt",
+      "git_blob": "dcb95c664be6b823a668e29da93b30dfd3e66588"
+    },
+    {
+      "path": "verification/goal003_audit_master.py",
+      "git_blob": "a5e1f276f208ce826616397308044448c03233de"
+    },
+    {
+      "path": "verification/goal003_audit_master_results.json",
+      "git_blob": "8c3847439f8b67acd8ededf06e8db030b69dcd6d"
+    },
+    {
+      "path": "verification/goal003_audit_master_results.txt",
+      "git_blob": "b4fe810d1ffdeae57973aa5d2270ba1855e7e04c"
+    },
+    {
+      "path": "verification/goal003_audit_master_tail_results.json",
+      "git_blob": "087e06cf9ee24a18b82d2c1c7981eef2a1a8ccfa"
+    },
+    {
+      "path": "verification/goal003_audit_master_tail_results.txt",
+      "git_blob": "cc89de01d3518149e895ec15b38c71e75b105bfd"
+    },
+    {
+      "path": "verification/goal003_bound_checks.py",
+      "git_blob": "9305f31bde2b3dc0393db98c1567bc9446326e29"
+    },
+    {
+      "path": "verification/goal003_bound_output.txt",
+      "git_blob": "53c39507de5960e318c48764876a38a51a21f19f"
+    },
+    {
+      "path": "verification/goal003_bound_results.json",
+      "git_blob": "845be3dedff56f2a6cd92fd6e2088ed7df9383cd"
+    },
+    {
+      "path": "verification/goal003_data_checks.py",
+      "git_blob": "37709b2b0b1f70d07a2d29b4b3bba175308bc922"
+    },
+    {
+      "path": "verification/goal003_data_checks_results.json",
+      "git_blob": "c51824d1e277ad66cf291d7d444f3064d3bf0a82"
+    },
+    {
+      "path": "verification/goal003_data_checks_results.txt",
+      "git_blob": "d3324afbe059b092dbb0dd6882fff8ff2187ee65"
+    },
+    {
+      "path": "verification/goal003_eliminate.py",
+      "git_blob": "7016537e7e2d6560b65d782e9557059548b4de51"
+    },
+    {
+      "path": "verification/goal003_elimination_output.txt",
+      "git_blob": "d445378b0b1fc4fec6e0581afd128eb822f73af5"
+    },
+    {
+      "path": "verification/goal003_elimination_results.json",
+      "git_blob": "a8ed92f239a350d69b2e4b1121466b2239c8d53c"
+    },
+    {
+      "path": "verification/goal003_input_tree.json",
+      "git_blob": "81dfa514cec5b5250215b42ace4db6cef466bbcc"
+    },
+    {
+      "path": "verification/goal003_publication.json",
+      "git_blob": "826492757cde7517deea046ad92be4e402c09068"
+    },
+    {
+      "path": "verification/goal003_source_checks.py",
+      "git_blob": "489104e11047a5a226ec70d6600dfa26f0518733"
+    },
+    {
+      "path": "verification/goal003_source_output.txt",
+      "git_blob": "cfdc03aa9a3740770c2a7b819a79714592c2b3ed"
+    },
+    {
+      "path": "verification/goal003_source_results.json",
+      "git_blob": "b5ca208757e050ed7a51c330f2b66262a0e21d69"
+    },
+    {
+      "path": "verification/goal004_audit_dynamics.py",
+      "git_blob": "9898cec3f8b4c8bd0d3a02ecd22ab487efb1eaba"
+    },
+    {
+      "path": "verification/goal004_audit_dynamics_failures.txt",
+      "git_blob": "1802267ad56ec1429e42ef54fc808b0f659b003a"
+    },
+    {
+      "path": "verification/goal004_audit_dynamics_results.json",
+      "git_blob": "c3a0a38a4f59951123034a377b38879e2edc57f3"
+    },
+    {
+      "path": "verification/goal004_audit_dynamics_results.txt",
+      "git_blob": "c3a0a38a4f59951123034a377b38879e2edc57f3"
+    },
+    {
+      "path": "verification/goal004_audit_geometry.py",
+      "git_blob": "1913154cc541ad770b4844dc469f0c7b117ecdb3"
+    },
+    {
+      "path": "verification/goal004_audit_geometry_physical_point.json",
+      "git_blob": "d1b641aae0df479dc946b3c64be3d07309582d60"
+    },
+    {
+      "path": "verification/goal004_audit_geometry_physical_point.txt",
+      "git_blob": "0df5c0519f0680bf2e3dc26cc0425e9e51679f18"
+    },
+    {
+      "path": "verification/goal004_audit_geometry_results.json",
+      "git_blob": "7d11b35ee232664acd05495289acfbf1e83b948f"
+    },
+    {
+      "path": "verification/goal004_audit_geometry_results.txt",
+      "git_blob": "13876099933a8ea31a535eb4e914fc359b153bac"
+    },
+    {
+      "path": "verification/goal004_data_checks.py",
+      "git_blob": "aafc327405193adc8c892f1376bb8db09c640d70"
+    },
+    {
+      "path": "verification/goal004_data_checks_output.txt",
+      "git_blob": "f074516c5ed4ab61a20660ebe381acf44d96b4e6"
+    },
+    {
+      "path": "verification/goal004_data_checks_results.json",
+      "git_blob": "679b5eba9114b248ba6fc934094b9ed39af20c9c"
+    },
+    {
+      "path": "verification/goal004_figures.py",
+      "git_blob": "0d948b9b36da31cb7b8a9aedcfb70e2e6827ad0d"
+    },
+    {
+      "path": "verification/goal004_input_tree.json",
+      "git_blob": "5130c57f4378e40d3a62a6cf02235390e5b4cbd6"
+    },
+    {
+      "path": "verification/goal004_model.py",
+      "git_blob": "080c4c2e2b53a6303638b67704959c746f4aaf6d"
+    },
+    {
+      "path": "verification/goal004_model_comparison.png",
+      "git_blob": "c4d7aaaa0d2fa22421e57d31f8ef58b792a19ce3"
+    },
+    {
+      "path": "verification/goal004_model_output.txt",
+      "git_blob": "49b838d0f3ffeb997174ce417fecbf284686e141"
+    },
+    {
+      "path": "verification/goal004_model_p4_0.csv",
+      "git_blob": "be2ce8dbc84b824509fca57145995bc6d51a4921"
+    },
+    {
+      "path": "verification/goal004_model_p4_5.csv",
+      "git_blob": "fa12c5dc34d680ba3c9ae6df53482665bddca6f9"
+    },
+    {
+      "path": "verification/goal004_model_results.json",
+      "git_blob": "49b838d0f3ffeb997174ce417fecbf284686e141"
+    },
+    {
+      "path": "verification/goal004_publication.json",
+      "git_blob": "5a1c54bc9d54c23b9568628822daf45fb3fffc3b"
+    },
+    {
+      "path": "verification/goal004_source_geometry.py",
+      "git_blob": "5622fd7878394e134b35392c78f99da28b4b801e"
+    },
+    {
+      "path": "verification/goal004_source_geometry_diagnostics.json",
+      "git_blob": "a092d1836af8490c265ceec2f23abf73210ab792"
+    },
+    {
+      "path": "verification/goal004_source_geometry_diagnostics_output.txt",
+      "git_blob": "a092d1836af8490c265ceec2f23abf73210ab792"
+    },
+    {
+      "path": "verification/goal004_source_geometry_output.txt",
+      "git_blob": "a1153a6f0e2b5ab1a5f9de9d8900f5a28be03d8f"
+    },
+    {
+      "path": "verification/goal004_source_geometry_results.json",
+      "git_blob": "6bc9d934ab7e361dd744b4fd00d68f1e328ceacb"
+    },
+    {
+      "path": "verification/goal004_source_geometry_samples.npz",
+      "git_blob": "23ec97a5cd48fdf7d01b081a9193777678648918"
+    },
+    {
+      "path": "verification/goal004_spectrum_p4_0.csv",
+      "git_blob": "7872f32df1baf480c65d26b0142c7fb57541ad70"
+    },
+    {
+      "path": "verification/goal004_spectrum_p4_5.csv",
+      "git_blob": "22bd9db764b9b603efa949df92cd81c38ac7bae0"
+    },
+    {
+      "path": "verification/goal004_two_mode.py",
+      "git_blob": "39da9174313dee63ae65bf4577cf36a2dfb423e5"
+    },
+    {
+      "path": "verification/goal004_two_mode_output.txt",
+      "git_blob": "781432f780f94a8acad869143a44aac8e9140024"
+    },
+    {
+      "path": "verification/goal004_two_mode_p4_0.csv",
+      "git_blob": "a6e9297bd87487c8a14f62dbbe33072dae47b734"
+    },
+    {
+      "path": "verification/goal004_two_mode_p4_5.csv",
+      "git_blob": "becac4335c4a1da72c9811efafc2a20336b18cd3"
+    },
+    {
+      "path": "verification/goal004_two_mode_results.json",
+      "git_blob": "781432f780f94a8acad869143a44aac8e9140024"
+    },
+    {
+      "path": "verification/goal004_two_mode_spectrum_p4_0.csv",
+      "git_blob": "69bafe9c8b389ff36d97380f26785fa5bd1da6ff"
+    },
+    {
+      "path": "verification/goal004_two_mode_spectrum_p4_5.csv",
+      "git_blob": "db21c0b11f24da748838ed5a54722ab567fd99bb"
+    },
+    {
+      "path": "verification/goal004_validate_artifacts.py",
+      "git_blob": "375b90c91abd54d2b0cf7cb49c4d4e23618bbf06"
+    },
+    {
+      "path": "verification/goal004_validation.json",
+      "git_blob": "305893df0ab11778a22983d09e329102fc08ff76"
+    },
+    {
+      "path": "verification/negative_results.md",
+      "git_blob": "05d1c27956ebc13c30e3281b2f22816392cd7f40"
+    },
+    {
+      "path": "verification/radion_transfer.py",
+      "git_blob": "29fc1812de0551dc6760637fe5c2130f73ed7a9c"
+    },
+    {
+      "path": "verification/radion_transfer_results.json",
+      "git_blob": "577d910e8a9f72655ba39e1bd0213459d4a25cae"
+    }
+  ],
+  "artifact_sha256": {
+    "verification/AUDIT_GOAL005_GEOMETRY.md": "dd48940c560c3355bfcca63a17ef1570da6faeeaa01ded3c0c98065d9e54f2f2",
+    "verification/audit_goal005_geometry.py": "358d3289a83802afc333811bfd98f9fafb136f9128d0869c79011e2f06516e3c",
+    "verification/audit_goal005_geometry_bound_review.json": "57c3d7edd86c54d5a2f711f3c9698c2a54ec3ccddc2812b789742b90ca6a3bba",
+    "verification/audit_goal005_geometry_bound_review.py": "d0682677365acb04c3642b65a67b69df395de6312b40c822a58117ad6b94ccef",
+    "verification/audit_goal005_geometry_bound_review_output.txt": "57c3d7edd86c54d5a2f711f3c9698c2a54ec3ccddc2812b789742b90ca6a3bba",
+    "verification/audit_goal005_geometry_diagnostics.json": "65939979d78f064974dc6be5f3b30fda61757a39d5c9e6c9ca6475b51f654ee5",
+    "verification/audit_goal005_geometry_diagnostics.py": "eee66aa67260d32d3526653a7c01c06a1a809e4fe64e209c4c9714991b2ec643",
+    "verification/audit_goal005_geometry_diagnostics_output.txt": "078fc95151b374850058c0a624cab9151a2797db7998681431c773893e634874",
+    "verification/audit_goal005_geometry_failures.txt": "9824958cbd384027eaeda38b0e95a0fe46b1d710e7cc1a1b560004c968985bb7",
+    "verification/audit_goal005_geometry_output.txt": "d8179a8f7a0e67397a0ca97e03e22d970749526ac03fbad7b1df7bc3f1d847c2",
+    "verification/audit_goal005_geometry_results.json": "b7824d0143c1fcf91d485cae5c50ed2e3f6438639ac4a5b2249c0eb4af098289",
+    "verification/audit_goal005_spectral.json": "f9ecb774cc2fa13869e51934effc9854028b6f93819438cf763e39cdcd3e0488",
+    "verification/AUDIT_GOAL005_SPECTRAL.md": "cd619efa54116bfd4dbd27bed97e7d891b9dcf31a32026a7bf1a131a0d735ba1",
+    "verification/audit_goal005_spectral.py": "9d85c669cadf53282b07818eb7d3d40b467848e422a2542b2ca2619d3fc53846",
+    "verification/audit_goal005_spectral.txt": "f9ecb774cc2fa13869e51934effc9854028b6f93819438cf763e39cdcd3e0488",
+    "verification/audit_goal005_spectral_flow.json": "29b010b0bea87ed6978440702d98b23ad30613e280e315e4c487b237d4aca853",
+    "verification/audit_goal005_spectral_flow.py": "d22580bb7f4da51871ad0128aaa9a860f25ebc1152b7a0ae6dc06e00219c5304",
+    "verification/audit_goal005_spectral_flow.txt": "29b010b0bea87ed6978440702d98b23ad30613e280e315e4c487b237d4aca853",
+    "verification/audit_goal005_spectral_primary_review.json": "87f0f955fc8c04b868da464dd6ee5f90c773aaf490bf9b8b17ea5fb85c8473dc",
+    "verification/goal005_failures.txt": "ba8ab551f0630c941458385f2f740e901ccbb60cecdf40a8887ff9b03fa56b0f",
+    "verification/goal005_gl_output.txt": "2b34d6c357e4a75688ee793b7babc80d1b3fabf6e0f18ac090cffd37d92daf1e",
+    "verification/goal005_gl_results.json": "ee381ab680b4f95e2c4c28783049056609741b254c6b92f66b52212458a52715",
+    "verification/goal005_manifest.py": "edccb526ecf8d046b668632939e21d26c59e151d1e64c9764077f8193d3f5b10",
+    "verification/goal005_master_bounds.json": "0b75242de029cdabbd35b0a5dc45aa5479b9883fd15f973806b81ec463f470f4",
+    "verification/goal005_master_bounds.py": "32eae3fe9f8a61f64c726d8d1217d4dc78a1715b791b0bfc10395c16a26251e7",
+    "verification/goal005_master_bounds_output.txt": "0b75242de029cdabbd35b0a5dc45aa5479b9883fd15f973806b81ec463f470f4",
+    "verification/goal005_mode_bounds.json": "1ab75267db909ece5002635491c0f49d6d3390f8a1efe7f969a09d82712cd055",
+    "verification/goal005_mode_bounds.py": "fbab9e5ed3ee81e7a4b5221268109518f8823a746443dc4fb818079a221ad34a",
+    "verification/goal005_mode_bounds_output.txt": "1ab75267db909ece5002635491c0f49d6d3390f8a1efe7f969a09d82712cd055",
+    "verification/goal005_source_bounds.json": "0cfaef09e2e9f91ae6204fa4b46a06fd1f4db4efb9f8ad42cd1083e915c6beb9",
+    "verification/goal005_source_bounds.py": "c18de9fcbc820abee9cbc4010138532db5b9acc20b929f907b9c7af88df190f5",
+    "verification/goal005_source_bounds_output.txt": "0cfaef09e2e9f91ae6204fa4b46a06fd1f4db4efb9f8ad42cd1083e915c6beb9",
+    "verification/goal005_validate_gl.py": "e91bd964f81ca7d387aa082926948fb9fe9f994328e94e5af46e459497a5d788",
+    "physics/goal005_enclosures.md": "90f140f6177ec5474d29dbfcff20fbd94e7488f3ea3e3e9e143f20e42f9d13a8",
+    "goals/GLR-GOAL-005_REPORT.md": "40f2088d4acd74df197fcc060223d1f4acc63ca656aac866c45a30fbc0b11946"
+  },
+  "verified_dependency_edges": [
+    [
+      "audit_goal005_geometry_bound_review.json",
+      "audit_goal005_geometry_bound_review.py",
+      "d0682677365acb04c3642b65a67b69df395de6312b40c822a58117ad6b94ccef",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_geometry_bound_review.json",
+      "goal005_source_bounds.py",
+      "c18de9fcbc820abee9cbc4010138532db5b9acc20b929f907b9c7af88df190f5",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_geometry_bound_review.json",
+      "goal005_source_bounds.json",
+      "0cfaef09e2e9f91ae6204fa4b46a06fd1f4db4efb9f8ad42cd1083e915c6beb9",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_geometry_bound_review.json",
+      "goal005_mode_bounds.py",
+      "fbab9e5ed3ee81e7a4b5221268109518f8823a746443dc4fb818079a221ad34a",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_geometry_bound_review.json",
+      "goal005_mode_bounds.json",
+      "1ab75267db909ece5002635491c0f49d6d3390f8a1efe7f969a09d82712cd055",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_geometry_bound_review.json",
+      "goal005_master_bounds.py",
+      "32eae3fe9f8a61f64c726d8d1217d4dc78a1715b791b0bfc10395c16a26251e7",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_geometry_bound_review.json",
+      "goal005_master_bounds.json",
+      "0b75242de029cdabbd35b0a5dc45aa5479b9883fd15f973806b81ec463f470f4",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_geometry_diagnostics.json",
+      "audit_goal005_geometry.py",
+      "358d3289a83802afc333811bfd98f9fafb136f9128d0869c79011e2f06516e3c",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_geometry_diagnostics.json",
+      "audit_goal005_geometry_diagnostics.py",
+      "eee66aa67260d32d3526653a7c01c06a1a809e4fe64e209c4c9714991b2ec643",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_geometry_diagnostics.json",
+      "goal004_source_geometry.py",
+      "d7257d4d33b4b1a6aa63a72373fb96eaa9986b270b8338d1bf042196d58645ee",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_geometry_diagnostics.json",
+      "audit_goal005_geometry_results.json",
+      "b7824d0143c1fcf91d485cae5c50ed2e3f6438639ac4a5b2249c0eb4af098289",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_geometry_results.json",
+      "audit_goal005_geometry.py",
+      "358d3289a83802afc333811bfd98f9fafb136f9128d0869c79011e2f06516e3c",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_geometry_results.json",
+      "gl_linear_results.json",
+      "fc6b46b8c958bcc217e74f4370120d3995189536e865d6da6de139aa29c5687f",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_geometry_results.json",
+      "gl_linear_profile_L10.csv",
+      "15ebc0aa3f13bb91942ac90aeffaaa234884df58d6ffc7ad874ed44e5064b64b",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_geometry_results.json",
+      "goal004_source_geometry_samples.npz",
+      "69ade7abb4fca52b487f8c072c4fd23d2d6377c77aed7dd7cc8f03b2e5c2bbce",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_geometry_results.json",
+      "goal004_source_geometry.py",
+      "d7257d4d33b4b1a6aa63a72373fb96eaa9986b270b8338d1bf042196d58645ee",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_spectral.json",
+      "physics/gl_linear_mode.md",
+      "69bd8d3c9a6ae56a5d806c7c4be258b9219fdb033b08da92d21381b41d6a4cb8",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_spectral.json",
+      "physics/goal004_source_geometry.md",
+      "1ad263be01bdd9a9bbb706a19157ee84aa1ce3cb00944cbcf5b293fd3282d7c5",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_spectral.json",
+      "verification/GOAL003_REVIEW_QUALIFICATIONS.md",
+      "a969bb3304968fe4313d265f3e9d886573849fde30f29cfce94c6f6bb4cb8548",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_spectral.json",
+      "goals/GLR-GOAL-005.md",
+      "42301bc47e422c2ef50e9aba5c5a714e045189959dd19ca984a33c30904c55e7",
+      "historical input before preserved execution annotation"
+    ],
+    [
+      "audit_goal005_spectral.json",
+      "goals/GLR-GOAL-005_REVIEW_GATES.md",
+      "f992571620b140e4cd240f73e9d5eb662ac032a421699551537d2e98f1fcab57",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_spectral_primary_review.json",
+      "goal005_validate_gl.py",
+      "e91bd964f81ca7d387aa082926948fb9fe9f994328e94e5af46e459497a5d788",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_spectral_primary_review.json",
+      "goal005_gl_results.json",
+      "ee381ab680b4f95e2c4c28783049056609741b254c6b92f66b52212458a52715",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_spectral_primary_review.json",
+      "goal005_mode_bounds.py",
+      "fbab9e5ed3ee81e7a4b5221268109518f8823a746443dc4fb818079a221ad34a",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_spectral_primary_review.json",
+      "goal005_mode_bounds.json",
+      "1ab75267db909ece5002635491c0f49d6d3390f8a1efe7f969a09d82712cd055",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_spectral_primary_review.json",
+      "audit_goal005_spectral.py",
+      "9d85c669cadf53282b07818eb7d3d40b467848e422a2542b2ca2619d3fc53846",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_spectral_primary_review.json",
+      "audit_goal005_spectral.json",
+      "f9ecb774cc2fa13869e51934effc9854028b6f93819438cf763e39cdcd3e0488",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_spectral_primary_review.json",
+      "audit_goal005_spectral_flow.py",
+      "d22580bb7f4da51871ad0128aaa9a860f25ebc1152b7a0ae6dc06e00219c5304",
+      "current artifact"
+    ],
+    [
+      "audit_goal005_spectral_primary_review.json",
+      "audit_goal005_spectral_flow.json",
+      "29b010b0bea87ed6978440702d98b23ad30613e280e315e4c487b237d4aca853",
+      "current artifact"
+    ],
+    [
+      "goal005_master_bounds.json",
+      "goal005_master_bounds.py",
+      "32eae3fe9f8a61f64c726d8d1217d4dc78a1715b791b0bfc10395c16a26251e7",
+      "current artifact"
+    ],
+    [
+      "goal005_master_bounds.json",
+      "goal005_source_bounds.py",
+      "c18de9fcbc820abee9cbc4010138532db5b9acc20b929f907b9c7af88df190f5",
+      "current artifact"
+    ],
+    [
+      "goal005_master_bounds.json",
+      "goal005_source_bounds.json",
+      "0cfaef09e2e9f91ae6204fa4b46a06fd1f4db4efb9f8ad42cd1083e915c6beb9",
+      "current artifact"
+    ],
+    [
+      "goal005_mode_bounds.json",
+      "goal005_mode_bounds.py",
+      "fbab9e5ed3ee81e7a4b5221268109518f8823a746443dc4fb818079a221ad34a",
+      "current artifact"
+    ],
+    [
+      "goal005_mode_bounds.json",
+      "goal005_validate_gl.py",
+      "e91bd964f81ca7d387aa082926948fb9fe9f994328e94e5af46e459497a5d788",
+      "current artifact"
+    ],
+    [
+      "goal005_source_bounds.json",
+      "goal005_source_bounds.py",
+      "c18de9fcbc820abee9cbc4010138532db5b9acc20b929f907b9c7af88df190f5",
+      "current artifact"
+    ],
+    [
+      "goal005_source_bounds.json",
+      "goal005_mode_bounds.py",
+      "fbab9e5ed3ee81e7a4b5221268109518f8823a746443dc4fb818079a221ad34a",
+      "current artifact"
+    ],
+    [
+      "goal005_source_bounds.json",
+      "goal005_mode_bounds.json",
+      "1ab75267db909ece5002635491c0f49d6d3390f8a1efe7f969a09d82712cd055",
+      "current artifact"
+    ]
+  ],
+  "verified_local_links": [
+    [
+      "goals/GLR-GOAL-005_REPORT.md",
+      "../physics/goal005_enclosures.md"
+    ],
+    [
+      "goals/GLR-GOAL-005_REPORT.md",
+      "../verification/AUDIT_GOAL005_SPECTRAL.md"
+    ],
+    [
+      "goals/GLR-GOAL-005_REPORT.md",
+      "../verification/AUDIT_GOAL005_GEOMETRY.md"
+    ],
+    [
+      "goals/GLR-GOAL-005_REPORT.md",
+      "../verification/goal005_gl_results.json"
+    ],
+    [
+      "goals/GLR-GOAL-005_REPORT.md",
+      "../verification/GLR_GOAL005_CHECKS.md"
+    ],
+    [
+      "goals/GLR-GOAL-005_REPORT.md",
+      "../verification/goal005_failures.txt"
+    ],
+    [
+      "goals/GLR-GOAL-005_REPORT.md",
+      "../verification/audit_goal005_geometry_failures.txt"
+    ],
+    [
+      "goals/GLR-GOAL-005_REPORT.md",
+      "../verification/goal005_manifest.json"
+    ],
+    [
+      "goals/GLR-GOAL-005_REPORT.md",
+      "../verification/GOAL005_PUBLICATION.md"
+    ],
+    [
+      "goals/GLR-GOAL-005_REPORT.md",
+      "../handoffs/MICHAEL_START_HERE.md"
+    ]
+  ]
+}

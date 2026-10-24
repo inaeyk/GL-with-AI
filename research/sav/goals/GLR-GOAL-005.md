@@ -185,3 +185,24 @@ COMPLETE_VERIFIED / MEANINGFUL_PARTIAL / BLOCKED_BY_MATHEMATICAL_OBSTRUCTION / N
 4. Update research/sav/STATUS.md, HANDOFF.md, SOURCES.md, verification/INDEX.md, verification/negative_results.md and handoffs/MICHAEL_START_HERE.md. Preserve all prior reports, contracts, source data and numerical history verbatim. No production implementation requested.
 5. Scientific handoff for Michael explaining exactly what invariant near-zone/outgoing scalars and radial Fourier components to observe in a **future separately approved** extraction, with error quantities that can be compared to the analytical enclosures.
 6. Document exact starting and final branch head SHA, review/diff/commit hashes, no unauthorized files or branch changes, no production simulations, no PR/merge, no automatic GOAL-006.
+
+## Append-only execution annotation — 2026-10-23
+
+The original preparation contract above is preserved verbatim.
+Michael's separately authorized sole-writer task executed this Goal from
+0dd5be7818b2e71d28ebff2e122ac0a318a220f5 on research/sav-radiation.
+Terminal scientific classification: **MEANINGFUL_PARTIAL**.
+The original NOT EXECUTED/READY state is historical, superseded by this
+annotation; the full scientific completion gate was not met.
+
+Physical root [.06328118,.06328120], global mixed C5<4e29 and all-seven
+source C3<1e110 are enclosed. The exact source-selected +2 scalar has
+u L2<5e129 and sup<2e130. Full metric M2, zero/data completion, C0,
+finite-time radiation and nonlinear amplitude/first-bulge gates remain
+open. Both required distinct AI audits completed with disclosed shared
+premises. One GL and one forced diagnostic configuration were used.
+No automatic GOAL-006 or production action.
+
+[Report](GLR-GOAL-005_REPORT.md),
+[executed ledger](../verification/GLR_GOAL005_CHECKS.md),
+[publication record](../verification/GOAL005_PUBLICATION.md).

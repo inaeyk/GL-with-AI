@@ -1,0 +1,20 @@
+{
+  "reviewer": "distinct AI audit_spectral; no commits or physical solver reruns",
+  "verdict": "A1 accepted; coarse regular coordinate C5 bound accepted; no source or M2 verdict",
+  "certified_root": [
+    "0.06328118",
+    "0.06328120"
+  ],
+  "mixed_C5_bound": "4e29",
+  "common_tau_EF_C5_bound": "3.4e31",
+  "hashes": {
+    "goal005_validate_gl.py": "e91bd964f81ca7d387aa082926948fb9fe9f994328e94e5af46e459497a5d788",
+    "goal005_gl_results.json": "ee381ab680b4f95e2c4c28783049056609741b254c6b92f66b52212458a52715",
+    "goal005_mode_bounds.py": "fbab9e5ed3ee81e7a4b5221268109518f8823a746443dc4fb818079a221ad34a",
+    "goal005_mode_bounds.json": "1ab75267db909ece5002635491c0f49d6d3390f8a1efe7f969a09d82712cd055",
+    "audit_goal005_spectral.py": "9d85c669cadf53282b07818eb7d3d40b467848e422a2542b2ca2619d3fc53846",
+    "audit_goal005_spectral.json": "f9ecb774cc2fa13869e51934effc9854028b6f93819438cf763e39cdcd3e0488",
+    "audit_goal005_spectral_flow.py": "d22580bb7f4da51871ad0128aaa9a860f25ebc1152b7a0ae6dc06e00219c5304",
+    "audit_goal005_spectral_flow.json": "29b010b0bea87ed6978440702d98b23ad30613e280e315e4c487b237d4aca853"
+  }
+}

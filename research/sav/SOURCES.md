@@ -1,3 +1,40 @@
+## GOAL-005 executed provenance — 2026-10-23
+
+Actual fresh-fetched input research/sav-radiation:
+**0dd5be7818b2e71d28ebff2e122ac0a318a220f5**.
+The earlier 96339836 baseline was not restored. All prior reports,
+source data and numerical records remain unchanged.
+[Manifest](verification/goal005_manifest.json) pins input Git blobs
+and new science-artifact SHA256s; [publication](verification/GOAL005_PUBLICATION.md)
+records the actual science commit.
+
+Inspected historical inputs include Goals001–004 reports/audits,
+GOAL003_REVIEW_QUALIFICATIONS, gl_linear_mode, quadratic_radion_source,
+radion_retarded_transfer, goal003_forced_master, goal003_master_independent,
+goal004_source_geometry, goal004_data_news, their verification programs
+and negative records. The final report and separate audits disclose
+which equations/data are shared premises.
+
+New runtime provenance: Python3.13.13, python-flint0.9.0 (Arb),
+SymPy1.14.0, NumPy2.4.6, SciPy1.18.0, mpmath1.3.0.
+Official API documentation inspected:
+[Arb](https://python-flint.readthedocs.io/en/latest/arb.html) and
+[Arb series](https://python-flint.readthedocs.io/en/latest/arb_series.html).
+The fixed package version and executable evidence, rather than a mutable
+documentation URL, determine this certificate.
+[arXiv:2007.08441](https://arxiv.org/html/2007.08441) was consulted as
+background only; it is not the proof of a new GL bound or a novelty claim.
+No literature statement upgrades the old empirical C0.
+
+New results: [proof](physics/goal005_enclosures.md),
+[report](goals/GLR-GOAL-005_REPORT.md),
+[spectral audit](verification/AUDIT_GOAL005_SPECTRAL.md),
+[geometry audit](verification/AUDIT_GOAL005_GEOMETRY.md).
+Both reviewers are AI investigators with disclosed shared historical
+premises, not external human referees.
+
+The following preparation/source history is preserved verbatim.
+
 ## Prepared GLR-GOAL-005 — 2026-10-23 (not executed)
 
 Authoritative previous research-branch head:

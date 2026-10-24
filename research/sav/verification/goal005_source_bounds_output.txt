@@ -1,0 +1,110 @@
+{
+  "scope": "Coarse physical C3 source upper envelope only; full historical Y0 including third master-force derivative NOT certified",
+  "common_C3_bound": "1e110",
+  "interior": "regular EF coefficients 1<=r<=4",
+  "exterior": "exp(sigma*(r-4)) static coefficients r>=4",
+  "sigma": "[0.64093854 +/- 3.97e-9]",
+  "assumptions": "Certified mixed metric C5 bound4e29; exact on-shell GL reconstruction; explicit quadratic connection and reduced sphere identities",
+  "checks": [
+    {
+      "name": "EF coefficient conversion",
+      "left": "12800000000000000000000000000000.000000000000000",
+      "strict_upper": "20000000000000000000000000000000.000000000000000"
+    },
+    {
+      "name": "relative sphere C5",
+      "left": "23040",
+      "strict_upper": "100000.00000000000000000000000000000000000000000"
+    },
+    {
+      "name": "inverse1 C4 per B",
+      "left": "729000000.00000000000000000000000000000000000000",
+      "strict_upper": "1000000000.0000000000000000000000000000000000000"
+    },
+    {
+      "name": "inverse2 C4 per B2",
+      "left": "50625000000000.000000000000000000000000000000000",
+      "strict_upper": "100000000000000.00000000000000000000000000000000"
+    },
+    {
+      "name": "connection0 C4",
+      "left": "72000000.000000000000000000000000000000000000000",
+      "strict_upper": "100000000.00000000000000000000000000000000000000"
+    },
+    {
+      "name": "connection1 C4 per B",
+      "left": "72000000072000.000000000000000000000000000000000",
+      "strict_upper": "100000000000000.00000000000000000000000000000000"
+    },
+    {
+      "name": "connection2 C4 per B2",
+      "left": "7200000072000000000.0000000000000000000000000000",
+      "strict_upper": "10000000000000000000.000000000000000000000000000"
+    },
+    {
+      "name": "orbit Ricci quadratic C3 per B2",
+      "left": "1728000000060000000000000000000.0000000000000000",
+      "strict_upper": "100000000000000000000000000000000.00000000000000"
+    },
+    {
+      "name": "warped orbit quadratic C3 per B2",
+      "left": "240321000270200000000000.00000000000000000000000",
+      "strict_upper": "10000000000000000000000000.000000000000000000000"
+    },
+    {
+      "name": "W1 first/second derivatives divided r2 C3 per B",
+      "left": "4800100000.0000000000000000000000000000000000000",
+      "strict_upper": "10000000000.000000000000000000000000000000000000"
+    },
+    {
+      "name": "sphere Hessian0 C3",
+      "left": "2400000001000.0000000000000000000000000000000000",
+      "strict_upper": "10000000000000.000000000000000000000000000000000"
+    },
+    {
+      "name": "sphere Hessian1 C3 per B",
+      "left": "26400000010000000000.000000000000000000000000000",
+      "strict_upper": "1000000000000000000000.0000000000000000000000000"
+    },
+    {
+      "name": "sphere Hessian2 C3 per B2",
+      "left": "24240000000000000000000000.000000000000000000000",
+      "strict_upper": "100000000000000000000000000.00000000000000000000"
+    },
+    {
+      "name": "sphere quadratic divided r2 C3 per B2",
+      "left": "39636000000000000000000000000000.000000000000000",
+      "strict_upper": "1000000000000000000000000000000000.0000000000000"
+    },
+    {
+      "name": "raw sphere product per r2 B2",
+      "left": "16000000000000000000000000000000000.000000000000",
+      "strict_upper": "20000000000000000000000000000000000.000000000000"
+    },
+    {
+      "name": "Einstein trace-adjusted coefficient per r2 B2",
+      "left": "2442960020000000000000000000000000000000000.0000",
+      "strict_upper": "100000000000000000000000000000000000000000000.00"
+    },
+    {
+      "name": "old inverse exterior weight sigma",
+      "left": "[0.64093854 +/- 3.97e-9]",
+      "strict_upper": "[0.65000000000000000000000000000000000000000000000 +/- 5.48e-49]"
+    },
+    {
+      "name": "r2 exterior exponential multiplier",
+      "left": "[94.367346938775510204081632653061224489795918367 +/- 5.56e-46]",
+      "strict_upper": "100.00000000000000000000000000000000000000000000"
+    },
+    {
+      "name": "all seven Q and conserved Einstein source C3",
+      "left": "[4.0000000000000000000000000000000000000000000000e+108 +/- 1.04e+61]",
+      "strict_upper": "[1.0000000000000000000000000000000000000000000000e+110 +/- 6.56e+61]"
+    }
+  ],
+  "source_sha256": {
+    "goal005_source_bounds.py": "c18de9fcbc820abee9cbc4010138532db5b9acc20b929f907b9c7af88df190f5",
+    "goal005_mode_bounds.py": "fbab9e5ed3ee81e7a4b5221268109518f8823a746443dc4fb818079a221ad34a",
+    "goal005_mode_bounds.json": "1ab75267db909ece5002635491c0f49d6d3390f8a1efe7f969a09d82712cd055"
+  }
+}

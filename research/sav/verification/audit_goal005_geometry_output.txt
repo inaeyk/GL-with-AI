@@ -1,0 +1,24 @@
+{"name": "Gaussian z curvature Fourier identity", "pass": true, "detail": null}
+{"name": "missing Fourier half rejected", "pass": true, "detail": null}
+{"name": "Lorentz contraction independently from matrix trace", "pass": true, "detail": null}
+{"name": "Euclidean tr sign rejected", "pass": true, "detail": null}
+{"name": "Green derivative jump equals -1", "pass": true, "detail": null}
+{"name": "wrong W sign rejected", "pass": true, "detail": null}
+{"name": "quadratic gauge Lie-square cancels pure pullback", "pass": true, "detail": null}
+{"name": "omitted half Lie-square produces spurious zero scalar", "pass": true, "detail": "-1/2"}
+{"name": "static scalar tension solves equation", "pass": true, "detail": null}
+{"name": "static tension singular at future horizon", "pass": true, "detail": null}
+{"name": "free scalar interference can cancel reference news", "pass": true, "detail": null}
+{"name": "discarded homogeneous data energy rejected", "pass": true, "detail": null}
+{"name": "EF divided difference regular horizon value", "pass": true, "detail": null}
+{"name": "lost EF division rejected", "pass": true, "detail": null}
+{"name": "dropped Bianchi compatibility creates pole", "pass": true, "detail": null}
+{"name": "5D scalar transverse norm is eight", "pass": true, "detail": null}
+{"name": "direct 5D zz equation gives forced trace", "pass": true, "detail": null}
+{"name": "direct 5D mass-shift kernel", "pass": true, "detail": null}
+BEGIN declared forced configuration 1
+{"name": "physical source requires nonzero forced trace", "pass": true, "detail": 104.95484447626013}
+{"name": "missing +2 Fourier half fails physical zz residual", "pass": true, "detail": 45.096469159162545}
+{"name": "flipped W sign violates physical forced master", "pass": true, "detail": 20.637181293139793}
+ACTUAL_RESIDUALS {"whole_sampled_domain": {"n": 701, "max_each_component": {"vv": 150.8650108232342, "vr": 4965610710.171372, "vz": 0.001043206178749756, "rr": 930360982.222444, "rz": 245716094.12447208, "zz": 1.66615684804583e-06, "theta_theta": 105.67915453356056}, "max_abs": 4965610710.171372, "max_scaled": 8887416.264694748, "worst_r": 1.0000000174661694}, "r1p005_to30": {"n": 278, "max_each_component": {"vv": 20.80750374672278, "vr": 3688.79005936048, "vz": 5.817761419280032e-06, "rr": 157.7705771661265, "rz": 96.245398151577, "zz": 1.5091927707544528e-10, "theta_theta": 0.43475060677849386}, "max_abs": 3688.79005936048, "max_scaled": 6.898630717589797, "worst_r": 1.0056858888631097}, "r1p1_to10": {"n": 144, "max_each_component": {"vv": 4.076614429595115, "vr": 30.728694286358234, "vz": 2.1054899157491036e-07, "rr": 0.5685619633089516, "rz": 0.4140995536254337, "zz": 1.5084822280186927e-10, "theta_theta": 0.052159489530538394}, "max_abs": 30.728694286358234, "max_scaled": 0.18941226491979274, "worst_r": 1.6586112874117824}}
+FINISHED 21 checks; results empirical, not certified

@@ -1,0 +1,63 @@
+{
+  "scope": "Certified very coarse exact separated +2 scalar master bounds; no all-component M2 or approximate-response error certificate",
+  "L2_source_upper": "1e128",
+  "L2_u_upper": "5e129",
+  "sup_u_upper": "2e130",
+  "exact_source_envelope": "each Q derivative<=1e110*r\u00b2*exp(-(r-4)) at r>=4; EF C3<=1e110 at1..4",
+  "coefficients": {
+    "J": [
+      "-4*a*r*(r - 1)/K",
+      "-4*a*r",
+      "2",
+      "4*a*r*(r - 1)/(K*s)",
+      "4*a*r*(r - 1)*(a*r**3 - 2)/(s*(a*r**3 + 1))",
+      "4*a*r**2*(a*r**3 - 2)/(s*(a*r**3 + 1))",
+      "-4*a*(a*r**3*(2*r - 3) - 4*r + 3)/(K*s*(a*r**3 + 1))"
+    ],
+    "F": [
+      "(4*a*r**3 - 8*a*r**2 + 4*a*r)/(K*a*r**3 + K)",
+      "(4*a*r**2 - 4*a*r)/(a*r**3 + 1)",
+      "(2 - 2*r)/(a*r**3 + 1)",
+      "(-4*a*r**3 + 8*a*r**2 - 4*a*r)/(K*a*r**3*s + K*s)",
+      "(-4*a**2*r**6 + 8*a**2*r**5 - 4*a**2*r**4 + 8*a*r**3 - 16*a*r**2 + 8*a*r)/(a**2*r**6*s + 2*a*r**3*s + s)",
+      "(8*a**2*r**5 - 20*a**2*r**4 + 12*a**2*r**3 - 16*a*r**2 + 28*a*r - 12*a)/(K*a**2*r**6*s + 2*K*a*r**3*s + K*s)"
+    ]
+  },
+  "checks": [
+    {
+      "name": "regular J coefficient derivatives0..2",
+      "bound": "[812.48404568022483239445826462502210721151773452 +/- 1.11e-45]",
+      "strict_upper": "10000000000.000000000000000000000000000000000000"
+    },
+    {
+      "name": "static F coefficients derivatives0..1 divided r6",
+      "bound": "[0.0044059110692208874878167975810400495220973226389 +/- 1.83e-50]",
+      "strict_upper": "10000000000.000000000000000000000000000000000000"
+    },
+    {
+      "name": "exterior force weighted multiplier",
+      "bound": "[270693902992.51767684608714160297987736263576141 +/- 5.15e-36]",
+      "strict_upper": "1000000000000.0000000000000000000000000000000000"
+    },
+    {
+      "name": "global L2 master forcing",
+      "bound": "[7.95047849089319473e+127 +/- 7.70e+109]",
+      "strict_upper": "[1.0000000000000000000000000000000000000000000000e+128 +/- 1.15e+80]"
+    },
+    {
+      "name": "physical exact particular master L2",
+      "bound": "[4.96345e+129 +/- 5.59e+123]",
+      "strict_upper": "[5.0000000000000000000000000000000000000000000000e+129 +/- 4.83e+80]"
+    },
+    {
+      "name": "physical exact particular master sup",
+      "bound": "[1.137609e+130 +/- 7.77e+123]",
+      "strict_upper": "[2.0000000000000000000000000000000000000000000000e+130 +/- 1.95e+81]"
+    }
+  ],
+  "source_sha256": {
+    "goal005_master_bounds.py": "32eae3fe9f8a61f64c726d8d1217d4dc78a1715b791b0bfc10395c16a26251e7",
+    "goal005_source_bounds.py": "c18de9fcbc820abee9cbc4010138532db5b9acc20b929f907b9c7af88df190f5",
+    "goal005_source_bounds.json": "0cfaef09e2e9f91ae6204fa4b46a06fd1f4db4efb9f8ad42cd1083e915c6beb9"
+  }
+}

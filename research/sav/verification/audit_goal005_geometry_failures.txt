@@ -1,0 +1,12 @@
+Initial invocation failed before scientific execution: SyntaxError, unmatched
+closing parenthesis in the physical wrong-W-sign assertion at line 156.
+Removed one closing parenthesis. No physical configuration had run.
+
+Second invocation ran the one declared forced configuration, then failed an
+overstrong diagnostic assertion that doubled-source max residual exceeded the
+baseline all-component max by 100x (mutant max=255.67241712311153).
+This failure is evidence that the actual differentiated baseline response has
+substantial residuals; it is not silently discarded or called a tiny residual.
+The algebraic zz equation is the appropriate unambiguous Fourier-half control.
+The same configuration is replayed to preserve the complete result packet;
+this is no additional domain/refinement configuration. No input changed.

@@ -1,0 +1,115 @@
+{
+  "classification": "CONDITIONAL_EXACT_COEFFICIENT_COUNT_REVIEW",
+  "logW_identity": true,
+  "checks": [
+    {
+      "name": "inverse1 three factors, two contractions",
+      "derived_bound": "729000000",
+      "strict_cap": "1000000000"
+    },
+    {
+      "name": "inverse2 five factors, four contractions",
+      "derived_bound": "50625000000000",
+      "strict_cap": "100000000000000"
+    },
+    {
+      "name": "Gamma0 two factors, nine half terms",
+      "derived_bound": "72000000",
+      "strict_cap": "100000000"
+    },
+    {
+      "name": "Gamma1 two coefficient products",
+      "derived_bound": "72000000072000",
+      "strict_cap": "100000000000000"
+    },
+    {
+      "name": "Gamma2 two coefficient products",
+      "derived_bound": "7200000072000000000",
+      "strict_cap": "10000000000000000000"
+    },
+    {
+      "name": "Ric3 quadratic coefficient derivative/products",
+      "derived_bound": "1728000000060000000000000000000",
+      "strict_cap": "100000000000000000000000000000000"
+    },
+    {
+      "name": "warped term from independent log-W expansion",
+      "derived_bound": "240321000270120000000000",
+      "strict_cap": "10000000000000000000000000"
+    },
+    {
+      "name": "normalized sphere second derivative",
+      "derived_bound": "4800100000",
+      "strict_cap": "10000000000"
+    },
+    {
+      "name": "sphere background Hessian",
+      "derived_bound": "2400000001000",
+      "strict_cap": "10000000000000"
+    },
+    {
+      "name": "sphere first Hessian",
+      "derived_bound": "26400000010000000000",
+      "strict_cap": "1000000000000000000000"
+    },
+    {
+      "name": "sphere second Hessian",
+      "derived_bound": "24240000000000000000000000",
+      "strict_cap": "100000000000000000000000000"
+    },
+    {
+      "name": "sphere inverse-Hessian contraction",
+      "derived_bound": "39636000000000000000000000000000",
+      "strict_cap": "1000000000000000000000000000000000"
+    },
+    {
+      "name": "raw sphere r\u00b2 product",
+      "derived_bound": "16000000000000000000000000000000000",
+      "strict_cap": "20000000000000000000000000000000000"
+    },
+    {
+      "name": "trace adjustment with explicit inverse-sphere derivatives",
+      "derived_bound": "2442960020000000000000000000000000000000000",
+      "strict_cap": "100000000000000000000000000000000000000000000"
+    },
+    {
+      "name": "exterior polynomial at decay margin .35",
+      "derived_bound": "4624/49",
+      "strict_cap": "100"
+    },
+    {
+      "name": "final physical C3 component bound",
+      "derived_bound": "4000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "strict_cap": "100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "name": "independent global source L2 squared",
+      "derived_bound": "6321010823751024000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "strict_cap": "10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "name": "resolvent L2 squared using s>0.1265",
+      "derived_bound": "101136173180016384000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000/4097152081",
+      "strict_cap": "25000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "name": "Sobolev sup squared using s>0.1265",
+      "derived_bound": "531268317714626065152000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000/4097152081",
+      "strict_cap": "400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ],
+  "prerequisite": "Primary physical mixed H C5 bound4e29 and resulting EF coefficient bound2e31, checked by spectral review; this audit does not rerun its validated endpoint propagation.",
+  "coverage": "Every quadratic orbit/sphere Ricci and trace-adjusted Einstein component through three radial derivatives, with declared EF/interior and weighted static/exterior norms.",
+  "master_review": "Primary rational-coefficient source formulas and exact rational subdomain bounding inspected. Independent exact moment plus loose rational rate factors support ||F||L2<1e128, ||u||L2<5e129, ||u||infinity<2e130. Exact source-selected complex+2 scalar master only.",
+  "not_covered": "Not by itself a full Y0 norm or physical metric M2: mixed Qmu_z fourth derivatives / master force third derivative and full regular lift/zero-sector constants remain separate.",
+  "hashes": {
+    "audit_goal005_geometry_bound_review.py": "d0682677365acb04c3642b65a67b69df395de6312b40c822a58117ad6b94ccef",
+    "goal005_source_bounds.py": "c18de9fcbc820abee9cbc4010138532db5b9acc20b929f907b9c7af88df190f5",
+    "goal005_source_bounds.json": "0cfaef09e2e9f91ae6204fa4b46a06fd1f4db4efb9f8ad42cd1083e915c6beb9",
+    "goal005_mode_bounds.py": "fbab9e5ed3ee81e7a4b5221268109518f8823a746443dc4fb818079a221ad34a",
+    "goal005_mode_bounds.json": "1ab75267db909ece5002635491c0f49d6d3390f8a1efe7f969a09d82712cd055",
+    "goal005_master_bounds.py": "32eae3fe9f8a61f64c726d8d1217d4dc78a1715b791b0bfc10395c16a26251e7",
+    "goal005_master_bounds.json": "0b75242de029cdabbd35b0a5dc45aa5479b9883fd15f973806b81ec463f470f4"
+  },
+  "physics_note_sha256": "90f140f6177ec5474d29dbfcff20fbd94e7488f3ea3e3e9e143f20e42f9d13a8"
+}

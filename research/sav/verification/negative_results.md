@@ -304,3 +304,26 @@ goal004_first_bulge_model.md, goal004_stabilized_transport.md, the two
 AUDIT_GOAL004 records and GLR_GOAL004_CHECKS.md. **MEANINGFUL_PARTIAL**;
 the first-bulge physical-radiation gate remains open. Prior negatives
 above remain verbatim; no follow-on Goal is authorized by this pointer.
+
+## GOAL-005 execution negative record — 2026-10-23
+
+The new root and coarse C5/source/master enclosures do not validate the
+old physical response interpolant. Independent direct5D Ricci residuals
+of that reconstructed q2 reach30.72869 on r1.1..10 and3688.7901 on
+r1.005..30, scaled.1894123 and6.898631. J and Q interpolated separately
+have incompatible derivatives; analytically differentiating the same Q
+cubic still exposes the defect. Extreme collar residuals with failed
+kernel controls are not evidence of a physical singularity.
+
+The exact local equations survive independent compatible-jet checks.
+A second route now bounds the exact source-selected scalar master, but
+not the compatibility-preserving full affine metric lift, n0 charges/
+scalar or homogeneous-data terms. Full Y0/M2 remain unclosed.
+No C0 interval, finite-time radiation, nonlinear A*, full-quadratic
+kinematic interval or first-bulge fraction is obtained. Huge absolute
+C5/C3/master envelopes are not small historical interpolation errors.
+
+See [final report](../goals/GLR-GOAL-005_REPORT.md), both GOAL005 audits
+and [failure log](goal005_failures.txt). This preserves and does not
+repair or supersede the old data/report bytes. MEANINGFUL_PARTIAL,
+not mathematical nonexistence; no automatic next Goal.

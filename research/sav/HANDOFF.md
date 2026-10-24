@@ -1,3 +1,30 @@
+## GOAL-005 execution update — 2026-10-23
+
+**MEANINGFUL_PARTIAL; no follow-up launched.** Michael's authorized
+sole-writer task has completed the bounded investigation.
+[Final report](goals/GLR-GOAL-005_REPORT.md),
+[proof](physics/goal005_enclosures.md), and
+[publication provenance](verification/GOAL005_PUBLICATION.md).
+
+The physical nodeless L10 root is enclosed in [0.06328118,0.06328120].
+A global mixed C5 profile norm is <4e29 (common-slice EF coordinate
+conversion <3.4e31). All seven n0/+2 Ricci/Einstein source C3 envelopes
+are <1e110. The exact source-selected +2 scalar master has
+F L2<1e128, u L2<5e129 and sup<2e130. These are very coarse absolute
+bounds, not small errors around historical profiles.
+
+**Full M2 remains open:** evaluate the compatibility-preserving affine
+metric lift, the full/anisotropic source norm, zero sector and prescribed
+homogeneous-data bounds. The old interpolated physical response fails
+a new all-seven residual diagnostic; this does not invalidate the exact
+equations or prove nonexistence. No new C0 enclosure, finite-time
+radiation, physical amplitude interval or first-bulge fraction follows.
+Both distinct AI audits and failures are linked in the report.
+No production action or collaborator message was made.
+
+**Historical preparation/re-entry text follows unchanged. Its READY /
+not-launched descriptions are superseded only by this execution update.**
+
 # GL Radiation — scientific re-entry
 
 Updated 2026-10-23 after GOAL-004 execution. Repository:

@@ -1,0 +1,118 @@
+{
+  "classification": "MANUFACTURED_VALIDATOR_CHECKS_NOT_PHYSICAL_ROOT_RERUN",
+  "python": "3.13.13",
+  "arb_bits": 160,
+  "script_sha256": "d22580bb7f4da51871ad0128aaa9a860f25ebc1152b7a0ae6dc06e00219c5304",
+  "checks": [
+    {
+      "name": "linear matrix vs nonlinear Taylor 1/32 0",
+      "passed": true,
+      "evidence": "{'bound': '[0.1248374934950250 +/- 7.86e-17]', 'exact': '[0.12483749349502502898028578238842266821388064305 +/- 2.83e-48]', 'tube': '[+/- 0.251]'}"
+    },
+    {
+      "name": "manufactured linear denominator no node 1/32 0",
+      "passed": true,
+      "evidence": "[1.0019537608656676078415507096325973788127031671 +/- 2.33e-48]"
+    },
+    {
+      "name": "linear matrix vs nonlinear Taylor 1/32 1/5",
+      "passed": true,
+      "evidence": "{'bound': '[0.322822476057283 +/- 5.57e-16]', 'exact': '[0.32282247605728258458936375587327631295897153858 +/- 3.26e-48]', 'tube': '[+/- 0.448]'}"
+    },
+    {
+      "name": "manufactured linear denominator no node 1/32 1/5",
+      "passed": true,
+      "evidence": "[1.0082078306708867900137346981336266082415053948 +/- 4.98e-47]"
+    },
+    {
+      "name": "linear matrix vs nonlinear Taylor 1/32 201/1000",
+      "passed": true,
+      "evidence": "{'bound': '[0.323806229800182 +/- 1.35e-16]', 'exact': '[0.32380622980018200673229696950486149712815866496 +/- 4.46e-48]', 'tube': '[+/- 0.449]'}"
+    },
+    {
+      "name": "manufactured linear denominator no node 1/32 201/1000",
+      "passed": true,
+      "evidence": "[1.0082391010199128859245956180761317543886494059 +/- 1.13e-47]"
+    },
+    {
+      "name": "linear matrix vs nonlinear Taylor 1/32 199/1000",
+      "passed": true,
+      "evidence": "{'bound': '[0.321838661288717 +/- 4.89e-16]', 'exact': '[0.32183866128871740728888011748938982463118611418 +/- 7.20e-48]', 'tube': '[+/- 0.447]'}"
+    },
+    {
+      "name": "manufactured linear denominator no node 1/32 199/1000",
+      "passed": true,
+      "evidence": "[1.0081765603218606941028737781911214620943613836 +/- 1.75e-47]"
+    },
+    {
+      "name": "linear matrix vs nonlinear Taylor -1/32 0",
+      "passed": true,
+      "evidence": "{'bound': '[-0.1248374934950250 +/- 7.86e-17]', 'exact': '[-0.12483749349502502898028578238842266821388064305 +/- 2.83e-48]', 'tube': '[+/- 0.251]'}"
+    },
+    {
+      "name": "manufactured linear denominator no node -1/32 0",
+      "passed": true,
+      "evidence": "[1.0019537608656676078415507096325973788127031671 +/- 2.32e-48]"
+    },
+    {
+      "name": "linear matrix vs nonlinear Taylor -1/32 1/5",
+      "passed": true,
+      "evidence": "{'bound': '[0.075634608250750 +/- 1.44e-16]', 'exact': '[0.07563460825075005986895825599821888005255106413 +/- 5.66e-48]', 'tube': '[+/- 0.448]'}"
+    },
+    {
+      "name": "manufactured linear denominator no node -1/32 1/5",
+      "passed": true,
+      "evidence": "[0.99569969106044842566936672113156814938390093944 +/- 5.99e-48]"
+    },
+    {
+      "name": "linear matrix vs nonlinear Taylor -1/32 201/1000",
+      "passed": true,
+      "evidence": "{'bound': '[0.076643296344670 +/- 5.25e-16]', 'exact': '[0.07664329634467044087485963040912055052411557439 +/- 1.11e-48]', 'tube': '[+/- 0.449]'}"
+    },
+    {
+      "name": "manufactured linear denominator no node -1/32 201/1000",
+      "passed": true,
+      "evidence": "[0.99566842071142232975850580118906300323675692831 +/- 6.85e-48]"
+    },
+    {
+      "name": "linear matrix vs nonlinear Taylor -1/32 199/1000",
+      "passed": true,
+      "evidence": "{'bound': '[0.074625983511350 +/- 1.66e-16]', 'exact': '[0.07462598351135008206400924587119277608052389317 +/- 2.87e-48]', 'tube': '[+/- 0.447]'}"
+    },
+    {
+      "name": "manufactured linear denominator no node -1/32 199/1000",
+      "passed": true,
+      "evidence": "[0.99573096140947452158022764107407329553104495058 +/- 4.49e-48]"
+    },
+    {
+      "name": "initial interval extremum enclosed",
+      "passed": true,
+      "evidence": "[0.32183866128493776333456644940355274364100265114 +/- 3.09e-48]"
+    },
+    {
+      "name": "initial interval extremum enclosed",
+      "passed": true,
+      "evidence": "[0.32380622980396118180132305895855135052267044865 +/- 3.78e-48]"
+    },
+    {
+      "name": "Moebius input derivative positive",
+      "passed": true,
+      "evidence": "[0.99610390005446989589366194342230968626024870347 +/- 3.33e-48]"
+    },
+    {
+      "name": "negative: forward stability sign applied backwards",
+      "passed": true,
+      "evidence": "{'actual': '[0.016487212707001281468486507878141635716537761007 +/- 1.36e-49]', 'wrong': '[0.0060653065971263342360379953499118045344191813549 +/- 6.14e-50]'}"
+    },
+    {
+      "name": "negative: missing Taylor remainder",
+      "passed": true,
+      "evidence": "[0.000162506504974971019714217611577331786119356948 +/- 4.69e-49]"
+    },
+    {
+      "name": "negative: discarded initial interval radius",
+      "passed": true,
+      "evidence": "[0.20 +/- 1.01e-3]"
+    }
+  ]
+}

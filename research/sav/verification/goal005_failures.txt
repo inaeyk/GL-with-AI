@@ -1,0 +1,28 @@
+GL configuration1 initial execution: ArithmeticError: Picard tube failed
+at the infinity propagation call, before any matching result. Fixed nominal
+1/32 time steps were too coarse for the interval Picard test at large r.
+Added bounded recursive subdivision (maximum depth10) of validation cells;
+same physical domain, order and maximum step. No failed output promoted.
+Original host-path traceback stays in ignored tmp/goal005_setup only.
+
+Source bound initial cap: strict assertion for Einstein trace-adjusted
+coefficient at 1e42 failed (the counted value was about2.44e42).
+The cap was replaced by 1e44; the count and final inequality are printed.
+No failed output accepted. Audit II then required +48 rather than +2
+for differentiated sphere trace contraction; applied and rerun. Raw
+host-path traceback stays in ignored local setup only.
+
+Spectral review found floating selection among interval candidate maxima
+was unnecessary for a certificate. Replaced it with Arb upper envelopes
+and exact rational final-cap comparisons; recomputed mode/source evidence
+and refreshed both reviewers' dependency hashes before acceptance.
+
+Master coefficient subdomains initially used exactly representable binary
+float endpoints. Replaced them with explicit Arb rational constructions
+for clarity. Final sharper source/master caps were rerun and independently
+checked against the full squared integral, not a rounded displayed norm.
+
+Geometry failures, including a control-assertion correction and actual
+physical residual rejection, are preserved separately in
+audit_goal005_geometry_failures.txt. Do not infer physical singularity
+from extreme collar samples whose own kernel control fails.
