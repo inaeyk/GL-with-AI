@@ -127,3 +127,12 @@ Michael leads numerical implementation; Pau is an advisor. Human scientific
 approval is needed for any change to the numerical formulation or production
 workflow. See `handoffs/MICHAEL_START_HERE.md`.
 
+
+## Work scientific-review publication
+
+For an authorized Work scientific review of a Codex GitHub PR, follow the repository's access, branch, and collaboration rules.
+
+1. Record the original PR URL, full audited commit SHA, and commit permalink. Read and cite files at that SHA. If the PR head changes, identify the version actually reviewed.
+2. Commit the full Markdown report, derivations, calculations, reproducible checks, counterexamples, and proposed corrections on a dedicated review branch. Preserve the source research branch. Push the review branch and open a draft PR with the original PR URL and audited SHA. Verify the draft contains only the intended review artifacts.
+3. After verifying the draft, post a concise summary, the audited SHA, and the review PR link on the original PR.
+4. Report both PR and commit URLs, both full SHAs, and the comment permalink. If a GitHub write fails, identify the failed step and error, report what succeeded, and preserve the full report at an authorized location. Keep the review in draft and do not merge.
