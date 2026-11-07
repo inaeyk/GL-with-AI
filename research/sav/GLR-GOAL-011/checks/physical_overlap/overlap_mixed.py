@@ -29,11 +29,15 @@ def tortoise(r):
 
 
 class MixedSolution:
-    """Inhomogeneous stationary Green solve by two-ended matching."""
+    """Inhomogeneous stationary Green solve by two-ended matching.
+
+    An optional regular_initial supplies the three factored ingoing
+    columns at the chosen inner radius in (position, slope) order.
+    """
 
     def __init__(self, source, s1, k, rmatch=2.5,
                  ray=cmath.exp(1j * math.pi / 4), length=72,
-                 left_delta=1e-5, tol=2e-10):
+                 left_delta=1e-5, tol=2e-10, regular_initial=None):
         if not 0 < left_delta < rmatch - 1 or not length > 0 or not tol > 0:
             raise ValueError("Require 0 < left_delta < rmatch-1, length>0, tol>0")
         self.source = source
@@ -48,6 +52,7 @@ class MixedSolution:
         self.left_delta = float(left_delta)
         self.left_r = 1 + self.left_delta
         self.tol = float(tol)
+        self.regular_initial = regular_initial
         self.kappa = cmath.sqrt(self.s**2 + self.k**2)
         if self.s.imag * self.kappa.imag < 0:
             self.kappa = -self.kappa
@@ -125,6 +130,8 @@ class MixedSolution:
         return sol
 
     def _left_initial(self):
+        if self.regular_initial is not None:
+            return self.regular_initial(self.left_r)
         d_h = LAMBDA + self.k**2
         a_h = 1 + self.k**2 / d_h
         b_h = 2 - self.k**2 / d_h

@@ -1,3 +1,10 @@
+## GOAL-011 horizon and launch certificate — 2026-11-07
+
+[Horizon source](../GLR-GOAL-011/HORIZON-SOURCE.md) contains an
+independently checked regular EF Taylor-tail calculation and
+validated physical lower launch data. The mixed and mean matching
+inputs to the local collar bound remain conditional.
+
 ## GOAL-011 physical overlap checkpoint — 2026-11-07
 
 [Physical residue](../GLR-GOAL-011/PHYSICAL-RESIDUE.md) records complete

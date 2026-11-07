@@ -44,3 +44,27 @@ source numerator has no interval enclosure and a particular finite
 packet width has no uniform waveform error constant. The physical
 complex estimate, empirical error budget and independent evidence are
 in [PHYSICAL-RESIDUE](PHYSICAL-RESIDUE.md).
+
+### Fit-free horizon and validated scalar launch checkpoint
+
+The regular EF mixed variables give an ordinary Taylor family with two
+free ingoing amplitudes. Acb recurrence and a weighted residual
+contraction replace the numerical collar fit. B supplied the
+scalar-generic mean Ricci source for the analytic evaluation. E
+independently checked the regular system, coefficient tails,
+removable GL divisions, compact launch quadrature and split sign.
+The capped point-input numerator tails and assumed matching-box
+conditional enclosures are recorded separately.
+
+Validated compact flows now enclose the physical GL normalization
+and matching value, the bump normalization and both compact baseline
+moments over the certified pole and GL rate ranges. The fit-free
+numerical overlap agrees with the earlier fitted estimate. Initial
+failed comparisons exposed an extra inverse-radius factor, loose
+compact initial tail bounds and overly dependent amplitude boxes.
+These are retained as distinct validation controls.
+
+The full physical residue remains empirical because the exterior
+forced match, mean cap amplitudes and outer integral have no validated
+enclosure. The affine Riccati identity now specifies a direct
+residual route for those bounds. [Horizon source](HORIZON-SOURCE.md)

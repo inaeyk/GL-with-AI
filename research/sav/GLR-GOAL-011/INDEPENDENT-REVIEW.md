@@ -40,3 +40,12 @@ contacts and repeated the physical overlap on a different contour.
 An additional strong-form quadrature of the computed fields agreed
 with the split strong/weak calculation. The source enclosure remains
 open. [Numerical evidence and limitations](PHYSICAL-RESIDUE.md)
+
+The later [horizon-system derivation](investigators/E-HORIZON-SYSTEM.md)
+independently reconstructs the regular two-parameter EF family and its
+weighted Taylor-tail criterion. The [interval audit](investigators/E-HORIZON-INTERVALS.md)
+replayed the compact launch and local series checks and verified the
+removable GL terms and the split boundary sign. The subsequent amplitude
+factorization is exact in the five displayed products and agrees with
+the point calculation inside the factorized box. The physical mixed
+and mean matching amplitudes still require validation.

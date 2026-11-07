@@ -1,0 +1,19 @@
+Local implementation and enclosure controls.
+
+1. An extra r^-2 applied to an already divided EF current produced:
+old residue (0.13523424981854454-0.37062000825814845j) fit-free residue (0.13616983532110333-0.36580220220463167j)
+The discrepancy appeared even in H^2 P and B_E P, which do not use the
+mixed solver. Pointwise comparison gave the spurious factor 1/r^2
+and identical curl densities. Removing the extra division restored
+agreement. The exact regular current uses D/r^2 only once.
+
+2. The unfactorized amplitude-box run produced:
+conditional contribution with physical lower-input intervals [[+/- 2.62] + [+/- 4.19]j, [-2.1 +/- 0.0658] + [0.9 +/- 0.0388]j, [1.2 +/- 0.0243] + [-0.4 +/- 0.0410]j]
+It is an interval-overestimation result. Evaluating the exact amplitude
+polynomial reduces dependency. The new bounds are still conditional.
+
+3. Using a plain Cauchy tail for the regular scalar series at the initial
+compact transport radius 0.125 made the interval W overlap zero.
+The weighted residual l1 tail of the Fuchsian solve supplies a
+substantially sharper error there. The revised compact launch check
+encloses the two source moments and excludes zero from the W used.

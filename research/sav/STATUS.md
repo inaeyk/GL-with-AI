@@ -1,3 +1,10 @@
+## GOAL-011 validated launch and horizon checkpoint — 2026-11-07
+
+The fit-free horizon evaluation reproduces the empirical physical
+residue. Both physical baseline launch moments and the GL horizon
+normalization have interval enclosures. The local overlap enclosure
+is conditional on mixed and mean matching data. [Evidence](GLR-GOAL-011/HORIZON-SOURCE.md).
+
 ## GOAL-011 physical residue checkpoint — 2026-11-07
 
 The ordered unwindowed trace has a justified continued transform.
