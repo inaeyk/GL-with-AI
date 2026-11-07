@@ -1,0 +1,11 @@
+Python 3.14.8 SymPy 1.14.0
+Warp reference matches all 125 nonbackground components
+Mixed, cubic G_rz: 1/15 -7/100
+Cubic G_rz pieces (linear, hv, pq, hhp): -3/50 -3/25 1/50 9/100
+Wrong cubic-factor G_rz: 1/50
+Curved finite diffeomorphism cancels all retained Einstein coefficients
+Omitted cubic gauge completion gives G_rz = 233/200
+Nonzero on-shell flat mixed source has zero background divergence
+Off-shell flat mixed divergence: [15/4, 25/4, 0, 0, 5*I]
+Axial Proca and divergence constraint match direct 5D Einstein components
+Nonzero manufactured axial G_xphi: -64/5

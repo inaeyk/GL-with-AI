@@ -1,0 +1,9 @@
+Python 3.14.8 SymPy 1.14.0
+KK: mixed support ±1, two opposite-sign pairings give average 1/2
+KK negative controls: ±2 × 0 and sine × cosine have no zero coefficient
+Unit Y20 even/odd tensor norms = 12 each, mutual product = 0
+Trace-free l=0,1 tensors vanish; dyad contraction = 2(n_plus²+n_cross²)
+Flat l=2 manufactured retarded wave and zero initial pair verified
+Retarded negative controls: omit near-zone terms or add a free homogeneous wave
+Integrated single-polarization energy = 450/(323323*pi*G_4)
+Constant time-shift interference: full pulse 0, subwindow integral 164025/2147483648
