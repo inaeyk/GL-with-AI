@@ -4,3 +4,5 @@ PASS Fourier selection, pure gauge with transformed launch, and zero GL
 PASS real l=2 axial parity and tensor norm 12; raw flux factor-four control
 PASS manufactured massive two-polarization sourced equations
 PASS compact upper-data residue can change; rank degenerates at a real pole
+PASS fixed canonical graph cancellation and necessary horizon boundary
+PASS outgoing launch transform and compact moment identity

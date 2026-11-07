@@ -1,0 +1,30 @@
+Python 3.14.8 python-flint 0.9.0 NumPy 2.4.6 SciPy 1.18.0
+r0=1; cells per side: 4200 ; match radius: 2.5000000000000000000000000000000000000 ; horizon offset: 1e-22 ; far ray length: 144
+Fundamental center [-0.17792463100000000000000000000000000000 +/- 5.23e-40] + [-0.74734336900000000000000000000000000000 +/- 2.18e-39]j
+  left endpoint error: 2.312049e-09, peak: 2.548676e-09
+  right endpoint error: 1.463872e-09, peak: 0.0007411062
+  D(center) = [+/- 4.05e-9] + [+/- 5.15e-9]j
+  left endpoint error: 0.04513711, peak: 0.04513711
+  right endpoint error: 0.01659686, peak: 0.01659686
+  bound on |D| on Cauchy disk: 0.10144715814385563135147094726562500000
+  left endpoint error: 2.311681e-09, peak: 2.546391e-09
+  right endpoint error: 1.457966e-09, peak: 0.0007405777
+  left endpoint error: 2.312624e-09, peak: 2.550993e-09
+  right endpoint error: 1.469808e-09, peak: 0.0007416354
+  comparison slope: 0.72756629996001720428466796875000000000 - 3.3156948685646057128906250000000000000j slope error: [0.13070213044949088199332443811299336322 +/- 3.16e-39]
+  Rouche: remainder upper [1.3092065971817280175402346292330834135e-8 +/- 2.77e-46] < linear modulus [1.6972908694639796244114334112283314116e-7 +/- 4.13e-45]
+  one simple RW zero inside radius [5.0000000000000000000000000000000000000e-8 +/- 1.59e-46]
+Fundamental normalization throughout this disk
+  left endpoint error: 4.016092e-07, peak: 4.016092e-07
+  right endpoint error: 1.572295e-07, peak: 0.0007411063
+  W' at the simple zero = [+/- 9.78] + [+/- 4.02]j
+  |W'| lower 3.6470178440213203430175781250000000000 upper 10.569492019712924957275390625000000000
+Massless shift s - 2 Omega
+  left endpoint error: 1.826548e-06, peak: 2.94541e-06
+  right endpoint error: 2.860804e-07, peak: 0.0009574448
+  D(s - 2 Omega) = [0.05774 +/- 3.11e-6] + [0.28306 +/- 2.88e-6]j
+Massive shift s - Omega
+  left endpoint error: 9.352359e-07, peak: 1.165161e-06
+  right endpoint error: 0.0002219837, peak: 0.02910599
+  det D(s - Omega) = [-0.22 +/- 5.33e-3] + [0.42 +/- 5.90e-3]j
+PASS isolated simple RW pole and noncoincident shifted pencils

@@ -1,3 +1,10 @@
+## GOAL-011 spectral certificate — 2026-11-07
+
+The outward-rounded Riccati flow, endpoint contractions and Rouché count
+enclose the local simple RW pole and rule out the two shifted coincidences.
+The result supersedes the earlier point diagnostic for that local gate.
+[Evidence](../GLR-GOAL-011/SPECTRAL-CERTIFICATE.md).
+
 ## GOAL-011 near-barrier axial response — 2026-11-07
 
 Independent direct Ricci and action routes, an outward-rounded physical

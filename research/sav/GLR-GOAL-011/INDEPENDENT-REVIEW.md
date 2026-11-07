@@ -20,3 +20,13 @@ Negative controls:
 - A nonzero compact source $LZ$ above the slice can give a vanishing null and pole projection. Compact upper-order data can instead tune the pole without changing earlier cuts. Both are analytic controls distinct from the numerical matching diagnostic.
 
 The scripts and outputs in [checks](checks) give reproducible algebra, interval and empirical evidence. The source pairing at the physical pole has no evaluation. The finite-width remainder constants have no numerical values. The local dossier is prepared for an external ChatGPT Work audit with those distinctions retained.
+
+The continued [spectral review](investigators/E-SPECTRAL.md) independently
+checked the rational Riccati coefficients, analytic endpoint contractions,
+directed complex error comparison, root count, shifted determinant signs
+and Wronskian normalization. E replayed the output and falsified the
+wrong massive square-root branch with the attenuation test.
+The separate [pairing review](investigators/C-PAIRING.md) recovered the
+canonical launch cancellation, finite horizon boundary term and EF
+regularity needed for the local continued source. Neither review evaluates
+the full complex overlap.

@@ -108,6 +108,43 @@ def pole_control():
     print("PASS compact upper-data residue can change; rank degenerates at a real pole")
 
 
+
+def pairing_boundaries():
+    x, left, right, p_h, slope = sp.symbols("x left right p_h slope", real=True)
+    s, r, lam, w, density_t, density_r = sp.symbols("s r lam w D_t D_r", nonzero=True)
+    f = 1 - 1/r
+    normal_curl = density_r - slope*f*density_t
+    boundary_data = -w*2*normal_curl/(lam*r)
+    by_parts = 2*r*w*(density_r/r**2 - slope*f*density_t/r**2)/lam
+    assert sp.simplify(boundary_data+by_parts) == 0
+
+    transformed_p = p_h*sp.exp(s*x)
+    transformed_q = -transformed_p
+    assert sp.simplify(-s*transformed_p-sp.diff(transformed_q, x)) == 0
+    weak_primitive = -p_h*sp.exp(2*s*x)
+    weak_bulk = weak_primitive.subs(x,right)-weak_primitive.subs(x,left)
+    boundary = sp.exp(s*left)*transformed_q.subs(x,left)
+    boundary -= sp.exp(s*right)*transformed_q.subs(x,right)
+    assert sp.simplify(weak_bulk+boundary) == 0
+    assert sp.simplify(weak_bulk) != 0
+    print("PASS fixed canonical graph cancellation and necessary horizon boundary")
+
+
+
+def outgoing_launch_transform():
+    x, sigma = sp.symbols("x sigma")
+    T = sp.Function("T")(x)
+    a = sp.Function("a")(x)
+    h = sp.Function("h")(x)
+    slope = sp.diff(T, x)
+    graph_coefficient = sigma*(1-slope**2)+sp.diff(T,x,2)
+    total = h*sp.exp(-sigma*T)*((1-slope)*sp.diff(a,x)-graph_coefficient*a)
+    total += sp.exp(-sigma*T)*(1-slope)*(sp.diff(h,x)+sigma*h)*a
+    boundary = sp.diff(sp.exp(-sigma*T)*(1-slope)*h*a,x)
+    assert sp.simplify(total-boundary) == 0
+    print("PASS outgoing launch transform and compact moment identity")
+
+
 if __name__ == "__main__":
     print("Python", platform.python_version(), "SymPy", sp.__version__)
     mean_elimination()
@@ -115,3 +152,5 @@ if __name__ == "__main__":
     flux()
     massive_elimination()
     pole_control()
+    pairing_boundaries()
+    outgoing_launch_transform()

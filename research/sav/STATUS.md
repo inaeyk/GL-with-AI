@@ -1,3 +1,10 @@
+## GOAL-011 local spectral checkpoint — 2026-11-07
+
+The local simple pole near the literature fundamental and both shifted
+noncoincidences now have interval certificates. The physical overlap remains
+open. [Certificate](GLR-GOAL-011/SPECTRAL-CERTIFICATE.md) ·
+[Canonical pairing](GLR-GOAL-011/PAIRING.md).
+
 ## GOAL-011 status — 2026-11-07
 
 **Outcome B.** A smooth fixed-canonical outgoing quadrupole launched near

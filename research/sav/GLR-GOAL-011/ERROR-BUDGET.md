@@ -10,7 +10,7 @@
 | Short-packet waveform | Uniform field and first-derivative estimates in width in [WAVEFORM](WAVEFORM.md), with compact evolution and weighted infinite-strip estimate | Constants not numerically evaluated. No absolute error for a specified nonasymptotic width or later ringdown window |
 | Mixed massive field | Full two-polarization causal equations and short-strip propagation. Its GL-weighted field and needed derivatives are integrable on finite cuts | No evaluated massive waveform or escape energy |
 | Massive matching at shifted pole | First-order Frobenius and factored outgoing Coulomb ends on a rotated contour. Matching singular value stabilizes on four pairs of radial truncations and two final integration tolerances | Empirical point values. No enclosure of endpoint remainders, determinant on a spectral disk or full overlap |
-| Returning pole | Bilinear pairing and continuation domain for causal windows. Outgoing-sheet contour conditions for the formal all-time source | No certification of source-plus-data numerator, exact spectral coincidence, Wronskian derivative, or physical excitation coefficient |
+| Returning pole and shifted pencils | Acb Riccati residual and endpoint contraction certificate, with Rouché root count at radius $5\times10^{-8}$, two interval noncoincidence checks and normalized $W'$ bound | Local literature-fundamental pole. The physical numerator and its contour dominance remain open |
 | Higher amplitude orders | Fourier covariance and ordered jets | No uniform nonlinear Bondi remainder or finite-seed error |
 
 For the optical enclosure, $p=U_x/U$ and $y=(1+k^2r^3)U/r$. The inherited validator bounds $p$ by the residual of a continuous piecewise cubic and a scalar Riccati comparison. On each cell $p$ lies in the returned box for the full growth-rate interval. To propagate $U$, use $U(x_b)=U(x_a)\exp(\int_{x_a}^{x_b}p\,dx)$ and the enclosing product of this box with the signed step. The interval from zero to the step bounds the value anywhere in the cell. The normalization fixes sign and amplitude. Interval quadrature takes the enclosed density times the exact tortoise cell length. The right tail follows by integrating $e^{-(.60-\Omega)(x-x_{60})}$ against the endpoint envelope. The optical ratio bound on that tail follows from $r\ge60$, $D=1+k^2r^3$, $f\ge59/60$, and $|3k^2r^2/D-1/r+p/f|<0.73$ in the reconstruction. E's repeat using the wider independently certified growth interval retains both displayed $K_*$ bounds.
@@ -24,4 +24,5 @@ PYTHONDONTWRITEBYTECODE=1 python3 GLR-GOAL-011/checks/barrier_delay.py
 PYTHONDONTWRITEBYTECODE=1 python3 GLR-GOAL-011/checks/barrier_delay_independent.py
 PYTHONDONTWRITEBYTECODE=1 python3 GLR-GOAL-011/checks/identity_controls.py
 PYTHONDONTWRITEBYTECODE=1 python3 GLR-GOAL-011/checks/massive_match.py
+PYTHONDONTWRITEBYTECODE=1 python3 GLR-GOAL-011/checks/spectral_certificate.py
 ```
