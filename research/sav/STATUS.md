@@ -1,3 +1,13 @@
+## GLR-GOAL-009 — 2026-11-07
+
+**Outcome B, substantial partial theorem.** New gates closed are the
+weighted seed hierarchy for the exact damped initial data and weighted
+differentiated ray control for the actual causal quadratic massive jet.
+The exact optical equations and terminal comparison give a geometric
+route with explicit exterior hypotheses. Uniform nonlinear evolution,
+mean forcing and physical Bondi news remain open.
+[Report](GLR-GOAL-009/REPORT.md) · [Verification](GLR-GOAL-009/VERIFICATION.md)
+
 ## GOAL-005 waveform follow-up status — 2026-11-07
 
 **Substantial partial success (Outcome B).** A separate five-specialist

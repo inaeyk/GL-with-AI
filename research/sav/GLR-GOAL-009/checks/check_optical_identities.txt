@@ -1,0 +1,25 @@
+Python 3.14.8
+SymPy 1.14.0
+normal-normal Ricci: exact
+reversed compact curvature sign: rejected
+omitted compact shift: rejected
+omitted lapse factor: rejected
+local compact divergence with density and Ricci defect: exact
+optical radial lapse: exact
+optical radial shift: exact
+optical radial potential: exact
+potential compact cancellation: exact
+optical evolution scalar operator: exact
+quadratic mean GL source: exact
+discarded quadratic zero mode: rejected
+flat pullback length ratio: exact
+flat pullback coordinate metric mean: exact
+mean-leaf null normal has positive full norm: exact
+massive potential BCP convention: exact
+massive horizon bracket: exact
+n=1 horizon bracket: -0.303475022
+n=2 horizon bracket: -1.094503475
+n=1 far bracket lower bound for r>=5: 0.375330509
+n=2 far bracket lower bound for r>=5: 1.574273287
+radion transverse strain trace: exact
+radion transverse strain norm: exact

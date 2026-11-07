@@ -1,3 +1,11 @@
+## GOAL-009 — 2026-11-07
+
+[Independent analytic verification](../GLR-GOAL-009/VERIFICATION.md),
+[exact symbolic checks](../GLR-GOAL-009/checks/README.md), and
+[failed routes and open estimates](../GLR-GOAL-009/OBSTRUCTIONS.md).
+These support the exact initial parity hierarchy and reference-wedge
+causal quadratic estimates. The nonlinear physical trace remains open.
+
 ## GOAL-005 waveform follow-up — 2026-11-07
 
 [Report](../GLR-GOAL-005/REPORT.md),

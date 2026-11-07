@@ -1,0 +1,4 @@
+SymPy 1.14.0
+PASS terminal compact, mixed, flat radial and Schwarzschild factors
+PASS independent radial-power coefficient substitution
+REJECT dropping the radial order-zero Schwarzschild integral
