@@ -1,0 +1,28 @@
+Python 3.14.8
+SymPy 1.14.0
+
+check_initial_data.py
+PASS direct spatial Christoffels: Hamiltonian curvature and K contraction
+PASS both momentum components and wrong radial acceleration control
+PASS oscillator sign and wrong correction sign control
+PASS spherical ADM transversality 9/14
+PASS mean-free far block linearization
+
+check_optical_system.py
+Python 3.14.8, SymPy 1.14.0
+PASS: rr, rz, zz and sphere hierarchy at two exact nonvacuum jets
+PASS negative control: omitting the compact derivative changes zz
+PASS: local-area lapse and shift constraints at two exact nonvacuum jets
+PASS: three exact rational Euler-symbol identities; no-shift variant rejected
+PASS: power-law test for terminal inverses and nonlocal compact coefficient
+PASS negative control: all radial and scalar equations hold, but
+  outgoing Vaidya times circle has Ric_uu = -mu'(u)/r**2
+
+check_areal_news.py
+Python 3.14.8, SymPy 1.14.0
+PASS angular vacuum identity; dropping the radion time derivative fails
+PASS areal end requires V_inf = B_inf + 2 Phi_lambda/sqrt(3)
+PASS Einstein-radius pullback agrees; unit areal time-time coefficient fails
+PASS weighted current signs and unbounded transverse-to-null density ratio
+PASS widened cone rejects background flux positivity: -3181/16038
+PASS exact circumference is invariant while the metric mean changes

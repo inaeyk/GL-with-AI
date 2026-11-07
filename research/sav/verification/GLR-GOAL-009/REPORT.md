@@ -1,0 +1,42 @@
+# Independent scientific review of GLR-GOAL-009
+
+Audited on 2026-11-07. [Source draft PR #10](https://github.com/inaeyk/GL-with-AI/pull/10) was open and its head was `30b5348503dcb7db8e45b9c1a3f520b2e3aabe10`. The [immutable commit](https://github.com/inaeyk/GL-with-AI/commit/30b5348503dcb7db8e45b9c1a3f520b2e3aabe10) contains the [goal specification](https://github.com/inaeyk/GL-with-AI/blob/30b5348503dcb7db8e45b9c1a3f520b2e3aabe10/research/sav/GLR-GOAL-009/GOAL.md) and [source dossier](https://github.com/inaeyk/GL-with-AI/tree/30b5348503dcb7db8e45b9c1a3f520b2e3aabe10/research/sav/GLR-GOAL-009).
+
+## Assessment
+
+**Outcome B is supported, with a correction to the conditional optical theorem.** The exact damped initial family has the stated weighted cubic odd remainder given the pinned damped constraint construction. The fixed-background differentiated estimate controls the actual compatible causal quadratic massive jet, including its homogeneous transient. The local optical equations, their linear normal form on a specified terminal radial domain, and the quadratic length matching survive this audit.
+
+**The proposed optical normalization at the five-dimensional sphere radius forces zero radion news when combined with the radiation trace.** The source assumes $V/B\to1$ in this chart. Vacuum angular evolution instead gives $V_\infty/B_\infty=1+2N_\epsilon/\sqrt3$ for the normalized clock, in distributions whenever the stated field trace and metric limits exist. The same correction follows from the transformation to the four-dimensional Einstein areal radius. Remove the $V/B\to1$ condition from the areal-chart terminal construction. State the Bondi flux regularity separately in the Einstein radius. The review records the change for the source authors. [Pinned optical hypothesis](https://github.com/inaeyk/GL-with-AI/blob/30b5348503dcb7db8e45b9c1a3f520b2e3aabe10/research/sav/GLR-GOAL-009/OPTICAL.md#L20) · [Calculation](DERIVATIONS.md#1-the-areal-normalization-conflict)
+
+The original objective is a uniform $L^2$ estimate $\|N_\epsilon-\epsilon^2 n_Z\|\le C_I|\epsilon|^4$ for the exact five-dimensional vacuum development of the damped, ADM-mass-tuned Gregory–Laflamme (GL) seed. The controlling gap remains a causal, commuted nonlinear Einstein estimate on an unbounded positive-mass exterior, or an equivalent characteristic estimate with constants matched to the same Cauchy data. That estimate must furnish quartic integrated scalar forcing, control of the mean potential and clock, and the differentiated end required for flux. The benchmark $3.5316\times10^{-7}<\mathcal K_Z<4.0171\times10^{-7}$ belongs to the exact **quadratic** waveform on $u/r_0\in[-10,-8]$. The source and this audit leave exact finite-seed Bondi news, finite-seed energy positivity, massive escape energy and first-bulge radiation open.
+
+| Claim | Status after audit |
+| --- | --- |
+| Weighted seed hierarchy on the damped initial slice, completed Z scalar free jet | Analytic given the inherited (A3) construction and $C^1$ ADM map. Uses finite derivative counts and a damping choice made before fixing the family. The scalar statement uses the adapted compact coordinate and the common pulled-back initial hypersurface. |
+| Causal $n=\pm2$ reference-wedge estimate | Analytic for fixed Schwarzschild product geometry, compatible finite-slice data and the complete forced Lichnerowicz system. Positive auxiliary cone flux plus one extra time commutation controls a transverse derivative. |
+| Exact mean compact-normal equation, local optical radial and supplementary equations | Geometric identities in existing charts. A mass integration function and supplementary constraints still have to be tied to the Cauchy development. |
+| Linear terminal optical normal form | Operator identity on a weighted radial domain with zero terminal torsion and sufficient decay. The transform samples the rest of the ray and changes how initial data enter. |
+| Terminal eikonal, cut length and clock | Conditional on the commuted areal-chart bounds and finite-strip continuation. The areal normalization needs the correction above. A finite-cut anchor is described; a spatial-corner anchor requires additional integrability. |
+| Nonzero finite-anchor quadratic length term | Verified at the level of jets using the pinned GL tail. It decays along reference rays. It concerns a fixed optical/areal circle crossing the reference slice, which can leave the exact initial hypersurface. |
+| Physical finite-seed news and energy | Conditional flux and error algebra verified. The exact trace, nonlinear ray estimates and asymptotic flux hypotheses are open. |
+
+## Version and stack
+
+| Role | Full SHA | GitHub |
+| --- | --- | --- |
+| GOAL-009 audited source | `30b5348503dcb7db8e45b9c1a3f520b2e3aabe10` | [Draft #10](https://github.com/inaeyk/GL-with-AI/pull/10) · [commit](https://github.com/inaeyk/GL-with-AI/commit/30b5348503dcb7db8e45b9c1a3f520b2e3aabe10) |
+| Direct parent, GOAL-006 source | `80f030df0bec99bebe76fd9ab473c419ad1af5a5` | [Draft #5](https://github.com/inaeyk/GL-with-AI/pull/5) · [commit](https://github.com/inaeyk/GL-with-AI/commit/80f030df0bec99bebe76fd9ab473c419ad1af5a5) |
+| GOAL-005 finite-slice source, parent of GOAL-006 | `61c7b5c2efd1ef1ad1ef545d9853949e6fe3d708` | [Draft #2](https://github.com/inaeyk/GL-with-AI/pull/2) · [commit](https://github.com/inaeyk/GL-with-AI/commit/61c7b5c2efd1ef1ad1ef545d9853949e6fe3d708) |
+| Sibling Work audit of GOAL-006 | `c4cac8f2e2dd12cfbdf50651863d2188a75fc87c` | [Draft #7](https://github.com/inaeyk/GL-with-AI/pull/7) · [commit](https://github.com/inaeyk/GL-with-AI/commit/c4cac8f2e2dd12cfbdf50651863d2188a75fc87c) |
+| Sibling Work audit of GOAL-005 | `a9bfbec0efe41b881e4b12aa262f5fcfcd94c639` | [Draft #3](https://github.com/inaeyk/GL-with-AI/pull/3) · [commit](https://github.com/inaeyk/GL-with-AI/commit/a9bfbec0efe41b881e4b12aa262f5fcfcd94c639) |
+| Review branch parent | `ad1cbabfcf75dbde39d3d8e61eda90d88ade86dc` | [Research baseline](https://github.com/inaeyk/GL-with-AI/commit/ad1cbabfcf75dbde39d3d8e61eda90d88ade86dc) |
+
+The source draft targets `codex/glr-goal-006-bondi-control`. The two prior Work audits are independent inputs on sibling branches. This review uses the shared `research/sav-radiation` baseline and adds only new files under `research/sav/verification/GLR-GOAL-009/`. Source and prior review references point to immutable Git objects.
+
+## Requested source qualifications
+
+1. In the $r_5$ terminal optical hypotheses retain $B\to B_\infty$ in $C^1$, $b_0\to1$, $B_\infty-1=O_{C^1}(\epsilon^2)$ and bounded positive $V$ with the stated derivative bounds. Normalize the cut clock from the cross coefficient. If a leading $V$ limit is stated for a radiating vacuum end, use the relation above. Keep the separate local-area $R=r_5\sqrt b$ normalization. [Pinned optical assumptions and clock](https://github.com/inaeyk/GL-with-AI/blob/30b5348503dcb7db8e45b9c1a3f520b2e3aabe10/research/sav/GLR-GOAL-009/OPTICAL.md#L139)
+2. Specify whether the target uses the local finite-cut anchor or the spatial-corner anchor. For the latter, establish convergence of the lapse correction integrated from the corner and a seed-uniform $O(\epsilon^2)$ bound on the additive shift. On a padded finite interval an $O(\epsilon^2)$ change between normalized clocks preserves the quartic error scale, with a corresponding cut comparison. [Target](https://github.com/inaeyk/GL-with-AI/blob/30b5348503dcb7db8e45b9c1a3f520b2e3aabe10/research/sav/GLR-GOAL-009/THEOREM.md#L47) · [Local anchor](https://github.com/inaeyk/GL-with-AI/blob/30b5348503dcb7db8e45b9c1a3f520b2e3aabe10/research/sav/GLR-GOAL-009/OPTICAL.md#L145)
+3. In the reference-wedge theorem spell out that both null derivatives use the outgoing trace at one higher time commutation, and specify the weighted data and source hierarchy by the finite index list in the proof. In the optical approach retain a nontrivial supplementary constraint gate. Even a normalized angular/radial hierarchy with $R_{uu}=O(r^{-2})$ can carry a Vaidya-type source. [Energy proof](https://github.com/inaeyk/GL-with-AI/blob/30b5348503dcb7db8e45b9c1a3f520b2e3aabe10/research/sav/GLR-GOAL-009/DERIVATIONS.md#L58) · [Supplementary equations](https://github.com/inaeyk/GL-with-AI/blob/30b5348503dcb7db8e45b9c1a3f520b2e3aabe10/research/sav/GLR-GOAL-009/EXTERIOR.md#L170)
+
+[Audit derivations and counterexamples](DERIVATIONS.md) · [Reproducibility, inputs and independent workstreams](REPRODUCIBILITY.md)
