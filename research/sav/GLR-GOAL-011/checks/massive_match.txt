@@ -1,0 +1,14 @@
+Python 3.14.8, NumPy 2.4.6, SciPy 1.18.0
+r0=1 k=0.6283185307179586 lambda=4 r_match=2.5 ray angle=pi/4
+s1=-0.24120619-0.74734300i
+  delta=1e-03 length=  24.0 rtol=2e-10 |det_Q|=0.1163566257 sigma_min=0.0881994552 nfev=(470,878)
+  delta=1e-04 length=  48.0 rtol=2e-10 |det_Q|=0.1164146057 sigma_min=0.0881835103 nfev=(554,1466)
+  delta=1e-05 length=  96.0 rtol=2e-10 |det_Q|=0.1164150544 sigma_min=0.0881836151 nfev=(626,2414)
+  delta=1e-06 length= 144.0 rtol=2e-10 |det_Q|=0.1164150552 sigma_min=0.0881836155 nfev=(674,3194)
+  delta=1e-06 length= 144.0 rtol=2e-12 |det_Q|=0.1164150552 sigma_min=0.0881836155 nfev=(1226,5798)
+s1=-0.23820619-0.74734300i
+  delta=1e-03 length=  24.0 rtol=2e-10 |det_Q|=0.1165394044 sigma_min=0.0878540299 nfev=(470,878)
+  delta=1e-04 length=  48.0 rtol=2e-10 |det_Q|=0.1166087994 sigma_min=0.0878473928 nfev=(554,1478)
+  delta=1e-05 length=  96.0 rtol=2e-10 |det_Q|=0.1166090478 sigma_min=0.0878475127 nfev=(614,2402)
+  delta=1e-06 length= 144.0 rtol=2e-10 |det_Q|=0.1166090480 sigma_min=0.0878475128 nfev=(674,3194)
+  delta=1e-06 length= 144.0 rtol=2e-12 |det_Q|=0.1166090480 sigma_min=0.0878475128 nfev=(1226,5774)

@@ -1,5 +1,6 @@
 Python 3.14.8 SymPy 1.14.0
 PASS exact mean curl equation; omitted algebraic extraction rejected
 PASS Fourier selection, pure gauge with transformed launch, and zero GL
-PASS real l=2 tensor harmonic norm 12; raw flux factor-four control
+PASS real l=2 axial parity and tensor norm 12; raw flux factor-four control
+PASS manufactured massive two-polarization sourced equations
 PASS compact upper-data residue can change; rank degenerates at a real pole

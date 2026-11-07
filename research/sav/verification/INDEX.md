@@ -1,3 +1,11 @@
+## GOAL-011 near-barrier axial response — 2026-11-07
+
+Independent direct Ricci and action routes, an outward-rounded physical
+optical coefficient, differentiated width control and negative checks
+are recorded in the [audit](../GLR-GOAL-011/INDEPENDENT-REVIEW.md).
+[Reproduction](../GLR-GOAL-011/ERROR-BUDGET.md). The massive shifted
+matching result is empirical. The physical pole overlap remains open.
+
 ## GOAL-005 waveform follow-up — 2026-11-07
 
 [Report](../GLR-GOAL-005/REPORT.md),

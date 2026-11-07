@@ -1,3 +1,11 @@
+## GOAL-011 status — 2026-11-07
+
+**Outcome B.** A smooth fixed-canonical outgoing quadrupole launched near
+the barrier has a nonzero leading GL-dependent ordered shear. At
+$R/r_0=13/8$ the optical coefficient is strictly between $0.257$ and
+$0.304$. Finite-width error constants and the physical fundamental
+residue remain open. [Dossier](GLR-GOAL-011/REPORT.md).
+
 ## GOAL-005 waveform follow-up status — 2026-11-07
 
 **Substantial partial success (Outcome B).** A separate five-specialist

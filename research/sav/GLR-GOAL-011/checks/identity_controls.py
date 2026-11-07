@@ -28,22 +28,16 @@ def mean_elimination():
 
 def parity_and_gauge():
     z = sp.symbols("z", real=True)
-    angle = (sp.exp(sp.I*z) + sp.exp(-sp.I*z))/2
-
-    def mean(expr):
-        return sp.expand(expr).coeff(sp.exp(sp.I*z), 0).subs(sp.exp(-sp.I*z), 0)
-
     # Laurent coefficients implement Fourier selection without a sign convention for real phases.
     w = sp.symbols("w", nonzero=True)
     cosine = (w + 1/w)/2
     assert sp.expand(cosine).coeff(w, 0) == 0
     assert sp.expand(cosine**2/2).coeff(w, 0) == sp.Rational(1, 4)
     assert sp.expand((w**2 + w**-2)*cosine**0).coeff(w, 0) == 0
-    assert mean(angle) == 0
 
     u, v, v_launch = sp.symbols("u v v_launch", real=True)
     label = (u + 1)*sp.sin(z)*sp.exp(-v)
-    shifted = sp.integrate(sp.diff(label, v), (v, v_launch, sp.oo))
+    shifted = sp.limit(label, v, sp.oo) - label.subs(v, v_launch)
     assert sp.simplify(shifted + label.subs(v, v_launch)) == 0
     assert shifted != 0
     angular_gauge = sp.Function("Lambda")(u, v, z)
@@ -59,11 +53,46 @@ def flux():
     y20 = sp.sqrt(5/(16*sp.pi))*(3*sp.cos(theta)**2 - 1)
     x_phi = sp.sin(theta)*sp.diff(y20, theta)
     x_theta_phi = (sp.diff(x_phi, theta) - 2*sp.cot(theta)*x_phi)/2
-    norm = 2*sp.pi*sp.integrate(2*x_theta_phi**2/sp.sin(theta), (theta, 0, sp.pi))
-    assert sp.simplify(norm) == 12
+    normalization = sp.sqrt(5/(16*sp.pi))
+    assert sp.trigsimp(x_theta_phi - 3*normalization*sp.sin(theta)**3) == 0
+    assert sp.trigsimp(x_phi.subs(theta, sp.pi-theta) + x_phi) == 0
+    q = sp.symbols("q", real=True)
+    norm = 36*sp.pi*normalization**2*sp.integrate((1-q**2)**2, (q, -1, 1))
+    assert norm == 12
     raw_to_shear = -sp.Rational(2, 4)
     assert 1/raw_to_shear**2 == 4
-    print("PASS real l=2 tensor harmonic norm 12; raw flux factor-four control")
+    print("PASS real l=2 axial parity and tensor norm 12; raw flux factor-four control")
+
+
+
+def massive_elimination():
+    r = sp.symbols("r", positive=True)
+    k, lam, s = sp.Rational(3, 5), sp.Integer(4), sp.Rational(7, 10)
+    f = 1 - 1/r
+    d = lam + k*k*r*r
+    density, weight, ell = r*r*d, lam*r**4/d, r*r/d
+
+    def dx(expr):
+        return f*sp.diff(expr, r)
+
+    a_t, a_x, a_z = 1+r*r, r**3, 2-r*r
+    curl = r**4*(s*a_x-dx(a_t))/f
+    f_tz, f_xz = s*a_z-sp.I*k*a_t, dx(a_z)-sp.I*k*a_x
+    i_t = dx(curl) + sp.I*k*r**4*f_tz + lam*r*r*a_t
+    i_x = -s*curl - sp.I*k*r**4*f_xz - lam*r*r*a_x
+    i_z = -s*r**4*f_tz + dx(r**4*f_xz) - lam*f*r*r*a_z
+
+    base = f*(k*k+lam/r**2)
+    a, b = dx(density)/(2*density), dx(weight)/(2*weight)
+    row_y = dx(dx(curl)) - 2*a*dx(curl) - (s*s+base)*curl
+    row_y += sp.I*k*density*dx(ell)*s*a_z
+    row_y -= density*(s*i_x/density + dx(i_t/density))
+    row_z = weight*(dx(dx(a_z)) + 2*b*dx(a_z) - (s*s+base)*a_z)
+    row_z += sp.I*k*dx(ell)*s*curl
+    row_z -= i_z - sp.I*k*(s*ell*i_t + dx(ell*i_x))
+    assert sp.cancel(row_y) == 0
+    assert sp.cancel(row_z) == 0
+    print("PASS manufactured massive two-polarization sourced equations")
 
 
 def pole_control():
@@ -84,4 +113,5 @@ if __name__ == "__main__":
     mean_elimination()
     parity_and_gauge()
     flux()
+    massive_elimination()
     pole_control()
