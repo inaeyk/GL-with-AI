@@ -1,3 +1,11 @@
+## GOAL-011 physical overlap update — 2026-11-07
+
+The full ordered source now gives a reproducible numerical fundamental
+residue for the fixed-canonical barrier packet. See the
+[physical overlap report](GLR-GOAL-011/PHYSICAL-RESIDUE.md) and
+[time-to-null proof](GLR-GOAL-011/NULL-TRANSFORM.md).
+Certification of the numerical source error remains open.
+
 ## GOAL-011 axial strong-field result — 2026-11-07
 
 The separately authorized investigation derived the constrained axial

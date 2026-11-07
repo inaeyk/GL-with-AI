@@ -30,3 +30,13 @@ The separate [pairing review](investigators/C-PAIRING.md) recovered the
 canonical launch cancellation, finite horizon boundary term and EF
 regularity needed for the local continued source. Neither review evaluates
 the full complex overlap.
+
+The physical overlap checkpoint adds [C's time-to-null review](investigators/C-NULL-TRANSFORM.md)
+and [E's overlap audit](investigators/E-OVERLAP.md). B implemented and
+checked the mean EF source independently against exact warped geometry.
+C implemented the massive forced inverse, including a noncompact
+manufactured horizon test. E checked the quadratic weights and data
+contacts and repeated the physical overlap on a different contour.
+An additional strong-form quadrature of the computed fields agreed
+with the split strong/weak calculation. The source enclosure remains
+open. [Numerical evidence and limitations](PHYSICAL-RESIDUE.md)

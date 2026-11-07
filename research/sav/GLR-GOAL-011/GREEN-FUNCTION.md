@@ -21,4 +21,4 @@ $$
  -\int_\Sigma [w D_\Sigma\Psi_2-\Psi_2 D_\Sigma w],dy,
  \quad w=e^{-st}h(s,y), \tag{2}
 $$
-when the spatial limit and transform commute in this half-plane. Compact forcing and the auxiliary causal cutoff of the forcing described below justify this exchange. A finite physical observation window alone does not justify an infinite-time transform. The second term becomes $-\int h(s,y)(\Psi_{2,t}+s\Psi_2)|_{0}\,dy$ on a constant-time slice. Formula (2) also fixes the adjoint convention for the residue. See [QNM-RESIDUES](QNM-RESIDUES.md) for its continuation conditions.
+when the spatial limit and transform commute in this half-plane. The [time-to-null estimate](NULL-TRANSFORM.md) justifies this exchange for the unwindowed ordered physical source. A separate auxiliary source cutoff in retarded time gives the finite-window comparison described in [QNM-RESIDUES](QNM-RESIDUES.md). The second term becomes $-\int h(s,y)(\Psi_{2,t}+s\Psi_2)|_{0}\,dy$ on a constant-time slice. Formula (2) also fixes the adjoint convention for the residue. See [QNM-RESIDUES](QNM-RESIDUES.md) for its continuation conditions.

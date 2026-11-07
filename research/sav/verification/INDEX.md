@@ -1,3 +1,11 @@
+## GOAL-011 physical overlap checkpoint — 2026-11-07
+
+[Physical residue](../GLR-GOAL-011/PHYSICAL-RESIDUE.md) records complete
+source pieces, separate horizon and contour checks, strong and weak
+quadrature agreement, and independent audits. The estimated physical
+numerator is empirical. The pole and shifted noncoincidences are
+interval-certified.
+
 ## GOAL-011 spectral certificate — 2026-11-07
 
 The outward-rounded Riccati flow, endpoint contractions and Rouché count

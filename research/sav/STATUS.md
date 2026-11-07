@@ -1,3 +1,11 @@
+## GOAL-011 physical residue checkpoint — 2026-11-07
+
+The ordered unwindowed trace has a justified continued transform.
+The complete finite-packet overlap gives the empirical residue
+$0.1352-0.3706i$ at $R/r_0=13/8$ and width $0.12$. The local pole
+denominator is certified. The source enclosure remains open.
+[Physical overlap](GLR-GOAL-011/PHYSICAL-RESIDUE.md).
+
 ## GOAL-011 local spectral checkpoint — 2026-11-07
 
 The local simple pole near the literature fundamental and both shifted

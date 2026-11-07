@@ -21,3 +21,26 @@ Executed bounded computations are the Arb GL enclosure and its wider-interval re
 The next bounded work resolved the three local denominator gates. Candidate Riccati matching at an initially wider spectral box lost the massive error bootstrap, and an overly strong lower-bound assertion failed for a disk of radius $2\times10^{-6}$. A mesh concentrated toward the matching radius and a tighter certified root disk resolved both. The stored Acb certificate uses outward-rounded residuals, endpoint contractions and Rouché counting. A simple RW pole lies within $5\times10^{-8}/r_0$ of the stated center, both shifted pencils are noncoincident there over the full physical GL growth interval, and the normalized $W'$ is bounded away from zero. E independently challenged the tail, complex flow, branch and root count and replayed the output.
 
 The fixed-canonical graph and electric-density identities now absorb the induced launch terms without discarding them. The baseline shifted radial field is determined by explicit compact moments. Integration by parts at the continued pole requires a finite horizon-side flux term. The manufactured leading horizon case cancels only when that boundary is retained. C independently reconstructed the signs and distinguished the continued formal radial overlap from the all-time physical null-trace transform. The outstanding science is the evaluated physical overlap and control of its time-domain interpretation. The remote destination ref was absent on read-back and publication remains pending after the prior approval rejection.
+
+### Continued physical residue checkpoint
+
+The coordinator constructed the normalized regular EF GL profile and
+the compact launch moments on a joint real and outgoing ray. B
+independently implemented the physical mean Einstein source and
+quadratures. C implemented the mixed forced two-polarization inverse
+and manufactured controls. The direct small-cutoff horizon subtraction
+failed refinement, with stable spectra and outer integrations but
+large near-horizon roundoff. Those values are preserved verbatim.
+Resolved-collar reconstruction in regular variables and independent
+strong projection stabilized the physical numerator. E independently
+checked signs, normalization and an alternate-contour physical run.
+
+An exponential-in-retarded-time bound establishes the unwindowed
+ordered time-to-null Laplace exchange. C independently checked the
+causal support, weighted absorption and news derivative. The physical
+residue is now numerically evaluated at two finite launch radii.
+Outcome B is retained for the certified result because the numerical
+source numerator has no interval enclosure and a particular finite
+packet width has no uniform waveform error constant. The physical
+complex estimate, empirical error budget and independent evidence are
+in [PHYSICAL-RESIDUE](PHYSICAL-RESIDUE.md).
