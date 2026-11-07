@@ -5,6 +5,10 @@ The isolated research stack starts at GOAL-007 source
 46ec0208d3efdd0595813e8e2719e2319b5ee67c is an external input.
 GOAL-005 mode and finite-slice pins and the exact external references
 are listed in the [GOAL-011 source map](GLR-GOAL-011/LITERATURE.md).
+The [mixed matching and mean checkpoint](GLR-GOAL-011/EXTERIOR-SOURCE.md)
+builds on the scoped launch and horizon certificate at
+d5c75146a29dba88e7502929dbdaeabec1284a39 and uses the same spectral,
+geometric and fixed-data inputs.
 
 ## GOAL-005 waveform follow-up provenance — 2026-11-07
 

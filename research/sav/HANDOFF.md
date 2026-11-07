@@ -1,3 +1,10 @@
+## GOAL-011 forced matching update — 2026-11-07
+
+The physical mixed data now have a validated match and the EF mean
+has a validated horizon-cap enclosure. The remaining gate is to
+tighten and transport the mixed state and enclose the signed overlap.
+[Matching and mean](GLR-GOAL-011/EXTERIOR-SOURCE.md).
+
 ## GOAL-011 physical overlap update — 2026-11-07
 
 The full ordered source now gives a reproducible numerical fundamental

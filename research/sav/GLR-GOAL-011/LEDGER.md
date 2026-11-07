@@ -68,3 +68,27 @@ The full physical residue remains empirical because the exterior
 forced match, mean cap amplitudes and outer integral have no validated
 enclosure. The affine Riccati identity now specifies a direct
 residual route for those bounds. [Horizon source](HORIZON-SOURCE.md)
+
+### Physical shifted matching and mean enclosure
+
+B independently reconstructed the normalized GL EF radial jets. C
+derived absolute far-ray Riccati, forcing and mixed propagation caps.
+The coordinator reused the verified directed Riccati transport to
+enclose the actual GL and RW amplitudes and their logarithmic slopes.
+The far outgoing affine datum has norm below $9.788\times10^{-25}$,
+and either omitted EF mean tail is below $9.054\times10^{-16}$.
+The mean quadrature encloses the physical cap and the compact packet
+moments include the distributional launch terms in the forced
+ingoing match. Acb residual enclosures on both legs and the matching
+inverse bound the actual mixed position at $r_m=2.5$ with Euclidean
+radius below $0.33257$. E independently checked the exterior, mean,
+partial moments, horizon datum and matching estimate and replayed the
+two-subdivision calculation. The eight-subdivision refinement and
+empirical center comparison are recorded separately.
+
+Unfactored source propagation, raw mean quadrature and direct box
+inversion gave broad enclosures and are preserved in the wide-result
+record. The present bounds supply both forced matching data and the
+physical mean cap. Horizon-amplitude transport and the signed
+numerator remain open. The prior remote approval rejection remains
+in force. [Calculation and reproduction](EXTERIOR-SOURCE.md)

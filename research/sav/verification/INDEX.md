@@ -1,3 +1,12 @@
+## GOAL-011 physical mixed matching and mean — 2026-11-07
+
+[Interval record](../GLR-GOAL-011/EXTERIOR-SOURCE.md) covers the
+continued exterior profiles, compact baseline contact terms,
+both directed affine equations, the matched mixed state and
+physical mean cap. Independent reviews checked the exterior tail,
+the compact launch and the matching inequality. The signed
+residue numerator remains empirical.
+
 ## GOAL-011 horizon and launch certificate — 2026-11-07
 
 [Horizon source](../GLR-GOAL-011/HORIZON-SOURCE.md) contains an

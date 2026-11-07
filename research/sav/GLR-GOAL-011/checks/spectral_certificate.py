@@ -84,13 +84,15 @@ def branch(s, massive, right, k):
     return -kappa, k*k/(2*kappa)
 
 
-def candidate(center, massive, right, cells):
+def candidate(center, massive, right, cells, knot=None):
     n = 2 if massive else 1
     k = pi/5
     ell0, alpha = branch(center,massive,right,k)
     w = (1+1j)/sqrt(2)
     if right:
         grid = OUTER*np.linspace(1,0,cells+1)**3
+        if knot is not None:
+            grid = np.unique(np.r_[grid,knot])[::-1]
         initial = np.zeros(n*n,dtype=complex)
     else:
         grid = np.log(1.5)-(np.log(1.5)-np.log(INNER))*np.linspace(1,0,cells+1)**2
@@ -160,10 +162,10 @@ def tail(s,massive,right,ell0,alpha):
     return radius, (radius*R*(1+1/(R-1))).upper()
 
 
-def compact_bound(s,massive,right,cells,normalization):
+def compact_bound(s,massive,right,cells,normalization,capture=None,knot=None):
     n=2 if massive else 1
     center=complex(float(s.real.mid()),float(s.imag.mid()))
-    samples=candidate(center,massive,right,cells)
+    samples=candidate(center,massive,right,cells,knot)
     ell0,alpha=branch(s,massive,right,acb(K))
     if right:
         assert samples[0][0] == OUTER and samples[-1][0] == 0
@@ -171,8 +173,23 @@ def compact_bound(s,massive,right,cells,normalization):
         assert arb(samples[0][0]) <= arb(INNER)*arb("1.0001")
         assert samples[-1][0] == 1.5
     initial, tail_integral=tail(s,massive,right,ell0,alpha)
+
+    def local_coefficients(r,r_minus):
+        den,q,ell=coefficients(r,r_minus,s,massive,right,acb(K),ell0,alpha)
+        fden=r_minus*r**3
+        if massive:
+            fden *= (4+acb(K)**2*r*r)**2
+        return den,q,ell,fden
+
+    return directed_flow(samples,n,right,ell0,alpha,local_coefficients,
+                         initial,tail_integral,normalization,capture)
+
+
+def directed_flow(samples,n,right,ell0,alpha,local_coefficients,
+                  initial,tail_integral,normalization,capture=None,initial_is_error=False):
+    """Certify candidate Riccati cells, optionally saving the local enclosures."""
     integral=acb(arb(0,tail_integral),arb(0,tail_integral))
-    error=(initial+matrix_norm([acb(complex(x)) for x in samples[0][1]])).upper()
+    error=initial if initial_is_error else (initial+matrix_norm([acb(complex(x)) for x in samples[0][1]])).upper()
     peak=error
     for (a,pl,dl),(b,pr,dr) in zip(samples,samples[1:]):
         left=acb(a); step=acb(b)-left
@@ -181,17 +198,13 @@ def compact_bound(s,massive,right,cells,normalization):
             step=W*step
         r_minus=acb_poly([left,step])
         r=r_minus+1
-        den, q, ell=coefficients(r,r_minus,s,massive,right,acb(K),ell0,alpha)
+        den,q,ell,fden=local_coefficients(r,r_minus)
         p=[]
         for l,u,v,w in zip(pl,pr,dl,dr):
             l,u,v,w=[acb(complex(q)) for q in (l,u,v,w)]
             diff=u-l
             p.append(acb_poly([l,step*v,3*diff-step*(2*v+w),-2*diff+step*(v+w)]))
         residual=[]
-        # f*den = (r-1)*r^3*d^2.
-        fden=r_minus*r**3
-        if massive:
-            fden *= (4+acb(K)**2*r*r)**2
         for i in range(n):
             for j in range(n):
                 k=i*n+j
@@ -213,14 +226,16 @@ def compact_bound(s,massive,right,cells,normalization):
         linear=(-2*step_x*ell(T)/den(T)).real.upper()+2*max(norm_bound)
         budget=(2*(error+force)*max(arb(1),linear.exp().upper())).upper()
         rate=(linear+scale*budget).upper()
-        a=rate.exp()
+        growth=rate.exp()
         if rate != 0:
             h=rate.expm1()/rate
         else:
             h=arb(1)
         # The scalar comparison solution is monotone in this cell.
-        error=(a*error+h*force).upper()
-        assert error<budget, (right, massive, cells, budget,error,pl,pr)
+        error=(growth*error+h*force).upper()
+        assert error<budget, (right, n, len(samples)-1, budget,error,pl,pr)
+        if capture is not None:
+            capture.append((a,b,left,step,p,budget))
         if normalization:
             integral_error=(scale*budget).upper()
             integral+=step_x*p[0](T)+acb(arb(0,integral_error),arb(0,integral_error))

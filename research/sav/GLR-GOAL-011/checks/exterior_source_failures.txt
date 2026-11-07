@@ -1,0 +1,41 @@
+Unfactored affine interval residual before extracting physical amplitudes.
+  right endpoint error: 2.860804e-07, peak: 0.0009574448
+  right endpoint error: 1.134614e-09, peak: 0.0007651226
+  right endpoint error: 2.860804e-07, peak: 0.0009574448
+  right endpoint error: 1.572295e-07, peak: 0.0007411063
+  right endpoint error: 0.0002219837, peak: 0.02910599
+physical GL |u(64)| upper [3.3456770026876639194390872233952904935e-13 +/- 5.15e-53]
+baseline |Psi(64)| upper [6.8805127285791189972741221936303190887e-11 +/- 2.58e-50]
+returning adjoint |h(64)| upper [1.2619150922777919165973514736833749339e-11 +/- 1.56e-50]
+outgoing affine initial tail norm upper [9.7871620875095003163874247832716675462e-25 +/- 6.63e-64]
+outgoing affine match error norm upper [0.55385223470317846529488260427876139274 +/- 1.54e-39] peak [0.55385223470317846529488260427876139274 +/- 1.54e-39]
+outgoing affine match enclosure [[+/- 0.584] + [+/- 0.569]j, [+/- 0.555] + [+/- 0.582]j]
+
+Raw mean integration and direct-box compact transport before the centered and Riccati changes.
+  right endpoint error: 2.860804e-07, peak: 0.0009574448
+  right endpoint error: 1.134614e-09, peak: 0.0007651226
+  right endpoint error: 2.860804e-07, peak: 0.0009574448
+  right endpoint error: 1.572295e-07, peak: 0.0007411063
+  right endpoint error: 0.0002219837, peak: 0.02910599
+physical mean tail each component upper [9.0536147535605992679790017403337481060e-16 +/- 4.64e-54]
+EF mean at 2.5 [[+/- 5.82] + [+/- 5.79]j, [+/- 2.04] + [+/- 1.90]j]
+EF mean at r=1+1/128 [[+/- 2.20e+9] + [+/- 2.20e+9]j, [+/- 1.18e+9] + [+/- 1.18e+9]j]
+imaginary part zero by analytic deformation; interval real parts [[+/- 2.20e+9], [+/- 1.18e+9]]
+
+Direct Acb matrix solve after left and right match enclosure.
+  right endpoint error: 2.860804e-07, peak: 0.0009574448
+  right endpoint error: 1.134614e-09, peak: 0.0007651226
+  right endpoint error: 2.860804e-07, peak: 0.0009574448
+  right endpoint error: 1.572295e-07, peak: 0.0007411063
+  right endpoint error: 0.0002219837, peak: 0.02910599
+  left endpoint error: 9.352359e-07, peak: 1.165161e-06
+  left endpoint error: 1.826548e-06, peak: 2.94541e-06
+  left endpoint error: 7.840012e-07, peak: 7.840012e-07
+ingoing affine start r [1.0313414502474030770562407610668742564 +/- 4.25e-38] cells 1156
+ingoing affine match error norm upper [0.067676528462831624949757373852387440498 +/- 1.01e-40] peak [0.096235997390960538880731757212225667686 +/- 4.51e-41]
+ingoing affine match enclosure [[-0.1 +/- 0.0704] + [+/- 0.135]j, [+/- 0.0891] + [+/- 0.103]j]
+outgoing affine match error norm upper [0.0075298992791496798440514587329456394224 +/- 4.20e-41] tail [9.7871620875095003163874247832716675462e-25 +/- 6.63e-64]
+outgoing affine match enclosure [[0.03 +/- 8.33e-3] + [+/- 0.0223]j, [+/- 8.02e-3] + [0.03 +/- 9.53e-3]j]
+physical mixed determinant [-0.22 +/- 7.06e-3] + [0.42 +/- 7.63e-3]j
+physical mixed state at match [ [+/- 1.34] + [+/- 1.57]j]
+[[+/- 0.856] + [+/- 1.30]j]

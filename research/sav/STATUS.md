@@ -1,3 +1,10 @@
+## GOAL-011 forced match and mean checkpoint — 2026-11-07
+
+The actual compact source, outgoing affine tail and two-polarization
+matching solve have interval enclosures. The EF mean cap is enclosed.
+The signed returning projection and certified nonzero residue remain
+open. [Evidence](GLR-GOAL-011/EXTERIOR-SOURCE.md).
+
 ## GOAL-011 validated launch and horizon checkpoint — 2026-11-07
 
 The fit-free horizon evaluation reproduces the empirical physical
