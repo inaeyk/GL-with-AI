@@ -1,3 +1,12 @@
+## GOAL-005 waveform follow-up provenance — 2026-11-07
+
+Independent calculations began at $\texttt{96339836a1281c219917f900224e7c98cf62f3f8}$.
+The dedicated branch advanced to publication parent
+$\texttt{ad1cbabfcf75dbde39d3d8e61eda90d88ade86dc}$ after reading the
+October GOAL-005 enclosure and audits. See the [dossier](GLR-GOAL-005/README.md)
+for exact scientific dependencies and the [literature audit](GLR-GOAL-005/LITERATURE.md)
+for newly inspected primary references and applicability limits.
+
 ## GOAL-005 executed provenance — 2026-10-23
 
 Actual fresh-fetched input research/sav-radiation:

@@ -206,3 +206,12 @@ No automatic GOAL-006 or production action.
 [Report](GLR-GOAL-005_REPORT.md),
 [executed ledger](../verification/GLR_GOAL005_CHECKS.md),
 [publication record](../verification/GOAL005_PUBLICATION.md).
+
+## Separately authorized waveform follow-up — 2026-11-07
+
+This annotation links the distinct [waveform investigation](../GLR-GOAL-005/README.md).
+The original October task and its archived execution record above retain
+their scope. The new outcome is substantial partial success with an
+enclosed finite-slice quadratic radion coefficient and exact exterior data.
+The uniform nonlinear trace, full transient metric norm and first-bulge
+radiation gates remain open.

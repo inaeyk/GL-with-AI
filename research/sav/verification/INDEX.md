@@ -1,3 +1,14 @@
+## GOAL-005 waveform follow-up — 2026-11-07
+
+[Report](../GLR-GOAL-005/REPORT.md),
+[verification](../GLR-GOAL-005/VERIFICATION.md),
+[reproduction](../GLR-GOAL-005/REPRODUCIBILITY.md).
+Executed rational, symbolic, independent numerical and Arb checks enclose
+the exact quadratic Z coefficient on $u/r_0\in[-10,-8]$.
+The weighted constraint estimate and separate adverse review support the
+stated spatial end class. A nonlinear news estimate is still open.
+The October scientific checks below retain their scope.
+
 ## GOAL-005 executed evidence — 2026-10-23
 
 Terminal **MEANINGFUL_PARTIAL**, superseding the historical preparation

@@ -1,0 +1,171 @@
+{
+  "python": "3.14.8",
+  "numpy": "2.4.6",
+  "scipy": "1.18.0",
+  "benchmark": {
+    "r0": 1,
+    "L": 10,
+    "omega": 0.06328118897590773,
+    "k": 0.6283185307179586,
+    "u_window": [
+      -10.0,
+      -8.0
+    ],
+    "b_min": 5.152553235120007,
+    "b_start": 6.566475737112015
+  },
+  "kernel": {
+    "kappa": 0.05936485703874507,
+    "news_operator_norm": 0.009416619749914831,
+    "absolute_free_waveform_quadrature_estimate": 0.0005786127841131101,
+    "news_error_first_corrected_bound_using_sampled_absolute_free": 3.4386762135009605e-07,
+    "news_error_12_updates_bound_using_sampled_absolute_free": 6.587860584668203e-22
+  },
+  "independent_free_radial": {
+    "u": [
+      -8,
+      -9,
+      -10
+    ],
+    "columns": [
+      "news",
+      "waveform"
+    ],
+    "reconstruct": [
+      [
+        0.0006555487847476196,
+        0.0005786127841131101
+      ],
+      [
+        0.0002122060871475195,
+        0.00018501671147283088
+      ],
+      [
+        6.767313895126289e-05,
+        5.841166678417552e-05
+      ]
+    ],
+    "raw": [
+      [
+        0.0006555487847516908,
+        0.0005786127841156961
+      ],
+      [
+        0.00021220608714837702,
+        0.00018501671147314066
+      ],
+      [
+        6.767313895134933e-05,
+        5.841166678420447e-05
+      ]
+    ]
+  },
+  "source_tail": {
+    "taper_starts": 60.0,
+    "taper_ends": 65.0,
+    "direct_news_bound_per_true_m60_squared": 47464221159109.64,
+    "sampled_m60": -1.5523032955301775e-16,
+    "direct_news_bound_if_m60_exact": 1.143719479386986e-18
+  },
+  "configurations": [
+    {
+      "resolution": 32,
+      "b_nodes": 225,
+      "finite_v_nodes": 288,
+      "news_u_minus_8_9_10": [
+        0.0006516715906367566,
+        0.00021124669645487606,
+        6.744068736180988e-05
+      ],
+      "waveform_u_minus_8_9_10": [
+        0.0005758159684165634,
+        0.00018431425368477692,
+        5.822649165756616e-05
+      ],
+      "free_news_u_minus_8_9_10": [
+        0.0006556900278249505,
+        0.00021226859802662778,
+        6.77015289691858e-05
+      ],
+      "first_corrected_news_u_minus_8_9_10": [
+        0.0006516618224534981,
+        0.00021124471645207488,
+        6.744027615034176e-05
+      ],
+      "energy": 3.7343197954274574e-07,
+      "energy_free": 3.776153881946447e-07,
+      "energy_first_corrected": 3.734226705598979e-07,
+      "max_relative_free_news_error_vs_radial_quadrature": 0.0004195167885350237,
+      "max_relative_phi_prime_error": 5.9964563192016485e-05,
+      "last_field_difference": 0.0,
+      "manufactured": {
+        "max_news_error": 2.558624492920991e-05,
+        "wrong_potential_sign_max_news_error": 0.005730759782094252,
+        "max_waveform_error": 0.0003984742463176705
+      }
+    },
+    {
+      "resolution": 64,
+      "b_nodes": 449,
+      "finite_v_nodes": 576,
+      "news_u_minus_8_9_10": [
+        0.0006515661631620585,
+        0.00021119992155093644,
+        6.741937259141571e-05
+      ],
+      "waveform_u_minus_8_9_10": [
+        0.0005757111935588142,
+        0.00018427936220797835,
+        5.822148455407722e-05
+      ],
+      "free_news_u_minus_8_9_10": [
+        0.0006555840980149066,
+        0.0002122217181503265,
+        6.768023703611279e-05
+      ],
+      "first_corrected_news_u_minus_8_9_10": [
+        0.000651556402404246,
+        0.0002111979437699661,
+        6.741896273976701e-05
+      ],
+      "energy": 3.732922544283877e-07,
+      "energy_free": 3.774743833131647e-07,
+      "energy_first_corrected": 3.732829552202926e-07,
+      "max_relative_free_news_error_vs_radial_quadrature": 0.00010488777319772602,
+      "max_relative_phi_prime_error": 1.0372206339703816e-05,
+      "last_field_difference": 0.0
+    },
+    {
+      "resolution": 128,
+      "b_nodes": 897,
+      "finite_v_nodes": 1152,
+      "news_u_minus_8_9_10": [
+        0.000651539804002954,
+        0.00021118822477492693,
+        6.741404338317223e-05
+      ],
+      "waveform_u_minus_8_9_10": [
+        0.0005756849911896968,
+        0.00018427062962928696,
+        5.82202248859818e-05
+      ],
+      "free_news_u_minus_8_9_10": [
+        0.0006555576132212806,
+        0.00021220999507587116,
+        6.767491350959013e-05
+      ],
+      "first_corrected_news_u_minus_8_9_10": [
+        0.0006515300451024978,
+        0.00021118624755015616,
+        6.741363387200947e-05
+      ],
+      "energy": 3.7325750836334824e-07,
+      "energy_free": 3.774393204060733e-07,
+      "energy_first_corrected": 3.7324821158999366e-07,
+      "max_relative_free_news_error_vs_radial_quadrature": 2.6222491741112464e-05,
+      "max_relative_phi_prime_error": 2.3639127506580593e-06,
+      "last_field_difference": 0.0
+    }
+  ],
+  "scope": "Saved-profile linear finite-time response with floating mesh and quadrature evidence."
+}

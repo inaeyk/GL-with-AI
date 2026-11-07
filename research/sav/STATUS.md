@@ -1,3 +1,14 @@
+## GOAL-005 waveform follow-up status — 2026-11-07
+
+**Substantial partial success (Outcome B).** A separate five-specialist
+investigation established exact exterior constraint data with mass tuning
+and $3.5316\times10^{-7}<\mathcal K_Z([-10,-8])<4.0171\times10^{-7}$
+for the outgoing quadratic radion with Z initial data. The October result's
+tighter L10 root was independently confirmed and its coarse absolute source
+norms retain their scope. The uniform nonlinear news remainder and full
+regular massive transient remain open. [Report](GLR-GOAL-005/REPORT.md),
+[verification](GLR-GOAL-005/VERIFICATION.md), [agents](GLR-GOAL-005/AGENT-ACTIVITY.md).
+
 ## GOAL-005 terminal execution status — 2026-10-23
 
 **MEANINGFUL_PARTIAL.** [Report](goals/GLR-GOAL-005_REPORT.md).

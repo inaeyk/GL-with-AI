@@ -1,3 +1,15 @@
+## GOAL-005 waveform follow-up — 2026-11-07
+
+The separately authorized [waveform follow-up](GLR-GOAL-005/REPORT.md)
+gave exact exterior GL/scalar constraint data with ADM mass tuning.
+For zero initial completed radion data, the outgoing quadratic
+radion news is positive on $u/r_0\in[-10,-8]$, with
+$3.5316\times10^{-7}<\mathcal K_Z<4.0171\times10^{-7}$.
+The exact spatial data allow differentiated $O(r^{-2})$ momentum tails.
+The uniform nonlinear radiation trace and first-bulge energy remain open.
+See [Michael's comparison handoff](GLR-GOAL-005/HANDOFF-MICHAEL.md).
+The October execution below retains its historical status.
+
 ## GOAL-005 execution update — 2026-10-23
 
 **MEANINGFUL_PARTIAL; no follow-up launched.** Michael's authorized
