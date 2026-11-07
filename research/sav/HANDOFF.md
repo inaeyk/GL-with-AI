@@ -1,3 +1,14 @@
+## GOAL-009 scientific re-entry — 2026-11-07
+
+**Outcome B.** Start at [the dossier](GLR-GOAL-009/REPORT.md) on the
+branch based on audited GOAL-006 commit
+`80f030df0bec99bebe76fd9ab473c419ad1af5a5`.
+The exact damped initial data satisfy a weighted cubic odd remainder,
+and the causal quadratic massive jet has uniform differentiated
+outgoing estimates. The nonlinear physical news result remains open.
+Resume at the [coupled characteristic energy estimate](GLR-GOAL-009/OBSTRUCTIONS.md#next-exact-estimate).
+[Theorem dependencies](GLR-GOAL-009/THEOREM.md) · [Provenance](GLR-GOAL-009/REPRODUCIBILITY.md)
+
 ## GOAL-005 waveform follow-up — 2026-11-07
 
 The separately authorized [waveform follow-up](GLR-GOAL-005/REPORT.md)

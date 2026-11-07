@@ -1,3 +1,11 @@
+## GOAL-009 provenance — 2026-11-07
+
+The source base is `80f030df0bec99bebe76fd9ab473c419ad1af5a5`.
+The two independent Work audits are pinned as evidence on sibling branches.
+The [provenance table](GLR-GOAL-009/REPRODUCIBILITY.md) gives exact commit
+and tree hashes. The [literature record](GLR-GOAL-009/LITERATURE.md) maps
+the primary exterior and asymptotic results to their precise hypotheses.
+
 ## GOAL-005 waveform follow-up provenance — 2026-11-07
 
 Independent calculations began at $\texttt{96339836a1281c219917f900224e7c98cf62f3f8}$.
