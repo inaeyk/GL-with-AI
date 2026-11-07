@@ -327,3 +327,13 @@ See [final report](../goals/GLR-GOAL-005_REPORT.md), both GOAL005 audits
 and [failure log](goal005_failures.txt). This preserves and does not
 repair or supersede the old data/report bytes. MEANINGFUL_PARTIAL,
 not mathematical nonexistence; no automatic next Goal.
+
+## GOAL-005 waveform follow-up — 2026-11-07
+
+The enclosed quadratic Z news does not imply a uniform nonlinear
+radiation trace. Compact-region Taylor estimates and the presently
+applicable literature do not close that limit for the constructed data.
+The initially outward scalar control cancels the quadratic news on a
+specified early interval. Historical failure of the sampled second
+harmonic reconstruction is retained. See the
+[follow-up checks and negative controls](../GLR-GOAL-005/VERIFICATION.md).

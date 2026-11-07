@@ -1,0 +1,4 @@
+Python 3.14.8 SymPy 1.14.0
+Bernstein minima 5718686712103/3440640000000000 28985859/2000000000 64026149/20480000000 | rejected global V>0 claim
+Flat TT Ricci and Bianchi passed | rejected incorrect +2 zz factor
+Weighted lapse identity and background passed | rejected missing leaf drift
