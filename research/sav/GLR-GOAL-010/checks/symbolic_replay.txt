@@ -1,0 +1,30 @@
+
+$ python3 -B checks/check_spatial_ode.py
+direct geometric a expansion and w reconstruction [0, 0, 0]
+negative controls (omit lapse drift, wrong product factor, reversed damping) [3*W*h*k**2, 3*sqrt(6)*I*J1*W*k/16, J*beta]
+
+$ python3 -B checks/check_master_time_domain.py
+master 0
+M 0
+qtheta 0
+qvv 0
+qvr 0
+qrr 0
+negative controls rejected: missing EF mixed term, reversed RR Ricci term
+
+$ python3 -B checks/check_master_affine.py
+master PASS
+S PASS
+vv PASS
+vr PASS
+rr PASS
+SymPy 1.14.0
+
+$ python3 -B checks/check_causal_controls.py
+oscillator: exact equation and both zero initial data; separated-only control rejected
+tilted Laplace: compatible separated jet leaves only the source pole; omitted tilt term detected
+S-deformation residual: 0
+potential horizon rational difference: 0
+strict coefficient signs: 18
+V/f(1) at K=2pi/5: -1.09450347539
+SymPy 1.14.0

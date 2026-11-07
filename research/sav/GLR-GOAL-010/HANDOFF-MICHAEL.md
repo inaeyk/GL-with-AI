@@ -1,0 +1,9 @@
+# Comparison quantities for Michael
+
+This handoff records a proposed perturbative comparison. No simulation or communication is implied. Fix \(L/r_0=10\), \(M_0=r_0/(2G_4)\), \(\tau=v-r=0\), and \(H_{\theta\theta}(2r_0)/(8r_0^2)=1\) with its actual GL normal velocity. Use original Z and a separately labeled damped preparation. One proposed representative sets \(p_{\rm d}=8\), with the explicit smooth \(2r_0\)-to-\(3r_0\) cutoff in [Cauchy data](CAUCHY_DATA.md). The original analytic result leaves the damping parameters as a family.
+
+A proposed finite-domain benchmark uses fixed background areal tubes \(R/r_0=4,8,16\) and \(0\le\tau/r_0\le4\). Check all seven Ricci source blocks, reconstruct the compatible \(+2\) metric and normal velocity in the regular unitary gauge, and track the conjugate harmonic. Report storage change, signed outward tube transport, signed inward horizon transport, volume work and the budget residual under one fixed current and corner convention. Track all four terms in the same gauge and time domain. Assess actual escape separately through the real above-threshold outgoing monopole projection with Coulomb phase and correct two-harmonic normalization.
+
+Keep the massless radion clock comparison separate. On a fixed tube of radius \(\rho=R/r_0\), the GOAL-005 reference retarded window \(u/r_0\in[-10,-8]\) maps to \(\tau/r_0=u/r_0+\rho+2\log(\rho-1)\). A derivative along a finite-radius tube requires its own convergence and cut alignment check. The massive budget does not use the radion news normalization.
+
+The current evidence includes a nonzero Z transient and point source intervals. It leaves the full continuous Cauchy profile, causal projection, horizon absorption, and numerical budget open. See [verification](VERIFICATION.md) and [reproduction](REPRODUCIBILITY.md).
