@@ -1,0 +1,36 @@
+Independent checks against 65a4af854a25ca02e40f31b00fe5ff789935bdc4
+
+check_geometry.py
+Exact 5D Ricci manufactured jet 1: PASS
+Exact 5D Ricci manufactured jet 2: PASS
+Exact 5D Ricci manufactured jet 3: PASS
+Exact 5D Ricci manufactured jet 4: PASS
+Exact 5D Ricci manufactured jet 5: PASS
+Symbolic direct and affine outgoing coefficients: PASS
+Symbolic mixed graph velocities with compact constraint: PASS
+
+check_strong_geometry.py
+tilted graph and scalar inequalities passed
+b(d) enclosure: [1.6214363417247 +/- 1.01e-14]
+early compact potential bound: [1.5632939412368 +/- 4.31e-14]
+manufactured strong contacts passed; weak total and omission: 89/30 -31/30
+
+check_weak.py
+Packet |d_u log W| <= 1/4 and W <= 1/4: exact shifted polynomials positive
+Tilted-graph endpoint fixture 4P=89/30, terminal=4, without terminal=-31/30
+Outward rational replay early lower > 1.70707534554, packet upper < -200.09172887836 (display only)
+Packet wedge cells 4 with smallest directed |v0-R| lower bound [0.004663380088402144 +/- 4.31e-19]
+early weak exterior bound [6.947119424955916e-16 +/- 4.90e-32]
+packet weak exterior bound [1.634617077748514e-14 +/- 8.94e-31]
+
+check_arithmetic.py, portable candidate
+affine ordinate SHA-256: 38ecd9ed4d942aeb261cc197bf5662e9d80a584fa6dae955a322a61817915c39
+exact affine norm: [635.494615147555061 +/- 3.90e-16]
+independent by-parts affine pairing: [7.83731914926132142 +/- 2.37e-18] [7.83731944187737104 +/- 4.59e-18]
+early interval with inherited transfer: [3.39131337129332120 +/- 3.16e-19] [12.2833252198453713 +/- 4.26e-17]
+early minimum whole-Arb distance from v_start = b(a): [0.000897834465059 +/- 4.43e-16]
+packet absolute minimum whole-Arb distance from v_start = b(a): [0.00466338008840 +/- 2.15e-15]
+packet signed minimum whole-Arb distance from v_start = b(a): [0.00466338008840 +/- 2.15e-15]
+early display ledger: 3.360524222032 12.314165777968
+packet upper display ledger: -200.091720000000
+outward rounding of the two published energy intervals verified

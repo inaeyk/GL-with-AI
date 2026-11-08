@@ -1,0 +1,133 @@
+Audited source: 65a4af854a25ca02e40f31b00fe5ff789935bdc4
+Python 3.14.8, python-flint 0.9.0, NumPy 2.4.6, SciPy 1.18.0, SymPy 1.14.0, arm64 macOS
+
+== early_weak ==
+  left endpoint error: 6.071463e-06, peak: 6.071463e-06
+Python 3.14.8 python-flint 0.9.0, 160 bits, radial refinement 1
+physical graph P/Bprime,Q/Bprime [1.1046075038745119141171263188245675271809974155 +/- 1.18e-47] [4.6448063603220508227012554721912029837445185584 +/- 2.00e-47]
+chi_c^2 uniform, terminal [1e+0 +/- 0.259] [1e+0 +/- 0.259]
+chi_c(u) drive enclosure [-1.2 +/- 0.0773]
+Bprime(d), Bsecond(d), integral Bsecond^2 upper [0.41378523 +/- 6.45e-9] [159.696705 +/- 7.67e-7] [40.617307317556473389430493625695817172527313232 +/- 4.22e-46]
+uniform integrated F defect, G, H / Bsecond upper [0.10426347035410648652051230541215078986448810065 +/- 8.45e-49] [11.037286188578118053799545127725399906452675339 +/- 8.00e-47] [1.1166076849721106430367744297954557972375853390 +/- 1.30e-47]
+uniform integrated |F|, V|G|/4 / Bsecond upper [2.4932256659395393652834804887805449600792989866 +/- 2.70e-47] [1.3018423858667691183059097783110004921756471896 +/- 5.00e-48]
+4 P optical terminal lower, bulk upper [70.173989328661680117736589448301374474231047071 +/- 1.48e-46] [51.336077177180248904312636947988396486896583047 +/- 2.44e-46]
+4 P defects terminal upper, bulk upper, remaining dual upper [6.8691323134894453948933779714222772981561116743 +/- 3.94e-47] [4.2524635535455055992071909760022415715497769556 +/- 2.28e-48] [0.88801490226157716348882405780247475555464429178 +/- 4.01e-48]
+P lower and upper [1.7070753455462250691586398737714960905184827756 +/- 9.39e-48] [13.471097053547002560666804607486434833781408700 +/- 2.11e-46]
+
+== shifted ==
+B^(1) >= 522 B^(0), minimum Bernstein coefficient 33/51200
+B^(2) >= 380 B^(1), minimum Bernstein coefficient 131/20480
+B^(3) >= 220 B^(2), minimum Bernstein coefficient 21093/10485760
+Psi_uu-h'' / h'': 0.007183423306858, use 0.0072
+Psi_uv / h'': 3.002848100706e-06, use 3.01e-06
+Psi_vv / h'': 0.0001348005406706, use 0.000135
+Psi_u / h'': 0.004564335346704, use 0.004565
+Psi_v / h'': 5.373258620426e-08, use 5.4e-08
+Psi / h'': 1.201139240283e-05, use 1.202e-05
+||h''||_2: [2091.4232940674 +/- 1.72e-11] [2107.2989654541 +/- 1.57e-12]
+
+== strong_comparison ==
+manufactured omission graph, error in 4*news at u=1: 76/27
+manufactured omission cap, error in 4*news at u=1: 96199/972
+manufactured omission Vw, error in 4*news at u=1: -28273/972
+exact manufactured cap identity: verified
+affine cap digest = 38ecd9ed4d942aeb261cc197bf5662e9d80a584fa6dae955a322a61817915c39
+potential ray mass upper: [1.563293941236838 +/- 6.30e-17]
+Volterra norm exponent factor: [1.015040341978169 +/- 9.77e-17]
+graph factor: [1.238095238095238 +/- 9.53e-17]
+candidate sup absolute F-ray bound: [293.8286617541161 +/- 8.82e-15]
+candidate sup absolute H-ray bound: [143.2646033481168 +/- 4.65e-14]
+candidate sup absolute G: [331.9303926824443 +/- 3.52e-14]
+candidate cap mismatch without Vw: [4.491977177474903 +/- 1.88e-16]
+candidate potential readout bound: [14.49637978045496 +/- 1.67e-15]
+E_read upper bound: [18.98835695792986 +/- 4.48e-15]
+E_F multiplier: [0.3967016041813600 +/- 2.68e-17]
+E_G multiplier: [0.003788221274276876 +/- 1.20e-19]
+E_H multiplier: [0.2537882212742769 +/- 2.39e-17]
+E_vol multiplier: [1.586806416725440 +/- 1.07e-16]
+Physical lower-current mismatch is not included.
+
+== early_strong ==
+Psi_uu-h'' / h'': 0.007183423306858, use 0.0072
+Psi_uv / h'': 3.002848100706e-06, use 3.01e-06
+Psi_vv / h'': 0.0001348005406706, use 0.000135
+Psi_u / h'': 0.004564335346704, use 0.004565
+Psi_v / h'': 5.373258620426e-08, use 5.4e-08
+Psi / h'': 1.201139240283e-05, use 1.202e-05
+  left endpoint error: 6.071463e-06, peak: 6.071463e-06
+shifted mixed graph X,P,Q / h'' [6.8707643607027199028189366152429292041126414060e-5 +/- 1.09e-52] [0.040169157072494501979263924989425138451016313380 +/- 3.93e-49] [0.10109279414142247592695837948730785542762692258 +/- 2.33e-48]
+physical uncommuted F graph/B'' [0.13700952423245206859325043685545960621998512289 +/- 2.89e-48]
+chi_c^2, integral shifted F defect/h'', uncommuted F/H integrals and G sup/B''
+[1e+0 +/- 0.275] [0.408795997514259106607197656689564924113330312 +/- 7.37e-46] [2.4932256658813981777985136509387088002046078 +/- 1.98e-44] [1.11660768497211064303677442979545579723758534 +/- 5.94e-45] [2.4184596104325754053801159610033828595755699928 +/- 1.23e-47]
+||h''||_2: [2091.4232940674 +/- 1.72e-11] [2107.2989654541 +/- 1.57e-12]
+affine cap SHA256 38ecd9ed4d942aeb261cc197bf5662e9d80a584fa6dae955a322a61817915c39
+optical-to-affine E_read [100.181751821820501 +/- 6.65e-17]
+cap boundary [3.58758098539464254e-100 +/- 1.02e-118]
+graph boundary [0.270271582542099205 +/- 3.73e-19]
+one-current bulk time defect [215.363845660893922 +/- 3.28e-16]
+H term [1.77908290107835166 +/- 7.55e-20]
+potential times shear [6.38883791677880993 +/- 3.06e-18]
+E_c bound [323.983789883113684 +/- 1.92e-16]
+E_c<=400: True
+E_c<=570: True
+
+== packet_initial ==
+  left endpoint error: 6.071463e-06, peak: 6.071463e-06
+packet B,B',B'' L2 upper 0.025311425677500665187835693359375000000000000000 1.0000000000000000000000000000000000000000000000 68.229752182960510253906250000000000000000000000
+packet B,B',B'' sup upper [0.13586056342942311356410073430338493165896612710 +/- 4.43e-48] 4.8077450841665267944335937500000000000000000000 307.38621759414672851562500000000000000000000000
+packet ||B''||_2^2 lower [4403.4178147445204469113648446440445541214933399 +/- 4.82e-44]
+phase square lower [0.997821899446844422 +/- 4.00e-19]
+phase square upper [1.59808606127202448 +/- 4.69e-18]
+F mismatch L1_vL2_u [79.14351623 +/- 3.75e-9]
+F terminal mismatch upper [390.6921448 +/- 3.39e-8]
+g' minus B'' L2 [1.68616942047646953 +/- 2.24e-18]
+four times optical negative size [4393.82672796645028 +/- 1.33e-15]
+four times terminal [3.811201873 +/- 7.04e-10]
+four times leading-test error [183.854881957181652 +/- 3.96e-16]
+four times F mismatch work [5533.391876 +/- 4.19e-7]
+four times potential/G/H work [913.5844210 +/- 4.83e-8]
+P lower [-3518.55273918743250 +/- 1.06e-16]
+P upper [560.203913317829003 +/- 2.23e-16]
+P_PACKET_STRICTLY_NEGATIVE False
+
+== packet_signed ==
+  left endpoint error: 6.071463e-06, peak: 6.071463e-06
+signed C_F primitive [-9.07677993582454825 +/- 2.86e-18] [49.4026474018219361 +/- 2.79e-17]
+residual F norms [8.81249553873643376 +/- 3.67e-18] [45.5300115328023871 +/- 1.26e-17]
+4*negative leading lower [4393.82672796645028 +/- 1.33e-15]
+4*baseline test error [44.0205204691018256 +/- 5.68e-18]
+4*signed primitive cancellation error [2078.31965086406634 +/- 4.13e-15]
+4*terminal bound [0.444145262502487286 +/- 2.83e-19]
+4*other F error [616.133747216934635 +/- 4.36e-16]
+4*potential/G/H [854.541748640379476 +/- 3.05e-16]
+P lower [-2758.25709699123713 +/- 3.54e-15]
+P upper [-200.091728878366364 +/- 4.32e-16]
+P_PACKET_STRICTLY_NEGATIVE True
+
+== contacts ==
+4P exact=3/4, without terminal=-1/4, without exterior cap contact=23/20
+4P tilted=3/2, zero graph velocity=11/8, reversed tilt=5/4
+graph flux per dx=4, per |du|=3, wrong sign per dx=6
+null seam: uncommuted delta=0, commuted delta=-4*rho'(v)
+thin layer: ||e_u(d,.)||_2=1, ||e_u||_2^2=(3/35)*width
+conditional margins: weak=0.1839374824, strong 400=2.323048200, strong 570=0.002866610
+
+== arithmetic ==
+conservative weak lower using the rounded ledger: 1.700182500000
+strong compact M upper: [1.563293941236838 +/- 6.30e-17]
+conditional strong sign lower at Ec=537.681: 0.443960426513
+
+== check_arithmetic ==
+affine ordinate SHA-256: 38ecd9ed4d942aeb261cc197bf5662e9d80a584fa6dae955a322a61817915c39
+exact affine norm: [635.494615147555061 +/- 3.90e-16]
+independent by-parts affine pairing: [7.83731914926132142 +/- 2.37e-18] [7.83731944187737104 +/- 4.59e-18]
+early interval with inherited transfer: [3.39131337129332120 +/- 3.16e-19] [12.2833252198453713 +/- 4.26e-17]
+early minimum whole-Arb distance from v_start = b(a): [0.000897834465059 +/- 4.43e-16]
+packet absolute minimum whole-Arb distance from v_start = b(a): [0.00466338008840 +/- 2.15e-15]
+packet signed minimum whole-Arb distance from v_start = b(a): [0.00466338008840 +/- 2.15e-15]
+early display ledger: 3.360524222032 12.314165777968
+packet upper display ledger: -200.091720000000
+outward rounding of the two published energy intervals verified
+
+== digest_negative ==
+one-ulp change at affine ordinate 100 rejected by digest guard
