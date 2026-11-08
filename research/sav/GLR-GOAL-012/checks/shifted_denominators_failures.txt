@@ -1,0 +1,14 @@
+Python 3.14.8 python-flint 0.9.0 NumPy 2.4.6 SciPy 1.18.0
+GOAL-011 pole disk enclosing box [-0.1779246 +/- 8.11e-8] + [-0.7473434 +/- 8.11e-8]j shifted box [-0.051362 +/- 3.22e-7] + [-0.7473434 +/- 8.11e-8]j
+Cells per side 4200 inner offset 1e-22 ray length 144 ray angle pi/4
+  left endpoint error: 2.846904e-07, peak: 2.846904e-07
+  right endpoint error: 1.332022e-07, peak: 0.0006046845
+returning logarithmic derivative mismatch [0.204908 +/- 8.45e-7] + [-0.392937 +/- 5.21e-7]j
+Traceback (most recent call last):
+  File "GLR-GOAL-012/checks/shifted_denominators.py", line 36, in <module>
+    main()
+    ~~~~^^
+  File "GLR-GOAL-012/checks/shifted_denominators.py", line 27, in main
+    assert returning.real > arb("0.38"), returning
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: [0.204908 +/- 8.45e-7] + [-0.392937 +/- 5.21e-7]j

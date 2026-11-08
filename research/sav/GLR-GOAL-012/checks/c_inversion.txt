@@ -1,0 +1,11 @@
+Python 3.14.8, python-flint 0.9.0, SciPy 1.18.0
+Acb/Arb 96-bit period: [8.407361 +/- 8.13e-7]
+Acb/Arb 96-bit phase-uniform lower factor: [0.509651 +/- 3.87e-7]
+Gram check: norm²=0.137181179833, absolute difference=0.00e+00
+Square barrier omega=0: |m_inf|=3.3100073841, flux difference=3.11e-15
+Square barrier omega=0.7: |m_inf|=1.4305950844, flux difference=9.99e-16
+Square barrier omega=4: |m_inf|=1.0083928560, flux difference=1.58e-16
+Square barrier omega=16: |m_inf|=1.0004901514, flux difference=4.62e-16
+Free inversion B=8: empirical L2 error=0.0511414, analytic cap=0.317935
+Free inversion B=16: empirical L2 error=0.00184919, analytic cap=0.112407
+Free inversion B=32: empirical L2 error=8.95647e-05, analytic cap=0.0397419

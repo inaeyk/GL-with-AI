@@ -1,3 +1,7 @@
+## GOAL-012 provenance — 2026-11-07
+
+The [GOAL-012 ledger](GLR-GOAL-012/LEDGER.md) pins the source and Work audit. The [spectral atlas](GLR-GOAL-012/SPECTRAL-ATLAS.md) and [flux derivation](GLR-GOAL-012/investigators/D-WAVEFORM.md) record the checked scientific references.
+
 ## GOAL-011 provenance — 2026-11-07
 
 The isolated research stack starts at GOAL-007 source
