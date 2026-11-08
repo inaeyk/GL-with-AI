@@ -1,0 +1,6 @@
+Q: ||g'||2=0.8984871322, <g,Pmid>=+0.5732719983
+  empirical moments: shear candidate=+0.0006805269, primal cap=+0.0001498287, dual cap=+0.0002025743
+  provisional absolute physical moment-error allowance: +0.1696159731
+Q+S*: ||g'||2=0.8577660419, <g,Pmid>=+1.4578803798
+  empirical moments: shear candidate=-0.0279023768, primal cap=-0.0284366833, dual cap=-0.0283981190
+  provisional absolute physical moment-error allowance: +0.5381638768

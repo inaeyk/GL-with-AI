@@ -1,0 +1,12 @@
+  left endpoint error: 6.071463e-06, peak: 6.071463e-06
+collar cells=768, Arb precision=128
+certified radial collar: [1.0089285714285714285714285714285714286 +/- 3.54e-38] 1.5625000000000000000000000000000000000
+fixed-infinity mean (mu,beta) at inner endpoint: [7.3 +/- 9.62e-3] [7.4e+1 +/- 0.528]
+GL jet 0 max absolute upper: 1.62792231e+00 1.69811688e+01 8.31223172e+01 1.69516659e+01
+GL jet 0 max full-cell diameter: 9.08431272e-02 5.70420912e-01 1.37594490e+02 3.51347835e-01
+GL jet 1 max absolute upper: 2.15457911e+01 1.38943220e+02 2.93451432e+04 2.05897325e+01
+GL jet 1 max full-cell diameter: 2.72133429e+00 1.88338029e+02 5.85721471e+04 6.66545901e+00
+GL jet 2 max absolute upper: 5.37437985e+02 2.66166110e+04 1.26776306e+07 7.25191066e+02
+GL jet 2 max full-cell diameter: 8.04826495e+02 5.30649146e+04 2.53323328e+07 1.37876768e+03
+mean and first jet max absolute upper: 7.31749359e+00 7.49220582e+01 4.80434787e+01 2.24404245e+03
+mean and first jet max full-cell diameter: 4.56920618e-02 1.11647380e+00 7.04273347e+01 3.53168371e+03

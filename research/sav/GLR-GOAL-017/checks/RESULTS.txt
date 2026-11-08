@@ -1,0 +1,120 @@
+Exact manufactured two-polarization control
+manufactured coupled polynomial graph/front max nodal errors W,P,Q: 6.661338e-16, 5.551115e-16, 1.665335e-16
+
+--- smoke-fixed graph-aligned candidate ---
+u=[-0.684992741508529,8.407362], cap=400, b(d)=1.00902107710961, actual cap v=820.38528483378, shape=(161, 341), quadrature order=4
+GL log-derivative mismatch=1.299e-14; mean EF finite-end proxy max=6.836e-262
+max canonical mixed tangential graph defect=1.776e-15
+late ||g_infty||2=0.00505713547283; ||p_infty||2=6.06861558292; ||p_cap||2=6.08515325067; peak |p_infty|=9.60537459793
+late cap continuation L2 difference: baseline=2.92425311483e-05; return=0.0759628878033
+late independent readout discrepancy (shared fields and shear) ||p_cap - derivative||2=6.1394009934
+Q   : midpoint norm=0.735551391673 candidate mismatch=6.26183722344 ratio=8.51311994556
+Q+S*: midpoint norm=1.75505984076 candidate mismatch=6.51033906521 ratio=3.7094684261
+candidate coefficient ratio ||N21||2/||N01||2=1200.01048331
+
+--- middle graph-aligned candidate ---
+u=[-0.684992741508529,8.407362], cap=400, b(d)=1.00902107710961, actual cap v=820.38528483378, shape=(385, 745), quadrature order=4
+GL log-derivative mismatch=1.299e-14; mean EF finite-end proxy max=6.836e-262
+max canonical mixed tangential graph defect=1.776e-15
+late ||g_infty||2=0.00505727738819; ||p_infty||2=0.808990993122; ||p_cap||2=0.812580045267; peak |p_infty|=1.16667748914
+late cap continuation L2 difference: baseline=2.92430149762e-05; return=0.00447987209308
+late independent readout discrepancy (shared fields and shear) ||p_cap - derivative||2=0.799597888748
+Q   : midpoint norm=0.735551519219 candidate mismatch=1.23186253256 ratio=1.67474677215
+Q+S*: midpoint norm=1.7550601562 candidate mismatch=2.2772644503 ratio=1.29754210547
+candidate coefficient ratio ||N21||2/||N01||2=159.965714954
+
+--- fine graph-aligned candidate ---
+u=[-0.684992741508529,8.407362], cap=400, b(d)=1.00902107710961, actual cap v=820.38528483378, shape=(767, 1487), quadrature order=4
+GL log-derivative mismatch=1.299e-14; mean EF finite-end proxy max=6.836e-262
+max canonical mixed tangential graph defect=1.776e-15
+late ||g_infty||2=0.00505735069119; ||p_infty||2=0.14283523395; ||p_cap||2=0.143566310899; peak |p_infty|=0.114891189765
+late cap continuation L2 difference: baseline=2.92439862536e-05; return=0.00126599815131
+late independent readout discrepancy (shared fields and shear) ||p_cap - derivative||2=0.102589998872
+Q   : midpoint norm=0.735551520706 candidate mismatch=0.782443831877 ratio=1.06375122592
+Q+S*: midpoint norm=1.75506015988 candidate mismatch=1.83932286672 ratio=1.04801129258
+candidate coefficient ratio ||N21||2/||N01||2=28.2430945909
+
+--- clustered candidate and mixed whole-cell probes ---
+u=[-0.684992741508529,8.407362], cap=400, b(d)=1.00902107710961, actual cap v=820.38528483378, shape=(767, 2078), quadrature order=4
+GL log-derivative mismatch=1.299e-14; mean EF finite-end proxy max=6.836e-262
+directed interior-cell mixed residual probe caps for numerical coefficients and source
+  u~-0.6549927, v~1.6260000, [0.00046875 +/- 2e-13] x [0.0020138 +/- 2.60e-8]: uncommuted ['[0.0876290498 +/- 4.69e-11]', '[0.0360198536 +/- 4.68e-11]']; shifted ['[28.8673752 +/- 9.88e-9]', '[15.4115042 +/- 5.01e-9]']
+  u~-0.6249927, v~1.6700000, [0.00046875 +/- 2e-13] x [0.0021912 +/- 4.71e-9]: uncommuted ['[0.0663733682 +/- 9.04e-12]', '[0.0316858380 +/- 9.33e-12]']; shifted ['[0.229616406 +/- 1.40e-10]', '[0.362559753 +/- 8.72e-11]']
+  u~0.2000000, v~1.6100000, [0.017515 +/- 3.38e-7] x [0.00010956 +/- 3.16e-9]: uncommuted ['[0.00325778817 +/- 7.76e-13]', '[0.000861008007 +/- 7.86e-14]']; shifted ['[1.19303442 +/- 4.83e-10]', '[1.25486062 +/- 2.89e-9]']
+  u~3.0000000, v~1.6500000, [0.017515 +/- 3.38e-7] x [0.0021133 +/- 4.32e-8]: uncommuted ['[0.000168363722 +/- 3.26e-13]', '[4.70585107e-5 +/- 4.81e-14]']; shifted ['[0.00160651618 +/- 1.32e-12]', '[0.00234092181 +/- 4.48e-13]']
+  u~7.9000000, v~1.6500000, [0.017515 +/- 3.38e-7] x [0.0021133 +/- 4.32e-8]: uncommuted ['[4.18447480e-9 +/- 2.40e-18]', '[6.20293124e-10 +/- 5.71e-20]']; shifted ['[1.13460983e-8 +/- 9.90e-18]', '[1.13665395e-9 +/- 2.14e-18]']
+  u~0.2000000, v~4.0000000, [0.017515 +/- 3.38e-7] x [0.011572 +/- 4.90e-7]: uncommuted ['[2.65415024e-8 +/- 1.02e-17]', '[3.55500723e-9 +/- 9.39e-19]']; shifted ['[1.47101335e-8 +/- 3.04e-17]', '[3.95787195e-10 +/- 2.58e-20]']
+  u~3.0000000, v~4.0000000, [0.017515 +/- 3.38e-7] x [0.011572 +/- 4.90e-7]: uncommuted ['[2.53637538e-6 +/- 1.34e-15]', '[7.59510592e-7 +/- 6.44e-18]']; shifted ['[0.00117684065 +/- 3.14e-12]', '[0.00123981103 +/- 1.37e-12]']
+  u~7.9000000, v~4.0000000, [0.017515 +/- 3.38e-7] x [0.011572 +/- 4.90e-7]: uncommuted ['[5.80190742e-7 +/- 3.75e-16]', '[1.69889149e-7 +/- 3.84e-16]']; shifted ['[0.000213819491 +/- 3.97e-13]', '[0.000224621098 +/- 1.27e-13]']
+  u~3.0000000, v~25.0000000, [0.017515 +/- 3.38e-7] x [0.18298 +/- 2.23e-6]: uncommuted ['[1.59681542e-8 +/- 7.03e-18]', '[1.49455786e-9 +/- 3.18e-18]']; shifted ['[8.01396290e-9 +/- 1.75e-18]', '[1.60989634e-8 +/- 1.22e-17]']
+  u~7.9000000, v~80.0000000, [0.017515 +/- 3.38e-7] x [0.61979 +/- 1.10e-6]: uncommuted ['[1.61752508e-9 +/- 3.09e-18]', '[1.81309596e-9 +/- 1.40e-19]']; shifted ['[1.95451607e-9 +/- 4.74e-18]', '[4.07357967e-9 +/- 2.01e-18]']
+max canonical mixed tangential graph defect=1.776e-15
+late F_t cancellation: ||int_v |F_t| ||2=6763.41354335; ||int_v F_t - d_u int_v F||2=0.113639317935; ||weak primitive readout - shear slope||2=2.83458372579e-10
+late ||g_infty||2=0.00505736108965; ||p_infty||2=0.0843384146017; ||p_cap||2=0.0843406432671; peak |p_infty|=0.0583196909939
+late cap continuation L2 difference: baseline=2.9244138154e-05; return=0.000673939613572
+late independent readout discrepancy (shared fields and shear) ||p_cap - derivative||2=0.0284098294837
+Q   : midpoint norm=0.735551520706 candidate mismatch=0.744659782836 ratio=1.01238290164
+Q+S*: midpoint norm=1.75506015988 candidate mismatch=1.77823964073 ratio=1.01320722866
+candidate coefficient ratio ||N21||2/||N01||2=16.6763679924
+
+--- directed final affine candidate and thresholds ---
+Python 3.14.8, python-flint 0.9.0, Arb 160 bits
+candidate digest (u, p_shear_infty, baseline) little-endian f64: 34284f389420d62aaacd30b111b17f0c740fca3528b9d7cc85290909996d9c07
+candidate leading norm: [[0.005057380940411760 +/- 4.94e-19], [0.005057380940411760 +/- 4.94e-19]]
+candidate returning norm: [[0.08741378900667258 +/- 3.69e-18], [0.08741378900667258 +/- 3.69e-18]]
+candidate return / leading: [[17.28439878993089 +/- 8.12e-16], [17.28439878993089 +/- 8.12e-16]]
+candidate signed leading-return overlap: [[1.138376928590880e-5 +/- 1.05e-21], [1.138376928590880e-5 +/- 1.05e-21]]
+Q candidate mismatch to midpoint: [[0.7490387545248556 +/- 4.92e-18], [0.7490387545248556 +/- 4.92e-18]]
+Q candidate ratio to midpoint: [[1.018336218930417 +/- 3.20e-16], [1.018336218930417 +/- 3.20e-16]]
+Q inherited physical norm: [[0.5874906297259927 +/- 1.83e-17], [0.8836124118835628 +/- 4.20e-17]]
+Q sufficient physical E21 ceiling for rejection: [[0.1591716580711859 +/- 3.86e-17], [0.1591716580711859 +/- 3.86e-17]]
+Q+S* candidate mismatch to midpoint: [[1.789273540191895 +/- 3.63e-16], [1.789273540191895 +/- 3.63e-16]]
+Q+S* candidate ratio to midpoint: [[1.019494129858383 +/- 3.24e-16], [1.019494129858383 +/- 3.24e-16]]
+Q+S* inherited physical norm: [[1.515254205054105 +/- 2.41e-16], [1.994866133628846 +/- 1.28e-16]]
+Q+S* sufficient physical E21 ceiling for rejection: [[0.5520345096469236 +/- 1.14e-17], [0.5520345096469236 +/- 1.14e-17]]
+sufficient physical E21 ceiling for both via reverse triangle: [[0.2063315261397722 +/- 5.01e-17], [0.2063315261397722 +/- 5.01e-17]]
+Q subbox direct rejection threshold: [[0.3173133838414584 +/- 2.39e-17], [0.3173133838414584 +/- 2.39e-17]]
+Q+S* subbox direct rejection threshold: [[0.8048488267053903 +/- 1.13e-17], [0.8048488267053903 +/- 1.13e-17]]
+
+--- directed bilinear current lift ---
+Python 3.14.8, python-flint 0.9.0, Arb 112 bits
+late collar first retained v=[1.50363572396731015601289982441813 +/- 2.47e-33], max zeroed pre-echo [3.21133053959040967775254237777745e-157 +/- 2.59e-190]
+||int |d_u F_h| dv||_2 <= [3.23104093078471592633368721358589 +/- 3.53e-33]
+||int |(F_t)_h| dv||_2 <= [6763.44709896456565035917426533071 +/- 1.23e-30]
+||int (F_t)_h dv||_2 = [0.142196577796954295346795486026 +/- 8.82e-31]
+||p_bilinear - p_shear_cap||_2 = [0.00015952974091250001693683238 +/- 2.24e-30]
+||p_bilinear - n_shear_infty||_2 = [0.00087179364935936976292723153 +/- 2.01e-30]
+
+--- directed coarse baseline lift, unsubtracted nodal march ---
+Python 3.14.8, python-flint 0.9.0, Arb 112 bits
+baseline shape=(181, 301), cap=400, packet=64, late=100, radial=120
+max residual [193.736346853357217520128356536828 +/- 2.14e-32], at cell (57, 123), max graph-crossing residual [190.831673873053944854525286939132 +/- 1.59e-31]
+mixed residual norms U=[0.312771253419567642427355686605321 +/- 1.45e-34], V=[0.156449806924681487362829126494496 +/- 4.43e-34]
+directed baseline compact cap error <= [0.234610530172124564895092406549908 +/- 3.51e-34]
+directed baseline exact lift late cap norm [0.0050341452881349348037435968613849 +/- 8.00e-35]
+directed baseline exterior no-transfer error <= [0.0142091537890813416467152213615992 +/- 3.86e-35]
+directed baseline physical late norm >= [-0.243785538673070971738064031050123 +/- 2.55e-34]
+directed baseline physical late norm <= [0.253853829249340841345551224772893 +/- 3.73e-34]
+
+--- directed coarse baseline lift, exact outgoing bump subtracted first ---
+Python 3.14.8, python-flint 0.9.0, Arb 112 bits
+baseline shape=(181, 301), cap=400, packet=64, late=100, radial=120
+max residual [0.136652925155923236954341992529119 +/- 4.86e-34], at cell (31, 148), max graph-crossing residual [0.136652925155923236954341992529119 +/- 4.86e-34]
+mixed residual norms U=[0.00147778154807838672097980868300587 +/- 9.59e-37], V=[0.00990752796545046782505410870011326 +/- 5.05e-37]
+directed baseline compact cap error <= [0.00569265475676442727301695869155957 +/- 2.91e-36]
+directed baseline exact lift late cap norm [0.0050341851482130695288728971864441 +/- 6.71e-35]
+directed baseline exterior no-transfer error <= [0.000727633729973767852614050366399567 +/- 4.18e-37]
+directed baseline physical late norm >= [-0.00138610333852512559675811187151510 +/- 1.29e-36]
+directed baseline physical late norm <= [0.0114544736349512646545039062444033 +/- 7.55e-36]
+
+--- precision cross-checks ---
+Python 3.14.8, python-flint 0.9.0, Arb 192 bits
+Q subbox direct rejection threshold: [[0.3173133838414584 +/- 2.39e-17], [0.3173133838414584 +/- 2.39e-17]]
+Q+S* subbox direct rejection threshold: [[0.8048488267053903 +/- 1.13e-17], [0.8048488267053903 +/- 1.13e-17]]
+Python 3.14.8, python-flint 0.9.0, Arb 160 bits
+late collar first retained v=[1.5036357239673101560128998244181275367736816406 +/- 2.50e-47], max zeroed pre-echo [3.2113305395904096777525423777774474102864883312e-157 +/- 4.91e-204]
+||int |d_u F_h| dv||_2 <= [3.2310409307847159263336872135851200612595580679 +/- 1.10e-47]
+||int |(F_t)_h| dv||_2 <= [6763.4470989645656503591742653292425618601408562 +/- 8.23e-45]
+||int (F_t)_h dv||_2 = [0.14219657779695429534679548602654174223640938 +/- 6.38e-45]
+||p_bilinear - p_shear_cap||_2 = [0.00015952974091250001693683238026097241130801 +/- 6.89e-45]
+||p_bilinear - n_shear_infty||_2 = [0.00087179364935936976292723152890332335740529 +/- 2.09e-45]

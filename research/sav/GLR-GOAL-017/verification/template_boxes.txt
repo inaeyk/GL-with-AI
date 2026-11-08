@@ -1,0 +1,24 @@
+Python 3.14.8, python-flint 0.9.0, precision 192
+Q: active-face states (0, 1)
+  midpoint [0.73555152080477778 +/- 8.37e-20]
+  norm: lower [0.59933322775039504 +/- 2.49e-18], upper [0.87547765619911645 +/- 2.73e-18]
+  radius upper [0.14763028691197169 +/- 3.10e-18]
+  pass allowance lower [0.15203632696322583 +/- 1.86e-18]
+  reject subtractand upper [0.58536911501152992 +/- 5.43e-19]
+S*: active-face states (1, 1)
+  midpoint [1.1405120091022233 +/- 4.67e-17]
+  norm: lower [1.0614847658218129 +/- 3.45e-17], upper [1.2204350597150963 +/- 2.94e-17]
+  radius upper [0.091737700398002138 +/- 4.04e-20]
+  pass allowance lower [0.43900468251290433 +/- 7.38e-19]
+  reject subtractand upper [0.70195523025555030 +/- 2.65e-18]
+Q+S*: active-face states (0, 1, 1, 1)
+  midpoint [1.7550601693414757 +/- 1.57e-17]
+  norm: lower [1.5839417624548029 +/- 5.83e-18], upper [1.9278511804300621 +/- 1.68e-17]
+  radius upper [0.23674391354361581 +/- 1.19e-18]
+  pass allowance lower [0.55522696768378564 +/- 4.10e-18]
+  reject subtractand upper [1.2006695037586469 +/- 4.72e-17]
+Necessary other-term norm [0.62374593772225471 +/- 1.92e-18]
+S* norm minus half combined norm [0.097559175606781893 +/- 1.81e-19]
+Midpoint ball overlap slack [0.10479383597090339 +/- 4.47e-18]
+Isolated S* distance to ordinary span (active face (1, 1)): lower [0.30064053917811747 +/- 1.23e-18], upper [0.34380361657085389 +/- 2.84e-18]
+Fixed cut minus largest fundamental period [6.8768245926217307e-7 +/- 7.09e-26]
