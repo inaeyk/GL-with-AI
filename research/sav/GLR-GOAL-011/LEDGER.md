@@ -92,3 +92,38 @@ record. The present bounds supply both forced matching data and the
 physical mean cap. Horizon-amplitude transport and the signed
 numerator remain open. The prior remote approval rejection remains
 in force. [Calculation and reproduction](EXTERIOR-SOURCE.md)
+
+### Certified signed physical residue and stopping gate
+
+B tightened the complete launch coefficients using Taylor quadrature
+with analytic flat-end tails. C derived and implemented the complete
+far returning cap and independently reconstructed and replayed the
+normalized Wronskian refinement. The coordinator checked the compact
+returning coefficients against the previous direct EF density and
+validated a signed, bilinear adjoint residual pairing of the same
+physical source. The first compact interval calculation enclosed
+zero. Point adjoints, consistent binary initialization, directed
+defect caps, midpoint Taylor quadrature and a wider analytically
+controlled horizon collar resolved the cancellation. E independently
+derived the sign and endpoint identity, identified the endpoint
+rounding gap, and verified the corrected two- and four-subdivision
+results against the distinct degree-42 strong-form benchmark.
+
+For the normalized packet at $13/8$ and width $0.12$ the complete
+residue is enclosed by $[0.08223,0.18771]+i[-0.42418,-0.31707]$.
+The signed component perpendicular to the ordinary common clock
+direction is in $(-0.44590,-0.33745)$. The complete returning tail
+is below $1.383\times10^{-26}$. The local pole term has the exact
+reality partner and an algebraic remainder in the continued
+transform. The controlled short-packet trace and the certified
+finite-packet pole meet Outcome A for the ordered hierarchy.
+Finite-amplitude control and a finite-time dominance claim remain
+separate questions. [Certificate and reproduction](SIGNED-RESIDUE.md)
+
+Final read-only GitHub checks found GOAL-007 PR #6 still open at
+0864d9d807de56cbdd6e64d215e6295508a3007f, no destination commit for
+the GOAL-011 branch, and no PR on that head. The earlier automatic
+approval rejected the scoped push because it recognized only the
+GOAL-005 authorization. The verified result remains on the isolated
+local stack. The result and its evidence are prepared for the
+separate Work audit.

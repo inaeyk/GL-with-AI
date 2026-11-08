@@ -1,3 +1,11 @@
+## GOAL-011 strong-field prediction — 2026-11-07
+
+**Outcome A for the ordered response.** The $R/r_0=13/8$,
+$\delta=0.12$ physical packet has a certified nonzero
+fundamental quadrupole residue at fixed ADM mass and frame.
+Its component perpendicular to the common clock is also nonzero.
+[Signed enclosure](GLR-GOAL-011/SIGNED-RESIDUE.md).
+
 ## GOAL-011 forced match and mean checkpoint — 2026-11-07
 
 The actual compact source, outgoing affine tail and two-polarization

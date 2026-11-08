@@ -1,3 +1,12 @@
+## GOAL-011 certified physical fundamental — 2026-11-07
+
+The [signed projection](../GLR-GOAL-011/SIGNED-RESIDUE.md)
+includes the full constrained source, exact horizon boundary,
+physical compact contacts, normalized denominator and analytic
+far tail. Independent derivation, replay and a distinct strong
+projection support the stated enclosure. The result also
+separates the coefficient from a common clock change.
+
 ## GOAL-011 physical mixed matching and mean — 2026-11-07
 
 [Interval record](../GLR-GOAL-011/EXTERIOR-SOURCE.md) covers the

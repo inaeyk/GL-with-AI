@@ -30,3 +30,17 @@ $$
      =\lim_{x\to\infty} e^{sx}\widehat{\Theta\Psi_2}(s,x).
 $$
 The right source transform has the bound $|\widehat{\Theta S}(s,x)|\le C_s e^{-(\operatorname{Re}s+b)x}$. At the left, the time bound and $t\ge v_0-x$ yield a bound of the form $C_s e^{(\operatorname{Re}s-c)x}$ for a fixed $c$, which is sufficient after multiplication by $h\sim e^{sx}$ for large $\operatorname{Re}s$. The graph terms are compact. These bounds justify the outgoing resolvent pairing in [GREEN-FUNCTION](GREEN-FUNCTION.md) without an auxiliary cut in $u$. The continuation of this right-half-plane identity gives the simple-pole coefficient on the specified outgoing sheet using the local spectral certificate and the continued physical source. The proof does not isolate that pole from prompt and branch-cut contributions on a time window. It does not bound a finite-amplitude waveform after prolonged GL growth.
+
+
+### Pole term and remainder on the continued sheet
+
+Write the outgoing transform as $\mathcal T(s)$ and choose a reference
+cut $u_b$. For the fundamental and its reality partner, subtract
+$A_q e^{-(s-s_q)u_b}/(s-s_q)$ and its conjugate-parameter counterpart.
+Their inverse Laplace transforms are the corresponding exponentials
+supported on $u\ge u_b$. The remaining transform is analytic at
+these two poles and represents the exact remainder for that choice
+of cut. Its inverse includes the prompt waveform, other singularities
+and the non-pole part. The [signed certificate](SIGNED-RESIDUE.md)
+evaluates $A_q$ for the ordered physical packet. The subtraction
+does not give a time interval on which the remainder is small.

@@ -1,10 +1,13 @@
 # Physical-source overlap at the quadrupole pole
 
+The numerical benchmark below is independently checked by the later
+[complete signed interval enclosure](SIGNED-RESIDUE.md).
+
 For the fixed-canonical packet at $R/r_0=13/8$, width $\delta=0.12$ and $\int_0^1(b')^2dy=1$, the numerical residue of the **ordered** axial shear is
 $$
  A_{21,q}\simeq 0.1352-0.3706i .
 $$
-Use $u_0=0$, $r_0=1$ inside the calculation, $x=r+\log(r-1)$, and the Jost normalization of [SPECTRAL-CERTIFICATE](SPECTRAL-CERTIFICATE.md). In dimensional variables the positive-frequency pole term in $C_{AB}/r_0$ is $\epsilon^2\eta A_{21,q}e^{s_q u_{\rm phys}}X_{AB}$ and reality supplies its conjugate. Here $s_qr_0\simeq-0.177924631-0.747343369i$. This is a numerical evaluation of the continued outgoing transform of the actual ordered solution, using the [time-to-null exchange](NULL-TRANSFORM.md). The local pole, both shifted noncoincidences and a bound on the denominator are certified. The numerical **source** numerator does not have a certified error enclosure. The later [fit-free horizon check](HORIZON-SOURCE.md) reproduces the same rounded residue, validates both compact launch moments, and supplies conditional Acb collar bounds.
+Use $u_0=0$, $r_0=1$ inside the calculation, $x=r+\log(r-1)$, and the Jost normalization of [SPECTRAL-CERTIFICATE](SPECTRAL-CERTIFICATE.md). In dimensional variables the positive-frequency pole term in $C_{AB}/r_0$ is $\epsilon^2\eta A_{21,q}e^{s_q u_{\rm phys}}X_{AB}$ and reality supplies its conjugate. Here $s_qr_0\simeq-0.177924631-0.747343369i$. This is a numerical evaluation of the continued outgoing transform of the actual ordered solution, using the [time-to-null exchange](NULL-TRANSFORM.md). The local pole, both shifted noncoincidences and a bound on the denominator are certified. This numerical evaluation used empirical source-error controls. The later [fit-free horizon check](HORIZON-SOURCE.md) reproduces the same rounded residue, validates both compact launch moments, and supplies conditional Acb collar bounds.
 
 The packet support on the graph is $1.59692393\lesssim r/r_0\le1.625$. Its complete baseline transform uses the compact moments of [PAIRING](PAIRING.md). The upper tangential canonical and electric coefficients are fixed to zero in the independent data, with the induced normal and constrained terms retained.
 

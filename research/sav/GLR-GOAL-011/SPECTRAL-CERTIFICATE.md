@@ -50,3 +50,10 @@ PYTHONDONTWRITEBYTECODE=1 python3 GLR-GOAL-011/checks/spectral_certificate.py
 ```
 
 [Saved output](checks/spectral_certificate.txt) · [Independent adverse review](investigators/E-SPECTRAL.md)
+
+
+The [signed physical certificate](SIGNED-RESIDUE.md) subsequently
+tightens the normalized $W'$ through a five-point Cauchy-controlled
+derivative and an outgoing Volterra amplitude enclosure. The pole
+count and shifted noncoincidences here are the spectral inputs to
+that calculation.

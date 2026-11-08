@@ -1,3 +1,13 @@
+## GOAL-011 certified physical fundamental — 2026-11-07
+
+The fixed-canonical barrier packet has a nonzero ordered axial
+residue with a signed interval source enclosure and a nonzero
+common-clock-perpendicular component. The comparison records
+separate the controlled prompt waveform, the local pole and the
+unbounded late-time remainder.
+[Result](GLR-GOAL-011/SIGNED-RESIDUE.md) ·
+[Comparison](GLR-GOAL-011/HANDOFF.md)
+
 ## GOAL-011 forced matching update — 2026-11-07
 
 The physical mixed data now have a validated match and the EF mean

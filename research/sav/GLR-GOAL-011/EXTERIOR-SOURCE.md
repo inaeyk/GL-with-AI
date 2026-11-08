@@ -119,7 +119,7 @@ and interval inputs. The independent review checked
 the packet, horizon initialization and preconditioning.
 [E's ingoing and matching audit](investigators/E-INGOING-MATCH.md)
 
-## Reproduction and remaining projection
+## Reproduction and subsequent projection
 
 From the research directory with the Python/Flint versions
 listed in [Error budget](ERROR-BUDGET.md), run
@@ -146,6 +146,6 @@ enclosing the whole affine residual about each subcell midpoint
 would address those dependencies before transporting the match.
 A linear adjoint of the remaining mixed projection can also retain
 the correlations between its left and right uses of $U_*$.
-The residue
-value in [Physical residue](PHYSICAL-RESIDUE.md) remains
-empirical.
+The later [signed residue calculation](SIGNED-RESIDUE.md) uses the
+correlated matching state in an adjoint residual pairing and closes
+the numerator without enclosing the two horizon amplitudes separately.

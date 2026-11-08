@@ -1,6 +1,12 @@
 # GLR-GOAL-011 — Strong-field axial GL-induced radiation
 
-**Outcome B, controlled substantial partial result.** A smooth, outgoing, fixed-canonical axial packet launched at the Schwarzschild potential barrier has a definite nonzero GL-dependent Bondi shear coefficient at order $\epsilon^2\eta$ in the short-packet regime. The complete retarded source and constrained data are specified. The fundamental source overlap now has a reproducible numerical value for a specified finite packet. Its source error enclosure remains open. The resonance work gives a controlled finite-cut continuation prescription, an exact local spectral certificate for the returning and shifted pencils, and a proof that unrestricted upper-order data make a residue nonuniversal.
+**Outcome A, strong-field prediction achieved for the ordered response.**
+A smooth, outgoing, fixed-canonical axial packet launched near the
+Schwarzschild potential barrier gives a certified nonzero fundamental
+residue at order $\epsilon^2\eta$. The controlled prompt waveform and
+signed energy statements apply in the short-packet regime. The complete
+source, finite-graph data, continued radial projection and normalization
+have independent checks.
 
 ## Principal result
 
@@ -25,8 +31,17 @@ For the shear-normalized master $C=-2\psi_{\rm raw}/\lambda$ at null infinity, $
 
 The mixed angular equations are the exact axial Proca system on the spherical three-orbit. The constrained two-polarization $n=\pm1$ retarded intermediate, the sourced Einstein-frame monopole, the direct quadratic operator variation and the nonlinear curl extraction appear in the mean Regge–Wheeler problem. The leading mixed polarization on the outgoing strip is $-\chi\cos(kz)a'_\delta$, with the other vector and constraint pieces included in the source and bounds. [Hierarchy](HIERARCHY.md) · [Retarded functional](GREEN-FUNCTION.md)
 
-At a simple RW pole $s_q$, the shear residue is the continued source-plus-data numerator divided by $W'(s_q)$ in the stated normalization. The positive-time GL growth produces the arguments $s-\Omega$ and $s-2\Omega$ inside the source construction. The returning Wronskian still depends on $s$. A naive real-axis formula lacks decay in the inner continued massive integral. A rotated Coulomb endpoint restores convergence for the continued radial construction. An interval calculation encloses a simple pole near the literature fundamental, excludes both shifted coincidences there and bounds the normalized denominator by $3.64<|W'(s_q)|<10.57$. The fixed-canonical graph pairing and first shifted packet transform are explicit. For the packet at $R/r_0=13/8$ with $\delta=0.12$, the ordered outgoing trace has empirical pole coefficient $A_{21,q}\simeq0.1352-0.3706i$ in shear units $r_0$ and with $u_0=0$. The [time-to-null argument](NULL-TRANSFORM.md) identifies the continued transform with the causal ordered waveform. The [physical overlap report](PHYSICAL-RESIDUE.md) gives all three source pieces, observed error sensitivities, the independent strong-projection check and the failed horizon refinement. The later [fit-free horizon checkpoint](HORIZON-SOURCE.md) certifies the physical lower launch inputs and local Taylor remainders conditional on the mixed and mean matching data. The [subsequent affine calculation](EXTERIOR-SOURCE.md) bounds the physical mean cap and the complete forced mixed matching state. The signed numerator still lacks a certified enclosure. [Resonance](QNM-RESIDUES.md) · [Spectral certificate](SPECTRAL-CERTIFICATE.md) · [Canonical pairing](PAIRING.md)
+At a simple RW pole $s_q$, the shear residue is the continued source-plus-data numerator divided by $W'(s_q)$ in the stated normalization. The positive-time GL growth produces the arguments $s-\Omega$ and $s-2\Omega$ inside the source construction. The returning Wronskian still depends on $s$. A naive real-axis formula lacks decay in the inner continued massive integral. A rotated Coulomb endpoint restores convergence for the continued radial construction. An interval calculation encloses a simple pole near the literature fundamental, excludes both shifted coincidences there and bounds the normalized denominator by $3.64<|W'(s_q)|<10.57$. The fixed-canonical graph pairing and first shifted packet transform are explicit. For the packet at $R/r_0=13/8$ with $\delta=0.12$, the ordered outgoing trace has empirical pole coefficient $A_{21,q}\simeq0.1352-0.3706i$ in shear units $r_0$ and with $u_0=0$. The [time-to-null argument](NULL-TRANSFORM.md) identifies the continued transform with the causal ordered waveform. The [physical overlap report](PHYSICAL-RESIDUE.md) gives all three source pieces, observed error sensitivities, the independent strong-projection check and the failed horizon refinement. The later [fit-free horizon checkpoint](HORIZON-SOURCE.md) certifies the physical lower launch inputs and local Taylor remainders conditional on the mixed and mean matching data. The [signed enclosure](SIGNED-RESIDUE.md) controls the complete projected
+source, including the horizon, compact support and outgoing tail. It
+gives $A_{21,q}\in[0.08223,0.18771]+i[-0.42418,-0.31707]$ and a nonzero
+component perpendicular to the common clock direction at fixed mass.
+The result establishes a nonzero coefficient of the physical ordered
+null trace. [Resonance](QNM-RESIDUES.md) · [Spectral certificate](SPECTRAL-CERTIFICATE.md) · [Canonical pairing](PAIRING.md)
 
-Permitted compact upper-order homogeneous data can vary a simple oscillatory residue through the complex plane while leaving all lower jets and an earlier waveform interval fixed. The preparation here fixes those independent data. Its finite-cut nonzero waveform persists under small perturbations in the controlling data norm. The fixed-canonical class now has a nonzero numerical benchmark at two launch radii. A certified nonzero residue and a genericity result for that class remain open.
+Permitted compact upper-order homogeneous data can vary a simple oscillatory residue through the complex plane while leaving all lower jets and an earlier waveform interval fixed. The preparation here fixes those independent data. Its finite-cut nonzero waveform persists under small perturbations in the controlling data norm. Within the fixed-canonical, fixed-support packet space, linear
+continuity of the residue gives an open neighbourhood of the
+certified packet and an open dense complement to the kernel in the
+linear space. The second launch radius remains an empirical sensitivity
+check.
 
 [Error budget and reproduction](ERROR-BUDGET.md) · [Independent review](INDEPENDENT-REVIEW.md) · [Pinned sources](LITERATURE.md) · [Ledger](LEDGER.md) · [Handoff](HANDOFF.md)

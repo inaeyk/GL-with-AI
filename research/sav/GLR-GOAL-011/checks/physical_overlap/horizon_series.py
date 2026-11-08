@@ -364,8 +364,8 @@ class LocalHorizon:
         r=1+t
         s=self.s
         raw=self.returning_currents(t,state,mean,driven=driven)
-        r_k=arb(".03")
-        r_g=arb(".018")
+        r_k,r_g=(arb(".03"),arb(".018")) if cap<arb(".018") else (arb(".038"),arb(".034"))
+        assert cap<r_g
         bound_k=self.returning_currents(box(r_k),state,mean,r_k,driven)
         bound_g=self.returning_currents(box(r_g),state,mean,r_g,driven)
         weight=r*self.test.series*(2*s*r).exp()*2/LAMBDA

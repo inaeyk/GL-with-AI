@@ -123,15 +123,15 @@ def packet_coefficients(r,k,omega,s,p,psi,psix,launch):
 
 
 class Ingoing:
-    def __init__(self,data,right_slope,cells=4200):
+    def __init__(self,data,right_slope,cells=4200,start=1/32):
         self.data=data
         self.s1=data.s-data.omega
         massive=[]
         scalar=[]
         spec.compact_bound(self.s1,True,False,cells,False,capture=massive)
         spec.compact_bound(data.s-2*data.omega,False,False,cells,False,capture=scalar)
-        self.cells=[Cell(*v) for v in massive if v[0]>=1/32]
-        scalar=[Cell(*v) for v in scalar if v[0]>=1/32]
+        self.cells=[Cell(*v) for v in massive if v[0]>=start]
+        scalar=[Cell(*v) for v in scalar if v[0]>=start]
         assert [(c.a,c.b) for c in scalar]==[(c.a,c.b) for c in self.cells]
         self.baseline=CompactBaseline(data,self.cells,IngoingScalar(data.s-2*data.omega,scalar),
                                       right_slope)
