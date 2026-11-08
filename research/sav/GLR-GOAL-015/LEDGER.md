@@ -11,3 +11,11 @@
   the physical early projection. The frozen source supplies directed
   GL/fixed-infinity mean and both graph jet enclosures. The directed
   early current candidate and graph-conforming lift are separate evidence.
+- **Packet milestone:** The directed absolute route spans zero. An
+  independent signed subprincipal refinement gives a complete ordered
+  interval [-2758.258,-200.091]. The adversarial check reconstructs the
+  signed equations, wedge, terminal, dual orientation and arithmetic.
+  The candidate-based strong packet sign remains conditional.
+- **Terminal:** Full two-cut outcome, reviewed within the internal
+  five-track protocol. The report and handoff specify the remaining
+  strong packet, seed, finite-amplitude and late-window gates.

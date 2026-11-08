@@ -1,0 +1,12 @@
+Python 3.14.8 NumPy 2.4.6 SciPy 1.18.0
+GL log-derivative mismatch=1.299e-14; mean EF finite-end proxy max=6.836e-262
+u=[-0.684992741508529,-0.564992741508529] cap=400 rule=simpson Nu=128 Nv_exterior=480 iterations=24
+mixed  P_weak=-1459.02637511 P_shear=-1459.02490322 terminal=0.00010605111428 F_ray(d)=0.0568489163094
+direct P_weak=2.72300460638 P_shear=2.72300117525 terminal=6.80624852378e-06 F_ray(d)=0.00364850341587
+mean   P_weak=0.688900882934 P_shear=0.688899487831 terminal=1.00956832465e-05 F_ray(d)=0.00541181161423
+total  P_weak=-1455.61446963 P_shear=-1455.61300256 terminal=0.000122953046051 F_ray(d)=0.0659092313395
+discrete transpose P=-1455.61446963; weak-vs-transpose=0
+cap news norm=2105.68358611; g norm=1.0000339495; g(d)=0.00746196206825; w(d,cap)=-0.0122769764392; peak mixed y=2.4131748; peak mixed Z=3.053175
+strong separate P=-1455.61299558; strong-vs-shear L2=0.00463987233; max cap G=3.06574735e-99
+wrong zero-upper-velocity control P=-1454.62546439; max ray |F|=601.330815; max ray |H|=336.526439; max |G|=715.742877; terminal ray |F|=2.41935711
+zero-exterior-source continuation P=-1455.61299943; continued return norm=2105.68358894

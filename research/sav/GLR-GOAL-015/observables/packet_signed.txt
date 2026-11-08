@@ -1,0 +1,12 @@
+  left endpoint error: 6.071463e-06, peak: 6.071463e-06
+signed C_F primitive [-9.07677993582454825 +/- 2.86e-18] [49.4026474018219361 +/- 2.79e-17]
+residual F norms [8.81249553873643376 +/- 3.67e-18] [45.5300115328023871 +/- 1.26e-17]
+4*negative leading lower [4393.82672796645028 +/- 1.33e-15]
+4*baseline test error [44.0205204691018256 +/- 5.68e-18]
+4*signed primitive cancellation error [2078.31965086406634 +/- 4.13e-15]
+4*terminal bound [0.444145262502487286 +/- 2.83e-19]
+4*other F error [616.133747216934635 +/- 4.36e-16]
+4*potential/G/H [854.541748640379476 +/- 3.05e-16]
+P lower [-2758.25709699123713 +/- 3.54e-15]
+P upper [-200.091728878366364 +/- 4.32e-16]
+P_PACKET_STRICTLY_NEGATIVE True

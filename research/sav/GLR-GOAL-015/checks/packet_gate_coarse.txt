@@ -1,0 +1,12 @@
+Python 3.14.8 NumPy 2.4.6 python-flint 0.9.0; 128 affine panels with 64 directed subcells; 160 bits
+SHA-256 of exact little-endian binary64 p_cap ordinates 70f6323e17d2de27659cd8b1c50137c8622374c7bfbedbba05c23f3dfe14174f
+cap candidate norm: [2101.8154801882 +/- 3.27e-11] [2101.8154801882 +/- 3.27e-11]
+free baseline overlap: [-1464.1388685927 +/- 2.27e-11] [-1457.8312723712 +/- 4.36e-11]
+first scatter overlap: [5.8956980629339 +/- 7.05e-15] [6.0636930240764 +/- 4.71e-14]
+second scatter overlap: [0.39698096863983 +/- 4.41e-15] [0.40826659540586 +/- 4.66e-15]
+remaining test overlap radius: [0.33070025409944 +/- 3.76e-15] [0.33070025409944 +/- 3.76e-15]
+candidate pairing with exact leading news: [-1458.1768898313 +/- 3.47e-12] [-1451.0286124815 +/- 2.65e-11]
+exterior error constant: [1.2049648104439 +/- 2.90e-14] [1.2049648104439 +/- 2.90e-14]
+physical compact error multiplier: [1.0015032963332 +/- 1.60e-14] [1.0015032963332 +/- 1.60e-14]
+sufficient E_c threshold: [1447.6474046359 +/- 3.85e-12] [1447.6474046359 +/- 3.85e-12]
+The physical cap defect must be bounded separately.
