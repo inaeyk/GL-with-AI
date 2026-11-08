@@ -1,0 +1,7 @@
+d_baseline_h1 byte-identical
+d_baseline_h1_variant byte-identical
+d_graph_projection byte-identical
+d_graph_projection_variant byte-identical
+e_baseline byte-identical
+e_baseline_variant byte-identical
+e_graph_projection byte-identical

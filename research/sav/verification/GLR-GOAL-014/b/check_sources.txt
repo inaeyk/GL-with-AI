@@ -1,0 +1,7 @@
+Python 3.14.8, SymPy 1.14.0, python-flint 0.9.0
+exact density expansion, Fourier factor 1/2, rank-one mean and F,G,H: PASS
+canonical mixed and mean graph jets, EF density Jacobian, coupling and RW limit: PASS
+r=100 ray [4.3735467011341e+37 +/- 4.89e+23], trace [3.5709859280037e+37 +/- 1.20e+23]
+r=350 ray [1.6269926012894e-6 +/- 3.73e-21], trace [1.3284338961475e-6 +/- 9.62e-22]
+r=400 ray [3.3534816938284e-15 +/- 2.87e-29], trace [2.7381063372146e-15 +/- 1.55e-29]
+divergence-free exterior control: terminal=-B, bulk=B/2, cap=B/2, source=0

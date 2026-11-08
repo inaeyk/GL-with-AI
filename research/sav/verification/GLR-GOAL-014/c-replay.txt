@@ -1,0 +1,13 @@
+Python, python-flint, NumPy, SciPy, SymPy: 3.14.8 0.9.0 2.4.6 1.18.0 1.14.0
+coarse: exit 0, 11 stdout lines
+medium: exit 0, 11 stdout lines
+fine: exit 0, 11 stdout lines
+cap160: exit 0, 10 stdout lines
+cap192: exit 0, 10 stdout lines
+graph160: exit 0, 4 stdout lines
+graph192: exit 0, 4 stdout lines
+SHA-256 of little-endian float64 p_cap ordinates: 38ecd9ed4d942aeb261cc197bf5662e9d80a584fa6dae955a322a61817915c39
+fine: scipy/integrate/_ivp/rk.py:691: RuntimeWarning: invalid value encountered in scalar divide
+Archived stdout lines reproduced: 61
+Archived stdout SHA-256: cd0bfb514adcbd26112c80deee55347424453b3a42c60d9703495007e18379fa
+Rounded budget at E_c=570 gives strictly positive margin 0.00286661.

@@ -1,0 +1,6 @@
+Python 3.14.8, NumPy 2.4.6, SciPy 1.18.0
+front=-0.68499274151 packet end=-0.56499274151, QNM window=[0,8.407362]
+N_u   ||q||2 on QNM cut   integral q   packet sup   round-trip defect   cap-to-news difference
+ 256  0.0049240898025  -1.644e-09  0.0e+00  1.446e-12  0.09385303
+ 512  0.0049240898025  +3.706e-13  0.0e+00  1.445e-12  0.093850209
+1024  0.0049240898025  -5.031e-17  0.0e+00  1.445e-12  0.093849502
