@@ -1,0 +1,56 @@
+{
+  "mu": ".20",
+  "omega_band": [
+    "4",
+    "4.25"
+  ],
+  "cutoff_end_u": "-7.9",
+  "late_pulse_center_t": "12",
+  "late_pulse_center_r": "8",
+  "half_width_t_x": "1/32",
+  "external_Riccati_enclosure": {
+    "initial_error": "[0.0262875450773341068355648530996405 +/- 4.12e-35]",
+    "endpoint_error": "[3.08966265535600922884922663907752e-9 +/- 4.09e-43]",
+    "max_cell_residual": "[1.63360958666820543746245664927391e-8 +/- 4.50e-41]",
+    "endpoint": "[-0.47079910 +/- 6.19e-9]",
+    "cells": 8192
+  },
+  "baseline_source_L1_upper": "[0.0134025203442433848977088928222656 +/- 2.50e-35]",
+  "baseline_source_time_BV_integrated_in_x_upper": "[0.00339250866644748311159766170823068 +/- 1.88e-36]",
+  "wkb_integral_eta_upper": "[0.0104551245424540970261461469240815 +/- 2.36e-35]",
+  "wronskian_abs": {
+    "lower": "[1.95773919956991448998451232910156 +/- 2.50e-33]",
+    "upper": "[2.04226080043008551001548767089844 +/- 2.50e-33]"
+  },
+  "outgoing_or_horizon_normalized_band_energy": {
+    "baseline": {
+      "lower": "[-8.46096273199783610382248727747911e-15 +/- 5.00e-48]",
+      "upper": "[7.89063336135047674723772359809707e-6 +/- 1.62e-39]"
+    },
+    "pulse_only": {
+      "lower": "[0.0347151812489149736626160545281369 +/- 3.30e-35]",
+      "upper": "[0.0439277454457018169028771324089963 +/- 7.94e-36]"
+    },
+    "baseline_plus_pulse": {
+      "lower": "[0.0335298055756842362148774070671994 +/- 2.10e-35]",
+      "upper": "[0.0451131211189325543506157798699338 +/- 4.11e-36]"
+    },
+    "strict_separation_lower_margin": "[0.0335219149423313467008621671797051 +/- 2.34e-35]"
+  },
+  "high_tail_bounds_for_omega_H_ge_4": {
+    "baseline_coefficient_divided_by_omega_H": "[1.96099675462849797119050158834133e-6 +/- 4.68e-39]",
+    "pulsed_coefficient_divided_by_omega_H": "[1359.43214797063142391108331748646 +/- 3.7e-33]"
+  },
+  "near_threshold_escape_bounds": {
+    "formula": "amplitude_upper^2 * ((mu+delta)^2-mu^2)/pi",
+    "baseline_amplitude_upper": "[0.472251076384034086198946254462218 +/- 4.10e-35]",
+    "pulsed_amplitude_upper": "[56.0521594440894596243166600598013 +/- 4.54e-32]",
+    "example_delta": "0.000001",
+    "baseline_example_energy_upper": "[2.83959967176186599698017148938253e-8 +/- 4.53e-41]",
+    "pulsed_example_energy_upper": "[0.000400033076136332695299239980473262 +/- 2.38e-37]"
+  },
+  "coarse_total_work_energy_upper_either_channel": {
+    "baseline": "[0.0275458347369491966410313977688713 +/- 1.64e-35]",
+    "pulsed": "[46.9054183483034907882605239355839 +/- 2.22e-32]"
+  }
+}

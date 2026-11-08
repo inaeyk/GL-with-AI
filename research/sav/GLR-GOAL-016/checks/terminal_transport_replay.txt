@@ -1,0 +1,16 @@
+Coordinator replay of final tube and completed-band commands from transport/CERTIFICATE.md.
+All three JSON outputs matched byte for byte under the pinned Python and Arb environment.
+
+24r0 replay matched
+Completed band replay matched
+8ce7c464bd9315040d47f07fb6ef25c6686f2763be603be244f236f54baae39f  GLR-GOAL-016/transport/checks/tube48.json
+0e00168c8aff0420ecf06638142e42f1a9dacd2e2fbc79b384a5bf8dae00aa9f  GLR-GOAL-016/transport/checks/tube24.json
+64424e39af91a6beb8d37630d9477976763cfc28cc33a6d74590eedddd8ae402  GLR-GOAL-016/transport/checks/completed_band.json
+
+real	0m49.678s
+user	0m49.534s
+sys	0m0.116s
+
+real	1m41.264s
+user	1m40.954s
+sys	0m0.233s

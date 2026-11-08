@@ -1,0 +1,5 @@
+proved: R(-8) > 5.1 and R(-10) < 6.6
+response upper bound (display) = 0.012541753
+cost ratio upper bound (display) = 1.195167634
+strict rational gates: response < 0.013, cost ratio < 1.20
+Z norm directed bounds: 42021423/100000000000 < ||n_Z||_2 < 44816850/100000000000

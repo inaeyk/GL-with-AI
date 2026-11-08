@@ -1,0 +1,5 @@
+s=4, c0=1/2, c1=-21/5, c1 omitting potential=-39/20
+s=5, c0=7/10, c1=-51/14, c1 omitting potential=-157/70
+s=6, c0=4/5, c1=-477/140, c1 omitting potential=-337/140
+symbolic powers: c0=(s - 3)*(s + 2)/(s*(s - 1)), c1=-3*(s**4 - s**2 + 12)/((s - 2)*(s - 1)*(s + 1)*(s + 2))
+first rational correction identity exact

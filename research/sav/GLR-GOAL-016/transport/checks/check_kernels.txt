@@ -1,0 +1,4 @@
+order=0, moment=0, correct enclosure contains exact series; wrong mass sign excluded
+order=1, moment=0, correct enclosure contains exact series; wrong mass sign excluded
+order=1, moment=1, correct enclosure contains exact series; wrong mass sign excluded
+zero-data causal triangle matches (1-cos(mu*T))/mu^2
