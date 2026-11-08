@@ -1,0 +1,6 @@
+4P exact=3/4, without terminal=-1/4, without exterior cap contact=23/20
+4P tilted=3/2, zero graph velocity=11/8, reversed tilt=5/4
+graph flux per dx=4, per |du|=3, wrong sign per dx=6
+null seam: uncommuted delta=0, commuted delta=-4*rho'(v)
+thin layer: ||e_u(d,.)||_2=1, ||e_u||_2^2=(3/35)*width
+conditional margins: weak=0.1839374824, strong 400=2.323048200, strong 570=0.002866610

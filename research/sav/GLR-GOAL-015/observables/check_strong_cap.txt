@@ -1,0 +1,19 @@
+manufactured omission graph, error in 4*news at u=1: 76/27
+manufactured omission cap, error in 4*news at u=1: 96199/972
+manufactured omission Vw, error in 4*news at u=1: -28273/972
+exact manufactured cap identity: verified
+affine cap digest = 38ecd9ed4d942aeb261cc197bf5662e9d80a584fa6dae955a322a61817915c39
+potential ray mass upper: [1.563293941236838 +/- 6.30e-17]
+Volterra norm exponent factor: [1.015040341978169 +/- 9.77e-17]
+graph factor: [1.238095238095238 +/- 9.53e-17]
+candidate sup absolute F-ray bound: [293.8286617541161 +/- 8.82e-15]
+candidate sup absolute H-ray bound: [143.2646033481168 +/- 4.65e-14]
+candidate sup absolute G: [331.9303926824443 +/- 3.52e-14]
+candidate cap mismatch without Vw: [4.491977177474903 +/- 1.88e-16]
+candidate potential readout bound: [14.49637978045496 +/- 1.67e-15]
+E_read upper bound: [18.98835695792986 +/- 4.48e-15]
+E_F multiplier: [0.3967016041813600 +/- 2.68e-17]
+E_G multiplier: [0.003788221274276876 +/- 1.20e-19]
+E_H multiplier: [0.2537882212742769 +/- 2.39e-17]
+E_vol multiplier: [1.586806416725440 +/- 1.07e-16]
+Physical lower-current mismatch is not included.

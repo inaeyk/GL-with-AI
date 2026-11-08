@@ -1,0 +1,38 @@
+Local mass calculation before correcting the sign of f_r/2 in the
+first sphere Hessian contraction H_1(vv+f vr). Directed local interval
+and directed radial mean integral disagreed at every sampled radius
+below r=20. These are outputs from the failed formula, not physical
+intervals.
+
+[1.595000000 +/- 3e-14] [-0.967 +/- 3.67e-4] [0.854 +/- 4.97e-4] False
+[1.621436342 +/- 2.76e-10] [-0.864 +/- 1.82e-4] [0.767 +/- 4.54e-4] False
+2.000000000 [-0.219 +/- 4.95e-4] [0.169 +/- 4.03e-4] False
+2.500000000 [-0.0536 +/- 4.94e-5] [0.023 +/- 8.99e-4] False
+3.000000000 [-0.01560 +/- 4.07e-6] [0.0031 +/- 9.13e-5] False
+5.000000000 [-0.0001017 +/- 5.34e-8] [7.4e-5 +/- 2.58e-7] False
+9.000000000 [6.152e-7 +/- 8.29e-11] [7.1e-7 +/- 2.51e-9] False
+20.00000000 [1.446e-13 +/- 2.58e-17] [1e-13 +/- 6.27e-14] True
+
+The expansion of Hess_1,vv contains -f_r (Omega W+f W_r)/2.
+Its W_r term cancels against the corresponding +f f_r W_r/2 in
+f Hess_1,vr. The Omega W term keeps the negative sign. The incorrect
+formula used +(f_r/2) Omega W. After the correction all reported
+test radii overlap the independent radial mean quadrature.
+
+Arb centered-quadratic prototype also encountered nonfinite results
+when applying generic real power to a centered signed Arb ball.
+The directly observed interval and power were
+
+offset [+/- 5.10e-6] nan
+mean_value [nan, nan]
+
+The implementation uses interval products for signed powers. The
+failed prototype emitted no physical certificate.
+
+Exploratory affine pilot applied eta=diag(-1,1) to J instead of the
+required diag(1,-1). The printed central diagnostic was
+
+aff integrated F coefficient 10.488066928234417 approx affine P 0.22313034965479306
+
+Both signs reverse with the correct reconstruction. The final code
+checks the sign and the Cayley–Hamilton null contraction by cell.

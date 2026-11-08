@@ -1,0 +1,13 @@
+Python 3.14.8, NumPy 2.4.6, python-flint 0.9.0, 192 bits, 64 u subcells
+terminal F ray: [193.33900842644 +/- 1.27e-12] [193.33900842644 +/- 1.27e-12]
+terminal projection: [19.940370341885 +/- 2.83e-13] [19.940371434250 +/- 1.27e-13]
+F integration by parts including terminal: [7.8748071474216 +/- 4.06e-14] [7.8749518068154 +/- 5.01e-15]
+first dual F correction: [-0.039479381851825 +/- 1.95e-16] [-0.038191092211028 +/- 4.97e-16]
+leading H correction: [-0.019194072215706 +/- 4.52e-16] [-0.019163517026450 +/- 3.39e-16]
+dual remainder radius: [0.0044138175452288 +/- 8.30e-18] [0.0044138175452288 +/- 8.30e-18]
+uniform ray |F|: [293.51438194879 +/- 5.56e-13] [293.51438194879 +/- 5.56e-13]
+uniform ray |H|: [143.16789549253 +/- 1.28e-12] [143.16789549253 +/- 1.28e-12]
+uniform |G|: [331.93039268244 +/- 4.34e-12] [331.93039268244 +/- 4.34e-12]
+complete weak candidate interval: [7.8117198757994 +/- 2.44e-14] [7.8220110151327 +/- 4.83e-14]
+omitting terminal control: [-12.128651558460 +/- 3.68e-13] [-12.118359326743 +/- 1.85e-13]
+Physical current mismatch remains outside this candidate enclosure.

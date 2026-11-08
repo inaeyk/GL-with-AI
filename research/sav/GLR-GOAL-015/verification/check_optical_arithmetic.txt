@@ -1,0 +1,3 @@
+conservative weak lower using the rounded ledger: 1.700182500000
+strong compact M upper: [1.563293941236838 +/- 6.30e-17]
+conditional strong sign lower at Ec=537.681: 0.443960426513
