@@ -1,0 +1,17 @@
+  left endpoint error: 6.071463e-06, peak: 6.071463e-06
+packet B,B',B'' L2 upper 0.025311425677500665187835693359375000000000000000 1.0000000000000000000000000000000000000000000000 68.229752182960510253906250000000000000000000000
+packet B,B',B'' sup upper [0.13586056342942311356410073430338493165896612710 +/- 4.43e-48] 4.8077450841665267944335937500000000000000000000 307.38621759414672851562500000000000000000000000
+packet ||B''||_2^2 lower [4403.4178147445204469113648446440445541214933399 +/- 4.82e-44]
+Traceback (most recent call last):
+  File "GLR-GOAL-015/observables/packet_weak.py", line 179, in <module>
+    bound(args.refinement)
+    ~~~~~^^^^^^^^^^^^^^^^^
+  File "GLR-GOAL-015/observables/packet_weak.py", line 151, in bound
+    phase=cap_phase(geo,a,D,refinement)
+  File "GLR-GOAL-015/observables/packet_weak.py", line 55, in cap_phase
+    assert A<0
+           ^^^
+AssertionError
+real 31.15
+user 30.99
+sys 0.13

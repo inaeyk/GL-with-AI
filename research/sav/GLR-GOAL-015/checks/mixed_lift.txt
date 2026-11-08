@@ -1,0 +1,5 @@
+D float64-LE SHA-256 45ac0d1a79d9b08cf856886e0b6c26ba40998ccb3490c7484ccbe943850f0e08
+raw_graph float64-LE SHA-256 85a7d4bd0e57d7b66d085307c182c3f316a3181ce36b141525587d7b378a4cd2
+v float64-LE SHA-256 4eda4ff3a7714ee87d4b2bd6ad92901d9a8c6ca47467bf9aca78cb6de31d78c3
+last u panel, first rectangular v panel Y ([+/- 9.06e-3], [+/- 3.90e-3]) P ([+/- 3.62], [+/- 1.48]) Q ([-0.2 +/- 0.0415], [-0.09 +/- 8.12e-3]) D ([-7e+1 +/- 7.05], [-3e+1 +/- 4.41])
+adjacent trace overlap checks passed (analytic formulas give equality)

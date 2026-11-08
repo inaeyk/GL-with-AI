@@ -1,0 +1,18 @@
+F binary64-LE SHA-256 270742549955721276872574e53b082911c2e031425e2f930c78e49e022bd56b
+G binary64-LE SHA-256 a4cb59e32469e8793c7a1e71a7c8bb67774a0d0df5015a001e1e13e7d428f6ce
+H binary64-LE SHA-256 125fb151a7d31256768370e6c2f8f9aa41e106924bcdd1aeeab9eb7c3c8705b2
+u binary64-LE SHA-256 4456677228f79d04cb2ab8f81c455ce2a890e634a18e99d9d1ea16e72d1d0765
+v binary64-LE SHA-256 3b7717fd03a578c7865f0f8c5c6845027deee13fd18533a8760406991b56863a
+Python 3.14.8, NumPy 2.4.6, python-flint 0.9.0, 192 bits, 64 u subcells
+terminal F ray: [0.098375208081832 +/- 1.63e-16] [0.098375208081832 +/- 1.63e-16]
+terminal projection: [0.00014030077082457 +/- 9.66e-19] [0.00023991089895621 +/- 3.20e-18]
+F integration by parts including terminal: [-1458.7074730505 +/- 4.45e-11] [-1446.4304518957 +/- 5.81e-12]
+first dual F correction: [-8.0293464191740 +/- 4.85e-14] [-6.1128679547941 +/- 4.18e-14]
+leading H correction: [2.1014800657671 +/- 1.15e-14] [2.2408570837382 +/- 3.98e-14]
+dual remainder radius: [29.248298721621 +/- 9.35e-14] [29.248298721621 +/- 9.35e-14]
+uniform ray |F|: [601.93357336987 +/- 1.95e-12] [601.93357336987 +/- 1.95e-12]
+uniform ray |H|: [336.73118270491 +/- 7.78e-13] [336.73118270491 +/- 7.78e-13]
+uniform |G|: [716.98287372974 +/- 1.89e-12] [716.98287372974 +/- 1.89e-12]
+complete weak candidate interval: [-1493.8836381907 +/- 2.42e-11] [-1421.0541639799 +/- 3.68e-11]
+omitting terminal control: [-1493.8838781856 +/- 1.59e-12] [-1421.0543041967 +/- 1.61e-11]
+Physical current mismatch remains outside this candidate enclosure.
