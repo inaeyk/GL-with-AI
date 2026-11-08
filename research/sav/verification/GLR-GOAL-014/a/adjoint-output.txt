@@ -1,0 +1,9 @@
+compact +G boundary contribution to 4P: (7 - 41*exp(2))*exp(-4)/12
+outer −G boundary contribution to 4P: (-7 + 41*exp(2))*exp(-4)/12
+outer terminal F contribution to 4P: 4*exp(-2)
+full direct and full dual projection: 5/3
+full dual with terminal F omitted: -1/3
+inconsistent strong/weak mix error: (-7 + 41*exp(2))*exp(-4)/48
+terminal signed two-component projection: sqrt(2)*cos(pi/4 + 2) + 25/3
+terminal graph jet term: 2
+terminal residual contribution: 5*cos(2)/2 + 13*sin(2)/4

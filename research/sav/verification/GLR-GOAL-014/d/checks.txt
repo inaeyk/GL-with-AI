@@ -1,0 +1,10 @@
+Python 3.14.8, flint 0.9.0, NumPy 2.4.6, SciPy 1.18.0, SymPy 1.14.0
+bump derivative normalizer [[0.0466761732823 +/- 2.16e-14], [0.0469066602527 +/- 1.64e-14]]
+early a1 [[1.48228194482e-6 +/- 2.73e-18], [1.51926289440e-6 +/- 2.35e-18]]
+early news [[0.411534530714 +/- 2.96e-13], [0.413566757273 +/- 2.01e-13]]
+packet a1 [[0.00747400856239 +/- 1.50e-15], [0.00799447938556 +/- 4.36e-15]]
+packet news [[0.00603003010150 +/- 2.33e-15], [0.00799447939102 +/- 9.01e-16]]
+central actual a1, fraction 0.125: 1.50084735181e-06
+central actual a1, fraction 1: 0.00777401583224
+exact harmonic squared norms: 1, 6, 12
+clock fixture original -29/12, held labels 19/12, moving physical endpoints -29/12
