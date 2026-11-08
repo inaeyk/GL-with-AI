@@ -1,0 +1,22 @@
+During the 400-cap float64 empirical candidate the SciPy DOP853 error estimator emitted:
+  RuntimeWarning: invalid value encountered in scalar divide
+    return np.abs(h) * err5_norm_2 / np.sqrt(denom * len(scale))
+It occurs on the far GL or mean ODE work with tiny tail quantities. The solver
+reported success and the cap output was used as a numerical candidate.
+There is no directed conclusion about that radial ODE from this replay.
+
+During the first cap arithmetic attempt, the once-commuted baseline flux
+was printed as nan. An interval bump-slope cell touching zero was sent to
+generic interval exponentiation, yielding a non-finite square. Replacing
+that term by the square of the interval's absolute upper endpoint fixes
+the upper quadrature and gives a finite conservative bound. The first
+non-finite result was not used in any estimate.
+
+The fine physical compact cap candidate was evaluated by mesh/cap
+refinement and by three return derivatives. There is no available whole-cell
+volume residual against the exact coupled hierarchy. In particular there
+is no certified commuted mixed reconstruction, no compatible returning
+graph residual for that reconstruction, and no verified strong volume
+defect controlling derivatives of current reconstruction errors. The
+threshold E_c <= 570 is an evaluated conditional criterion and the
+available calculations do not bound E_c.

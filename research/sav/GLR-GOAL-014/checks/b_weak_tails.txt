@@ -1,0 +1,12 @@
+Python 3.14.8 / python-flint 0.9.0 / 128 bits
+r_c=100 ray_integral_bound=[4.37354670113e+37 +/- 4.06e+25] current_sup_bound=[3.57098592800e+37 +/- 3.69e+25]
+r_c=330 ray_integral_bound=[0.00484999658967 +/- 1.43e-15] current_sup_bound=[0.00396000563298 +/- 2.16e-15]
+r_c=350 ray_integral_bound=[1.62699260129e-6 +/- 6.04e-19] current_sup_bound=[1.32843389615e-6 +/- 2.51e-18]
+r_c=400 ray_integral_bound=[3.35348169383e-15 +/- 1.63e-27] current_sup_bound=[2.73810633721e-15 +/- 4.59e-27]
+r_c=500 ray_integral_bound=[1.42467782240e-32 +/- 1.83e-44] current_sup_bound=[1.16324457091e-32 +/- 4.65e-44]
+Python 3.14.8 / python-flint 0.9.0 / 192 bits
+r_c=100 ray_integral_bound=[4.37354670113e+37 +/- 4.06e+25] current_sup_bound=[3.57098592800e+37 +/- 3.69e+25]
+r_c=330 ray_integral_bound=[0.00484999658967 +/- 1.43e-15] current_sup_bound=[0.00396000563298 +/- 2.16e-15]
+r_c=350 ray_integral_bound=[1.62699260129e-6 +/- 6.04e-19] current_sup_bound=[1.32843389615e-6 +/- 2.51e-18]
+r_c=400 ray_integral_bound=[3.35348169383e-15 +/- 1.63e-27] current_sup_bound=[2.73810633721e-15 +/- 4.59e-27]
+r_c=500 ray_integral_bound=[1.42467782240e-32 +/- 1.83e-44] current_sup_bound=[1.16324457091e-32 +/- 4.65e-44]

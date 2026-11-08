@@ -1,0 +1,9 @@
+First terminal sensitivity run after an in-progress C helper change:
+ValueError: too many values to unpack (expected 5, got 6)
+The helper added a GL profile return value. The diagnostic now unpacks and
+discards that sixth value.
+
+The central-profile ODE helper can emit:
+RuntimeWarning: invalid value encountered in scalar divide
+The warning occurs in the SciPy Runge–Kutta error estimate. The command's
+returned central candidate and coefficient quadrature are exploratory.

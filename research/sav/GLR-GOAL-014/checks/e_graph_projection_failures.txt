@@ -1,0 +1,6 @@
+Initial fixed-mass extension of the empirical graph march
+The local ray-integral function shadowed the contour argument.
+Exact exception line
+TypeError: unsupported operand type(s) for *: 'function' and 'int'
+The failed run stopped after the baseline trace and produced no mean result.
+The two names are now distinct.

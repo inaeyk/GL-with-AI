@@ -1,0 +1,8 @@
+GL log-derivative mismatch=1.299e-14; mean EF finite-end proxy max=6.836e-262
+central candidate, terminal ray r=1.62143634172 to 400, 1440 panels
+mixed graph row: [-3.84175746 -1.95694995] (norm=4.31146767692)
+mixed weighted flux multiplier: 9.77615837828
+mixed weighted L1 residual: max |lambda|/4=1.07786691923
+baseline graph multiplier: 13.0133660354
+baseline weighted flux multiplier: 14.1387920513
+baseline weighted L1 residual: max |lambda|/4=3.25334150885

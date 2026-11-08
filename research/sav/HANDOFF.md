@@ -1,3 +1,11 @@
+## GOAL-014 scientific re-entry — 2026-11-08
+
+The [interference handoff](GLR-GOAL-014/HANDOFF.md) records the sharp-cut
+adjoint, directed graph summand and early compact pilot. The smallest
+open certificate is the compact physical mixed/current error including
+the terminal ray, or the independent strong cap error. Both complete
+interference signs remain open.
+
 ## GOAL-013 scientific re-entry — 2026-11-07
 
 The [finite-cut handoff](GLR-GOAL-013/HANDOFF.md) records the certified

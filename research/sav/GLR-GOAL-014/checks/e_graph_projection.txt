@@ -1,0 +1,19 @@
+Python 3.14.8, NumPy 2.4.6, SciPy 1.18.0
+  cells 96, physical N01(d) 0.4125473572, baseline norm 0.0136325724
+    mean outer length 24, ray (1+0j), graph-end physical mu,beta (np.float64(0.9420228600843248), np.float64(3.9028260316326686))
+    mixed graph-only projection -3.412742785383e-04
+    direct graph-only projection +1.285269266908e-04
+    fixed-mass mean graph-only projection +3.838676166981e-05
+    total graph-only projection -1.743605901777e-04
+  cells 192, physical N01(d) 0.4125473063, baseline norm 0.0136252256
+    mean outer length 36, ray (0.9689124217106447+0.24740395925452294j), graph-end physical mu,beta (np.float64(0.9420228601026795), np.float64(3.902826031689198))
+    mixed graph-only projection -3.409061960703e-04
+    direct graph-only projection +1.283882744445e-04
+    fixed-mass mean graph-only projection +3.834548950431e-05
+    total graph-only projection -1.741724321215e-04
+  cells 384, physical N01(d) 0.4125472922, baseline norm 0.0136233881
+    mean outer length 48, ray (0.9393727128473789+0.34289780745545134j), graph-end physical mu,beta (np.float64(0.9420228600581675), np.float64(3.902826031552205))
+    mixed graph-only projection -3.408141645482e-04
+    direct graph-only projection +1.283536072737e-04
+    fixed-mass mean graph-only projection +3.833517024794e-05
+    total graph-only projection -1.741253870266e-04
