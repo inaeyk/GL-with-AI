@@ -1,0 +1,5 @@
+whole radial cells, bits 512 192
+probe r [1.61000000000000000000000000000000000000000000000000000000 +/- 6.19e-58]
+U_m,t and Im A_z,t at probe [21.1 +/- 0.0641] [-1.03 +/- 6.67e-3]
+one +k mode graph energy endpoints [5.5243959207582 +/- 2.40e-14] [7.1259024799365 +/- 4.29e-14]
+normalization of exp(4-1/(y(1-y))) [0.391 +/- 9.06e-4]

@@ -1,3 +1,10 @@
+## GOAL-013 pinned inputs — 2026-11-07
+
+[GOAL-012 source 87fd711](https://github.com/inaeyk/GL-with-AI/commit/87fd711bf2e8117467caad1ff52c1cd344966974)
+is the GOAL-013 base. [Work audit ae8c323](https://github.com/inaeyk/GL-with-AI/commit/ae8c323e1e87abd0fff26eac75b05b701a7e7b1a)
+is a read-only scientific input. The [GOAL-013 report](GLR-GOAL-013/REPORT.md)
+identifies the ordered source and the checked scope.
+
 ## GOAL-012 provenance — 2026-11-07
 
 The [GOAL-012 ledger](GLR-GOAL-012/LEDGER.md) pins the source and Work audit. The [spectral atlas](GLR-GOAL-012/SPECTRAL-ATLAS.md) and [flux derivation](GLR-GOAL-012/investigators/D-WAVEFORM.md) record the checked scientific references.

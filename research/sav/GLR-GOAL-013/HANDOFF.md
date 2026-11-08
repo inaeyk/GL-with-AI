@@ -1,0 +1,9 @@
+# Scientific re-entry
+
+GLR-GOAL-013 records **Outcome B** on the fixed \(L/r_0=10\) real seeded axial experiment. Start with the [report](REPORT.md), [source ledger](SOURCE-LEDGER.md), and [independent review](INDEPENDENT-REVIEW.md). The baseline news on the two packet cuts, the mixed graph energy and the scalar cap operator have evaluated enclosures. The full returning waveform, the two central QNM decisions, and the two physical interference signs remain open.
+
+For a new authorized continuation, the first strong-waveform gate is a conforming compact characteristic reconstruction of the baseline and both exact-curl mixed fields with their forced graph jets. Use real-radius GL coefficient cells, the mass-matched mean and the physical cap \(r_c=400r_0\) with the evaluated \(B_c<1.7\times10^{-6}\) or a separately bounded cap. Retain whole-cell enclosures and commuted graph jets wherever derivatives enter the return source. Then solve the returning scalar with the reconstructed complete source, certify its finite-cap \(L^2\) news residual, and apply the cap estimates. Use the fixed physical pole templates only after the waveform error is known.
+
+For the shorter interference problem, the weak functional and the adjoint in [Finite-cut bounds](FINITE-CUT-BOUNDS.md) and [C's record](investigators/C-COMPUTATION.md) can use the undifferentiated currents. They still require the terminal-cut ray, current errors and the smooth baseline test in the appropriate norm. The [leading-news check](checks/d_leading_news.py) and [physical mixed launch](checks/a_graph.py) are small replayable inputs. The fixed-mass mean and both massive polarizations must be included. Neither optical sign predicts the physical sign without an evaluated remainder.
+
+A finite-seed interpretation still needs a constrained-family uniform nonlinear trace estimate. The scope here is the ordered, linearly seeded tensor response. [Reproduction](REPRODUCTION.md).

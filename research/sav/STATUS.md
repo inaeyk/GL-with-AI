@@ -1,3 +1,10 @@
+## GOAL-013 finite-cut axial news — 2026-11-07
+
+**Outcome B.** The fixed packet's leading news, physical mixed graph jet,
+and exterior source at \(r_c=400r_0\) have evaluated bounds. The complete
+returning compact residual, both QNM comparisons, both physical
+interference signs and the nonlinear bridge remain open. [Report](GLR-GOAL-013/REPORT.md).
+
 ## GOAL-012 ordered waveform — 2026-11-07
 
 Outcome B. The translated fundamental at $s_q+2\Omega$ has a certified physical residue for the pinned packet. The full finite-window remainder and physical fixed-width interference signs remain open. [Report](GLR-GOAL-012/REPORT.md).

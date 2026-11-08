@@ -1,0 +1,15 @@
+Initial baseline quadrature failure (exception body, machine paths omitted)
+
+    assert early is not None and normalization > 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+Reduced reproduction, Python 3.14.8 and python-flint 0.9.0
+
+>>> from flint import arb
+>>> x = arb(0, 1)
+>>> print(x, x**2, x**3, x**4, x*x, x.abs_upper()**2)
+[+/- 1.01] nan nan nan [+/- 1.01] [1.00000000372529 +/- 5.21e-16]
+
+Signed powers in the bump jets were replaced by interval products. The
+successful directed outputs are d_leading_news.txt and its mesh variant.

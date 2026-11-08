@@ -1,0 +1,10 @@
+canonical graph news at u=1 1/2
+exact weighted cap pairing 221/120 latest-cut term 15/2
+dropped one-sided internal interface value 1
+both mixed couplings active, symmetric mutation work 448
+causal front and final graph radius [-0.6849927415085289 +/- 7.31e-18] [1.009021077109608 +/- 1.52e-16]
+packet ray mass [1.58451321583 +/- 1.03e-12] weak shear factor [1.14032712970 +/- 3.92e-12]
+first eighth ray mass [1.56493787964 +/- 7.08e-13] weak shear factor [1.01522174043 +/- 2.83e-12]
+cap radius 100 ordered mass [0.272088715640 +/- 3.58e-13] energy amplification [1.00251605445 +/- 3.90e-12] degree-three relative remainder [9.61993668709e-6 +/- 2.01e-19]
+cap radius 400 ordered mass [0.0681500401485 +/- 3.69e-14] energy amplification [1.00015706824 +/- 1.05e-12] degree-three relative remainder [3.75515168656e-8 +/- 8.60e-21]
+cap radius 500 ordered mass [0.0545268513848 +/- 2.67e-14] energy amplification [1.00010052083 +/- 1.10e-12] degree-three relative remainder [1.53803940023e-8 +/- 4.43e-20]

@@ -1,3 +1,11 @@
+## GOAL-013 finite-cut subproblems — 2026-11-07
+
+[Reproduction](../GLR-GOAL-013/REPRODUCTION.md) and
+[independent review](../GLR-GOAL-013/INDEPENDENT-REVIEW.md).
+Directed checks cover the physical leading news on both packet cuts,
+the mixed graph energy, the exterior source bound and scalar cap
+transfer. The compact returning residual and physical decisions are open.
+
 ## GOAL-011 certified physical fundamental — 2026-11-07
 
 The [signed projection](../GLR-GOAL-011/SIGNED-RESIDUE.md)

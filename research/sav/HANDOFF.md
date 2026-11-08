@@ -1,3 +1,10 @@
+## GOAL-013 scientific re-entry — 2026-11-07
+
+The [finite-cut handoff](GLR-GOAL-013/HANDOFF.md) records the certified
+leading waveform, mixed graph and source-cap inputs. The central open
+calculation is the compact characteristic evolution and its whole-cell
+returning news error.
+
 ## GOAL-012 re-entry — 2026-11-07
 
 Use the [GOAL-012 handoff](GLR-GOAL-012/HANDOFF.md) for the translated pole, finite-window comparison and the next physical source-error calculation.
