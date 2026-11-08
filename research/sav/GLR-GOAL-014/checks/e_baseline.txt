@@ -1,0 +1,16 @@
+Python 3.14.8, python-flint 0.9.0, Arb precision 160, dyadic mesh 2^13
+Bump normalization integral square root: [[0.0466764689772 +/- 3.90e-14], [0.0469066592632 +/- 1.39e-14]]
+early
+  physical N01(d): [[0.411534574348 +/- 4.80e-13], [0.413564138114 +/- 4.53e-13]]
+  physical N01'(d): [[158.659549236 +/- 2.98e-10], [159.442003250 +/- 1.23e-10]]
+  physical N01 L2 upper: [0.0137542554294 +/- 2.41e-14]
+  physical N01' L2 upper: [6.41723752022 +/- 2.11e-12]
+  two-scatter L2 defect upper: [1.72493901107e-10 +/- 1.85e-22]
+  two-scatter derivative L2 defect upper: [7.57781748462e-8 +/- 3.62e-20]
+packet
+  physical N01(d): [[0.00572087358887 +/- 7.46e-16], [0.00974867854529 +/- 2.94e-15]]
+  physical N01'(d): [[-0.0180879058316 +/- 3.50e-14], [0.0180879058316 +/- 3.50e-14]]
+  physical N01 L2 upper: [1.00510020368 +/- 1.99e-12]
+  physical N01' L2 upper: [67.8245708942 +/- 4.14e-11]
+  two-scatter L2 defect upper: [0.000278143320884 +/- 1.73e-16]
+  two-scatter derivative L2 defect upper: [0.00387273624438 +/- 4.89e-15]

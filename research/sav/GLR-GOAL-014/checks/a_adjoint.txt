@@ -1,0 +1,22 @@
+nonzero graph fixture: 4P=20/3, terminal=4, cap=13/6, bulk=-1/2
+  if terminal omitted: P=2/3
+non-null seam fixture: P=-1/20, delta contribution to 4P=-35/32
+  cell-interior strong derivative only: P=143/640
+early
+  compact F sup-ray weight < 0.206883890
+  compact G/H sup-ray weight with cap G < 0.000202708
+  compact G sup-ray weight without cap G < 0.000004778
+  weak exterior scalar error < 0.0000000000000006948
+  strong exterior scalar error < 0.0000000232221
+  test error F sup-ray weight < 0.000000008368
+  test error G/H sup-ray weight with cap G < 0.000000000010
+  test error G sup-ray weight without cap G < 0.000000000001
+packet
+  compact F sup-ray weight < 4.927654673
+  compact G/H sup-ray weight with cap G < 0.082180215
+  compact G sup-ray weight without cap G < 0.014275917
+  weak exterior scalar error < 0.0000000000000163462
+  strong exterior scalar error < 0.0000017017001
+  test error F sup-ray weight < 0.001191275770
+  test error G/H sup-ray weight with cap G < 0.000029782090
+  test error G sup-ray weight without cap G < 0.000005173589

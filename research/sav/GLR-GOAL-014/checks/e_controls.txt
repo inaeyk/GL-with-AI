@@ -1,0 +1,11 @@
+Python 3.14.8, SciPy 1.18.0, SymPy 1.14.0
+Exact graph/terminal fixture: nonzero graph jet, terminal-only cap overlap 5/2.
+Omitted graph jet gives +2u contact on the RHS of 4p_v.
+Oblique seam v=3+u/2, unit F jump: coefficient in div(F,G) is -1/2.
+Exact cut relabel: original=7/12, fixed-label=139/12, boundary=11.
+Moving endpoints cancel the change only with the flux Jacobian included.
+n; actual-RW ||w||X bound; ||A_F||2 bound; ||N||2; fixed test; co-oscillatory pairing
+32; 0.001953125; 0.0140625; 0.02833647316; 5.56022e-07; 0.000793650793651
+128; 0.00048828125; 0.003515625; 0.02818212337; 2.6577e-10; 0.000793650793651
+512; 0.00012207031; 0.00087890625; 0.02817245329; 2.71441e-14; 0.000793650793651
+Analytic limits for norm^2 and co-oscillatory pairing: 1/1260.

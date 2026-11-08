@@ -1,3 +1,11 @@
+## GOAL-014 sharp-cut tensor interference — 2026-11-08
+
+**Outcome B.** The early physical pilot gives an empirical projection
+near $7.8181$. The directed graph summand is strictly negative.
+The sharp-cut test derivative, terminal trace, and separate exterior
+current tails have evaluated bounds. Both complete physical signs and
+the strong compact-news error remain open. [Report](GLR-GOAL-014/REPORT.md).
+
 ## GOAL-013 finite-cut axial news — 2026-11-07
 
 **Outcome B.** The fixed packet's leading news, physical mixed graph jet,

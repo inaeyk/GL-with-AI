@@ -1,3 +1,11 @@
+## GOAL-014 pinned inputs — 2026-11-08
+
+[GOAL-013 source 1e8e628](https://github.com/inaeyk/GL-with-AI/commit/1e8e628f68af4cab174fcc44b81af4748a22115c)
+is the exact parent. [GOAL-013 audit 26a0905](https://github.com/inaeyk/GL-with-AI/blob/26a09054366933a197c34fa67f617af7da76e48d/research/sav/verification/GLR-GOAL-013/AUDIT.md)
+is a read-only input. The [charter](GLR-GOAL-014/GOAL.md) pins the
+benchmark and the [flux derivation](GLR-GOAL-014/FLUX-AND-FRAME.md)
+identifies inspected primary sources.
+
 ## GOAL-013 pinned inputs — 2026-11-07
 
 [GOAL-012 source 87fd711](https://github.com/inaeyk/GL-with-AI/commit/87fd711bf2e8117467caad1ff52c1cd344966974)

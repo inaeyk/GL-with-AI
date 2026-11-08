@@ -1,3 +1,12 @@
+## GOAL-014 sharp-cut interference subproblems — 2026-11-08
+
+The [reproduction record](../GLR-GOAL-014/REPRODUCTION.md) includes
+directed early graph and compact-baseline bounds, weak exterior tails,
+sharp test derivatives and trace, and a conditional strong-news gate.
+The [adversarial review](../GLR-GOAL-014/INDEPENDENT-REVIEW.md) separates
+these bounds from empirical compact solves and records the open
+physical volume and terminal errors.
+
 ## GOAL-013 finite-cut subproblems — 2026-11-07
 
 [Reproduction](../GLR-GOAL-013/REPRODUCTION.md) and

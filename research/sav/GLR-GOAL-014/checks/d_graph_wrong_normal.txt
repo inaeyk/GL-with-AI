@@ -1,0 +1,10 @@
+Python 3.14.8, python-flint 0.9.0, Arb precision 160, early cells 2^12
+GL horizon scale: [-25.908557832241058 +/- 3.50e-16] [-25.908392369747162 +/- 1.35e-16]
+inverse bump derivative norm: [21.345557275911735 +/- 4.29e-16] [21.397305351841671 +/- 4.51e-16]
+mixed graph free overlap: [-0.0014536014772770652 +/- 1.34e-20] [-0.0014282622048651812 +/- 4.71e-20]
+mixed graph RW correction bound: [3.9223545388707333e-6 +/- 3.30e-25] [3.9223545388707333e-6 +/- 3.30e-25]
+mixed graph physical graph summand: [-0.0014575238318426538 +/- 3.50e-20] [-0.0014243398502995926 +/- 1.21e-21]
+local direct graph free overlap: [0.00052972330895637650 +/- 3.20e-21] [0.00055561148984248983 +/- 9.57e-22]
+local direct graph RW correction bound: [1.4998573281548467e-6 +/- 2.25e-23] [1.4998573281548467e-6 +/- 2.25e-23]
+local direct graph physical graph summand: [0.00052822345162293412 +/- 1.35e-21] [0.00055711134717593221 +/- 2.81e-21]
+sum of the two graph summands: [-0.00092930038021971972 +/- 3.72e-21] [-0.00086722850312366039 +/- 1.61e-21]

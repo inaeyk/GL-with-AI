@@ -1,0 +1,65 @@
+Python 3.14.8
+numpy 2.4.6 scipy 1.18.0 sympy 1.14.0 python-flint 0.9.0
+GL log-derivative mismatch=3.513e-13; mean EF finite-end proxy max=9.715e-111
+u=[-0.684992741508529,-0.669992741508529] cap=40 rule=simpson Nu=48 Nv_exterior=180 iterations=12
+mixed  P_weak=7.31991833258 P_shear=7.31988116329 terminal=18.9430908225 F_ray(d)=183.643308063
+direct P_weak=0.294211970592 P_shear=0.294213092604 terminal=0.588864229019 F_ray(d)=5.70872916306
+mean   P_weak=0.206517887783 P_shear=0.206518658642 terminal=0.413658334849 F_ray(d)=4.01020011631
+total  P_weak=7.82064819095 P_shear=7.82061291454 terminal=19.9456133864 F_ray(d)=193.362237343
+discrete transpose P=7.82064819095; weak-vs-transpose=8.8817842e-16
+cap news norm=635.630310459; g norm=0.0136245475458; g(d)=0.412606177101; w(d,cap)=48.0695725683; peak mixed y=0.19445523; peak mixed Z=0.21875789
+strong separate P=7.82061284114; strong-vs-shear L2=4.40850136e-05; max cap G=1.66951508e-09
+wrong zero-upper-velocity control P=7.82078699612; max ray |F|=293.502084; max ray |H|=143.18687; max |G|=331.896833; terminal ray |F|=293.502084
+zero-exterior-source continuation P=7.81778232565; continued return norm=635.494847212
+GL log-derivative mismatch=3.360e-13; mean EF finite-end proxy max=7.655e-123
+u=[-0.684992741508529,-0.669992741508529] cap=80 rule=simpson Nu=96 Nv_exterior=360 iterations=12
+mixed  P_weak=7.31857746275 P_shear=7.31857519732 terminal=18.9417741187 F_ray(d)=183.643607961
+direct P_weak=0.294170504908 P_shear=0.294170567855 terminal=0.588822173617 F_ray(d)=5.70872758448
+mean   P_weak=0.206488863046 P_shear=0.206488906178 terminal=0.413629026971 F_ray(d)=4.01020128285
+total  P_weak=7.81923683071 P_shear=7.81923467135 terminal=19.9442253193 F_ray(d)=193.362536828
+discrete transpose P=7.81923683071; weak-vs-transpose=0
+cap news norm=635.56395087; g norm=0.0136236360208; g(d)=0.412576823752; w(d,cap)=48.0650825702; peak mixed y=0.19446; peak mixed Z=0.21875791
+strong separate P=7.81923466465; strong-vs-shear L2=4.83508728e-06; max cap G=8.9963415e-20
+wrong zero-upper-velocity control P=7.81940879633; max ray |F|=293.514243; max ray |H|=143.164957; max |G|=331.924535; terminal ray |F|=293.514243
+zero-exterior-source continuation P=7.81781505279; continued return norm=635.496011236
+scipy/integrate/_ivp/rk.py:691: RuntimeWarning: invalid value encountered in scalar divide
+  return np.abs(h) * err5_norm_2 / np.sqrt(denom * len(scale))
+GL log-derivative mismatch=1.299e-14; mean EF finite-end proxy max=6.836e-262
+u=[-0.684992741508529,-0.669992741508529] cap=400 rule=simpson Nu=192 Nv_exterior=720 iterations=12
+mixed  P_weak=7.31750023999 P_shear=7.31750010068 terminal=18.9406934176 F_ray(d)=183.643641649
+direct P_weak=0.294136901869 P_shear=0.29413690558 terminal=0.58878845276 F_ray(d)=5.70872740728
+mean   P_weak=0.206465265022 P_shear=0.206465267561 terminal=0.413605365477 F_ray(d)=4.01020141382
+total  P_weak=7.81810240688 P_shear=7.81810227383 terminal=19.9430872358 F_ray(d)=193.36257047
+discrete transpose P=7.81810240688; weak-vs-transpose=0
+cap news norm=635.50975443; g norm=0.0136229474562; g(d)=0.412553208976; w(d,cap)=48.0614188176; peak mixed y=0.19445997; peak mixed Z=0.21875798
+strong separate P=7.81810227291; strong-vs-shear L2=7.49685598e-07; max cap G=1.06440334e-99
+wrong zero-upper-velocity control P=7.81827638701; max ray |F|=293.515782; max ray |H|=143.154807; max |G|=331.930393; terminal ray |F|=293.515782
+zero-exterior-source continuation P=7.81781765437; continued return norm=635.496132824
+192 affine cap panels; 3072 directed cells; 160 bits
+candidate ||p_c||_2 [635.4946151476 +/- 4.50e-11]
+reference <a',p_c> [7.806533194404 +/- 3.26e-13] [7.868154700171 +/- 2.19e-13]
+upper baseline news error vs a' [3.71511164495e-5 +/- 1.88e-17]
+uncommuted baseline flux error <= [7.36903196028e-5 +/- 4.79e-17]
+commuted baseline graph energy <= [9.92636402657e-11 +/- 2.16e-23]
+once-commuted baseline flux error <= [0.0436056798643 +/- 4.93e-14]
+upper fixed projection error budget [0.0242301273616 +/- 4.59e-14]
+upper coefficient multiplying compact return E_c [0.0136481268292 +/- 1.37e-15]
+sufficient E_c < [570.210339546 +/- 2.04e-10]
+192 affine cap panels; 3072 directed cells; 192 bits
+candidate ||p_c||_2 [635.4946151476 +/- 4.50e-11]
+reference <a',p_c> [7.806533194316 +/- 3.64e-13] [7.868154700258 +/- 9.32e-14]
+upper baseline news error vs a' [3.71511164495e-5 +/- 1.88e-17]
+uncommuted baseline flux error <= [7.36903196028e-5 +/- 4.10e-17]
+commuted baseline graph energy <= [9.92636402657e-11 +/- 2.16e-23]
+once-commuted baseline flux error <= [0.0436056798643 +/- 4.93e-14]
+upper fixed projection error budget [0.0242301273616 +/- 4.59e-14]
+upper coefficient multiplying compact return E_c [0.0136481268292 +/- 1.37e-15]
+sufficient E_c < [570.210339546 +/- 2.04e-10]
+192 linear graph panels, 768 directed cells, 160 Arb bits
+maximum directed absolute jet errors [0.129619816301 +/- 1.40e-14] [0.00706914298584 +/- 6.80e-16]
+upper uncommuted graph energy error [4.09942671300e-7 +/- 6.98e-20]
+upper uncommuted graph energy error square root [0.000640267657218 +/- 8.12e-17]
+192 linear graph panels, 768 directed cells, 192 Arb bits
+maximum directed absolute jet errors [0.129619816301 +/- 1.40e-14] [0.00706914298584 +/- 6.80e-16]
+upper uncommuted graph energy error [4.09942671299e-7 +/- 2.38e-19]
+upper uncommuted graph energy error square root [0.000640267657218 +/- 8.12e-17]
