@@ -1,0 +1,54 @@
+# Constrained hierarchy and source geometry
+
+Source PR #21, head 65a4af854a25ca02e40f31b00fe5ff789935bdc4. Use $r_0=1$, signature $(-++++)$, metric expansion without factorials, $k=\pi/5$, a real normalized $\ell=2$ axial seed, and the prescribed completed data on $v=r$. This is an independent reconstruction with exposure to the source report and antecedent equations. The full 5D curvature implementation uses the coordinate connection and arbitrary local jets. No production computation was used.
+
+## Vector reduction and two mixed polarizations
+
+An angular gauge generator $\Lambda X^A$ shifts $h_a/R^2$ by $\partial_a\Lambda$ and $h_T/R^2$ by $\Lambda$. Thus $A_a=h_a/R^2-\partial_a(h_T/R^2)$ and $\mathcal F=dA$ are angular-gauge invariant. In the general $(m+n)$-dimensional vacuum vector equation of Cai and Cao, take $m=3$, $n=2$, $K=1$, $F_a=RA_a$ and $k_V^2=\ell(\ell+1)-1$. Multiplication of their Eq. (4.9) by $R^3$ gives $D_b(R^4\mathcal F^{ba})=\lambda R^2 A^a$ with $\lambda=k_V^2-1=4$. The density equation is $\partial_b(P\mathcal F)^{ba}=\lambda M^{ab}A_b$. Its divergence gives the angular constraint by antisymmetry. This independently checks both powers of $R$ and the sign of the mass term with three orbit dimensions. [Cai–Cao v1, Eqs. (3.14), (3.15), (4.9), (4.12)](https://arxiv.org/pdf/1306.4927v1)
+
+At the product background $b=f(-dt^2+dx^2)+dz^2$, set $Q_{1z}=-U$, $D=r^2(\lambda+k^2r^2)$, $L_c=r^4/D$, $W=r^4(1-k^2L_c)=\lambda r^4/(\lambda+k^2r^2)$. The $t,x$ rows give
+$$
+ A_t=(J^t-U_x)/D-ikL_c A_{z,t},\qquad
+ A_x=(-J^x-U_t)/D-ikL_c A_{z,x}.
+$$
+Taking the curl cancels $A_{z,tx}$ and leaves $ikL_{c,x}A_{z,t}$ in the $U$ equation. The compact equation is
+$$
+ -\partial_t(WA_{z,t})+\partial_x(WA_{z,x})+ikL_{c,x}U_t-\lambda fr^2 A_z
+ =J^z-ik[\partial_t(L_cJ^t)+\partial_x(L_cJ^x)].
+$$
+Set $U=\sqrt D\,y$ and $A_z=z_c/\sqrt W$. Both normalized time couplings are $ikL_{c,x}\sqrt{D/W}=2ik\sqrt\lambda f/(\lambda+k^2r^2)$. The effective potentials are $K_m+a_m^2-a_{m,x}$ and $K_m+b_m^2+b_{m,x}$, with $K_m=f(k^2+\lambda/r^2)$, $a_m=\partial_x\log\sqrt D$, $b_m=\partial_x\log\sqrt W$. The spatial form is a sum of covariant derivative squares and $K_m$. The imaginary symmetric time matrix is skew-Hermitian. For $k=0$, the $y$ row has $a_m=f/r$ and potential $f[(\lambda+2)/r^2-3/r^3]$, giving Regge–Wheeler at $\ell=2$. The actual $+k$ source has half the cosine amplitude. The mixed mean is the unhalved $M_1$ times $\operatorname{Re} A_{1,+}$, and pure quadratic GL terms carry $\langle\cos^2(kz)\rangle=1/2$. The spherical second harmonic times the baseline cannot return to zero compact momentum. [GOAL-014 current and data equations](https://github.com/inaeyk/GL-with-AI/blob/0b4bfcbb978b52626fb0816874df06055703c195/research/sav/GLR-GOAL-014/CURRENTS-AND-DATA.md#L46)
+
+On $t=T(x)$ the slope is $p=-1/r$. Vanishing higher tangential potential implies $A_x=-pA_t$. Vanishing higher canonical displacement and exact electric data imply $U=A_z=0$ and $(1-p^2)A_{z,t}=ik(A_t+pA_x)$. The algebraic rows then give
+$$
+ (1-p^2)U_t=pJ^t-J^x,\qquad
+ (1-p^2)\lambda r^2 A_{z,t}=ik(J^t-pJ^x).
+$$
+The second coefficient uses $D-k^2r^4=\lambda r^2$. Setting the induced compact velocity to zero changes the canonical preparation. With $g=Y_t|_\Sigma$ and $D_\Sigma=\partial_x+p\partial_t$, differentiate $Y_x=-pg$ and $Y_t=g$ along the graph. The graph PDE yields
+$$
+ (1-p^2)Y_{tt}=\mathsf Cg-S-(D_\Sigma p)g-2pD_\Sigma g,\qquad
+ Y_{tx}=D_\Sigma g-pY_{tt}.
+$$
+The one-$+k$ stationary graph energy of zero-displacement data is $\tfrac12\int(1-p^2)|g|^2dx$. Reorienting the graph integration to increasing $u$ gives $\tfrac12\int(1+p)|g|^2du$. The real Fourier pair doubles this energy. [GOAL-015 graph implementation](https://github.com/inaeyk/GL-with-AI/blob/65a4af854a25ca02e40f31b00fe5ff789935bdc4/research/sav/GLR-GOAL-015/source/graph_jets.py#L75)
+
+At returning order put $m=2r/\lambda$, $P_e=\mathcal D^x/r^2$, $Q_e=\mathcal D^t/r^2$, $c_e=\lambda f\mathcal C/r^4$. The exact curl $Q_{2z}=-r^4\mathcal F_{2,tx}/f+\mathcal C$ yields $S_2=m[-\partial_tP_e-\partial_xQ_e-c_e]$. The product rule gives $F=m(P_e-Q_e)$, $G=m(P_e+Q_e)$, $H=m_x Q_e-mc_e$ and $S_2=-F_u-G_v+H$. The graph velocity satisfies $(1-p^2)w_{2,t}=m(P_e-pQ_e)$. The zero extension contributes $-(1-p^2)w_{2,t}\delta(t-T)$ in the wave operator, which cancels $m(P_e-pQ_e)\delta(t-T)$ from moving the step function through the current derivatives. Omitting the velocity while keeping the same currents changes the contact. [GOAL-014 returning equations](https://github.com/inaeyk/GL-with-AI/blob/0b4bfcbb978b52626fb0816874df06055703c195/research/sav/GLR-GOAL-014/CURRENTS-AND-DATA.md#L76)
+
+## Fixed-mass Einstein-frame mean
+
+Write the zero-mode orbit as $e^{-2\phi/\sqrt3}b_E$ on two noncompact dimensions and $e^{4\phi/\sqrt3}dz^2$ on the compact dimension, with $R=e^{-\phi/\sqrt3}r$. The orbit density is $\sqrt{|b_E|}$. A noncompact inverse metric compensates $R^2/r^2$ and two compensate $R^4/r^4$. This cancels the pure mean radion in $M,P,Q_z$ for the needed blocks and retains products of the first-order nonzero modes. Circle reflection excludes mean compact vector entries. The separate radion news can contribute to Bondi energy through its own flux. [GOAL-011 spherical backreaction](https://github.com/inaeyk/GL-with-AI/blob/eb439228601a649c658ce719b503ff0bdc37a83f/research/sav/GLR-GOAL-011/HIERARCHY.md#L31)
+
+For the EF metric $-e^{2\beta}(1-2m/r)dv^2+2e^\beta dv\,dr+r^2d\Omega^2$, the radial Einstein components are $G_{rr}=2\beta_r/r$, $G^v{}_v=-2m_r/r^2$, $G^r{}_v=2m_v/r^2$. In particular $G^r{}_v=-2\nabla^r\nabla_v r/r$ and $b^{ri}\Gamma^r_{iv}=-\partial_v(1-2m/r)/2$. The effective Einstein source $\mathcal T_{\mu\nu}=-\langle Q_{\mu\nu}\rangle+\bar g_{\mu\nu}\langle\operatorname{tr}_5Q\rangle/2$ is symmetric and conserved on the background when the first-order perturbation is on shell. The background Killing current for $\partial_v$ gives $\partial_v(r^2\mathcal T^v{}_v)+\partial_r(r^2\mathcal T^r{}_v)=0$. After factoring $e^{2\Omega v}$ and imposing the fixed mass and decaying flux at infinity, this implies
+$$
+ \widehat\mu(r)={r^2\widehat{\mathcal T}^r{}_v(r)\over4\Omega}
+ =-{r^2\over4\Omega}(\widehat Q_{vv}+f\widehat Q_{vr}).
+$$
+The mixed trace reversal contributes zero to this flux. The lapse $\widehat\beta$ retains its fixed-$v$ radial integral. For a static control, choose a smooth compactly supported mass perturbation $\mu=s(r)$ and $\beta=0$. The corresponding linearized Einstein source is conserved and has $\mathcal T^r{}_v=0$ despite nonzero interior $\mu$. Thus one cannot extend the local mass formula to zero growth by setting the flux to zero. Truncating the radial constraint integrals at the axial launch radius also changes the preparation. [GOAL-015 mean constraints and Ricci contraction](https://github.com/inaeyk/GL-with-AI/blob/65a4af854a25ca02e40f31b00fe5ff789935bdc4/research/sav/GLR-GOAL-015/source/ENCLOSURES.md#L43)
+
+An independent exact rational check expanded $\Gamma$ and $R_{ij}$ through $\epsilon^2$ in all five coordinates. Four compact phases give the exact average of the quadratic sine and cosine terms. Five arbitrary manufactured jets agree exactly with the new $\widehat Q_{vv}+f\widehat Q_{vr}$ and inherited $\widehat Q_{rr},\widehat Q_{\theta\theta},\widehat Q_{zz}$, including controls with $k=0$ and $\Omega=0$ for the curvature maps. The controls do not use the division by $\Omega$. Integer jets in an initial test draft triggered Python float division and discrepancies up to $6.7\times10^{-16}$. Converting all jet inputs to exact fractions eliminated the discrepancy. Physical calls use Arb or Arb series. The tests have finite coverage and leave the physical spectral input inherited. [Local Ricci implementation](https://github.com/inaeyk/GL-with-AI/blob/65a4af854a25ca02e40f31b00fe5ff789935bdc4/research/sav/GLR-GOAL-015/source/mean_flux.py#L4)
+
+## Local coefficient cancellation and directed geometry
+
+The EF mean has $(tt,tx,xx)=(2\mu/r-2f\beta,\,2\mu/r-f\beta,\,2\mu/r)$ in $(t,x)$. The volume-density perturbation is $\beta$, the inverse-density mass correction is $(\beta-2\mu/(rf))\left(\begin{smallmatrix}1&-1\\-1&1\end{smallmatrix}\right)$, and the relative curl-density correction is $-\beta$. It follows that $G_{\rm mean}=0$, $F_{\rm mean}=2(\beta-2\mu/(rf))(2w_{0,u}-fw_0/r)$, $H_{\rm mean}=-fF_{\rm mean}/(2r)+\lambda f\beta w_0/r^2$.
+
+Let $X_b=\eta_bH/f$, $d_b=H_{\theta\theta}/(2r^2)$ and $\operatorname{tr}X_b=-4d_b$. Expanding the two-by-two determinant verifies $\widetilde P_1=6d_b$ and $\widetilde P_{2,\mathrm{dir}}=7d_b^2+\operatorname{tr}(X_b^2)/8$. With $\ell=(-1,1)^T$, Cayley–Hamilton and $\ell^T\eta_b\ell=0$ reduce $\ell^T\widetilde M_{2,\mathrm{dir}}\ell$ to $-2d_bH_{LL}/f$. The affine reconstruction $A_{1,\mathrm{aff}}=(J^t,-J^x)/D$ gives $\widetilde M_{2,\mathrm{aff}}=-\lambda\widetilde M_1\eta_b\widetilde M_1/(2d_k)$. Its outgoing coefficient equals $-\lambda/d_k$ times the direct one by the difference of squares and $H_{tt}-H_{xx}=4fd_b$. The script checks these expressions symbolically for an arbitrary trace-compatible orbit matrix. Their sum suppresses that derivative coefficient by $k^2r^2/d_k$ and leaves the other source coefficients and the dynamical return. The individual signs apply to the exact-curl decomposition. [GOAL-015 local coefficient formulas](https://github.com/inaeyk/GL-with-AI/blob/65a4af854a25ca02e40f31b00fe5ff789935bdc4/research/sav/GLR-GOAL-015/source/ENCLOSURES.md#L130)
+
+The right-leg Riccati endpoint bound follows from backward integration with kernel mass $\le1/(2A)$ for $A=q-\alpha/R_*$. On each descending cell the error equation is $\dot z=-2x_s(\ell+P_h)z-x_s z^2-x_s\mathcal R$. Within the trial radius $\rho$, the scalar upper comparison has rate $\sup[-2x_s(\ell+P_h)]+|x_s|\rho$ and forcing $|x_s\mathcal R|$. Its solution is monotone on each cell, and the code keeps both the incoming error and the end comparison below $\rho$. This closes the first-contact argument. The mean midpoint remainder uses $h^3/24$ times the whole-cell second derivative bound, with the quadratic Taylor coefficient supplying half that derivative. The right normalization and tail envelopes depend on the pinned GOAL-005 spectral connection and GOAL-013 exterior bounds. Slope overlap is a consistency check of these inputs. This perspective verified the algebra and independent implementation controls and accepted the physical coefficient enclosure method conditional on those pinned inputs. It did not rerun the original spectral proof, independently re-enclose all radial cells, or evaluate the weak and strong sign budgets. [GOAL-015 directed geometry implementation](https://github.com/inaeyk/GL-with-AI/blob/65a4af854a25ca02e40f31b00fe5ff789935bdc4/research/sav/GLR-GOAL-015/source/source_geometry.py#L90)
