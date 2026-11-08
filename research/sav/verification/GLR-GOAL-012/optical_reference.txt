@@ -1,0 +1,19 @@
+Python 3.14.8, python-flint 0.9.0, 128 bits
+cells 32768, launch cut [-0.68499274150852889270 +/- 1.88e-21], ray mass ends [1.5621301775147929 +/- 5.94e-19] [1.5845132158289734 +/- 1.28e-17]
+normalizing bump multiplier [21.4 +/- 0.0418]
+full
+  unscattered projection: [[-65.470509052276611 +/- 3.29e-16], [-64.973301529884338 +/- 3.79e-16]]
+  first scatter projection: [[-65.480841398239136 +/- 2.58e-16], [-64.971042871475220 +/- 2.74e-16]]
+  absolute higher scatter error cap: [[0.21966245584189892 +/- 1.85e-18], [0.22020334168337286 +/- 4.82e-18]]
+  exact-baseline optical projection: [[-65.701044740621001 +/- 4.72e-16], [-64.750839529093355 +/- 5.97e-17]]
+  optical flux: [[-1387.0220603942871 +/- 9.38e-15], [-1154.0719356536865 +/- 2.35e-14]]
+  sufficient L2 tolerance (strict lower bound): [[16.543765606091130 +/- 1.55e-16], [16.543765606091130 +/- 1.55e-16]]
+  sufficient sup tolerance (strict lower bound): [[21.137980391477090 +/- 4.78e-16], [21.137980391477090 +/- 4.78e-16]]
+early
+  unscattered projection: [[0.36626094114035368 +/- 3.44e-19], [0.37306177429854870 +/- 1.58e-18]]
+  first scatter projection: [[0.36533413687720895 +/- 1.87e-18], [0.37214672006666660 +/- 3.09e-18]]
+  absolute higher scatter error cap: [[2.0006700651720166e-6 +/- 2.07e-23], [2.0055964178311569e-6 +/- 4.13e-23]]
+  exact-baseline optical projection: [[0.36533213127768249 +/- 2.51e-18], [0.37214872566619306 +/- 1.29e-18]]
+  optical flux: [[6.5090394094586372 +/- 3.76e-17], [7.8564731329679489 +/- 1.36e-17]]
+  sufficient L2 tolerance (strict lower bound): [[6.8756031794870390 +/- 3.39e-19], [6.8756031794870390 +/- 3.39e-19]]
+  sufficient sup tolerance (strict lower bound): [[41.060169432186707 +/- 8.19e-17], [41.060169432186707 +/- 8.19e-17]]
