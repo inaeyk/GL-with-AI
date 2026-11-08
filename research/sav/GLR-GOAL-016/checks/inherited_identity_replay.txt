@@ -1,0 +1,36 @@
+Python 3.14.8
+SymPy 1.14.0
+$ python3 -B GLR-GOAL-005/check_identities.py
+Python 3.14.8 SymPy 1.14.0
+Bernstein minima 5718686712103/3440640000000000 28985859/2000000000 64026149/20480000000 | rejected global V>0 claim
+Flat TT Ricci and Bianchi passed | rejected incorrect +2 zz factor
+Weighted lapse identity and background passed | rejected missing leaf drift
+$ python3 -B <pinned-009>/checks/check_optical_normal_form.py
+SymPy 1.14.0
+PASS terminal compact, mixed, flat radial and Schwarzschild factors
+PASS independent radial-power coefficient substitution
+REJECT dropping the radial order-zero Schwarzschild integral
+$ python3 -B <pinned-009>/checks/check_optical_identities.py
+normal-normal Ricci: exact
+reversed compact curvature sign: rejected
+omitted compact shift: rejected
+omitted lapse factor: rejected
+local compact divergence with density and Ricci defect: exact
+optical radial lapse: exact
+optical radial shift: exact
+optical radial potential: exact
+potential compact cancellation: exact
+optical evolution scalar operator: exact
+quadratic mean GL source: exact
+discarded quadratic zero mode: rejected
+flat pullback length ratio: exact
+flat pullback coordinate metric mean: exact
+mean-leaf null normal has positive full norm: exact
+massive potential BCP convention: exact
+massive horizon bracket: exact
+n=1 horizon bracket: -0.303475022
+n=2 horizon bracket: -1.094503475
+n=1 far bracket lower bound for r>=5: 0.375330509
+n=2 far bracket lower bound for r>=5: 1.574273287
+radion transverse strain trace: exact
+radion transverse strain norm: exact
