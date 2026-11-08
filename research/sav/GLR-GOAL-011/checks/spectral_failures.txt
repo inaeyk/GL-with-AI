@@ -1,0 +1,25 @@
+Exploratory validation failures retained from the GOAL-011 continuation.
+Both are failures of a chosen interval budget or assertion, rather than
+a numerical finding about a resonance.
+
+Uniform compact mesh, 4200 cells, massive frequency box half-width 0.0002
+(the terminal assertion values are reproduced verbatim):
+
+endpoint left error 0.003644839850989099 peak 0.004367105346476779
+AssertionError: (True, True, 4200, [28.464417960016898184700694025882835844 +/- 3.85e-37], [73.647195840964087306642161869484599687 +/- 3.05e-37], array([-0.07256057-1.61986822j,  0.43370028+1.04530503j,
+        0.43370028+1.04530503j, -0.50737622-0.9171051j ]), array([-0.17451617-1.70109243j,  0.53508729+1.08107072j,
+        0.53508729+1.08107072j, -0.58807509-0.92923416j]))
+
+Concentrated mesh, 4200 cells, root disk radius 0.000002
+(the terminal assertion line and preceding errors are reproduced verbatim):
+
+Massive shift s - Omega
+  left endpoint error: 3.324087e-05, peak: 4.11044e-05
+  right endpoint error: 0.007904658, peak: 0.02910903
+    assert determinant.imag>arb("0.38")
+AssertionError
+
+The second run had a positive massive determinant imaginary interval and
+failed the specific 0.38 lower-bound assertion. The accepted run reduced
+the root disk using a separately certified Rouché margin. Its empirical
+candidate and the outward-rounded validations are in spectral_certificate.py.

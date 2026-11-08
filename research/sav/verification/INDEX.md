@@ -1,3 +1,51 @@
+## GOAL-011 certified physical fundamental — 2026-11-07
+
+The [signed projection](../GLR-GOAL-011/SIGNED-RESIDUE.md)
+includes the full constrained source, exact horizon boundary,
+physical compact contacts, normalized denominator and analytic
+far tail. Independent derivation, replay and a distinct strong
+projection support the stated enclosure. The result also
+separates the coefficient from a common clock change.
+
+## GOAL-011 physical mixed matching and mean — 2026-11-07
+
+[Interval record](../GLR-GOAL-011/EXTERIOR-SOURCE.md) covers the
+continued exterior profiles, compact baseline contact terms,
+both directed affine equations, the matched mixed state and
+physical mean cap. Independent reviews checked the exterior tail,
+the compact launch and the matching inequality. The signed
+residue numerator remains empirical.
+
+## GOAL-011 horizon and launch certificate — 2026-11-07
+
+[Horizon source](../GLR-GOAL-011/HORIZON-SOURCE.md) contains an
+independently checked regular EF Taylor-tail calculation and
+validated physical lower launch data. The mixed and mean matching
+inputs to the local collar bound remain conditional.
+
+## GOAL-011 physical overlap checkpoint — 2026-11-07
+
+[Physical residue](../GLR-GOAL-011/PHYSICAL-RESIDUE.md) records complete
+source pieces, separate horizon and contour checks, strong and weak
+quadrature agreement, and independent audits. The estimated physical
+numerator is empirical. The pole and shifted noncoincidences are
+interval-certified.
+
+## GOAL-011 spectral certificate — 2026-11-07
+
+The outward-rounded Riccati flow, endpoint contractions and Rouché count
+enclose the local simple RW pole and rule out the two shifted coincidences.
+The result supersedes the earlier point diagnostic for that local gate.
+[Evidence](../GLR-GOAL-011/SPECTRAL-CERTIFICATE.md).
+
+## GOAL-011 near-barrier axial response — 2026-11-07
+
+Independent direct Ricci and action routes, an outward-rounded physical
+optical coefficient, differentiated width control and negative checks
+are recorded in the [audit](../GLR-GOAL-011/INDEPENDENT-REVIEW.md).
+[Reproduction](../GLR-GOAL-011/ERROR-BUDGET.md). The massive shifted
+matching result is empirical. The physical pole overlap remains open.
+
 ## GOAL-005 waveform follow-up — 2026-11-07
 
 [Report](../GLR-GOAL-005/REPORT.md),

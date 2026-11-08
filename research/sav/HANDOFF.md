@@ -1,3 +1,36 @@
+## GOAL-011 certified physical fundamental — 2026-11-07
+
+The fixed-canonical barrier packet has a nonzero ordered axial
+residue with a signed interval source enclosure and a nonzero
+common-clock-perpendicular component. The comparison records
+separate the controlled prompt waveform, the local pole and the
+unbounded late-time remainder.
+[Result](GLR-GOAL-011/SIGNED-RESIDUE.md) ·
+[Comparison](GLR-GOAL-011/HANDOFF.md)
+
+## GOAL-011 forced matching update — 2026-11-07
+
+The physical mixed data now have a validated match and the EF mean
+has a validated horizon-cap enclosure. The remaining gate is to
+tighten and transport the mixed state and enclose the signed overlap.
+[Matching and mean](GLR-GOAL-011/EXTERIOR-SOURCE.md).
+
+## GOAL-011 physical overlap update — 2026-11-07
+
+The full ordered source now gives a reproducible numerical fundamental
+residue for the fixed-canonical barrier packet. See the
+[physical overlap report](GLR-GOAL-011/PHYSICAL-RESIDUE.md) and
+[time-to-null proof](GLR-GOAL-011/NULL-TRANSFORM.md).
+Certification of the numerical source error remains open.
+
+## GOAL-011 axial strong-field result — 2026-11-07
+
+The separately authorized investigation derived the constrained axial
+hierarchy and bounded the leading nonzero short-packet shear at two
+Regge–Wheeler barrier launch radii. The full physical QNM overlap remains
+open. [Report](GLR-GOAL-011/REPORT.md) ·
+[Comparison handoff](GLR-GOAL-011/HANDOFF.md).
+
 ## GOAL-005 waveform follow-up — 2026-11-07
 
 The separately authorized [waveform follow-up](GLR-GOAL-005/REPORT.md)

@@ -1,0 +1,129 @@
+# GLR-GOAL-011 scientific ledger
+
+## 2026-11-07, intake and constrained source checkpoint
+
+The owner launched the dedicated five-specialist investigation with a ceiling of 40 substantive coordinator cycles. The source PR #6 and independent review PR #8 matched pins 0864d9d807de56cbdd6e64d215e6295508a3007f and 46ec0208d3efdd0595813e8e2719e2319b5ee67c. The source is based on GOAL-005 at 61c7b5c2efd1ef1ad1ef545d9853949e6fe3d708. The review branches are scientific references. The new branch starts at the exact source pin. The active checkout at intake carried separate research, so the coordinator used a separate sparse clone and verified a clean initial index at the pin. Local object reuse is read-only. No source or review branch writes, production calculation or parameter sweep took place.
+
+Independent specialist assignments at requested spawn model GPT-6.1 Sol and High were A, nonlinear orbit/Einstein geometry, B, finite-slice constrained data, C, retarded and QNM analysis, D, optical computation and waveform error, and E, independent reconstruction and adversarial audit. The four-child cap required staging D after E's first pass. The coordinator integrated and handled Git. The child settings are the explicit spawn arguments. The coordinator's client-side runtime model/effort was not independently visible. A, C, D and E used no new investigator derivation on their initial passes. E had the inherited GOAL-007 result and axial formula as reference before independently reconstructing them. B's preparation and D's later error analysis used the agreed shared conventions.
+
+Source checkpoint. A's direct Ricci variation and E's action variation independently recover the full axial operator, including the angular constraint. B gives horizon-regular fixed canonical data and fixed-mass spherical backreaction. The exact mean dual curl and background-only curl yield differing source and data formulas related by the explicit algebraic extraction term. The constraints and source are recorded in [HIERARCHY](HIERARCHY.md) and [FINITE-DATA](FINITE-DATA.md).
+
+The source commit was assembled in the isolated sparse clone after ordinary Git tree creation failed on historical promisor blobs outside the selected paths. The sparse index tree was constructed with Git's missing-object option, compared to the pinned tree, and committed with the source as its only parent. The changed files were restricted to the new dossier. A fresh read of GitHub showed the unchanged source pin and no target branch. Automatic approval review rejected the requested source-checkpoint push. Its stated reason was that it saw GOAL-005-only scope and did not recognize authorization for the GOAL-011 payload and destination. Publication was suspended, and the local investigation continued.
+
+Physical waveform checkpoint. The Arb interval check and independent D quadrature use the actual GOAL-005 eigenfunction at two launch radii near the potential maximum. D and E checked the differentiated width estimates independently of the coordinator's integration. E reproduced the interval output and widened the input growth interval without moving the rounded result outside its margins. The waveform has a leading nonzero $a_\delta''$ term and signed finite-cut energy interference. The signed optical integrand changes sign and the wrong launch slice changes its value. These failed shortcuts are retained in the checks and records. The early-cut proof does not supply an evaluated ringdown.
+
+Resonance checkpoint and classification. The exact finite-graph pairing and causal source cutoff admit a justified continuation through the usual fundamental location on the outgoing sheet. A continued all-time ordered hierarchy requires the nested shifted pencils. The naive real-axis inner integral fails its decay test. The rotated Coulomb endpoint restores the required exponential directions. The small massive matching diagnostic converged empirically at two spectral points and has no verified determinant or source overlap enclosure. E's independent and integrated passes agree on the source signs, differentiated width estimates and late upper-data counterexample. The integrated record incorporates E's qualification on transforming the whole auxiliary response. The result is Outcome B. The physical complex residue remains open.
+
+Executed bounded computations are the Arb GL enclosure and its wider-interval replay, D's three empirical optical refinements with a separate saved-component reconstruction, exact algebra controls, and C's two spectral points with endpoint and integration refinements. All three checkpoints are local after the publication rejection.
+
+### Continued local spectral and pairing checkpoint
+
+The next bounded work resolved the three local denominator gates. Candidate Riccati matching at an initially wider spectral box lost the massive error bootstrap, and an overly strong lower-bound assertion failed for a disk of radius $2\times10^{-6}$. A mesh concentrated toward the matching radius and a tighter certified root disk resolved both. The stored Acb certificate uses outward-rounded residuals, endpoint contractions and Rouché counting. A simple RW pole lies within $5\times10^{-8}/r_0$ of the stated center, both shifted pencils are noncoincident there over the full physical GL growth interval, and the normalized $W'$ is bounded away from zero. E independently challenged the tail, complex flow, branch and root count and replayed the output.
+
+The fixed-canonical graph and electric-density identities now absorb the induced launch terms without discarding them. The baseline shifted radial field is determined by explicit compact moments. Integration by parts at the continued pole requires a finite horizon-side flux term. The manufactured leading horizon case cancels only when that boundary is retained. C independently reconstructed the signs and distinguished the continued formal radial overlap from the all-time physical null-trace transform. The outstanding science is the evaluated physical overlap and control of its time-domain interpretation. The remote destination ref was absent on read-back and publication remains pending after the prior approval rejection.
+
+### Continued physical residue checkpoint
+
+The coordinator constructed the normalized regular EF GL profile and
+the compact launch moments on a joint real and outgoing ray. B
+independently implemented the physical mean Einstein source and
+quadratures. C implemented the mixed forced two-polarization inverse
+and manufactured controls. The direct small-cutoff horizon subtraction
+failed refinement, with stable spectra and outer integrations but
+large near-horizon roundoff. Those values are preserved verbatim.
+Resolved-collar reconstruction in regular variables and independent
+strong projection stabilized the physical numerator. E independently
+checked signs, normalization and an alternate-contour physical run.
+
+An exponential-in-retarded-time bound establishes the unwindowed
+ordered time-to-null Laplace exchange. C independently checked the
+causal support, weighted absorption and news derivative. The physical
+residue is now numerically evaluated at two finite launch radii.
+Outcome B is retained for the certified result because the numerical
+source numerator has no interval enclosure and a particular finite
+packet width has no uniform waveform error constant. The physical
+complex estimate, empirical error budget and independent evidence are
+in [PHYSICAL-RESIDUE](PHYSICAL-RESIDUE.md).
+
+### Fit-free horizon and validated scalar launch checkpoint
+
+The regular EF mixed variables give an ordinary Taylor family with two
+free ingoing amplitudes. Acb recurrence and a weighted residual
+contraction replace the numerical collar fit. B supplied the
+scalar-generic mean Ricci source for the analytic evaluation. E
+independently checked the regular system, coefficient tails,
+removable GL divisions, compact launch quadrature and split sign.
+The capped point-input numerator tails and assumed matching-box
+conditional enclosures are recorded separately.
+
+Validated compact flows now enclose the physical GL normalization
+and matching value, the bump normalization and both compact baseline
+moments over the certified pole and GL rate ranges. The fit-free
+numerical overlap agrees with the earlier fitted estimate. Initial
+failed comparisons exposed an extra inverse-radius factor, loose
+compact initial tail bounds and overly dependent amplitude boxes.
+These are retained as distinct validation controls.
+
+The full physical residue remains empirical because the exterior
+forced match, mean cap amplitudes and outer integral have no validated
+enclosure. The affine Riccati identity now specifies a direct
+residual route for those bounds. [Horizon source](HORIZON-SOURCE.md)
+
+### Physical shifted matching and mean enclosure
+
+B independently reconstructed the normalized GL EF radial jets. C
+derived absolute far-ray Riccati, forcing and mixed propagation caps.
+The coordinator reused the verified directed Riccati transport to
+enclose the actual GL and RW amplitudes and their logarithmic slopes.
+The far outgoing affine datum has norm below $9.788\times10^{-25}$,
+and either omitted EF mean tail is below $9.054\times10^{-16}$.
+The mean quadrature encloses the physical cap and the compact packet
+moments include the distributional launch terms in the forced
+ingoing match. Acb residual enclosures on both legs and the matching
+inverse bound the actual mixed position at $r_m=2.5$ with Euclidean
+radius below $0.33257$. E independently checked the exterior, mean,
+partial moments, horizon datum and matching estimate and replayed the
+two-subdivision calculation. The eight-subdivision refinement and
+empirical center comparison are recorded separately.
+
+Unfactored source propagation, raw mean quadrature and direct box
+inversion gave broad enclosures and are preserved in the wide-result
+record. The present bounds supply both forced matching data and the
+physical mean cap. Horizon-amplitude transport and the signed
+numerator remain open. The prior remote approval rejection remains
+in force. [Calculation and reproduction](EXTERIOR-SOURCE.md)
+
+### Certified signed physical residue and stopping gate
+
+B tightened the complete launch coefficients using Taylor quadrature
+with analytic flat-end tails. C derived and implemented the complete
+far returning cap and independently reconstructed and replayed the
+normalized Wronskian refinement. The coordinator checked the compact
+returning coefficients against the previous direct EF density and
+validated a signed, bilinear adjoint residual pairing of the same
+physical source. The first compact interval calculation enclosed
+zero. Point adjoints, consistent binary initialization, directed
+defect caps, midpoint Taylor quadrature and a wider analytically
+controlled horizon collar resolved the cancellation. E independently
+derived the sign and endpoint identity, identified the endpoint
+rounding gap, and verified the corrected two- and four-subdivision
+results against the distinct degree-42 strong-form benchmark.
+
+For the normalized packet at $13/8$ and width $0.12$ the complete
+residue is enclosed by $[0.08223,0.18771]+i[-0.42418,-0.31707]$.
+The signed component perpendicular to the ordinary common clock
+direction is in $(-0.44590,-0.33745)$. The complete returning tail
+is below $1.383\times10^{-26}$. The local pole term has the exact
+reality partner and an algebraic remainder in the continued
+transform. The controlled short-packet trace and the certified
+finite-packet pole meet Outcome A for the ordered hierarchy.
+Finite-amplitude control and a finite-time dominance claim remain
+separate questions. [Certificate and reproduction](SIGNED-RESIDUE.md)
+
+Final read-only GitHub checks found GOAL-007 PR #6 still open at
+0864d9d807de56cbdd6e64d215e6295508a3007f, no destination commit for
+the GOAL-011 branch, and no PR on that head. The earlier automatic
+approval rejected the scoped push because it recognized only the
+GOAL-005 authorization. The verified result remains on the isolated
+local stack. The result and its evidence are prepared for the
+separate Work audit.

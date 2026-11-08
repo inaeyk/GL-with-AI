@@ -1,0 +1,49 @@
+# Direct interval adjoint propagation and projection (contains zero)
+  right endpoint error: 2.860804e-07, peak: 0.0009574448
+  right endpoint error: 1.134614e-09, peak: 0.0007651226
+  right endpoint error: 2.860804e-07, peak: 0.0009574448
+  right endpoint error: 1.572295e-07, peak: 0.0007411063
+  right endpoint error: 0.0002219837, peak: 0.02910599
+  left endpoint error: 9.352359e-07, peak: 1.165161e-06
+  left endpoint error: 1.826548e-06, peak: 2.94541e-06
+  left endpoint error: 3.186124e-07, peak: 3.186124e-07
+  left endpoint error: 4.016092e-07, peak: 4.016092e-07
+collar start [0.011778157008023516783001838348354795016 +/- 3.49e-40] z_L(c) [[-9.251 +/- 4.23e-4] + [-6.734 +/- 1.72e-4]j, [0.8389 +/- 3.28e-5] + [-1.5033 +/- 4.04e-5]j] HJ affine constant [4.23 +/- 1.18e-3] + [-4.84 +/- 2.53e-3]j second [-0.912 +/- 6.68e-4] + [1.511 +/- 5.59e-4]j
+z match [[-8e+0 +/- 0.913] + [-2e+0 +/- 0.746]j, [-2e+0 +/- 0.858] + [+/- 0.482]j] [[1e+0 +/- 0.193] + [1e+0 +/- 0.429]j, [-2e+0 +/- 0.655] + [+/- 0.425]j] norm errors [0.45294246565734035557101410808144146697 +/- 5.90e-40] [0.18866504226978984093098425754492598848 +/- 2.02e-40]
+common w match center [[-12.126047422789289771779564249470634968 +/- 2.81e-38] + [23.611268366589913195153484013138771079 +/- 3.65e-37]j, [-20.005911353237092440522657023706175616 +/- 9.54e-38] + [20.821895363926018168379649302896762391 +/- 3.49e-38]j] match correction [+/- 1.24] + [+/- 1.24]j
+w endpoints [[-1e+2 +/- 28.9] + [-1e+2 +/- 58.9]j, [+/- 64.4] + [+/- 49.5]j] [[+/- 0.336] + [+/- 0.257]j, [+/- 0.482] + [+/- 0.374]j] norm errors [12.186576268556740539871287610932887572 +/- 3.01e-37] [0.24050687865848779616274848911473090836 +/- 4.67e-39]
+mean cap [[7e+0 +/- 0.746] + [+/- 2.84e-4]j, [+/- 83.9] + [+/- 0.0186]j] far mixed norm [0.088070495697572239502695915599290289548 +/- 1.10e-40]
+mixed endpoint plus collar [[6e+1 +/- 9.55] + [+/- 51.2]j, [-0.912 +/- 6.68e-4] + [1.511 +/- 5.59e-4]j, [+/- 0.725] + [+/- 0.940]j]
+left projected [[+/- 74.2] + [+/- 62.9]j, [1e+0 +/- 0.503] + [+/- 0.549]j, [+/- 1.09] + [+/- 1.04]j]
+right projected [[+/- 0.672] + [+/- 0.382]j, [0.009 +/- 5.33e-4] + [+/- 1.10e-3]j, [+/- 5.87e-3] + [+/- 3.56e-3]j]
+finite projected pieces [[+/- 23.7] + [+/- 27.8]j, [+/- 0.601] + [1e+0 +/- 0.322]j, [+/- 0.534] + [+/- 0.317]j] sum [+/- 24.4] + [+/- 27.1]j
+
+# Point coefficient negative control with the numerical GL field extrapolated inside its Taylor domain
+1.014 0.00020022136177872164
+1.04 8.681773361137747e-06
+1.4 3.1922132757418344e-16
+1.603 3.510833468576701e-16
+1.614 5.513050022112191e-16
+1.625 4.0029660424867215e-16
+1.9 4.443059973708341e-16
+2.5 2.9893669801409083e-16
+(3.2071067811865475+0.7071067811865475j) 1.5218182408308987e-16
+(8.86396103067893+6.363961030678928j) 1.8245648072149098e-20
+scaled weak coefficient discrepancy 0.00020022136177872164
+The wrong near-cap evaluation gives the displayed discrepancy. The regular Taylor evaluator is used in the corrected check.
+
+# Initial outgoing denominator normalization with a coarse leading tail
+  left endpoint error: 0.04513711, peak: 0.04513711
+  right endpoint error: 0.01659686, peak: 0.01659686
+  left endpoint error: 2.311862e-09, peak: 2.548083e-09
+  right endpoint error: 1.462395e-09, peak: 0.000740974
+  left endpoint error: 2.312321e-09, peak: 2.549384e-09
+  right endpoint error: 1.465358e-09, peak: 0.0007412384
+  left endpoint error: 2.312012e-09, peak: 2.547534e-09
+  right endpoint error: 1.460916e-09, peak: 0.0007408418
+  left endpoint error: 2.312285e-09, peak: 2.549824e-09
+  right endpoint error: 1.466838e-09, peak: 0.0007413707
+  right endpoint error: 1.572295e-07, peak: 0.0007411063
+D' on the root disk [0.728 +/- 9.16e-4] + [-3.316 +/- 7.83e-4]j
+normalized h_m [1.33703 +/- 7.52e-6] + [0.80499 +/- 9.47e-6]j g_m [-1e+0 +/- 0.489] + [+/- 1.06]j log far error [0.10746559783440942723779624610541991042 +/- 4.19e-40]
+normalized W' at the pole [+/- 9.48] + [+/- 3.66]j modulus [+/- 10.2]

@@ -1,3 +1,21 @@
+## GOAL-011 provenance — 2026-11-07
+
+The isolated research stack starts at GOAL-007 source
+0864d9d807de56cbdd6e64d215e6295508a3007f. The independent review
+46ec0208d3efdd0595813e8e2719e2319b5ee67c is an external input.
+GOAL-005 mode and finite-slice pins and the exact external references
+are listed in the [GOAL-011 source map](GLR-GOAL-011/LITERATURE.md).
+The [mixed matching and mean checkpoint](GLR-GOAL-011/EXTERIOR-SOURCE.md)
+builds on the scoped launch and horizon certificate at
+d5c75146a29dba88e7502929dbdaeabec1284a39 and uses the same spectral,
+geometric and fixed-data inputs.
+
+The [signed residue certificate](GLR-GOAL-011/SIGNED-RESIDUE.md)
+uses the verified physical mixed match at
+`e385f928cd25e508128a2ae01f40fde6f71ff300` and the same pinned
+GOAL-007 and GOAL-005 inputs. The continuing source PR #6 was
+re-read at the unchanged GOAL-007 source commit during closeout.
+
 ## GOAL-005 waveform follow-up provenance — 2026-11-07
 
 Independent calculations began at $\texttt{96339836a1281c219917f900224e7c98cf62f3f8}$.

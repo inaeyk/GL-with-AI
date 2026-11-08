@@ -1,0 +1,22 @@
+Original direct real-horizon subtraction on sampled currents
+R=1.625, delta_packet=.12, split=1.22, pi/4 contour.
+The collar-based regular quadrature replaced this method.
+
+delta_h=1e-5, length=48, rtol=2e-10:
+quadrature estimates (3.07931994547512e-06, 3.189879986674758e-09, 1.5390419396329226e-11)
+I = (0.4271922113239194-3.137355941350679j) residue = (0.1354177500411141-0.37080592800152407j)
+
+delta_h=1e-6, length=64, rtol=2e-11:
+quadrature estimates (0.00047449003698809097, 9.343004850345493e-13, 3.736437968535983e-13)
+I = (0.4300264698697476-3.131054012269389j) residue = (0.13559550261608874-0.3699629673619779j)
+
+delta_h=1e-7, length=80, rtol=2e-12:
+quadrature estimates (0.020268770836018683, 1.0024369026438911e-12, 5.364153470556726e-13)
+I = (-0.585943450486941-1.5798044198192072j) residue = (-0.0293868504862459-0.2080076876177498j)
+
+The unstable quantity is the HJ horizon pairing. The stationary spectra,
+outer integrals and quadrature on those outer segments stayed stable.
+The amplified cancellation in reconstructing EF fields and differencing
+regular currents makes the near-horizon direct run unsuitable. The final
+method fits regular EF currents on a resolved collar and integrates their
+strong form with the horizon exponent extracted.

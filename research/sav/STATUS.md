@@ -1,3 +1,48 @@
+## GOAL-011 strong-field prediction — 2026-11-07
+
+**Outcome A for the ordered response.** The $R/r_0=13/8$,
+$\delta=0.12$ physical packet has a certified nonzero
+fundamental quadrupole residue at fixed ADM mass and frame.
+Its component perpendicular to the common clock is also nonzero.
+[Signed enclosure](GLR-GOAL-011/SIGNED-RESIDUE.md).
+
+## GOAL-011 forced match and mean checkpoint — 2026-11-07
+
+The actual compact source, outgoing affine tail and two-polarization
+matching solve have interval enclosures. The EF mean cap is enclosed.
+The signed returning projection and certified nonzero residue remain
+open. [Evidence](GLR-GOAL-011/EXTERIOR-SOURCE.md).
+
+## GOAL-011 validated launch and horizon checkpoint — 2026-11-07
+
+The fit-free horizon evaluation reproduces the empirical physical
+residue. Both physical baseline launch moments and the GL horizon
+normalization have interval enclosures. The local overlap enclosure
+is conditional on mixed and mean matching data. [Evidence](GLR-GOAL-011/HORIZON-SOURCE.md).
+
+## GOAL-011 physical residue checkpoint — 2026-11-07
+
+The ordered unwindowed trace has a justified continued transform.
+The complete finite-packet overlap gives the empirical residue
+$0.1352-0.3706i$ at $R/r_0=13/8$ and width $0.12$. The local pole
+denominator is certified. The source enclosure remains open.
+[Physical overlap](GLR-GOAL-011/PHYSICAL-RESIDUE.md).
+
+## GOAL-011 local spectral checkpoint — 2026-11-07
+
+The local simple pole near the literature fundamental and both shifted
+noncoincidences now have interval certificates. The physical overlap remains
+open. [Certificate](GLR-GOAL-011/SPECTRAL-CERTIFICATE.md) ·
+[Canonical pairing](GLR-GOAL-011/PAIRING.md).
+
+## GOAL-011 status — 2026-11-07
+
+**Outcome B.** A smooth fixed-canonical outgoing quadrupole launched near
+the barrier has a nonzero leading GL-dependent ordered shear. At
+$R/r_0=13/8$ the optical coefficient is strictly between $0.257$ and
+$0.304$. Finite-width error constants and the physical fundamental
+residue remain open. [Dossier](GLR-GOAL-011/REPORT.md).
+
 ## GOAL-005 waveform follow-up status — 2026-11-07
 
 **Substantial partial success (Outcome B).** A separate five-specialist
