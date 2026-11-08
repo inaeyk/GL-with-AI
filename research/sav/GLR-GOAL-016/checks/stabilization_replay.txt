@@ -1,0 +1,3 @@
+GB scalar residual and published factor: zero
+spherical curvature contraction kernel: [-1, 1, 1, 0], TT-augmented rank: 4
+Euclidean diagonal curvature eigenvalues in units of c: -2, -2, 0, 4

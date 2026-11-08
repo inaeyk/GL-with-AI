@@ -8,6 +8,8 @@ Use the dimensionless Schwarzschild coordinates of [GOAL-005](../GLR-GOAL-005/RA
 \]
 The order-two \(zz\) source is unchanged because it is quadratic in the common first jet. In the adapted coordinate, \(F,P\) prescribe the completed scalar and its normal derivative. Their lift uses the adjustable inner leaf and the \(C^1\) ADM mass map, with \(\partial_\lambda(M/M_0)=9/14\). The inherited construction gives a tuned family near zero seed for each fixed smooth pair. The required size of that neighborhood can depend on the pair. A compact jet that reaches the horizon can be continued smoothly to the inner collar and tapered there.
 
+The two-parameter local development on each fixed compact region is smooth before restricting to the tuned inner parameter \(\lambda(\epsilon)\). The pure \(\lambda\) family at \(\epsilon=0\) is a circle-independent vacuum product with constant radion. Thus its linear \(\lambda\) derivative in the scalar trace vanishes, and \(\lambda(\epsilon)=o(\epsilon)\) from the mass map suffices for the order-two scalar coefficient there. For the pinned Z pair GOAL-006 also derives \(\lambda=O(\epsilon^2)\) from the mean constraint equations. The mixed \(\epsilon\lambda\) and quadratic \(\lambda^2\) terms are \(o(\epsilon^2)\). This is an iterated perturbative and large-radius calculation. Uniform differentiability of the tuned development up to the actual null boundary is a separate premise. [GOAL-006 charge-rate estimate](https://github.com/inaeyk/GL-with-AI/blob/80f030df0bec99bebe76fd9ab473c419ad1af5a5/research/sav/GLR-GOAL-006/DERIVATIONS.md#1-original-constraint-family-and-the-tuned-mass-rate)
+
 Define the dimensionless homogeneous preparation energy \(\mathcal E_\Sigma\) by the scalar Killing energy on the exterior portion of \(\Sigma\) with normalization \(r_0/G_4\) removed. In physical units its leading fraction of \(M_0=r_0/(2G_4)\) is \(2\epsilon^4\mathcal E_\Sigma\). This is the energy of the added homogeneous degree of freedom on the background. The ADM mass of the full constrained data is held fixed by tuning.
 
 Let \(I=[-10,-8]\), \(N_h=\lim_{v\to\infty}h_u\), \(b_Z=\|n_Z\|_{L^2(I)}\), and let \(\mathcal E_{\rm can}\) be the infimum of \(\mathcal E_\Sigma\) over these smooth preparations with \(n_Z+N_h=0\) on \(I\). Then
@@ -40,6 +42,11 @@ The total on the graph dominates its portion in the wedge. The cap bound therefo
 On a padded interval \(J=[a,b]\), \(a<-10\), \(b\ge-8\), prescribe the initially outgoing scalar pair
 \[
  h|_\Sigma=A(u),\qquad h_u|_\Sigma=A',\qquad h_v|_\Sigma=0,\qquad A=0\ \text{for }u\le a .
+\]
+On the exterior graph the future normal is \((\partial_t+p\partial_x)/\sqrt{f(1-p^2)}\), \(p=-1/r\). Thus the free pair in the constraint construction is
+\[
+ F=A/r,\qquad
+ P=\frac{(1-p)A'/r-pfA/r^2}{\sqrt{f(1-p^2)}} .
 \]
 Let \(L_J=b-a\), \(k_b=1/(4R(b)^2)\), and \(M(u)=\sup_{v\ge R(u)}|h(u,v)|\). The free solution is \(A(u)\). The characteristic equation \(4h_{uv}=-V_0h\) and the exact ray integral \(\int_{R(u)}^\infty V_0\,dv/4=1/(4R(u)^2)\) give
 \[

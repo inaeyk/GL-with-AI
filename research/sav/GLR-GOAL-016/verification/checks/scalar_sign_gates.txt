@@ -1,0 +1,4 @@
+Exact gates: source sign, curvature error < 0.09, and early joint-scale suppression for 0<Lambda<=s
+Exact gates: benchmark energy reduction > 5.17e-9 Lambda and seed-positivity norm threshold
+Exact kernel control: F_0(4) < 0, upper bound (display) -0.397149804671
+Exact kernel control: F_1(4) < 0, upper bound (display) -0.033021663579

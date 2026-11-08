@@ -1,0 +1,12 @@
+GOAL-005 source replay · Python 3.14.8 · python-flint 0.9.0 · Arb 112 bits
+Compared each regenerated JSON byte for byte with the corresponding pinned result.
+e5bb9cc477183599afa31cf133a90b6a2c9855a8d2a89fa95964f84c79c24c9c  GLR-GOAL-005/compute/gl_eigenvalue_results.json
+e2189250db560a70d4ab9a7926470de26c607353f3f344d1720b678cc69f6f06  GLR-GOAL-005/compute/early_interval_results.json
+  "exact_quadratic_K0": {
+    "lower": "[3.53165386787818668526723387708811e-7 +/- 1.49e-41]",
+    "upper": "[4.01704925787122412575753161741344e-7 +/- 1.54e-40]"
+  },
+Root: 0.83 user CPU s + 0.05 system CPU s. Early interval: 0.42 + 0.04 CPU s.
+Retained tooling failure from the first root invocation despite valid JSON:
+time: sysctl kern.clockrate: Operation not permitted
+The early invocation used shell timing and both subsequent byte comparisons passed.
