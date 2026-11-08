@@ -1,0 +1,9 @@
+Python 3.14.8 NumPy 2.4.6 SciPy 1.18.0 python-flint 0.9.0
+  left endpoint error: 2.072812e-08, peak: 2.072812e-08
+  right endpoint error: 1.695232e-08, peak: 0.0007451236
+threshold baseline D [0.4783256 +/- 6.97e-8] + [-0.1515783 +/- 4.09e-8]j
+packet cell 0 moment kernel [0.5 +/- 0.0109] + [-1e+0 +/- 0.0338]j
+packet cell 1 moment kernel [0.5 +/- 0.0239] + [-1e+0 +/- 0.0312]j
+packet cell 2 moment kernel [0.53 +/- 8.79e-3] + [-0.98 +/- 8.66e-3]j
+packet cell 3 moment kernel [0.5 +/- 0.0510] + [-1e+0 +/- 0.0264]j
+covered retarded packet width [0.1283804883815434768947812767245133067 +/- 1.86e-38]

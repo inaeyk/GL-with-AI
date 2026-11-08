@@ -1,3 +1,7 @@
+## GOAL-012 ordered waveform — 2026-11-07
+
+Outcome B. The translated fundamental at $s_q+2\Omega$ has a certified physical residue for the pinned packet. The full finite-window remainder and physical fixed-width interference signs remain open. [Report](GLR-GOAL-012/REPORT.md).
+
 ## GOAL-011 strong-field prediction — 2026-11-07
 
 **Outcome A for the ordered response.** The $R/r_0=13/8$,

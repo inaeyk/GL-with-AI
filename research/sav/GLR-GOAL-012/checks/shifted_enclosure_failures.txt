@@ -1,0 +1,74 @@
+Initial candidate cell shape error
+Python 3.14.8 python-flint 0.9.0 NumPy 2.4.6 SciPy 1.18.0 Namespace(subdivisions=2)
+  left endpoint error: 2.846904e-07, peak: 2.846904e-07
+  left endpoint error: 7.49438e-07, peak: 7.49438e-07
+  left endpoint error: 5.665934e-07, peak: 5.665934e-07
+  left endpoint error: 6.204996e-07, peak: 6.204996e-07
+  right endpoint error: 1.134614e-09, peak: 0.0007651226
+  right endpoint error: 2.200583e-07, peak: 0.0007411064
+  right endpoint error: 4.500108e-06, peak: 0.01441798
+Traceback (most recent call last):
+  File "GLR-GOAL-012/checks/shifted_enclosure.py", line 232, in <module>
+    main()
+    ~~~~^^
+  File "GLR-GOAL-012/checks/shifted_enclosure.py", line 228, in main
+    project(args.subdivisions)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "GLR-GOAL-012/checks/shifted_enclosure.py", line 164, in project
+    right = Right(data, sigma, test_match[0])
+  File "GLR-GOAL-012/checks/shifted_enclosure.py", line 127, in __init__
+    self.test = IngoingRay(data.s, returning_left, horizon_rw_match(data.s), self.massive)
+                ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "GLR-GOAL-012/checks/shifted_enclosure.py", line 90, in __init__
+    spec.directed_flow(samples, 1, True, s, acb(0), coefficients,
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                       initial_error, arb(0), False, capture, initial_is_error=True)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "GLR-GOAL-011/checks/spectral_certificate.py", line 203, in directed_flow
+    for l,u,v,w in zip(pl,pr,dl,dr):
+                   ~~~^^^^^^^^^^^^^
+TypeError: 'numpy.complex128' object is not iterable
+
+Loose outgoing normalization
+Python 3.14.8 python-flint 0.9.0 NumPy 2.4.6 SciPy 1.18.0 Namespace(subdivisions=2)
+  left endpoint error: 2.846904e-07, peak: 2.846904e-07
+  left endpoint error: 7.49438e-07, peak: 7.49438e-07
+  left endpoint error: 5.665934e-07, peak: 5.665934e-07
+  left endpoint error: 6.204996e-07, peak: 6.204996e-07
+  right endpoint error: 1.134614e-09, peak: 0.0007651226
+  right endpoint error: 2.200583e-07, peak: 0.0007411064
+  right endpoint error: 4.500108e-06, peak: 0.01441798
+  right endpoint error: 2.351459e-10, peak: 8.823083e-07
+fresh mixed matching center, error [[-41.037787309274073794926370136792742640 +/- 4.55e-37] + [-42.626168637903340496653909293484681149 +/- 1.59e-37]j, [-23.363228707537844001878464747407523247 +/- 6.81e-38] + [-44.959792257904475001049349943356214355 +/- 1.20e-37]j] [2.7639606419401766668549794985145586590 +/- 2.18e-38]
+projected pieces for the unit horizon mode [[-2e+2 +/- 30.9] + [-6e+2 +/- 62.2]j, [-16.1 +/- 0.0421] + [-125.5 +/- 0.0289]j, [20.8 +/- 0.0668] + [11.5 +/- 0.0528]j]
+absolute tail bounds Bounds(hj=[0.018257471845661238299935813640798803759 +/- 3.70e-40], quadratic=[1.2198597498680358263414139814894450223e-25 +/- 2.14e-63], mean=[2.8450432849090832985536904636390637057e-9 +/- 1.46e-47])
+unit numerator [([-226.23445248971335580429356023672189933 +/- 3.59e-36], [-197.21568009624831369003574773672189933 +/- 3.59e-36]), ([-776.20095426943990952819778369897017256 +/- 4.46e-36], [-747.18338541296217210143997119897017256 +/- 4.46e-36])]
+  right endpoint error: 1.572295e-07, peak: 0.0007411063
+  left endpoint error: 0.04513711, peak: 0.04513711
+  right endpoint error: 0.01659686, peak: 0.01659686
+  left endpoint error: 2.311862e-09, peak: 2.548083e-09
+  right endpoint error: 1.462395e-09, peak: 0.000740974
+  left endpoint error: 2.312321e-09, peak: 2.549384e-09
+  right endpoint error: 1.465358e-09, peak: 0.0007412384
+  left endpoint error: 2.312012e-09, peak: 2.547534e-09
+  right endpoint error: 1.460916e-09, peak: 0.0007408418
+  left endpoint error: 2.312285e-09, peak: 2.549824e-09
+  right endpoint error: 1.466838e-09, peak: 0.0007413707
+  right endpoint error: 1.572295e-07, peak: 1.099736e-05
+  right endpoint error: 1.572295e-07, peak: 0.0007411063
+baseline horizon-normalized residue [([0.00028108994345700056480841024904592748988 +/- 2.66e-42], [0.00082939984284336832540706976442678686488 +/- 2.66e-42]), ([-0.00088492502703181003941686034503774164245 +/- 2.72e-42], [-0.00033688171418495245067865729633168695495 +/- 2.72e-42])]
+  right endpoint error: 1.332022e-07, peak: 0.0006046845
+returning W [([0.80458253590423108787762710077125714538 +/- 9.43e-40], [1.3714896856437945529960353038962571454 +/- 2.10e-38]), ([-1.1516536048572415663547705442633516463 +/- 8.73e-40], [-0.58823331752381270664407718488835164630 +/- 3.81e-39])]
+shifted physical shear rectangle [([-1.2688043734131564317537921530388074818 +/- 1.18e-38], [0.87842052596824272290929378446119251821 +/- 4.73e-39]), ([-1.4944745147030260084044504048679750468 +/- 4.71e-38], [0.64268648313475589772347928263202495325 +/- 5.52e-41])]
+shifted physical shear modulus 0 [1.9604383726833132983488153476660453717 +/- 1.40e-38]
+Traceback (most recent call last):
+  File "GLR-GOAL-012/checks/shifted_enclosure.py", line 262, in <module>
+    main()
+    ~~~~^^
+  File "GLR-GOAL-012/checks/shifted_enclosure.py", line 258, in main
+    project(args.subdivisions)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "GLR-GOAL-012/checks/shifted_enclosure.py", line 246, in project
+    assert amplitude.abs_lower() > 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

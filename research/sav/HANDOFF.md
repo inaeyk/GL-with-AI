@@ -1,3 +1,7 @@
+## GOAL-012 re-entry — 2026-11-07
+
+Use the [GOAL-012 handoff](GLR-GOAL-012/HANDOFF.md) for the translated pole, finite-window comparison and the next physical source-error calculation.
+
 ## GOAL-011 certified physical fundamental — 2026-11-07
 
 The fixed-canonical barrier packet has a nonzero ordered axial
