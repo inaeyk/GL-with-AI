@@ -1,0 +1,18 @@
+Python 3.14.8, python-flint 0.9.0, Arb precision 128, dyadic mesh 2^14
+launch cut: [[-0.6849927415085289 +/- 7.31e-18], [-0.6849927415085289 +/- 7.31e-18]]
+minimum causal radius: [[1.596923929953101 +/- 4.40e-16], [1.596923929953101 +/- 4.40e-16]]
+normalizing multiplier: [[21.37139546726214 +/- 6.78e-16], [21.37139610287929 +/- 3.74e-15]]
+packet
+  leading-news approximation norm: [[0.9987749028950930 +/- 3.59e-17], [1.001270128414035 +/- 1.57e-16]]
+  physical leading-news L2 error cap: [[0.0002836134125539256 +/- 1.14e-20], [0.0002836134125539256 +/- 1.14e-20]]
+  exact leading-news L2 norm: [[0.9984912894815352 +/- 4.69e-18], [1.001553741827593 +/- 3.98e-16]]
+  optical projection against exact leading news: [[-1377.152095794678 +/- 2.66e-13], [-1163.234916687012 +/- 2.82e-13]]
+  sufficient L2 tolerance of scaled return error: [[16.72580438182830 +/- 1.53e-15], [16.72580438182830 +/- 1.53e-15]]
+  sufficient L-infinity tolerance of scaled return error: [[21.36945412141552 +/- 1.15e-15], [21.36945412141552 +/- 1.15e-15]]
+early
+  leading-news approximation norm: [[0.01357391243800521 +/- 1.04e-18], [0.01367153837054502 +/- 2.19e-18]]
+  physical leading-news L2 error cap: [[3.156338094453444e-10 +/- 1.80e-26], [3.156338094453444e-10 +/- 1.80e-26]]
+  exact leading-news L2 norm: [[0.01357391212235370 +/- 4.04e-18], [0.01367153868619653 +/- 2.88e-18]]
+  optical projection against exact leading news: [[6.580623656511307 +/- 2.38e-16], [7.784749664366245 +/- 2.70e-16]]
+  sufficient L2 tolerance of scaled return error: [[6.931309050771201 +/- 3.23e-16], [6.931309050771201 +/- 3.23e-16]]
+  sufficient L-infinity tolerance of scaled return error: [[41.38638391135715 +/- 9.64e-16], [41.38638391135715 +/- 9.64e-16]]

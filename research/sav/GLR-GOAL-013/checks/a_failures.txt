@@ -1,0 +1,12 @@
+a_graph.py development failures
+1. Default python-flint ctx.cap was too small for the inherited degree-40
+   Fuchsian launch. The assertion value.prec >= count failed. Use ctx.cap=80.
+2. Squaring signed velocity balls with **2 returned nan on the finer grid.
+   Use explicit interval products ut*ut and az_t_imag*az_t_imag. Both 256-cell
+   and 512-cell runs then enclose positive physical graph energy.
+
+a_characteristics.py intended adverse cases
+Zeroing the graph velocity removes a nonzero u^2/2 news term.
+Omitting one interface trace at u=1, v=3/2 loses one exact unit of G.
+Dropping the latest-cut boundary loses 15/2 in the weighted pairing.
+Symmetric instead of skew time coupling injects work 448 at t=2,x=0.

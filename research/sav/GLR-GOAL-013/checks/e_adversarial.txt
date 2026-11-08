@@ -1,0 +1,6 @@
+Python 3.14.8, SymPy 1.14.0
+Graph-only retarded solution: t-p*x; omitted/wrong contact rejected.
+Genuine two-field skew/connection energy verified; symmetric mutation rejected.
+Bulk residual zero but interface residual 4*t*delta(x); cap norm^2=4*U^3/3.
+r_c=100: Lambda<0.002514, exp(Lambda)<1.00252, degree-three error factor<3.761e-5.
+Exact leading test weights: ||g'-b''||_2<0.211 and |g(1)|<0.0145.
