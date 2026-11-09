@@ -1,0 +1,8 @@
+folded-u source gate exit=0
+candidate returning norm: [[0.08740132233710008 +/- 4.60e-18], [0.08740132233710008 +/- 4.60e-18]]
+Q subbox direct rejection threshold: [[0.3172884587767795 +/- 4.63e-17], [0.3172884587767795 +/- 4.63e-17]]
+Q+S* subbox direct rejection threshold: [[0.8048290649662459 +/- 3.47e-17], [0.8048290649662459 +/- 3.47e-17]]
+nonfinite-candidate source gate exit=0
+candidate returning norm: [nan, nan]
+Q subbox direct rejection threshold: [100.0000000000000, 100.0000000000000]
+Q+S* subbox direct rejection threshold: [100.0000000000000, 100.0000000000000]

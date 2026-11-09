@@ -1,0 +1,4 @@
+exact affine norm enclosed by [0.08741378900667258368657 +/- 2.11e-24]
+Q alternate quadrature lower bound [0.31731172756560829 +/- 1.36e-18]
+Q+S* alternate quadrature lower bound [0.80484527383879449 +/- 8.77e-20]
+baseline pole norm upper 0.0022597575; ratio lower > 1.22078696

@@ -1,0 +1,5 @@
+Baseline rejects its pole even from the reverse triangle bound > 1.9297
+Q: strict rejection if physical E21 <= .31731
+Q+S*: strict rejection if physical E21 <= .80484
+Candidate-only relative ordered change is within [17.1520, 17.4186] epsilon^2
+Physical N21 nonzero from this candidate if E21 < .08741378900667
