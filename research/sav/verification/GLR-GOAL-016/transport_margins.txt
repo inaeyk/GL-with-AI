@@ -1,0 +1,8 @@
+R=24: adjacent gap lower bounds 4.89321031081e-9 6.08054061062e-8
+R=48: adjacent gap lower bounds 5.84475536454e-8 8.35627573158e-8
+mass index 1: R24-R48 lower bound 8.59867359047e-9
+mass index 2: R24-R48 lower bound 1.07902876868e-8
+tube48_coarse_failure.json: adjacent gap lower bounds -4.86140936563e-8 -4.11827255193e-8
+tube24_first_pass.json: adjacent gap lower bounds -2.04723944311e-9 4.87820864868e-8
+pulsed minus baseline band margin > 0.0335219149423
+pulsed minus baseline all-band margin > 0.00598397083874

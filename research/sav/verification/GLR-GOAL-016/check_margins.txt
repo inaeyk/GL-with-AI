@@ -1,0 +1,10 @@
+R=24, adjacent mass gap 1: > 4.89321e-9
+R=24, adjacent mass gap 2: > 6.08054e-8
+R=48, adjacent mass gap 1: > 5.84475e-8
+R=48, adjacent mass gap 2: > 8.35627e-8
+mu=.10, R24 minus R48: > 8.59866e-9
+mu=.20, R24 minus R48: > 1.07902e-8
+Archived first-pass adjacent comparisons retain overlap
+Pulsed band minus baseline band, each channel: > 0.0335219
+Pulsed band minus baseline all-band work ceiling, each channel: > 0.0059839
+Conditional vacuum seed threshold and free-source L2 budget checked
