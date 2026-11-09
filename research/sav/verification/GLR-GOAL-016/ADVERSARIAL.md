@@ -1,0 +1,55 @@
+# Adversarial transport audit · GLR-GOAL-016
+
+I used the ordered scalar equation, canonical zero-Z graph and mode decay as shared inputs, with advance exposure to the source PR's stated outcomes and then the pinned proofs. This was non-blind. I independently derived an intermediate-cap limit argument, the limiting signed comparison by alternating inequalities, and channel and counterexample implications. I inspected the source's Riemann and weighted-energy routes, normalization, late-source certificate and band bounds. The GOAL-005 GL eigenpair, angular source formulas, Riccati and curvature controls are inherited. [Complete GOAL-016 head](https://github.com/inaeyk/GL-with-AI/commit/6e7615f9d0a88a08813203ad5b7cadde990fa042)
+
+## Current, critical scaling and fixed positive mass
+
+Write \(p=\psi_u\), \(q=\psi_v\), \(J h(u)=\int_{-\infty}^u h\), \(b=f/R\). The normalized tube power is
+\[
+ -2\psi_t(\psi_x-b\psi)=2(p^2-q^2)+2b\psi(p+q).
+\]
+On \(R=\mathrm{const}\) the last term integrates to \(b[\psi^2]_{\partial I}\). This follows from \(\phi=\psi/r\) in the physical canonical stress tensor and \(M_0=r_0/(2G_4)\). A compact purely incoming flat wave packet with \(\psi\) zero at both tube endpoints has signed energy \(-2\int_I q^2\,du<0\). The finite tube integrand differs from a positive outgoing density and from the master current. Conservation also contains work and storage. The certified two-tube ordering gives no absorption or total energy fraction arriving at infinity. [Pinned observables](https://github.com/inaeyk/GL-with-AI/blob/6e7615f9d0a88a08813203ad5b7cadde990fa042/research/sav/GLR-GOAL-016/transport/OBSERVABLES.md)
+
+For an independent limiting argument, zero-extend below the spacelike graph, where the field and both first jets match. In the exponentially weighted \(X_\alpha\) norm on \(u\le-8\), \(\|J\|\le1/\alpha\), \(F_v\) has an integrable exponential tail, \(V_0=O(v^{-3})\), and \(1-f=O(v^{-1})\). Integrating \(p_v=(F_v-V_\mu Jp)/4\) yields uniform bounds on \(p\) on \(\mu^2 v\le M\) by Grönwall, and
+\(\|p_\mu(v)-p_0(v)\|_\alpha\le C_M\mu^2v\) by the difference equation with the integrable massless potential. Put \(v_\dagger=\min(v,\mu^{-1})\). Then \(v_\dagger\to\infty\), \(\mu^2v_\dagger\to0\), so \(p_\mu(v_\dagger)\to n_Z\) in \(X_\alpha\). Beyond this cap solve \(p_v=-\mu^2Jp/4 + [F_v-V_0Jp+\mu^2(1-f)Jp]/4\) by variation of constants. The semigroup norm is bounded by \(\exp(M/(4\alpha))\). The residual integrated from \(v_\dagger\) to \(v\) is \(O_M(e^{-c v_\dagger}+v_\dagger^{-2}+\mu^2\log(1+v))\). Therefore \(p\to e^{-\Lambda J/2}n_Z\), since \(\mu^2v\to2\Lambda\) and the intermediate cap costs \(o(1)\) phase. The equation for \(q=Jp_v\) gives \(q\to0\), and \(\psi=Jp\) is bounded. These estimates hold for all \(u\) on a compact cut and thus for the sloping tube \(v=u+2x(R)\), where the endpoint term vanishes. The leading waveform contains the whole earlier causal history and requires no frequency band. The source's sharper rate and Bessel convolution are consistent. The logarithmic Coulomb term is small on compact scaling parameter sets, while \(\mu^2v\) itself remains finite. [Critical limit and rate](https://github.com/inaeyk/GL-with-AI/blob/6e7615f9d0a88a08813203ad5b7cadde990fa042/research/sav/GLR-GOAL-016/transport/CRITICAL-LIMIT.md)
+
+For fixed \(\mu>0\), the critical estimate is nonuniform as \(\mu^2v\to\infty\). In weighted \(L^2\) with weight \(e^{-2\alpha u}\), one has
+\[
+ \operatorname{Re}\langle h,Jh\rangle_\alpha
+ =\tfrac12 e^{-2\alpha u_1}|Jh(u_1)|^2+\alpha\|Jh\|_\alpha^2 .
+\]
+The energies \(\langle z,V_\mu z\rangle_\alpha\) for \(z=\psi,p\) are coercive at this fixed mass on the early wedge. Their \(J(V_\mu z)\) terms have the dissipative sign. Both \(V_{\mu,v}/V_\mu\) and \(V_{\mu,u}\) are integrable in \(v\). The \(p\) equation uses \(p_v=-J(V_\mu p)/4+(F_v-J(V_{\mu,u}\psi))/4\) and therefore avoids differentiating the graph step. These facts give bounded weighted norms. Splitting off \(4c(v)=\mu^2(1-2/v)\) leaves an integrable error from a stronger exponential weight to a weaker one because \(|1/r-2/v|\lesssim (|u|+\log v)/v^2\). Conjugating by \(e^{-\alpha u}\) and extending by zero on the right gives the causal \(J\) multiplier \(1/(\alpha+i\xi)\). The semigroup \(e^{-aJ}\) is contractive and strongly tends to zero. Its multiplier tends to unit modulus as \(|\xi|\to\infty\) at each fixed \(a\), ruling out uniform operator-norm decay. Duhamel with integrable forcing proves weighted \(L^2\) decay of \(\psi,p\). The derivative \(p_v\) also tends to zero in \(L^2\) on the cut, while \(q\) tends to zero uniformly there by Cauchy–Schwarz for \(J\). Integrating \(p_v\) over the bounded span of \(v\) values on the sloping tube transfers decay to its \(L^2\) trace. This verifies the flux limit and supplies no general pointwise decay rate for \(p\). Taking \(\mu\downarrow0\) first gives the positive massless coefficient by finite-cap continuity. Taking \(R\to\infty\) first gives zero. [Fixed-mass proof](https://github.com/inaeyk/GL-with-AI/blob/6e7615f9d0a88a08813203ad5b7cadde990fa042/research/sav/GLR-GOAL-016/verification/REVIEW.md#3-fixed-positive-mass-and-the-two-limits-for-the-same-source)
+
+## Signed attenuation and its scope
+
+The source's \(\Lambda\le s\), \(s=2\Omega r_0\), result survives. On \(r\ge5\) the inherited \(d_y=y_r/y\in(-0.9,0.4)\) gives angular magnitude at least \(1/2-0.9(4/25)/0.39>0.13\) and mixed magnitude at most \((0.064/0.39)(0.9+1/40)<0.152\), both in \(U_{\rm GL}/r\) units. Hence \(4K^2-2H_{tr}^2>0.021392(U_{\rm GL}/r)^2\), and the trace identity adds a nonnegative square. Free-source ray monotonicity and relative curvature error below \(0.09\) imply
+\[
+ n_Z(u)>0,\qquad n_Z(u-h)\le (6/5)e^{-s h}n_Z(u),\qquad u\le-8,\ h\ge0.
+\]
+The one-sided translation envelope on the entire preceding half-line is stronger than a positive interval on \(I\). [Pinned sign and curvature](https://github.com/inaeyk/GL-with-AI/blob/6e7615f9d0a88a08813203ad5b7cadde990fa042/research/sav/GLR-GOAL-016/verification/REVIEW.md#6-strict-early-attenuation-on-a-nonzero-critical-scale-interval)
+
+A stronger analytic bound follows without new physical inputs. Positivity and causal convolution preserve the same translation inequality for \(J^j n_Z\). Thus \(J^{j+1}n_Z\le 6J^j n_Z/(5s)\). Let \(d_\Lambda=\Lambda/2\), \(\Phi=Jn_Z\). In the series for \(n_\Lambda\) successive absolute terms from order \(j\ge1\) have ratio at most \(6d_\Lambda/[5s(j+1)]\). For \(0<d_\Lambda\le 5s/6\), alternating bounds give
+\[
+ n_Z-d_\Lambda\Phi
+ <n_\Lambda
+ < n_Z-d_\Lambda\Phi+\tfrac12 d_\Lambda^2 J\Phi
+ \le n_Z-d_\Lambda(1-3d_\Lambda/(5s))\Phi .
+\]
+The lower expression is nonnegative, including at the end of this parameter interval. The upper expression is strictly below \(n_Z\). The same argument on \(\Phi\) gives \(e^{-d_\Lambda J}\Phi>0\), hence \(\partial_\Lambda n_\Lambda<0\) on the interval. The limiting energy strictly decreases on \(0\le\Lambda\le5s/3\). On the original range \(0<\Lambda\le s\) the bounds improve to
+\[
+ (1-3\Lambda/(5s))\,n_Z<n_\Lambda<n_Z-0.35\Lambda\Phi,\qquad
+ \mathcal K_Z-\mathcal K_\Lambda>6.03\times10^{-9}\Lambda.
+\]
+The energy margin uses \(2\int_I n_Z\Phi\,du=[\Phi^2]_{\partial I}\ge(\Delta_I\Phi)^2\) and \(\Delta_I\Phi>2(6.5671\times10^{-5})\). The rational check is \( (7/20)(2\cdot 0.000065671)^2=30188761687/5000000000000000000\). This improvement concerns the joint limit under the pinned envelopes. At finite tubes the nonzero \(q\) and physical contact remain.
+
+A smooth nonnegative earlier bump \(g\) supported strictly before \(I\) has \(g=0\) on \(I\) but \(e^{-d_\Lambda J}g=-d_\Lambda\int g+O(d_\Lambda^2)\) there for small positive \(d_\Lambda\). Adding a sufficiently small positive exponential background gives a strictly positive input with amplified absolute window norm after propagation. Thus positivity alone gives no general attenuation theorem. The translation envelope rules out this example in the pinned source.
+
+## Completed-source channels
+
+The late forcing preserves the whole early wedge by monotonicity of \(u\) along future causal curves. With \(x(8)=8+\log7\) and \(\ell=1/32\), its minimum \(u\) exceeds \(12-(8+\log7)-2\ell>1.99\), later than the completion cutoff \(-7.9\). Both band increments use nonvanishing pairing bounds from unit-current Jost amplitudes and a positive compact pulse. The transform convention is \(e^{i\omega t}\), and the normalized positive-frequency flux density is \(2\omega |a|^2/\pi\). Unit plane-wave amplitudes would introduce an additional horizon factor \(\omega\) or exterior factor \(p_\omega\). The flux-normalized current balance gives \(|W|\ge2\). The WKB sine-kernel transfer on \([4,4.25]\) encloses the left and right numerator separately. The reverse triangle inequality subtracts the worst-case baseline complex amplitude before squaring, allowing arbitrary relative phase. Extrapolating the growing GL mode through all times is outside this finite-energy completion. [Band and threshold certificate](https://github.com/inaeyk/GL-with-AI/blob/6e7615f9d0a88a08813203ad5b7cadde990fa042/research/sav/GLR-GOAL-016/transport/CERTIFICATE.md#a-completed-source-band-on-schwarzschild)
+
+A further comparison follows under the source's stated all-band work bound. The unpulsed total normalized energy, including the positive spectral channels and any remaining storage, is at most \(0.027546\). The pulsed energy in each resolved channel restricted to \([4,4.25]\) is at least \(0.0335298\). For total positive channel energies defined as increasing limits of nonnegative spectral-band energies, the pulsed lower bound therefore exceeds the unpulsed upper bound by at least \(0.0059838\) in each channel. The work normalization agrees: \(\sqrt{2E_m}\le\|\mathcal F\|_{L^1_tL^2_x}\) and the physical fraction coefficient is \(2E_m\). This deduction uses the source's all-band assertion that the asymptotic positive channel energies are portions of the energy controlled by work. It requires no signed fixed-time tube budget. The high-band comparison already proves nonidentifiability independently of this extra work interface. Precise total energies and their partition remain unevaluated because intermediate and subthreshold transfer and storage are missing. [Whole-band energy and tails](https://github.com/inaeyk/GL-with-AI/blob/6e7615f9d0a88a08813203ad5b7cadde990fa042/research/sav/GLR-GOAL-016/transport/CERTIFICATE.md#threshold-and-high-frequency-error-budgets)
+
+## Verification status
+
+The source scalar-sign check reproduced its archived text with Python 3.14.8. The intermediate-cap proof, alternating strengthening, work-bound comparison and incoming and precursor controls above are analytic. The signed tube certificates are separate interval calculations. No production run or independent physical scattering solver entered this track. These scalar bounds leave the GOAL-015 ordered axial interference verdicts and the nonlinear vacuum extraction and matched stabilization problems separate.
