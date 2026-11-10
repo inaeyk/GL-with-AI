@@ -2,7 +2,7 @@
 
 ## Frozen scientific contract
 
-Start from the mass-tuned damped Z family with the fixed normalized (L/r_0=10) GL jet, and distinguish the original Z data with different higher spatial tails. Keep the exact constrained vacuum problem and the matched early Einstein-frame cuts (I=[-10,-8]). Seek a derivative-tame coupled principal estimate, truncation-uniform trace and finite-seed interval. Target (N_epsilon=epsilon^2n_Z+O_{L^2}(epsilon^4)) if the exact family's regularity and parity justify it. A uniform (o(epsilon^2)) suffices for positivity. The stretch gate is a conditional bridge to later dynamics.
+Start from the mass-tuned damped Z family with the fixed normalized \(L/r_0=10\) GL jet, and distinguish the original Z data with different higher spatial tails. Keep the exact constrained vacuum problem and the matched early Einstein-frame cuts \(I=[-10,-8]\). Seek a derivative-tame coupled principal estimate, truncation-uniform trace and finite-seed interval. Target \(N_\epsilon=\epsilon^2n_Z+O_{L^2}(\epsilon^4)\) if the exact family's regularity and parity justify it. A uniform \(o(\epsilon^2)\) suffices for positivity. The stretch gate is a conditional bridge to later dynamics.
 
 ## Inputs
 
