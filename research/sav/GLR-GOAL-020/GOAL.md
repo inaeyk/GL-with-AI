@@ -2,7 +2,7 @@
 
 ## Frozen scientific contract
 
-Use the normalized (L/r_0=10), real (ell=2) canonical graph, fixed charges, inertial clock and cuts. Reconstruct the ordered physical seed-to-news operator on an explicit Sobolev class, and bound an admissible open neighborhood preserving both audited signs. Pursue an improved cumulative crossing bracket, strong packet control in its own normalization, and a two-amplitude exact constrained comparison with a uniform remainder. The stretch gate is a predictive seed criterion beyond a single neighborhood.
+Use the normalized \(L/r_0=10\), real \(\ell=2\) canonical graph, fixed charges, inertial clock and cuts. Reconstruct the ordered physical seed-to-news operator on an explicit Sobolev class, and bound an admissible open neighborhood preserving both audited signs. Pursue an improved cumulative crossing bracket, strong packet control in its own normalization, and a two-amplitude exact constrained comparison with a uniform remainder. The stretch gate is a predictive seed criterion beyond a single neighborhood.
 
 ## Inputs
 
