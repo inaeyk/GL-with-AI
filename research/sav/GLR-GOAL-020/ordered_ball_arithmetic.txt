@@ -1,0 +1,15 @@
+Python 3.14.8, fractions.Fraction and integer decisions
+GOAL-015 source 65a4af854a25ca02e40f31b00fe5ff789935bdc4
+GOAL-015 audit 1089b3cb36eef1c25278c4fbfe3e843bfdcff6e4
+graph a and d approx -0.684992741509 -0.564992741509
+baseline graph energy cap/U^2 4/3 and sup news/U < 1.4
+mean radial integral exactly 5795/96 and transformed inner mean cap <= 5.00000000000e+58
+mixed flux/U < 3.1e46; return flux/U < 3.01e103
+return graph velocity/U < 2.41e87
+bump Bell caps j=0..5: 1, 1, 3/2, 23/8, 53/8, 567/32
+canonical H4 norm < 2e10; both normalized profile parameter derivatives < 3e15
+admissible two-parameter rectangle H4 displacement < 1.35e-120
+ball projection error < 0.041 early lower > 3.31 packet upper < -200.05 added upper < -203.36
+original symmetric crossing Δ=1e-260 costs 0.002 at each end
+asymmetric crossing offsets 2.7e-254 and 1e-250 cost <3.29 and exactly 200
+negative control: radius 1e-115 exceeds this early error budget
