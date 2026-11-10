@@ -1,0 +1,29 @@
+Python 3.14.8, SymPy 1.14.0, exact rational identities
+Direct bilinear derivation matches short C_h formula and pinned h=0.
+Each compact derivative allocation obeys interchange symmetry.
+general rational G(s): 3*s*(h + 1)*(h**2 + 2*h*s + 5*h + 2*s**2 + 2*s + 2)/((h + s)*(s + 1)*(s + 2)*(h + s - 1))
+general rational H(s): 3*(h + 1)*(h + s)*(h**2 + 2*h*s + 3*h + 2*s**2 - 2*s + 2)/(s*(s + 1)*(h + s - 2)*(h + s - 1))
+radial flat commutator is s(s+n+1)K(s+1).
+n=5 (h=4):
+  pre-transform C(s): -3*(s + 2)**2*(s**4 + 8*s**3 + 79*s**2 + 252*s + 1200)/(s*(s - 2)*(s - 1)*(s + 4)*(s + 5)*(s + 6))
+  mixed a_z g_z coefficient: (s + 2)*(5*s**5 + 64*s**4 + 463*s**3 + 1916*s**2 + 4752*s + 2880)/(2*s*(s - 1)*(s + 4)*(s + 5)*(s + 6))
+  transformed K(s): -180*(s**2 + 4*s + 20)/(s*(s + 1)*(s + 3)*(s + 4))
+  s=4: C=-53/2, angular=-105/4, K=-117/14
+  s=5: C=-4949/330, angular=-14, K=-65/12
+  s=6: C=-52/5, angular=-9, K=-80/21
+  shift-orbit discrete residue sums: {1: 0, 2: 0}
+  independently reconstructed G: 30*s*(s**2 + 5*s + 19)/((s + 1)*(s + 2)*(s + 3)*(s + 4))
+  independently reconstructed H: 30*(s + 4)*(s**2 + 3*s + 15)/(s*(s + 1)*(s + 2)*(s + 3))
+  sigma=4 norm bounds: ||G|| <= 825/32, ||H|| <= 645/16
+n=6 (h=5):
+  pre-transform C(s): -3*(s**6 + 15*s**5 + 169*s**4 + 1065*s**3 + 5122*s**2 + 13860*s + 12600)/(s*(s - 2)*(s - 1)*(s + 5)*(s + 6)*(s + 7))
+  mixed a_z g_z coefficient: 3*(6*s**6 + 107*s**5 + 1039*s**4 + 6013*s**3 + 21995*s**2 + 39600*s + 21000)/(10*s*(s - 1)*(s + 5)*(s + 6)*(s + 7))
+  transformed K(s): -36*(7*s**4 + 70*s**3 + 404*s**2 + 1145*s + 1050)/(s*(s + 1)*(s + 2)*(s + 3)*(s + 4)*(s + 5))
+  s=4: C=-3901/110, angular=-36, K=-3061/280
+  s=5: C=-213/11, angular=-189/10, K=-50/7
+  s=6: C=-9297/715, angular=-12, K=-1944/385
+  shift-orbit discrete residue sums: {1: 0, 2: 0}
+  independently reconstructed G: 36*s*(s**2 + 6*s + 26)/((s + 1)*(s + 2)*(s + 4)*(s + 5))
+  independently reconstructed H: 36*(s + 5)*(s**2 + 4*s + 21)/(s*(s + 1)*(s + 3)*(s + 4))
+  sigma=4 norm bounds: ||G|| <= 297/8, ||H|| <= 4293/64
+CPU 7.657 s, peak RSS 103612416 (bytes on macOS)
