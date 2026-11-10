@@ -2,7 +2,7 @@
 
 ## Frozen scientific contract
 
-Study the complete ordered returning Einstein-frame news (N_{21}) on (I=[0,8.407362]) for the normalized (L/r_0=10), real (ell=2) canonical packet. Hold the graph, mass, circumference, harmonic and inertial clock fixed. Reconstruct and enclose the two mixed fields, induced graph and front data, direct and fixed-infinity mean sources, compact residual, seams, terminal and cap terms, and true outer transfer. Aim at a physical (E_{21}<0.08741378900667), or the weaker sufficient fixed-template gates (E_{21}le0.31731) and (0.80484), or decisive signed physical witnesses. Separate fixed residues, freely fitted exponentials and individual spectral contributions. The stretch gate is a uniform nearby-seed or nonlinear observable margin.
+Study the complete ordered returning Einstein-frame news \(N_{21}\) on \(I=[0,8.407362]\) for the normalized \(L/r_0=10\), real \(\ell=2\) canonical packet. Hold the graph, mass, circumference, harmonic and inertial clock fixed. Reconstruct and enclose the two mixed fields, induced graph and front data, direct and fixed-infinity mean sources, compact residual, seams, terminal and cap terms, and true outer transfer. Aim at a physical \(E_{21}<0.08741378900667\), or the weaker sufficient fixed-template gates \(E_{21}\le0.31731\) and \(0.80484\), or decisive signed physical witnesses. Separate fixed residues, freely fitted exponentials and individual spectral contributions. The stretch gate is a uniform nearby-seed or nonlinear observable margin.
 
 ## Inputs
 
