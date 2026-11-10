@@ -1,0 +1,39 @@
+Python 3.14.8 python-flint 0.9.0 160 bits
+source 65a4af854a25ca02e40f31b00fe5ff789935bdc4 audit 1089b3cb36eef1c25278c4fbfe3e843bfdcff6e4 verified archive digests 15
+  left endpoint error: 6.071463e-06, peak: 6.071463e-06
+graph radius endpoints [1.59692392995310144 +/- 3.86e-19] [1.60315497124470413 +/- 4.84e-18]
+phase endpoints [1.33075226598733200 +/- 1.33e-18] [1.53037024580256177 +/- 4.85e-18]
+q_graph upper [2.08838440718167138 +/- 3.04e-18] q_cap upper [6.46293796635e-102 +/- 3.58e-114]
+phase Lipschitz upper [3.39231952077749217 +/- 3.25e-18]
+offset .0955
+B L2 upper [0.0007400545118798618 +/- 2.05e-20]
+Bprime L2 upper [0.1709861510898918 +/- 8.66e-18]
+Bsecond L2 upper [27.11655977368355 +/- 2.03e-15]
+g L2 upper [0.1764527556994072 +/- 3.26e-17]
+gprime-Bsecond L2 upper [0.2837354635421431 +/- 3.72e-18]
+phase moment upper [3.252517042145963 +/- 2.56e-16]
+right contact upper [0.4441549050000000 +/- 1e-21]
+principal upper [-127.7122389992770 +/- 4.92e-15]
+subprincipal upper [472.7764272806403 +/- 4.54e-14]
+remainder upper [286.4719364900693 +/- 4.43e-15]
+dual upper [150.6906533672937 +/- 2.11e-14]
+exterior upper [2.649510311967019e-14 +/- 4.42e-30]
+loss -Delta upper [195.6677332609316 +/- 2.13e-14]
+prefix upper [-4.423266739068421 +/- 1.19e-16]
+PREFIX_NEGATIVE_CERTIFIED True
+offset .095
+B L2 upper [0.0008270225762316841 +/- 3.00e-20]
+Bprime L2 upper [0.1838177237659693 +/- 2.36e-17]
+Bsecond L2 upper [27.86141809821129 +/- 1.55e-15]
+g L2 upper [0.1894669557270503 +/- 1.39e-17]
+gprime-Bsecond L2 upper [0.3046090585081247 +/- 3.75e-17]
+phase moment upper [3.631635548981626 +/- 2.65e-16]
+right contact upper [0.4441549050000000 +/- 1e-21]
+principal upper [-99.18417303513371 +/- 7.50e-16]
+subprincipal upper [519.6170022997292 +/- 4.05e-14]
+remainder upper [301.2879065980372 +/- 3.11e-14]
+dual upper [161.8047801909010 +/- 3.20e-14]
+exterior upper [2.753188469852158e-14 +/- 1.19e-30]
+loss -Delta upper [220.9924177396334 +/- 2.45e-14]
+prefix upper [20.90141773963342 +/- 4.57e-15]
+PREFIX_NEGATIVE_CERTIFIED False
