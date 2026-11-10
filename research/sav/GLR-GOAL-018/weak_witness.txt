@@ -1,0 +1,22 @@
+Python 3.14.8, python-flint 0.9.0, NumPy 2.4.6, Arb 192 bits
+validated affine return 481 nodes, digest 34284f389420d62aaacd30b111b17f0c740fca3528b9d7cc85290909996d9c07
+max residual cell (104, 383)
+max residual bound: [[0.0001556287786134809 +/- 2.15e-20], [0.0001556287786134809 +/- 2.15e-20]]
+L1_v L2_u residual upper: [[1.693982023920992e-5 +/- 3.29e-21], [1.693982023920992e-5 +/- 3.29e-21]]
+L1_u L2_v residual upper: [[2.549610233995865e-6 +/- 1.91e-22], [2.549610233995865e-6 +/- 1.91e-22]]
+candidate norm: [[0.005057426316670976 +/- 2.14e-19], [0.005057426316670976 +/- 2.14e-19]]
+energy error upper: [[3.897886094641156e-5 +/- 3.06e-21], [3.897886094641156e-5 +/- 3.06e-21]]
+exact norm: [[0.005018447455586360 +/- 4.41e-19], [0.005096405177755591 +/- 1.33e-19]]
+baseline ordinary pole pair norm: [[0.001671568601523177 +/- 2.34e-19], [0.001712923931336263 +/- 1.95e-19]]
+exact baseline minus ordinary pole norm: [[0.003470600536275015 +/- 2.54e-19], [0.003623474348387390 +/- 9.06e-20]]
+exact baseline ordinary pole relative mismatch: [[2.026126474142075 +/- 4.16e-16], [2.167709037661552 +/- 4.30e-16]]
+reject candidate [-0.0028665224913074536634 +/- 2.93e-23] midpoint check [-0.002867 +/- 9.31e-7] derivative norm [1.1337429204444623146 +/- 3.73e-21]
+matched candidate [-0.079997655439743686723 +/- 2.46e-22] midpoint check [-0.079998 +/- 4.62e-7] derivative norm [0.83555516356268784348 +/- 2.46e-21]
+Q template threshold lower [0.17469309776955508416 +/- 1.32e-21] error allowance lower [0.17755962026086253782 +/- 4.75e-21]
+Q+S* template threshold lower [0.37308701510660069668 +/- 3.07e-21] error allowance lower [0.37595353759790815034 +/- 3.69e-22]
+physical baseline matched-test moment endpoints [0.0013015720957925703899 +/- 3.47e-23] [0.0013795298176853935160 +/- 2.74e-23]
+1000 times physical amplitude moments ['[-0.3 +/- 0.0585]', '[1.3 +/- 0.0796]', '[1.8 +/- 0.0465]']
+1000 times physical clock tangent moments ['[-0.8 +/- 0.0612]', '[-2.0 +/- 0.0796]', '[-1.2 +/- 0.0670]']
+affine return moments ['[0.008413235162366102 +/- 1.85e-19]', '[-0.07999765543974369 +/- 3.28e-18]', '[0.01804140226804527 +/- 4.23e-18]']
+candidate distance from exact baseline amplitude and clock tangent span > [0.052387286831283002790 +/- 4.27e-22]
+process CPU 6.54 s, ru_maxrss 102744064 (bytes on macOS)
